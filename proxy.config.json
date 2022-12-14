@@ -1,0 +1,7 @@
+{
+    "/user":{
+        "target":"localhost:......",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}
