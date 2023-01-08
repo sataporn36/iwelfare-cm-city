@@ -1,0 +1,8 @@
+.p-inputtext {
+    margin: 0;
+    width: 18rem;
+}
+
+:host ::ng-deep .p-password input {
+    width: 18rem
+}

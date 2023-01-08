@@ -1,0 +1,33 @@
+<form [formGroup]="formModel">
+    <div class="flex">
+        <div class="form-group text-center">
+            <label for="firstName" class="block">FirstName</label> <br>
+            <input id="firstName" pInputText type="text" formControlName="firstName" required="true"/>
+        </div>
+        <div class="form-group text-center">
+            <label for="lastName" class="block">LastName</label> <br>
+            <input id="lastName" pInputText type="text" formControlName="lastName" required="true"/>
+        </div>
+        <div class="form-group text-center">
+            <label for="email" class="block">Email</label> <br>
+            <input id="email" pInputText type="text" formControlName="email" required="true"/>
+        </div>
+        <div class="form-group text-center">
+            <label for="phoneNumber" class="block">Phone Number</label> <br>
+            <input id="phoneNumber" pInputText type="text" formControlName="phoneNumber" required="true"/>
+        </div>
+        <div class="form-group text-center">
+            <label for="userName" class="block">Username</label> <br>
+            <input id="userName" pInputText type="text" formControlName="userName" required="true"/>
+        </div>
+        <div class="form-group text-center">
+            <label for="password" class="block">Password</label> <br>
+            <!-- <input id="password" pInputText type="text" formControlName="password" required="true"/> -->
+            <p-password formControlName="password" [toggleMask]="true"></p-password>
+        </div>
+    </div>
+    <div style="padding-top: 1rem;">
+        <button style="width: 18rem;" pButton pRipple type="button" label="Register" class="p-button-help"></button>
+    </div>
+    
+</form>
