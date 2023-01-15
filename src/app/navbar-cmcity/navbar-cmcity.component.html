@@ -1,24 +1,29 @@
-<p-menubar [model]="items">
-    <ng-template pTemplate="start">
-        <img src="assets/images/web_logo.png" height="40" class="mr-2">
-    </ng-template>
-    <ng-template pTemplate="end">
-        <div class="grid">
-            <button pButton pRipple type="button" label="Login" class="p-button-rounded p-button-help" (click)="showModalDialog()"></button>
-            <button pButton pRipple type="button" label="Register" class="p-button-outlined p-button-rounded p-button-help" (click)="showModalDialogRegister()"></button>
-        </div>
-    </ng-template>
-</p-menubar>
+<div>
+    <p-menubar [model]="items">
+        <ng-template pTemplate="start">
+            <img src="assets/images/web_logo.png" height="40" class="mr-2">
+        </ng-template>
+        <ng-template pTemplate="end">
+            <div class="grid">
+                <button pButton pRipple type="button" label="Login" class="p-button-rounded p-button-help" (click)="showModalDialog()"></button>
+                <button pButton pRipple type="button" label="Register" class="p-button-outlined p-button-rounded p-button-help" (click)="showModalDialogRegister()"></button>
+            </div>
+        </ng-template>
+    </p-menubar>
+</div>
+<div>
+    <app-main-programe></app-main-programe>
+</div>
 
-<p-dialog header="Login" [(visible)]="displayModal" [modal]="true" [style]="{width: '18vw'}"
+<p-dialog header="Login" [(visible)]="displayModal" [modal]="true" 
     [draggable]="false" [resizable]="false">
-        <app-login-page></app-login-page>
+        <app-login-page ></app-login-page>
         <!-- <ng-template pTemplate="footer">
           <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
         </ng-template> -->
 </p-dialog>
 
-<p-dialog header="Register" [(visible)]="displayModalRegister" [modal]="true" [style]="{width: '18vw'}"
+<p-dialog header="Register" [(visible)]="displayModalRegister" [modal]="true"
     [draggable]="false" [resizable]="false">
         <app-register-page></app-register-page>
         <!-- <ng-template pTemplate="footer">

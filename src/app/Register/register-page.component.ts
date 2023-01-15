@@ -19,7 +19,13 @@ export class RegisterPageComponent implements OnInit{
 
   initMainForm(){
     this.formModel = this.fb.group({
+      firstName: [null, require],
+      lastName: [null, require],
+      email: [null, require],
+      phoneNumber: [null, require],
       userName: [null, require],
+      password: [null, require],
+     
     })
     this.formModel.markAllAsTouched();
   }
