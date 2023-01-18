@@ -1,6 +1,6 @@
 {
-    "/service-cm-city/*":{
-        "target":"http://127.0.0.1:8787/",
+    "/user":{
+        "target":"localhost:......",
         "secure": false,
         "logLevel": "debug"
     }
