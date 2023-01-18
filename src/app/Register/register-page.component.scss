@@ -1,8 +1,112 @@
-.p-inputtext {
-    margin: 0;
-    width: 18rem;
+.register{
+    position: absolute;
+    width: 1100px;
+    height: 900px;
+    left: calc(50% - 1100px/2);
+    top: calc(50% - 900px/2);
+
+    /* white */
+    background: #FFFFFF;
+    box-shadow: 0px 141px 200px -80px rgba(25, 58, 75, 0.3);
+    border-radius: 50px;
+    
 }
 
-:host ::ng-deep .p-password input {
-    width: 18rem
+.card{
+    position: absolute;
+    width: 500px;
+    height: 900px;
+    left: 600px;
+    top: 0px;
+    background: rgba(255, 204, 204, 0.4);
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: 0ch;
+}
+
+img{
+    position: absolute;
+    width: 350px;
+    left: calc(50% - 350px/2);
+    top: calc(48% - 350px/2);
+}
+
+.text{
+    margin: 10%;
+}
+
+::ng-deep .p-input-icon-right > .p-inputtext {
+    width: 320px;
+    border-color: #ffabd8;
+}
+
+h1{
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+span{
+    font-weight: normal;
+}
+
+.div-text{
+    margin-top: 30px;
+}
+
+.mb-3{
+    margin-left: 30px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+
+input {
+    width: 320px;
+    border-color: #ffabd8;
+}
+
+.p-input-icon-right > .p-inputtext {
+    width: 400px;
+    border-color: #ffabd8;
+}
+
+::placeholder {
+    font-size: 15px;
+    color: rgb(175, 174, 174);
+    font-weight: normal;
+}
+
+.form-control:focus {
+    border-color: #FE6BBA;
+    box-shadow: 0 0 0 0.2rem rgba(167, 40, 146, 0.25);
+} 
+
+.mb-3 a{
+    color: #FE6BBA;
+    text-decoration: none;
+}
+
+.mb-3 a span{
+    margin-left: 235px;
+}
+
+.btn{
+    width: 320px;
+    height: 45px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.btn-login {
+    color: #fff;
+    background-color: #FE6BBA;
+}
+
+.btn-regis {
+    // color: #FE6BBA;
+    // border-color: #FE6BBA;
+    color: #fff;
+    background-color: #FE6BBA;
+    margin-left: 0px;
 }

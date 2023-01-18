@@ -1,6 +1,6 @@
 import { EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainService } from '../service/main.service';
 
@@ -28,23 +28,42 @@ export class LoginPageComponent implements OnInit{
   }
 
   initMainForm(){
-    this.formModel = this.fb.group({
-      userName: [null, require],
-      password: [null, require],
-    })
+    // this.formModel = this.fb.group({
+    //   userName: [null, require],
+    //   password: [null, require],
+    // })
+    this.formModel = new FormGroup({
+      userName: new FormControl(),
+      password: new FormControl(),
+    });
     this.formModel.markAllAsTouched();
   }
 
   clickLogin(){
-    this.userId = 10;
-    this.router.navigate(['profile'],{
-      state: {data: this.userId}
-    });
+    //this.userId = 10;
+    // this.router.navigate(['main'],{
+    //   state: {data: this.userId}
+    // });
+    // const playload = {
+    //   installment: 0,
+    //   stockValue: 0,
+    //   stockAccumulate: 0
+    // }
+    // this.service.postUser(playload).subscribe((r) => (
+    //   console.log("test ---------------------> add Stock")
+    // ))
 
   }
 
+  clickRegister(){
+    this.userId = 10;
+    this.router.navigate(['Register'],{
+      state: {data: this.userId}
+    });
+  }
+
   clickForgetPassWord(){
-    this.router.navigate(['main']);
+    
   }
 
 }

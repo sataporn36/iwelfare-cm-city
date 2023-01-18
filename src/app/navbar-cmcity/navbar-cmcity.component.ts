@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { MainService } from '../service/main.service';
 
 @Component({
   selector: 'app-navbar-cmcity',
@@ -12,7 +13,7 @@ export class NavbarCmcityComponent implements OnInit {
   displayModal: boolean = false;
   displayModalRegister: boolean = false;
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig,  private service : MainService) {}
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;

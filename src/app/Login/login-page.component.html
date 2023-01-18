@@ -1,44 +1,26 @@
-<!-- <div [formGroup]="formModel">
-    <div class="flex">
-        <div class="form-group text-center">
-            <label for="userName" class="block">Username</label> <br>
-            <input id="userName" pInputText type="text" formControlName="userName" required="true"/>
-        </div>
-        <br>
-        <div class="form-group text-center">
-            <label for="password" class="block">Password</label> <br>
-            <p-password formControlName="password" [toggleMask]="true"></p-password>
-        </div>
-    </div>
-    <div style="padding-top: 1rem;">
-        <button  style="width: 18rem;" pButton pRipple type="button" label="Login" class="p-button-help" (click)="clickLogin()"></button>
-    </div>
-    <div style="padding-top: 1rem;">
-        <a style="padding-left: 6.5rem;" href="" class="ForgetPwd" (click)="clickForgetPassWord()">ลืมรหัสผ่าน?</a>
-    </div>
-</div> -->
-
+<div [formGroup]="formModel">
 <div class="login">
     <div class="text">
         <h1> ลงชื่อเข้าใช้ </h1> 
         <span>กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่.</span>
         <div class="mb-3 div-text">
             <label class="form-label">เลขสมาชิก</label>
-            <input type="text" class="form-control" placeholder="053234">
+            <input type="text" class="form-control" placeholder="053234" formControlName="userName">
         </div>
         <div class="mb-3">
             <label class="form-label">รหัสผ่าน</label>
-            <input type="email" class="form-control">
+            <input type="email" class="form-control" formControlName="password">
         </div>
         <div class="mb-3">
             <a href="#"><span>ลืมรหัสผ่าน ?</span></a>
         </div>
         <div class="mb-3">
-            <button type="button" class="btn btn-login">เข้าสู่ระบบ</button>
-            <button type="button" class="btn btn-regis">สมัครสมาชิก</button>
+            <button type="button" class="btn btn-login" (click)="clickLogin()">เข้าสู่ระบบ</button>
+            <button type="button" class="btn btn-regis" (click)="clickRegister()">สมัครสมาชิก</button>
         </div>
     </div>
     <div class="card">
         <img src="assets/images/logo.png" alt="logo" />
     </div>
+</div>
 </div>

@@ -13,10 +13,9 @@ import {InputTextModule} from 'primeng/inputtext';
 import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import {PasswordModule} from 'primeng/password';
 import { RegisterPageComponent } from './Register/register-page.component';
-import { MainProgrameModule } from "./Programe/main-programe.module";
-import { MainProgrameComponent } from './Programe/main-programe.component';
 import { CommonModule } from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
+import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
         NavbarCmcityComponent,
         LoginPageComponent,
         RegisterPageComponent,
-        MainProgrameComponent
+        PageNotFoundComponent
     ],
     providers: [],
     bootstrap: [AppComponent],
@@ -40,7 +39,6 @@ import {HttpClientModule} from '@angular/common/http';
         FormsModule,
         ReactiveFormsModule,
         PasswordModule,
-        MainProgrameModule,
         HttpClientModule
     ]
 })
