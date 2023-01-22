@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 import {MenuModule} from 'primeng/menu';
+import { NavbarCmcityModule } from './navbar-cmcity/navbar-cmcity.module';
 // import {MenuItem} from 'primeng/api';
 
 @NgModule({
@@ -25,7 +26,7 @@ import {MenuModule} from 'primeng/menu';
         NavbarCmcityComponent,
         LoginPageComponent,
         RegisterPageComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
     ],
     providers: [],
     bootstrap: [AppComponent],
@@ -42,7 +43,8 @@ import {MenuModule} from 'primeng/menu';
         ReactiveFormsModule,
         PasswordModule,
         HttpClientModule,
-        MenuModule
+        MenuModule,
+        NavbarCmcityModule
     ]
 })
 export class AppModule { }

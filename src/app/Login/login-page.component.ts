@@ -53,7 +53,7 @@ export class LoginPageComponent implements OnInit{
     //   console.log("test ---------------------> add Stock")
     // ))
 
-    this.router.navigate(['main'],{
+    this.router.navigate(['navbar'],{
       state: {data: this.userId}
     });
   }
