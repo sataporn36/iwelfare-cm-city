@@ -40,7 +40,7 @@
                             </svg>
                         </div>
                         <div class="col-10">
-                            <a class="nav-link" >หุ้น</a>
+                            <a class="nav-link" routerLink="share-page">หุ้น</a>
                         </div>
                     </div>
                 </li>
@@ -52,7 +52,7 @@
                             </svg>
                         </div>
                         <div class="col-10">
-                            <a class="nav-link" href="#">เงินกู้</a>
+                            <a class="nav-link" routerLink="loan-page">เงินกู้</a>
                         </div>
                     </div>
                 </li>
@@ -62,7 +62,7 @@
                             <span class="iconify" data-icon="gg:file-document"></span>
                         </div>
                         <div class="col-10">
-                            <a class="nav-link" href="#">สิทธิ์การกู้</a>
+                            <a class="nav-link" routerLink="loan-rigths-page">สิทธิ์การกู้</a>
                         </div>
                     </div>
                 </li>
@@ -72,7 +72,7 @@
                             <span class="iconify" data-icon="mdi:people-group"></span>
                         </div>
                         <div class="col-10" style="margin-left: 1px;">
-                            <a class="nav-link" href="#">ผู้รับผลประโยชน์</a>
+                            <a class="nav-link" routerLink="beneficiary-page">ผู้รับผลประโยชน์</a>
                         </div>
                     </div>
                 </li>
@@ -84,7 +84,7 @@
                             </svg> 
                         </div>
                         <div class="col-10">
-                            <a class="nav-link" href="#">ภาระค้ำประกัน</a>
+                            <a class="nav-link" routerLink="guarantee-obligation-page">ภาระค้ำประกัน</a>
                         </div>
                     </div>
                 </li>
@@ -94,7 +94,7 @@
                             <span class="iconify" data-icon="fa6-regular:money-bill-1"></span>
                         </div>
                         <div class="col-10" style="margin-left: 2px;">
-                            <a class="nav-link" href="#">เงินปันผล</a>
+                            <a class="nav-link" routerLink="dividend-page">เงินปันผล</a>
                         </div>
                     </div>
                 </li>
@@ -152,5 +152,9 @@
     </div>
 </div>
 <div style="padding-left: 19.5rem;">
-    <router-outlet></router-outlet>
+    <div class="main-page">
+        <div style="padding: 2rem;">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>
