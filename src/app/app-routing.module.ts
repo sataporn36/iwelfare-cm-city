@@ -8,16 +8,20 @@ import { RegisterPageComponent } from './Register/register-page.component';
 const routes: Routes = [
     {
       path: '',
-      redirectTo: 'Login',
+      redirectTo: 'login',
       pathMatch: 'full'
     },
     {
-      path: 'Login',
+      path: 'login',
       component: LoginPageComponent,
     },
     {
-      path: 'Register',
+      path: 'register',
       component: RegisterPageComponent,
+    },
+    {
+      path: 'main',
+      component: NavbarCmcityComponent,
     },
     {
       path: '**',

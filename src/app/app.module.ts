@@ -16,6 +16,8 @@ import { RegisterPageComponent } from './Register/register-page.component';
 import { CommonModule } from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
+import {MenuModule} from 'primeng/menu';
+// import {MenuItem} from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -39,7 +41,8 @@ import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
         FormsModule,
         ReactiveFormsModule,
         PasswordModule,
-        HttpClientModule
+        HttpClientModule,
+        MenuModule
     ]
 })
 export class AppModule { }

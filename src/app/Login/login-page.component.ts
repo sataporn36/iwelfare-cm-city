@@ -53,11 +53,14 @@ export class LoginPageComponent implements OnInit{
     //   console.log("test ---------------------> add Stock")
     // ))
 
+    this.router.navigate(['main'],{
+      state: {data: this.userId}
+    });
   }
 
   clickRegister(){
     this.userId = 10;
-    this.router.navigate(['Register'],{
+    this.router.navigate(['register'],{
       state: {data: this.userId}
     });
   }
