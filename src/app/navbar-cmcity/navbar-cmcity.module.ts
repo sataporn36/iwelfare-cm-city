@@ -20,6 +20,18 @@ import { GuaranteeObligationComponentComponent } from './component/guarantee-obl
 import { GuaranteeObligationPageComponent } from './page/guarantee-obligation-page/guarantee-obligation-page.component';
 import { DividendComponentComponent } from './component/dividend-component/dividend-component.component';
 import { DividendPageComponent } from './page/dividend-page/dividend-page.component';
+import {ToastModule} from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { AppComponent } from '../app.component';
+import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PasswordModule } from 'primeng/password';
+import { HttpClientModule } from '@angular/common/http';
+import { MenuModule } from 'primeng/menu';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -40,11 +52,24 @@ import { DividendPageComponent } from './page/dividend-page/dividend-page.compon
     DividendComponentComponent,
     DividendPageComponent,
   ],
+  providers: [ConfirmationService,MessageService],
+  bootstrap: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    NavbarCmcityRoutingModule
+    NavbarCmcityRoutingModule,
+    MenubarModule,
+    ButtonModule,
+    DialogModule,
+    InputTextModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PasswordModule,
+    HttpClientModule,
+    MenuModule,
+    ConfirmDialogModule,
+    ToastModule
   ]
 })
 export class NavbarCmcityModule { }

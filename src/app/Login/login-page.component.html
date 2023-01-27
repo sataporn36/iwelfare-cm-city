@@ -25,3 +25,17 @@
     </div>
 </div>
 </div>
+
+<p-dialog header="เเจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw'}"
+    [draggable]="false" [resizable]="false">
+        <p class="m-0"> กรุณาเข้าสู่ระบบ </p>
+        <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="ตกลง" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>
+
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+
+<p-toast></p-toast>

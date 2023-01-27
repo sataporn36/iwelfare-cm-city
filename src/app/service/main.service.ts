@@ -18,7 +18,7 @@ export class MainService {
     );
   }
 
-  get(): Observable<any>{
+  login(): Observable<any>{
     return this.http.get<any>(
       AppPath.APP_API_SERVICE + '/v1/stock'
     );

@@ -2,23 +2,27 @@ import { EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService, ConfirmEventType, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { MainService } from '../service/main.service';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit{
 
   formModel!: FormGroup;
-  userId:any
+  userId:any;
+  displayModal: boolean = false;
 
   constructor(
     private fb: FormBuilder, 
     protected router: Router, 
     protected route: ActivatedRoute,
-    private service : MainService
+    private service : MainService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
     ) {
     //
   }
@@ -49,13 +53,35 @@ export class LoginPageComponent implements OnInit{
     //   stockValue: 0,
     //   stockAccumulate: 0
     // }
-    // this.service.postUser(playload).subscribe((r) => (
-    //   console.log("test ---------------------> add Stock")
-    // ))
+    // this.service.login().subscribe((res) => {
+    //   console.log("test ---------------------> login ",res)
+    //   if(res){
+    //     this.router.navigate(['main'],{
+    //       state: {data: this.userId}
+    //     });
+    //   }else{
 
-    this.router.navigate(['main'],{
-      state: {data: this.userId}
-    });
+    //   }
+    // });
+    this.userId = 10;
+    this.confirmationService.confirm({
+      message: 'คุณกำลังเข้าสู่ระบบสมาชิก',
+      header: 'เข้าสู่ระบบ',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          setTimeout(() => {
+            
+          }, 500);
+          this.router.navigate(['/main/main-page'],{
+            state: {data: this.userId}
+          });
+        
+      },
+      reject: () => {
+          //this.displayModal = true;
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'เข้าสู๋ระบบไม่สำเร็จ'});
+      }
+  });
   }
 
   clickRegister(){

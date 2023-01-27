@@ -18,6 +18,9 @@ import {HttpClientModule} from '@angular/common/http';
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 import {MenuModule} from 'primeng/menu';
 import { NavbarCmcityModule } from './navbar-cmcity/navbar-cmcity.module';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ToastModule} from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 // import {MenuItem} from 'primeng/api';
 
 @NgModule({
@@ -28,7 +31,7 @@ import { NavbarCmcityModule } from './navbar-cmcity/navbar-cmcity.module';
         RegisterPageComponent,
         PageNotFoundComponent,
     ],
-    providers: [],
+    providers: [ConfirmationService,MessageService],
     bootstrap: [AppComponent],
     imports: [
         CommonModule,
@@ -44,7 +47,9 @@ import { NavbarCmcityModule } from './navbar-cmcity/navbar-cmcity.module';
         PasswordModule,
         HttpClientModule,
         MenuModule,
-        NavbarCmcityModule
+        NavbarCmcityModule,
+        ConfirmDialogModule,
+        ToastModule
     ]
 })
 export class AppModule { }
