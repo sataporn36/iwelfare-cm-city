@@ -1,10 +1,14 @@
+.row {
+    width: 100%;
+}
+
 .row .col-3{
-    width: 310px;
+    width: 320px;
     margin-top: 10px;
 }
 
 .row .col-4{
-    width: 370px;
+    width: 320px;
     margin-top: 10px;
 }
 
@@ -39,25 +43,36 @@ svg{
     margin-left: 50px;
 }
 
+.div-card .col-5 .row{
+    width: 200px;
+}
+
 .div-card .col-5 span{
     color: #8690a1;
     font-size: 15px;
 }
 
 .card-profile{
-    height: 370px;
+    height: 380px;
     background: #fff;
     border-radius: 15px;
     text-align: center;
+    width: 310px;
 }
 
 .profile_img{
-    width: 200px;
+    width: 180px;
+    height: 180px;
     margin-top: 25px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    border: 4px solid #fd79a8;
 }
 
 .card-profile p{
     font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 .card-profile .row .div-text{
@@ -65,10 +80,6 @@ svg{
     height: 33px;
     border-radius: 5px;
     width: 130px;
-}
-
-.card-profile .row {
-    margin-left: 2px;
 }
 
 .div-text svg{
@@ -80,23 +91,93 @@ svg{
     margin-left: 25px;
 }
 
-.div-table{
+.div-table-loan{
     background: #fff;
     padding: 30px;
     border-radius: 15px;
-    margin-top: -265px;
-    width: 101%;
+    margin-top: -23.5%;
+    width: 106%;
+    height: 350px;
+}
+
+.div-table-loan p{
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: -5px;
+}
+
+th {
+    color: #8690a1;
+    font-weight: normal;
+}
+
+td {
+    font-weight: normal;
+    font-size: 16px;
 }
 
 .div-beneficiary{
     background: #fff;
     margin: 10px;
     border-radius: 15px;
-    margin-left: 15px;
-    width: 345px;
+    margin-left: 24%;
+    width: 310px;
     padding: 25px;
 }
 
 .div-beneficiary p{
     font-size: 20px;
+}
+
+.div-beneficiary .row{
+    width: 100%;
+}
+
+.div-beneficiary span{
+    font-size: 15px;
+    color: #8690a1;
+}
+
+.div-beneficiary img{
+    width: 50px;
+    border-radius: 50%;
+    margin-top: 10px;
+
+}
+
+.div-beneficiary ul {
+    list-style-type: none;
+}
+
+.div-beneficiary ul li {
+    width: 270px;
+    margin-left: -30px;
+}
+
+.div-beneficiary-span{
+    border: 1px solid #FE6BBA;
+    width: 40px;
+    text-align: center;
+    border-radius: 6px;
+    height: 30px;
+    color: #FE6BBA;
+}
+
+.div-beneficiary-span span{
+    color: #FE6BBA;
+}
+
+.div-table-stocks{
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: -16.5%;
+    width: 106%;
+    height: 350px;
+}
+
+.div-table-stocks p{
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: -5px;
 }
