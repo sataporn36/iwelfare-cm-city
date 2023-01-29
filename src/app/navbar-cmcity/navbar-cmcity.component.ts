@@ -13,6 +13,17 @@ export class NavbarCmcityComponent implements OnInit {
   displayModal: boolean = false;
   displayModalRegister: boolean = false;
 
+  // check active model
+  main: string = 'active';
+  deposit!: string;
+  stock!: string;
+  loan!: string;
+  rigths!: string;
+  beneficiary!: string;
+  guarantee!: string;
+  dividend!: string;
+
+
   constructor(private primengConfig: PrimeNGConfig,  private service : MainService) {}
 
     ngOnInit() {
@@ -22,12 +33,7 @@ export class NavbarCmcityComponent implements OnInit {
                 this.onProfile();
               }
             },
-            {label: 'Open',
-              command: () => {
-               
-              }
-            },
-            {label: 'Undo',
+            {label: 'ออกจากระบบ',
               command: () => {
                 
               }
@@ -47,4 +53,91 @@ export class NavbarCmcityComponent implements OnInit {
     this.displayModalRegister = true;
   }
 
+  // check active model
+  checkActive(data:any){
+    switch (data) {
+      case "main": 
+        this.main = "active";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+      break;
+      case "deposit": 
+        this.main = "";
+        this.deposit = "active"; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+      break;
+      case "stock": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "active";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+      break;
+      case "loan": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = "active"; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+      break;
+      case "rigths": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = "active"; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+      break;
+      case "beneficiary": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = "active"; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+      break;
+      case "guarantee": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = "active"; 
+        this.dividend = ""; 
+      break;
+      case "dividend": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = "active"; 
+      break;
+      default:
+        break;
+    }
+  }
 }

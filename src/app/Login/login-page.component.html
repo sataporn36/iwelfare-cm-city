@@ -34,8 +34,25 @@
         </ng-template>
 </p-dialog>
 
+<p-toast [style]="{fontSize: '15px', height: '100px'}"></p-toast>
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+<p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '20vw'}">
+    <ng-template pTemplate="footer">
+        <!-- <p-button icon="pi pi-check" (click)="displayModal=false" label="ยืนยัน" styleClass="p-button-text" (click)="cd.accept()"></p-button> -->
+        <!-- <button pButton pRipple type="button" (click)="displayModal=false" label="ยืนยัน" class="btn btn-yes" (click)="cd.accept()"></button>
+        <button pButton pRipple type="button" (click)="displayModal=false" label="ยกเลิก" class="p-button-outlined" (click)="cd.reject()"></button> -->
+        <!-- <p-button icon="pi pi-check" (click)="displayModal=false" label="ยกเลิก" styleClass="p-button-text" (click)="cd.reject()"></p-button> -->
+
+        <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+      </ng-template>
 </p-confirmDialog>
 
-<p-toast></p-toast>
+<!-- <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+      Hello, world! This is a toast message.
+     </div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div> -->

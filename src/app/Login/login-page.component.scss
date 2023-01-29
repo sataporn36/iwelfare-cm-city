@@ -88,6 +88,7 @@ input {
     width: 140px;
     font-weight: 500;
     font-size: 15px;
+    height: 40px;
 }
 
 .btn-login {
@@ -107,3 +108,25 @@ input {
     border-color: #ffabd8;
     font-size: 15px;
 }
+
+.p-button-outlined {
+    border: 1px solid #FE6BBA;
+    color: #FE6BBA;
+    height: 40px;
+}
+
+.p-button-outlined:hover {
+    // border: 1px solid #FE6BBA;
+    background-color: #FE6BBA;
+    color: #fff;
+    // height: 40px;
+}
+
+.btn-yes {
+    color: #fff;
+    background-color: #FE6BBA;
+    height: 40px;
+    font-weight: bold;
+    border: none;
+}
+

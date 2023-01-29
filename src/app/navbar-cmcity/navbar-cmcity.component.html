@@ -13,27 +13,27 @@
             </div>
             <div>
                 <ul class="nav nav-bordered nav-stacked flex-md-column">
-                    <li class="nav-item active">
+                    <li [ngClass]="'nav-item ' + main">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <span class="iconify" data-icon="mingcute:home-4-fill"></span>
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="main-page">หน้าหลัก</a>
+                                <a class="nav-link" routerLink="main-page" (click)="checkActive('main')">หน้าหลัก</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + deposit">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <span class="iconify" data-icon="tabler:pig-money"></span>
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="deposit-page">เงินฝาก</a>
+                                <a class="nav-link" routerLink="deposit-page" (click)="checkActive('deposit')">เงินฝาก</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + stock">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <svg width="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,11 +41,11 @@
                                 </svg>
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="share-page">หุ้น</a>
+                                <a class="nav-link" routerLink="share-page" (click)="checkActive('stock')">หุ้น</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + loan">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <svg width="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,31 +53,31 @@
                                 </svg>
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="loan-page">เงินกู้</a>
+                                <a class="nav-link" routerLink="loan-page" (click)="checkActive('loan')">เงินกู้</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + rigths">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <span class="iconify" data-icon="gg:file-document"></span>
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="loan-rigths-page">สิทธิ์การกู้</a>
+                                <a class="nav-link" routerLink="loan-rigths-page" (click)="checkActive('rigths')">สิทธิ์การกู้</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + beneficiary">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <span class="iconify" data-icon="mdi:people-group"></span>
                             </div>
                             <div class="col-10" style="margin-left: 1px;">
-                                <a class="nav-link" routerLink="beneficiary-page">ผู้รับผลประโยชน์</a>
+                                <a class="nav-link" routerLink="beneficiary-page" (click)="checkActive('beneficiary')">ผู้รับผลประโยชน์</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + guarantee">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <svg width="21" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,17 +85,17 @@
                                 </svg> 
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="guarantee-obligation-page">ภาระค้ำประกัน</a>
+                                <a class="nav-link" routerLink="guarantee-obligation-page" (click)="checkActive('guarantee')">ภาระค้ำประกัน</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item ' + dividend">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <span class="iconify" data-icon="fa6-regular:money-bill-1"></span>
                             </div>
                             <div class="col-10" style="margin-left: 2px;">
-                                <a class="nav-link" routerLink="dividend-page">เงินปันผล</a>
+                                <a class="nav-link" routerLink="dividend-page" (click)="checkActive('dividend')">เงินปันผล</a>
                             </div>
                         </div>
                     </li>
@@ -103,7 +103,7 @@
             </div>
             <div class="div-foot">
                 <ul class="nav nav-bordered nav-stacked flex-md-column">
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item '">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <svg width="21" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li [ngClass]="'nav-item '">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <svg width="21" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +123,7 @@
                                 </svg>
                             </div>
                             <div class="col-10">
-                                <a class="nav-link" routerLink="dividend-page">ออกจากระบบ</a>
+                                <a class="nav-link" routerLink="/login">ออกจากระบบ</a>
                             </div>
                         </div>
                     </li>
@@ -158,16 +158,6 @@
                             </svg>
                         </li>
                         <li>
-                            <!-- <div class="dropdown">
-                                <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img class="profile_img" src="assets/images/logo.png" alt="logo"/>
-                                </a>
-                                <ul class="dropdown-menu menu">
-                                  <li><a class="dropdown-item" href="#">Action</a></li>
-                                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div> -->
                             <div class="bar-menu">
                                 <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true" [model]="items"></p-menu>
                                 <a class="dropdown-toggle" (click)="menu.toggle($event)">
@@ -182,9 +172,5 @@
     </div>
 </div>
 <div style="padding-left: 19.5rem;">
-    <!-- <div class="main-page"> -->
-        <!-- <div style="padding: 2rem;"> -->
-            <router-outlet></router-outlet>
-        <!-- </div> -->
-    <!-- </div> -->
+    <router-outlet></router-outlet>
 </div>

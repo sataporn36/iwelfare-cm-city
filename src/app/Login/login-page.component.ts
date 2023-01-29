@@ -29,6 +29,15 @@ export class LoginPageComponent implements OnInit{
 
   ngOnInit(): void {
     this.initMainForm();
+    // if (true) {
+      
+      // setTimeout(() => {
+      //   window.location.reload();
+      //   return true;
+      // }, 200);
+    // }
+    
+    
   }
 
   initMainForm(){
@@ -78,7 +87,6 @@ export class LoginPageComponent implements OnInit{
         
       },
       reject: () => {
-          //this.displayModal = true;
           this.messageService.add({severity:'error', summary: 'Error', detail: 'เข้าสู๋ระบบไม่สำเร็จ'});
       }
   });
