@@ -37,12 +37,12 @@ img{
 
 .text{
     margin-top: 9%;
-    margin-left: 7%;
+    margin-left: 9%;
 }
 
 h1{
     font-weight: bold;
-    margin-top: -50px;
+    margin-top: -20px;
 }
 
 span{
@@ -50,16 +50,12 @@ span{
 }
 
 .text-group{
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .row{
-    width: 560px;
+    width: 540px;
 }
-
-// .row .email .mb-3 input{
-//     width: 800px;
-// }
 
 .mb-3{
     font-weight: bold;
@@ -67,14 +63,18 @@ span{
 }
 
 input {
-    width: 160px;
+    width: 220px;
     height: 35px;
     font-size: 15px;
     border-color: #ffabd8;
 }
 
+.form-control:hover {
+    border-color: #f167b1;
+}
+
 ::ng-deep .p-input-icon-right > .p-inputtext {
-    width: 160px;
+    width: 220px;
     height: 35px;
     border-color: #ffabd8;
     font-size: 15px;
@@ -82,7 +82,7 @@ input {
 }
 
 select{
-    width: 160px;
+    width: 220px;
     height: 35px;
     font-size: 15px;
     border-color: #ffabd8;
@@ -110,11 +110,11 @@ hr{
 } 
 
 .btn{
-    width: 530px;
+    width: 490px;
     height: 45px;
     font-weight: 500;
     font-size: 15px;
-    margin-top: 30px;
+    margin-top: 40px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
