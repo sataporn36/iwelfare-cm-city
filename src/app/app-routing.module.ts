@@ -9,6 +9,7 @@ import { GuaranteeObligationPageComponent } from './navbar-cmcity/page/guarantee
 import { LoanPageComponent } from './navbar-cmcity/page/loan-page/loan-page.component';
 import { LoanRightsPageComponent } from './navbar-cmcity/page/loan-rights-page/loan-rights-page.component';
 import { MainPageComponent } from './navbar-cmcity/page/main-page/main-page.component';
+import { ProfilePageComponent } from './navbar-cmcity/page/profile-page/profile-page.component';
 import { SharePageComponent } from './navbar-cmcity/page/share-page/share-page.component';
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 import { RegisterPageComponent } from './Register/register-page.component';
@@ -67,6 +68,10 @@ const routes: Routes = [
         {
           path: 'dividend-page',
           component: DividendPageComponent,
+        },
+        {
+          path: 'profile-page',
+          component: ProfilePageComponent,
         },
       ]
     },

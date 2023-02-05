@@ -32,6 +32,8 @@ import { PasswordModule } from 'primeng/password';
 import { HttpClientModule } from '@angular/common/http';
 import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProfilePageComponent } from './page/profile-page/profile-page.component';
+import { ProfileComponentComponent } from './component/profile-component/profile-component.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     GuaranteeObligationPageComponent,
     DividendComponentComponent,
     DividendPageComponent,
+    ProfileComponentComponent,
+    ProfilePageComponent,
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent],

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { MainService } from '../service/main.service';
 
@@ -22,27 +23,33 @@ export class NavbarCmcityComponent implements OnInit {
   beneficiary!: string;
   guarantee!: string;
   dividend!: string;
+  profile!: string;
 
 
-  constructor(private primengConfig: PrimeNGConfig,  private service : MainService) {}
+  constructor(private primengConfig: PrimeNGConfig,  private service : MainService, protected router: Router) {}
 
     ngOnInit() {
         this.items = [
             {label: 'ข้อมูลส่วนตัว',
               command: () => {
-                this.onProfile();
+                this.onProfile()
               }
             },
             {label: 'ออกจากระบบ',
               command: () => {
-                
+                this.onLogout()
               }
             }
         ];
     }
 
   onProfile(){
+    this.router.navigate(['/main/profile-page'])
+    this.checkActive("profile")
+  }
 
+  onLogout(){
+    this.router.navigate(['/login'])
   }
 
   showModalDialog() {
@@ -64,7 +71,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = ""; 
         this.beneficiary = ""; 
         this.guarantee = ""; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "deposit": 
         this.main = "";
@@ -74,7 +82,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = ""; 
         this.beneficiary = ""; 
         this.guarantee = ""; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "stock": 
         this.main = "";
@@ -84,7 +93,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = ""; 
         this.beneficiary = ""; 
         this.guarantee = ""; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "loan": 
         this.main = "";
@@ -94,7 +104,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = ""; 
         this.beneficiary = ""; 
         this.guarantee = ""; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "rigths": 
         this.main = "";
@@ -104,7 +115,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = "active"; 
         this.beneficiary = ""; 
         this.guarantee = ""; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "beneficiary": 
         this.main = "";
@@ -114,7 +126,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = ""; 
         this.beneficiary = "active"; 
         this.guarantee = ""; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "guarantee": 
         this.main = "";
@@ -124,7 +137,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.rigths = ""; 
         this.beneficiary = ""; 
         this.guarantee = "active"; 
-        this.dividend = ""; 
+        this.dividend = "";  
+        this.profile = ""; 
       break;
       case "dividend": 
         this.main = "";
@@ -135,6 +149,18 @@ export class NavbarCmcityComponent implements OnInit {
         this.beneficiary = ""; 
         this.guarantee = ""; 
         this.dividend = "active"; 
+        this.profile = ""; 
+      break;
+      case "profile": 
+        this.main = "";
+        this.deposit = ""; 
+        this.stock = "";
+        this.loan = ""; 
+        this.rigths = ""; 
+        this.beneficiary = ""; 
+        this.guarantee = ""; 
+        this.dividend = ""; 
+        this.profile = "active"; 
       break;
       default:
         break;
