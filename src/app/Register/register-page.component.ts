@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MainService } from '../service/main.service';
 
 @Component({
@@ -12,12 +13,16 @@ export class RegisterPageComponent implements OnInit{
 
   formModel!: FormGroup;
   userId: any;
-  constructor(protected route: ActivatedRoute, 
+  constructor(
+    protected route: ActivatedRoute, 
     private fb: FormBuilder, 
     private service : MainService,
-    protected router: Router) {
-    //
-  }
+    protected router: Router,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+    ) {
+      //
+    }
 
   ngOnInit(): void {
     if(history.state.data){
@@ -30,36 +35,69 @@ export class RegisterPageComponent implements OnInit{
 
   initMainForm(){
     this.formModel = new FormGroup({
-      firstName: new FormControl(),
-      lastName: new FormControl(),
-      email: new FormControl(),
-      phoneNumber: new FormControl(),
-      userName: new FormControl(),
-      password: new FormControl(),
+      firstName: new FormControl(null,Validators.required),
+      lastName: new FormControl(null,Validators.required),
+      email: new FormControl(null,Validators.required),
+      tel: new FormControl(null,Validators.required),
+      //employeeCode: new FormControl(null,Validators.required),
+      prefix: new FormControl(null,Validators.required),
+      idCard: new FormControl(null,Validators.required),
+      employeeType: new FormControl(null,Validators.required),
     });
-    // this.formModel = this.fb.group({
-    //   firstName: [null, require],
-    //   lastName: [null, require],
-    //   email: [null, require],
-    //   phoneNumber: [null, require],
-    //   userName: [null, require],
-    //   password: [null, require],
-     
-    // })
-    this.formModel.markAllAsTouched();
   }
 
   onRegister(){
-    const playload = {
-      installment: 0,
-      stockValue: 0,
-      stockAccumulate: 0
-    }
-    this.service.postUser(playload).subscribe((r) => (
-      console.log("test ---------------------> add Stock")
-    ))
+    const playload = this.formModel.getRawValue();
+    this.service.register(playload).subscribe((res) => {
+      console.log(res,'======================> res')
+      if(res !== null){
+        if(res.data.statusEmployee === 'normal'){
+          this.confirmationService.confirm({
+            message: 'ท่านเป็นสมาชิกปัจจุบัน ไม่สามารถสมัครสมาชิกได้',
+            header: 'สมัครสมาชิก',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              setTimeout(() => {}, 500);
+              this.router.navigate(['/login'],{
+                state: {data: ''}
+              });
+              this.formModel.reset();
+            },
+            reject: () => {}
+          });
+        }else if(res.data.statusEmployee === 'resign'){
+          this.confirmationService.confirm({
+            message: 'ท่านเป็นสมาชิกที่ลาออก กดยืนยันเพื่อกลับมาเป็นสมาชิกปัจุบัน',
+            header: 'สมัครสมาชิก',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              const playload = {
+                id: res.data.id
+              }
+              this.service.editStatusEmployeeResign(playload).subscribe((res) => {
+                   if(res != null){
+                       if(res.data.statusEmployee === 'normal'){
+                         this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ'});  
+                         this.formModel.reset();
+                       }
+                   }else{
+                      this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+                   }
+              });
+            },
+            reject: () => { }
+          });
+        }else{
+          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ เเละรอการอนุมัติ'});  
+          this.formModel.reset();
+        }
+      }else{
+        setTimeout(() => {
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+        }, 500); 
+      }
+    })
   }
   
-
 
 }

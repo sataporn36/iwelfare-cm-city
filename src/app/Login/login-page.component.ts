@@ -51,7 +51,7 @@ export class LoginPageComponent implements OnInit{
       reject: () => {
           this.messageService.add({severity:'error', summary: 'Error', detail: 'เข้าสู๋ระบบไม่สำเร็จ'});
       }
-  });
+    });
   }
 
   clickRegister(){

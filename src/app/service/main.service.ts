@@ -12,9 +12,15 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  postUser(playload: any): Observable<any>{
+  register(playload: any): Observable<any>{
     return this.http.post<any>(
-      AppPath.APP_API_SERVICE + '/v1/stock', playload
+      AppPath.APP_API_SERVICE + '/logic/v1/register/addEmployee', playload
+    );
+  }
+
+  editStatusEmployeeResign(playload: any): Observable<any>{
+    return this.http.put<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/register/editStatusEmployeeResign', playload
     );
   }
 

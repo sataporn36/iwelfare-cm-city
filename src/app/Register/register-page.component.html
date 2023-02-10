@@ -6,17 +6,27 @@
 
             <div class="text-group">
                 <div class="row">
-                    <div class="col mb-3">
-                        <label for="lastName" class="block">เลขสมาชิก</label> 
-                        <input class="form-control" id="lastName" pInputText type="text" formControlName="lastName" required="true" placeholder="#####"/>
-                    </div>
+                    <!-- <div class="col mb-3">
+                        <label for="employeeCode" class="block">เลขสมาชิก</label> 
+                        <input class="form-control" id="employeeCode" pInputText type="text" formControlName="employeeCode" 
+                        required="true" placeholder="#####" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    </div> -->
                     <div class="col mb-3">
                         <label for="firstName" class="block">คำนำหน้า</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" aria-label="Default select example" formControlName="prefix" required="true">
                             <option selected>เลือกคำนำหน้า</option>
                             <option value="1">นาย</option>
                             <option value="2">นาง</option>
                             <option value="3">นางสาว</option>
+                        </select>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="firstName" class="block">ประเภทพนักงาน</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="employeeType" required="true">
+                            <option selected>เลือกประเภทพนักงาน</option>
+                            <option value="1">พนักงานเทศบาล</option>
+                            <option value="2">พนักงานครูเทศบาล</option>
+                            <option value="3">พนักงานจ้าง</option>
                         </select>
                     </div>
                 </div>
@@ -34,25 +44,37 @@
         
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="lastName" class="block">เลขประจำตัวประชาชน</label> 
-                        <input class="form-control" id="lastName" pInputText type="text" formControlName="lastName" required="true"/>
+                        <label for="idCard" class="block">เลขประจำตัวประชาชน*</label> 
+                        <input class="form-control" id="idCard" pInputText type="text" formControlName="idCard" required="true" maxlength="13"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                        />
                     </div>
                     <div class="col mb-3">
-                        <label for="phoneNumber" class="block">หมายเลขโทรศัพท์</label> 
-                        <input class="form-control" id="phoneNumber" pInputText type="text" formControlName="phoneNumber" required="true"/>
+                        <label for="tel" class="block">หมายเลขโทรศัพท์</label> 
+                        <input class="form-control" id="tel" pInputText type="text" formControlName="tel" required="true" maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                        />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="email" class="block">อีเมล</label> 
-                        <input class="form-control" id="email" pInputText type="text" formControlName="email" required="true" style="width: 490px;"/>
+                        <div class="flex">
+                           <div>
+                                <label for="email" class="block">อีเมล*</label> 
+                           </div>
+                           <div *ngIf="email.value !== '' && email.ontouchend && email.oninvalid">
+                                <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
+                           </div>
+                        </div>
+                        <input #email class="form-control" id="email" pInputText type="email" formControlName="email" 
+                        required="true" style="width: 490px;" />
                     </div>
                 </div>
             </div>
 
             <div class="mb-3">
-                <button type="button" class="btn btn-regis" (click)="onRegister()">สมัครสมาชิก</button>
+                <button type="button" class="btn btn-regis" (click)="onRegister()" [disabled]="!formModel.valid">สมัครสมาชิก</button>
             </div>
         </div>
         <div class="card">
@@ -60,3 +82,30 @@
         </div>
     </div>
 </div>
+
+
+<p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-regis" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+      </ng-template>
+</p-confirmDialog>
+
+<p-toast class="custom-toast" [style]="{width: '25vw'}">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1; height: 0; width: 50rem;">
+            <div class="row">
+                <div class="col-2" style="margin-top: -2px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </div>
+                <div class="col-10">
+                    <p>{{message.detail}}</p>
+                    <p>{{message.severity}}</p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
