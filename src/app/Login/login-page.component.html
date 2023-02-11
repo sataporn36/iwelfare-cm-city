@@ -5,12 +5,14 @@
         <span>กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่.</span>
         <div class="mb-3 div-text">
             <label class="form-label">เลขสมาชิก</label>
-            <input type="text" class="form-control" placeholder="053234" formControlName="userName">
+            <input type="text" class="form-control" placeholder="053234" formControlName="username" 
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
+            required="true" maxlength="5">
         </div>
         <div class="mb-3">
             <label class="form-label">รหัสผ่าน</label><br>
             <!-- <input type="password" class="form-control" formControlName="password"> -->
-            <p-password class="form-control" class="password" formControlName="password" [toggleMask]="true"></p-password>
+            <p-password class="form-control" class="password" formControlName="password" [toggleMask]="true" required="true"></p-password>
         </div>
         <div class="mb-3">
             <a href="#"><span>ลืมรหัสผ่าน ?</span></a>
