@@ -10,45 +10,45 @@ import { MainService } from '../service/main.service';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
-export class LoginPageComponent implements OnInit{
+export class LoginPageComponent implements OnInit {
 
   formModel!: FormGroup;
-  userId:any;
+  userId: any;
   displayModal: boolean = false;
 
   constructor(
-    protected router: Router, 
+    protected router: Router,
     protected route: ActivatedRoute,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private service : MainService,
-    ) {
+    private service: MainService,
+  ) {
   }
 
   ngOnInit(): void {
     this.initMainForm();
   }
 
-  initMainForm(){
+  initMainForm() {
     this.formModel = new FormGroup({
-      username: new FormControl(null,Validators.required),
-      password: new FormControl(null,Validators.required),
+      username: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required),
     });
     this.formModel.markAllAsTouched();
   }
 
-  clickLogin(){
-    if(this.formModel.valid){
+  clickLogin() {
+    if (this.formModel.valid) {
       const payload = this.formModel.getRawValue();
       this.service.login(payload).subscribe((res) => {
-        console.log(res,'===================> res login')
-        if(res !== null && res.data.id !== 0){
+        console.log(res, '===================> res login')
+        if (res !== null && res.data.id !== 0) {
           this.userId = res.data.id;
-          setTimeout(() => {}, 500);
-          this.router.navigate(['/main/main-page'],{
-            state: {data: this.userId}
+          setTimeout(() => { }, 500);
+          this.router.navigate(['/main/main-page'], {
+            state: { data: this.userId }
           });
-        }else{
+        } else {
           // this.confirmationService.confirm({
           //   message: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง',
           //   header: 'เข้าสู่ระบบ',
@@ -58,29 +58,29 @@ export class LoginPageComponent implements OnInit{
           //   reject: () => {
           //   }
           // });
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง'});
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
         }
       })
-    }else{
-        this.confirmationService.confirm({
-          message: 'กรุณากรอกเลขสมาชิกเเละรหัสผ่าน',
-          header: 'เข้าสู่ระบบ',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-          },
-          reject: () => {
-          }
-        });
+    } else {
+      this.confirmationService.confirm({
+        message: 'กรุณากรอกเลขสมาชิกเเละรหัสผ่าน',
+        header: 'เข้าสู่ระบบ',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+        },
+        reject: () => {
+        }
+      });
     }
-    
+
   }
 
-  clickRegister(){
-    this.router.navigate(['register'],{
-      state: {data: null}
+  clickRegister() {
+    this.router.navigate(['register'], {
+      state: { data: null }
     });
   }
 
-  clickForgetPassWord(){}
+  clickForgetPassWord() { }
 
 }

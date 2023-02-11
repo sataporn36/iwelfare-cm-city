@@ -6,32 +6,6 @@
 
             <div class="text-group">
                 <div class="row">
-                    <!-- <div class="col mb-3">
-                        <label for="employeeCode" class="block">เลขสมาชิก</label> 
-                        <input class="form-control" id="employeeCode" pInputText type="text" formControlName="employeeCode" 
-                        required="true" placeholder="#####" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
-                    </div> -->
-                    <div class="col mb-3">
-                        <label for="firstName" class="block">คำนำหน้า</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="prefix" required="true">
-                            <option selected>เลือกคำนำหน้า</option>
-                            <option value="1">นาย</option>
-                            <option value="2">นาง</option>
-                            <option value="3">นางสาว</option>
-                        </select>
-                    </div>
-                    <div class="col mb-3">
-                        <label for="firstName" class="block">ประเภทพนักงาน</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="employeeType" required="true">
-                            <option selected>เลือกประเภทพนักงาน</option>
-                            <option value="1">พนักงานเทศบาล</option>
-                            <option value="2">พนักงานครูเทศบาล</option>
-                            <option value="3">พนักงานจ้าง</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
                     <div class="col mb-3">
                         <label for="firstName" class="block">ชื่อ</label>
                         <input class="form-control" id="firstName" pInputText type="text" formControlName="firstName" required="true" placeholder="ชื่อจริง"/>
@@ -46,14 +20,33 @@
                     <div class="col mb-3">
                         <label for="idCard" class="block">เลขประจำตัวประชาชน*</label> 
                         <input class="form-control" id="idCard" pInputText type="text" formControlName="idCard" required="true" maxlength="13"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-                        />
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="15001XXXXXXXX"/>
                     </div>
                     <div class="col mb-3">
                         <label for="tel" class="block">หมายเลขโทรศัพท์</label> 
                         <input class="form-control" id="tel" pInputText type="text" formControlName="tel" required="true" maxlength="10"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-                        />
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" placeholder="080XXXXXXX"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="agency" class="block">หน่วยงาน</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="agency" required="true">
+                            <option selected>เลือกหน่วยงาน</option>
+                            <option value="1">พนักงานเทศบาล</option>
+                            <option value="2">พนักงานครูเทศบาล</option>
+                            <option value="3">พนักงานจ้าง</option>
+                        </select>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="position" class="block">ตำแหน่ง</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="position" required="true">
+                            <option selected>เลือกตำแหน่ง</option>
+                            <option value="1">พนักงานเทศบาล</option>
+                            <option value="2">พนักงานครูเทศบาล</option>
+                            <option value="3">พนักงานจ้าง</option>
+                        </select>
                     </div>
                 </div>
 
@@ -64,11 +57,11 @@
                                 <label for="email" class="block">อีเมล*</label> 
                            </div>
                            <div *ngIf="email.value !== '' && email.ontouchend && email.oninvalid">
-                                <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
+                                <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
                            </div>
                         </div>
                         <input #email class="form-control" id="email" pInputText type="email" formControlName="email" 
-                        required="true" style="width: 490px;" />
+                        required="true" style="width: 490px;" placeholder="example@gmail.com"/>
                     </div>
                 </div>
             </div>
@@ -82,7 +75,6 @@
         </div>
     </div>
 </div>
-
 
 <p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
     <ng-template pTemplate="footer">

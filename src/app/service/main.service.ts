@@ -14,7 +14,7 @@ export class MainService {
 
   register(playload: any): Observable<any>{
     return this.http.post<any>(
-      AppPath.APP_API_SERVICE + '/logic/v1/register/addEmployee', playload
+      AppPath.APP_API_SERVICE + '/logic/v1/register/add-employee', playload
     );
   }
 
@@ -26,7 +26,7 @@ export class MainService {
 
   login(playload: any): Observable<any>{
     return this.http.post<any>(
-      AppPath.APP_API_SERVICE + '/logic/v1/login/userLogin', playload
+      AppPath.APP_API_SERVICE + '/logic/v1/login/user-login', playload
     );
   }
 

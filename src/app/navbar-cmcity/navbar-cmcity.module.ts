@@ -34,6 +34,8 @@ import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProfilePageComponent } from './page/profile-page/profile-page.component';
 import { ProfileComponentComponent } from './component/profile-component/profile-component.component';
+import { MessageComponentComponent } from './component/message-component/message-component.component';
+import { MessagePageComponent } from './page/message-page/message-page.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { ProfileComponentComponent } from './component/profile-component/profile
     DividendPageComponent,
     ProfileComponentComponent,
     ProfilePageComponent,
+    MessageComponentComponent,
+    MessagePageComponent
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent],

@@ -1,46 +1,48 @@
 <div [formGroup]="formModel">
-<div class="login">
-    <div class="text">
-        <h1> ลงชื่อเข้าใช้ </h1> 
-        <span>กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่.</span>
-        <div class="mb-3 div-text">
-            <label class="form-label">เลขสมาชิก</label>
-            <input type="text" class="form-control" placeholder="053234" formControlName="username" 
-            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
-            required="true" maxlength="5">
+    <div class="login">
+        <div class="text">
+            <h1> ลงชื่อเข้าใช้ </h1>
+            <span>กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่.</span>
+            <div class="mb-3 div-text">
+                <label class="form-label">เลขสมาชิก</label>
+                <input type="text" class="form-control" placeholder="053234" formControlName="username"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" required="true"
+                    maxlength="5">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">รหัสผ่าน</label><br>
+                <!-- <input type="password" class="form-control" formControlName="password"> -->
+                <p-password class="form-control" class="password" formControlName="password" [toggleMask]="true"
+                    required="true"></p-password>
+            </div>
+            <div class="mb-3">
+                <a href="#"><span>ลืมรหัสผ่าน ?</span></a>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-login" (click)="clickLogin()">เข้าสู่ระบบ</button>
+                <button type="button" class="btn btn-regis" (click)="clickRegister()">สมัครสมาชิก</button>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">รหัสผ่าน</label><br>
-            <!-- <input type="password" class="form-control" formControlName="password"> -->
-            <p-password class="form-control" class="password" formControlName="password" [toggleMask]="true" required="true"></p-password>
-        </div>
-        <div class="mb-3">
-            <a href="#"><span>ลืมรหัสผ่าน ?</span></a>
-        </div>
-        <div class="mb-3">
-            <button type="button" class="btn btn-login" (click)="clickLogin()">เข้าสู่ระบบ</button>
-            <button type="button" class="btn btn-regis" (click)="clickRegister()">สมัครสมาชิก</button>
+        <div class="card">
+            <img src="assets/images/logo.png" alt="logo" />
         </div>
     </div>
-    <div class="card">
-        <img src="assets/images/logo.png" alt="logo" />
-    </div>
-</div>
 </div>
 
-<p-dialog header="เเจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw'}"
-    [draggable]="false" [resizable]="false">
-        <p class="m-0"> กรุณาเข้าสู่ระบบ </p>
-        <ng-template pTemplate="footer">
+<p-dialog header="เเจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw'}" [draggable]="false"
+    [resizable]="false">
+    <p class="m-0"> กรุณาเข้าสู่ระบบ </p>
+    <ng-template pTemplate="footer">
         <p-button icon="pi pi-check" (click)="displayModal=false" label="ตกลง" styleClass="p-button-text"></p-button>
-        </ng-template>
+    </ng-template>
 </p-dialog>
 
-<p-confirmDialog #cd [appendTo]="'body'" position="top" [draggable]="false" [dismissableMask]="true" [style]="{width: '18vw'}">
+<p-confirmDialog #cd [appendTo]="'body'" position="top" [draggable]="false" [dismissableMask]="true"
+    [style]="{width: '18vw'}">
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
         <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
-      </ng-template>
+    </ng-template>
 </p-confirmDialog>
 
 <p-toast class="custom-toast" [style]="{width: '23vw'}">
@@ -48,9 +50,11 @@
         <div class="flex flex-column" style="flex: 1; height: 0; width: 50rem;">
             <div class="row">
                 <div class="col-2" style="margin-top: -2px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                 </div>
                 <div class="col-10">

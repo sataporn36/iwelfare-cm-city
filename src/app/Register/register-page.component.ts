@@ -20,16 +20,13 @@ export class RegisterPageComponent implements OnInit{
     protected router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-    ) {
-      //
-    }
+  ) {}
 
   ngOnInit(): void {
     if(history.state.data){
       console.log(history.state.data," =========================> history.state.data");
       this.userId = history.state.data;
-      //window.location.reload();
-   }
+    }
     this.initMainForm();
   }
 
@@ -37,12 +34,11 @@ export class RegisterPageComponent implements OnInit{
     this.formModel = new FormGroup({
       firstName: new FormControl(null,Validators.required),
       lastName: new FormControl(null,Validators.required),
-      email: new FormControl(null,Validators.required),
-      tel: new FormControl(null,Validators.required),
-      //employeeCode: new FormControl(null,Validators.required),
-      prefix: new FormControl(null,Validators.required),
       idCard: new FormControl(null,Validators.required),
-      employeeType: new FormControl(null,Validators.required),
+      tel: new FormControl(null,Validators.required),
+      agency: new FormControl(null,Validators.required),
+      position: new FormControl(null,Validators.required),
+      email: new FormControl(null,Validators.required),
     });
   }
 
@@ -98,6 +94,4 @@ export class RegisterPageComponent implements OnInit{
       }
     })
   }
-  
-
 }

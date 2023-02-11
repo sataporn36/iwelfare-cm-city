@@ -26,29 +26,31 @@ export class NavbarCmcityComponent implements OnInit {
   profile!: string;
 
 
-  constructor(private primengConfig: PrimeNGConfig,  private service : MainService, protected router: Router) {}
+  constructor(private primengConfig: PrimeNGConfig, private service: MainService, protected router: Router) { }
 
-    ngOnInit() {
-        this.items = [
-            {label: 'ข้อมูลส่วนตัว',
-              command: () => {
-                this.onProfile()
-              }
-            },
-            {label: 'ออกจากระบบ',
-              command: () => {
-                this.onLogout()
-              }
-            }
-        ];
-    }
+  ngOnInit() {
+    this.items = [
+      {
+        label: 'ข้อมูลส่วนตัว',
+        command: () => {
+          this.onProfile()
+        }
+      },
+      {
+        label: 'ออกจากระบบ',
+        command: () => {
+          this.onLogout()
+        }
+      }
+    ];
+  }
 
-  onProfile(){
+  onProfile() {
     this.router.navigate(['/main/profile-page'])
     this.checkActive("profile")
   }
 
-  onLogout(){
+  onLogout() {
     this.router.navigate(['/login'])
   }
 
@@ -61,107 +63,107 @@ export class NavbarCmcityComponent implements OnInit {
   }
 
   // check active model
-  checkActive(data:any){
+  checkActive(data: any) {
     switch (data) {
-      case "main": 
+      case "main":
         this.main = "active";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "deposit": 
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "deposit":
         this.main = "";
-        this.deposit = "active"; 
+        this.deposit = "active";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "stock": 
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "stock":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "active";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "loan": 
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "loan":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = "active"; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "rigths": 
+        this.loan = "active";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "rigths":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = "active"; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "beneficiary": 
+        this.loan = "";
+        this.rigths = "active";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "beneficiary":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = "active"; 
-        this.guarantee = ""; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "guarantee": 
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "active";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "guarantee":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = "active"; 
-        this.dividend = "";  
-        this.profile = ""; 
-      break;
-      case "dividend": 
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "active";
+        this.dividend = "";
+        this.profile = "";
+        break;
+      case "dividend":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = "active"; 
-        this.profile = ""; 
-      break;
-      case "profile": 
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "active";
+        this.profile = "";
+        break;
+      case "profile":
         this.main = "";
-        this.deposit = ""; 
+        this.deposit = "";
         this.stock = "";
-        this.loan = ""; 
-        this.rigths = ""; 
-        this.beneficiary = ""; 
-        this.guarantee = ""; 
-        this.dividend = ""; 
-        this.profile = "active"; 
-      break;
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "active";
+        break;
       default:
         break;
     }
