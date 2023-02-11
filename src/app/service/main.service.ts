@@ -24,9 +24,9 @@ export class MainService {
     );
   }
 
-  login(): Observable<any>{
-    return this.http.get<any>(
-      AppPath.APP_API_SERVICE + '/v1/stock'
+  login(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/login/userLogin', playload
     );
   }
 

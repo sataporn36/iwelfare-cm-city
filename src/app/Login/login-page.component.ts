@@ -42,7 +42,7 @@ export class LoginPageComponent implements OnInit{
       const payload = this.formModel.getRawValue();
       this.service.login(payload).subscribe((res) => {
         console.log(res,'===================> res login')
-        if(res !== null){
+        if(res !== null && res.data.id !== 0){
           this.userId = res.data.id;
           setTimeout(() => {}, 500);
           this.router.navigate(['/main/main-page'],{
