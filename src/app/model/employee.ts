@@ -1,3 +1,7 @@
+import { Affiliation } from "./affiliation";
+import { Contact } from "./contact";
+import { EmployeeType } from "./employee-type";
+import { Level } from "./level";
 import { Positions } from "./position";
 
 export interface Employee {
@@ -8,13 +12,13 @@ export interface Employee {
     lastName: string;
     idCard: string;
     gender: string;
-    maritalStatus: number;
+    maritalStatus: string;
     birthday: Date;
-    age: number;
+    // age: number;
     position: Positions;
-    // affiliation
-    // employeeType
-    // level
+    affiliation: Affiliation
+    employeeType: EmployeeType
+    level: Level
     salary: number;
     compensation: string;
     contractStartDate: string;
@@ -23,7 +27,7 @@ export interface Employee {
     billingStartDate: Date;
     monthlyStockMoney: number;
     // address
-    // contact
+    contact: Contact
     dateOfDeath: Date;
     resignationDate: Date;
     approvedResignationDate: Date;

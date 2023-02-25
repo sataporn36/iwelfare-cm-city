@@ -1,3 +1,4 @@
+<div [formGroup]="formModel">
 <div class="row">
     <div class="col-3">
         <div class="div-card">
@@ -9,7 +10,8 @@
                 </div>
                 <div class="col-5">
                     <span>เงินฝาก</span>
-                    <h2>203,200</h2>
+                    <!-- <h2>203,200</h2> -->
+                    <h2 [innerHTML]="formModel.get('')?.value"></h2>
                 </div>
             </div>
         </div>
@@ -26,7 +28,7 @@
                 </div>
                 <div class="col-5">
                     <span>เงินกู้ </span>
-                    <h2>{{ data.birthday || "" }}</h2>
+                    <h2 [innerHTML]="formModel.get('')?.value"></h2>
                 </div>
             </div>
         </div>
@@ -43,7 +45,7 @@
                 </div>
                 <div class="col-5">
                     <span>หุ้น</span>
-                    <h2>{{ data.birthday || "" }}</h2>
+                    <h2 [innerHTML]="formModel.get('')?.value"></h2>
                 </div>
             </div>
         </div>
@@ -62,7 +64,7 @@
                     <div class="row">
                         <span>ภาระค้ำประกัน</span>
                         <div class="col-2">
-                            <h2>{{ data.birthday || "" }}</h2>
+                            <h2 [innerHTML]="formModel.get('')?.value"></h2>
                         </div>
                         <div class="col-2" style="margin-top: 12px;">
                             <span>คน</span>
@@ -74,8 +76,8 @@
     </div>
     <div class="col-4">
         <div class="card-profile">
-            <img class="profile_img" src="{{ checkImgProfile(data)}}" alt="logo"/>
-            <p>{{ data.firstName }} {{ data.lastName }}</p>
+            <img class="profile_img" src="{{ checkImgProfile(formModel.get('gender')?.value)}}" alt="logo"/>
+            <p [innerHTML]="formModel.get('fullName')?.value"></p>
             <div class="row">
                 <div class="col-5">
                     <span style="font-size: 15px; color: #8690a1;">เลขสมาชิก</span>
@@ -83,7 +85,7 @@
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z" fill="#FE6BBA"/>
                         </svg>  
-                        <span style="margin-left: -5px;">{{ data.employeeCode }}</span>
+                        <span style="margin-left: -5px;" [innerHTML]="formModel.get('employeeCode')?.value"></span>
                     </div>
                 </div>
                 <div class="col-5">
@@ -92,9 +94,8 @@
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 10px; margin-top: 0px;">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z" fill="#3A36DB"/>
                         </svg>
-                        <span class="d-inline-block text-truncate" style="max-width: 90px; margin-top: 5px; margin-left: -5px;">
-                            {{ data.position.name }}
-                        </span>
+                        <span class="d-inline-block text-truncate" style="max-width: 90px; margin-top: 5px; margin-left: -5px;" 
+                        tooltipPosition="bottom" pTooltip="{{ formModel.get('positionName')?.value }}" [innerHTML]="formModel.get('positionName')?.value"></span>
                     </div>
                 </div>
             </div>  
@@ -104,7 +105,7 @@
 <div class="row">
     <div class="col-9">
         <div class="div-new">
-            <p>ข่าวสาร</p>
+            <p>ข่าวประชาสัมพันธ์</p>
             <div class="row">
                 <div class="col-2">
                     <div class="row" style="margin-top: -24px;">
@@ -119,7 +120,7 @@
                         <span class="d-inline-block text-truncate topic">
                             test11111111111111111111111111
                         </span>
-                        <span class="d-inline-block text-truncate description">
+                        <span class="d-inline-block text-truncate description" tooltipPosition="bottom" pTooltip="testtesttesttesttesttesttesttesttesttesttesttest--------------">
                             testtesttesttesttesttesttesttesttesttesttesttest
                         </span>
                     </div>
@@ -297,7 +298,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 
 

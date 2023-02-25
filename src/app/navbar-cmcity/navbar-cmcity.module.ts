@@ -37,6 +37,7 @@ import { ProfileComponentComponent } from './component/profile-component/profile
 import { MessageComponentComponent } from './component/message-component/message-component.component';
 import { MessagePageComponent } from './page/message-page/message-page.component';
 import { TableModule } from 'primeng/table';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { TableModule } from 'primeng/table';
     ConfirmDialogModule,
     ToastModule,
     TableModule,
+    CalendarModule,
   ]
 })
 export class NavbarCmcityModule { }

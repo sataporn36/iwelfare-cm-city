@@ -8,7 +8,7 @@
                 <div class="col-8 text">
                     <h5>กองทุนสวัสดิการ</h5> 
                     <hr>
-                    <span>พนักงานและลูกจ้าง.</span>
+                    <span>พนักงานและลูกจ้าง</span>
                 </div>
             </div>
             <div>
@@ -166,7 +166,7 @@
                             <div class="bar-menu">
                                 <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true" [model]="items"></p-menu>
                                 <a class="dropdown-toggle" (click)="menu.toggle($event)">
-                                    <img class="profile_img" src="{{ checkImgProfile(emp.gender)}}" alt="logo"/>
+                                    <img class="profile_img" src="{{ checkImgProfile(formModel.get('gender')?.value)}}" alt="logo"/>
                                 </a>
                             </div>                         
                         </li>

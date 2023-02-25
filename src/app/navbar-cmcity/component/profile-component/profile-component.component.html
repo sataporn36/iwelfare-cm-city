@@ -1,127 +1,214 @@
-<div class="div-background">
-    <div class="row">
-        <div class="col-1 div-img">
-            <img class="profile_img" src="assets/images/pele.jpg" alt="logo"/>
-        </div>
-        <div class="col-4" style="margin-top: 140px;">
-            <div class="row" style="margin-left: 150px;">
-                <div class="col mb-3" style="margin-left: 20px;">
-                    <input type="text" readonly class="form-control-plaintext name" value="ประสิทธ์ นรงค์เดช">
-                </div>
+<div [formGroup]="formModel">
+    <div class="div-background">
+        <div class="row">
+            <div class="col-1 div-img">
+                <!-- <img class="profile_img" src="assets/images/pele.jpg" alt="logo"/> -->
+                <img class="profile_img" src="{{ checkImgProfile(formModel.get('gender')?.value)}}" alt="logo" />
             </div>
-            <div class="row div-text" style="margin-left: 180px;">
-                <div class="col-1 mb-3">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z" fill="#FE6BBA"/>
-                    </svg>  
+            <div class="col-4" style="margin-top: 140px;">
+                <div class="row" style="margin-left: 150px;">
+                    <div class="col mb-3" style="margin-left: 20px;">
+                        <input type="text" readonly class="form-control-plaintext name" formControlName="fullName" />
+                    </div>
                 </div>
-                <div class="col mb-3" style="margin-top: -7px;">
-                    <input class="form-control-plaintext number" id="firstName" type="text" value="00532"/>
+                <div class="row div-text" style="margin-left: 180px;">
+                    <div class="col-1 mb-3">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z"
+                                fill="#FE6BBA" />
+                        </svg>
+                    </div>
+                    <div class="col mb-3" style="margin-top: -7px;">
+                        <input class="form-control-plaintext number" id="firstName" type="text"
+                            formControlName="employeeCode" />
+                    </div>
+                    <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
+                    <button type="button" class="btn btn-login" (click)="accept()" *ngIf="!mode">บันทึก</button>
+                    <button type="button" (click)="onClickCancal()" class="btn btn-regis" (click)="reject()"
+                        *ngIf="!mode">ยกเลิก</button>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="div-profile">
-    <div class="text">
-        <div class="row">
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เลขประจำตัวประชาชน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="1500701269876"/>
+    <div class="div-profile">
+        <div class="text">
+            <div class="row">
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เลขประจำตัวประชาชน</label>
+                    <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันเกิด</label>
+                    <input [class]="textString" id="birthday" type="text" formControlName="birthday" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">อายุ</label>
+                    <input [class]="textString" id="age" type="text" formControlName="age" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เพศ</label>
+                    <input [class]="textString" id="lastName" type="text" formControlName="gender" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">หมายเลขโทรศัพท์</label>
+                    <input [class]="textString" id="" type="text" formControlName="tel" />
+                </div>
+
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">ไลน์ไอดี</label>
+                    <input [class]="textString" id="lineId" type="text" formControlName="lineId" />
+                </div>
             </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">วันเกิด</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="17/03/2000"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">อายุ</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="23 ปี"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เพศ</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="ชาย"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">หมายเลขโทรศัพท์</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="0908987193"/>
-            </div>
-            
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">ไลน์ไอดี</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="sataporn2690"/>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 10px;">
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เฟสบุ๊ค</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="Pele Sataporn"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">อีเมล</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="name@example.com"/>
-            </div>
-            <div class="col-6 mb-3">
-                <label for="lastName" class="block">ที่อยู่</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="2, 8 ถนน สุขเกษม ตำบลสุเทพ อำเภอเมืองเชียงใหม่ เชียงใหม่ 50200"/>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เฟสบุ๊ค</label>
+                    <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">อีเมล</label>
+                    <input [class]="textString" id="email" type="text" formControlName="email" />
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="lastName" class="block">ที่อยู่</label>
+                    <input [class]="textString" id="address" type="text" formControlName="address" />
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="div-profile-two">
-    <div class="text">
-        <div class="row">
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">หน่วยงาน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="สำนักสาธารณสุขฯ"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">ตำแหน่ง</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="ผู้อำนวยการ"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เงินเดือน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="40000"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">ค่าตอบแทน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="40000"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">วันที่เริ่มทำงาน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="17/03/2000"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">วันที่บรรจุเข้ารับราชการ</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="17/03/2000"/>
+    <div class="div-profile-two">
+        <div class="text">
+            <div class="row">
+                <div class="col-2 mb-3">
+                    <label for="employeeTypeName" class="block">ระดับ</label>
+                    <input [class]="textString" id="levelName" type="text" formControlName="levelName" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
+                    <input [class]="textString" id="employeeTypeName" type="text" formControlName="employeeTypeName" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="positionName" class="block">ตำแหน่ง</label>
+                    <input [class]="textString" id="positionName" type="text" formControlName="positionName" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">สังกัด</label>
+                    <input [class]="textString" id="affiliationName" type="text" formControlName="affiliationName" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เงินเดือน</label>
+                    <input [class]="textString" id="salary" type="text" formControlName="salary" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">ค่าตอบแทน</label>
+                    <input [class]="textString" id="compensation" type="text" formControlName="compensation" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่เริ่มทำงาน</label>
+                    <input [class]="textString" id="contractStartDate" type="text"
+                        formControlName="contractStartDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่บรรจุเข้ารับราชการ</label>
+                    <input [class]="textString" id="civilServiceDate" type="text" formControlName="civilServiceDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">สถานภาพสมรส</label>
+                    <input [class]="textString" id="lastName" type="text" formControlName="positionName" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่เริ่มเก็บเงิน</label>
+                    <input [class]="textString" id="billingStartDate" type="text" formControlName="billingStartDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เงินหุ้นรายเดือน</label>
+                    <input [class]="textString" id="monthlyStockMoney" type="text"
+                        formControlName="monthlyStockMoney" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เลขที่บัญชีธนาคารเงินเดือน</label>
+                    <input [class]="textString" id="salaryBankAccountNumber" type="text"
+                        formControlName="salaryBankAccountNumber" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">เลขที่บัญชีธนาคารรับเงิน</label>
+                    <input [class]="textString" id="bankAccountReceivingNumber" type="text"
+                        formControlName="bankAccountReceivingNumber" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
             </div>
         </div>
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">สถานภาพสมรส</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="โสด"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">วันที่เริ่มเก็บเงิน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="17/03/2000"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เงินหุ้นรายเดือน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="150000"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เลขที่บัญชีธนาคารเงินเดือน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="1500701269876"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">เลขที่บัญชีธนาคารรับเงิน</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="1500701269876"/>
-            </div>
-            <div class="col-2 mb-3">
-                <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
-                <input class="form-control-plaintext" id="lastName" type="text" value="17/03/2000"/>
+    </div>
+
+    <div class="div-profile-two">
+        <!-- <p>ครอบครัว</p> -->
+        <div class="text">
+            <span>บิดา</span>
+            <div class="row">
+                <div class="col-2 mb-3">
+                    <label for="prefix" class="block">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example" formControlName="prefix"
+                        required="true">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                    </select>
+                </div>
+
+                <div class="col-2 mb-3">
+                    <label for="firstName" class="block">ชื่อ</label>
+                    <input [class]="textString" id="firstName" type="text" formControlName="firstName"/>
+                </div>
+
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input [class]="textString" id="lastName" type="text" formControlName="lastName"/>
+                </div>
+              
+                <div class="col-2 md-3">
+                    <label for="basic" class="block">วันเกิด</label>
+                    <p-calendar inputId="basic" [(ngModel)]="date"></p-calendar>
+                </div>
+                
+                <!-- <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div class="col-2 mb-3">
+                    <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div> -->
             </div>
         </div>
+        <!-- <div>
+            <p>มารดา</p>
+        </div> -->
     </div>
 </div>

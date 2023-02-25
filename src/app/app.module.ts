@@ -22,6 +22,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {TableModule} from 'primeng/table';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import {TableModule} from 'primeng/table';
         ConfirmDialogModule,
         ToastModule,
         TableModule,
+        CalendarModule,
     ]
 })
 export class AppModule { }

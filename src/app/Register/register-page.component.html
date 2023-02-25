@@ -26,27 +26,26 @@
                         <input class="form-control" id="lastName" pInputText type="text" formControlName="lastName" required="true" placeholder="นามสกุลจริง"/>
                     </div>
                 </div>
-        
                 <div class="row">
                     <div class="col mb-3">
                         <div class="flex">  
                             <label for="idCard" class="block">เลขประจำตัวประชาชน <span style="color: red;">*</span></label> 
-                            <em *ngIf="idCardValidation === true && formModel.get('idCard')?.value">
-                                 <span style="color: red; padding-left: 20px;">กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง</span> 
-                            </em>
                          </div>
                         <input class="form-control" id="idCard" pInputText type="text" formControlName="idCard" required="true" maxlength="13"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="15001XXXXXXXX" (keyup)="checkIdCard()"/>
+                        <em *ngIf="idCardValidation === true && formModel.get('idCard')?.value">
+                            <span style="color: red;">กรุณากรอก <br> เลขประจำตัวประชาชนให้ถูกต้อง</span> 
+                       </em>
                     </div>
                     <div class="col mb-3">
                         <div class="flex">  
                             <label for="tel" class="block">หมายเลขโทรศัพท์ <span style="color: red;">*</span></label> 
-                            <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
-                                 <span style="color: red; padding-left: 20px;">กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้อง</span> 
-                            </em>
                          </div>
                         <input class="form-control" id="tel" pInputText type="text" formControlName="tel" required="true" maxlength="10"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" placeholder="080XXXXXXX" (keyup)="checkPhoneNumber()"/>
+                        <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
+                            <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span> 
+                       </em>
                     </div>
                 </div>
 
@@ -71,12 +70,12 @@
                     <div class="col mb-3">
                         <div class="flex">  
                            <label for="email" class="block">อีเมล <span style="color: red;">*</span></label> 
-                           <em *ngIf="emailValidation === true && formModel.get('email')?.value">
-                                <span style="color: red; padding-left: 20px;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
-                           </em>
                         </div>
                         <input class="form-control" id="email" pInputText type="email" formControlName="email" 
                         required="true" style="width: 490px;" placeholder="example@gmail.com" (keyup)="checkEmail()" />
+                        <em *ngIf="emailValidation === true && formModel.get('email')?.value">
+                            <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
+                       </em>
                     </div>
                 </div>
             </div>

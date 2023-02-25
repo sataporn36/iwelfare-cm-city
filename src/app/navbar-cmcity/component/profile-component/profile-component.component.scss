@@ -42,6 +42,7 @@
 
 .number{
     font-size: 18px;
+    width: 80px;
 }
 
 .text{
@@ -61,19 +62,51 @@
 
 .div-profile-two {
     width: 99%;
-    height: 280px;
+    height: 380px;
     background: #fff;
     border-radius: 20px;
     margin-top: 20px;
     z-index: 1;
-    padding-top: 70px;
+    padding-top: 50px;
     padding-left: 70px;
     .col-2{
         width: 250px;
+        margin-top: 25px;
     }
 }
 
-// $colo-PuertoRico:#61bfbf;
-// $colo-Scandal:#bbded7;
-// $colo-LightPink:#feb6b9;
-// $colo-Bridesmaid:#fae4d9;
+.btn{
+    width: 60px;
+    height: 35px;
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: -5px;
+    border-radius: 18px;
+}
+
+// .btn-edit {
+//     color: #fff;
+//     background-color: #FE6BBA;
+//     transform: translate(1120px, 0px);
+// }
+
+.btn-edit {
+    color: #FE6BBA;
+    border-color: #FE6BBA;
+    // margin-left: 10px;
+    transform: translate(1120px, 0px);
+}
+
+:host ::ng-deep .p-calendar input {
+    height: 37px;
+}
+
+*{
+	box-sizing:  border-box;
+	font-family: 'Kanit', sans-serif;
+}
+
+:host ::ng-deep .custom-cal .p-datepicker-calendar {
+	border: 5px solid red;
+	border-radius: 10px;
+}

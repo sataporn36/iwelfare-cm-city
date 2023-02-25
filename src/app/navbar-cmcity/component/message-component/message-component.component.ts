@@ -39,13 +39,13 @@ export class MessageComponentComponent implements OnInit {
       });
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
       this.initMainForm();
-      this.getConnections();
+      this.searchRegiste();
       this.setperiodMonthDescOption();
     }
   
-    getConnections(): void {
+    searchRegiste(): void {
     this.service.searchRegister().subscribe(data => this.data = data);
     }
 
@@ -61,16 +61,17 @@ export class MessageComponentComponent implements OnInit {
         accept: () => {
           this.service.approveRegister(approve).subscribe(data => {
             this.data = data
-            console.log(data)
+            this.ngOnInit();
           });
         },
         reject: () => {}
       });
+      window.location.reload();
     }
 
     onClickCancleApproveEmp(data :any){
        this.id = data.id;
-      this.displayModal = true;
+       this.displayModal = true;
     }
 
     onclikRemark(){
@@ -79,8 +80,11 @@ export class MessageComponentComponent implements OnInit {
         id : this.id,
         remark : value.remark
       }
-      this.service.cancelApproveRegister(cancelRegis).subscribe(data => this.data = data);
+      this.service.cancelApproveRegister(cancelRegis).subscribe((data) => {
+        this.data = data;
+      });
       this.displayModal = false
+      window.location.reload();
     }
 
     pipeDateTH(date: any){

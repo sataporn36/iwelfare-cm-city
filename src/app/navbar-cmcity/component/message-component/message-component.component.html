@@ -18,8 +18,8 @@
         <td>{{ pipeDateTH(data.createDate)}}</td>
         <td>{{ data.firstName }} {{ data.lastName }}</td>
         <td>{{ data.idCard }}</td>
-        <td>{{ data.positionName }}</td>
-        <td>{{ data.affiliationName }}</td>
+        <td class="text-truncate" style="max-width: 150px;" tooltipPosition="bottom" pTooltip="{{ data.positionName }}">{{ data.positionName }}</td>
+        <td class="text-truncate" style="max-width: 150px;" tooltipPosition="bottom" pTooltip="{{ data.affiliationName }}">{{ data.affiliationName }}</td>
         <td>{{ data.tel }}</td>
         <td>{{ data.email }}</td>
         <td>

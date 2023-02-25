@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Observable } from 'rxjs';
@@ -12,6 +13,7 @@ import { MainService } from '../service/main.service';
 })
 export class NavbarCmcityComponent implements OnInit {
 
+  formModel!: FormGroup;
   items!: MenuItem[];
   displayModal: boolean = false;
   displayModalRegister: boolean = false;
@@ -32,7 +34,6 @@ export class NavbarCmcityComponent implements OnInit {
   dividend!: string;
   profile!: string;
   message!: string;
-
 
   constructor(private primengConfig: PrimeNGConfig, private service: MainService, protected router: Router) { }
 
@@ -56,6 +57,13 @@ export class NavbarCmcityComponent implements OnInit {
     const id = 1;
     this.getEmployee(id);
     this.conutNewRegister();
+    this.initMainForm();
+  }
+
+  initMainForm() {
+    this.formModel = new FormGroup({
+      gender: new FormControl(null),
+    });
   }
 
   onProfile() {
@@ -203,22 +211,31 @@ export class NavbarCmcityComponent implements OnInit {
     }
   }
 
+  // getEmployee(id: any): void {
+  //   this.service.getEmployee(id).subscribe(data => {this.emp = data
+  //     console.log('data------------------------> ', data);
+  //   });
+  // }
+
   getEmployee(id: any): void {
-    this.service.getEmployee(id).subscribe(data => this.emp = data);
+    this.service.getEmployee(id).subscribe(data => {
+      this.formModel.patchValue({
+        ...data
+      })
+    });
   }
 
   // TODO: ImgProfile
   checkImgProfile(gender: any) {
-    let textGender = ""
+    let textGender = ''
     switch (gender) {
       case 'ชาย':
-        textGender = "assets/images/boyV2.png"
+        textGender = 'assets/images/boyV2.png'
         break;
       case 'หญิง':
-        textGender = "assets/images/girlV2.png"
+        textGender = 'assets/images/girlV2.png'
         break;
       default:
-        console.log("Not Null");
       break;
     }
     return textGender
