@@ -29,14 +29,24 @@
         
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="idCard" class="block">เลขประจำตัวประชาชน*</label> 
+                        <div class="flex">  
+                            <label for="idCard" class="block">เลขประจำตัวประชาชน*</label> 
+                            <em *ngIf="idCardValidation === true && formModel.get('idCard')?.value">
+                                 <span style="color: red; padding-left: 20px;">กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง</span> 
+                            </em>
+                         </div>
                         <input class="form-control" id="idCard" pInputText type="text" formControlName="idCard" required="true" maxlength="13"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="15001XXXXXXXX"/>
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="15001XXXXXXXX" (keyup)="checkIdCard()"/>
                     </div>
                     <div class="col mb-3">
-                        <label for="tel" class="block">หมายเลขโทรศัพท์</label> 
+                        <div class="flex">  
+                            <label for="tel" class="block">หมายเลขโทรศัพท์</label> 
+                            <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
+                                 <span style="color: red; padding-left: 20px;">กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้อง</span> 
+                            </em>
+                         </div>
                         <input class="form-control" id="tel" pInputText type="text" formControlName="tel" required="true" maxlength="10"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" placeholder="080XXXXXXX"/>
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" placeholder="080XXXXXXX" (keyup)="checkPhoneNumber()"/>
                     </div>
                 </div>
 
@@ -59,22 +69,25 @@
 
                 <div class="row">
                     <div class="col mb-3">
-                        <div class="flex">
-                           <div>
-                                <label for="email" class="block">อีเมล*</label> 
-                           </div>
-                           <div *ngIf="email.value !== '' && email.ontouchend && email.oninvalid">
-                                <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
-                           </div>
+                        <div class="flex">  
+                           <label for="email" class="block">อีเมล*</label> 
+                           <em *ngIf="emailValidation === true && formModel.get('email')?.value">
+                                <span style="color: red; padding-left: 20px;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
+                           </em>
                         </div>
-                        <input #email class="form-control" id="email" pInputText type="email" formControlName="email" 
-                        required="true" style="width: 490px;" placeholder="example@gmail.com"/>
+                        <input class="form-control" id="email" pInputText type="email" formControlName="email" 
+                        required="true" style="width: 490px;" placeholder="example@gmail.com" (keyup)="checkEmail()" />
                     </div>
                 </div>
             </div>
 
             <div class="mb-3">
-                <button type="button" class="btn btn-regis" (click)="onRegister()" [disabled]="!formModel.valid">สมัครสมาชิก</button>
+                <button type="button" class="btn btn-regis" (click)="onRegister()" 
+                [disabled]="!formModel.valid 
+                || !(emailValidation === false && formModel.get('email')?.value) 
+                || !(idCardValidation === false && formModel.get('idCard')?.value)
+                || !(pnumberValidation === false && formModel.get('tel')?.value)">
+                สมัครสมาชิก</button>
             </div>
         </div>
         <div class="card">

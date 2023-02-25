@@ -16,6 +16,12 @@ export class RegisterPageComponent implements OnInit{
 
   formModel!: FormGroup;
   userId: any;
+  emailCheck: any;
+  emailValidation: boolean = false;
+  idCardCheck: any;
+  idCardValidation: boolean = false;
+  pnumberCheck: any;
+  pnumberValidation: boolean = false;
 
   public position: Observable<Positions[]> | any 
   public affiliation: Observable<Affiliation[]> | any 
@@ -58,6 +64,33 @@ export class RegisterPageComponent implements OnInit{
       affiliationId: new FormControl(0,Validators.required),
       email: new FormControl(null,Validators.required),
     });
+  }
+
+  checkEmail() {
+    this.emailCheck = this.formModel.get('email')?.value;
+    if (this.emailCheck?.match("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) {
+      this.emailValidation = false;
+    } else {
+      this.emailValidation = true;
+    }
+  }
+
+  checkIdCard() {
+    this.idCardCheck = this.formModel.get('idCard')?.value;
+    if (this.idCardCheck?.match("^[0-9]{13}$")) {
+      this.idCardValidation = false;
+    } else {
+      this.idCardValidation = true;
+    }
+  }
+
+  checkPhoneNumber() {
+    this.pnumberCheck = this.formModel.get('tel')?.value;
+    if (this.pnumberCheck?.match("^[0-9]{10}$")) {
+      this.pnumberValidation = false;
+    } else {
+      this.pnumberValidation = true;
+    }
   }
 
   onRegister(){
