@@ -23,6 +23,8 @@ import {ToastModule} from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {TableModule} from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import { ForgetPasswordPageComponent } from './forget-password/forget-password-page.component';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
     declarations: [
@@ -31,6 +33,7 @@ import { CalendarModule } from 'primeng/calendar';
         LoginPageComponent,
         RegisterPageComponent,
         PageNotFoundComponent,
+        ForgetPasswordPageComponent,
     ],
     providers: [ConfirmationService,MessageService],
     bootstrap: [AppComponent],
@@ -53,6 +56,7 @@ import { CalendarModule } from 'primeng/calendar';
         ToastModule,
         TableModule,
         CalendarModule,
+        TooltipModule
     ]
 })
 export class AppModule { }

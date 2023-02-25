@@ -47,6 +47,12 @@ export class LoginPageComponent implements OnInit {
     this.formModel.markAllAsTouched();
   }
 
+  clickForgetPassword(){
+    this.router.navigate(['/forget-password'], {
+      state: { data: '' }
+    });
+  }
+
   clickLogin() {
     if (this.formModel.valid) {
       const payload = this.formModel.getRawValue();
