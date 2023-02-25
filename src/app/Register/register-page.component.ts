@@ -22,6 +22,8 @@ export class RegisterPageComponent implements OnInit{
   idCardValidation: boolean = false;
   pnumberCheck: any;
   pnumberValidation: boolean = false;
+  iconName: any;
+  statusCheck: any;
 
   public position: Observable<Positions[]> | any 
   public affiliation: Observable<Affiliation[]> | any 
@@ -55,15 +57,24 @@ export class RegisterPageComponent implements OnInit{
 
   initMainForm(){
     this.formModel = new FormGroup({
-      prefix: new FormControl(0,Validators.required),
+      prefix: new FormControl('0',Validators.required),
       firstName: new FormControl(null,Validators.required),
       lastName: new FormControl(null,Validators.required),
       idCard: new FormControl(null,Validators.required),
       tel: new FormControl(null,Validators.required),
-      positionId: new FormControl(0,Validators.required),
-      affiliationId: new FormControl(0,Validators.required),
+      positionId: new FormControl('0',Validators.required),
+      affiliationId: new FormControl('0',Validators.required),
       email: new FormControl(null,Validators.required),
     });
+  }
+
+  checkNullOfValue() {
+    const data = this.formModel.getRawValue();
+    if (data.prefix === '0' || data.positionId === '0' || data.affiliationId === '0') {
+     return false;
+    } else {
+      return true;
+    }
   }
 
   checkEmail() {
@@ -98,7 +109,7 @@ export class RegisterPageComponent implements OnInit{
     this.service.register(playload).subscribe((res) => {
       console.log(res,'======================> res')
       if(res !== null){
-        if(res.data.statusEmployee === 'normal'){
+        if(res.data.statusEmployee === 'NORMAL_EMPLOYEE'){
           this.confirmationService.confirm({
             message: 'ท่านเป็นสมาชิกปัจจุบัน ไม่สามารถสมัครสมาชิกได้',
             header: 'สมัครสมาชิก',
@@ -112,7 +123,7 @@ export class RegisterPageComponent implements OnInit{
             },
             reject: () => {}
           });
-        }else if(res.data.statusEmployee === 'resign'){
+        }else if(res.data.statusEmployee === 'RESIGN_EMPLOYEE'){
           this.confirmationService.confirm({
             message: 'ท่านเป็นสมาชิกที่ลาออก กดยืนยันเพื่อกลับมาเป็นสมาชิกปัจุบัน',
             header: 'สมัครสมาชิก',
@@ -123,24 +134,31 @@ export class RegisterPageComponent implements OnInit{
               }
               this.service.editStatusEmployeeResign(playload).subscribe((res) => {
                    if(res != null){
-                       if(res.data.statusEmployee === 'normal'){
+                       if(res.data.statusEmployee === 'NORMAL_EMPLOYEE'){
                          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ'});  
+                         this.iconName = 'bi bi-check-circle'
                          this.formModel.reset();
                        }
                    }else{
                       this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+                      this.iconName = 'bi bi-x-circle'
                    }
               });
             },
             reject: () => { }
           });
-        }else{
+        }else if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
           this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ เเละรอการอนุมัติ'});  
+          this.iconName = 'bi bi-check-circle'
           this.formModel.reset();
+        }else if(res.data.statusEmployee === 'ERROR_EMPLOYEE'){
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+          this.iconName = 'bi bi-x-circle'
         }
       }else{
         setTimeout(() => {
           this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+          this.iconName = 'bi bi-x-circle'
         }, 500); 
       }
     })

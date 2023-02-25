@@ -1,3 +1,4 @@
+import { LocationStrategy } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -22,11 +23,20 @@ export class LoginPageComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private service: MainService,
+    private locationStrategy: LocationStrategy
   ) {
   }
 
   ngOnInit(): void {
     this.initMainForm();
+    this.preventBackButton();
+  }
+
+  preventBackButton() {
+    history.pushState(null, '', location.href);
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, '', location.href);
+    })
   }
 
   initMainForm() {

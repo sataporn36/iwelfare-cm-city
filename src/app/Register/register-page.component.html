@@ -2,12 +2,12 @@
     <div class="register">
         <div class="text">
             <h1> สมัครเข้าใช้งาน </h1> 
-            <span> กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่.</span>
+            <span> กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่</span>
 
             <div class="text-group">
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <label for="prefix" class="block">คำนำหน้า <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="prefix" required="true" style="width: 490px;">
                             <option value="0" selected>เลือกคำนำหน้า</option>
                             <option value="1">นาย</option>
@@ -18,11 +18,11 @@
                 </div>
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="firstName" class="block">ชื่อ</label>
+                        <label for="firstName" class="block">ชื่อ <span style="color: red;">*</span></label>
                         <input class="form-control" id="firstName" pInputText type="text" formControlName="firstName" required="true" placeholder="ชื่อจริง"/>
                     </div>
                     <div class="col mb-3">
-                        <label for="lastName" class="block">นามสกุล</label>
+                        <label for="lastName" class="block">นามสกุล <span style="color: red;">*</span></label>
                         <input class="form-control" id="lastName" pInputText type="text" formControlName="lastName" required="true" placeholder="นามสกุลจริง"/>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col mb-3">
                         <div class="flex">  
-                            <label for="idCard" class="block">เลขประจำตัวประชาชน*</label> 
+                            <label for="idCard" class="block">เลขประจำตัวประชาชน <span style="color: red;">*</span></label> 
                             <em *ngIf="idCardValidation === true && formModel.get('idCard')?.value">
                                  <span style="color: red; padding-left: 20px;">กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง</span> 
                             </em>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="col mb-3">
                         <div class="flex">  
-                            <label for="tel" class="block">หมายเลขโทรศัพท์</label> 
+                            <label for="tel" class="block">หมายเลขโทรศัพท์ <span style="color: red;">*</span></label> 
                             <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
                                  <span style="color: red; padding-left: 20px;">กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้อง</span> 
                             </em>
@@ -52,14 +52,14 @@
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="position" class="block">ตำแหน่ง</label>
+                        <label for="position" class="block">ตำแหน่ง <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="positionId" required="true">
                             <option value="0" selected>เลือกตำแหน่ง</option>
                             <option *ngFor="let position of position" value="{{ position.id }}">{{ position.name }}</option>
                         </select>
                     </div>
                     <div class="col mb-3">
-                        <label for="affiliation" class="block">สังกัด</label>
+                        <label for="affiliation" class="block">สังกัด <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="affiliationId" required="true">
                             <option value="0" selected>เลือกสังกัด</option>
                             <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{ affiliation.name }}</option>
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col mb-3">
                         <div class="flex">  
-                           <label for="email" class="block">อีเมล*</label> 
+                           <label for="email" class="block">อีเมล <span style="color: red;">*</span></label> 
                            <em *ngIf="emailValidation === true && formModel.get('email')?.value">
                                 <span style="color: red; padding-left: 20px;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
                            </em>
@@ -86,7 +86,8 @@
                 [disabled]="!formModel.valid 
                 || !(emailValidation === false && formModel.get('email')?.value) 
                 || !(idCardValidation === false && formModel.get('idCard')?.value)
-                || !(pnumberValidation === false && formModel.get('tel')?.value)">
+                || !(pnumberValidation === false && formModel.get('tel')?.value) 
+                || !checkNullOfValue()">
                 สมัครสมาชิก</button>
             </div>
         </div>
@@ -103,14 +104,18 @@
       </ng-template>
 </p-confirmDialog>
 
-<p-toast class="custom-toast" [style]="{width: '25vw'}">
+<!-- <p-toast [breakpoints]="{'25vw': {width: '100%', right: '0', left: '0'}}"></p-toast> -->
+
+<p-toast class="custom-toast" [style]="{width: '23vw'}">
     <ng-template let-message pTemplate="message">
         <div class="flex flex-column" style="flex: 1; height: 0; width: 50rem;">
             <div class="row">
                 <div class="col-2" style="margin-top: -2px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class={{iconName}} viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                 </div>
                 <div class="col-10">

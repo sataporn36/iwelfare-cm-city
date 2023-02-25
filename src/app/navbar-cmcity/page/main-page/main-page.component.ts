@@ -1,7 +1,9 @@
+import { LocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { fromEvent } from 'rxjs';
 import { MainService } from 'src/app/service/main.service';
 
 @Component({
@@ -11,7 +13,7 @@ import { MainService } from 'src/app/service/main.service';
 })
 export class MainPageComponent implements OnInit{
 
-  userId: any
+  userId: any;
 
   constructor(
     private fb: FormBuilder, 
@@ -19,7 +21,8 @@ export class MainPageComponent implements OnInit{
     protected route: ActivatedRoute,
     private service : MainService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private locationStrategy: LocationStrategy
     ) {
     //
   }
@@ -29,10 +32,18 @@ export class MainPageComponent implements OnInit{
       console.log(history.state.data," =========================> history.state.data");
       this.userId = history.state.data;
       setTimeout(() => {
-        this.messageService.add({severity:'success', summary: 'Success', detail: 'เข้าสู๋ระบบสำเร็จ'});  
+        this.messageService.add({severity:'success', summary: 'Success', detail: 'เข้าสู่ระบบสำเร็จ'});  
       }, 500);
       
     }
+    this.preventBackButton();
+  }
+
+  preventBackButton() {
+    history.pushState(null, '', location.href);
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, '', location.href);
+    })
   }
 
 }
