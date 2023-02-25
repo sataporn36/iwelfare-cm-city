@@ -21,7 +21,7 @@ import { NavbarCmcityModule } from './navbar-cmcity/navbar-cmcity.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
-// import {MenuItem} from 'primeng/api';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
     declarations: [
@@ -49,7 +49,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         MenuModule,
         NavbarCmcityModule,
         ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        TableModule,
     ]
 })
 export class AppModule { }

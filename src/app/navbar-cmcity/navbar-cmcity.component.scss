@@ -3,13 +3,6 @@
 	font-family: 'Kanit', sans-serif;
 }
 
-// .main-page{
-//     background: #fff;
-//     height: 833px;
-//     border-radius: 15px;
-//     width: 1590px;
-// }
-
 .menubar{
     position: absolute;
     width: 280px;
@@ -189,4 +182,16 @@ img.profile_img{
 
 .div-foot{
     margin-top: 60%;
+}
+
+.count{
+    margin-top: -1.5%;
+    margin-left: 18.8%;
+    z-index: 1;
+}
+
+.searchbar .message{
+    path{
+       fill: #FE6BBA;
+    }
 }

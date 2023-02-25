@@ -7,6 +7,17 @@
             <div class="text-group">
                 <div class="row">
                     <div class="col mb-3">
+                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="prefix" required="true" style="width: 490px;">
+                            <option value="0" selected>เลือกคำนำหน้า</option>
+                            <option value="1">นาย</option>
+                            <option value="2">นางสาว</option>
+                            <option value="3">นาง</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
                         <label for="firstName" class="block">ชื่อ</label>
                         <input class="form-control" id="firstName" pInputText type="text" formControlName="firstName" required="true" placeholder="ชื่อจริง"/>
                     </div>
@@ -31,21 +42,17 @@
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="agency" class="block">หน่วยงาน</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="agency" required="true">
-                            <option selected>เลือกหน่วยงาน</option>
-                            <option value="1">พนักงานเทศบาล</option>
-                            <option value="2">พนักงานครูเทศบาล</option>
-                            <option value="3">พนักงานจ้าง</option>
+                        <label for="position" class="block">ตำแหน่ง</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="positionId" required="true">
+                            <option value="0" selected>เลือกตำแหน่ง</option>
+                            <option *ngFor="let position of position" value="{{ position.id }}">{{ position.name }}</option>
                         </select>
                     </div>
                     <div class="col mb-3">
-                        <label for="position" class="block">ตำแหน่ง</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="position" required="true">
-                            <option selected>เลือกตำแหน่ง</option>
-                            <option value="1">พนักงานเทศบาล</option>
-                            <option value="2">พนักงานครูเทศบาล</option>
-                            <option value="3">พนักงานจ้าง</option>
+                        <label for="affiliation" class="block">สังกัด</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="affiliationId" required="true">
+                            <option value="0" selected>เลือกสังกัด</option>
+                            <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{ affiliation.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -75,7 +82,7 @@
         </div>
     </div>
 </div>
-
+ 
 <p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-regis" (click)="cd.accept()">ยืนยัน</button>

@@ -7,39 +7,46 @@
         <th scope="col">ชื่อ-สกุล</th>
         <th scope="col">เลขประจำตัวประชาชน</th>
         <th scope="col">ตำแหน่ง</th>
-        <th scope="col">หน่อยงาน</th>
+        <th scope="col">สังกัด</th>
         <th scope="col">เบอร์โทร</th>
         <th scope="col">อีเมล</th>
         <th scope="col">ยืนยันการสมัคร</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>25 ม.ค. 2566</td>
-        <td>สถาพร รุจีรัตน์</td>
-        <td>1500701268600</td>
-        <td>พนักงาน</td>
-        <td>การคลัง</td>
-        <td>0908987193</td>
-        <td>srujirut@gmail.com</td>
+      <tr *ngFor="let data of data">
+        <td>{{ pipeDateTH(data.createDate)}}</td>
+        <td>{{ data.firstName }} {{ data.lastName }}</td>
+        <td>{{ data.idCard }}</td>
+        <td>{{ data.positionName }}</td>
+        <td>{{ data.affiliationName }}</td>
+        <td>{{ data.tel }}</td>
+        <td>{{ data.email }}</td>
         <td>
-          <button type="button" class="btn btn-login">ยืนยัน</button>
-          <button type="button" class="btn btn-regis">ยกเลิก</button>
-        </td>
-      </tr>
-      <tr>
-        <td>25 ม.ค. 2566</td>
-        <td>สถาพร แสนแล</td>
-        <td>1500701268600</td>
-        <td>พนักงาน</td>
-        <td>การคลัง</td>
-        <td>0808987193</td>
-        <td>sanla@gmail.com</td>
-        <td>
-          <button type="button" class="btn btn-login">ยืนยัน</button>
-          <button type="button" class="btn btn-regis">ยกเลิก</button>
+          <button type="button" class="btn btn-login" (click)="onClickApproveEmp(data)">ยืนยัน</button>
+          <button type="button" class="btn btn-regis" (click)="onClickCancleApproveEmp(data)">ยกเลิก</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
+  <ng-template pTemplate="footer">
+      <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
+      <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+    </ng-template>
+</p-confirmDialog>
+
+<p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"
+    [draggable]="false" [resizable]="false">
+  <div [formGroup]="formModel">
+    <div class="col mb-1">
+      <textarea class="form-control" rows="3" cols="36" autoResize="false" formControlName="remark" placeholder="ข้อความ"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-login" (click)="onclikRemark()">ยืนยัน</button>
+    <button type="button" class="btn btn-regis" (click)="displayModal=false">ยกเลิก</button>
+  </ng-template>
+</p-dialog>

@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-5">
                     <span>เงินกู้ </span>
-                    <h2>1,563,029</h2>
+                    <h2>{{ data.birthday || "" }}</h2>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-5">
                     <span>หุ้น</span>
-                    <h2>620,242</h2>
+                    <h2>{{ data.birthday || "" }}</h2>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                     <div class="row">
                         <span>ภาระค้ำประกัน</span>
                         <div class="col-2">
-                            <h2>3</h2>
+                            <h2>{{ data.birthday || "" }}</h2>
                         </div>
                         <div class="col-2" style="margin-top: 12px;">
                             <span>คน</span>
@@ -70,12 +70,12 @@
                     </div>  
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
     <div class="col-4">
         <div class="card-profile">
-            <img class="profile_img" src="assets/images/pele.jpg" alt="logo"/>
-            <p>ประสิทธ์ นรงค์เดช</p>
+            <img class="profile_img" src="{{ checkImgProfile(data)}}" alt="logo"/>
+            <p>{{ data.firstName }} {{ data.lastName }}</p>
             <div class="row">
                 <div class="col-5">
                     <span style="font-size: 15px; color: #8690a1;">เลขสมาชิก</span>
@@ -83,16 +83,18 @@
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z" fill="#FE6BBA"/>
                         </svg>  
-                        <span>000123</span>
+                        <span style="margin-left: -5px;">{{ data.employeeCode }}</span>
                     </div>
                 </div>
                 <div class="col-5">
                     <span style="font-size: 15px; color: #8690a1;">ตำเเหน่ง</span>
                     <div class="div-text" style="margin-left: 30px;">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 0px;">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 10px; margin-top: 0px;">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z" fill="#3A36DB"/>
-                        </svg> 
-                        <span>01/01/2023</span>
+                        </svg>
+                        <span class="d-inline-block text-truncate" style="max-width: 90px; margin-top: 5px; margin-left: -5px;">
+                            {{ data.position.name }}
+                        </span>
                     </div>
                 </div>
             </div>  
@@ -101,68 +103,85 @@
 </div>
 <div class="row">
     <div class="col-9">
-        <div class="div-table-loan">
-            <p>รายการเงินกู้สามัญ</p>
-            <table class="table" style="text-align: center;">
-                <thead>
-                    <tr>
-                        <th scope="col">เลขที่</th>
-                        <th scope="col">วันที่ทำรายการ</th>
-                        <th scope="col">ชื่อรายการ</th>
-                        <th scope="col">เงินต้น</th>
-                        <th scope="col">ดอกเบี้ย</th>
-                        <th scope="col">ยอดทำรายการ</th>
-                        <th scope="col">หนี้คงเหลือ</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>25 ม.ค. 2566</td>
-                        <td>ชำระหนี้ประจำเดือน</td>
-                        <td>5432.20</td>
-                        <td style="color: #EA3A3D;">7556.60</td>
-                        <td style="color: #1AD598;">12980.00</td>
-                        <td>146559.23</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>25 ม.ค. 2566</td>
-                        <td>ชำระหนี้ประจำเดือน</td>
-                        <td>5432.20</td>
-                        <td style="color: #EA3A3D;">7556.60</td>
-                        <td style="color: #1AD598;">12980.00</td>
-                        <td>146559.23</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>25 ม.ค. 2566</td>
-                        <td>ชำระหนี้ประจำเดือน</td>
-                        <td>5432.20</td>
-                        <td style="color: #EA3A3D;">7556.60</td>
-                        <td style="color: #1AD598;">12980.00</td>
-                        <td>146559.23</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>25 ม.ค. 2566</td>
-                        <td>ชำระหนี้ประจำเดือน</td>
-                        <td>5432.20</td>
-                        <td style="color: #EA3A3D;">7556.60</td>
-                        <td style="color: #1AD598;">12980.00</td>
-                        <td>146559.23</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>25 ม.ค. 2566</td>
-                        <td>ชำระหนี้ประจำเดือน</td>
-                        <td>5432.20</td>
-                        <td style="color: #EA3A3D;">7556.60</td>
-                        <td style="color: #1AD598;">12980.00</td>
-                        <td>146559.23</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="div-new">
+            <p>ข่าวสาร</p>
+            <div class="row">
+                <div class="col-2">
+                    <div class="row" style="margin-top: -24px;">
+                        <div class="col-1">
+                            <label class="news">17 กุมภาพันธ์ 2566</label>
+                        </div>
+                        <div class="col-11">
+                            <img src="assets/images/pele.jpg" alt="logo"/>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <span class="d-inline-block text-truncate topic">
+                            test11111111111111111111111111
+                        </span>
+                        <span class="d-inline-block text-truncate description">
+                            testtesttesttesttesttesttesttesttesttesttesttest
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="row" style="margin-top: -24px;">
+                        <div class="col-1">
+                            <label class="news">17 กุมภาพันธ์ 2566</label>
+                        </div>
+                        <div class="col-11">
+                            <img src="assets/images/pele.jpg" alt="logo"/>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <span class="d-inline-block text-truncate topic">
+                            test11111111111111111111111111
+                        </span>
+                        <span class="d-inline-block text-truncate description">
+                            testtesttesttesttesttesttesttesttesttesttesttest
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="row" style="margin-top: -24px;">
+                        <div class="col-1">
+                            <label class="news">17 กุมภาพันธ์ 2566</label>
+                        </div>
+                        <div class="col-11">
+                            <img src="assets/images/pele.jpg" alt="logo"/>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <span class="d-inline-block text-truncate topic">
+                            test11111111111111111111111111
+                        </span>
+                        <span class="d-inline-block text-truncate description">
+                            testtesttesttesttesttesttesttesttesttesttesttest
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="row" style="margin-top: -24px;">
+                        <div class="col-1">
+                            <label class="news">17 กุมภาพันธ์ 2566</label>
+                        </div>
+                        <div class="col-11">
+                            <img src="assets/images/pele.jpg" alt="logo"/>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <span class="d-inline-block text-truncate topic">
+                            test11111111111111111111111111
+                        </span>
+                        <span class="d-inline-block text-truncate description">
+                            testtesttesttesttesttesttesttesttesttesttesttest
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-4">

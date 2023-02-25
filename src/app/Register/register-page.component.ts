@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { Affiliation } from '../model/affiliation';
+import { Positions } from '../model/position';
 import { MainService } from '../service/main.service';
 
 @Component({
@@ -13,6 +16,10 @@ export class RegisterPageComponent implements OnInit{
 
   formModel!: FormGroup;
   userId: any;
+
+  public position: Observable<Positions[]> | any 
+  public affiliation: Observable<Affiliation[]> | any 
+
   constructor(
     protected route: ActivatedRoute, 
     private fb: FormBuilder, 
@@ -28,16 +35,27 @@ export class RegisterPageComponent implements OnInit{
       this.userId = history.state.data;
     }
     this.initMainForm();
+    this.getPositions();
+    this.getAffiliation();
+  }
+
+  getPositions(): void {
+    this.service.searchPosition().subscribe(data => this.position = data);
+  }
+
+  getAffiliation(): void {
+    this.service.searchAffiliation().subscribe(data => this.affiliation = data);
   }
 
   initMainForm(){
     this.formModel = new FormGroup({
+      prefix: new FormControl(0,Validators.required),
       firstName: new FormControl(null,Validators.required),
       lastName: new FormControl(null,Validators.required),
       idCard: new FormControl(null,Validators.required),
       tel: new FormControl(null,Validators.required),
-      agency: new FormControl(null,Validators.required),
-      position: new FormControl(null,Validators.required),
+      positionId: new FormControl(0,Validators.required),
+      affiliationId: new FormControl(0,Validators.required),
       email: new FormControl(null,Validators.required),
     });
   }

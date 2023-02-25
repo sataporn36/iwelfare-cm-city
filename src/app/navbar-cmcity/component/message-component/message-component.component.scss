@@ -16,7 +16,7 @@ td{
     padding: 30px;
     border-radius: 15px;
     width: 99%;
-    height: 830px;
+    height: 330px;
     padding-left: 50px;
 }
 
@@ -44,3 +44,16 @@ td{
     border-color: #FE6BBA;
     margin-left: 10px;
 }
+
+textarea{
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: rgb(175, 174, 174);
+    margin-top: 4px;
+}
+
+.form-control:focus {
+    border-color: #FE6BBA;
+    box-shadow: 0 0 0 0.2rem rgba(167, 40, 146, 0.25);
+} 

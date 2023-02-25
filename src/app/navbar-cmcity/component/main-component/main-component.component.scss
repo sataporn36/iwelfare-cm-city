@@ -91,7 +91,7 @@ svg{
     margin-left: 25px;
 }
 
-.div-table-loan{
+.div-new{
     background: #fff;
     padding: 30px;
     border-radius: 15px;
@@ -100,10 +100,54 @@ svg{
     height: 350px;
 }
 
-.div-table-loan p{
+.div-new p{
     font-size: 20px;
     font-weight: 500;
-    margin-top: -5px;
+    margin-top: -8px;
+}
+
+.div-new .row{
+    // margin-left: 5px;
+    .col-2{
+        margin-left: 20px;
+        width: 278px;
+        height: 250px;
+        border: 1px solid #d2d6df;
+        border-radius: 15px;
+        img{
+            width: 276px;
+            height: 160px;
+            object-fit: cover;
+            margin-left: -12px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            // margin-top: 6px;
+        }
+        .topic{
+            font-size: 18px;
+            max-width: 125px
+            // margin-left: 5px;
+            // margin-bottom: 8px;
+        }
+        .newDate{
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .description{
+            font-size: 15px;
+            max-width: 240px
+            // margin-left: 5px;
+        }
+        .news{
+            width: 110px;
+            text-align: center;
+            background: #cf6a87;
+            transform: translate(-5px, 25px);
+            font-size: 12px;
+            border-radius: 10px;
+            margin-left: -2px;
+        }
+    }
 }
 
 th {
