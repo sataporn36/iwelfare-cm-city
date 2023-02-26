@@ -58,21 +58,28 @@
                         </select>
                     </div>
                     <div class="col mb-3">
-                        <label for="affiliation" class="block">สังกัด <span style="color: red;">*</span></label>
-                        <select class="form-select" aria-label="Default select example" formControlName="affiliationId" required="true">
-                            <option value="0" selected>เลือกสังกัด</option>
-                            <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{ affiliation.name }}</option>
+                        <label for="affiliation" class="block">สำนัก <span style="color: red;">*</span></label>
+                        <select class="form-select" aria-label="Default select example" formControlName="bureauId" required="true" (click)="checkBureau($event)">
+                            <option value="0" selected>เลือกสำนัก</option>
+                            <option *ngFor="let bureau of bureau" value="{{ bureau.id }}">{{ bureau.name }}</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col mb-3">
+                        <label for="affiliation" class="block">สังกัด <span style="color: red;">*</span></label>
+                        <select class="form-select" aria-label="Default select example" formControlName="affiliationId" required="true">
+                            <option value="0" selected>เลือกสังกัด</option>
+                            <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{ affiliation.name }}</option>
+                        </select>
+                    </div>
+                    <div class="col mb-3">
                         <div class="flex">  
                            <label for="email" class="block">อีเมล <span style="color: red;">*</span></label> 
                         </div>
                         <input class="form-control" id="email" pInputText type="email" formControlName="email" 
-                        required="true" style="width: 490px;" placeholder="example@gmail.com" (keyup)="checkEmail()" />
+                        required="true" placeholder="example@gmail.com" (keyup)="checkEmail()" />
                         <em *ngIf="emailValidation === true && formModel.get('email')?.value">
                             <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
                        </em>

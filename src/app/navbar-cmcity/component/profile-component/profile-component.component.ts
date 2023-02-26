@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 import {CalendarModule} from 'primeng/calendar';
+import { Marital } from 'src/app/model/marital';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-component',
@@ -19,8 +21,10 @@ export class ProfileComponentComponent implements OnInit {
   mode: boolean = true;
   textString: string = 'form-control-plaintext';
   textSelect: string = 'form-control';
-  constructor(private primengConfig: PrimeNGConfig, private service: MainService, protected router: Router) { }
+  public marital: Observable<Marital[]> | any 
+  // checked: boolean = true;
 
+  constructor(private primengConfig: PrimeNGConfig, private service: MainService, protected router: Router) { }
 
   ngOnInit(): void {
     const id = 1;
@@ -28,6 +32,7 @@ export class ProfileComponentComponent implements OnInit {
     this.initMainForm();
     this.formModel.disable();
     this.setperiodMonthDescOption();
+    this.getMarital();
   }
 
   initMainForm() {
@@ -83,6 +88,9 @@ export class ProfileComponentComponent implements OnInit {
       lineId: new FormControl(null),
       facebook: new FormControl(null),
       address: new FormControl(null),
+      birthdayCalendar: new FormControl(null),
+      maritalId: new FormControl('0'),
+      checkState: new FormControl(true),
     });
   }
 
@@ -91,20 +99,21 @@ export class ProfileComponentComponent implements OnInit {
       this.formModel.patchValue({
         ...data, 
         fullName: data.firstName + ' ' + data.lastName,
-        positionName: data.position.name,
-        affiliationName: data.affiliation.name,
-        employeeTypeName: data.employeeType.name,
-        levelName: data.level.name,
-        birthday: this.pipeDateTH(data.birthday),
+        positionName: data.position?.name,
+        affiliationName: data.affiliation?.name,
+        employeeTypeName: data.employeeType?.name,
+        levelName: data.level?.name,
+        birthday: this.pipeDateTH(data?.birthday),
+        birthdayCalendar: new Date(data.birthday),
         age: this.transformAge(data.birthday),
-
-        tel: data.contact.tel,
-        officePhone: data.contact.officePhone,
-        email: data.contact.email,
-        fax: data.contact.fax,
-        lineId: data.contact.lineId,
-        facebook: data.contact.facebook,
-        address: data.contact.address,
+        
+        tel: data.contact?.tel,
+        officePhone: data.contact?.officePhone,
+        email: data.contact?.email,
+        fax: data.contact?.fax,
+        lineId: data.contact?.lineId,
+        facebook: data.contact?.facebook,
+        address: data.contact?.address,
       })
     });
   }
@@ -170,6 +179,7 @@ export class ProfileComponentComponent implements OnInit {
     this.mode = false;
     this.formModel.enable();
 
+
   }
 
   onClickCancal(){
@@ -178,6 +188,14 @@ export class ProfileComponentComponent implements OnInit {
     this.textString = 'form-control-plaintext';
     this.formModel.reset();
     this.ngOnInit();
+  }
+
+  getMarital(): void {
+    this.service.searchMarital().subscribe(data => {this.marital = data
+    // console.log(data);
+    });
+  
+  
   }
   
   accept(){}

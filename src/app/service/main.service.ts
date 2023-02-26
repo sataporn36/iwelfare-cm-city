@@ -4,7 +4,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AppPath } from '../constans/config';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
+import { Bureau } from '../model/bureau';
 import { CancelRegisterReq } from '../model/cancel-register-req';
+import { Marital } from '../model/marital';
 import { Positions } from '../model/position';
 import { SearchNewResgter } from '../model/search-new-register';
 
@@ -49,6 +51,14 @@ export class MainService {
     return this.http.post<Positions[]>(AppPath.APP_API_SERVICE + '/v1/position/search', null);
   }
 
+  searchBureau(): Observable<Bureau[]>{
+    return this.http.post<Bureau[]>(AppPath.APP_API_SERVICE + '/v1/bureau/search', null);
+  }
+
+  searchByBureau(id: number): Observable<Affiliation[]>{
+    return this.http.post<Affiliation[]>(AppPath.APP_API_SERVICE + '/v1/affiliation/search-by-bureau/'+ id, null);
+  }
+
   searchAffiliation(): Observable<Affiliation[]>{
     return this.http.post<Affiliation[]>(AppPath.APP_API_SERVICE + '/v1/affiliation/search', null);
   }
@@ -72,6 +82,10 @@ export class MainService {
 
   conutNewRegister(): Observable<any>{
     return this.http.post<any>(AppPath.APP_API_SERVICE + '/logic/v1/register/count-register', null);
+  }
+
+  searchMarital(): Observable<Marital[]>{
+    return this.http.post<Marital[]>(AppPath.APP_API_SERVICE + '/v1/marital/search', null);
   }
 
 }

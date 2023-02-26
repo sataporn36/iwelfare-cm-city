@@ -20,6 +20,7 @@ export class MainComponentComponent implements OnInit {
     const id = 1;
     this.getEmployee(id);
     this.initMainForm();
+    // window.location.reload();
   }
 
   initMainForm() {

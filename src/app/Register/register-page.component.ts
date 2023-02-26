@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Affiliation } from '../model/affiliation';
+import { Bureau } from '../model/bureau';
 import { Positions } from '../model/position';
 import { MainService } from '../service/main.service';
 
@@ -25,8 +26,10 @@ export class RegisterPageComponent implements OnInit{
   iconStatus: boolean = false;
   statusCheck: any;
 
+
   public position: Observable<Positions[]> | any 
   public affiliation: Observable<Affiliation[]> | any 
+  public bureau: Observable<Bureau[]> | any 
 
   constructor(
     protected route: ActivatedRoute, 
@@ -44,15 +47,20 @@ export class RegisterPageComponent implements OnInit{
     }
     this.initMainForm();
     this.getPositions();
-    this.getAffiliation();
+    // this.getAffiliation();
+    this.getBureau();
   }
 
   getPositions(): void {
     this.service.searchPosition().subscribe(data => this.position = data);
   }
 
-  getAffiliation(): void {
-    this.service.searchAffiliation().subscribe(data => this.affiliation = data);
+  // getAffiliationByBureau(id: any): void {
+  //   this.service.searchByBureau(id).subscribe(data => this.affiliation = data);
+  // }
+
+  getBureau(): void {
+    this.service.searchBureau().subscribe(data => this.bureau = data);
   }
 
   initMainForm(){
@@ -63,9 +71,12 @@ export class RegisterPageComponent implements OnInit{
       idCard: new FormControl(null,Validators.required),
       tel: new FormControl(null,Validators.required),
       positionId: new FormControl('0',Validators.required),
+      bureauId: new FormControl('0',Validators.required),
       affiliationId: new FormControl('0',Validators.required),
       email: new FormControl(null,Validators.required),
     });
+
+    // console.log("------------> ", this.formModel.getRawValue().bureauId);
   }
 
   checkNullOfValue() {
@@ -162,5 +173,10 @@ export class RegisterPageComponent implements OnInit{
         }, 500); 
       }
     })
+  }
+
+  checkBureau(id: any){
+    // console.log("data ---------------> ", data.target.value);
+    this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
 }

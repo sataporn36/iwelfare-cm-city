@@ -66,7 +66,7 @@ export class MessageComponentComponent implements OnInit {
         },
         reject: () => {}
       });
-      window.location.reload();
+      // window.location.reload();
     }
 
     onClickCancleApproveEmp(data :any){

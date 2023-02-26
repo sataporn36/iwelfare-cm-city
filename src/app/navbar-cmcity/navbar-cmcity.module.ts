@@ -38,6 +38,7 @@ import { MessageComponentComponent } from './component/message-component/message
 import { MessagePageComponent } from './page/message-page/message-page.component';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { CalendarModule } from 'primeng/calendar';
     ToastModule,
     TableModule,
     CalendarModule,
+    InputSwitchModule
   ]
 })
 export class NavbarCmcityModule { }
