@@ -21,6 +21,10 @@ export class ForgetPasswordPageComponent implements OnInit{
   idCardValidation: boolean = false;
   newPass: any;
   newPassValidation: boolean = false;
+  newPass2: any;
+  newPass2Validation: boolean = false;
+  memNumber: any;
+  memNumberValidation: boolean = false;
   iconStatus: boolean = false;
 
   constructor(
@@ -42,6 +46,8 @@ export class ForgetPasswordPageComponent implements OnInit{
       idCard: new FormControl(null, Validators.required),
       email: new FormControl(null, Validators.required),
       newPassword: new FormControl(null, Validators.required),
+      newPassword2: new FormControl(null, Validators.required),
+      employeeCode: new FormControl(null, Validators.required),
     });
     this.formModel.markAllAsTouched();
   }
@@ -64,12 +70,34 @@ export class ForgetPasswordPageComponent implements OnInit{
     }
   }
 
+  checkMemberNumer() {
+    this.memNumber = this.formModel.get('employeeCode')?.value;
+    if (this.memNumber?.match("^[0-9]{5}$")) {
+      this.memNumberValidation = false;
+    } else {
+      this.memNumberValidation = true;
+    }
+  }
+
   checkNewPass() {
     this.newPass = this.formModel.get('newPassword')?.value;
-    if (this.newPass?.match("^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$")) {
+    this.newPass2 = this.formModel.get('newPassword2')?.value;
+    if (this.newPass?.match("^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$") && this.newPass === this.newPass2) {
       this.newPassValidation = false;
+      this.checkNewPass2();
     } else {
       this.newPassValidation = true;
+    }
+  }
+
+  checkNewPass2() {
+    this.newPass2 = this.formModel.get('newPassword2')?.value;
+    this.newPass = this.formModel.get('newPassword')?.value;
+    if (this.newPass?.match("^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$") && this.newPass === this.newPass2) {
+      this.newPass2Validation = false;
+      this.checkNewPass();
+    } else {
+      this.newPass2Validation = true;
     }
   }
 
