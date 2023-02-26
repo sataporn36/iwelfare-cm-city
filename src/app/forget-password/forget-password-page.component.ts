@@ -21,6 +21,7 @@ export class ForgetPasswordPageComponent implements OnInit{
   idCardValidation: boolean = false;
   newPass: any;
   newPassValidation: boolean = false;
+  iconStatus: boolean = false;
 
   constructor(
     protected router: Router,
@@ -75,6 +76,33 @@ export class ForgetPasswordPageComponent implements OnInit{
   clickChangePassword(){
     const data = this.formModel.getRawValue();
     console.log('===================> data new pass',data)
+    this.confirmationService.confirm({
+      message: 'ท่านต้องการเปลี่ยนรหัสผ่านใหม่หรือไม่',
+      header: 'เปลี่ยนรหัสผ่านสมาชิก',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.service.changePassword(data).subscribe((res) => {
+             if(res != null){
+                 if(res.data.statusEmployee === 'CHANGE_SUCCESS'){
+                  //  this.router.navigate(['/login'],{
+                  //   state: {data: 'changePassword'}
+                  //  });
+                  // setTimeout(() => {}, 500);
+                  this.messageService.add({severity:'success', summary: 'Success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ'});  
+                  this.iconStatus = true;
+                  this.formModel.reset();
+                 }else{
+                  this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ ตรวจสอบข้อมูลให้ถูกต้อง'});
+                  this.iconStatus = false;
+                 }
+             }else{
+                this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ ตรวจสอบข้อมูลให้ถูกต้อง'});
+                this.iconStatus = false;
+             }
+        });
+      },
+      reject: () => { }
+    });
   }
 
 }

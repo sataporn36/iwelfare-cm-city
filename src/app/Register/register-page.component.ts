@@ -22,7 +22,7 @@ export class RegisterPageComponent implements OnInit{
   idCardValidation: boolean = false;
   pnumberCheck: any;
   pnumberValidation: boolean = false;
-  iconName: any;
+  iconStatus: boolean = false;
   statusCheck: any;
 
   public position: Observable<Positions[]> | any 
@@ -136,12 +136,12 @@ export class RegisterPageComponent implements OnInit{
                    if(res != null){
                        if(res.data.statusEmployee === 'NORMAL_EMPLOYEE'){
                          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ'});  
-                         this.iconName = 'bi bi-check-circle'
+                         this.iconStatus = true;
                          this.formModel.reset();
                        }
                    }else{
                       this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
-                      this.iconName = 'bi bi-x-circle'
+                      this.iconStatus = false;
                    }
               });
             },
@@ -149,16 +149,16 @@ export class RegisterPageComponent implements OnInit{
           });
         }else if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
           this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ เเละรอการอนุมัติ'});  
-          this.iconName = 'bi bi-check-circle'
+          this.iconStatus = true;
           this.formModel.reset();
         }else if(res.data.statusEmployee === 'ERROR_EMPLOYEE'){
           this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
-          this.iconName = 'bi bi-x-circle'
+          this.iconStatus = false;
         }
       }else{
         setTimeout(() => {
           this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
-          this.iconName = 'bi bi-x-circle'
+          this.iconStatus = false;
         }, 500); 
       }
     })

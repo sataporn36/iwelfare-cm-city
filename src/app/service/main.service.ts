@@ -35,6 +35,12 @@ export class MainService {
     );
   }
 
+  changePassword(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/login/change/forget-password', playload
+    );
+  }
+
   searchRegister(): Observable<SearchNewResgter[]>{
     return this.http.post<SearchNewResgter[]>(AppPath.APP_API_SERVICE + '/logic/v1/register/search-register', null);
   }
