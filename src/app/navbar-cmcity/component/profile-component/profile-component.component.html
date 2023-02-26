@@ -162,8 +162,9 @@
                 <div class="col-2 mb-3">
                     <label for="marital" class="block">สถานภาพ</label>
                     <select class="form-select" aria-label="Default select example" formControlName="maritalId" required="true">
-                        <option value="0" selected>เลือกสถานภาพสมรส</option>
-                        <option *ngFor="let marital of marital" value="{{ marital.id }}">{{ marital.name }}</option>
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
                     </select>
                 </div>
             </div>
@@ -205,8 +206,9 @@
                 <div class="col-2 mb-3">
                     <label for="marital" class="block">สถานภาพ</label>
                     <select class="form-select" aria-label="Default select example" formControlName="maritalId" required="true">
-                        <option value="0" selected>เลือกสถานภาพสมรส</option>
-                        <option *ngFor="let marital of marital" value="{{ marital.id }}">{{ marital.name }}</option>
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
                     </select>
                 </div>
             </div>
