@@ -56,27 +56,58 @@ export class LoginPageComponent implements OnInit {
   clickLogin() {
     if (this.formModel.valid) {
       const payload = this.formModel.getRawValue();
-      this.service.login(payload).subscribe((res) => {
-        console.log(res, '===================> res login')
-        if (res !== null && res.data.id !== 0) {
-          this.userId = res.data.id;
-          setTimeout(() => { }, 500);
-          this.router.navigate(['/main/main-page'], {
-            state: { data: this.userId }
-          });
-        } else {
-          // this.confirmationService.confirm({
-          //   message: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง',
-          //   header: 'เข้าสู่ระบบ',
-          //   icon: 'pi pi-exclamation-triangle',
-          //   accept: () => {
-          //   },
-          //   reject: () => {
-          //   }
-          // });
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
-        }
-      })
+      this.service.login(payload).subscribe(
+      //   (res) => {
+      //   console.log(res, '===================> res login')
+      //   if (res !== null && res.data.id !== 0) {
+      //     this.userId = res.data.id;
+      //     setTimeout(() => { }, 500);
+      //     this.router.navigate(['/main/main-page'], {
+      //       state: { data: this.userId }
+      //     });
+      //   } else {
+      //     // this.confirmationService.confirm({
+      //     //   message: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง',
+      //     //   header: 'เข้าสู่ระบบ',
+      //     //   icon: 'pi pi-exclamation-triangle',
+      //     //   accept: () => {
+      //     //   },
+      //     //   reject: () => {
+      //     //   }
+      //     // });
+      //     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
+      //   }
+      // }
+
+      {
+        next: (res) => {
+          console.log(res, '===================> res login')
+          if (res !== null && res.data.id !== 0) {
+            this.userId = res.data.id;
+            setTimeout(() => { }, 500);
+            this.router.navigate(['/main/main-page'], {
+              state: { data: this.userId }
+            });
+          } else {
+            // this.confirmationService.confirm({
+            //   message: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง',
+            //   header: 'เข้าสู่ระบบ',
+            //   icon: 'pi pi-exclamation-triangle',
+            //   accept: () => {
+            //   },
+            //   reject: () => {
+            //   }
+            // });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
+          }
+        },
+        error: error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
+        },
+        complete: () => {
+           //
+        }}
+      )
     } else {
       this.confirmationService.confirm({
         message: 'กรุณากรอกเลขสมาชิกเเละรหัสผ่าน',
