@@ -114,6 +114,7 @@ export class ProfileComponentComponent implements OnInit {
         lineId: data.contact?.lineId,
         facebook: data.contact?.facebook,
         address: data.contact?.address,
+        retirementDate: this.checkRetirementDate(data?.birthday)
       })
     });
   }
@@ -155,6 +156,20 @@ export class ProfileComponentComponent implements OnInit {
       age--;
     }
     return age;
+  }
+
+  checkRetirementDate(dateOfBirth: any){
+    const formatDate = new Date(dateOfBirth)
+    const day = formatDate.getDate()
+    const month = formatDate.getMonth() + 1
+    const year = formatDate.getFullYear() + 543
+    
+    const monthSelect = this.periodMonthDescOption[month - 1];
+    if(month > 9){
+      return day + ' ' + monthSelect.label + ' ' + (year + 61)
+    }else{
+      return day + ' ' + monthSelect.label + ' ' + (year + 60)
+    }
   }
 
   checkImgProfile(gender: any) {
