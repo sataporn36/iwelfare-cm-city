@@ -25,6 +25,9 @@ import {TableModule} from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
 import { ForgetPasswordPageComponent } from './forget-password/forget-password-page.component';
 import {TooltipModule} from 'primeng/tooltip';
+import {NgxWebstorageModule} from 'ngx-webstorage';
+import { AuthGuardService } from './auth-guard.service';
+import { BnNgIdleService } from 'bn-ng-idle'; 
 
 @NgModule({
     declarations: [
@@ -35,7 +38,7 @@ import {TooltipModule} from 'primeng/tooltip';
         PageNotFoundComponent,
         ForgetPasswordPageComponent,
     ],
-    providers: [ConfirmationService,MessageService],
+    providers: [ConfirmationService,MessageService,AuthGuardService,BnNgIdleService],
     bootstrap: [AppComponent],
     imports: [
         CommonModule,
@@ -56,7 +59,8 @@ import {TooltipModule} from 'primeng/tooltip';
         ToastModule,
         TableModule,
         CalendarModule,
-        TooltipModule
+        TooltipModule,
+        NgxWebstorageModule.forRoot(),
     ]
 })
 export class AppModule { }

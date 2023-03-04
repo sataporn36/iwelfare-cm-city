@@ -5,6 +5,8 @@ import { PrimeNGConfig } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 import { Beneficiary } from 'src/app/model/beneficiary';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from 'ngx-webstorage';
+import { Marital } from 'src/app/model/marital';
 
 @Component({
   selector: 'app-profile-component',
@@ -20,22 +22,29 @@ export class ProfileComponentComponent implements OnInit {
   mode: boolean = true;
   textString: string = 'form-control-plaintext';
   textSelect: string = 'form-control';
+
   // beneficiary: Beneficiary | any;
    beneficiarys: Observable<Beneficiary[]> | any 
   controls: any;
   wife!: Boolean;
-  
   // checked: boolean;
+  userId: any;
+  public marital: Observable<Marital[]> | any 
+
   // checked: boolean = true;
   // checked1: boolean = false;
 
   // checked2: boolean = true;
 
-  constructor(private primengConfig: PrimeNGConfig, private service: MainService, protected router: Router) { }
+  constructor(private primengConfig: PrimeNGConfig, 
+    private service: MainService, 
+    protected router: Router, 
+    private localStorageService: LocalStorageService,) { 
+  }
 
   ngOnInit(): void {
-    const id = 1;
-    this.getEmployee(id);
+    this.userId = this.localStorageService.retrieve('empId');
+    this.getEmployee(this.userId);
     this.initMainForm();
     this.formModel.disable();
     this.setperiodMonthDescOption();
@@ -226,11 +235,11 @@ export class ProfileComponentComponent implements OnInit {
     const month = formatDate.getMonth() + 1
     const year = formatDate.getFullYear() + 543
     
-    const monthSelect = this.periodMonthDescOption[month - 1];
+    const monthSelect = this.periodMonthDescOption[9-1];
     if(month > 9){
-      return day + ' ' + monthSelect.label + ' ' + (year + 61)
+      return 30 + ' ' + monthSelect.label + ' ' + (year + 61)
     }else{
-      return day + ' ' + monthSelect.label + ' ' + (year + 60)
+      return 30 + ' ' + monthSelect.label + ' ' + (year + 60)
     }
   }
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService as AuthGuard } from './auth-guard.service';
 import { ForgetPasswordPageComponent } from './forget-password/forget-password-page.component';
 import { LoginPageComponent } from './Login/login-page.component';
 import { NavbarCmcityComponent } from './navbar-cmcity/navbar-cmcity.component';
@@ -25,18 +26,22 @@ const routes: Routes = [
     {
       path: 'login',
       component: LoginPageComponent,
+      canActivate: [AuthGuard],
     },
     {
       path: 'register',
       component: RegisterPageComponent,
+      canActivate: [AuthGuard],
     },
     {
       path: 'forget-password',
       component: ForgetPasswordPageComponent,
+      canActivate: [AuthGuard],
     },
     {
       path: 'main',
       component: NavbarCmcityComponent,
+      canActivateChild: [AuthGuard],
       children: [
         {
           path: '',
