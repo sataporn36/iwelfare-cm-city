@@ -1,4 +1,5 @@
 import { Affiliation } from "./affiliation";
+import { Beneficiary } from "./beneficiary";
 import { Contact } from "./contact";
 import { EmployeeType } from "./employee-type";
 import { Level } from "./level";
@@ -39,6 +40,7 @@ export interface Employee {
     // user
     // stock
     // loan
+    beneficiaries: [Beneficiary]
     approveFlag: boolean;
 
 }

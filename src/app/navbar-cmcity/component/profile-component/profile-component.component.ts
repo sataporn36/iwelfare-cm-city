@@ -76,6 +76,7 @@ export class ProfileComponentComponent implements OnInit {
       // custom
       fullName: new FormControl(null),
       positionName: new FormControl(null),
+      bureauName: new FormControl(null),
       affiliationName: new FormControl(null),
       employeeTypeName: new FormControl(null),
       levelName: new FormControl(null),
@@ -86,8 +87,10 @@ export class ProfileComponentComponent implements OnInit {
       email: new FormControl(null),
       fax: new FormControl(null),
       lineId: new FormControl(null),
-      facebook: new FormControl(null),
+      facebook: new FormControl("-"),
       address: new FormControl(null),
+
+      relationship: new FormControl('0'),
       birthdayCalendar: new FormControl(null),
       maritalId: new FormControl('0'),
       checkState: new FormControl(true),
@@ -101,12 +104,14 @@ export class ProfileComponentComponent implements OnInit {
         fullName: data.firstName + ' ' + data.lastName,
         positionName: data.position?.name,
         affiliationName: data.affiliation?.name,
+        bureauName: data.affiliation?.bureau?.name,
         employeeTypeName: data.employeeType?.name,
         levelName: data.level?.name,
         birthday: this.pipeDateTH(data?.birthday),
         birthdayCalendar: new Date(data.birthday),
         age: this.transformAge(data.birthday),
         
+        // contact
         tel: data.contact?.tel,
         officePhone: data.contact?.officePhone,
         email: data.contact?.email,
@@ -114,8 +119,23 @@ export class ProfileComponentComponent implements OnInit {
         lineId: data.contact?.lineId,
         facebook: data.contact?.facebook,
         address: data.contact?.address,
-        retirementDate: this.checkRetirementDate(data?.birthday)
+
+        
+        retirementDate: this.checkRetirementDate(data?.birthday),
+
+        // beneficiary
+        beneficiary: data.beneficiary,
+        beneficiaryPrefix: data.beneficiary?.prefix,
+        beneficiaryFirstName: data.beneficiary?.firstName,
+        beneficiaryLastName: data.beneficiary?.lastName,
+        beneficiaryGender: data.beneficiary?.gender,
+        beneficiaryBirthday: data.beneficiary?.birthday,
+        beneficiaryRelationship: data.beneficiary?.relationship,
+        beneficiaryMarital: data.beneficiary?.marital,
       })
+
+      console.log("beneficiary -----------------> ", data.beneficiary);
+      
     });
   }
 
