@@ -13,7 +13,7 @@ export interface Employee {
     lastName: string;
     idCard: string;
     gender: string;
-    maritalStatus: string;
+    marital: string;
     birthday: Date;
     // age: number;
     position: Positions;

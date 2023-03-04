@@ -84,8 +84,8 @@ export class MainService {
     return this.http.post<any>(AppPath.APP_API_SERVICE + '/logic/v1/register/count-register', null);
   }
 
-  searchMarital(): Observable<Marital[]>{
-    return this.http.post<Marital[]>(AppPath.APP_API_SERVICE + '/v1/marital/search', null);
-  }
+  // searchMarital(): Observable<Marital[]>{
+  //   return this.http.post<Marital[]>(AppPath.APP_API_SERVICE + '/v1/marital/search', null);
+  // }
 
 }

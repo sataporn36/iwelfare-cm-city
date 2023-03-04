@@ -3,8 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
-import {CalendarModule} from 'primeng/calendar';
-import { Marital } from 'src/app/model/marital';
+import { Beneficiary } from 'src/app/model/beneficiary';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,8 +20,16 @@ export class ProfileComponentComponent implements OnInit {
   mode: boolean = true;
   textString: string = 'form-control-plaintext';
   textSelect: string = 'form-control';
-  public marital: Observable<Marital[]> | any 
+  // beneficiary: Beneficiary | any;
+   beneficiarys: Observable<Beneficiary[]> | any 
+  controls: any;
+  wife!: Boolean;
+  
+  // checked: boolean;
   // checked: boolean = true;
+  // checked1: boolean = false;
+
+  // checked2: boolean = true;
 
   constructor(private primengConfig: PrimeNGConfig, private service: MainService, protected router: Router) { }
 
@@ -32,7 +39,7 @@ export class ProfileComponentComponent implements OnInit {
     this.initMainForm();
     this.formModel.disable();
     this.setperiodMonthDescOption();
-    this.getMarital();
+    // this.getMarital();
   }
 
   initMainForm() {
@@ -44,7 +51,7 @@ export class ProfileComponentComponent implements OnInit {
       lastName: new FormControl(null),
       idCard: new FormControl(null),
       gender: new FormControl(null),
-      maritalStatus: new FormControl(null),
+      marital: new FormControl(null),
       birthday: new FormControl(null),
       age: new FormControl(null),
       position: new FormControl(null),
@@ -87,13 +94,23 @@ export class ProfileComponentComponent implements OnInit {
       email: new FormControl(null),
       fax: new FormControl(null),
       lineId: new FormControl(null),
-      facebook: new FormControl("-"),
+      facebook: new FormControl(null),
       address: new FormControl(null),
 
       relationship: new FormControl('0'),
       birthdayCalendar: new FormControl(null),
-      maritalId: new FormControl('0'),
       checkState: new FormControl(true),
+
+      textHidden: new FormControl(null),
+      // beneficiary
+      // beneficiarys: new FormControl(null),
+      beneficiaryFirstName: new FormControl(null),
+      beneficiaryLastName: new FormControl(null),
+      beneficiaryGender: new FormControl(null),
+      beneficiaryBirthday: new FormControl(null),
+      beneficiaryRelationship: new FormControl(null),
+      beneficiaryMarital: new FormControl(null),
+      // wife: new FormControl(null),
     });
   }
 
@@ -102,40 +119,66 @@ export class ProfileComponentComponent implements OnInit {
       this.formModel.patchValue({
         ...data, 
         fullName: data.firstName + ' ' + data.lastName,
-        positionName: data.position?.name,
-        affiliationName: data.affiliation?.name,
-        bureauName: data.affiliation?.bureau?.name,
-        employeeTypeName: data.employeeType?.name,
-        levelName: data.level?.name,
+        positionName: data.position?.name ? data.position?.name: '-',
+        affiliationName: data.affiliation?.name ? data.affiliation?.name: '-',
+        bureauName: data.affiliation?.bureau?.name ? data.affiliation?.bureau?.name: '-',
+        employeeTypeName: data.employeeType?.name ? data.employeeType?.name: '-',
+        levelName: data.level?.name ? data.level?.name: '-',
         birthday: this.pipeDateTH(data?.birthday),
         birthdayCalendar: new Date(data.birthday),
         age: this.transformAge(data.birthday),
         
         // contact
-        tel: data.contact?.tel,
-        officePhone: data.contact?.officePhone,
-        email: data.contact?.email,
-        fax: data.contact?.fax,
-        lineId: data.contact?.lineId,
-        facebook: data.contact?.facebook,
-        address: data.contact?.address,
-
+        tel: data.contact?.tel ? data.contact?.tel: '-',
+        officePhone: data.contact?.officePhone ? data.contact?.officePhone: '-',
+        email: data.contact?.email ? data.contact?.email: '-',
+        fax: data.contact?.fax ? data.contact?.fax: '-',
+        lineId: data.contact?.lineId ? data.contact?.lineId: '-',
+        facebook: data.contact?.facebook ? data.contact?.facebook: '-',
+        address: data.contact?.address ? data.contact?.address: '-',
         
         retirementDate: this.checkRetirementDate(data?.birthday),
 
+        compensation: data.compensation ? data.compensation: '-',
+        contractStartDate: data.contractStartDate ? data.contractStartDate: '-',
+        civilServiceDate: data.civilServiceDate ? data.civilServiceDate: '-',
+        employeeStatus:  data.employeeStatus ? data.employeeStatus: '-',
+        billingStartDate: data.billingStartDate ? data.billingStartDate: '-',
+        monthlyStockMoney: data.monthlyStockMoney ? data.monthlyStockMoney: '-',
+        salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber: '-',
+        bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber: '-',
         // beneficiary
-        beneficiary: data.beneficiary,
-        beneficiaryPrefix: data.beneficiary?.prefix,
-        beneficiaryFirstName: data.beneficiary?.firstName,
-        beneficiaryLastName: data.beneficiary?.lastName,
-        beneficiaryGender: data.beneficiary?.gender,
-        beneficiaryBirthday: data.beneficiary?.birthday,
-        beneficiaryRelationship: data.beneficiary?.relationship,
-        beneficiaryMarital: data.beneficiary?.marital,
+        // beneficiary = data.beneficiary,
+        // if (data.beneficiary?.relationship == 'บิดา'){
+        // }
+        // Object.keys(data.beneficiaries).forEach(name => {
+        //   if (this.controls[name]) {
+        //     this.controls[name].patchValue(value[name], {onlySelf: true, emitEvent});
+        //   }
+        // });
+        // beneficiary: data.beneficiaries,
+        // data?.beneficiaries.forEach(beneficiarie => {
+        //   if (beneficiarie.relationship == 'บิดา') {
+        //     dadRelationship: data.beneficiaries?.relationship,
+        //   }
+        // }),
+        // beneficiary: data.beneficiaries,
+        // if (beneficiary.relationship === 'บิดา') {
+        // }
+
+        // beneficiary: data.beneficiaries,
+        beneficiaryPrefix: data.beneficiaries?.prefix,
+        beneficiaryFirstName: data.beneficiaries?.firstName,
+        beneficiaryLastName: data.beneficiaries?.lastName,
+        // beneficiaryGender: data.beneficiary?.gender,
+        beneficiaryBirthday: data.beneficiaries?.birthday,
+        beneficiaryRelationship: data.beneficiaries?.relationship,
+        beneficiaryMarital: data.beneficiaries?.marital,
       })
 
-      console.log("beneficiary -----------------> ", data.beneficiary);
-      
+      // this.beneficiarys = data.beneficiaries
+      // console.log("beneficiary -----------------> ", data.beneficiaries);
+      // console.log("beneficiary -----------------> ", this.beneficiary);
     });
   }
 
@@ -146,7 +189,6 @@ export class ProfileComponentComponent implements OnInit {
     const year = format.getFullYear() + 543
 
     const monthSelect = this.periodMonthDescOption[month];
-
     return day + ' ' + monthSelect.label + ' ' + year
   }
 
@@ -204,17 +246,13 @@ export class ProfileComponentComponent implements OnInit {
       default:
         break;
     }
-
     return textGender
   }
 
   onClickEdit(){
-
     this.textString = 'form-control';
     this.mode = false;
     this.formModel.enable();
-
-
   }
 
   onClickCancal(){
@@ -225,13 +263,30 @@ export class ProfileComponentComponent implements OnInit {
     this.ngOnInit();
   }
 
-  getMarital(): void {
-    this.service.searchMarital().subscribe(data => {this.marital = data
-    // console.log(data);
-    });
-  
-  
+  // onClickWife(event: any){
+  //   this.wife = true;
+  //   console.log("event-------------------- ", event.target.value);
+    
+  // }
+
+  handleChange(e: any) {
+    // let isChecked = e.checked;
+    if (e.checked) {
+      this.wife = true;
+    }else{
+      this.wife = false;
+    }
+
+    console.log(e.checked);
+    
   }
+  // getMarital(): void {
+  //   this.service.searchMarital().subscribe(data => {this.marital = data
+  //   // console.log(data);
+  //   });
+  
+  
+  // }
   
   accept(){}
   reject(){}

@@ -170,3 +170,30 @@
     border-color: #FE6BBA;
     margin-left: 10px;
 }
+:host ::ng-deep .p-inputswitch{
+        height: 20px;
+        width: 40px;
+    }
+
+:host ::ng-deep
+    .p-inputswitch.p-inputswitch-checked
+    .p-inputswitch-slider,
+:host ::ng-deep
+    .p-inputswitch.p-inputswitch-checked:hover
+    .p-inputswitch-slider {
+    background: #FE6BBA;
+    // width: 20px;
+}
+
+:host ::ng-deep .p-inputswitch
+    .p-inputswitch-slider::before {
+    height: 15px;
+    width: 15px;
+    // margin-top: -0.5rem;
+}
+
+:host ::ng-deep .p-inputswitch
+    .p-inputswitch-checked
+    .p-inputswitch-slider::before {
+    background: red;
+}
