@@ -40,9 +40,15 @@ export class MessageComponentComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.initMainForm();
-      this.searchRegiste();
-      this.setperiodMonthDescOption();
+      if (!localStorage.getItem('foo')) { 
+        localStorage.setItem('foo', 'no reload');
+        window.location.reload();
+      } else {
+        localStorage.removeItem('foo') 
+        this.initMainForm();
+        this.searchRegiste();
+        this.setperiodMonthDescOption();
+      }
     }
   
     searchRegiste(): void {
@@ -82,9 +88,9 @@ export class MessageComponentComponent implements OnInit {
       }
       this.service.cancelApproveRegister(cancelRegis).subscribe((data) => {
         this.data = data;
+        this.ngOnInit();
       });
       this.displayModal = false
-      window.location.reload();
     }
 
     pipeDateTH(date: any){

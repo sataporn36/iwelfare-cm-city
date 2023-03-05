@@ -46,7 +46,6 @@ export class MainPageComponent implements OnInit{
     }
 
   ngOnInit(): void {
-    this.initMainForm();
     // if(history.state.data){
     //   console.log(history.state.data," =========================> history.state.data");
     //   //this.userId = history.state.data;
@@ -58,8 +57,15 @@ export class MainPageComponent implements OnInit{
     //   this.getEmployee(this.userId);
     // }
     this.preventBackButton();
-    this.userId = this.localStorageService.retrieve('empId');
-    this.getEmployee(this.userId);
+    if (!localStorage.getItem('foo')) { 
+      localStorage.setItem('foo', 'no reload');
+      window.location.reload();
+    } else {
+      localStorage.removeItem('foo') 
+      this.initMainForm();
+      this.userId = this.localStorageService.retrieve('empId');
+      this.getEmployee(this.userId);
+    }
     
   }
 
@@ -67,14 +73,6 @@ export class MainPageComponent implements OnInit{
     history.pushState(null, '', location.href);
     this.locationStrategy.onPopState(() => {
       history.pushState(null, '', location.href);
-    })
-  }
-
-  reloadPage(){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['./'], {
-      relativeTo: this.route
     })
   }
 
