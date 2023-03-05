@@ -56,17 +56,17 @@ export class MainPageComponent implements OnInit{
     // }else{
     //   this.getEmployee(this.userId);
     // }
-    this.preventBackButton();
+   
     if (!localStorage.getItem('foo')) { 
       localStorage.setItem('foo', 'no reload');
-      window.location.reload();
+      history.go(0);
     } else {
       localStorage.removeItem('foo') 
       this.initMainForm();
       this.userId = this.localStorageService.retrieve('empId');
       this.getEmployee(this.userId);
     }
-    
+    this.preventBackButton();
   }
 
   preventBackButton() {

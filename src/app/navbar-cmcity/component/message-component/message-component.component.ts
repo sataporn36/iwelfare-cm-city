@@ -42,7 +42,7 @@ export class MessageComponentComponent implements OnInit {
     ngOnInit() {
       if (!localStorage.getItem('foo')) { 
         localStorage.setItem('foo', 'no reload');
-        window.location.reload();
+        history.go(0);
       } else {
         localStorage.removeItem('foo') 
         this.initMainForm();
