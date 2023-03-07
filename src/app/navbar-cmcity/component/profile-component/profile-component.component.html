@@ -85,572 +85,6 @@
         </div>
     </div>
 
-    <div class="div-profile-two">
-        <div *ngIf="formModel.get('beneficiaries')?.value">
-            <div class="text" *ngFor="let beneficiary of beneficiarys">
-                <span>บิดา</span>
-                <div class="row" *ngIf="beneficiary.relationship == 'บิดา'">
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
-                        <input [class]="textString" id="prefix" type="text" value="{{beneficiary.prefix}}" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="prefix" class="block">คำนำหน้า</label>
-                        <select class="form-select" aria-label="Default select example" value="{{beneficiary.prefix}}"
-                            required="true">
-                            <option value="0" selected>เลือกคำนำหน้า</option>
-                            <option value="1">นาย</option>
-                            <option value="2">นางสาว</option>
-                            <option value="3">นาง</option>
-                            <option value="3">ด.ช</option>
-                            <option value="3">ด.ญ</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="firstName" class="block">ชื่อ</label>
-                        <input [class]="textString" id="firstName" type="text" value="{{beneficiary.firstName}}" />
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="lastName" class="block">นามสกุล</label>
-                        <input [class]="textString" id="lastName" type="text" value="{{beneficiary.lastName}}" />
-                    </div>
-
-                    <div class="col-2 md-3">
-                        <label for="basic" class="block">วันเกิด</label>
-                        <input [class]="textString" id="birthday" type="text" value="{{beneficiary.birthday}}"
-                            *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
-                            dateFormat="dd/mm/yy"></p-calendar>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <input [class]="textString" id="relationship" type="text"
-                            value="{{beneficiary.relationship}}" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <select class="form-select" aria-label="Default select example"
-                            value="{{beneficiary.relationship}}" formControlName="relationship" required="true">
-                            <option value="0" selected>เลือกความสัมพันธ์</option>
-                            <option value="1">บิดา</option>
-                            <option value="2">มารดา</option>
-                            <option value="3">ภรรยา</option>
-                            <option value="4">ลูก</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="marital" class="block">สถานภาพ</label>
-                        <input [class]="textString" id="marital" type="text" value="{{beneficiary.marital}}"
-                            formControlName="marital" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="marital" class="block">สถานภาพ</label>
-                        <select class="form-select" aria-label="Default select example" value="{{beneficiary.marital}}"
-                            formControlName="marital" required="true">
-                            <option value="0" selected>เลือกสถานภาพ</option>
-                            <option value="1">มีชีวิต</option>
-                            <option value="2">ไม่มีชีวิต</option>
-                        </select>
-                    </div>
-                </div>
-
-                <span>มารดา</span>
-                <div class="row">
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="firstName" class="block">คำนำหน้า</label>
-                        <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="prefix" class="block">คำนำหน้า</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="prefix"
-                            required="true">
-                            <option value="0" selected>เลือกคำนำหน้า</option>
-                            <option value="1">นาย</option>
-                            <option value="2">นางสาว</option>
-                            <option value="3">นาง</option>
-                            <option value="3">ด.ช</option>
-                            <option value="3">ด.ญ</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="firstName" class="block">ชื่อ</label>
-                        <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="lastName" class="block">นามสกุล</label>
-                        <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                    </div>
-
-                    <div class="col-2 md-3">
-                        <label for="basic" class="block">วันเกิด</label>
-                        <input [class]="textString" id="birthday" type="text" formControlName="birthday" *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
-                            dateFormat="dd/mm/yy"></p-calendar>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <input [class]="textString" id="relationship" type="text" formControlName="relationship" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="relationship"
-                            required="true">
-                            <option value="0" selected>เลือกความสัมพันธ์</option>
-                            <option value="1">บิดา</option>
-                            <option value="2">มารดา</option>
-                            <option value="3">ภรรยา</option>
-                            <option value="4">ลูก</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="marital" class="block">สถานภาพ</label>
-                        <input [class]="textString" id="marital" type="text" formControlName="marital" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="marital" class="block">สถานภาพ</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="marital"
-                            required="true">
-                            <option value="0" selected>เลือกสถานภาพ</option>
-                            <option value="1">มีชีวิต</option>
-                            <option value="2">ไม่มีชีวิต</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-left: -10px;">
-                    <div class="col-1">
-                        <span>ภรรยา</span>
-                    </div>
-                    <div class="col-1" style="margin-left: -70px;" *ngIf="!mode" dateFormat="dd/mm/yy">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top: -15px;">
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="firstName" class="block">คำนำหน้า</label>
-                        <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="prefix" class="block">คำนำหน้า</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="prefix"
-                            required="true">
-                            <option value="0" selected>เลือกคำนำหน้า</option>
-                            <option value="1">นาย</option>
-                            <option value="2">นางสาว</option>
-                            <option value="3">นาง</option>
-                            <option value="3">ด.ช</option>
-                            <option value="3">ด.ญ</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="firstName" class="block">ชื่อ</label>
-                        <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="lastName" class="block">นามสกุล</label>
-                        <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                    </div>
-
-                    <div class="col-2 md-3">
-                        <label for="basic" class="block">วันเกิด</label>
-                        <input [class]="textString" id="birthday" type="text" formControlName="birthday" *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
-                            dateFormat="dd/mm/yy"></p-calendar>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <input [class]="textString" id="relationship" type="text" formControlName="relationship" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="relationship"
-                            required="true">
-                            <option value="0" selected>เลือกความสัมพันธ์</option>
-                            <option value="1">บิดา</option>
-                            <option value="2">มารดา</option>
-                            <option value="3">ภรรยา</option>
-                            <option value="4">ลูก</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="marital" class="block">สถานภาพสมรส</label>
-                        <input [class]="textString" id="marital" type="text" formControlName="marital" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="marital" class="block">สถานภาพสมรส</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="marital"
-                            required="true">
-                            <option value="0" selected>เลือกสถานภาพสมรส</option>
-                            <option value="1">โสด</option>
-                            <option value="2">แต่งงานแล้ว</option>
-                            <option value="3">เป็นหม้าย</option>
-                            <option value="4">หย่าร้าง</option>
-                            <option value="5">แยกกันอยู่</option>
-                        </select>
-                    </div>
-                </div>
-
-                <span>ลูก</span>
-                <div class="row">
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="firstName" class="block">คำนำหน้า</label>
-                        <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="prefix" class="block">คำนำหน้า</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="prefix"
-                            required="true">
-                            <option value="0" selected>เลือกคำนำหน้า</option>
-                            <option value="1">นาย</option>
-                            <option value="2">นางสาว</option>
-                            <option value="3">นาง</option>
-                            <option value="3">ด.ช</option>
-                            <option value="3">ด.ญ</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="firstName" class="block">ชื่อ</label>
-                        <input [class]="textString" id="firstName" type="text" formControlName="lastName" />
-                    </div>
-
-                    <div class="col-2 mb-3">
-                        <label for="lastName" class="block">นามสกุล</label>
-                        <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                    </div>
-
-                    <div class="col-2 md-3">
-                        <label for="basic" class="block">วันเกิด</label>
-                        <input [class]="textString" id="birthday" type="text" formControlName="birthday" *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
-                            dateFormat="dd/mm/yy"></p-calendar>
-                    </div>
-
-                    <div class="col-2 mb-3" *ngIf="mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <input [class]="textString" id="relationship" type="text" formControlName="relationship" />
-                    </div>
-                    <div class="col-2 mb-3" *ngIf="!mode">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="relationship"
-                            required="true">
-                            <option value="0" selected>เลือกความสัมพันธ์</option>
-                            <option value="1">บิดา</option>
-                            <option value="2">มารดา</option>
-                            <option value="3">ภรรยา</option>
-                            <option value="4">ลูก</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="text" *ngIf="!formModel.get('beneficiaries')?.value">
-            <span>บิดา</span>
-            <div class="row">
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
-                    <input [class]="textString" type="text" formControlName="textHidden" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
-                    <select class="form-select" aria-label="Default select example" required="true"
-                        formControlName="beneficiaryPrefix">
-                        <option value="0" selected>เลือกคำนำหน้า</option>
-                        <option value="1">นาย</option>
-                        <option value="2">นางสาว</option>
-                        <option value="3">นาง</option>
-                        <option value="3">ด.ช</option>
-                        <option value="3">ด.ญ</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="beneficiaryFirstName" class="block">ชื่อ</label>
-                    <input [class]="textString" id="firstName" type="text" formControlName="beneficiaryFirstName" />
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="lastName" class="block">นามสกุล</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="beneficiaryLastName" />
-                </div>
-
-                <div class="col-2 md-3">
-                    <label for="basic" class="block">วันเกิด</label>
-                    <input [class]="textString" id="birthday" type="text" *ngIf="mode" formControlName="textHidden" />
-                    <p-calendar inputId="basic" *ngIf="!mode" dateFormat="dd/mm/yy"
-                        formControlName="beneficiaryLastName"></p-calendar>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="relationship" class="block">ความสัมพันธ์</label>
-                    <input [class]="textString" id="relationship" type="text" formControlName="textHidden" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
-                    <select class="form-select" aria-label="Default select example" required="true"
-                        formControlName="beneficiaryRelationship">
-                        <option value="0" selected>เลือกความสัมพันธ์</option>
-                        <option value="1">บิดา</option>
-                        <option value="2">มารดา</option>
-                        <option value="3">ภรรยา</option>
-                        <option value="4">ลูก</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="marital" class="block">สถานภาพ</label>
-                    <input [class]="textString" id="marital" type="text" formControlName="textHidden" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="marital" class="block">สถานภาพ</label>
-                    <select class="form-select" aria-label="Default select example" required="true"
-                        formControlName="beneficiaryMarital">
-                        <option value="0" selected>เลือกสถานภาพ</option>
-                        <option value="1">มีชีวิต</option>
-                        <option value="2">ไม่มีชีวิต</option>
-                    </select>
-                </div>
-            </div>
-
-            <span>มารดา</span>
-            <div class="row">
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
-                    <input [class]="textString" type="text" formControlName="textHidden" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
-                    <select class="form-select" aria-label="Default select example" required="true"
-                        formControlName="beneficiaryPrefix">
-                        <option value="0" selected>เลือกคำนำหน้า</option>
-                        <option value="1">นาย</option>
-                        <option value="2">นางสาว</option>
-                        <option value="3">นาง</option>
-                        <option value="3">ด.ช</option>
-                        <option value="3">ด.ญ</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="beneficiaryFirstName" class="block">ชื่อ</label>
-                    <input [class]="textString" id="firstName" type="text" formControlName="beneficiaryFirstName" />
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="lastName" class="block">นามสกุล</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="beneficiaryLastName" />
-                </div>
-
-                <div class="col-2 md-3">
-                    <label for="basic" class="block">วันเกิด</label>
-                    <input [class]="textString" id="birthday" type="text" *ngIf="mode" formControlName="textHidden" />
-                    <p-calendar inputId="basic" *ngIf="!mode" dateFormat="dd/mm/yy"
-                        formControlName="beneficiaryLastName"></p-calendar>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="relationship" class="block">ความสัมพันธ์</label>
-                    <input [class]="textString" id="relationship" type="text" formControlName="textHidden" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
-                    <select class="form-select" aria-label="Default select example" required="true"
-                        formControlName="beneficiaryRelationship">
-                        <option value="0" selected>เลือกความสัมพันธ์</option>
-                        <option value="1">บิดา</option>
-                        <option value="2">มารดา</option>
-                        <option value="3">ภรรยา</option>
-                        <option value="4">ลูก</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="marital" class="block">สถานภาพ</label>
-                    <input [class]="textString" id="marital" type="text" formControlName="textHidden" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="marital" class="block">สถานภาพ</label>
-                    <select class="form-select" aria-label="Default select example" required="true"
-                        formControlName="beneficiaryMarital">
-                        <option value="0" selected>เลือกสถานภาพ</option>
-                        <option value="1">มีชีวิต</option>
-                        <option value="2">ไม่มีชีวิต</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row" style="margin-left: -10px;">
-                <div class="col-1">
-                    <span>ภรรยา</span>
-                </div>
-                <div class="col-1" style="margin-left: -70px;">
-                    <div class="form-check form-switch" class="row">
-                        <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" (change)="onClickWife($event)"> -->
-                        <div class="col-6">
-                            <p-inputSwitch  (onChange)="handleChange($event)" [(ngModel)]="wife" [ngModelOptions]="{standalone: true}"></p-inputSwitch>
-                        </div>
-                        <div class="col-6">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
-                        </div>
-                        
-                        
-                        
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-top: -15px;" *ngIf="wife">
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="firstName" class="block">คำนำหน้า</label>
-                    <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="prefix" class="block">คำนำหน้า</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="prefix"
-                        required="true">
-                        <option value="0" selected>เลือกคำนำหน้า</option>
-                        <option value="1">นาย</option>
-                        <option value="2">นางสาว</option>
-                        <option value="3">นาง</option>
-                        <option value="3">ด.ช</option>
-                        <option value="3">ด.ญ</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="firstName" class="block">ชื่อ</label>
-                    <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="lastName" class="block">นามสกุล</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                </div>
-
-                <div class="col-2 md-3">
-                    <label for="basic" class="block">วันเกิด</label>
-                    <input [class]="textString" id="birthday" type="text" formControlName="birthday" *ngIf="mode" />
-                    <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
-                        dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="relationship" class="block">ความสัมพันธ์</label>
-                    <input [class]="textString" id="relationship" type="text" formControlName="relationship" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="relationship" class="block">ความสัมพันธ์</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="relationship"
-                        required="true">
-                        <option value="0" selected>เลือกความสัมพันธ์</option>
-                        <option value="1">บิดา</option>
-                        <option value="2">มารดา</option>
-                        <option value="3">ภรรยา</option>
-                        <option value="4">ลูก</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="marital" class="block">สถานภาพสมรส</label>
-                    <input [class]="textString" id="marital" type="text" formControlName="marital" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="marital" class="block">สถานภาพสมรส</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="marital"
-                        required="true">
-                        <option value="0" selected>เลือกสถานภาพสมรส</option>
-                        <option value="1">โสด</option>
-                        <option value="2">แต่งงานแล้ว</option>
-                        <option value="3">เป็นหม้าย</option>
-                        <option value="4">หย่าร้าง</option>
-                        <option value="5">แยกกันอยู่</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- <span>ลูก</span> -->
-            <div class="row" style="margin-left: -10px;">
-                <div class="col-1">
-                    <span>ลูก</span>
-                </div>
-                <div class="col-1" style="margin-left: -70px;">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="row">
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="firstName" class="block">คำนำหน้า</label>
-                    <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="prefix" class="block">คำนำหน้า</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="prefix"
-                        required="true">
-                        <option value="0" selected>เลือกคำนำหน้า</option>
-                        <option value="1">นาย</option>
-                        <option value="2">นางสาว</option>
-                        <option value="3">นาง</option>
-                        <option value="3">ด.ช</option>
-                        <option value="3">ด.ญ</option>
-                    </select>
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="firstName" class="block">ชื่อ</label>
-                    <input [class]="textString" id="firstName" type="text" formControlName="lastName" />
-                </div>
-
-                <div class="col-2 mb-3">
-                    <label for="lastName" class="block">นามสกุล</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                </div>
-
-                <div class="col-2 md-3">
-                    <label for="basic" class="block">วันเกิด</label>
-                    <input [class]="textString" id="birthday" type="text" formControlName="birthday" *ngIf="mode" />
-                    <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
-                        dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-
-                <div class="col-2 mb-3" *ngIf="mode">
-                    <label for="relationship" class="block">ความสัมพันธ์</label>
-                    <input [class]="textString" id="relationship" type="text" formControlName="relationship" />
-                </div>
-                <div class="col-2 mb-3" *ngIf="!mode">
-                    <label for="relationship" class="block">ความสัมพันธ์</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="relationship"
-                        required="true">
-                        <option value="0" selected>เลือกความสัมพันธ์</option>
-                        <option value="1">บิดา</option>
-                        <option value="2">มารดา</option>
-                        <option value="3">ภรรยา</option>
-                        <option value="4">ลูก</option>
-                    </select>
-                </div>
-            </div> -->
-        </div>
-    </div>
-
     <div class="div-profile-three">
         <div class="text">
             <div class="row">
@@ -693,7 +127,7 @@
                 </div>
                 <div class="col-2 mb-3">
                     <label for="lastName" class="block">สถานภาพสมรส</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="positionName" />
+                    <input [class]="textString" id="lastName" type="text" formControlName="textHidden" />
                 </div>
                 <div class="col-2 mb-3">
                     <label for="lastName" class="block">วันที่เริ่มเก็บเงิน</label>
@@ -722,3 +156,863 @@
         </div>
     </div>
 </div>
+<div class="div-profile-two" style="margin-bottom: 30px;">
+
+    <!-- มีข้อมูล db -->
+    <div *ngIf="formModel.get('beneficiarySize')?.value">
+        <!-- บิดา -->
+        <div [formGroup]="formModelGf">
+            <div class="text" *ngFor="let data of gfArray">
+                <div class="row">
+                    <div class="col-2">
+                        <span>บิดา</span>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" (click)="onClickGf(data)" class="btn btn-edit"
+                            *ngIf="modeGf">แก้ไข</button>
+                    </div>
+                    <div class="row div-btn" style="margin-left: 230px;">
+                        <div class="col-1">
+                            <button type="button" class="btn btn-login" *ngIf="!modeGf">บันทึก</button>
+                        </div>
+                        <div class="col-1" style="margin-left: -60px;">
+                            <button type="button" (click)="onClickCancal()" class="btn btn-regis" (click)="reject()"
+                                *ngIf="!modeGf">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: -15px;">
+                    <div class="col-2 mb-3" *ngIf="modeGf">
+                        <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                        <input [class]="textStringGf" id="prefix" type="text" value="{{data.prefix}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeGf">
+                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkPrefix(data.prefix)" required="true">
+                            <option value="0" selected>เลือกคำนำหน้า</option>
+                            <option value="1">นาย</option>
+                            <option value="2">นางสาว</option>
+                            <option value="3">นาง</option>
+                            <option value="4">ด.ช</option>
+                            <option value="5">ด.ญ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="firstName" class="block">ชื่อ</label>
+                        <input [class]="textStringGf" id="firstName" type="text" value="{{data.firstName}}" />
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="lastName" class="block">นามสกุล</label>
+                        <input [class]="textStringGf" id="lastName" type="text" value="{{data.lastName}}" />
+                    </div>
+
+                    <div class="col-2 md-3">
+                        <label for="basic" class="block">วันเกิด</label>
+                        <input [class]="textStringGf" id="birthday" type="text" [value]="pipeDateTH(data.birthday)"
+                            *ngIf="modeGf" />
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!modeGf"
+                            dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeGf">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <input [class]="textStringGf" id="relationship" type="text" value="{{data.relationship}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeGf">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkRelationship(data.relationship)" required="true">
+                            <option value="0" selected>เลือกความสัมพันธ์</option>
+                            <option value="1">บิดา</option>
+                            <option value="2">มารดา</option>
+                            <option value="3">สามี</option>
+                            <option value="4">ภรรยา</option>
+                            <option value="5">ลูก</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeGf">
+                        <label for="marital" class="block">สถานภาพ</label>
+                        <input [class]="textStringGf" id="marital" type="text" value="{{data.marital}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeGf">
+                        <label for="marital" class="block">สถานภาพ</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkMaritalV1(data.marital)" required="true">
+                            <option value="0" selected>เลือกสถานภาพ</option>
+                            <option value="1">มีชีวิต</option>
+                            <option value="2">ไม่มีชีวิต</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- มารดา -->
+        <div [formGroup]="formModelGm">
+            <div class="text" *ngFor="let data of gmArray">
+                <div class="row">
+                    <div class="col-2">
+                        <span>มารดา</span>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" (click)="onClickGm(data)" class="btn btn-edit"
+                            *ngIf="modeGm">แก้ไข</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: -15px;">
+                    <div class="col-2 mb-3" *ngIf="modeGm">
+                        <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                        <input [class]="textStringGm" id="prefix" type="text" value="{{data.prefix}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeGm">
+                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkPrefix(data.prefix)" required="true">
+                            <option value="0" selected>เลือกคำนำหน้า</option>
+                            <option value="1">นาย</option>
+                            <option value="2">นางสาว</option>
+                            <option value="3">นาง</option>
+                            <option value="4">ด.ช</option>
+                            <option value="5">ด.ญ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="firstName" class="block">ชื่อ</label>
+                        <input [class]="textStringGm" id="firstName" type="text" value="{{data.firstName}}" />
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="lastName" class="block">นามสกุล</label>
+                        <input [class]="textStringGm" id="lastName" type="text" value="{{data.lastName}}" />
+                    </div>
+
+                    <div class="col-2 md-3">
+                        <label for="basic" class="block">วันเกิด</label>
+                        <input [class]="textStringGm" id="birthday" type="text" [value]="pipeDateTH(data.birthday)"
+                            *ngIf="modeGm" />
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!modeGm"
+                            dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeGm">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <input [class]="textStringGm" id="relationship" type="text" value="{{data.relationship}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeGm">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkRelationship(data.relationship)" required="true">
+                            <option value="0" selected>เลือกความสัมพันธ์</option>
+                            <option value="1">บิดา</option>
+                            <option value="2">มารดา</option>
+                            <option value="3">สามี</option>
+                            <option value="4">ภรรยา</option>
+                            <option value="5">ลูก</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeGm">
+                        <label for="marital" class="block">สถานภาพ</label>
+                        <input [class]="textStringGm" id="marital" type="text" value="{{data.marital}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeGm">
+                        <label for="marital" class="block">สถานภาพ</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkMaritalV1(data.marital)" required="true">
+                            <option value="0" selected>เลือกสถานภาพ</option>
+                            <option value="1">มีชีวิต</option>
+                            <option value="2">ไม่มีชีวิต</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- สามี -->
+        <div [formGroup]="formModelDad">
+            <div class="text" *ngFor="let data of dadArray">
+                <div class="row">
+                    <div class="col-2">
+                        <span>สามี</span>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" (click)="onClickDad(data)" class="btn btn-edit"
+                            *ngIf="modeDad">แก้ไข</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: -15px;">
+                    <div class="col-2 mb-3" *ngIf="modeDad">
+                        <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                        <input [class]="textStringDad" id="prefix" type="text" value="{{data.prefix}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeDad">
+                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkPrefix(data.prefix)" required="true">
+                            <option value="0" selected>เลือกคำนำหน้า</option>
+                            <option value="1">นาย</option>
+                            <option value="2">นางสาว</option>
+                            <option value="3">นาง</option>
+                            <option value="4">ด.ช</option>
+                            <option value="5">ด.ญ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="firstName" class="block">ชื่อ</label>
+                        <input [class]="textStringDad" id="firstName" type="text" value="{{data.firstName}}" />
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="lastName" class="block">นามสกุล</label>
+                        <input [class]="textStringDad" id="lastName" type="text" value="{{data.lastName}}" />
+                    </div>
+
+                    <div class="col-2 md-3">
+                        <label for="basic" class="block">วันเกิด</label>
+                        <input [class]="textStringDad" id="birthday" type="text" [value]="pipeDateTH(data.birthday)"
+                            *ngIf="modeDad" />
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!modeDad"
+                            dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeDad">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <input [class]="textStringDad" id="relationship" type="text" value="{{data.relationship}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeDad">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkRelationship(data.relationship)" required="true">
+                            <option value="0" selected>เลือกความสัมพันธ์</option>
+                            <option value="1">บิดา</option>
+                            <option value="2">มารดา</option>
+                            <option value="3">สามี</option>
+                            <option value="4">ภรรยา</option>
+                            <option value="5">ลูก</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeDad">
+                        <label for="marital" class="block">สถานภาพสมรส</label>
+                        <input [class]="textStringDad" id="marital" type="text" value="{{data.marital}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeDad">
+                        <label for="marital" class="block">สถานภาพสมรส</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkMaritalV2(data.marital)" required="true">
+                            <option value="0" selected>เลือกสถานภาพสมรส</option>
+                            <option value="1">โสด</option>
+                            <option value="2">แต่งงานแล้ว</option>
+                            <option value="3">เป็นหม้าย</option>
+                            <option value="4">หย่าร้าง</option>
+                            <option value="5">แยกกันอยู่</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ภรรยา -->
+        <div [formGroup]="formModelMom">
+            <div class="text" *ngFor="let data of momArray">
+                <div class="row">
+                    <div class="col-2">
+                        <span>ภรรยา</span>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" (click)="onClickMom(data)" class="btn btn-edit"
+                            *ngIf="modeMom">แก้ไข</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: -15px;">
+                    <div class="col-2 mb-3" *ngIf="modeMom">
+                        <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                        <input [class]="textStringMom" id="prefix" type="text" value="{{data.prefix}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeMom">
+                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkPrefix(data.prefix)" required="true">
+                            <option value="0" selected>เลือกคำนำหน้า</option>
+                            <option value="1">นาย</option>
+                            <option value="2">นางสาว</option>
+                            <option value="3">นาง</option>
+                            <option value="4">ด.ช</option>
+                            <option value="5">ด.ญ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="firstName" class="block">ชื่อ</label>
+                        <input [class]="textStringMom" id="firstName" type="text" value="{{data.firstName}}" />
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="lastName" class="block">นามสกุล</label>
+                        <input [class]="textStringMom" id="lastName" type="text" value="{{data.lastName}}" />
+                    </div>
+
+                    <div class="col-2 md-3">
+                        <label for="basic" class="block">วันเกิด</label>
+                        <input [class]="textStringMom" id="birthday" type="text" [value]="pipeDateTH(data.birthday)"
+                            *ngIf="modeMom" />
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!modeMom"
+                            dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeMom">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <input [class]="textStringMom" id="relationship" type="text" value="{{data.relationship}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeMom">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkRelationship(data.relationship)" required="true">
+                            <option value="0" selected>เลือกความสัมพันธ์</option>
+                            <option value="1">บิดา</option>
+                            <option value="2">มารดา</option>
+                            <option value="3">สามี</option>
+                            <option value="4">ภรรยา</option>
+                            <option value="5">ลูก</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3" *ngIf="modeMom">
+                        <label for="marital" class="block">สถานภาพสมรส</label>
+                        <input [class]="textStringMom" id="marital" type="text" value="{{data.marital}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeMom">
+                        <label for="marital" class="block">สถานภาพสมรส</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkMaritalV2(data.marital)" required="true">
+                            <option value="0" selected>เลือกสถานภาพสมรส</option>
+                            <option value="1">โสด</option>
+                            <option value="2">แต่งงานแล้ว</option>
+                            <option value="3">เป็นหม้าย</option>
+                            <option value="4">หย่าร้าง</option>
+                            <option value="5">แยกกันอยู่</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ลูก -->
+    
+        <div [formGroup]="formModelChild">
+
+            <div class="row">
+                <div class="col-2">
+                    <span>ลูก</span>
+                </div>
+                <div class="col-2">
+                    <button type="button" (click)="onClickChild()" class="btn btn-edit"
+                        *ngIf="modeChild">แก้ไข</button>
+                </div>
+            </div>
+
+            <div class="text" *ngFor="let data of arrayChild">
+
+                
+
+                <!-- <div class="row">
+                    <div class="col-2">
+                        <span>ลูก</span>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" (click)="onClickChild(data)" class="btn btn-edit"
+                            *ngIf="modeChild">แก้ไข</button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-left: -10px;">
+                    <div class="col-1" style="margin-left: -65px; margin-top: -3px;">
+                        <input class="form-control" type="number" min="1" max="10" style="width: 60px;" [disabled]="modeChild"
+                            formControlName="countChild" />
+                    </div>
+                    <div class="col-1" style="margin-left: -50px; margin-top: 5px;" *ngIf="formModelChild.get('countChild')?.value">
+                        <div class="form-check form-switch" class="row">
+                            <div class="col-6">
+                                <p-inputSwitch (onChange)="childChange($event)" [(ngModel)]="child"
+                                    [ngModelOptions]="{standalone: true}" [disabled]="!modeChild"></p-inputSwitch>
+                            </div>
+                            <div class="col-6" style="margin-top: -5px;">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div style="margin-top: -25px;" *ngIf="child">
+                    <div class="row" style="margin-top: -30px; margin-left: 10px;"
+                        *ngFor="let child of countChildDisplay; let i = index">
+                        <div class="col-1 mb-3" *ngIf="!modeChild" style="margin-top: 58px; width: 25px; height: 25px; text-align: center; background: #FE6BBA; border-radius: 50%; 
+                                color: #fff; font-size: 15px; padding-top: 1px;">
+                            <span style="margin-left: -3px;">{{i + 1}}</span>
+                        </div>
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                            <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                                required="true">
+                                <option value="0" selected>เลือกคำนำหน้า</option>
+                                <option value="1">นาย</option>
+                                <option value="2">นางสาว</option>
+                                <option value="3">นาง</option>
+                                <option value="3">ด.ช</option>
+                                <option value="3">ด.ญ</option>
+                            </select>
+                        </div>
+        
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryFirstName" class="block">ชื่อ</label>
+                            <input [class]="textString" id="beneficiaryFirstName" type="text"
+                                formControlName="beneficiaryFirstName" />
+                        </div>
+        
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryLastName" class="block">นามสกุล</label>
+                            <input [class]="textString" id="beneficiaryLastName" type="text"
+                                formControlName="beneficiaryLastName" />
+                        </div>
+        
+                        <div class="col-2 md-3" *ngIf="!modeChild">
+                            <label for="basic" class="block">วันเกิด</label>
+                            <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!mode"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+        
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                            <select class="form-select" aria-label="Default select example"
+                                formControlName="beneficiaryRelationship" required="true">
+                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="1">บิดา</option>
+                                <option value="2">มารดา</option>
+                                <option value="3">ภรรยา</option>
+                                <option value="4">ลูก</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="row" style="margin-left: -10px;">
+                    <div class="col-1" style="margin-left: -65px; margin-top: -3px;">
+                        <input class="form-control" type="number" min="1" max="10" style="width: 60px;" [disabled]="mode"
+                            formControlName="countChild" />
+                    </div>
+                    <div class="col-1" style="margin-left: -50px; margin-top: 5px;" *ngIf="formModel.get('countChild')?.value">
+                        <div class="form-check form-switch" class="row">
+                            <div class="col-6">
+                                <p-inputSwitch (onChange)="childChange($event)" [(ngModel)]="child"
+                                    [ngModelOptions]="{standalone: true}" [disabled]="mode"></p-inputSwitch>
+                            </div>
+                            <div class="col-6" style="margin-top: -5px;">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div style="margin-top: -25px;" *ngIf="modeChild">
+                    asdasdassssssssssss
+                    <div class="row" style="margin-top: -30px; margin-left: 10px;"
+                        *ngFor="let child of countChildDisplay; let i = index">
+                        sdfsdfsdfsdf
+                        <div class="col-1 mb-3" *ngIf="!modeChild" style="margin-top: 58px; width: 25px; height: 25px; text-align: center; background: #FE6BBA; border-radius: 50%; 
+                                color: #fff; font-size: 15px; padding-top: 1px;">
+                            <span style="margin-left: -3px;">{{i + 1}}</span>
+                        </div>
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                            <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                                required="true">
+                                <option value="0" selected>เลือกคำนำหน้า</option>
+                                <option value="1">นาย</option>
+                                <option value="2">นางสาว</option>
+                                <option value="3">นาง</option>
+                                <option value="3">ด.ช</option>
+                                <option value="3">ด.ญ</option>
+                            </select>
+                        </div>
+        
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryFirstName" class="block">ชื่อ</label>
+                            <input [class]="textStringChild" id="beneficiaryFirstName" type="text"
+                                formControlName="beneficiaryFirstName" />
+                        </div>
+        
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryLastName" class="block">นามสกุล</label>
+                            <input [class]="textStringChild" id="beneficiaryLastName" type="text"
+                                formControlName="beneficiaryLastName" />
+                        </div>
+        
+                        <div class="col-2 md-3" *ngIf="!modeChild">
+                            <label for="basic" class="block">วันเกิด</label>
+                            <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!modeChild"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+        
+                        <div class="col-2 mb-3" *ngIf="!modeChild">
+                            <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                            <select class="form-select" aria-label="Default select example"
+                                formControlName="beneficiaryRelationship" required="true">
+                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="1">บิดา</option>
+                                <option value="2">มารดา</option>
+                                <option value="3">ภรรยา</option>
+                                <option value="4">ลูก</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <div class="row" style="margin-top: -15px;">
+                    <div class="col-2 mb-3" *ngIf="modeChild">
+                        <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                        <input [class]="textStringChild" id="prefix" type="text" value="{{data.prefix}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeChild">
+                        <label for="prefix" class="block">คำนำหน้า</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkPrefix(data.prefix)" required="true">
+                            <option value="0" selected>เลือกคำนำหน้า</option>
+                            <option value="1">นาย</option>
+                            <option value="2">นางสาว</option>
+                            <option value="3">นาง</option>
+                            <option value="4">ด.ช</option>
+                            <option value="5">ด.ญ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="firstName" class="block">ชื่อ</label>
+                        <input [class]="textStringChild" id="firstName" type="text" value="{{data.firstName}}" />
+                    </div>
+
+                    <div class="col-2 mb-3">
+                        <label for="lastName" class="block">นามสกุล</label>
+                        <input [class]="textStringChild" id="lastName" type="text" value="{{data.lastName}}" />
+                    </div>
+
+                    <div class="col-2 md-3">
+                        <label for="basic" class="block">วันเกิด</label>
+                        <input [class]="textStringChild" id="birthday" type="text" [value]="pipeDateTH(data.birthday)"
+                            *ngIf="modeChild" />
+                        <p-calendar inputId="basic" [(ngModel)]="valueDate" *ngIf="!modeChild" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="modeChild">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <input [class]="textStringChild" id="relationship" type="text" value="{{data.relationship}}" />
+                    </div>
+                    <div class="col-2 mb-3" *ngIf="!modeChild">
+                        <label for="relationship" class="block">ความสัมพันธ์</label>
+                        <select class="form-select" aria-label="Default select example"
+                            [value]="checkRelationship(data.relationship)" required="true">
+                            <option value="0" selected>เลือกความสัมพันธ์</option>
+                            <option value="1">บิดา</option>
+                            <option value="2">มารดา</option>
+                            <option value="3">สามี</option>
+                            <option value="4">ภรรยา</option>
+                            <option value="5">ลูก</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+
+
+    </div>
+
+    <!-- ไม่มีข้อมูล db -->
+    <div class="text" *ngIf="!formModel.get('beneficiarySize')?.value">
+        <span>บิดา</span>
+        <div class="row" style="margin-top: -10px;">
+            <div class="col-2 mb-3" *ngIf="mode">
+                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                <input [class]="textString" type="text" formControlName="textHidden" />
+            </div>
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                <select class="form-select" aria-label="Default select example" required="true"
+                    formControlName="beneficiaryPrefix">
+                    <option value="0" selected>เลือกคำนำหน้า</option>
+                    <option value="1">นาย</option>
+                    <option value="2">นางสาว</option>
+                    <option value="3">นาง</option>
+                    <option value="3">ด.ช</option>
+                    <option value="3">ด.ญ</option>
+                </select>
+            </div>
+
+            <div class="col-2 mb-3">
+                <label for="beneficiaryFirstName" class="block">ชื่อ</label>
+                <input [class]="textString" id="firstName" type="text" formControlName="beneficiaryFirstName" />
+            </div>
+
+            <div class="col-2 mb-3">
+                <label for="lastName" class="block">นามสกุล</label>
+                <input [class]="textString" id="lastName" type="text" formControlName="beneficiaryLastName" />
+            </div>
+
+            <div class="col-2 md-3">
+                <label for="basic" class="block">วันเกิด</label>
+                <input [class]="textString" id="birthday" type="text" *ngIf="mode" formControlName="textHidden" />
+                <p-calendar inputId="basic" *ngIf="!mode" dateFormat="dd/mm/yy"
+                    formControlName="beneficiaryLastName"></p-calendar>
+            </div>
+
+            <div class="col-2 mb-3" *ngIf="mode">
+                <label for="relationship" class="block">ความสัมพันธ์</label>
+                <input [class]="textString" id="relationship" type="text" formControlName="textHidden" />
+            </div>
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                <select class="form-select" aria-label="Default select example" required="true"
+                    formControlName="beneficiaryRelationship">
+                    <option value="0" selected>เลือกความสัมพันธ์</option>
+                    <option value="1">บิดา</option>
+                    <option value="2">มารดา</option>
+                    <option value="3">ภรรยา</option>
+                    <option value="4">ลูก</option>
+                </select>
+            </div>
+
+            <div class="col-2 mb-3" *ngIf="mode">
+                <label for="marital" class="block">สถานภาพ</label>
+                <input [class]="textString" id="marital" type="text" formControlName="textHidden" />
+            </div>
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="marital" class="block">สถานภาพ</label>
+                <select class="form-select" aria-label="Default select example" required="true"
+                    formControlName="beneficiaryMarital">
+                    <option value="0" selected>เลือกสถานภาพ</option>
+                    <option value="1">มีชีวิต</option>
+                    <option value="2">ไม่มีชีวิต</option>
+                </select>
+            </div>
+        </div>
+
+        <span>มารดา</span>
+        <div class="row" style="margin-top: -10px;">
+            <div class="col-2 mb-3" *ngIf="mode">
+                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                <input [class]="textString" type="text" formControlName="textHidden" />
+            </div>
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                <select class="form-select" aria-label="Default select example" required="true"
+                    formControlName="beneficiaryPrefix">
+                    <option value="0" selected>เลือกคำนำหน้า</option>
+                    <option value="1">นาย</option>
+                    <option value="2">นางสาว</option>
+                    <option value="3">นาง</option>
+                    <option value="3">ด.ช</option>
+                    <option value="3">ด.ญ</option>
+                </select>
+            </div>
+
+            <div class="col-2 mb-3">
+                <label for="beneficiaryFirstName" class="block">ชื่อ</label>
+                <input [class]="textString" id="firstName" type="text" formControlName="beneficiaryFirstName" />
+            </div>
+
+            <div class="col-2 mb-3">
+                <label for="lastName" class="block">นามสกุล</label>
+                <input [class]="textString" id="lastName" type="text" formControlName="beneficiaryLastName" />
+            </div>
+
+            <div class="col-2 md-3">
+                <label for="basic" class="block">วันเกิด</label>
+                <input [class]="textString" id="birthday" type="text" *ngIf="mode" formControlName="textHidden" />
+                <p-calendar inputId="basic" *ngIf="!mode" dateFormat="dd/mm/yy"
+                    formControlName="beneficiaryLastName"></p-calendar>
+            </div>
+
+            <div class="col-2 mb-3" *ngIf="mode">
+                <label for="relationship" class="block">ความสัมพันธ์</label>
+                <input [class]="textString" id="relationship" type="text" formControlName="textHidden" />
+            </div>
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                <select class="form-select" aria-label="Default select example" required="true"
+                    formControlName="beneficiaryRelationship">
+                    <option value="0" selected>เลือกความสัมพันธ์</option>
+                    <option value="1">บิดา</option>
+                    <option value="2">มารดา</option>
+                    <option value="3">ภรรยา</option>
+                    <option value="4">ลูก</option>
+                </select>
+            </div>
+
+            <div class="col-2 mb-3" *ngIf="mode">
+                <label for="marital" class="block">สถานภาพ</label>
+                <input [class]="textString" id="marital" type="text" formControlName="textHidden" />
+            </div>
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="marital" class="block">สถานภาพ</label>
+                <select class="form-select" aria-label="Default select example" required="true"
+                    formControlName="beneficiaryMarital">
+                    <option value="0" selected>เลือกสถานภาพ</option>
+                    <option value="1">มีชีวิต</option>
+                    <option value="2">ไม่มีชีวิต</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row" style="margin-left: -10px;">
+            <div class="col-1" *ngIf="formModel.get('gender')?.value === 'ชาย'">
+                <span>ภรรยา</span>
+            </div>
+            <div class="col-1" *ngIf="formModel.get('gender')?.value === 'หญิง'">
+                <span>สามี</span>
+            </div>
+            <div class="col-1" style="margin-left: -80px; margin-top: 3px;">
+                <div class="form-check form-switch" class="row">
+                    <div class="col-6">
+                        <p-inputSwitch (onChange)="wifeChange($event)" [(ngModel)]="wife"
+                            [ngModelOptions]="{standalone: true}" [disabled]="mode"></p-inputSwitch>
+                    </div>
+                    <div class="col-6" style="margin-top: -5px;">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: -35px;" *ngIf="wife">
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                    required="true">
+                    <option value="0" selected>เลือกคำนำหน้า</option>
+                    <option value="1">นาย</option>
+                    <option value="2">นางสาว</option>
+                    <option value="3">นาง</option>
+                    <option value="3">ด.ช</option>
+                    <option value="3">ด.ญ</option>
+                </select>
+            </div>
+
+            <div class="col-2 mb-3">
+                <label for="beneficiaryFirstName" class="block">ชื่อ</label>
+                <input [class]="textString" id="firstName" type="text" formControlName="beneficiaryFirstName" />
+            </div>
+
+            <div class="col-2 mb-3">
+                <label for="beneficiaryLastName" class="block">นามสกุล</label>
+                <input [class]="textString" id="lastName" type="text" formControlName="beneficiaryLastName" />
+            </div>
+
+            <div class="col-2 md-3">
+                <label for="basic" class="block">วันเกิด</label>
+                <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!mode"
+                    dateFormat="dd/mm/yy"></p-calendar>
+            </div>
+
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                <select class="form-select" aria-label="Default select example"
+                    formControlName="beneficiaryRelationship" required="true">
+                    <option value="0" selected>เลือกความสัมพันธ์</option>
+                    <option value="1">บิดา</option>
+                    <option value="2">มารดา</option>
+                    <option value="3">ภรรยา</option>
+                    <option value="4">ลูก</option>
+                </select>
+            </div>
+
+            <div class="col-2 mb-3" *ngIf="!mode">
+                <label for="beneficiaryMarital" class="block">สถานภาพสมรส</label>
+                <select class="form-select" aria-label="Default select example" formControlName="beneficiaryMarital"
+                    required="true">
+                    <option value="0" selected>เลือกสถานภาพสมรส</option>
+                    <option value="1">โสด</option>
+                    <option value="2">แต่งงานแล้ว</option>
+                    <option value="3">เป็นหม้าย</option>
+                    <option value="4">หย่าร้าง</option>
+                    <option value="5">แยกกันอยู่</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row" style="margin-left: -10px;">
+            <div class="col-1">
+                <span>ลูก</span>
+            </div>
+            <div class="col-1" style="margin-left: -65px; margin-top: -3px;">
+                <input class="form-control" type="number" min="1" max="10" style="width: 60px;" [disabled]="mode"
+                    formControlName="countChild" />
+            </div>
+            <div class="col-1" style="margin-left: -50px; margin-top: 5px;" *ngIf="formModel.get('countChild')?.value">
+                <div class="form-check form-switch" class="row">
+                    <div class="col-6">
+                        <p-inputSwitch (onChange)="childChange($event)" [(ngModel)]="child"
+                            [ngModelOptions]="{standalone: true}" [disabled]="mode"></p-inputSwitch>
+                    </div>
+                    <div class="col-6" style="margin-top: -5px;">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">ถ้ามี</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: -25px;" *ngIf="child">
+            <div class="row" style="margin-top: -30px; margin-left: 10px;"
+                *ngFor="let child of countChildDisplay; let i = index">
+                <div class="col-1 mb-3" *ngIf="!mode" style="margin-top: 58px; width: 25px; height: 25px; text-align: center; background: #FE6BBA; border-radius: 50%; 
+                        color: #fff; font-size: 15px; padding-top: 1px;">
+                    <span style="margin-left: -3px;">{{i + 1}}</span>
+                </div>
+                <div class="col-2 mb-3" *ngIf="!mode">
+                    <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                        required="true">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                        <option value="3">ด.ช</option>
+                        <option value="3">ด.ญ</option>
+                    </select>
+                </div>
+
+                <div class="col-2 mb-3" *ngIf="!mode">
+                    <label for="beneficiaryFirstName" class="block">ชื่อ</label>
+                    <input [class]="textString" id="beneficiaryFirstName" type="text"
+                        formControlName="beneficiaryFirstName" />
+                </div>
+
+                <div class="col-2 mb-3" *ngIf="!mode">
+                    <label for="beneficiaryLastName" class="block">นามสกุล</label>
+                    <input [class]="textString" id="beneficiaryLastName" type="text"
+                        formControlName="beneficiaryLastName" />
+                </div>
+
+                <div class="col-2 md-3" *ngIf="!mode">
+                    <label for="basic" class="block">วันเกิด</label>
+                    <p-calendar inputId="basic" formControlName="beneficiaryBirthday" *ngIf="!mode"
+                        dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <div class="col-2 mb-3" *ngIf="!mode">
+                    <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                    <select class="form-select" aria-label="Default select example"
+                        formControlName="beneficiaryRelationship" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">บิดา</option>
+                        <option value="2">มารดา</option>
+                        <option value="3">ภรรยา</option>
+                        <option value="4">ลูก</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->

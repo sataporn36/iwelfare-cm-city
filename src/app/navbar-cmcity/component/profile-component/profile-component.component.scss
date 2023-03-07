@@ -171,9 +171,9 @@
     margin-left: 10px;
 }
 :host ::ng-deep .p-inputswitch{
-        height: 20px;
-        width: 40px;
-    }
+    height: 20px;
+    width: 40px;
+}
 
 :host ::ng-deep
     .p-inputswitch.p-inputswitch-checked
@@ -187,13 +187,14 @@
 
 :host ::ng-deep .p-inputswitch
     .p-inputswitch-slider::before {
-    height: 15px;
-    width: 15px;
-    // margin-top: -0.5rem;
+    height: 13px;
+    width: 13px;
+    margin-top: -6.6px;
 }
 
-:host ::ng-deep .p-inputswitch
-    .p-inputswitch-checked
-    .p-inputswitch-slider::before {
-    background: red;
-}
+// :host ::ng-deep 
+//     .p-inputswitch
+//     .p-inputswitch-checked
+//     .p-inputswitch-slider::before {
+//     background: red;
+// }

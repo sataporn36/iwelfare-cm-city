@@ -36,6 +36,7 @@ export class NavbarCmcityComponent implements OnInit {
   profile!: string;
   message!: string;
   countDatetime: number = 0;
+  userId: any;
 
   constructor(private primengConfig: PrimeNGConfig, 
     private service: MainService, 
@@ -57,7 +58,7 @@ export class NavbarCmcityComponent implements OnInit {
     console.log(day+'/'+month+'/'+year+' ' + hours+':'+minutes+':'+seconds);
     this.currentDateTime = month+'/'+day+'/'+year+' ' + hours+':'+(minutes + 5)+':'+seconds;
     if(this.localStorageService.retrieve('countDatetime') === 0){
-      this.localStorageService.store('currentDateTime',this.currentDateTime);
+      this.localStorageService.store('currentDateTime', new Date().getTime() + 3600000);
     }
     this.countDatetime ++;
     this.localStorageService.store('countDatetime',this.countDatetime);
@@ -76,7 +77,7 @@ export class NavbarCmcityComponent implements OnInit {
      let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
      let minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
      let seconds = Math.floor((distance % (1000*60)) / 1000);
-     //this.countDemo = days + "d " + hours + "h " + minutes + "m " + seconds + "s " ;
+    //  this.countDemo = hours + "h " + minutes + "m " + seconds + "s " ;
      this.countDemo = minutes + "m " + seconds + "s " ;
      if(distance < 0){
         clearInterval(this.x);
@@ -106,8 +107,8 @@ export class NavbarCmcityComponent implements OnInit {
         }
       }
     ];
-    const id = 1;
-    this.getEmployee(id);
+    this.userId = this.localStorageService.retrieve('empId');
+    this.getEmployee(this.userId);
     this.conutNewRegister();
     this.initMainForm();
   }
