@@ -39,6 +39,8 @@ import { MessagePageComponent } from './page/message-page/message-page.component
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import { ChipModule } from 'primeng/chip';
+import {CarouselModule} from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import {InputSwitchModule} from 'primeng/inputswitch';
     ToastModule,
     TableModule,
     CalendarModule,
-    InputSwitchModule
+    InputSwitchModule,
+    ChipModule,
+    CarouselModule
   ]
 })
 export class NavbarCmcityModule { }

@@ -6,6 +6,42 @@
     background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
 }
 
+:host ::ng-deep .p-calendar-w-btn .p-inputtext {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 270px;
+    height: 3rem;
+}
+
+:host ::ng-deep .p-button.p-button-icon-only {
+    width: 3rem;
+    padding: 0.75rem 0;
+    height: 3rem;
+}
+
+.col-12 {
+    padding: 0.75rem;
+}
+
+.btn-login2 {
+    width: 140px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    color: #fff;
+    background-color: #FE6BBA;
+}
+
+.btn-regis2 {
+    width: 140px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    color: #FE6BBA;
+    border-color: #FE6BBA;
+    margin-left: 40px;
+}
+
 .profile_img{
     width: 220px;
     height: 220px;
@@ -60,6 +96,50 @@
     }
 }
 
+.div-profile-five {
+    width: 99%;
+    // height: 380px;
+    background: #fff;
+    border-radius: 20px;
+    margin-top: 20px;
+    z-index: 1;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    //padding-left: 40px;
+}
+
+:host ::ng-deep .p-button:enabled:hover {
+    background: #FE6BBA;
+    color: #ffffff;
+    border-color: #FE6BBA;
+}
+
+:host ::ng-deep .p-button{
+    background: #FE6BBA;
+    color: #ffffff;
+    border-color: #FE6BBA;
+}
+
+:host ::ng-deep .p-carousel .p-carousel-indicators {
+    padding: 1rem;
+    visibility: hidden;
+}
+
+.product-item {
+    .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-image {
+        width: 50%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+}
+
 .div-profile-two {
     width: 99%;
     // height: 380px;
@@ -109,6 +189,20 @@
     .col-2{
         width: 250px;
         margin-top: 25px;
+    }
+}
+
+.div-profile-four{
+    width: 24.4%;
+    height: 380px;
+    background: #fff;
+    border-radius: 20px;
+    margin-top: 20px;
+    z-index: 1;
+    padding: 2rem;
+
+    .col-12{
+        padding: 0.5rem;
     }
 }
 

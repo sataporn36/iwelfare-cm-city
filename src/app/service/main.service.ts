@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppPath } from '../constans/config';
+import { Product } from '../constans/Product';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
 import { Bureau } from '../model/bureau';
@@ -18,6 +19,13 @@ export class MainService {
   userId = new BehaviorSubject<number|undefined>(undefined);
 
   constructor(private http: HttpClient) { }
+
+  getProductsSmall() {
+    return this.http.get<any>('assets/products-small.json')
+    .toPromise()
+    .then(res => <Product[]>res.data)
+    .then(data => { return data; });
+}
 
   register(playload: any): Observable<any>{
     return this.http.post<any>(

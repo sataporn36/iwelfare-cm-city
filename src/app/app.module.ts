@@ -28,6 +28,8 @@ import {TooltipModule} from 'primeng/tooltip';
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { AuthGuardService } from './auth-guard.service';
 import { BnNgIdleService } from 'bn-ng-idle'; 
+import { ChipModule } from 'primeng/chip';
+
 
 @NgModule({
     declarations: [
@@ -61,6 +63,7 @@ import { BnNgIdleService } from 'bn-ng-idle';
         CalendarModule,
         TooltipModule,
         NgxWebstorageModule.forRoot(),
+        ChipModule
     ]
 })
 export class AppModule { }

@@ -20,7 +20,7 @@ export class ProfileComponentComponent implements OnInit {
   formModelDad!: FormGroup;
   formModelMom!: FormGroup;
   formModelChild!: FormGroup;
-
+  responsiveOptions: any;
 
   periodMonthDescOption: any = [];
   date: Date | any;
@@ -61,11 +61,14 @@ export class ProfileComponentComponent implements OnInit {
   // childArray: any = [];
   valueDate!: any;
   isDisabled: Boolean = true;
+  displayModal2: boolean = false;
+  myDefaultDate = new Date();
 
   // Beneficiary
   // checked: boolean;
   userId: any;
   public marital: Observable<Marital[]> | any
+  products: any;
 
   // checked: boolean = true;
   // checked1: boolean = false;
@@ -75,7 +78,25 @@ export class ProfileComponentComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig,
     private service: MainService,
     protected router: Router,
-    private localStorageService: LocalStorageService,) {
+    private localStorageService: LocalStorageService,) 
+  {
+    this.responsiveOptions = [
+      {
+          breakpoint: '1024px',
+          numVisible: 3,
+          numScroll: 3
+      },
+      {
+          breakpoint: '768px',
+          numVisible: 2,
+          numScroll: 2
+      },
+      {
+          breakpoint: '560px',
+          numVisible: 1,
+          numScroll: 1
+      }
+  ];
   }
 
   ngOnInit(): void {
@@ -88,19 +109,35 @@ export class ProfileComponentComponent implements OnInit {
     this.userId = this.localStorageService.retrieve('empId');
     console.log("userId ------------------> ", this.userId);
 
-
     this.getEmployee(this.userId);
-
-
 
     this.initMainForm();
     this.formModel.disable();
     this.setperiodMonthDescOption();
 
-
+    this.service.getProductsSmall().then(products => {
+			this.products = products;
+		});
 
     // var arr = Array.from(new Array(number), (x,i) => i+1)
     // this.getMarital();
+  }
+
+  
+  onClickAddChild() {
+    const data = this.formModel.getRawValue();
+    // api
+  }
+
+  onCancleAddChild() {
+    this.formModelChild.reset();
+    this.formModelChild.get('beneficiaryRelationship')?.setValue(0);
+    this.formModelChild.get('beneficiaryPrefix')?.setValue(0);
+    this.ngOnInit();
+  }
+
+  showModalDialog() {
+    this.displayModal2 = true;
   }
 
   initMainForm() {
@@ -241,16 +278,18 @@ export class ProfileComponentComponent implements OnInit {
       id: new FormControl(null),
       textHidden: new FormControl(null),
 
-      beneficiaryFirstName: new FormControl(null),
-      beneficiaryLastName: new FormControl(null),
+      beneficiaryPrefix: new FormControl(0, Validators.required),
+      beneficiaryFirstName: new FormControl(null, Validators.required),
+      beneficiaryLastName: new FormControl(null, Validators.required),
       beneficiaryGender: new FormControl(null),
-      beneficiaryBirthday: new FormControl(null),
-      beneficiaryRelationship: new FormControl(null),
+      beneficiaryBirthday: new FormControl(null, Validators.required),
+      beneficiaryRelationship: new FormControl(null, Validators.required),
       beneficiaryMarital: new FormControl(null),
 
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
     });
+
   }
 
   getEmployee(id: any): void {
@@ -506,6 +545,8 @@ export class ProfileComponentComponent implements OnInit {
     this.formModel.get('levelName')?.disable();
     this.formModel.get('positionName')?.disable();
     this.formModel.get('affiliationName')?.disable();
+    this.formModel.get('bureauName')?.disable();
+    this.formModel.get('gender')?.disable();
     this.formModel.get('employeeTypeName')?.disable();
 
     // position: new FormControl(null),

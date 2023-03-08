@@ -37,55 +37,55 @@
         </div>
     </div>
 
-    <div class="div-profile">
+    <div class="div-profile" style="height: fit-content;">
         <div class="text">
             <div class="row">
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">เลขประจำตัวประชาชน</label>
+                    <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
                     <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">วันเกิด</label>
+                    <label for="birthday" class="block">วันเกิด</label>
                     <input [class]="textString" id="birthday" type="text" formControlName="birthday" *ngIf="mode" />
                     <p-calendar inputId="basic" formControlName="birthdayCalendar" *ngIf="!mode"
                         dateFormat="dd/mm/yy"></p-calendar>
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">อายุ</label>
+                    <label for="age" class="block">อายุ</label>
                     <input [class]="textString" id="age" type="text" formControlName="age" />
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">เพศ</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="gender" />
+                    <label for="gender" class="block">เพศ</label>
+                    <input [class]="textString" id="gender" type="text" formControlName="gender" />
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">หมายเลขโทรศัพท์</label>
+                    <label for="tel" class="block">หมายเลขโทรศัพท์</label>
                     <input [class]="textString" id="" type="text" formControlName="tel" />
                 </div>
 
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">ไลน์ไอดี</label>
+                    <label for="lineId" class="block">ไลน์ไอดี</label>
                     <input [class]="textString" id="lineId" type="text" formControlName="lineId" />
                 </div>
             </div>
             <div class="row" style="margin-top: 10px;">
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">เฟสบุ๊ค</label>
+                    <label for="facebook" class="block">เฟสบุ๊ค</label>
                     <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
                 </div>
-                <div class="col-2 mb-3">
-                    <label for="lastName" class="block">อีเมล</label>
+                <div class="col-4 mb-3">
+                    <label for="email" class="block">อีเมล</label>
                     <input [class]="textString" id="email" type="text" formControlName="email" />
                 </div>
-                <div class="col-6 mb-3">
-                    <label for="lastName" class="block">ที่อยู่</label>
+                <div class="col-5 mb-3">
+                    <label for="address" class="block">ที่อยู่</label>
                     <input [class]="textString" id="address" type="text" formControlName="address" />
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="div-profile-three">
+    <div class="div-profile-three" style="height: fit-content;">
         <div class="text">
             <div class="row">
                 <div class="col-2 mb-3">
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-2 mb-3">
                     <label for="bureauName" class="block">สำนัก</label>
-                    <input [class]="textString" id="affiliationName" type="text" formControlName="bureauName" />
+                    <input [class]="textString" id="bureauName" type="text" formControlName="bureauName" />
                 </div>
                 <div class="col-2 mb-3">
                     <label for="salary" class="block">เงินเดือน</label>
@@ -156,6 +156,372 @@
         </div>
     </div>
 </div>
+
+<div style="display: flex;">
+
+<div class="div-profile-four" style="height: fit-content;">
+    <div [formGroup]="formModelGf">
+        <div >
+            <div style="display: flex; justify-content: space-between;">
+                <div >
+                    <p-chip label="บิดา" image="https://primefaces.org/cdn/primeng/images/demo/avatar/xuxuefeng.png" styleClass="mr-2"></p-chip>
+                </div>
+                <div style="display: flex; padding-top: 8px;" >
+                    <button type="button" class="btn btn-login" (click)="accept()" >บันทึก</button>
+                    <button type="button" (click)="onClickCancal()" class="btn btn-regis" >ยกเลิก</button>
+                </div>
+            </div>
+            <div class="grid " style="justify-content: center;">
+                <div class="col-12 " >
+                    <label for="prefix" class="block">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                        <option value="4">ด.ช</option>
+                        <option value="5">ด.ญ</option>
+                    </select>
+                </div>
+
+                <div class="col-12 ">
+                    <label for="firstName" class="block">ชื่อ</label>
+                    <input class="form-control" id="firstName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input class="form-control" id="lastName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="basic" class="block">วันเกิด</label> <br>
+                    <p-calendar inputId="basic" formControlName="beneficiaryBirthday" style="width: 390px;"
+                        dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="relationship" class="block">ความสัมพันธ์</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">บิดา</option>
+                        <option value="2">มารดา</option>
+                        <option value="3">สามี</option>
+                        <option value="4">ภรรยา</option>
+                        <option value="5">ลูก</option>
+                    </select>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="marital" class="block">สถานภาพ</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-right: 0.5rem;"></div>
+<div class="div-profile-four" style="height: fit-content;">
+    <div [formGroup]="formModelGf">
+        <div >
+            <div style="display: flex; justify-content: space-between;">
+                <div >
+                    <p-chip label="มารดา" image="https://primefaces.org/cdn/primeng/images/demo/avatar/xuxuefeng.png" styleClass="mr-2"></p-chip>
+                </div>
+                <div style="display: flex; padding-top: 8px;" >
+                    <button type="button" class="btn btn-login" (click)="accept()" >บันทึก</button>
+                    <button type="button" (click)="onClickCancal()" class="btn btn-regis" >ยกเลิก</button>
+                </div>
+            </div>
+            <div class="grid " style="justify-content: center;">
+                <div class="col-12 " >
+                    <label for="prefix" class="block">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                        <option value="4">ด.ช</option>
+                        <option value="5">ด.ญ</option>
+                    </select>
+                </div>
+
+                <div class="col-12 ">
+                    <label for="firstName" class="block">ชื่อ</label>
+                    <input class="form-control" id="firstName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input class="form-control" id="lastName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="basic" class="block">วันเกิด</label> <br>
+                    <p-calendar inputId="basic" formControlName="beneficiaryBirthday" 
+                        dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="relationship" class="block">ความสัมพันธ์</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">บิดา</option>
+                        <option value="2">มารดา</option>
+                        <option value="3">สามี</option>
+                        <option value="4">ภรรยา</option>
+                        <option value="5">ลูก</option>
+                    </select>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="marital" class="block">สถานภาพ</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-right: 0.5rem;"></div>
+<div class="div-profile-four" style="height: fit-content;">
+    <div [formGroup]="formModelGf">
+        <div >
+            <div style="display: flex; justify-content: space-between;">
+                <div >
+                    <p-chip label="สามี" image="https://primefaces.org/cdn/primeng/images/demo/avatar/xuxuefeng.png" styleClass="mr-2"></p-chip>
+                </div>
+                <div style="display: flex; padding-top: 8px;" >
+                    <button type="button" class="btn btn-login" (click)="accept()" >บันทึก</button>
+                    <button type="button" (click)="onClickCancal()" class="btn btn-regis" >ยกเลิก</button>
+                </div>
+            </div>
+            <div class="grid " style="justify-content: center;">
+                <div class="col-12 " >
+                    <label for="prefix" class="block">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                        <option value="4">ด.ช</option>
+                        <option value="5">ด.ญ</option>
+                    </select>
+                </div>
+
+                <div class="col-12 ">
+                    <label for="firstName" class="block">ชื่อ</label>
+                    <input class="form-control" id="firstName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input class="form-control" id="lastName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="basic" class="block">วันเกิด</label> <br>
+                    <p-calendar inputId="basic" formControlName="beneficiaryBirthday" 
+                        dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="relationship" class="block">ความสัมพันธ์</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">บิดา</option>
+                        <option value="2">มารดา</option>
+                        <option value="3">สามี</option>
+                        <option value="4">ภรรยา</option>
+                        <option value="5">ลูก</option>
+                    </select>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="marital" class="block">สถานภาพ</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-right: 0.5rem;"></div>
+<div class="div-profile-four" style="height: fit-content;">
+    <div [formGroup]="formModelGf">
+        <div >
+            <div style="display: flex; justify-content: space-between;">
+                <div >
+                    <p-chip label="ภรรยา" image="https://primefaces.org/cdn/primeng/images/demo/avatar/xuxuefeng.png" styleClass="mr-2"></p-chip>
+                </div>
+                <div style="display: flex; padding-top: 8px;" >
+                    <button type="button" class="btn btn-login" (click)="accept()" >บันทึก</button>
+                    <button type="button" (click)="onClickCancal()" class="btn btn-regis" >ยกเลิก</button>
+                </div>
+            </div>
+            <div class="grid " style="justify-content: center;">
+                <div class="col-12 " >
+                    <label for="prefix" class="block">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                        <option value="4">ด.ช</option>
+                        <option value="5">ด.ญ</option>
+                    </select>
+                </div>
+
+                <div class="col-12 ">
+                    <label for="firstName" class="block">ชื่อ</label>
+                    <input class="form-control" id="firstName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input class="form-control" id="lastName" type="text" value="" />
+                </div>
+
+                <div class="col-12 ">
+                    <label for="basic" class="block">วันเกิด</label> <br>
+                    <p-calendar inputId="basic" formControlName="beneficiaryBirthday" 
+                        dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="relationship" class="block">ความสัมพันธ์</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">บิดา</option>
+                        <option value="2">มารดา</option>
+                        <option value="3">สามี</option>
+                        <option value="4">ภรรยา</option>
+                        <option value="5">ลูก</option>
+                    </select>
+                </div>
+
+                <div class="col-12 " >
+                    <label for="marital" class="block">สถานภาพ</label>
+                    <select class="form-select" aria-label="Default select example"
+                        [value]="" required="true">
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+   <!-- popup add child -->
+    <p-dialog header="เพิ่มบุตร/บุตรบุญธรรม" [(visible)]="displayModal2" [modal]="true" [style]="{width: '30vw'}" 
+    [draggable]="false"  [resizable]="false">
+    <div [formGroup]="formModelChild" >
+        <div style="display: grid; justify-content: center;">
+            <div class="col-12">
+                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
+                <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                    required="true" style="height: 3rem;">
+                    <option value="0" selected>เลือกคำนำหน้า</option>
+                    <option value="1">นาย</option>
+                    <option value="2">นางสาว</option>
+                    <option value="3">นาง</option>
+                    <option value="4">ด.ช</option>
+                    <option value="5">ด.ญ</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label class="block">ชื่อ</label>
+                <input type="text" class="form-control" id="beneficiaryFirstName" type="text"  [required]="true"
+                formControlName="beneficiaryFirstName" style="height: 3rem;"/>
+            </div>
+            <div class="col-12">
+                <label class="block">นามสกุล</label>
+                <input type="text" class="form-control" id="beneficiaryLastName" type="text" [required]="true"
+                formControlName="beneficiaryLastName" style="height: 3rem;"/>
+            </div>
+            <div class="col-12">
+                <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                <select class="form-select" aria-label="Default select example" style="height: 3rem;"
+                    formControlName="beneficiaryRelationship" required="true">
+                    <option value="0" selected>เลือกความสัมพันธ์</option>
+                    <option value="5">บุตร</option>
+                    <option value="6">บุตรบุญธรรม</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="basic" class="block">วันเกิด</label> <br>
+                <p-calendar inputId="basic" formControlName="beneficiaryBirthday" [maxDate]="myDefaultDate"
+                [showButtonBar]="false"  [showOnFocus]="true"  [required]="true"
+                [showIcon]="true" dateFormat="dd/mm/yy" ></p-calendar>
+            </div>
+        </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding-top: 2rem;">
+            <button type="button" class="btn-login2" (click)="onClickAddChild()" [disabled]="!formModelChild.valid">ยืนยัน</button>
+            <button type="button" class="btn-regis2" (click)="onCancleAddChild()">ยกเลิก</button>
+            </div>
+        <ng-template pTemplate="footer"> </ng-template>
+    </p-dialog>
+
+<div class="div-profile-five" style="margin-bottom: 30px;">
+    <div style="padding-left: 3rem;">
+        <p-button (click)="showModalDialog()" icon="pi pi-plus" label="เพิ่มบุตร" ></p-button>
+    </div>
+    <br>
+    <p-carousel [value]="products" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+        <ng-template pTemplate="header">
+            <!-- <h5>Basic</h5> -->
+        </ng-template>
+        <ng-template let-product pTemplate="item">
+            <div class="product-item">
+                <div class="product-item-content">
+                    <div class="mb-3">
+                        <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{product.image}}" [alt]="product.name" class="product-image" />
+                    </div>
+                    <div>
+                        <h4 class="mb-1">{{product.name}}</h4>
+                        <h6 class="mt-0 mb-3">${{product.price}}</h6>
+                        <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                        <div class="car-buttons mt-5">
+                            <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
+                            <p-button type="button" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star-fill"></p-button>
+                            <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
+
 <div class="div-profile-two" style="margin-bottom: 30px;">
 
     <!-- มีข้อมูล db -->
