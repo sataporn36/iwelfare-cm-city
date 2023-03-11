@@ -23,24 +23,7 @@
     padding: 0.75rem;
 }
 
-.btn-login2 {
-    width: 140px;
-    font-weight: 500;
-    font-size: 15px;
-    height: 40px;
-    color: #fff;
-    background-color: #FE6BBA;
-}
 
-.btn-regis2 {
-    width: 140px;
-    font-weight: 500;
-    font-size: 15px;
-    height: 40px;
-    color: #FE6BBA;
-    border-color: #FE6BBA;
-    margin-left: 40px;
-}
 
 .profile_img{
     width: 220px;
@@ -54,7 +37,7 @@
 
 .div-profile {
     width: 99%;
-    height: 340px;
+    height: 380px;
     background: #fff;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -82,7 +65,7 @@
 }
 
 .text{
-    margin-top: -10px;
+    margin-top: -40px;
     font-size: 18px;
     .row{
         margin-left: 5px;
@@ -96,17 +79,7 @@
     }
 }
 
-.div-profile-five {
-    width: 99%;
-    // height: 380px;
-    background: #fff;
-    border-radius: 20px;
-    margin-top: 20px;
-    z-index: 1;
-    padding-top: 50px;
-    padding-bottom: 30px;
-    //padding-left: 40px;
-}
+
 
 :host ::ng-deep .p-button:enabled:hover {
     background: #FE6BBA;
@@ -191,9 +164,11 @@
         margin-top: 25px;
     }
 }
-
+// .col{
+//     width: 24.4%;
+// }
 .div-profile-four{
-    width: 24.4%;
+    width: 100%;
     height: 380px;
     background: #fff;
     border-radius: 20px;
@@ -203,6 +178,26 @@
 
     .col-12{
         padding: 0.5rem;
+    }
+
+    label{
+        font-size: 15px;
+        color: #747d8c;
+    }
+}
+
+.div-profile-five {
+    width: 99%;
+    // height: 380px;
+    background: #fff;
+    border-radius: 20px;
+    margin-top: 20px;
+    z-index: 1;
+    // padding-top: 15px;
+    // padding-bottom: 30px;
+    //padding-left: 40px;
+    .col{
+        width: 376px;
     }
 }
 
@@ -230,7 +225,7 @@
 
 :host ::ng-deep .p-calendar input {
     height: 37px;
-    width: 250px;
+    width: 310px;
 }
 
 *{
@@ -291,4 +286,112 @@
 //     .p-inputswitch-checked
 //     .p-inputswitch-slider::before {
 //     background: red;
+// }
+
+// .p-dialog{
+//     width: 100vw;
+//     border-radius: 105px;
+// }
+
+// ::ng-deep{
+//     .ui-dialog {
+//         border-radius: 50px !important;
+//       }
+// } 
+
+// DIALOG BOX
+// :host {
+//     ::ng-deep .custom2Dialog {
+//         background-color: white !important;
+//         width: 92vw !important;
+//         box-shadow: 0px 20px 20px #D8DDE680;
+//         border: 1px solid rgb(231, 231, 231);
+//         border-radius: 50px !important;
+//     }
+// }
+
+::ng-deep .p-dialog {
+    .p-dialog-header {
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+    }
+
+    .p-dialog-footer {
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+
+    .btn-login2 {
+        width: 140px;
+        font-weight: 500;
+        font-size: 15px;
+        height: 40px;
+        color: #fff;
+        background-color: #FE6BBA;
+    }
+    
+    .btn-regis2 {
+        width: 140px;
+        font-weight: 500;
+        font-size: 15px;
+        height: 40px;
+        color: #FE6BBA;
+        border-color: #FE6BBA;
+        margin-left: 40px;
+    }
+}
+
+// :host {
+//     ::ng-deep {
+//         // border-radius: 50px;
+//         .customDialog {
+//             background-color: white !important;
+//             // width: 92vw !important;
+//             box-shadow: 0px 20px 20px #D8DDE680;
+//             border: 1px solid rgb(231, 231, 231);
+//             border-radius: 50px;
+//         }
+//     }
+    
+// }
+
+// :host ::ng-deep {
+//     .p-dialog {
+//         // width: 55vw !important;
+//         border-radius: 105px;
+//     }
+    // .p-dialog-draggable .p-dialog-header {
+    //     background-color: green !important;
+    //     // border-radius: 105px;
+    // }
+    // .p-dialog-title {
+    //     color: white !important;
+    //     border-radius: 105px;
+    // }
+    // .p-dialog .p-dialog-content {
+    //     background: green !important;
+    //     color: white !important;
+    //     border-radius: 105px;
+    // }
+    // .p-dialog .p-dialog-footer {
+    //     background: green !important;
+    //     border-radius: 105px;
+    // }
+    // .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+    //     box-shadow: 0 0 0 0.2rem white !important;
+    // }
+    // button.p-ripple.p-element.p-dialog-header-icon.p-dialog-header-close {
+    //     color: white !important;
+    // }
+    // .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+    //     background: black !important;
+    //     color: white !important;
+    // }
+    // .p-button.p-button-text:enabled:hover {
+    //     background: white !important;
+    //     color: black !important;
+    // }
+    // .p-button.p-button-text {
+    //     color: white !important;
+    // }
 // }

@@ -36,67 +36,55 @@ export class ProfileComponentComponent implements OnInit {
 
   textString: string = 'form-control-plaintext';
   textSelect: string = 'form-control';
-
   textStringGf: string = 'form-control-plaintext';
   textStringGm: string = 'form-control-plaintext';
   textStringMom: string = 'form-control-plaintext';
   textStringDad: string = 'form-control-plaintext';
   textStringChild: string = 'form-control-plaintext';
-  // textSelectGf: string = 'form-control';
 
-  // beneficiary: Beneficiary | any;
   beneficiarys: Observable<Beneficiary[]> | any
   controls: any;
   wife!: Boolean;
   child!: Boolean;
   countChildDisplay!: any;
   beneficiarysCheck!: any;
-  arrayChild: any = [];
 
+  arrayChild: any = [];
   dadArray: any = [];
   momArray: any = [];
-  // childArray: any = [];
   gfArray: any = [];
   gmArray: any = [];
-  // childArray: any = [];
+
   valueDate!: any;
   isDisabled: Boolean = true;
   displayModal2: boolean = false;
   myDefaultDate = new Date();
 
-  // Beneficiary
-  // checked: boolean;
   userId: any;
   public marital: Observable<Marital[]> | any
   products: any;
 
-  // checked: boolean = true;
-  // checked1: boolean = false;
-
-  // checked2: boolean = true;
-
   constructor(private primengConfig: PrimeNGConfig,
     private service: MainService,
     protected router: Router,
-    private localStorageService: LocalStorageService,) 
-  {
+    private localStorageService: LocalStorageService,) {
     this.responsiveOptions = [
       {
-          breakpoint: '1024px',
-          numVisible: 3,
-          numScroll: 3
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
       },
       {
-          breakpoint: '768px',
-          numVisible: 2,
-          numScroll: 2
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
       },
       {
-          breakpoint: '560px',
-          numVisible: 1,
-          numScroll: 1
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
       }
-  ];
+    ];
   }
 
   ngOnInit(): void {
@@ -107,26 +95,25 @@ export class ProfileComponentComponent implements OnInit {
     this.gfArray = [];
 
     this.userId = this.localStorageService.retrieve('empId');
-    console.log("userId ------------------> ", this.userId);
 
     this.getEmployee(this.userId);
 
     this.initMainForm();
     this.formModel.disable();
+    this.formModelGf.disable();
+    this.formModelGm.disable();
+    this.formModelDad.disable();
+    this.formModelMom.disable();
     this.setperiodMonthDescOption();
 
     this.service.getProductsSmall().then(products => {
-			this.products = products;
-		});
-
-    // var arr = Array.from(new Array(number), (x,i) => i+1)
-    // this.getMarital();
+      this.products = products;
+    });
   }
 
-  
+
   onClickAddChild() {
     const data = this.formModel.getRawValue();
-    // api
   }
 
   onCancleAddChild() {
@@ -145,6 +132,7 @@ export class ProfileComponentComponent implements OnInit {
       id: new FormControl(null),
       employeeCode: new FormControl(null),
       prefix: new FormControl(null),
+      selectPrefix: new FormControl(null),
       firstName: new FormControl(null),
       lastName: new FormControl(null),
       idCard: new FormControl(null),
@@ -200,15 +188,6 @@ export class ProfileComponentComponent implements OnInit {
       checkState: new FormControl(true),
 
       textHidden: new FormControl(null),
-      // beneficiary
-      // beneficiarys: new FormControl(null),
-      // beneficiaryFirstName: new FormControl(null),
-      // beneficiaryLastName: new FormControl(null),
-      // beneficiaryGender: new FormControl(null),
-      // beneficiaryBirthday: new FormControl(null),
-      // beneficiaryRelationship: new FormControl(null),
-      // beneficiaryMarital: new FormControl(null),
-      // wife: new FormControl(null),
 
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
@@ -217,14 +196,16 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelGf = new FormGroup({
       id: new FormControl(null),
       textHidden: new FormControl(null),
-
+      marital: new FormControl(null),
+      prefix: new FormControl(null),
+      beneficiaryPrefix: new FormControl(null),
       beneficiaryFirstName: new FormControl(null),
       beneficiaryLastName: new FormControl(null),
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl(null),
       beneficiaryMarital: new FormControl(null),
-
+      birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
     });
@@ -232,14 +213,16 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelGm = new FormGroup({
       id: new FormControl(null),
       textHidden: new FormControl(null),
-
+      marital: new FormControl(null),
+      prefix: new FormControl(null),
+      beneficiaryPrefix: new FormControl(null),
       beneficiaryFirstName: new FormControl(null),
       beneficiaryLastName: new FormControl(null),
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl(null),
       beneficiaryMarital: new FormControl(null),
-
+      birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
     });
@@ -247,14 +230,16 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelMom = new FormGroup({
       id: new FormControl(null),
       textHidden: new FormControl(null),
-
+      marital: new FormControl(null),
+      prefix: new FormControl(null),
+      beneficiaryPrefix: new FormControl(null),
       beneficiaryFirstName: new FormControl(null),
       beneficiaryLastName: new FormControl(null),
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl(null),
       beneficiaryMarital: new FormControl(null),
-
+      birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
     });
@@ -262,14 +247,16 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelDad = new FormGroup({
       id: new FormControl(null),
       textHidden: new FormControl(null),
-
+      marital: new FormControl(null),
+      prefix: new FormControl(null),
+      beneficiaryPrefix: new FormControl(null),
       beneficiaryFirstName: new FormControl(null),
       beneficiaryLastName: new FormControl(null),
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl(null),
       beneficiaryMarital: new FormControl(null),
-
+      birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
     });
@@ -277,7 +264,8 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelChild = new FormGroup({
       id: new FormControl(null),
       textHidden: new FormControl(null),
-
+      marital: new FormControl(null),
+      prefix: new FormControl(null),
       beneficiaryPrefix: new FormControl(0, Validators.required),
       beneficiaryFirstName: new FormControl(null, Validators.required),
       beneficiaryLastName: new FormControl(null, Validators.required),
@@ -285,7 +273,7 @@ export class ProfileComponentComponent implements OnInit {
       beneficiaryBirthday: new FormControl(null, Validators.required),
       beneficiaryRelationship: new FormControl(null, Validators.required),
       beneficiaryMarital: new FormControl(null),
-
+      birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
     });
@@ -297,14 +285,16 @@ export class ProfileComponentComponent implements OnInit {
     this.service.getEmployee(id).subscribe(data => {
       this.formModel.patchValue({
         ...data,
+        prefix: data?.prefix ? data?.prefix : '-',
+        selectPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : 0,
         fullName: data.firstName + ' ' + data.lastName,
         positionName: data.position?.name ? data.position?.name : '-',
         affiliationName: data.affiliation?.name ? data.affiliation?.name : '-',
         bureauName: data.affiliation?.bureau?.name ? data.affiliation?.bureau?.name : '-',
         employeeTypeName: data.employeeType?.name ? data.employeeType?.name : '-',
         levelName: data.level?.name ? data.level?.name : '-',
-        birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
-        birthdayCalendar: new Date(data.birthday),
+        birthdayCalendar: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
+        birthday: data?.birthday ? new Date(data.birthday): null,
         age: data.birthday ? this.transformAge(data.birthday) : '-',
 
         // contact
@@ -319,7 +309,7 @@ export class ProfileComponentComponent implements OnInit {
         retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
 
         compensation: data.compensation ? data.compensation : '-',
-        contractStartDate: data.contractStartDate ? data.contractStartDate : '-',
+        contractStartDate: data.contractStartDate ? new Date(data.contractStartDate) : null,
         civilServiceDate: data.civilServiceDate ? data.civilServiceDate : '-',
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
         billingStartDate: data.billingStartDate ? data.billingStartDate : '-',
@@ -329,79 +319,7 @@ export class ProfileComponentComponent implements OnInit {
 
         textHidden: '-',
 
-        // // beneficiary: data.beneficiaries,
-        // beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix: '-',
-        // beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName: '-',
-        // beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName: '-',
-        // // beneficiaryGender: data.beneficiary?.gender,
-        // beneficiaryBirthday: data.beneficiaries?.birthday ? data.beneficiaries?.birthday: '-',
-        // beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship: '-',
-        // beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital: '-',
         beneficiarySize: data.beneficiaries.length > 0 ? true : false
-
-      })
-
-      this.formModelGf.patchValue({
-        ...data,
-        textHidden: '-',
-
-        // beneficiary: data.beneficiaries,
-        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '-',
-        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '-',
-        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '-',
-        // beneficiaryGender: data.beneficiary?.gender,
-        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '-',
-        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '-',
-        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '-',
-        // beneficiarySize: data.beneficiaries.length > 0 ? true : false
-
-      })
-
-      this.formModelGm.patchValue({
-        ...data,
-        textHidden: '-',
-
-        // beneficiary: data.beneficiaries,
-        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '-',
-        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '-',
-        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '-',
-        // beneficiaryGender: data.beneficiary?.gender,
-        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '-',
-        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '-',
-        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '-',
-        // beneficiarySize: data.beneficiaries.length > 0 ? true : false
-
-      })
-
-      this.formModelMom.patchValue({
-        ...data,
-        textHidden: '-',
-
-        // beneficiary: data.beneficiaries,
-        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '-',
-        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '-',
-        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '-',
-        // beneficiaryGender: data.beneficiary?.gender,
-        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '-',
-        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '-',
-        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '-',
-        // beneficiarySize: data.beneficiaries.length > 0 ? true : false
-
-      })
-
-      this.formModelDad.patchValue({
-        ...data,
-        textHidden: '-',
-
-        // beneficiary: data.beneficiaries,
-        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '-',
-        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '-',
-        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '-',
-        // beneficiaryGender: data.beneficiary?.gender,
-        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '-',
-        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '-',
-        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '-',
-        // beneficiarySize: data.beneficiaries.length > 0 ? true : false
 
       })
 
@@ -432,22 +350,68 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   check(data: any) {
-    data.forEach((value: Beneficiary) => {
+    data.forEach((data: Beneficiary) => {
 
-      if (value.relationship == 'บิดา') {
-        this.gfArray.push(value);
+      if (data.relationship == 'บิดา') {
+        this.formModelGf.patchValue({
+          ...data,
+          textHidden: '-',
+          beneficiaryPrefix: data?.prefix ? data?.prefix : '-',
+          beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
+          beneficiaryLastName: data?.lastName ? data?.lastName : '-',
+          birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
+          beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
+          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          marital: data?.marital ? data?.marital : '-',
+          beneficiaryMarital: data?.marital ? this.checkMaritalV1(data?.marital) : '-',
+        })
       }
-      if (value.relationship == 'มารดา') {
-        this.gmArray.push(value);
+      if (data.relationship == 'มารดา') {
+        this.formModelGm.patchValue({
+          ...data,
+          textHidden: '-',
+          beneficiaryPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : '-',
+          prefix: data?.prefix ? data?.prefix : '-',
+          beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
+          beneficiaryLastName: data?.lastName ? data?.lastName : '-',
+          birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
+          beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
+          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          marital: data?.marital ? data?.marital : '-',
+          beneficiaryMarital: data?.marital ? this.checkMaritalV1(data?.marital) : '-',
+        })
       }
-      if (value.relationship == 'สามี') {
-        this.dadArray.push(value);
+      if (data.relationship == 'สามี') {
+        this.formModelDad.patchValue({
+          ...data,
+          textHidden: '-',
+          beneficiaryPrefix: data?.prefix ? data?.prefix : '-',
+          beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
+          beneficiaryLastName: data?.lastName ? data?.lastName : '-',
+          birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
+          beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
+          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          marital: data?.marital ? data?.marital : '-',
+          beneficiaryMarital: data?.marital ? this.checkMaritalV1(data?.marital) : '-',
+        })
       }
-      if (value.relationship == 'ภรรยา') {
-        this.momArray.push(value);
+      if (data.relationship == 'ภรรยา') {
+        this.formModelMom.patchValue({
+          ...data,
+          textHidden: '-',
+          beneficiaryPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : '-',
+          prefix: data?.prefix ? data?.prefix : '-',
+          beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
+          beneficiaryLastName: data?.lastName ? data?.lastName : '-',
+          birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
+          beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
+          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          marital: data?.marital ? data?.marital : '-',
+          beneficiaryMarital: data?.marital ? this.checkMaritalV1(data?.marital) : '-',
+        })
       }
-      if (value.relationship == 'ลูก') {
-        this.arrayChild.push(value);
+      if (data.relationship == 'ลูก') {
+        this.arrayChild.push(data);
       }
 
 
@@ -474,7 +438,7 @@ export class ProfileComponentComponent implements OnInit {
 
     // this.valueDate = new Date(date);
     // console.log("this.valueDate -------------> ", this.valueDate);
-    
+
     return day + ' ' + monthSelect.label + ' ' + year
   }
 
@@ -541,6 +505,8 @@ export class ProfileComponentComponent implements OnInit {
     this.formModel.enable();
 
     // check disable
+    this.formModel.get('selectPrefix')?.disable();
+    this.formModel.get('age')?.disable();
     this.formModel.get('idCard')?.disable();
     this.formModel.get('levelName')?.disable();
     this.formModel.get('positionName')?.disable();
@@ -575,30 +541,79 @@ export class ProfileComponentComponent implements OnInit {
   }
 
 
-  onClickGf(data : any) {
+  // บิดา
+  onClickGf() {
     this.textStringGf = 'form-control';
+    this.formModelGf.enable();
     this.modeGf = false;
-    this.formModelGf.get('beneficiaryBirthday')?.setValue(new Date(data.birthday));
+    this.formModelGf.get('beneficiaryPrefix')?.disable();
+    this.formModelGf.get('beneficiaryRelationship')?.disable();
   }
 
-  onClickGm(data : any) {
+  onClickCancalGf() {
+    this.modeGf = true;
+    this.formModelGf.disable();
+    this.textStringGf = 'form-control-plaintext';
+    this.formModelGf.reset();
+
+    this.getEmployee(this.userId);
+  }
+
+  // มารดา  
+  onClickGm() {
     this.textStringGm = 'form-control';
+    this.formModelGm.enable();
     this.modeGm = false;
-    this.formModelGm.get('beneficiaryBirthday')?.setValue(new Date(data.birthday));
+    this.formModelGm.get('beneficiaryPrefix')?.disable();
+    this.formModelGm.get('beneficiaryRelationship')?.disable();
   }
 
-  onClickDad(data : any) {
+  onClickCancalGm() {
+    this.modeGm = true;
+    this.formModelGm.disable();
+    this.textStringGm = 'form-control-plaintext';
+    this.formModelGm.reset();
+
+    this.getEmployee(this.userId);
+  }
+
+  // สามี    
+  onClickDad() {
     this.textStringDad = 'form-control';
+    this.formModelDad.enable();
     this.modeDad = false;
-    this.formModelDad.get('beneficiaryBirthday')?.setValue(new Date(data.birthday));
+    this.formModelDad.get('beneficiaryPrefix')?.disable();
+    this.formModelDad.get('beneficiaryRelationship')?.disable();
   }
 
-  onClickMom(data : any) {
+  onClickCancalDad() {
+    this.modeDad = true;
+    this.formModelDad.disable();
+    this.textStringDad = 'form-control-plaintext';
+    this.formModelDad.reset();
+
+    this.getEmployee(this.userId);
+  }
+
+  onClickMom() {
     this.textStringMom = 'form-control';
     this.modeMom = false;
-    this.formModelMom.get('beneficiaryBirthday')?.setValue(new Date(data.birthday));
+    this.formModelMom.enable();
+    this.formModelMom.get('beneficiaryPrefix')?.disable();
+    this.formModelMom.get('beneficiaryRelationship')?.disable();
   }
 
+  // ภรรยา
+  onClickCancalMom() {
+    this.modeMom = true;
+    this.formModelMom.disable();
+    this.textStringMom = 'form-control-plaintext';
+    this.formModelMom.reset();
+
+    this.getEmployee(this.userId);
+  }
+
+  // ลูก  
   onClickChild() {
     this.textStringChild = 'form-control';
     this.modeChild = false;
@@ -606,7 +621,7 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelChild.get('beneficiaryBirthday')?.setValue(new Date(data.birthday));
 
 
-    console.log("const data -------------------- ",data);
+    console.log("const data -------------------- ", data);
     // console.log("data length -------------------- ",data.length);
     // this.formModelChild.get('countChild')?.setValue(data.length);
   }
@@ -658,15 +673,15 @@ export class ProfileComponentComponent implements OnInit {
 
   // }
 
-  checkDate(data: any) : any {
+  checkDate(data: any): any {
 
     console.log("checkDate -------> ", data);
-    
+
     // this.value = data
     return new Date(data);
   }
 
-  checkPrefix(data: any) : any {
+  checkPrefix(data: any): any {
     switch (data) {
       case 'นาย':
         return 1
@@ -674,7 +689,7 @@ export class ProfileComponentComponent implements OnInit {
         return 2
       case 'นาง':
         return 3
-        case 'ด.ช':
+      case 'ด.ช':
         return 4
       case 'ด.ญ':
         return 5
@@ -683,7 +698,7 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
-  checkRelationship(data: any) : any {
+  checkRelationship(data: any): any {
     switch (data) {
       case 'บิดา':
         return 1
@@ -691,7 +706,7 @@ export class ProfileComponentComponent implements OnInit {
         return 2
       case 'สามี':
         return 3
-        case 'ภรรยา':
+      case 'ภรรยา':
         return 4
       case 'ลูก':
         return 5
@@ -700,7 +715,7 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
-  checkMaritalV1(data: any) : any {
+  checkMaritalV1(data: any): any {
     switch (data) {
       case 'มีชีวิต':
         return 1
@@ -711,7 +726,7 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
-  checkMaritalV2(data: any) : any {
+  checkMaritalV2(data: any): any {
     switch (data) {
       case 'โสด':
         return 1
@@ -719,7 +734,7 @@ export class ProfileComponentComponent implements OnInit {
         return 2
       case 'เป็นหม้าย':
         return 3
-        case 'หย่าร้าง':
+      case 'หย่าร้าง':
         return 4
       case 'แยกกันอยู่':
         return 5
@@ -728,22 +743,56 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
-  accept() { 
+  accept() {
     const playload = this.formModel.getRawValue();
+
+    console.log("playload", playload);
+    
+
+    playload.birthday = playload.birthday;
     playload.contact = {
-      id:  playload.contact.id,
-      tel: playload.tel
+      id: playload.contact.id,
+      tel: playload.tel,
+      email: playload.email,
+      lineId: playload.lineId,
+      address: playload.address,
+      facebook: playload.facebook,
     }
 
+    // playload.level = {
+    //   id: playload.level.id,
+    //   name: playload.level.name,
+    // }
 
-    console.log("payload ----> " , playload);
+    // playload.position = {
+    //   id: playload.position.id,
+    //   name: playload.position.name,
+    // }
+
+    // playload.affiliation = {
+    //   id: playload.affiliation.id,
+    //   name: playload.affiliation.name,
+    // }
+
+    // playload.employeeType = {
+    //   id: playload.employeeType.id,
+    //   name: playload.employeeType.name,
+    // }
+
+    console.log("payload ----> ", playload.contact);
+
+    console.log("payload ----> ", playload.level);
 
     this.service.updateEmp(playload).subscribe((res) => {
-      console.log("res ----> " , res);
-// this.ngOnInit();
+      console.log("res ----> ", res);
+      this.getEmployee(this.userId);
+      this.formModel.disable();
+      this.initMainForm();
+      this.textString= 'form-control-plaintext';
+      this.mode = true;
     });
 
-    
+
 
   }
 

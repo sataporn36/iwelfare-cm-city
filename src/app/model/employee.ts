@@ -22,8 +22,8 @@ export interface Employee {
     level: Level
     salary: number;
     compensation: string;
-    contractStartDate: string;
-    civilServiceDate: string;
+    contractStartDate: Date;
+    civilServiceDate: Date;
     employeeStatus: number;
     billingStartDate: Date;
     monthlyStockMoney: number;
@@ -33,8 +33,8 @@ export interface Employee {
     resignationDate: Date;
     approvedResignationDate: Date;
     retirementDate: Date;
-    salaryBankAccountNumber: Date;
-    bankAccountReceivingNumber: Date;
+    salaryBankAccountNumber: string;
+    bankAccountReceivingNumber: string;
     reason: string;
     description: string;
     // user
