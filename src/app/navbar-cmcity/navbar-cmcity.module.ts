@@ -41,6 +41,9 @@ import { CalendarModule } from 'primeng/calendar';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import { ChipModule } from 'primeng/chip';
 import {CarouselModule} from 'primeng/carousel';
+import {BlockUIModule} from 'primeng/blockui';
+import {CardModule} from 'primeng/card';
+import {PanelModule } from 'primeng/panel';
 
 @NgModule({
   declarations: [
@@ -87,7 +90,10 @@ import {CarouselModule} from 'primeng/carousel';
     CalendarModule,
     InputSwitchModule,
     ChipModule,
-    CarouselModule
+    CarouselModule,
+    BlockUIModule,
+    CardModule,
+    PanelModule
   ]
 })
 export class NavbarCmcityModule { }

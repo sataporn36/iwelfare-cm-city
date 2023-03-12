@@ -59,13 +59,14 @@
                 </div>
                 <div class="col-2 mb-3">
                     <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
-                    <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
+                    <input [class]="textString" id="idCard" type="text" formControlName="idCard" maxlength="13"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="birthday" class="block">วันเกิด</label>
                     <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar" *ngIf="mode" />
-                    <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode"
-                        dateFormat="dd/mm/yy"></p-calendar>
+                    <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode" (onSelect)="onCheckAge($event)"
+                        (onClear)="onClearAge()"  dateFormat="dd/mm/yy"></p-calendar>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="age" class="block">อายุ</label>
@@ -77,7 +78,11 @@
                 </div>
                 <div class="col-2 mb-3">
                     <label for="tel" class="block">หมายเลขโทรศัพท์</label>
-                    <input [class]="textString" id="" type="text" formControlName="tel" />
+                    <input [class]="textString" id="" type="text" formControlName="tel" maxlength="10"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" (keyup)="checkPhoneNumber()"/>
+                    <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
+                        <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span> 
+                    </em>
                 </div>
 
                 <div class="col-2 mb-3">
@@ -90,7 +95,10 @@
                 </div>
                 <div class="col-4 mb-3">
                     <label for="email" class="block">อีเมล</label>
-                    <input [class]="textString" id="email" type="text" formControlName="email" style="width: 475px;"/>
+                    <input [class]="textString" id="email" type="text" formControlName="email" style="width: 475px;" (keyup)="checkEmail()"/>
+                    <em *ngIf="emailValidation === true && formModel.get('email')?.value">
+                        <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span> 
+                   </em>
                 </div>
                 <div class="col-11 mb-3">
                     <label for="address" class="block">ที่อยู่</label>
@@ -146,7 +154,25 @@
                 </div>
                 <div class="col-2 mb-3">
                     <label for="lastName" class="block">สถานภาพสมรส</label>
-                    <input [class]="textString" id="lastName" type="text" formControlName="textHidden" />
+                    <input [class]="textString" id="lastName" type="text" formControlName="beneficiaryMarital" *ngIf="mode"/>
+                    <select class="form-select" aria-label="Default select example" *ngIf="!mode"
+                        formControlName="beneficiaryMarital" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">โสด</option>
+                        <option value="2">สมรส</option>
+                        <option value="3">หม้าย</option>
+                        <option value="4">หย่า</option>
+                        <option value="5">แยกกันอยู่</option>    <!-- สร้าง column database มาเก็บอีก 1 coloumn  -->
+                    </select>
+                </div>
+                 <div class="col-2 mb-3">
+                    <label for="beneficiaryMarital" class="block">สถานภาพ</label>
+                    <input [class]="textStringMom" id="beneficiaryMarital" type="text" formControlName="marital" *ngIf="mode"/>
+                    <select class="form-select" aria-label="Default select example" formControlName="beneficiaryMarital" required="true" *ngIf="!mode">
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
+                    </select>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="lastName" class="block">วันที่เริ่มเก็บเงิน</label>
@@ -309,6 +335,7 @@
     <div style="padding-right: 0.5rem;"></div>
 
     <!-- สามี -->
+    
     <div class="div-profile-four" style="height: fit-content;">
         <div [formGroup]="formModelDad">
             <div>
@@ -349,11 +376,26 @@
                             dateFormat="dd/mm/yy" *ngIf="!modeDad"></p-calendar>
                     </div>
 
-                    <div class="col-12 ">
-                        <label for="relationship" class="block">ความสัมพันธ์</label>
-                        <input [class]="textStringDad" id="relationship" type="text" formControlName="beneficiaryRelationship" />
+                    <div class="col-12 " style="display: flex; justify-content: space-between;">
+                        <div class="col-5 ">
+                            <label for="relationship" class="block">ความสัมพันธ์</label>
+                            <input [class]="textStringDad" id="relationship" type="text" formControlName="beneficiaryRelationship" />
+                        </div>
+                        <div class="col-6 ">
+                            <label for="lastName" class="block">สถานภาพสมรส</label>
+                            <input [class]="textStringDad" id="lastName" type="text" formControlName="beneficiaryMarital" *ngIf="modeDad"/>
+                            <select class="form-select" aria-label="Default select example" *ngIf="!modeDad"
+                                formControlName="beneficiaryMarital" required="true">
+                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="1">โสด</option>
+                                <option value="2">สมรส</option>
+                                <option value="3">หม้าย</option>
+                                <option value="4">หย่า</option>
+                                <option value="5">แยกกันอยู่</option>    <!-- สร้าง column database มาเก็บอีก 1 coloumn  -->
+                            </select>
+                        </div>
                     </div>
-
+                   
                     <div class="col-12 ">
                         <label for="marital" class="block">สถานภาพ</label>
                         <input [class]="textStringDad" type="text" formControlName="marital" *ngIf="modeDad"/>
@@ -370,7 +412,6 @@
     </div>
     <div style="padding-right: 0.5rem;"></div>
 
-    <!-- ภรรยา -->
     <div class="div-profile-four" style="height: fit-content;">
         <div [formGroup]="formModelMom">
             <div>
@@ -416,9 +457,24 @@
                             dateFormat="dd/mm/yy" *ngIf="!modeMom"></p-calendar>
                     </div>
 
-                    <div class="col-12 ">
-                        <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
-                        <input [class]="textStringMom" id="beneficiaryRelationship" type="text" formControlName="beneficiaryRelationship" />
+                    <div class="col-12 " style="display: flex; justify-content: space-between;">
+                        <div class="col-5 ">
+                            <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                            <input [class]="textStringMom" id="beneficiaryRelationship" type="text" formControlName="beneficiaryRelationship" />
+                        </div>
+                        <div class="col-6 ">
+                            <label for="lastName" class="block">สถานภาพสมรส</label>
+                            <input [class]="textStringMom" id="lastName" type="text" formControlName="beneficiaryMarital" *ngIf="modeMom"/>
+                            <select class="form-select" aria-label="Default select example" *ngIf="!modeMom"
+                                formControlName="beneficiaryMarital" required="true">
+                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="1">โสด</option>
+                                <option value="2">สมรส</option>
+                                <option value="3">หม้าย</option>
+                                <option value="4">หย่า</option>
+                                <option value="5">แยกกันอยู่</option>    <!-- สร้าง column database มาเก็บอีก 1 coloumn  -->
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-12 ">
@@ -440,8 +496,12 @@
 <!-- <p-dialog  position="center" modal="true" styleClass="custom2Dialog"> ... </p-dialog> -->
 
 <!-- popup add child -->
-<p-dialog header="เพิ่มบุตร/บุตรบุญธรรม" [(visible)]="displayModal2" [modal]="true" [style]="{width: '25vw'}"
+<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '25vw'}"
     [draggable]="false" [resizable]="false" styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <span *ngIf="modeChildstatus === 'ADD'" style="font-size: 18px; font-weight: bold;">เพิ่มบุตร/บุตรบุญธรรม</span>
+        <span *ngIf="modeChildstatus === 'EDIT'" style="font-size: 18px; font-weight: bold;">เเก้ไขบุตร/บุตรบุญธรรม</span>
+    </ng-template>
     <div [formGroup]="formModelChild">
         <div style="display: grid; justify-content: center;">
             <div class="col-12">
@@ -458,12 +518,12 @@
             </div>
             <div class="col-12">
                 <label class="block">ชื่อ</label>
-                <input type="text" class="form-control" id="beneficiaryFirstName" type="text" [required]="true"
+                <input type="text" class="form-control" id="beneficiaryFirstName" type="text" required="true"
                     formControlName="beneficiaryFirstName" style="height: 3rem;" />
             </div>
             <div class="col-12">
                 <label class="block">นามสกุล</label>
-                <input type="text" class="form-control" id="beneficiaryLastName" type="text" [required]="true"
+                <input type="text" class="form-control" id="beneficiaryLastName" type="text" required="true"
                     formControlName="beneficiaryLastName" style="height: 3rem;" />
             </div>
             <div class="col-12">
@@ -478,14 +538,14 @@
             <div class="col-12">
                 <label for="basic" class="block">วันเกิด</label> <br>
                 <p-calendar inputId="basic" formControlName="beneficiaryBirthday" [maxDate]="myDefaultDate"
-                    [showButtonBar]="false" [showOnFocus]="true" [required]="true" [showIcon]="true"
+                    [showButtonBar]="false" [showOnFocus]="true" [showIcon]="true" [required]="true"
                     dateFormat="dd/mm/yy"></p-calendar>
             </div>
         </div>
     </div>
 
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="onClickAddChild()">ยืนยัน</button>
+        <button type="button" class="btn btn-login2" (click)="onClickAddChild()" [disabled]="!formModelChild.valid">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleAddChild()">ยกเลิก</button>
     </ng-template>
     <!-- <div style="display: flex; justify-content: center; padding-top: 2rem;">
@@ -514,15 +574,15 @@
 
         <div class="col">
             <div class="div-profile-four" style="height: fit-content; border: 2px solid #F0F2F2;">
-                <div [formGroup]="formModelGf">
+                <div [formGroup]="formModelChild">
                     <div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                             <div>
                                 <p-chip label="ลูก คนที่ 1" styleClass="mr-2"></p-chip>
                             </div>
                             <div style="display: flex; padding-top: 8px;">
-                                <button type="button" class="btn btn-login" (click)="accept()">บันทึก</button>
-                                <button type="button" (click)="onClickCancal()" class="btn btn-regis">ยกเลิก</button>
+                                <button type="button" class="btn btn-login" (click)="acceptChild()">เเก้ไข</button>
+                                <button type="button" (click)="onDeleteChild()" class="btn btn-regis">ลบ</button>
                             </div>
                         </div>
                         <div class="grid " style="justify-content: center;">

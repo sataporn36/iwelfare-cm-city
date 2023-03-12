@@ -37,7 +37,8 @@
 
 .div-profile {
     width: 99%;
-    height: 380px;
+    //height: 380px;
+    height: fit-content;
     background: #fff;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -45,6 +46,7 @@
     z-index: 1;
     padding-top: 150px;
     padding-left: 40px;
+    padding-bottom: 2rem;
 }
 
 .div-background .div-text{
@@ -168,12 +170,12 @@
 //     width: 24.4%;
 // }
 .div-profile-four{
-    width: 100%;
+    width: 388px;
     height: 380px;
     background: #fff;
     border-radius: 20px;
     margin-top: 20px;
-    z-index: 1;
+    //z-index: 1;
     padding: 2rem;
 
     .col-12{
@@ -200,6 +202,10 @@
         width: 376px;
     }
 }
+
+  :host ::ng-deep .p-datepicker table td {
+    padding: 0rem;
+  }
 
 .btn{
     width: 60px;

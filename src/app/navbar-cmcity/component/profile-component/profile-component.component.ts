@@ -34,6 +34,9 @@ export class ProfileComponentComponent implements OnInit {
   modeMom: boolean = true;
   modeChild: boolean = true;
 
+  modeChildstatus: string = 'ADD';
+  blockedUi: boolean = true;
+
   textString: string = 'form-control-plaintext';
   textSelect: string = 'form-control';
   textStringGf: string = 'form-control-plaintext';
@@ -63,6 +66,11 @@ export class ProfileComponentComponent implements OnInit {
   userId: any;
   public marital: Observable<Marital[]> | any
   products: any;
+
+  emailCheck: any;
+  emailValidation: boolean = false;
+  pnumberCheck: any;
+  pnumberValidation: boolean = false;
 
   constructor(private primengConfig: PrimeNGConfig,
     private service: MainService,
@@ -105,15 +113,33 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelDad.disable();
     this.formModelMom.disable();
     this.setperiodMonthDescOption();
-
-    this.service.getProductsSmall().then(products => {
-      this.products = products;
-    });
   }
 
+  checkPhoneNumber() {
+    this.pnumberCheck = this.formModel.get('tel')?.value;
+    if (this.pnumberCheck?.match("^[0-9]{10}$")) {
+      this.pnumberValidation = false;
+    } else {
+      this.pnumberValidation = true;
+    }
+  }
+  
+  checkEmail() {
+    this.emailCheck = this.formModel.get('email')?.value;
+    if (this.emailCheck?.match("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) {
+      this.emailValidation = false;
+    } else {
+      this.emailValidation = true;
+    }
+  }
 
   onClickAddChild() {
-    const data = this.formModel.getRawValue();
+    const payloadChild = this.formModel.getRawValue();
+    if(this.modeChildstatus === 'ADD'){
+        // add service child
+    }else{
+        // edit service child
+    }
   }
 
   onCancleAddChild() {
@@ -191,6 +217,7 @@ export class ProfileComponentComponent implements OnInit {
 
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
+      beneficiaryMarital: new FormControl(null),
     });
 
     this.formModelGf = new FormGroup({
@@ -468,6 +495,15 @@ export class ProfileComponentComponent implements OnInit {
       age--;
     }
     return age;
+  }
+
+  onCheckAge(event: any){
+    const data = event;
+    this.formModel.get('age')?.setValue(this.transformAge(data));
+  }
+
+  onClearAge(){
+    this.formModel.get('age')?.setValue(null);
   }
 
   checkRetirementDate(dateOfBirth: any) {
@@ -796,6 +832,19 @@ export class ProfileComponentComponent implements OnInit {
 
   }
 
-
   reject() { }
+
+  acceptChild(){
+    this.displayModal2 = true;
+    this.modeChildstatus = 'EDIT';
+
+    // get ข้แมูล ลูก ตาม id ...
+
+    const payloadChild = this.formModelChild.getRawValue(); 
+    // service edit child ...
+  }
+
+  onDeleteChild(){
+
+  }
 }

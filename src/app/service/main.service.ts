@@ -20,13 +20,6 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  getProductsSmall() {
-    return this.http.get<any>('assets/products-small.json')
-    .toPromise()
-    .then(res => <Product[]>res.data)
-    .then(data => { return data; });
-}
-
   register(playload: any): Observable<any>{
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/register/add-employee', playload
