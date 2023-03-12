@@ -499,7 +499,7 @@ export class ProfileComponentComponent implements OnInit {
 
   onCheckAge(event: any){
     const data = event;
-    this.formModel.get('age')?.setValue(this.transformAge(data));
+    this.formModel.get('age')?.setValue(this.transformAge(data) > 0 ? this.transformAge(data) : 0);
   }
 
   onClearAge(){
