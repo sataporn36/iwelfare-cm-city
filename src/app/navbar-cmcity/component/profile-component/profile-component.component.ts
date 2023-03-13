@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 import { Beneficiary } from 'src/app/model/beneficiary';
 import { Observable } from 'rxjs';
@@ -75,24 +75,10 @@ export class ProfileComponentComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig,
     private service: MainService,
     protected router: Router,
-    private localStorageService: LocalStorageService,) {
-    this.responsiveOptions = [
-      {
-        breakpoint: '1024px',
-        numVisible: 3,
-        numScroll: 3
-      },
-      {
-        breakpoint: '768px',
-        numVisible: 2,
-        numScroll: 2
-      },
-      {
-        breakpoint: '560px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ];
+    private localStorageService: LocalStorageService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+    ) {
   }
 
   ngOnInit(): void {
@@ -845,6 +831,14 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   onDeleteChild(){
-
+    this.confirmationService.confirm({
+      message: 'ท่านต้องการลบข้อมูลบุตร ' + '....',
+      header: 'ลบข้อมูล',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        /// api delete
+      },
+      reject: () => { }
+    });
   }
 }

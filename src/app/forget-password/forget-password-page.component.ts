@@ -38,6 +38,18 @@ export class ForgetPasswordPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    if(history.state.data){
+      const data = history.state.data;
+      if(data === 'changePassword'){
+          this.confirmationService.confirm({
+            message: 'กรุณาเปลี่ยนรหัสผ่านใหม่ของท่าน เนื่องจากท่านเป็นสมาชิกใหม่ที่ยังไม่เคยเข้าใช้งานระบบ',
+            header: 'เปลี่ยนรหัสผ่านสมาชิก',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => { },
+            reject: () => { }
+          });
+      }
+    }
     this.initMainForm();
   }
 
@@ -82,7 +94,7 @@ export class ForgetPasswordPageComponent implements OnInit{
   checkNewPass() {
     this.newPass = this.formModel.get('newPassword')?.value;
     this.newPass2 = this.formModel.get('newPassword2')?.value;
-    if (this.newPass?.match("^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$") && this.newPass === this.newPass2) {
+    if (this.newPass?.match("^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$")) {
       this.newPassValidation = false;
       this.checkNewPass2();
     } else {
@@ -120,11 +132,11 @@ export class ForgetPasswordPageComponent implements OnInit{
                   this.iconStatus = true;
                   this.formModel.reset();
                  }else{
-                  this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ ตรวจสอบข้อมูลให้ถูกต้อง'});
+                  this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาตรวจสอบข้อมูลให้ถูกต้อง'});
                   this.iconStatus = false;
                  }
              }else{
-                this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ ตรวจสอบข้อมูลให้ถูกต้อง'});
+                this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาตรวจสอบข้อมูลให้ถูกต้อง'});
                 this.iconStatus = false;
              }
         });

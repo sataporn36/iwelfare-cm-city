@@ -65,8 +65,8 @@
                 <div class="col-2 mb-3">
                     <label for="birthday" class="block">วันเกิด</label>
                     <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar" *ngIf="mode" />
-                    <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode" (onSelect)="onCheckAge($event)" yearRange="1900:2007"
-                        (onClearClick)="onClearAge()" [showButtonBar]="true" dateFormat="dd/mm/yy" [yearNavigator]="true"></p-calendar>
+                    <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode" (onSelect)="onCheckAge($event)" 
+                        (onClearClick)="onClearAge()" [showButtonBar]="true" dateFormat="dd/mm/yy" ></p-calendar>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="age" class="block">อายุ</label>
@@ -116,20 +116,44 @@
                     <input [class]="textString" id="levelName" type="text" formControlName="levelName" />
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
-                    <input [class]="textString" id="employeeTypeName" type="text" formControlName="employeeTypeName" />
+                    <div>
+                        <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
+                    </div>
+                   <div>
+                        <input [class]="textString" id="employeeTypeName" type="text" formControlName="employeeTypeName" *ngIf="!mode"/>
+                        <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode" 
+                        tooltipPosition="bottom" pTooltip="{{ formModel.get('employeeTypeName')?.value }}" [innerHTML]="formModel.get('employeeTypeName')?.value"></span>
+                   </div>
                 </div>
-                <div class="col-2 mb-3">
-                    <label for="positionName" class="block">ตำแหน่ง</label>
-                    <input [class]="textString" id="positionName" type="text" formControlName="positionName" />
+                <div class="grid col-2 mb-3">
+                    <div>
+                        <label for="positionName" class="block">ตำแหน่ง</label>
+                    </div>
+                   <div>
+                        <input [class]="textString" id="positionName" type="text" formControlName="positionName" *ngIf="!mode"/>
+                        <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode" 
+                        tooltipPosition="bottom" pTooltip="{{ formModel.get('positionName')?.value }}" [innerHTML]="formModel.get('positionName')?.value"></span>
+                   </div>
                 </div>
-                <div class="col-2 mb-3">
-                    <label for="affiliationName" class="block">สังกัด</label>
-                    <input [class]="textString" id="affiliationName" type="text" formControlName="affiliationName" />
+                <div class="grid col-2 mb-3">
+                    <div>
+                        <label for="affiliationName" class="block">สังกัด</label>
+                    </div>
+                   <div>
+                        <input class="form-control" id="affiliationName" type="text" formControlName="affiliationName" *ngIf="!mode" />
+                        <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode"
+                        tooltipPosition="bottom" pTooltip="{{ formModel.get('affiliationName')?.value }}" [innerHTML]="formModel.get('affiliationName')?.value"></span>
+                   </div>
                 </div>
-                <div class="col-2 mb-3">
-                    <label for="bureauName" class="block">สำนัก</label>
-                    <input [class]="textString" id="bureauName" type="text" formControlName="bureauName" />
+                <div class="grid col-2 mb-3">
+                    <div>
+                        <label for="bureauName" class="block">สำนัก</label>
+                    </div>
+                   <div>
+                    <input [class]="textString" id="bureauName" type="text" formControlName="bureauName" *ngIf="!mode"/>
+                        <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode" 
+                        tooltipPosition="bottom" pTooltip="{{ formModel.get('bureauName')?.value }}" [innerHTML]="formModel.get('bureauName')?.value"></span>
+                   </div>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="salary" class="block">เงินเดือน</label>
@@ -637,4 +661,11 @@
         </div>
     </div>
 </div>
+
+<p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+      </ng-template>
+</p-confirmDialog>
 

@@ -70,10 +70,8 @@ export class LoginPageComponent implements OnInit {
           next: (res) => {
             console.log(res, '===================> res login')
             if (res !== null && res.data.id !== 0) {
-              this.localStorageService.store('empId', res.data.id);
-              this.localStorageService.store('countDatetime', 0);
               //this.userId = res.data.id;
-              setTimeout(() => { }, 500);
+              //etTimeout(() => { }, 500);
               //this.service.userId.next(this.userId);
 
               // this.bnIdle.startWatching(10).subscribe((isTimedOut: boolean) =>{
@@ -87,9 +85,20 @@ export class LoginPageComponent implements OnInit {
               //   }
               // });
 
-              this.router.navigate(['/main/main-page'], {
-                //state: { data: this.userId }
-              });
+              // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
+              const statusChecklogin = false;
+              if(statusChecklogin){
+                this.localStorageService.store('empId', res.data.id);
+                this.localStorageService.store('countDatetime', 0);
+                this.router.navigate(['/main/main-page'], {
+                  //state: { data: this.userId }
+                });
+              }else{
+                this.router.navigate(['/forget-password'], {
+                  state: { data: 'changePassword' }
+                });
+              }
+             
             } else {
               // this.confirmationService.confirm({
               //   message: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง',
