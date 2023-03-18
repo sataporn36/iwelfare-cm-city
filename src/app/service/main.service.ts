@@ -7,6 +7,8 @@ import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
 import { Bureau } from '../model/bureau';
 import { CancelRegisterReq } from '../model/cancel-register-req';
+import { EmployeeType } from '../model/employee-type';
+import { Level } from '../model/level';
 import { Marital } from '../model/marital';
 import { Positions } from '../model/position';
 import { SearchNewResgter } from '../model/search-new-register';
@@ -91,8 +93,31 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/v1/employee', playload
     );
   }
-  // searchMarital(): Observable<Marital[]>{
-  //   return this.http.post<Marital[]>(AppPath.APP_API_SERVICE + '/v1/marital/search', null);
-  // }
+
+  updateBeneficiary(playload: any): Observable<any>{
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/beneficiary', playload
+    );
+  }
+
+  getBeneficiary(id: number): Observable<any>{
+    return this.http.get<any>(
+      AppPath.APP_API_SERVICE + '/v1/beneficiary/' + id , 
+    );
+  }
+
+  deleteBeneficiary(id: number): Observable<any>{
+    return this.http.delete<any>(
+      AppPath.APP_API_SERVICE + '/v1/beneficiary/' + id , 
+    );
+  }
+
+  searchLevel(): Observable<Level[]>{
+    return this.http.post<Level[]>(AppPath.APP_API_SERVICE + '/v1/level/search', null);
+  }
+
+  searchEmployeeType(): Observable<EmployeeType[]>{
+    return this.http.post<EmployeeType[]>(AppPath.APP_API_SERVICE + '/v1/employee-type/search', null);
+  }
 
 }

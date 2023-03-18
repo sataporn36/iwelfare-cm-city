@@ -68,26 +68,19 @@ export class LoginPageComponent implements OnInit {
       this.authorizeService.getAuthToken(payload).subscribe(
         {
           next: (res) => {
-            console.log(res, '===================> res login')
             if (res !== null && res.data.id !== 0) {
               //this.userId = res.data.id;
               //etTimeout(() => { }, 500);
               //this.service.userId.next(this.userId);
 
-              // this.bnIdle.startWatching(10).subscribe((isTimedOut: boolean) =>{
-              //   console.log(' isTimedOut ==> ', isTimedOut);
-              //   if(isTimedOut){
-              //     console.log(' Timeout Token 555');
-              //     this.localStorageService.clear('empId');
-              //     alert(' เวลาในระบบหมดอายุ กรุณาเข้าสู่ระบบใหม่อีกครั้ง ');
-              //     this.router.navigate(['/login']);
-              //     this.bnIdle.stopTimer();
-              //   }
-              // });
+              setTimeout(() => { }, 500);
 
+              console.log(res);
+              
+              
               // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
-              const statusChecklogin = false;
-              if(statusChecklogin){
+              const statusChecklogin = false ;
+              if(res.data.passwordFlag){
                 this.localStorageService.store('empId', res.data.id);
                 this.localStorageService.store('countDatetime', 0);
                 this.router.navigate(['/main/main-page'], {
@@ -100,15 +93,6 @@ export class LoginPageComponent implements OnInit {
               }
              
             } else {
-              // this.confirmationService.confirm({
-              //   message: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง',
-              //   header: 'เข้าสู่ระบบ',
-              //   icon: 'pi pi-exclamation-triangle',
-              //   accept: () => {
-              //   },
-              //   reject: () => {
-              //   }
-              // });
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
             }
           },

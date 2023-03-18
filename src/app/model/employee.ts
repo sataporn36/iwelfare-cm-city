@@ -4,6 +4,7 @@ import { Contact } from "./contact";
 import { EmployeeType } from "./employee-type";
 import { Level } from "./level";
 import { Positions } from "./position";
+import { User } from "./user";
 
 export interface Employee {
     id: number;
@@ -37,10 +38,11 @@ export interface Employee {
     bankAccountReceivingNumber: string;
     reason: string;
     description: string;
-    // user
+    user: User;
     // stock
     // loan
     beneficiaries: [Beneficiary]
     approveFlag: boolean;
+    passwordFlag: boolean;
 
 }

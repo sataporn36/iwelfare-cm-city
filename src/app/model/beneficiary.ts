@@ -7,4 +7,5 @@ export interface Beneficiary {
     birthday: Date;
     relationship: string;
     marital: string;
+    lifeStatus: string;
 }

@@ -47,17 +47,12 @@ export class RegisterPageComponent implements OnInit{
     }
     this.initMainForm();
     this.getPositions();
-    // this.getAffiliation();
     this.getBureau();
   }
 
   getPositions(): void {
     this.service.searchPosition().subscribe(data => this.position = data);
   }
-
-  // getAffiliationByBureau(id: any): void {
-  //   this.service.searchByBureau(id).subscribe(data => this.affiliation = data);
-  // }
 
   getBureau(): void {
     this.service.searchBureau().subscribe(data => this.bureau = data);
@@ -75,8 +70,6 @@ export class RegisterPageComponent implements OnInit{
       affiliationId: new FormControl('0',Validators.required),
       email: new FormControl(null,Validators.required),
     });
-
-    // console.log("------------> ", this.formModel.getRawValue().bureauId);
   }
 
   checkNullOfValue() {
@@ -145,7 +138,7 @@ export class RegisterPageComponent implements OnInit{
               }
               this.service.editStatusEmployeeResign(playload).subscribe((res) => {
                    if(res != null){
-                       if(res.data.statusEmployee === 'NORMAL_EMPLOYEE'){
+                       if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
                          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ'});  
                          this.iconStatus = true;
                          this.formModel.reset();
