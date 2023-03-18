@@ -110,8 +110,12 @@ export class MainPageComponent implements OnInit{
       reason: new FormControl(null),
       description: new FormControl(null),
       // user
-      // stock
-      // loan
+      stock: new FormControl(null),
+      stockAccumulate: new FormControl(null),
+
+      loan: new FormControl(null),
+      loanValue: new FormControl(null),
+
       approveFlag: new FormControl(null),
 
       // custom
@@ -125,8 +129,13 @@ export class MainPageComponent implements OnInit{
       this.formModel.patchValue({
         ...data,
         fullName: data.firstName + ' ' + data.lastName,
-        positionName: data.position.name
+        positionName: data.position.name,
+        stockAccumulate: data.stock.stockAccumulate,
+        loanValue: data.loan.loanValue
       })
+
+      console.log(data);
+      
     });
   }
 
