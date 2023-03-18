@@ -8,13 +8,20 @@
                 <div class="row">
                     <div class="col mb-3">
                         <label for="prefix" class="block">คำนำหน้า <span style="color: red;">*</span></label>
-                        <select class="form-select" aria-label="Default select example" formControlName="prefix" required="true" style="width: 490px;" >
+                        <select class="form-select" aria-label="Default select example" formControlName="prefix" required="true"  >
                             <option value="0" selected>เลือกคำนำหน้า</option>
                             <option value="1">นาย</option>
                             <option value="2">นางสาว</option>
                             <option value="3">นาง</option>
                             <option value="4">ว่าที่ร้อยตรี (ชาย)</option>
                             <option value="5">ว่าที่ร้อยตรี (หญิง)</option>
+                        </select>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="dapartment" class="block">หน่วยงาน <span style="color: red;">*</span></label>
+                        <select class="form-select" aria-label="Default select example" formControlName="dapartmentId" required="true">
+                            <option value="0" selected>เลือกหน่วยงาน</option>
+                            <option *ngFor="let dapartment of dapartment" value="{{ dapartment.id }}">{{ dapartment.name }}</option>
                         </select>
                     </div>
                 </div>

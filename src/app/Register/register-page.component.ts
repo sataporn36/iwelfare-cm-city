@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Affiliation } from '../model/affiliation';
 import { Bureau } from '../model/bureau';
+import { Department } from '../model/department';
 import { Positions } from '../model/position';
 import { MainService } from '../service/main.service';
 
@@ -30,6 +31,7 @@ export class RegisterPageComponent implements OnInit{
   public position: Observable<Positions[]> | any 
   public affiliation: Observable<Affiliation[]> | any 
   public bureau: Observable<Bureau[]> | any 
+  public dapartment: Observable<Department[]> | any;
 
   constructor(
     protected route: ActivatedRoute, 
@@ -48,6 +50,7 @@ export class RegisterPageComponent implements OnInit{
     this.initMainForm();
     this.getPositions();
     this.getBureau();
+    this.getDapartment();
   }
 
   getPositions(): void {
@@ -56,6 +59,10 @@ export class RegisterPageComponent implements OnInit{
 
   getBureau(): void {
     this.service.searchBureau().subscribe(data => this.bureau = data);
+  }
+
+  getDapartment(): void {
+    this.service.searchDepartment().subscribe(data => this.dapartment = data)
   }
 
   initMainForm(){
@@ -69,6 +76,7 @@ export class RegisterPageComponent implements OnInit{
       bureauId: new FormControl('0',Validators.required),
       affiliationId: new FormControl('0',Validators.required),
       email: new FormControl(null,Validators.required),
+      dapartmentId: new FormControl('0',Validators.required),
     });
   }
 

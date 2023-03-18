@@ -7,6 +7,7 @@ import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
 import { Bureau } from '../model/bureau';
 import { CancelRegisterReq } from '../model/cancel-register-req';
+import { Department } from '../model/department';
 import { EmployeeType } from '../model/employee-type';
 import { Level } from '../model/level';
 import { Marital } from '../model/marital';
@@ -52,6 +53,10 @@ export class MainService {
 
   searchPosition(): Observable<Positions[]>{
     return this.http.post<Positions[]>(AppPath.APP_API_SERVICE + '/v1/position/search', null);
+  }
+
+  searchDepartment(): Observable<Department[]>{
+    return this.http.post<Department[]>(AppPath.APP_API_SERVICE + '/v1/department/search', null);
   }
 
   searchBureau(): Observable<Bureau[]>{
