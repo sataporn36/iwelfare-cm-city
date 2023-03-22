@@ -9,6 +9,10 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { Marital } from 'src/app/model/marital';
 import { Level } from 'src/app/model/level';
 import { EmployeeType } from 'src/app/model/employee-type';
+import { Positions } from 'src/app/model/position';
+import { Affiliation } from 'src/app/model/affiliation';
+import { Bureau } from 'src/app/model/bureau';
+import { Department } from 'src/app/model/department';
 
 @Component({
   selector: 'app-profile-component',
@@ -83,6 +87,11 @@ export class ProfileComponentComponent implements OnInit {
   pnumberCheck: any;
   pnumberValidation: boolean = false;
 
+  public position: Observable<Positions[]> | any 
+  public affiliation: Observable<Affiliation[]> | any 
+  public bureau: Observable<Bureau[]> | any 
+  public dapartment: Observable<Department[]> | any;
+
   public level: Observable<Level[]> | any
   public employeeType: Observable<EmployeeType[]> | any
 
@@ -116,6 +125,21 @@ export class ProfileComponentComponent implements OnInit {
 
     this.searchLevel();
     this.searchEmployeeType();
+    this.getPositions();
+    this.getBureau();
+    this.getDapartment();
+  }
+
+  getPositions(): void {
+    this.service.searchPosition().subscribe(data => this.position = data);
+  }
+
+  getBureau(): void {
+    this.service.searchBureau().subscribe(data => this.bureau = data);
+  }
+
+  getDapartment(): void {
+    this.service.searchDepartment().subscribe(data => this.dapartment = data)
   }
 
   searchLevel(): void {
@@ -145,7 +169,6 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   onClickAddChild() {
-    // const payloadChild = this.formModel.getRawValue();
     if (this.modeChildstatus === 'ADD') {
       const playload = this.formModelChild.getRawValue();
 
@@ -245,10 +268,11 @@ export class ProfileComponentComponent implements OnInit {
       reason: new FormControl(null),
       description: new FormControl(null),
       user: new FormControl(null),
-      // stock
-      // loan
+      stock: new FormControl(null),
+      loan: new FormControl(null),
       approveFlag: new FormControl(null),
       profileFlag: new FormControl(null),
+      passwordFlag: new FormControl(null),
 
       // custom
       fullName: new FormControl(null),
@@ -278,9 +302,16 @@ export class ProfileComponentComponent implements OnInit {
       levelId: new FormControl(0, Validators.required),
       employeeTypeId: new FormControl('0', Validators.required),
 
+      positionId: new FormControl('0', Validators.required),
+      bureauId: new FormControl('0', Validators.required),
+      affiliationId: new FormControl('0', Validators.required),
+      dapartmentId: new FormControl('0', Validators.required),
+
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
       beneficiaryMarital: new FormControl(null),
+      department: new FormControl(null),
+      departmentName: new FormControl(null),
     });
 
     this.formModelGf = new FormGroup({
@@ -423,7 +454,8 @@ export class ProfileComponentComponent implements OnInit {
         profileFlag: data.profileFlag,
         textHidden: '-',
 
-        beneficiarySize: data.beneficiaries.length > 0 ? true : false
+        beneficiarySize: data.beneficiaries.length > 0 ? true : false,
+        departmentName: data.department.name ? data.department.name : '-'
 
       })
 
@@ -602,16 +634,53 @@ export class ProfileComponentComponent implements OnInit {
     this.formModel.enable();
 
     // check disable
+    if (this.formModel.get('positionName')?.value != null || this.formModel.get('positionName')?.value != '-') {
+      this.formModel.get('positionName')?.disable();
+    }else{
+      this.formModel.get('positionName')?.enable();
+    }
+
+    if (this.formModel.get('affiliationName')?.value != null || this.formModel.get('affiliationName')?.value != '-') {
+      this.formModel.get('affiliationName')?.disable();
+    }else{
+      this.formModel.get('affiliationName')?.enable();
+    }
+
+    if (this.formModel.get('bureauName')?.value != null || this.formModel.get('bureauName')?.value != '-') {
+      this.formModel.get('bureauName')?.disable();
+    }else{
+      this.formModel.get('bureauName')?.enable();
+    }
+
+    if (this.formModel.get('employeeTypeName')?.value != null || this.formModel.get('employeeTypeName')?.value != '-') {
+      this.formModel.get('employeeTypeName')?.disable();
+    }else{
+      this.formModel.get('employeeTypeName')?.enable();
+    }
+
+    if (this.formModel.get('levelName')?.value != null || this.formModel.get('levelName')?.value != '-') {
+      this.formModel.get('levelName')?.disable();
+    }else{
+      this.formModel.get('levelName')?.enable();
+    }
+
+    if (this.formModel.get('departmentName')?.value != null || this.formModel.get('departmentName')?.value != '-') {
+      this.formModel.get('departmentName')?.disable();
+    }else{
+      this.formModel.get('departmentName')?.enable();
+    }
+
     this.formModel.get('prefix')?.disable();
     this.formModel.get('age')?.disable();
     this.formModel.get('idCard')?.disable();
-    this.formModel.get('levelName')?.disable();
-    this.formModel.get('positionName')?.disable();
-    this.formModel.get('affiliationName')?.disable();
-    this.formModel.get('bureauName')?.disable();
+    // this.formModel.get('levelName')?.disable();
+    
+    
+    // this.formModel.get('bureauName')?.disable();
     this.formModel.get('gender')?.disable();
-    this.formModel.get('employeeTypeName')?.disable();
+    // this.formModel.get('employeeTypeName')?.disable();
     this.formModel.get('retirementDate')?.disable();
+    // this.formModel.get('departmentName')?.disable();
 
     this.arrayChild = [];
     this.dadArray = [];
@@ -737,10 +806,42 @@ export class ProfileComponentComponent implements OnInit {
         return '4'
       case 'ด.ญ':
         return '5'
-      case 'ว่าที่ร้อยตรี (ชาย)':
+      case 'ว่าที่ร้อยตรี':
         return '6'
-      case 'ว่าที่ร้อยตรี (หญิง)':
+      case 'ว่าที่ร้อยตรีหญิง':
         return '7'
+      case 'ว่าที่ร้อยโท':
+        return '8'
+      case 'ว่าที่ร้อยโทหญิง':
+        return '9'
+      case 'ว่าที่ร้อยเอก':
+        return '10'
+      case 'ว่าที่ร้อยเอกหญิง':
+        return '11'
+      case 'สิบตรี':
+        return '12'
+      case 'สิบตรีหญิง':
+        return '13'
+      case 'สิบโท':
+        return '14'
+      case 'สิบโทหญิง':
+        return '15'
+      case 'สิบเอก':
+        return '16'
+      case 'สิบเอกหญิง':
+        return '17'
+      case 'จ่าสิบตรี':
+        return '18'
+      case 'จ่าสิบตรีหญิง':
+        return '19'
+      case 'จ่าสิบโท':
+        return '20'
+      case 'จ่าสิบโทหญิง':
+        return '21'
+      case 'จ่าสิบเอก':
+        return '22'
+      case 'จ่าสิบเอกหญิง':
+        return '23'
       default:
         break;
     }
@@ -758,9 +859,41 @@ export class ProfileComponentComponent implements OnInit {
         return 'ชาย'
       case 'ด.ญ':
         return 'หญิง'
-      case 'ว่าที่ร้อยตรี (ชาย)':
+      case 'ว่าที่ร้อยตรี':
         return 'ชาย'
-      case 'ว่าที่ร้อยตรี (หญิง)':
+      case 'ว่าที่ร้อยตรีหญิง':
+        return 'หญิง'
+      case 'ว่าที่ร้อยโท':
+        return 'ชาย'
+      case 'ว่าที่ร้อยโทหญิง':
+        return 'หญิง'
+      case 'ว่าที่ร้อยเอก':
+        return 'ชาย'
+      case 'ว่าที่ร้อยเอกหญิง':
+        return 'หญิง'
+      case 'สิบตรี':
+        return 'ชาย'
+      case 'สิบตรีหญิง':
+        return 'หญิง'
+      case 'สิบโท':
+        return 'ชาย'
+      case 'สิบโทหญิง':
+        return 'หญิง'
+      case 'สิบเอก':
+        return 'ชาย'
+      case 'สิบเอกหญิง':
+        return 'หญิง'
+      case 'จ่าสิบตรี':
+        return 'ชาย'
+      case 'จ่าสิบตรีหญิง':
+        return 'หญิง'
+      case 'จ่าสิบโท':
+        return 'ชาย'
+      case 'จ่าสิบโทหญิง':
+        return 'หญิง'
+      case 'จ่าสิบเอก':
+        return 'ชาย'
+      case 'จ่าสิบเอกหญิง':
         return 'หญิง'
       default:
         break;
@@ -781,9 +914,41 @@ export class ProfileComponentComponent implements OnInit {
       case '5':
         return 'ด.ญ'
       case '6':
-        return 'ว่าที่ร้อยตรี (ชาย)'
+        return 'ว่าที่ร้อยตรี'
       case '7':
-        return 'ว่าที่ร้อยตรี (หญิง)'
+        return 'ว่าที่ร้อยตรีหญิง'
+      case '8':
+        return 'ว่าที่ร้อยโท'
+      case '9':
+        return 'ว่าที่ร้อยโทหญิง'
+      case '10':
+        return 'ว่าที่ร้อยเอก'
+      case '11':
+        return 'ว่าที่ร้อยเอกหญิง'
+      case '12':
+        return 'สิบตรี'
+      case '13':
+        return 'สิบตรีหญิง'
+      case '14':
+        return 'สิบโท'
+      case '15':
+        return 'สิบโทหญิง'
+      case '16':
+        return 'สิบเอก'
+      case '17':
+        return 'สิบเอกหญิง'
+      case '18':
+        return 'จ่าสิบตรี'
+      case '19':
+        return 'จ่าสิบตรีหญิง'
+      case '20':
+        return 'จ่าสิบโท'
+      case '21':
+        return 'จ่าสิบโทหญิง'
+      case '22':
+        return 'จ่าสิบเอก'
+      case '23':
+        return 'จ่าสิบเอกหญิง'
       default:
         break;
     }
@@ -895,6 +1060,7 @@ export class ProfileComponentComponent implements OnInit {
       address: playload.address,
       facebook: playload.facebook,
     }
+    // playload.passwordFlag = true;
 
     playload.marital = this.checkMaritalV2_text(playload.selectMarital)
 
@@ -1063,8 +1229,13 @@ export class ProfileComponentComponent implements OnInit {
 
   sortFn = (a: any, b: any): any => {
     if (a.slug < b.slug) return -1;
-    if (a.slug === b.slug) return 0; 
+    if (a.slug === b.slug) return 0;
     if (a.slug > b.slug) return 1;
+  }
+
+  checkBureau(id: any){
+    // console.log("data ---------------> ", data.target.value);
+    this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
 }
 

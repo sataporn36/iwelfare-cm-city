@@ -13,29 +13,37 @@
                             <option value="1">นาย</option>
                             <option value="2">นางสาว</option>
                             <option value="3">นาง</option>
-                            <option value="4">ว่าที่ร้อยตรี (ชาย)</option>
-                            <option value="5">ว่าที่ร้อยตรี (หญิง)</option>
+                            <option value="6">ว่าที่ร้อยตรี</option>
+                            <option value="7">ว่าที่ร้อยตรีหญิง</option>
+                            <option value="8">ว่าที่ร้อยโท</option>
+                            <option value="9">ว่าที่ร้อยโทหญิง</option>
+                            <option value="10">ว่าที่ร้อยเอก</option>
+                            <option value="11">ว่าที่ร้อยเอกหญิง</option>
+                            <option value="12">สิบตรี</option>
+                            <option value="13">สิบตรีหญิง</option>
+                            <option value="14">สิบโท</option>
+                            <option value="15">สิบโทหญิง</option>
+                            <option value="16">สิบเอก</option>
+                            <option value="17">สิบเอกหญิง</option>
+                            <option value="18">จ่าสิบตรี</option>
+                            <option value="19">จ่าสิบตรีหญิง</option>
+                            <option value="20">จ่าสิบโท</option>
+                            <option value="21">จ่าสิบโทหญิง</option>
+                            <option value="22">จ่าสิบเอก</option>
+                            <option value="23">จ่าสิบเอกหญิง</option>
                         </select>
                     </div>
-                    <div class="col mb-3">
-                        <label for="dapartment" class="block">หน่วยงาน <span style="color: red;">*</span></label>
-                        <select class="form-select" aria-label="Default select example" formControlName="dapartmentId" required="true">
-                            <option value="0" selected>เลือกหน่วยงาน</option>
-                            <option *ngFor="let dapartment of dapartment" value="{{ dapartment.id }}">{{ dapartment.name }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col mb-3">
                         <label for="firstName" class="block">ชื่อ <span style="color: red;">*</span></label>
                         <input class="form-control" id="firstName" pInputText type="text" formControlName="firstName" required="true" placeholder="ชื่อจริง"/>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col mb-3">
                         <label for="lastName" class="block">นามสกุล <span style="color: red;">*</span></label>
                         <input class="form-control" id="lastName" pInputText type="text" formControlName="lastName" required="true" placeholder="นามสกุลจริง"/>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col mb-3">
                         <div class="flex">  
                             <label for="idCard" class="block">เลขประจำตัวประชาชน <span style="color: red;">*</span></label> 
@@ -46,6 +54,9 @@
                             <span style="color: red;">กรุณากรอก <br> เลขประจำตัวประชาชนให้ถูกต้อง</span> 
                        </em>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col mb-3">
                         <div class="flex">  
                             <label for="tel" class="block">หมายเลขโทรศัพท์ <span style="color: red;">*</span></label> 
@@ -55,6 +66,13 @@
                         <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
                             <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span> 
                        </em>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="dapartment" class="block">หน่วยงาน <span style="color: red;">*</span></label>
+                        <select class="form-select" aria-label="Default select example" formControlName="dapartmentId" required="true">
+                            <option value="0" selected>เลือกหน่วยงาน</option>
+                            <option *ngFor="let dapartment of dapartment" value="{{ dapartment.id }}">{{ dapartment.name }}</option>
+                        </select>
                     </div>
                 </div>
 

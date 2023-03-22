@@ -3,7 +3,9 @@ import { Beneficiary } from "./beneficiary";
 import { Contact } from "./contact";
 import { EmployeeType } from "./employee-type";
 import { Level } from "./level";
+import { Loan } from "./loan";
 import { Positions } from "./position";
+import { Stock } from "./stock";
 import { User } from "./user";
 
 export interface Employee {
@@ -39,8 +41,8 @@ export interface Employee {
     reason: string;
     description: string;
     user: User;
-    // stock
-    // loan
+    stock: Stock;
+    loan: Loan;
     beneficiaries: [Beneficiary]
     approveFlag: boolean;
     passwordFlag: boolean;

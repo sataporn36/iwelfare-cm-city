@@ -2,7 +2,7 @@ import { LocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {LocalStorageService} from 'ngx-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { fromEvent } from 'rxjs';
 import { MainService } from 'src/app/service/main.service';
@@ -12,38 +12,38 @@ import { MainService } from 'src/app/service/main.service';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent implements OnInit{
+export class MainPageComponent implements OnInit {
 
   formModel!: FormGroup;
   userId: any;
   countDemo: any;
 
   countDate = new Date("march 25, 2023 15:37:25").getTime();
-  x = setInterval(()=>{
+  x = setInterval(() => {
     let now = new Date().getTime();
     let distance = this.countDate - now;
-    let days = Math.floor(distance/(1000*60*60*24));
-    let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-    let minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-    let seconds = Math.floor((distance % (1000*60)) / 1000);
-    this.countDemo = days + "d " + hours + "h " + minutes + "m " + seconds + "s " ;
- })
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    this.countDemo = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+  })
 
   constructor(
-    private fb: FormBuilder, 
-    protected router: Router, 
+    private fb: FormBuilder,
+    protected router: Router,
     protected route: ActivatedRoute,
-    private service : MainService,
+    private service: MainService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService,
-    ) {
-      // this.service.userId.subscribe((id) =>{
-      //   this.userId = id;
-      //   console.log('id ==============>',this.userId)
-      // }
-    }
+  ) {
+    // this.service.userId.subscribe((id) =>{
+    //   this.userId = id;
+    //   console.log('id ==============>',this.userId)
+    // }
+  }
 
   ngOnInit(): void {
     // if(history.state.data){
@@ -56,12 +56,12 @@ export class MainPageComponent implements OnInit{
     // }else{
     //   this.getEmployee(this.userId);
     // }
-   
-    if (!localStorage.getItem('foo')) { 
+
+    if (!localStorage.getItem('foo')) {
       localStorage.setItem('foo', 'no reload');
       history.go(0);
     } else {
-      localStorage.removeItem('foo') 
+      localStorage.removeItem('foo')
       this.initMainForm();
       this.userId = this.localStorageService.retrieve('empId');
       this.getEmployee(this.userId);
@@ -130,12 +130,12 @@ export class MainPageComponent implements OnInit{
         ...data,
         fullName: data.firstName + ' ' + data.lastName,
         positionName: data.position.name,
-        stockAccumulate: data.stock.stockAccumulate,
-        loanValue: data.loan.loanValue
+        stockAccumulate: data.stock?.stockAccumulate ? data.stock?.stockAccumulate : '',
+        loanValue: data.loan?.loanValue ? data.loan?.loanValue : '',
       })
 
       console.log(data);
-      
+
     });
   }
 

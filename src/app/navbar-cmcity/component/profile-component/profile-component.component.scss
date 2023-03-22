@@ -197,7 +197,7 @@
 
 .btn {
   width: 60px;
-  height: 35px;
+  height: 34px;
   font-weight: 500;
   font-size: 14px;
   margin-top: -5px;
@@ -236,7 +236,7 @@
 .btn-edit {
   color: #fe6bba;
   border-color: #fe6bba;
-  transform: translate(1120px, 0px);
+  transform: translate(1180px, -50px);
 }
 
 :host ::ng-deep .p-calendar input {
@@ -250,7 +250,31 @@
 }
 
 .div-btn {
-  transform: translate(1050px, 0px);
+  display: flex;
+  padding-top: 5px;
+  background-color: #dee2e6;
+  width: 7.8rem;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+
+  .btn {
+    width: 55px;
+    height: 28px;
+    font-weight: 500;
+    font-size: 13px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-regis {
+    color: #fe6bba;
+    border-color: #fe6bba;
+    background-color: #f1f2f6;
+  }
 }
 
 .btn-login {
@@ -263,6 +287,7 @@
   border-color: #fe6bba;
   margin-left: 10px;
 }
+
 :host ::ng-deep .p-inputswitch {
   height: 20px;
   width: 40px;
@@ -314,19 +339,59 @@
 }
 
 
-// :host ::ng-deep .p-calendar{
-//   border: 2px solid green;
-//   border-radius: 10px;
 
-//   // transform: translate(105px, 125px);
+// body .ui-datepicker .ui-timepicker {
+//   border: 0 none;
+//   border-top: 1px solid #d8dae2;
+//   padding: 0.857em;
+//   margin: 100px;
+// }
+// ::ng-deep div.ui-datepicker .ui-timepicker{
+//   padding:initial;
+//   font-size:smaller;
+//   margin: 100px;
+// }
+// ::ng-deep .ui-timepicker.ui-widget-header{
+//   padding:initial;
+//   font-size:smaller;
 // }
 
-// :host ::ng-deep .p-calendar
-//   .p-datepicker table td.p-datepicker-today>span,
-// :host ::ng-deep .p-calendar .p-datepicker
-//   table td.p-datepicker-today>span:hover {
-//   background-color: green;
-//   color: white;
-//   font-weight: bold;
-//   // margin-top: 500px;
+:host .div-calendar ::ng-deep .p-datepicker {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: -75px;
+}
+
+// .calendar-dad :host ::ng-deep .p-calendar-w-btn  {
+//   // border-top-right-radius: 0;
+//   // border-bottom-right-radius: 0;
+//   // width: 270px;
+//   // height: 3rem;
+//   // margin-left: -100px;
+//   transform: translate(-200px, 0px);
+// }
+
+// .calendar-dad ::ng-deep .only-style-this .ui-calendar .ui-calendar-button {
+//   // transform: translate(-200px, 0px);
+//   margin-left: -100px;
+// }
+
+// .dateTimeField {
+// 	// vertical-align: middle;
+//   position: absolute;
+// 	margin-right: 100px;
+// }
+
+// .ui-calendar.ui-calendar-w-btn:focus-within
+// .ui-inputtext {
+// border-left: 1px solid #0fb4e1;
+// border-top: 1px solid #0fb4e1;
+// border-bottom: 1px solid #0fb4e1;
+// background-color: #f6fafb;
+
+//   .ui-inputwrapper-focus .ui-calendar .ui-inputtext {
+//     border-left: 1px solid #0FB4E1;
+//     border-top: 1px solid #0FB4E1;
+//     border-bottom: 1px solid #0FB4E1;
+//     background-color: #F6FAFB;
 // }
