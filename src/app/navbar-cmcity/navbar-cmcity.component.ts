@@ -18,8 +18,6 @@ export class NavbarCmcityComponent implements OnInit {
   items!: MenuItem[];
   displayModal: boolean = false;
   displayModalRegister: boolean = false;
-  // displayCount!: string;
-  // count: any;
   
   emp: Observable<Employee> | any 
   countNewRegister: Observable<any> | any 
@@ -66,9 +64,7 @@ export class NavbarCmcityComponent implements OnInit {
 
    countDemo: any;
    currentDateTime: any;
-   //countDate = new Date(this.localStorageService.retrieve('currentDateTime')).getTime();
-   //countDate = new Date("3/5/2023 1:20:00").getTime();
-   //countDate = new Date().getTime();
+   
    x = setInterval(()=>{
      let now = new Date().getTime();
      let countDate = new Date(this.localStorageService.retrieve('currentDateTime')).getTime();
@@ -77,8 +73,9 @@ export class NavbarCmcityComponent implements OnInit {
      let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
      let minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
      let seconds = Math.floor((distance % (1000*60)) / 1000);
-    //  this.countDemo = hours + "h " + minutes + "m " + seconds + "s " ;
+     
      this.countDemo = minutes + "m " + seconds + "s " ;
+
      if(distance < 0){
         clearInterval(this.x);
         this.countDemo = 'time out';
@@ -267,12 +264,6 @@ export class NavbarCmcityComponent implements OnInit {
     }
   }
 
-  // getEmployee(id: any): void {
-  //   this.service.getEmployee(id).subscribe(data => {this.emp = data
-  //     console.log('data------------------------> ', data);
-  //   });
-  // }
-
   getEmployee(id: any): void {
     this.service.getEmployee(id).subscribe(data => {
       this.formModel.patchValue({
@@ -286,10 +277,10 @@ export class NavbarCmcityComponent implements OnInit {
     let textGender = ''
     switch (gender) {
       case 'ชาย':
-        textGender = 'assets/images/boyV2.png'
+        textGender = 'assets/images/boy.png'
         break;
       case 'หญิง':
-        textGender = 'assets/images/girlV2.png'
+        textGender = 'assets/images/girl.png'
         break;
       default:
       break;
@@ -306,6 +297,4 @@ export class NavbarCmcityComponent implements OnInit {
       return "none"
     }
   }
-
-
 }

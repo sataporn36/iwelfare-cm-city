@@ -566,7 +566,7 @@
                                 *ngIf="modeDad" />
                             <select class="form-select" aria-label="Default select example" *ngIf="!modeDad"
                                 formControlName="beneficiaryMarital" required="true">
-                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="0" selected>เลือกสถานภาพสมรส</option>
                                 <option value="1">โสด</option>
                                 <option value="2">แต่งงานแล้ว</option>
                                 <option value="3">หม้าย</option>
@@ -676,7 +676,7 @@
                                 *ngIf="modeMom" />
                             <select class="form-select" aria-label="Default select example" *ngIf="!modeMom"
                                 formControlName="beneficiaryMarital" required="true">
-                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="0" selected>เลือกสถานภาพสมรส</option>
                                 <option value="1">โสด</option>
                                 <option value="2">แต่งงานแล้ว</option>
                                 <option value="3">หม้าย</option>
@@ -693,81 +693,93 @@
 </div>
 
 <!-- popup add child -->
-<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '25vw'}" [draggable]="false" [resizable]="false"
+<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
     styleClass="customDialog">
     <ng-template pTemplate="header">
-        <span *ngIf="modeChildstatus === 'ADD'" style="font-size: 18px; font-weight: bold;">เพิ่มบุตร/บุตรบุญธรรม</span>
-        <span *ngIf="modeChildstatus === 'EDIT'"
-            style="font-size: 18px; font-weight: bold;">เเก้ไขบุตร/บุตรบุญธรรม</span>
+        <div *ngIf="modeChildstatus === 'ADD'">
+            <p-chip label="เพิ่มบุตร/บุตรบุญธรรม" styleClass="mr-2"></p-chip>
+        </div>
+        <div *ngIf="modeChildstatus === 'EDIT'">
+            <p-chip label="เเก้ไขบุตร/บุตรบุญธรรม" styleClass="mr-2"></p-chip>
+        </div>
     </ng-template>
     <div [formGroup]="formModelChild">
-        <div style="display: grid; justify-content: center;">
-            <div class="col-12">
-                <label for="beneficiaryPrefix" class="block">คำนำหน้า</label>
-                <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
-                    required="true" style="height: 3rem;">
-                    <option value="1">นาย</option>
-                    <option value="2">นางสาว</option>
-                    <option value="3">นาง</option>
-                    <option value="4">ด.ช</option>
-                    <option value="5">ด.ญ</option>
-                    <option value="6">ว่าที่ร้อยตรี</option>
-                    <option value="7">ว่าที่ร้อยตรีหญิง</option>
-                    <option value="8">ว่าที่ร้อยโท</option>
-                    <option value="9">ว่าที่ร้อยโทหญิง</option>
-                    <option value="10">ว่าที่ร้อยเอก</option>
-                    <option value="11">ว่าที่ร้อยเอกหญิง</option>
-                    <option value="12">สิบตรี</option>
-                    <option value="13">สิบตรีหญิง</option>
-                    <option value="14">สิบโท</option>
-                    <option value="15">สิบโทหญิง</option>
-                    <option value="16">สิบเอก</option>
-                    <option value="17">สิบเอกหญิง</option>
-                    <option value="18">จ่าสิบตรี</option>
-                    <option value="19">จ่าสิบตรีหญิง</option>
-                    <option value="20">จ่าสิบโท</option>
-                    <option value="21">จ่าสิบโทหญิง</option>
-                    <option value="22">จ่าสิบเอก</option>
-                    <option value="23">จ่าสิบเอกหญิง</option>
-                </select>
+        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+            <div class="col-12 " style="display: flex; justify-content: space-between;">
+                <div class="col-6">
+                    <label for="beneficiaryPrefix" class="block" style="color: #747d8c;">คำนำหน้า</label>
+                    <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                        required="true" style="height: 2.8rem;">
+                        <option value="0" selected>เลือกคำนำหน้า</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นางสาว</option>
+                        <option value="3">นาง</option>
+                        <option value="4">ด.ช</option>
+                        <option value="5">ด.ญ</option>
+                        <option value="6">ว่าที่ร้อยตรี</option>
+                        <option value="7">ว่าที่ร้อยตรีหญิง</option>
+                        <option value="8">ว่าที่ร้อยโท</option>
+                        <option value="9">ว่าที่ร้อยโทหญิง</option>
+                        <option value="10">ว่าที่ร้อยเอก</option>
+                        <option value="11">ว่าที่ร้อยเอกหญิง</option>
+                        <option value="12">สิบตรี</option>
+                        <option value="13">สิบตรีหญิง</option>
+                        <option value="14">สิบโท</option>
+                        <option value="15">สิบโทหญิง</option>
+                        <option value="16">สิบเอก</option>
+                        <option value="17">สิบเอกหญิง</option>
+                        <option value="18">จ่าสิบตรี</option>
+                        <option value="19">จ่าสิบตรีหญิง</option>
+                        <option value="20">จ่าสิบโท</option>
+                        <option value="21">จ่าสิบโทหญิง</option>
+                        <option value="22">จ่าสิบเอก</option>
+                        <option value="23">จ่าสิบเอกหญิง</option>
+                    </select>
+                </div>
+                <div style="padding-right: 0.5rem;"></div>
+                <div class="col-6">
+                    <label class="block">ชื่อ</label>
+                    <input type="text" class="form-control" id="beneficiaryFirstName" type="text" required="true"
+                        formControlName="beneficiaryFirstName" style="height: 2.8rem;" />
+                </div>
             </div>
 
-            <div class="col-12">
-                <label class="block">ชื่อ</label>
-                <input type="text" class="form-control" id="beneficiaryFirstName" type="text" required="true"
-                    formControlName="beneficiaryFirstName" style="height: 3rem;" />
-            </div>
-            <div class="col-12">
-                <label class="block">นามสกุล</label>
-                <input type="text" class="form-control" id="beneficiaryLastName" type="text" required="true"
-                    formControlName="beneficiaryLastName" style="height: 3rem;" />
-            </div>
-
-            <div class="col-12">
-                <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
-                <select class="form-select" aria-label="Default select example" style="height: 3rem;"
-                    formControlName="beneficiaryRelationship" required="true">
-                    <option value="0" selected>เลือกความสัมพันธ์</option>
-                    <option value="5">บุตร</option>
-                    <option value="6">บุตรบุญธรรม</option>
-                </select>
+            <div class="col-12 " style="display: flex; justify-content: space-between;">
+                <div class="col-6">
+                    <label class="block">นามสกุล</label>
+                    <input type="text" class="form-control" id="beneficiaryLastName" type="text" required="true"
+                        formControlName="beneficiaryLastName" style="height: 2.8rem;" />
+                </div>
+                <div style="padding-right: 0.5rem;"></div>
+                <div class="col-6">
+                    <label for="basic" class="block">วันเกิด</label> <br>
+                    <div class="div-calendar-child">
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" [maxDate]="defaultDateline"
+                            dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-12">
-                <label for="marital" class="block">สถานภาพ</label>
-                <select class="form-select" aria-label="Default select example" formControlName="beneficiaryLifeStatus"
-                    required="true" style="height: 3rem;">
-                    <option value="0" selected>เลือกสถานภาพ</option>
-                    <option value="1">มีชีวิต</option>
-                    <option value="2">ไม่มีชีวิต</option>
-                </select>
-            </div>
-
-            <div class="col-12">
-                <label for="basic" class="block">วันเกิด</label> <br>
-                <p-calendar inputId="basic" formControlName="beneficiaryBirthday" [maxDate]="myDefaultDate"
-                    [showButtonBar]="false" [showOnFocus]="true" [showIcon]="true" [required]="true"
-                    dateFormat="dd/mm/yy" [showButtonBar]="true"></p-calendar>
+            <div class="col-12 " style="display: flex; justify-content: space-between;">
+                <div class="col-6">
+                    <label for="beneficiaryLifeStatus" class="block">สถานภาพ</label>
+                    <select class="form-select" aria-label="Default select example"
+                        formControlName="beneficiaryLifeStatus" required="true" style="height: 2.8rem;">
+                        <option value="0" selected>เลือกสถานภาพ</option>
+                        <option value="1">มีชีวิต</option>
+                        <option value="2">ไม่มีชีวิต</option>
+                    </select>
+                </div>
+                <div style="padding-right: 0.5rem;"></div>
+                <div class="col-6">
+                    <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
+                    <select class="form-select" aria-label="Default select example" style="height: 2.8rem;"
+                        formControlName="beneficiaryRelationship" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="5">บุตร</option>
+                        <option value="6">บุตรบุญธรรม</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>

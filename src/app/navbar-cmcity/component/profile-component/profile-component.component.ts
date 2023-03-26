@@ -87,9 +87,9 @@ export class ProfileComponentComponent implements OnInit {
   pnumberCheck: any;
   pnumberValidation: boolean = false;
 
-  public position: Observable<Positions[]> | any 
-  public affiliation: Observable<Affiliation[]> | any 
-  public bureau: Observable<Bureau[]> | any 
+  public position: Observable<Positions[]> | any
+  public affiliation: Observable<Affiliation[]> | any
+  public bureau: Observable<Bureau[]> | any
   public dapartment: Observable<Department[]> | any;
 
   public level: Observable<Level[]> | any
@@ -227,6 +227,7 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelChild.reset();
     this.formModelChild.get('beneficiaryRelationship')?.setValue(0);
     this.formModelChild.get('beneficiaryPrefix')?.setValue(0);
+    this.displayModal2 = false;
     this.ngOnInit();
   }
 
@@ -339,14 +340,14 @@ export class ProfileComponentComponent implements OnInit {
       marital: new FormControl(null),
       lifeStatus: new FormControl(null),
       prefix: new FormControl(null),
-      beneficiaryPrefix: new FormControl(null),
+      beneficiaryPrefix: new FormControl(0),
       beneficiaryFirstName: new FormControl(null),
       beneficiaryLastName: new FormControl(null),
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl('มารดา'),
       beneficiaryMarital: new FormControl(null),
-      beneficiaryLifeStatus: new FormControl(null),
+      beneficiaryLifeStatus: new FormControl(0),
       birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
@@ -364,8 +365,8 @@ export class ProfileComponentComponent implements OnInit {
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl('ภรรยา'),
-      beneficiaryMarital: new FormControl(null),
-      beneficiaryLifeStatus: new FormControl(null),
+      beneficiaryMarital: new FormControl(0),
+      beneficiaryLifeStatus: new FormControl(0),
       birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
@@ -383,8 +384,8 @@ export class ProfileComponentComponent implements OnInit {
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl('สามี'),
-      beneficiaryMarital: new FormControl(null),
-      beneficiaryLifeStatus: new FormControl(null),
+      beneficiaryMarital: new FormControl(0),
+      beneficiaryLifeStatus: new FormControl(0),
       birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
@@ -396,14 +397,14 @@ export class ProfileComponentComponent implements OnInit {
       marital: new FormControl(null),
       prefix: new FormControl(null),
       lifeStatus: new FormControl(null),
-      beneficiaryPrefix: new FormControl(0, Validators.required),
+      beneficiaryPrefix: new FormControl(0),
       beneficiaryFirstName: new FormControl(null, Validators.required),
       beneficiaryLastName: new FormControl(null, Validators.required),
       beneficiaryGender: new FormControl(null),
       beneficiaryBirthday: new FormControl(null, Validators.required),
-      beneficiaryRelationship: new FormControl(null, Validators.required),
+      beneficiaryRelationship: new FormControl(0),
       beneficiaryMarital: new FormControl(0),
-      beneficiaryLifeStatus: new FormControl(null),
+      beneficiaryLifeStatus: new FormControl(0),
       birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
@@ -463,12 +464,12 @@ export class ProfileComponentComponent implements OnInit {
         ...data,
         textHidden: '-',
 
-        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '-',
-        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '-',
-        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '-',
-        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '-',
-        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '-',
-        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '-',
+        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '0',
+        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '',
+        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '',
+        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '',
+        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '0',
+        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '0',
       })
 
       this.beneficiarysCheck = data.beneficiaries.length;
@@ -620,7 +621,7 @@ export class ProfileComponentComponent implements OnInit {
         textGender = "assets/images/boy.png"
         break;
       case 'หญิง':
-        textGender = "assets/images/girlV2.png"
+        textGender = "assets/images/girl.png"
         break;
       default:
         break;
@@ -636,51 +637,45 @@ export class ProfileComponentComponent implements OnInit {
     // check disable
     if (this.formModel.get('positionName')?.value != null || this.formModel.get('positionName')?.value != '-') {
       this.formModel.get('positionName')?.disable();
-    }else{
+    } else {
       this.formModel.get('positionName')?.enable();
     }
 
     if (this.formModel.get('affiliationName')?.value != null || this.formModel.get('affiliationName')?.value != '-') {
       this.formModel.get('affiliationName')?.disable();
-    }else{
+    } else {
       this.formModel.get('affiliationName')?.enable();
     }
 
     if (this.formModel.get('bureauName')?.value != null || this.formModel.get('bureauName')?.value != '-') {
       this.formModel.get('bureauName')?.disable();
-    }else{
+    } else {
       this.formModel.get('bureauName')?.enable();
     }
 
     if (this.formModel.get('employeeTypeName')?.value != null || this.formModel.get('employeeTypeName')?.value != '-') {
       this.formModel.get('employeeTypeName')?.disable();
-    }else{
+    } else {
       this.formModel.get('employeeTypeName')?.enable();
     }
 
     if (this.formModel.get('levelName')?.value != null || this.formModel.get('levelName')?.value != '-') {
       this.formModel.get('levelName')?.disable();
-    }else{
+    } else {
       this.formModel.get('levelName')?.enable();
     }
 
     if (this.formModel.get('departmentName')?.value != null || this.formModel.get('departmentName')?.value != '-') {
       this.formModel.get('departmentName')?.disable();
-    }else{
+    } else {
       this.formModel.get('departmentName')?.enable();
     }
 
     this.formModel.get('prefix')?.disable();
     this.formModel.get('age')?.disable();
     this.formModel.get('idCard')?.disable();
-    // this.formModel.get('levelName')?.disable();
-    
-    
-    // this.formModel.get('bureauName')?.disable();
     this.formModel.get('gender')?.disable();
-    // this.formModel.get('employeeTypeName')?.disable();
     this.formModel.get('retirementDate')?.disable();
-    // this.formModel.get('departmentName')?.disable();
 
     this.arrayChild = [];
     this.dadArray = [];
@@ -737,10 +732,6 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelDad.enable();
     this.modeDad = false;
     this.formModelDad.get('beneficiaryRelationship')?.disable();
-    // if (this.formModelDad.get('id')?.value != null) {
-    //   this.formModelDad.get('beneficiaryPrefix')?.disable();
-    //   this.modeDadSelect = false;
-    // }
   }
 
   onClickCancalDad() {
@@ -1060,7 +1051,6 @@ export class ProfileComponentComponent implements OnInit {
       address: playload.address,
       facebook: playload.facebook,
     }
-    // playload.passwordFlag = true;
 
     playload.marital = this.checkMaritalV2_text(playload.selectMarital)
 
@@ -1094,11 +1084,12 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.getEmployee(this.userId);
+      // this.getEmployee(this.userId);
       this.formModelGf.disable();
       this.initMainForm();
       this.textStringGf = 'form-control-plaintext';
       this.modeGf = true;
+      this.ngOnInit();
     });
   }
 
@@ -1122,11 +1113,12 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.getEmployee(this.userId);
+      // this.getEmployee(this.userId);
       this.formModelGm.disable();
       this.initMainForm();
       this.textStringGm = 'form-control-plaintext';
       this.modeGm = true;
+      this.ngOnInit();
     });
   }
 
@@ -1150,11 +1142,12 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.getEmployee(this.userId);
+      // this.getEmployee(this.userId);
       this.formModelDad.disable();
       this.initMainForm();
       this.textStringDad = 'form-control-plaintext';
       this.modeDad = true;
+      this.ngOnInit();
     });
   }
 
@@ -1178,11 +1171,12 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.getEmployee(this.userId);
+      // this.getEmployee(this.userId);
       this.formModelMom.disable();
       this.initMainForm();
       this.textStringMom = 'form-control-plaintext';
       this.modeMom = true;
+      this.ngOnInit();
     });
   }
 
@@ -1233,8 +1227,7 @@ export class ProfileComponentComponent implements OnInit {
     if (a.slug > b.slug) return 1;
   }
 
-  checkBureau(id: any){
-    // console.log("data ---------------> ", data.target.value);
+  checkBureau(id: any) {
     this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
 }
