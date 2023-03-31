@@ -1,1 +1,164 @@
-<p>share-component works! (หุ้น)</p>
+<div class="card-table">
+    <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
+        <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+    </div>
+    <div class="p-card"> 
+        <div style="font-family: 'Kanit';">
+            <p-table
+            dataKey="id"
+            [value]="customers"
+            [lazy]="true"
+            (onLazyLoad)="loadCustomers($event)"
+            [totalRecords]="totalRecords"
+            [loading]="loading"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            selectionMode="single"
+            responsiveLayout="stack" 
+            [tableStyle]="{'max-width': '100%'}"
+            [rowsPerPageOptions]="[10, 50, 100]"
+            >
+            <!-- currentPageReportTemplate="เเสดงข้อมูล {first} ถึง {last} จากทั้งหมด {totalRecords} รายการ" -->
+            <ng-template pTemplate="caption"> 
+                <div class="header-caption">
+                    <span>  ตารางประวัติการส่งหุ้น ( Stock History) </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:25%">Name</th>
+                    <th style="width:25%">Country</th>
+                    <th style="width:25%">Company</th>
+                    <th style="width:25%">Representative</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <tr [pSelectableRow]="customer">
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.country.name }}</td>
+                    <td>{{ customer.company }}</td>
+                    <td>{{ customer.representative.name }}</td>
+                </tr>
+            </ng-template>
+            <!-- <ng-template pTemplate="paginatorleft">
+                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template> -->
+            </p-table>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 2rem;"></div>
+
+<!-- Admin -->
+<div class="card-table">
+    <p-toast></p-toast>
+        <div [formGroup]="formModel">
+            <div class="col-12" style="display: flex; justify-content: center;">
+                <div class="col-4 ">
+                    <label class="form-label">ชื่อ-นามสกุล</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="fullName" >
+                </div>
+                &nbsp;&nbsp; &nbsp;&nbsp;
+                <div style="display: flex; align-items: flex-end;">
+                    <label class="form-label"> </label>
+                    <button type="button" class="btn btn-login" (click)="onSearchMember()">ค้นหา</button>
+                </div>  
+            </div>
+        </div>
+    <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
+        <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+    </div>
+    <div class="p-card"> 
+    <p-table 
+     [value]="customers" 
+     dataKey="id" 
+     editMode="row" 
+     [lazy]="true"
+    (onLazyLoad)="loadCustomers($event)"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    selectionMode="single"
+    responsiveLayout="stack" 
+    [tableStyle]="{'max-width': '100%'}"
+    [rowsPerPageOptions]="[10, 50, 100]"
+     >
+        <ng-template pTemplate="caption"> 
+            <div class="header-caption">
+                <span>  ตารางประวัติการส่งหุ้นของสมาชิก ( Stock History Of Member) </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%">Name</th>
+                <th style="width:20%">Country</th>
+                <th style="width:20%">Company</th>
+                <th style="width:20%">Representative</th>
+                <th style="width:20%"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="customer">
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="customer.name">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{customer.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="customer.country.name" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{customer.country.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="customer.company" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{customer.company}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="customer.representative.name" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{customer.representative.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(customer)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(customer)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(customer, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+  </div>
+</div>
+<div style="padding-top: 2rem;"></div>

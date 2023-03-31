@@ -1,1 +1,55 @@
-<p>loan-component works! (เงินกู้)</p>
+<div class="card-table">
+    <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
+        <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+    </div>
+    <div class="p-card"> 
+        <p-table
+        dataKey="id"
+        [value]="customers"
+        [lazy]="true"
+        (onLazyLoad)="loadCustomers($event)"
+        [totalRecords]="totalRecords"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        selectionMode="single"
+        responsiveLayout="stack" 
+        [tableStyle]="{'max-width': '100%'}"
+        [rowsPerPageOptions]="[10, 50, 100]"
+    >
+    <!-- currentPageReportTemplate="เเสดงข้อมูล {first} ถึง {last} จากทั้งหมด {totalRecords} รายการ" -->
+        <ng-template pTemplate="caption"> 
+            <div class="header-caption">
+                <span>  ตารางประวัติการส่งเงินกู้รายเดือน ( Loan History) </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:25%">Name</th>
+                <th style="width:25%">Country</th>
+                <th style="width:25%">Company</th>
+                <th style="width:25%">Representative</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr [pSelectableRow]="customer">
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.country.name }}</td>
+                <td>{{ customer.company }}</td>
+                <td>{{ customer.representative.name }}</td>
+            </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template> -->
+    </p-table>
+    </div>
+</div>
+<div style="padding-top: 2rem;"></div>
+
