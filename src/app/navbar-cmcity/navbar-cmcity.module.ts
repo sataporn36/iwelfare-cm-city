@@ -44,7 +44,9 @@ import {CarouselModule} from 'primeng/carousel';
 import {BlockUIModule} from 'primeng/blockui';
 import {CardModule} from 'primeng/card';
 import {PanelModule } from 'primeng/panel';
-import {NgPipesModule} from 'ngx-pipes'
+import {NgPipesModule} from 'ngx-pipes';
+import { InputNumberModule } from 'primeng/inputnumber';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,9 @@ import {NgPipesModule} from 'ngx-pipes'
     BlockUIModule,
     CardModule,
     PanelModule,
-    NgPipesModule
+    NgPipesModule,
+    InputNumberModule,
+    TooltipModule
   ]
 })
 export class NavbarCmcityModule { }

@@ -7,7 +7,8 @@ import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js'
 import 'src/assets/fonts/Sarabun-Bold-bold.js'
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface jsPDFCustom extends jsPDF {
     autoTable: (options: UserOptions) => void;
@@ -23,16 +24,39 @@ export class LoanComponentComponent {
   info: any[] = [];
   loading!: boolean;
   totalRecords!: number;
+  clonedProducts: { [s: number]: Customer } = {};
+  formModel!: FormGroup;
+  formModelLoan!: FormGroup;
+  displayModal: boolean = false;
 
-  constructor(private customerService: MainService) {}
+  constructor(private customerService: MainService, private messageService: MessageService) {}
 
   ngOnInit() {
-    this.customerService.getCustomers().subscribe((res) =>{
-      console.log(res,"<==== res");
-      this.customers = res.customers;
-    })
-    this.loading = true;
+      this.customerService.getCustomers().subscribe((res) =>{
+        console.log(res,"<==== res");
+        this.customers = res.customers;
+      })
+      this.loading = true;
+      this.initMainFormStock();
   }
+
+  initMainForm() {
+    this.formModel = new FormGroup({
+      fullName: new FormControl(null),
+    });;
+  }
+
+  initMainFormStock() {
+    this.formModelLoan = new FormGroup({
+      monthlyLoanMoney: new FormControl(null, Validators.required),
+    });;
+  }
+
+  onSearchMember(){
+    const data = this.formModel.getRawValue();
+    // api search member
+  }
+
 
   loadCustomers(event: LazyLoadEvent) {
     this.loading = true;
@@ -90,4 +114,31 @@ export class LoanComponentComponent {
     pdf.save('ประวัติการส่งเงินกู้รายเดือน.pdf');
 
   }
+
+  onEditLoan(data: any){
+    /// api
+  }
+
+  updateLoantoMonth(){
+    this.displayModal = true;
+  }
+
+  onupdateLoanToMonth(){
+        // api update stock to everyone 
+  }
+
+  onCancle(){
+    this.formModelLoan.reset();
+    this.displayModal = false;
+  }
+
+  checkNull: boolean = true;
+  checkValueOfNull(event: any){
+    if(!event.value){
+      this.checkNull = true;
+    }else{
+      this.checkNull = false;
+    }
+  }
+
 }

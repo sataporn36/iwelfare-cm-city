@@ -53,3 +53,104 @@
 </div>
 <div style="padding-top: 2rem;"></div>
 
+<!-- Admin -->
+<div class="card-table">
+    <p-toast></p-toast>
+    <div [formGroup]="formModel">
+        <div class="col-12" style="display: flex; justify-content: center;">
+            <div class="col-4 ">
+                <label class="form-label">ชื่อ-นามสกุล</label>
+                <input type="text" class="form-control" placeholder="" formControlName="fullName" >
+            </div>
+            &nbsp;&nbsp; &nbsp;&nbsp;
+            <div style="display: flex; align-items: flex-end;">
+                <label class="form-label"> </label>
+                <button type="button" class="btn btn-login" (click)="onSearchMember()">ค้นหา</button>
+            </div>  
+        </div>
+    </div>
+    <div style="padding-bottom: 0.5rem; padding-top: 3rem; display: flex; justify-content: space-between;">
+        <div>
+            <button type="button" class="btn btn-login" style="width: 100%;" (click)="updateLoantoMonth()">เรียกเก็บการชำระเงินกู้รายเดือน</button>
+        </div>
+        <div>
+            <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+        </div>
+    </div>
+    <div class="p-card"> 
+    <p-table
+        dataKey="id"
+        [value]="customers"
+        [lazy]="true"
+        (onLazyLoad)="loadCustomers($event)"
+        [totalRecords]="totalRecords"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        selectionMode="single"
+        responsiveLayout="stack" 
+        [tableStyle]="{'max-width': '100%'}"
+        [rowsPerPageOptions]="[10, 50, 100]"
+    >
+        <ng-template pTemplate="caption"> 
+            <div class="header-caption">
+                <span>  ตารางการส่งเงินกู้รายเดือนของสมาชิก ( Loan History Of Member) </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%">Name</th>
+                <th style="width:20%">Country</th>
+                <th style="width:20%">Company</th>
+                <th style="width:20%">Representative</th>
+                <th style="width:20%"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer let-ri="rowIndex">
+            <tr >
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.country.name }}</td>
+                <td>{{ customer.company }}</td>
+                <td>{{ customer.representative.name }}</td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button pButton pRipple type="button" icon="pi pi-pencil" (click)="onEditLoan(customer)" class="p-button-rounded p-button-text"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+  </div>
+</div>
+<div style="padding-top: 2rem;"></div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">เปลี่ยนแปลงการชำระเงินกู้รายเดือน</span>
+            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom" 
+            pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i>
+        </div>
+    </ng-template>
+    <div [formGroup]="formModelLoan">
+        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+            <div class="col-12 " style="display: flex; justify-content: center;">
+                <div class="col-6">
+                    <label class="block">เงินกู้รายเดือน *</label>
+                    <p-inputNumber formControlName="monthlyLoanMoney" inputId="minmaxfraction" mode="decimal"  [required]="true"
+                    [minFractionDigits]="2" [maxFractionDigits]="2" [maxlength]="10" (onInput)="checkValueOfNull($event)"></p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login2" (click)="onupdateLoanToMonth()"
+            [disabled]="checkNull">ยืนยัน</button>
+        <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
+

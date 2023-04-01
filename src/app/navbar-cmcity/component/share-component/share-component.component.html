@@ -71,10 +71,15 @@
                 </div>  
             </div>
         </div>
-    <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
-        &nbsp;&nbsp;
-        <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+    <div style="padding-bottom: 0.5rem; padding-top: 3rem; display: flex; justify-content: space-between;">
+        <div>
+            <button type="button" class="btn btn-login" style="width: 100%;" (click)="updateStocktoMonth()">เปลี่ยนแปลงการส่งหุ้นรายเดือน</button>
+        </div>
+        <div>
+            <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+        </div>
     </div>
     <div class="p-card"> 
     <p-table 
@@ -95,7 +100,7 @@
      >
         <ng-template pTemplate="caption"> 
             <div class="header-caption">
-                <span>  ตารางประวัติการส่งหุ้นของสมาชิก ( Stock History Of Member) </span>
+                <span>  ตารางการส่งหุ้นของสมาชิก ( Stock History Of Member) </span>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -108,7 +113,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer let-editing="editing" let-ri="rowIndex">
-            <tr [pEditableRow]="customer">
+            <tr [pEditableRow]="customer" >
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
@@ -162,3 +167,29 @@
   </div>
 </div>
 <div style="padding-top: 2rem;"></div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">เปลี่ยนแปลงการส่งหุ้นรายเดือน</span>
+            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom" pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"></i>
+        </div>
+    </ng-template>
+    <div [formGroup]="formModelStock">
+        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+            <div class="col-12 " style="display: flex; justify-content: center;">
+                <div class="col-6">
+                    <label class="block">เงินหุ้นรายเดือน *</label>
+                    <p-inputNumber formControlName="monthlyStockMoney" inputId="minmaxfraction" mode="decimal" [required]="true" 
+                    [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7" (onInput)="checkValueOfNull($event)"> </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login2" (click)="onupdateStockToMonth()"
+            [disabled]="checkNull">ยืนยัน</button>
+        <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>

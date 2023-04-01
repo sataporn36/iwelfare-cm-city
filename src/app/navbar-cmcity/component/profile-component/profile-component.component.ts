@@ -87,6 +87,11 @@ export class ProfileComponentComponent implements OnInit {
   pnumberCheck: any;
   pnumberValidation: boolean = false;
 
+  formModelResign!: FormGroup;
+  formModelStock!: FormGroup;
+  displayModalResign: boolean = false;
+  displayModalStock: boolean = false;
+
   public position: Observable<Positions[]> | any
   public affiliation: Observable<Affiliation[]> | any
   public bureau: Observable<Bureau[]> | any
@@ -408,6 +413,14 @@ export class ProfileComponentComponent implements OnInit {
       birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
+    });
+
+    this.formModelResign = new FormGroup({
+      reason: new FormControl(null, Validators.required),
+    });
+
+    this.formModelStock = new FormGroup({
+      monthlyStockMoney: new FormControl(null, Validators.required),
     });
 
   }
@@ -1230,6 +1243,54 @@ export class ProfileComponentComponent implements OnInit {
   checkBureau(id: any) {
     this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
+
+
+  displayResign(){ 
+     this.displayModalResign = true;
+  }
+
+  displayChangeStockToMonth(){
+    this.displayModalStock = true;
+  }
+
+  onSubmitResign(){
+     // api
+  }
+
+  onCancleResign(){
+    this.formModelResign.reset();
+    this.displayModalResign = false;
+  }
+
+  onUpdateStockToMonth(){
+     const dataStock = this.formModelStock.getRawValue();
+     console.log(dataStock,"dataStock *****");
+     
+     //this.formModel.get('monthlyStockMoney')?.setValue(500);
+     const data = this.formModel.getRawValue();
+     console.log(data.monthlyStockMoney,"monthlyStockMoney *****");
+
+     if(dataStock.monthlyStockMoney === data.monthlyStockMoney){
+         this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
+     }else{
+      // api
+     }
+  }
+
+  onCancleStock(){
+    this.formModelStock.reset();
+    this.displayModalStock = false;
+  }
+
+  checkNull: boolean = true;
+  checkValueOfNull(event: any){
+    if(!event.value){
+      this.checkNull = true;
+    }else{
+      this.checkNull = false;
+    }
+  }
+
 }
 
 

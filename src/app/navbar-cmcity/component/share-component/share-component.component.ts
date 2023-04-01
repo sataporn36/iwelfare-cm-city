@@ -9,7 +9,7 @@ import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js'
 import 'src/assets/fonts/Sarabun-Bold-bold.js'
 import { LazyLoadEvent, MessageService } from 'primeng/api';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface jsPDFCustom extends jsPDF {
     autoTable: (options: UserOptions) => void;
@@ -29,6 +29,8 @@ export class ShareComponentComponent implements OnInit{
   totalRecords!: number;
   clonedProducts: { [s: number]: Customer } = {};
   formModel!: FormGroup;
+  formModelStock!: FormGroup;
+  displayModal: boolean = false;
 
   constructor(private customerService: MainService, private messageService: MessageService) {}
 
@@ -39,13 +41,19 @@ export class ShareComponentComponent implements OnInit{
       })
       this.loading = true;
       this.initMainForm();
+      this.initMainFormStock();
   }
 
   initMainForm() {
     this.formModel = new FormGroup({
       fullName: new FormControl(null),
     });;
+  }
 
+  initMainFormStock() {
+    this.formModelStock = new FormGroup({
+      monthlyStockMoney: new FormControl(null, Validators.required),
+    });;
   }
 
   onSearchMember(){
@@ -147,6 +155,28 @@ export class ShareComponentComponent implements OnInit{
   onRowEditCancel(product: Customer, index: number) {
       this.customers[index] = this.clonedProducts[product.id!];
       delete this.clonedProducts[product.id!];
+  }
+
+  updateStocktoMonth(){
+    this.displayModal = true;
+  }
+
+  onupdateStockToMonth(){
+        // api update stock to everyone 
+  }
+
+  onCancle(){
+    this.formModelStock.reset();
+    this.displayModal = false;
+  }
+
+  checkNull: boolean = true;
+  checkValueOfNull(event: any){
+    if(!event.value){
+      this.checkNull = true;
+    }else{
+      this.checkNull = false;
+    }
   }
 
 }
