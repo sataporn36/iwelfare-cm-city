@@ -6,8 +6,8 @@ import html2canvas from 'html2canvas';
 import 'jspdf-autotable';
 // import autoTable from 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
-import 'src/assets/fonts/Sarabun-Regular-normal.js'
-import 'src/assets/fonts/Sarabun-Bold-bold.js'
+import 'src/assets/fonts/Sarabun-Regular-normal.js';
+import 'src/assets/fonts/Sarabun-Bold-bold.js';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -25,6 +25,8 @@ export class ShareComponentComponent implements OnInit{
   @ViewChild('content', {static:false}) el!:ElementRef;
   customers!: Customer[];
   info: any[] = [];
+  infoReceipt: any[] = [];
+  infoReceiptTotal: any[] = [];
   loading!: boolean;
   totalRecords!: number;
   clonedProducts: { [s: number]: Customer } = {};
@@ -141,6 +143,57 @@ export class ShareComponentComponent implements OnInit{
 
   onRowEditInit(product: Customer) {
     this.clonedProducts[product.id!] = { ...product };
+  }
+
+  onPrintReceipt(){
+    this.infoReceipt.push(['ค่าหุ้น','3','1,000.00',' ']);
+    this.infoReceipt.push(['เงินต้น',' ',' ',' ']);
+    this.infoReceipt.push(['ดอก',' ',' ',' ']);
+    this.infoReceipt.push(['','รวมเงิน','1,000.00',' ']);
+    var img = new Image();
+    img.src = 'assets/images/logo.png';
+
+    var img1 = new Image();
+    img1.src = 'assets/images/text1.png';
+
+    var img2 = new Image();
+    img2.src = 'assets/images/text2.png';
+
+    const textin1 = "ประจําเดือน " + " มีนาคม 2566 " + "            เลขที่่ " + " 00001";
+    const textin2 = "ได้รับเงินจาก " + " นายฉัตรชัย ตาเบอะ";
+    const textin3 = "สังกัด " + " แขวงกาวิละ";
+    const textin4 = "เลขที่สมาชิก " + " 05355";
+    const textin5 = "หุ้นสะสม " + " 3,000.00 " + " บาท";
+
+    const pdf = new jsPDF() as jsPDFCustom;
+    pdf.addImage(img,'png', 80, 10, 40, 40);
+    pdf.setFont('Sarabun-Regular');
+    pdf.setFontSize(16);
+    pdf.text(" กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่ ",52,60); 
+    pdf.text(" ใบเสร็จรับเงิน \n ",86,70);
+    pdf.setFont('Sarabun-Regular');
+    pdf.setFontSize(14);
+    pdf.text(textin1,15,90); 
+    pdf.text(textin2,15,100); 
+    pdf.text(textin3,15,110); 
+    pdf.text(textin4,15,120); 
+    pdf.text(textin5,15,130); 
+    //pdf.text(" \n\n\n\n ",0,0);
+    pdf.autoTable({ 
+      styles : {font : 'Sarabun-Regular', fontSize : 14},
+      margin: {top: 135, bottom: 0},
+      headStyles:{fillColor : [160, 160, 160]},
+      theme: 'grid',   
+      head: [['รายการ','งวด','เป็นเงิน','เงินต้นเหลือ']],
+      body: this.infoReceipt,
+    });
+    pdf.text(" (หนึ่งพันบาทถ้วน) ",20,190); 
+    pdf.text(" \n\n\n\n\n\n\n\n ",0,0);
+    pdf.addImage(img,'png', 36, 200, 40, 40);
+    pdf.addImage(img,'png', 132, 200, 40, 40);
+    pdf.text(" ประธานกองทุน " + "                                                        " + " เหรัญญิก ",40,245); 
+    pdf.output("dataurlnewwindow");
+    this.infoReceipt = [];
   }
 
   onRowEditSave(product: Customer) {

@@ -141,4 +141,12 @@ export class LoanComponentComponent {
     }
   }
 
+  onCloseLoan(data: any){
+      //
+  }
+
+  requestLoanAgreement(){
+     //
+  }
+
 }

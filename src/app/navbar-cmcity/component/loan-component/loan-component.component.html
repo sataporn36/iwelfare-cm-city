@@ -70,8 +70,10 @@
         </div>
     </div>
     <div style="padding-bottom: 0.5rem; padding-top: 3rem; display: flex; justify-content: space-between;">
-        <div>
-            <button type="button" class="btn btn-login" style="width: 100%;" (click)="updateLoantoMonth()">เรียกเก็บการชำระเงินกู้รายเดือน</button>
+        <div style="display: flex;">
+            <button type="button" class="btn btn-login" (click)="requestLoanAgreement()">ขอสัญญาเงินกู้</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login" style="width: 70%;" (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
         </div>
         <div>
             <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
@@ -117,7 +119,10 @@
                 <td>{{ customer.representative.name }}</td>
                 <td>
                     <div class="flex align-items-center justify-content-center gap-2">
-                        <button pButton pRipple type="button" icon="pi pi-pencil" (click)="onEditLoan(customer)" class="p-button-rounded p-button-text"></button>
+                        <button pButton pRipple type="button" icon="pi pi-pencil"  tooltipPosition="top" pTooltip="เเก้ไข"
+                        (click)="onEditLoan(customer)" class="p-button-rounded p-button-text"></button>
+                        <button pButton pRipple type="button" icon="pi pi-lock" tooltipPosition="top" pTooltip="ปิดหนี้"
+                        (click)="onCloseLoan(customer)" class="p-button-rounded p-button-text"></button>
                     </div>
                 </td>
             </tr>
