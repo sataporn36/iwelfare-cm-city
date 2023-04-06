@@ -159,3 +159,10 @@
     </ng-template>
 </p-dialog>
 
+<p-confirmDialog #cd [appendTo]="'body'" position="center" [draggable]="false" [dismissableMask]="true"
+    [style]="{width: '18vw'}">
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-login" (click)="cd.reject()">ยกเลิก</button>
+    </ng-template>
+</p-confirmDialog>

@@ -47,6 +47,7 @@ import {PanelModule } from 'primeng/panel';
 import {NgPipesModule} from 'ngx-pipes';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {TooltipModule} from 'primeng/tooltip';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import {TooltipModule} from 'primeng/tooltip';
     PanelModule,
     NgPipesModule,
     InputNumberModule,
-    TooltipModule
+    TooltipModule,
+    InputTextareaModule
   ]
 })
 export class NavbarCmcityModule { }

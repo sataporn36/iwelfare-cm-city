@@ -255,15 +255,20 @@
   width: 310px;
 }
 
+
 :host .div-calendar-child ::ng-deep .p-datepicker {
   position: absolute;
   transform: translate(-3rem, -12.5rem);
 }
 
-* {
-  box-sizing: border-box;
-  font-family: "Kanit", sans-serif;
-}
+
+/////
+// * {
+//   box-sizing: border-box;
+//   font-family: "Kanit", sans-serif;
+// }
+/////
+
 
 .div-btn {
   display: flex;

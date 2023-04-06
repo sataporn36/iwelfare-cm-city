@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js'
 import 'src/assets/fonts/Sarabun-Bold-bold.js'
-import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface jsPDFCustom extends jsPDF {
@@ -29,7 +29,7 @@ export class LoanComponentComponent {
   formModelLoan!: FormGroup;
   displayModal: boolean = false;
 
-  constructor(private customerService: MainService, private messageService: MessageService) {}
+  constructor(private customerService: MainService, private messageService: MessageService,  private confirmationService: ConfirmationService,) {}
 
   ngOnInit() {
       this.customerService.getCustomers().subscribe((res) =>{
@@ -142,7 +142,15 @@ export class LoanComponentComponent {
   }
 
   onCloseLoan(data: any){
-      //
+    this.confirmationService.confirm({
+      message: 'ต้องการปิดหนี้ให้คุณ ' + '.......' + ' ' + '.......',
+      header: 'ปิดหนี้สมาชิก',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //api
+      },
+      reject: () => {}
+    });
   }
 
   requestLoanAgreement(){

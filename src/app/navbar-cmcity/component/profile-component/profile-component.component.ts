@@ -469,7 +469,7 @@ export class ProfileComponentComponent implements OnInit {
         textHidden: '-',
 
         beneficiarySize: data.beneficiaries.length > 0 ? true : false,
-        departmentName: data.department.name ? data.department.name : '-'
+        departmentName: data.department ? data.department.name : '-'
 
       })
 
