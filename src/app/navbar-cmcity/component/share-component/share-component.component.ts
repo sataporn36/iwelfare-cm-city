@@ -12,8 +12,15 @@ import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface jsPDFCustom extends jsPDF {
+    // lineHeightProportion: number;
+    // unit: string;
+    // orientation: string;
+    // lineHeight: number;
+    // format: 'a4';
+    //orientation: 'portrait', unit: 'in', lineHeight: 2 
     autoTable: (options: UserOptions) => void;
 }
+
 
 @Component({
   selector: 'app-share-component',
@@ -114,7 +121,7 @@ export class ShareComponentComponent implements OnInit{
       head: [['Name','Country','Company','Representative']],
       body: this.info,
     })
-    pdf.output("dataurlnewwindow");
+    pdf.output("dataurlnewwindow",{filename: "ประวัติการส่งหุ้น"});
     //pdf.save('test.pdf');
 
   }
@@ -144,6 +151,7 @@ export class ShareComponentComponent implements OnInit{
   onRowEditInit(product: Customer) {
     this.clonedProducts[product.id!] = { ...product };
   }
+  
 
   onPrintReceipt(){
     this.infoReceipt.push(['ค่าหุ้น','3','1,000.00',' ']);
@@ -166,6 +174,9 @@ export class ShareComponentComponent implements OnInit{
     const textin5 = "หุ้นสะสม " + " 3,000.00 " + " บาท";
 
     const pdf = new jsPDF() as jsPDFCustom;
+    // let width = pdf.internal.pageSize.getWidth();
+    //pdf.setLineHeightFactor(50);
+    pdf.getTextWidth("20");
     pdf.addImage(img,'png', 80, 10, 40, 40);
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(16);
@@ -173,7 +184,7 @@ export class ShareComponentComponent implements OnInit{
     pdf.text(" ใบเสร็จรับเงิน \n ",86,70);
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(14);
-    pdf.text(textin1,15,90); 
+    pdf.text(textin1,15,90,{horizontalScale: 1}); 
     pdf.text(textin2,15,100); 
     pdf.text(textin3,15,110); 
     pdf.text(textin4,15,120); 
@@ -192,8 +203,11 @@ export class ShareComponentComponent implements OnInit{
     pdf.addImage(img,'png', 36, 200, 40, 40);
     pdf.addImage(img,'png', 132, 200, 40, 40);
     pdf.text(" ประธานกองทุน " + "                                                        " + " เหรัญญิก ",40,245); 
-    pdf.output("dataurlnewwindow");
+    // pdf.setLanguage('th');
+    pdf.output("dataurlnewwindow",{filename: "ใบเสร็จรับเงิน"});
     this.infoReceipt = [];
+    console.log(pdf,"<--------------  pdf");
+    
   }
 
   onRowEditSave(product: Customer) {

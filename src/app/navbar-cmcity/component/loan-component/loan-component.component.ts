@@ -88,7 +88,7 @@ export class LoanComponentComponent {
       head: [['Name','Country','Company','Representative']],
       body: this.info,
     })
-    pdf.output("dataurlnewwindow");
+    pdf.output("dataurlnewwindow",{filename: "ประวัติการส่งเงินกู้รายเดือน"});
     //pdf.save('test.pdf');
 
   }
@@ -101,7 +101,7 @@ export class LoanComponentComponent {
     const pdf = new jsPDF() as jsPDFCustom;
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(14);
-    pdf.text(" ประวัติการส่งหุ้น ( Stock History) ",70,10);
+    pdf.text(" ประวัติการส่งเงินกู้รายเดือน ( Stock History) ",70,10);
     //autoTable(pdf, { html: '#contentTable' });
     pdf.autoTable({ 
       //styles : { halign : 'center'},
