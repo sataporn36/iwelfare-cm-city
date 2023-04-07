@@ -110,6 +110,9 @@ export class ShareComponentComponent implements OnInit{
     })
     
     const pdf = new jsPDF() as jsPDFCustom;
+    pdf.setProperties({
+      title: 'ประวัติการส่งหุ้น'
+    });
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(14);
     pdf.text(" ประวัติการส่งหุ้น ( Stock History) ",70,10);
@@ -167,28 +170,40 @@ export class ShareComponentComponent implements OnInit{
     var img2 = new Image();
     img2.src = 'assets/images/text2.png';
 
-    const textin1 = "ประจําเดือน " + " มีนาคม 2566 " + "            เลขที่่ " + " 00001";
+    //const textin1 = "ประจําเดือน " + " มีนาคม 2566 " + "            เลขที่่ " + " 00001";
     const textin2 = "ได้รับเงินจาก " + " นายฉัตรชัย ตาเบอะ";
     const textin3 = "สังกัด " + " แขวงกาวิละ";
     const textin4 = "เลขที่สมาชิก " + " 05355";
     const textin5 = "หุ้นสะสม " + " 3,000.00 " + " บาท";
 
     const pdf = new jsPDF() as jsPDFCustom;
+    pdf.setProperties({
+      title: 'ใบเสร็จรับเงิน'
+    });
     // let width = pdf.internal.pageSize.getWidth();
+    //let height = pdf.internal.pageSize.getHeight();
     //pdf.setLineHeightFactor(50);
     pdf.getTextWidth("20");
-    pdf.addImage(img,'png', 80, 10, 40, 40);
+    pdf.addImage(img,'png', 83, 10, 40, 40);
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(16);
-    pdf.text(" กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่ ",52,60); 
-    pdf.text(" ใบเสร็จรับเงิน \n ",86,70);
+    pdf.text(" กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่ ",52,60,{renderingMode:'fillThenStroke'}); 
+    pdf.text(" ใบเสร็จรับเงิน \n ",86,70,{renderingMode:'fillThenStroke'});
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(14);
-    pdf.text(textin1,15,90,{horizontalScale: 1}); 
-    pdf.text(textin2,15,100); 
-    pdf.text(textin3,15,110); 
-    pdf.text(textin4,15,120); 
-    pdf.text(textin5,15,130); 
+    pdf.text("ประจําเดือน",15,90); 
+    pdf.text("มีนาคม 2566",45,90,{renderingMode:'fillThenStroke'}); 
+    pdf.text("เลขที่",85,90); 
+    pdf.text("00001",100,90,{renderingMode:'fillThenStroke'}); 
+    pdf.text("ได้รับเงินจาก",15,100); 
+    pdf.text("นายฉัตรชัย ตาเบอะ",45,100,{renderingMode:'fillThenStroke'}); 
+    pdf.text("สังกัด",15,110); 
+    pdf.text("แขวงกาวิละ",30,110,{renderingMode:'fillThenStroke'}); 
+    pdf.text("เลขที่สมาชิก",15,120); 
+    pdf.text("05355",45,120,{renderingMode:'fillThenStroke'}); 
+    pdf.text("หุ้นสะสม",15,130); 
+    pdf.text("3,000.00",38,130,{renderingMode:'fillThenStroke'}); 
+    pdf.text("บาท",63,130); 
     //pdf.text(" \n\n\n\n ",0,0);
     pdf.autoTable({ 
       styles : {font : 'Sarabun-Regular', fontSize : 14},
@@ -200,13 +215,27 @@ export class ShareComponentComponent implements OnInit{
     });
     pdf.text(" (หนึ่งพันบาทถ้วน) ",20,190); 
     pdf.text(" \n\n\n\n\n\n\n\n ",0,0);
-    pdf.addImage(img,'png', 36, 200, 40, 40);
-    pdf.addImage(img,'png', 132, 200, 40, 40);
+    pdf.addImage(img1,'png', 36, 200, 40, 40);
+    pdf.addImage(img1,'png', 132, 200, 40, 40);
     pdf.text(" ประธานกองทุน " + "                                                        " + " เหรัญญิก ",40,245); 
     // pdf.setLanguage('th');
+
+    // var fontSize = 16;
+    // var offsetY = 10.797777777777778;
+    // var lineHeight = 15.49111111111111;
+    
+    // pdf.setFontSize(fontSize);
+    
+    // pdf.text('วันที่ 1',10, 10 + lineHeight * 0 + offsetY);
+    // pdf.text('วันที่ 3',10, 10 + lineHeight * 1 + offsetY);
+    // pdf.text('วันที่ 2',10, 10 + lineHeight * 2 + offsetY);
+
+    // var dim = pdf.getTextDimensions('Text');
+    // console.log(dim); 
+  
+
     pdf.output("dataurlnewwindow",{filename: "ใบเสร็จรับเงิน"});
     this.infoReceipt = [];
-    console.log(pdf,"<--------------  pdf");
     
   }
 

@@ -77,6 +77,9 @@ export class LoanComponentComponent {
     })
 
     const pdf = new jsPDF('p', 'mm', 'a4') as jsPDFCustom;
+    pdf.setProperties({
+      title: 'ประวัติการส่งเงินกู้รายเดือน'
+    });
     pdf.setFont('Sarabun-Regular');
     pdf.setFontSize(14);
     pdf.text("ประวัติการส่งเงินกู้รายเดือน ( Loan History)",60,10);
