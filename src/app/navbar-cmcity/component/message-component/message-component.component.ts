@@ -6,6 +6,8 @@ import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Representative } from 'src/app/model/ccustomerTest';
 
 @Component({
   selector: 'app-message-component',
@@ -14,16 +16,18 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 })
 export class MessageComponentComponent implements OnInit {
 
-  public data: Observable<SearchNewResgter[]> | any 
-
-
+  public data: Observable<SearchNewResgter[]> | any; 
+  loading!: boolean;
+  dataNotify!: any[];
   // birthday = new Date(1988, 3, 15); 
   periodMonthDescOption: any = [];
+  clonedProducts: { [s: number]: any } = {};
+  representatives!: Representative[];
 
   displayModal!: boolean;
   formModel!: FormGroup;
   id:any;
-  
+  statuses!: any[];
   constructor(
     private service: MainService,
     protected route: ActivatedRoute, 
@@ -48,12 +52,37 @@ export class MessageComponentComponent implements OnInit {
         this.initMainForm();
         this.searchRegiste();
         this.setperiodMonthDescOption();
+        this.searchNotify();
       }
+
+      this.checkStatus();
+    }
+
+    onRowEditInit(stock: any) {
+      this.clonedProducts[stock.id!] = { ...stock };
+    }
+
+    statusNotify(value: any){
+      const status = this.statuses[value-1];
+      return status.label;
+    }
+
+    checkStatus(){
+      this.statuses = [
+        // { label: 'เลือกสถานะ', value: 0 },
+        { label: 'ลาออก', value: '1' },
+        { label: 'หุ้นรายเดือน', value: '2' }
+      ];
     }
   
     searchRegiste(): void {
     this.service.searchRegister().subscribe(data => this.data = data);
     }
+
+    searchNotify(): void {
+      this.service.searchNotify().subscribe(data => this.dataNotify = data);
+    }
+  
 
     onClickApproveEmp(data :any){
       const approve = {

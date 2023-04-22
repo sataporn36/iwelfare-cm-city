@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + deposit">
+                    <!-- <li [ngClass]="'nav-item ' + deposit">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
                                 <span class="iconify" data-icon="tabler:pig-money"></span>
@@ -33,7 +33,7 @@
                                     (click)="checkActive('deposit')">เงินฝาก</a>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
                     <li [ngClass]="'nav-item ' + stock">
                         <div class="row" style="margin-left: 10px;">
                             <div class="col-1">
@@ -165,11 +165,11 @@
                 </div>
                 <div class="col-8">
                     <ul class="bar">
-                        <li style="margin-top: 1px;" [ngClass]="message">
+                        <li style="margin-top: 1px;" [ngClass]="message" *ngIf="messager">
                             <a class="nav-link" routerLink="message-page" (click)="checkActive('message')">
                                 <span class="count position-absolute translate-middle badge rounded-pill bg-danger"
-                                    [ngStyle]="{'display': checkCount(countNewRegister)}">
-                                    {{countNewRegister}}
+                                    [ngStyle]="{'display': checkCount(dataNotify.length)}">
+                                    {{dataNotify.length}}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                                 <svg width="20" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">

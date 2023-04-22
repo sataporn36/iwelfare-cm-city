@@ -16,7 +16,7 @@ td{
     padding: 30px;
     border-radius: 15px;
     width: 99%;
-    height: 330px;
+    // height: 330px;
     padding-left: 50px;
 }
 
@@ -58,30 +58,16 @@ textarea{
     box-shadow: 0 0 0 0.2rem rgba(167, 40, 146, 0.25);
 } 
 
-// ::ng-deep .ui-tooltip {
-//     background-color: #862121;
-//     color: #19d87f;
-//     font-size: 14px;
-//     border: 1px solid #ccc;
-//     border-radius: 4px;
-//     box-shadow: 0 2px 2px rgba(187, 29, 29, 0.1);
-//   }
+.notify-badge-1 {
+    width: 50px;
+    padding: 6px;
+    border-radius: 10px;
+    background: #ff8cb4;
+}
 
-// .ui-tooltip-text.ui-shadow.ui-corner-all {
-//     background-color: red;
-// }
-
-// .p-tooltip-text {
-//     font: 2em sans-serif;
-// }
-  
-// .p-tooltip .p-tooltip-text {
-//     background-color: aliceblue !important;
-//     color: green !important;
-// }
-
-// .p-tooltip .p-tooltip-text {
-//     background-color: aliceblue !important;
-//     color: green !important;
-//     font-size: large;
-// }
+.notify-badge-2 {
+    width: 50px;
+    padding: 6px;
+    border-radius: 10px;
+    background: #a29bfe;
+}

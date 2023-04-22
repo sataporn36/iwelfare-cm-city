@@ -2,14 +2,17 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import { jsPDF } from "jspdf";
-import html2canvas from 'html2canvas';
 import 'jspdf-autotable';
-// import autoTable from 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js';
 import 'src/assets/fonts/Sarabun-Bold-bold.js';
+import 'src/assets/fonts/Kanit-Thin-normal.js';
+import 'src/assets/fonts/Kanit-Regular-normal.js';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LocationStrategy } from '@angular/common';
+import { LocalStorageService } from 'ngx-webstorage';
+import { Table } from 'primeng/table';
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
@@ -25,6 +28,7 @@ interface jsPDFCustom extends jsPDF {
   styleUrls: ['./share-component.component.scss']
 })
 export class ShareComponentComponent implements OnInit {
+  [x: string]: any;
 
   @ViewChild('content', { static: false }) el!: ElementRef;
   customers!: Customer[];
@@ -33,22 +37,35 @@ export class ShareComponentComponent implements OnInit {
   infoReceiptTotal: any[] = [];
   loading!: boolean;
   totalRecords!: number;
-  clonedProducts: { [s: number]: Customer } = {};
+  clonedProducts: { [s: number]: any } = {};
   formModel!: FormGroup;
   formModelStock!: FormGroup;
   displayModal: boolean = false;
+  dataStock!: any[];
+  dataStockDetail!: any[];
+  userId: any;
+  stockId: any;
+  employeeByStock: any;
+  dataValue: any;
   periodMonthDescOption: any = [];
 
-  constructor(private customerService: MainService, private messageService: MessageService) { }
+  admin!: boolean
+
+  constructor(private service: MainService, private messageService: MessageService, private locationStrategy: LocationStrategy,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.customerService.getCustomers().subscribe((res) => {
+    this.service.getCustomers().subscribe((res) => {
       console.log(res, "<==== res");
       this.customers = res.customers;
     })
     this.loading = true;
     this.initMainForm();
     this.initMainFormStock();
+
+    this.userId = this.localStorageService.retrieve('empId');
+    this.getEmployee(this.userId);
+    this.searchStock();
     this.setperiodMonthDescOption();
   }
 
@@ -60,7 +77,8 @@ export class ShareComponentComponent implements OnInit {
 
   initMainFormStock() {
     this.formModelStock = new FormGroup({
-      monthlyStockMoney: new FormControl(null, Validators.required),
+      stockMonth: new FormControl(0),
+      stockYear: new FormControl(null),
     });;
   }
 
@@ -73,39 +91,68 @@ export class ShareComponentComponent implements OnInit {
     this.loading = true;
 
     setTimeout(() => {
-      this.customerService.getCustomers({ lazyEvent: JSON.stringify(event) }).subscribe((res) => {
+      this.service.searchStockDetail(this.stockId).subscribe((res) => {
         console.log(res, "<==== res");
         //this.customers = res.customers;
-        this.totalRecords = res.totalRecords;
+        this.totalRecords = res.length;
         this.loading = false;
       })
     }, 1000);
   }
 
-  // generatePDF(){
-  //      let pdf = new jsPDF('p','pt','a4');
-  //      pdf.html(this.el.nativeElement, {
-  //         callback: (pdf) => {
-  //             pdf.output("dataurlnewwindow");
-  //         },
-  //      })
+  getEmployee(id: any): void {
+    this.service.getEmployee(id).subscribe(data => {
+      this.stockId = data.stock.id;
+      this.searchStockDetail(this.stockId);
+
+      if (data.id === 1 || data.id === 631) {
+        this.admin = true;
+      }
+    });
+  }
+
+  getEmployeeByStock(id: any): void {
+    this.service.getEmployee(id).subscribe(data => {
+      this.employeeByStock = data;
+      this.loading = false;
+    });
+  }
+
+  searchStock(): void {
+    this.service.searchStock().subscribe(data => {
+      this.dataStock = data;
+      this.loading = false;
+    });
+  }
+
+  searchStockDetail(id: any): void {
+    this.service.searchStockDetail(id).subscribe(data => this.dataStockDetail = data);
+  }
+
+  // generatePDF() {
+  //   let pdf = new jsPDF('p', 'pt', 'a4');
+  //   pdf.html(this.el.nativeElement, {
+  //     callback: (pdf) => {
+  //       pdf.output("dataurlnewwindow");
+  //     },
+  //   })
   // }
 
-  // convertToPDF(){
+  // convertToPDF() {
   //   html2canvas(document.getElementById("contentTable")!).then(canvas => {
-  //   // Few necessary setting options
-  //   const contentDataURL = canvas.toDataURL('image/png')
-  //   let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-  //   var width = pdf.internal.pageSize.getWidth();
-  //   var height = canvas.height * width / canvas.width;
-  //   pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
-  //   pdf.save('output.pdf'); // Generated PDF
+  //     // Few necessary setting options
+  //     const contentDataURL = canvas.toDataURL('image/png')
+  //     let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+  //     var width = pdf.internal.pageSize.getWidth();
+  //     var height = canvas.height * width / canvas.width;
+  //     pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
+  //     pdf.save('output.pdf'); // Generated PDF
   //   });
   // }
 
-  // exportPDF(){
-  //   this.customers?.forEach((element,index,array) =>{
-  //     this.info.push([element.name,element.country?.name,element.company,element.representative?.name]);
+  // exportPDF() {
+  //   this.dataStockDetail?.forEach((element, index, array) => {
+  //     this.info.push([index+1, element.stockMonth, element.stockYear, 'ชำระหนี้ประจำเดือน', element.installment, element.stockValue, element.stock.stockAccumulate]);
   //   })
 
   //   const pdf = new jsPDF() as jsPDFCustom;
@@ -114,13 +161,15 @@ export class ShareComponentComponent implements OnInit {
   //   });
   //   pdf.setFont('Sarabun-Regular');
   //   pdf.setFontSize(14);
-  //   pdf.text(" ประวัติการส่งหุ้น ( Stock History) ",70,10);
+  //   pdf.text(" ประวัติการส่งหุ้น ( Stock History) ", 70, 10);
   //   //autoTable(pdf, { html: '#contentTable' });
-  //   pdf.autoTable({ 
+  //   pdf.autoTable({
   //     //styles : { halign : 'center'},
-  //     headStyles:{fillColor : [160, 160, 160]},
+  //     // startY: 100,
+  //     styles: { font: 'Kanit-Regular', fontSize: 10 },
+  //     headStyles: { fillColor: [160, 160, 160] },
   //     theme: 'grid',
-  //     head: [['Name','Country','Company','Representative']],
+  //     head: [['เลขที่', 'เดือนที่ทำรายการ', 'ปีที่ทำรายการ', 'ชื้อรายการ', 'งวดที่', 'ยอดทำรายการ', 'หุ้นสะสม']],
   //     body: this.info,
   //   })
   //   pdf.output("dataurlnewwindow",{filename: "ประวัติการส่งหุ้น"});
@@ -128,21 +177,22 @@ export class ShareComponentComponent implements OnInit {
 
   // }
 
-  // downloadPDF(){
-  //   this.customers?.forEach((element,index,array) =>{
-  //     this.info.push([element.name,element.country?.name,element.company,element.representative?.name]);
+  // downloadPDF() {
+  //   this.customers?.forEach((element, index, array) => {
+  //     this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
   //   })
 
   //   const pdf = new jsPDF() as jsPDFCustom;
   //   pdf.setFont('Sarabun-Regular');
   //   pdf.setFontSize(14);
-  //   pdf.text(" ประวัติการส่งหุ้น ( Stock History) ",70,10);
+  //   pdf.text(" ประวัติการส่งหุ้น ( Stock History) ", 70, 10);
   //   //autoTable(pdf, { html: '#contentTable' });
-  //   pdf.autoTable({ 
+  //   pdf.autoTable({
   //     //styles : { halign : 'center'},
-  //     headStyles:{fillColor : [160, 160, 160]},
+  //     styles: { font: 'Sarabun-Regular', fontSize: 14 },
+  //     headStyles: { fillColor: [160, 160, 160] },
   //     theme: 'grid',
-  //     head: [['Name','Country','Company','Representative']],
+  //     head: [['Name', 'Country', 'Company', 'Representative']],
   //     body: this.info,
   //   })
   //   //pdf.output("dataurlnewwindow");
@@ -150,11 +200,16 @@ export class ShareComponentComponent implements OnInit {
 
   // }
 
-  // onPrintReceipt(){
-  //   this.infoReceipt.push(['ค่าหุ้น','3','1,000.00',' ']);
-  //   this.infoReceipt.push(['เงินต้น',' ',' ',' ']);
-  //   this.infoReceipt.push(['ดอก',' ',' ',' ']);
-  //   this.infoReceipt.push(['','รวมเงิน','1,000.00',' ']);
+  onRowEditInit(stock: any) {
+    this.clonedProducts[stock.id!] = { ...stock };
+  }
+
+
+  // onPrintReceipt() {
+  //   this.infoReceipt.push(['ค่าหุ้น', '3', '1,000.00', ' ']);
+  //   this.infoReceipt.push(['เงินต้น', ' ', ' ', ' ']);
+  //   this.infoReceipt.push(['ดอก', ' ', ' ', ' ']);
+  //   this.infoReceipt.push(['', 'รวมเงิน', '1,000.00', ' ']);
   //   var img = new Image();
   //   img.src = 'assets/images/logo.png';
 
@@ -164,7 +219,7 @@ export class ShareComponentComponent implements OnInit {
   //   var img2 = new Image();
   //   img2.src = 'assets/images/text2.png';
 
-  //   const textin1 = "ประจําเดือน " + " มีนาคม 2566 " + "            เลขที่่ " + " 00001";
+  //   //const textin1 = "ประจําเดือน " + " มีนาคม 2566 " + "            เลขที่่ " + " 00001";
   //   const textin2 = "ได้รับเงินจาก " + " นายฉัตรชัย ตาเบอะ";
   //   const textin3 = "สังกัด " + " แขวงกาวิละ";
   //   const textin4 = "เลขที่สมาชิก " + " 05355";
@@ -187,7 +242,7 @@ export class ShareComponentComponent implements OnInit {
   //   pdf.setFontSize(14);
   //   pdf.text("ประจําเดือน",15,90); 
   //   pdf.text("มีนาคม 2566",45,90,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("เลขที่",85,90,{lineHeightFactor: 1.15}); 
+  //   pdf.text("เลขที่",85,90); 
   //   pdf.text("00001",100,90,{renderingMode:'fillThenStroke'}); 
   //   pdf.text("ได้รับเงินจาก",15,100); 
   //   pdf.text("นายฉัตรชัย ตาเบอะ",45,100,{renderingMode:'fillThenStroke'}); 
@@ -199,12 +254,12 @@ export class ShareComponentComponent implements OnInit {
   //   pdf.text("3,000.00",38,130,{renderingMode:'fillThenStroke'}); 
   //   pdf.text("บาท",63,130); 
   //   //pdf.text(" \n\n\n\n ",0,0);
-  //   pdf.autoTable({ 
-  //     styles : {font : 'Sarabun-Regular', fontSize : 14},
-  //     margin: {top: 135, bottom: 0},
-  //     headStyles:{fillColor : [160, 160, 160]},
-  //     theme: 'grid',   
-  //     head: [['รายการ','งวด','เป็นเงิน','เงินต้นเหลือ']],
+  //   pdf.autoTable({
+  //     styles: { font: 'Sarabun-Regular', fontSize: 14 },
+  //     margin: { top: 135, bottom: 0 },
+  //     headStyles: { fillColor: [160, 160, 160] },
+  //     theme: 'grid',
+  //     head: [['รายการ', 'งวด', 'เป็นเงิน', 'เงินต้นเหลือ']],
   //     body: this.infoReceipt,
   //   });
   //   pdf.text(" (หนึ่งพันบาทถ้วน) ",20,190); 
@@ -227,10 +282,114 @@ export class ShareComponentComponent implements OnInit {
   //   // var dim = pdf.getTextDimensions('Text');
   //   // console.log(dim); 
 
+
   //   pdf.output("dataurlnewwindow",{filename: "ใบเสร็จรับเงิน"});
   //   this.infoReceipt = [];
 
   // }
+
+
+  onRowEditSave(playload: any) {
+    this.service.updateStock(playload).subscribe((data) => {
+      this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      this.ngOnInit();
+      this.loading = false;
+    });
+  }
+
+  month: any;
+  year: any;
+  time: any;
+  pipeDateTH() {
+    const format = new Date()
+    const day = format.getDate()
+    const month = format.getMonth()
+    const year = format.getFullYear() + 543
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+    return day + ' ' + monthSelect.label + ' ' + year
+  }
+
+  setperiodMonthDescOption() {
+    this.periodMonthDescOption = [
+      { value: '01', label: 'มกราคม' },
+      { value: '02', label: 'กุมภาพันธ์' },
+      { value: '03', label: 'มีนาคม' },
+      { value: '04', label: 'เมษายน' },
+      { value: '05', label: 'พฤษภาคม' },
+      { value: '06', label: 'มิถุนายน' },
+      { value: '07', label: 'กรกฎาคม' },
+      { value: '08', label: 'สิงหาคม' },
+      { value: '09', label: 'กันยายน' },
+      { value: '10', label: 'ตุลาคม' },
+      { value: '11', label: 'พฤศจิกายน' },
+      { value: '12', label: 'ธันวาคม' },
+    ];
+  }
+
+  onRowEditCancel(product: Customer, index: number) {
+    this.customers[index] = this.clonedProducts[product.id!];
+    delete this.clonedProducts[product.id!];
+  }
+
+  updateStocktoMonth() {
+    this.displayModal = true;
+
+    const formatDate = new Date()
+    const month = formatDate.getMonth()
+    const year = formatDate.getFullYear() + 543
+
+    const monthSelect = this.periodMonthDescOption[month];
+
+    this.formModelStock.patchValue({
+      stockYear: year,
+      stockMonth: monthSelect.label,
+    })
+
+    this.formModelStock.get('stockMonth')?.disable();
+    this.formModelStock.get('stockYear')?.disable();
+
+    this.checkInsertStockDetailAll();
+  }
+
+  onupdateStockToMonth() {
+    // api update stock to everyone 
+  }
+
+  onCancle() {
+    this.formModelStock.reset();
+    this.displayModal = false;
+  }
+
+  checkNull: boolean = true;
+  checkValueOfNull(event: any) {
+    if (!event.value) {
+      this.checkNull = true;
+    } else {
+      this.checkNull = false;
+    }
+  }
+
+  checkInsertStockDetailAll() {
+
+    const stockDetail = this.dataStockDetail
+    const formatDate = new Date()
+    const month = formatDate.getMonth()
+    const monthSelect = this.periodMonthDescOption[month];
+
+    if (stockDetail[stockDetail.length - 1].stockMonth === monthSelect.label) {
+      this.checkNull = true;
+    } else {
+      this.checkNull = false;
+    }
+  }
+
+  clear(table: Table) {
+    table.clear();
+  }
 
   exportMakePDF(mode: any) {
     this.customers?.forEach((element, index, array) => {
@@ -265,8 +424,8 @@ export class ShareComponentComponent implements OnInit {
         // keywords: 'keywords for document',
       },
       content: [
-        { text: 'เทศบาลนครเชียงใหม่', style: 'header'},
-        { text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
+        { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header' },
         '\n',
         {
           style: 'tableExample',
@@ -274,16 +433,16 @@ export class ShareComponentComponent implements OnInit {
             headerRows: 1,
             widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' }, 
+              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
               { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
               { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
               { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
-            ],
-           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
-           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
-           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
-           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
+              ],
+              ['klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk',],
+              ['klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk',],
+              ['klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk',],
+              ['klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk', 'klk;lk',],
               // ...this.info,
             ]
           },
@@ -457,41 +616,7 @@ export class ShareComponentComponent implements OnInit {
     });
   }
 
-  month: any;
-  year: any;
-  time: any;
-  pipeDateTH() {
-    const format = new Date()
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
-    this.year = year;
-    const monthSelect = this.periodMonthDescOption[month];
-    this.month = monthSelect.label;
-    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
-    this.time = time;
-    return day + ' ' + monthSelect.label + ' ' + year
-  }
-
-  setperiodMonthDescOption() {
-    this.periodMonthDescOption = [
-      { value: '01', label: 'มกราคม' },
-      { value: '02', label: 'กุมภาพันธ์' },
-      { value: '03', label: 'มีนาคม' },
-      { value: '04', label: 'เมษายน' },
-      { value: '05', label: 'พฤษภาคม' },
-      { value: '06', label: 'มิถุนายน' },
-      { value: '07', label: 'กรกฎาคม' },
-      { value: '08', label: 'สิงหาคม' },
-      { value: '09', label: 'กันยายน' },
-      { value: '10', label: 'ตุลาคม' },
-      { value: '11', label: 'พฤศจิกายน' },
-      { value: '12', label: 'ธันวาคม' },
-    ];
-  }
-
-
-  onPrintTotal(){
+  onPrintTotal() {
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -521,10 +646,14 @@ export class ShareComponentComponent implements OnInit {
         { text: 'กองทุนสวัสดิการพนักงานและลูกจ้างเทศบาล', style: 'header' },
         { text: 'สรุปยอดรวมต่างๆ', style: 'header' },
         '\n',
-        { text: ['วันที่ปริ้นเอกสารฉบับนี้: ', { text: '                '+this.pipeDateTH()+'                                                          ', bold: false}, 
-        { text: 'เดือน: ', bold: true }, { text: ' ' + this.month + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             '+this.time+'                                                                              ', bold: false}, 
-        { text: 'ปี: ' , bold: true }, { text: ' ' + this.year + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: ['วันที่ปริ้นเอกสารฉบับนี้: ', { text: '                ' + this.pipeDateTH() + '                                                          ', bold: false },
+            { text: 'เดือน: ', bold: true }, { text: ' ' + this.month + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+        },
+        {
+          text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             ' + this.time + '                                                                              ', bold: false },
+            { text: 'ปี: ', bold: true }, { text: ' ' + this.year + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+        },
         '\n',
         '\n',
         '\n',
@@ -532,20 +661,28 @@ export class ShareComponentComponent implements OnInit {
           style: 'tableExample',
           table: {
             headerRows: 2,
-            widths: ['*','*'],
+            widths: ['*', '*'],
             body: [
               [{ text: 'สรุปยอดรวมประจําเดือน มีนาคม พ.ศ.2566', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
               // [{ text: 'Name', style: 'tableHeader' }, { text: 'Country', style: 'tableHeader' }],
-              [{rowSpan: 1, 
-                text: ' จํานวนสมาชิกทั้งหมด \n\nจํานวนสมาชิกกู้เงินสามัญ \n\nยอดเงินกู้สามัญคงค้าง \n\nค่าหุ้นสะสมรวม\n\n'},
-              {rowSpan: 1, 
-                text: ' 630     ราย \n\n462     ราย \n\n68,280,859.00    บาท \n\n110,207,860.00    บาท\n\n' ,alignment: 'right'}],
-              [{rowSpan: 1, 
-                text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงนิกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\n'},
-              {rowSpan: 1, 
-                text: ' 1,332,030.00    บาท \n\n284,515.00    บาท \n\n1,378,989.00    บาท \n\n2,995,534.00    บาท \n\n',alignment: 'right'}],
+              [{
+                rowSpan: 1,
+                text: ' จํานวนสมาชิกทั้งหมด \n\nจํานวนสมาชิกกู้เงินสามัญ \n\nยอดเงินกู้สามัญคงค้าง \n\nค่าหุ้นสะสมรวม\n\n'
+              },
+              {
+                rowSpan: 1,
+                text: ' 630     ราย \n\n462     ราย \n\n68,280,859.00    บาท \n\n110,207,860.00    บาท\n\n', alignment: 'right'
+              }],
+              [{
+                rowSpan: 1,
+                text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงนิกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\n'
+              },
+              {
+                rowSpan: 1,
+                text: ' 1,332,030.00    บาท \n\n284,515.00    บาท \n\n1,378,989.00    บาท \n\n2,995,534.00    บาท \n\n', alignment: 'right'
+              }],
               //[{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
-              
+
             ]
           },
           layout: {
@@ -576,11 +713,11 @@ export class ShareComponentComponent implements OnInit {
       }
     }
     const pdf = pdfMake.createPdf(docDefinition);
-      pdf.open();
-    
+    pdf.open();
+
   }
 
-  onPrintInfoMember(){
+  onPrintInfoMember() {
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -607,62 +744,76 @@ export class ShareComponentComponent implements OnInit {
       },
       background: function (currentPage, pageSize) {
         return [
-            {
-                canvas: [
-                    { type: 'line', x1: 25, y1: 25, x2: 570, y2: 25, lineWidth: 1 }, //Up line
-                    { type: 'line', x1: 25, y1: 25, x2: 25, y2: 780, lineWidth: 1 }, //Left line
-                    { type: 'line', x1: 25, y1: 780, x2: 570, y2: 780, lineWidth: 1 }, //Bottom line
-                    { type: 'line', x1: 570, y1: 25, x2: 570, y2: 780, lineWidth: 1 }, //Rigth line
-                    {
-                      type: 'line',
-                      x1: 25, y1: 360,
-                      x2: 570, y2: 360,
-                      lineWidth: 1
-                    }, //center
-                ]
+          {
+            canvas: [
+              { type: 'line', x1: 25, y1: 25, x2: 570, y2: 25, lineWidth: 1 }, //Up line
+              { type: 'line', x1: 25, y1: 25, x2: 25, y2: 780, lineWidth: 1 }, //Left line
+              { type: 'line', x1: 25, y1: 780, x2: 570, y2: 780, lineWidth: 1 }, //Bottom line
+              { type: 'line', x1: 570, y1: 25, x2: 570, y2: 780, lineWidth: 1 }, //Rigth line
+              {
+                type: 'line',
+                x1: 25, y1: 360,
+                x2: 570, y2: 360,
+                lineWidth: 1
+              }, //center
+            ]
 
-            }
+          }
         ]
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
         { text: 'ข้อมูลสมาชิก', style: 'header' },
         '\n',
-        { text: ['หน้า 1                                                                                                    ', 
-        { text: ' เดือน        ', bold: true ,}, 
-        { text: ' มีนาคม       ', style: 'texts'  }, { text: ' ปี         ', bold: true }, 
-        { text: ' 2566        ', style: 'texts'  }], margin: [0, 6, 0, 0]},
-        { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['วันที่เป็นสมาชิก       ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['หน่วยงาน                ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['ประเภท                   ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['ตําแหน่ง                   ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['อัตราเงินเดือน         ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['คํ้าประกันให้            ', { text: ' 1. ไม่มี ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: [' ', { text: ' 2. ไม่มี ', bold: false, style: 'texts'}], margin: [95, 6, 0, 0], bold: false}, 
-        { text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: ' 00000 ', bold: false, style: 'texts'}, 
-        { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false}, { text: '\t\t 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['หุ้นสะสม\t\t\t\t ', { text: ' 00000 ', bold: false, style: 'texts'}, 
-        { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ', bold: false}, { text: '\t00000 '+ '    บาท', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
+        {
+          text: ['หน้า 1                                                                                                    ',
+            { text: ' เดือน        ', bold: true, },
+            { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
+            { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+        },
+        { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['วันที่เป็นสมาชิก       ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['หน่วยงาน                ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['ประเภท                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['ตําแหน่ง                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['อัตราเงินเดือน         ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['คํ้าประกันให้            ', { text: ' 1. ไม่มี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: [' ', { text: ' 2. ไม่มี ', bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
+        {
+          text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: ' 00000 ', bold: false, style: 'texts' },
+            { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false }, { text: '\t\t 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        },
+        {
+          text: ['หุ้นสะสม\t\t\t\t ', { text: ' 00000 ', bold: false, style: 'texts' },
+            { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ', bold: false }, { text: '\t00000 ' + '    บาท', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        },
         //<--------------------------------- center ---------------------------------> 
-        '\n','\n',
+        '\n', '\n',
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
         { text: 'ข้อมูลสมาชิก', style: 'header' },
         '\n',
-        { text: ['หน้า 2                                                                                                    ', 
-        { text: ' เดือน        ', bold: true ,}, 
-        { text: ' มีนาคม       ', style: 'texts'  }, { text: ' ปี         ', bold: true }, 
-        { text: ' 2566        ', style: 'texts'  }], margin: [0, 6, 0, 0]},
-        { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
+        {
+          text: ['หน้า 2                                                                                                    ',
+            { text: ' เดือน        ', bold: true, },
+            { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
+            { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+        },
+        { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+        { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
         { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
-        { text: ['กู้เงินจํานวน             ', { text: ' 00000 ', bold: false, style: 'texts'}, 
-        { text: '                     บาท ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['ระยะเวลากู้              ', { text: ' 00000 ', bold: false, style: 'texts'}, 
-        { text: '                     เดือน ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        { text: ['อัตราดอกเบี้ย          ', { text: ' 00000 ', bold: false, style: 'texts'}, 
-        { text: '                     เปอร์เซ็นต์ต่อปี ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
+        {
+          text: ['กู้เงินจํานวน             ', { text: ' 00000 ', bold: false, style: 'texts' },
+            { text: '                     บาท ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        },
+        {
+          text: ['ระยะเวลากู้              ', { text: ' 00000 ', bold: false, style: 'texts' },
+            { text: '                     เดือน ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        },
+        {
+          text: ['อัตราดอกเบี้ย          ', { text: ' 00000 ', bold: false, style: 'texts' },
+            { text: '                     เปอร์เซ็นต์ต่อปี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        },
         // { text: ['วันที่เริ่มกู้          ', { text: ' - ', bold: false, style: 'texts'}, 
         // { text: '                     วันที่ทําสัญญา          ', bold: false}, { text: ' - ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
         '\n',
@@ -671,27 +822,27 @@ export class ShareComponentComponent implements OnInit {
           table: {
             widths: [90, 120, 80, 150],
             body: [
-              [{text: ' วันที่เริ่มกู้ ', color: 'black',}, {text: ' - ', color: 'gray',fillColor: '#fff'},{text: ' วันที่ทําสัญญา ', color: 'black'}, {text: ' - ', color: 'gray'}],
-              [{text: ' เหตุผลการกู้ ', color: 'black',}, {text: ' - ', color: 'gray',fillColor: '#fff'},{text: ' ', color: 'black'}, {text: ' ', color: 'gray'}],
-              [{text: ' ผู้คํ้าประกัน 1 ', color: 'black',}, {text: ' ไม่มี ', color: 'gray',fillColor: '#fff'},{text: ' ', color: 'black'}, {text: ' ', color: 'gray'}],
-              [{text: ' ผู้คํ้าประกัน 2 ', color: 'black',}, {text: ' ไม่มี ', color: 'gray',fillColor: '#fff'},{text: ' ', color: 'black'}, {text: ' ', color: 'gray'}],
-              [{text: ' ดอกเดือนนี้ ', color: 'black',}, {text: '  ' + '          บาท', color: 'gray',fillColor: '#fff'},
-              {text: ' ต้นเดือนนี้ ', color: 'black', width: 150}, {text: ' ' + '          บาท', color: 'gray'}],
-              [{text: ' เดือนสุดท้าย ', color: 'black',}, {text: '  '+ '          บาท', color: 'gray',fillColor: '#fff'},
-              {text: ' เดือนสุดท้าย ', color: 'black', width: 150,}, {text: ' ' + '          บาท', color: 'gray'}],
-              [{text: ' ส่งงวดที่ ', color: 'black',}, {text: '  ', color: 'gray',fillColor: '#fff'},{text: '  ', color: 'black'}, {text: '  ', color: 'gray'}],
-              [{text: ' ดอกรวมส่ง ', color: 'black',}, {text: '  ' + '          บาท', color: 'gray',fillColor: '#fff'},
-              {text: ' ดอกคงค้าง ', color: 'black', width: 150}, {text: ' ' + '          บาท', color: 'gray'}],
-              [{text: ' ต้นรวมส่ง ', color: 'black',}, {text: '  '+ '          บาท', color: 'gray',fillColor: '#fff'},
-              {text: ' ต้นคงค้าง ', color: 'black', width: 150,}, {text: ' ' + '          บาท', color: 'gray'}],
+              [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: ' - ', color: 'gray' }],
+              [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+              [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: ' ไม่มี ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+              [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: ' ไม่มี ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+              [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+              { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: ' ' + '          บาท', color: 'gray' }],
+              [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+              { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: ' ' + '          บาท', color: 'gray' }],
+              [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: '  ', color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
+              [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+              { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: ' ' + '          บาท', color: 'gray' }],
+              [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+              { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: ' ' + '          บาท', color: 'gray' }],
             ]
           },
           layout: 'noBorders'
         },
-        
+
       ],
       defaultStyle: {
-          font: 'Sarabun',
+        font: 'Sarabun',
       },
       styles: {
         header: {
@@ -709,49 +860,9 @@ export class ShareComponentComponent implements OnInit {
           color: '#555',
         },
       },
-  } 
-  const pdf = pdfMake.createPdf(docDefinition);
-  pdf.open();
-  }
-
-  onRowEditInit(product: Customer) {
-    this.clonedProducts[product.id!] = { ...product };
-  }
-
-  onRowEditSave(product: Customer) {
-    if (product.name === 'hello') {
-      delete this.clonedProducts[product.id!];
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Price' });
     }
-  }
-
-  onRowEditCancel(product: Customer, index: number) {
-    this.customers[index] = this.clonedProducts[product.id!];
-    delete this.clonedProducts[product.id!];
-  }
-
-  updateStocktoMonth() {
-    this.displayModal = true;
-  }
-
-  onupdateStockToMonth() {
-    // api update stock to everyone 
-  }
-
-  onCancle() {
-    this.formModelStock.reset();
-    this.displayModal = false;
-  }
-
-  checkNull: boolean = true;
-  checkValueOfNull(event: any) {
-    if (!event.value) {
-      this.checkNull = true;
-    } else {
-      this.checkNull = false;
-    }
+    const pdf = pdfMake.createPdf(docDefinition);
+    pdf.open();
   }
 
 }

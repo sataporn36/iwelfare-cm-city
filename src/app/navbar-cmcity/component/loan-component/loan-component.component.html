@@ -4,76 +4,50 @@
          &nbsp;&nbsp;
         <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
     </div>
-    <div class="p-card"> 
-        <p-table
-        dataKey="id"
-        [value]="customers"
-        [lazy]="true"
-        (onLazyLoad)="loadCustomers($event)"
-        [totalRecords]="totalRecords"
-        [loading]="loading"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        selectionMode="single"
-        responsiveLayout="stack" 
-        [tableStyle]="{'max-width': '100%'}"
-        [rowsPerPageOptions]="[10, 50, 100]"
-    >
-    <!-- currentPageReportTemplate="เเสดงข้อมูล {first} ถึง {last} จากทั้งหมด {totalRecords} รายการ" -->
-        <ng-template pTemplate="caption"> 
-            <div class="header-caption">
-                <span>  ตารางประวัติการส่งเงินกู้รายเดือน ( Loan History) </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width:25%">Name</th>
-                <th style="width:25%">Country</th>
-                <th style="width:25%">Company</th>
-                <th style="width:25%">Representative</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-customer>
-            <tr [pSelectableRow]="customer">
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.country.name }}</td>
-                <td>{{ customer.company }}</td>
-                <td>{{ customer.representative.name }}</td>
-            </tr>
-        </ng-template>
-        <!-- <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-        </ng-template> -->
-    </p-table>
+    <div class="p-card">
+        <div style="font-family: 'Kanit';">
+            <p-table dataKey="id" [value]="dataLoanDetail" [loading]="loading" [paginator]="true" [rows]="10"
+                [showCurrentPageReport]="true" selectionMode="single"
+                currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+                [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]"
+                [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]">
+                <ng-template pTemplate="caption">
+                    <div class="header-caption">
+                        <span> ตารางประวัติการส่งเงินกู้รายเดือน (Loan History) </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:10%">เลขที่</th>
+                        <th style="width:15%">เดือนที่ทำรายการ</th>
+                        <th style="width:15%">ปีที่ทำรายการ</th>
+                        <th style="width:15%">ชื่อรายการ</th>
+                        <th style="width:10%">งวดที่</th>
+                        <th style="width:15%">เงินกู้สามัญ</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-loanDetail let-i="rowIndex">
+                    <tr [pSelectableRow]="loanDetail">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ loanDetail.loanMonth }}</td>
+                        <td>{{ loanDetail.loanYear }}</td>
+                        <td>ชำระหนี้ประจำเดือน</td>
+                        <td>{{ loanDetail.installment }}</td>
+                        <td>{{ loanDetail.loanOrdinary }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
     </div>
 </div>
 <div style="padding-top: 2rem;"></div>
 
-<!-- Admin -->
-<div class="card-table">
+<div class="card-table" *ngIf="admin">
+    <p-chip label="Admin" styleClass="mr-2"></p-chip>
     <p-toast></p-toast>
-    <div [formGroup]="formModel">
-        <div class="col-12" style="display: flex; justify-content: center;">
-            <div class="col-4 ">
-                <label class="form-label">ชื่อ-นามสกุล</label>
-                <input type="text" class="form-control" placeholder="" formControlName="fullName" >
-            </div>
-            &nbsp;&nbsp; &nbsp;&nbsp;
-            <div style="display: flex; align-items: flex-end;">
-                <label class="form-label"> </label>
-                <button type="button" class="btn btn-login" (click)="onSearchMember()">ค้นหา</button>
-            </div>  
-        </div>
-    </div>
-    <div style="padding-bottom: 0.5rem; padding-top: 3rem; display: flex; justify-content: space-between;">
-        <div style="display: flex;">
-            <button type="button" class="btn btn-login" (click)="requestLoanAgreement()">ขอสัญญาเงินกู้</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" style="width: 70%;" (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
+    <div style="padding-bottom: 0.5rem; padding-top: 1rem; display: flex; justify-content: space-between;">
+        <div>
+            <button type="button" class="btn btn-login" style="width: 100%;">เรียกเก็บชำระเงินกู้รายเดือน</button>
         </div>
         <div>
             <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
@@ -81,54 +55,61 @@
            <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
         </div>
     </div>
-    <div class="p-card"> 
-    <p-table
-        dataKey="id"
-        [value]="customers"
-        [lazy]="true"
-        (onLazyLoad)="loadCustomers($event)"
-        [totalRecords]="totalRecords"
-        [loading]="loading"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        selectionMode="single"
-        responsiveLayout="stack" 
-        [tableStyle]="{'max-width': '100%'}"
-        [rowsPerPageOptions]="[10, 50, 100]"
-    >
-        <ng-template pTemplate="caption"> 
-            <div class="header-caption">
-                <span>  ตารางการส่งเงินกู้รายเดือนของสมาชิก ( Loan History Of Member) </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width:20%">Name</th>
-                <th style="width:20%">Country</th>
-                <th style="width:20%">Company</th>
-                <th style="width:20%">Representative</th>
-                <th style="width:20%"></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-customer let-ri="rowIndex">
-            <tr >
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.country.name }}</td>
-                <td>{{ customer.company }}</td>
-                <td>{{ customer.representative.name }}</td>
-                <td>
-                    <div class="flex align-items-center justify-content-center gap-2">
-                        <button pButton pRipple type="button" icon="pi pi-pencil"  tooltipPosition="top" pTooltip="เเก้ไข"
-                        (click)="onEditLoan(customer)" class="p-button-rounded p-button-text"></button>
-                        <button pButton pRipple type="button" icon="pi pi-lock" tooltipPosition="top" pTooltip="ปิดหนี้"
-                        (click)="onCloseLoan(customer)" class="p-button-rounded p-button-text"></button>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-  </div>
+    <div class="p-card">
+
+        <p-table #dt2 [value]="dataLoan" dataKey="id" editMode="row" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" selectionMode="single"
+            currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+            [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]"
+            [tableStyle]="{'max-width': '100%'}">
+            <ng-template pTemplate="caption">
+                <div class="flex" style="display: flex; justify-content: space-between;">
+                    <span style="margin-top: 10px;"> ตารางการส่งหุ้นของสมาชิก (Stock History Of Member) </span>
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Search keyword" />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:10%">เลขที่</th>
+                    <th style="width:10%">รหัสพนักงาน</th>
+                    <th style="width:10%">ชื่อ</th>
+                    <th style="width:10%">นามสกุล</th>
+                    <th style="width:10%">เงินหุ้นส่งรายเดือน</th>
+                    <th style="width:10%">หุ้นสะสม</th>
+                    <th style="width:10%">แก้ไข</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-editing="editing" let-dataLoan let-ri="rowIndex">
+                <tr [pEditableRow]="dataLoan">
+                    <td>{{ dataLoan.id }}</td>
+                    <td>{{ dataLoan.employeeCode }}</td>
+                    <td>{{ dataLoan.firstName }}</td>
+                    <td>{{ dataLoan.lastName }}</td>
+                    <td>{{ dataLoan.loanValue }}</td>
+                    <td>{{ dataLoan.loanBalance }}</td>
+                    <td>
+                        <div class="flex align-items-center justify-content-center gap-2">
+                            <!-- <button pButton pRipple type="button" icon="pi pi-pencil"  tooltipPosition="top" pTooltip="เเก้ไข"
+                        (click)="onEditLoan(dataLoan)" class="p-button-rounded p-button-text"></button> -->
+                            <button pButton pRipple type="button" icon="pi pi-lock" tooltipPosition="top"
+                                pTooltip="ปิดหนี้" (click)="onCloseLoan(dataLoan)"
+                                class="p-button-rounded p-button-text"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">No customers found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
 <div style="padding-top: 2rem;"></div>
 
@@ -137,8 +118,8 @@
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">เปลี่ยนแปลงการชำระเงินกู้รายเดือน</span>
-            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom" 
-            pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i>
+            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i>
         </div>
     </ng-template>
     <div [formGroup]="formModelLoan">
@@ -146,8 +127,9 @@
             <div class="col-12 " style="display: flex; justify-content: center;">
                 <div class="col-6">
                     <label class="block">เงินกู้รายเดือน *</label>
-                    <p-inputNumber formControlName="monthlyLoanMoney" inputId="minmaxfraction" mode="decimal"  [required]="true"
-                    [minFractionDigits]="2" [maxFractionDigits]="2" [maxlength]="10" (onInput)="checkValueOfNull($event)"></p-inputNumber>
+                    <p-inputNumber formControlName="monthlyLoanMoney" inputId="minmaxfraction" mode="decimal"
+                        [required]="true" [minFractionDigits]="2" [maxFractionDigits]="2" [maxlength]="10"
+                        (onInput)="checkValueOfNull($event)"></p-inputNumber>
                 </div>
             </div>
         </div>

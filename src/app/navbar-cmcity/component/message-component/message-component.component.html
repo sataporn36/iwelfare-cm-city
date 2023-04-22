@@ -1,6 +1,6 @@
 <div class="div-table-stocks">
-  <p>รายการแจ้งเตือนการสมัครสมาชิก</p>
-  <table class="table" style="text-align: center;">
+  <p>รายการแจ้งเตือน</p>
+  <!-- <table class="table" style="text-align: center;">
     <thead>
       <tr>
         <th scope="col">วันที่สมัคร</th>
@@ -29,20 +29,118 @@
       </tr>
     </tbody>
   </table>
+
+  <p>---------------------------------------------------------------------------------------------</p> -->
+
+  <p-table #dt2 
+    [value]="dataNotify" 
+    dataKey="id" 
+    editMode="row" 
+    [rows]="10" 
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]" 
+    [loading]="loading" 
+    [paginator]="true" 
+    selectionMode="single"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['createDate', 'employee.employeeCode', 'employee.firstName', 'employee.lastName', 
+    'employee.position.name', 'employee.affiliation.name', 'status', 'reason' ]"
+    [tableStyle]="{'max-width': '100%'}">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:10%">วันที่ร้องขอ</th>
+        <th style="width:10%">รหัสพนักงาน</th>
+        <th style="width:10%">ชื่อ</th>
+        <th style="width:10%">สกุล</th>
+        <th style="width:15%">ตำแหน่ง</th>
+        <th style="width:15%">สังกัด</th>
+        <th pSortableColumn="status" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            สถานะ
+            <p-columnFilter field="status" matchMode="equals" display="menu" class="ml-auto" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="เลือกสถานะ">
+                  <ng-template let-option pTemplate="item">
+                    <span [class]="'notify-badge-' + option.value">{{option.label}}</span>
+                  </ng-template>
+                </p-dropdown>
+              </ng-template>
+            </p-columnFilter>
+          </div>
+        </th>
+        <th style="width:15%">หมายเหตุ/จำนวน</th>
+        <th style="width:10%">ยืนยัน</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-editing="editing" let-dataNotify let-ri="rowIndex">
+      <tr [pEditableRow]="dataNotify">
+        <td>{{ pipeDateTH(dataNotify.createDate)}}</td>
+        <td>{{ dataNotify.employee.employeeCode }}</td>
+        <td>{{ dataNotify.employee.firstName }}</td>
+        <td>{{ dataNotify.employee.lastName }}</td>
+        <td>{{ dataNotify.employee.position.name }}</td>
+        <td>{{ dataNotify.employee.affiliation.name }}</td>
+        <td>
+          <span [class]="'notify-badge-' + dataNotify.status">{{statusNotify(dataNotify.status)}}</span>
+        </td>
+        <td>{{ dataNotify.reason }}</td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(dataNotify)" class="p-button-rounded p-button-text" tooltipPosition="top" pTooltip="เเก้ไข"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onClickApproveEmp(dataNotify)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onClickCancleApproveEmp(dataNotify)" class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td>
+        <!-- <td>
+          <button type="button" class="btn btn-login" (click)="onClickApproveEmp(data)">ยืนยัน</button>
+          <button type="button" class="btn btn-regis" (click)="onClickCancleApproveEmp(data)">ยกเลิก</button>
+        </td> -->
+        <!-- <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-inputNumber [(ngModel)]="dataStock.stockValue" inputId="minmaxfraction" mode="decimal"
+                [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2"> </p-inputNumber>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{dataStock.stockValue}}
+            </ng-template>
+          </p-cellEditor>
+        </td> -->
+        <!-- <td>{{ dataStock.stockAccumulate }}</td> -->
+        <!-- <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+              (click)="onRowEditInit(dataStock)" class="p-button-rounded p-button-text" tooltipPosition="top"
+              pTooltip="เเก้ไข"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+              (click)="onRowEditSave(dataStock)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              (click)="onRowEditCancel(dataStock, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No customers found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
 
 <p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
   <ng-template pTemplate="footer">
-      <button type="button" class="btn btn-login" (click)="cd.accept()">อนุมัติ</button>
-      <button type="button" class="btn btn-regis" (click)="cd.reject()">ไม่อนุมัติ</button>
-    </ng-template>
+    <button type="button" class="btn btn-login" (click)="cd.accept()">อนุมัติ</button>
+    <button type="button" class="btn btn-regis" (click)="cd.reject()">ไม่อนุมัติ</button>
+  </ng-template>
 </p-confirmDialog>
 
 <p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"
-    [draggable]="false" [resizable]="false">
+  [draggable]="false" [resizable]="false">
   <div [formGroup]="formModel">
     <div class="col mb-1">
-      <textarea class="form-control" rows="3" cols="36" autoResize="false" formControlName="remark" placeholder="ข้อความ"></textarea>
+      <textarea class="form-control" rows="3" cols="36" autoResize="false" formControlName="remark"
+        placeholder="ข้อความ"></textarea>
     </div>
   </div>
   <ng-template pTemplate="footer">

@@ -35,6 +35,8 @@ export class NavbarCmcityComponent implements OnInit {
   message!: string;
   countDatetime: number = 0;
   userId: any;
+  messager: boolean = false;
+  dataNotify!: any[];
 
   constructor(private primengConfig: PrimeNGConfig, 
     private service: MainService, 
@@ -108,6 +110,16 @@ export class NavbarCmcityComponent implements OnInit {
     this.getEmployee(this.userId);
     this.conutNewRegister();
     this.initMainForm();
+    this.searchNotify();
+
+    // if (this.userId) {
+    //   this.messager
+    // }
+
+    if (this.userId === 1 || this.userId === 631){
+      this.messager = true;
+    }
+    
   }
 
   initMainForm() {
@@ -296,5 +308,14 @@ export class NavbarCmcityComponent implements OnInit {
     if (count == 0) {
       return "none"
     }
+  }
+
+  searchNotify(): void {
+    this.service.searchNotify().subscribe(data => {
+      this.dataNotify = data;
+
+      console.log(this.dataNotify.length);
+      
+    });
   }
 }

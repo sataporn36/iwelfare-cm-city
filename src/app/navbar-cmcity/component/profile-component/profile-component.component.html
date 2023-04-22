@@ -38,9 +38,9 @@
                 </div>
             </div>
             <div  *ngIf="mode" class="col-6" style="display: flex; align-items: flex-end; justify-content: flex-end; padding-bottom: 3.4rem; width: 52.5%;">
-                <button type="button" class="btn btn-login" style="width: 20%;" (click)="displayResign()">ใบลาออก</button>
+                <button type="button" class="btn btn-login" style="width: 12%;" (click)="displayResign()" [disabled]="resign">ใบลาออก</button>
                 &nbsp;&nbsp;
-                <button type="button" class="btn btn-login" style="width: 30%;" (click)="displayChangeStockToMonth()">ขอเปลี่ยนเงินหุ้นสะสมรายเดือน</button>
+                <button type="button" class="btn btn-login" style="width: 25%;" (click)="displayChangeStockToMonth()">ขอเปลี่ยนเงินส่งหุ้นรายเดือน</button>
             </div>
         </div>
         
@@ -937,14 +937,14 @@
     </ng-template>
     <div [formGroup]="formModelStock">
         <div #div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
-            <div class="col-12 " style="display: flex; justify-content: center; flex-direction: column;">
-                <div style="display: grid;">
-                    <label class="block">เงินหุ้นรายเดือนเดิม</label>
+            <div class="row" style="margin: 10px;">
+                <div class="col-6" style="display: grid;">
+                    <label class="block">เงินส่งหุ้นรายเดือนเดิม</label>
                     <span [innerHTML]="formModel.get('monthlyStockMoney')?.value ? formModel.get('monthlyStockMoney')?.value : '-'" style="font-size: 16px; color: red; font-weight: 700;"></span>
                 </div>
                 <br>
-                <div style="display: grid;">
-                    <label class="block">เงินหุ้นรายเดือนใหม่ *</label>
+                <div class="col-6">
+                    <label class="block">เงินส่งหุ้นรายเดือนใหม่ *</label>
                     <p-inputNumber inputId="integeronly" formControlName="monthlyStockMoney" mode="decimal" [required]="true" 
                     [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7" (onInput)="checkValueOfNull($event)"></p-inputNumber>
                 </div>

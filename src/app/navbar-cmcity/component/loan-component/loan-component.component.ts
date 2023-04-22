@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import { jsPDF } from "jspdf";
-import html2canvas from 'html2canvas';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js'
@@ -11,6 +10,7 @@ import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
+import { LocalStorageService } from 'ngx-webstorage';
 
 interface jsPDFCustom extends jsPDF {
     autoTable: (options: UserOptions) => void;
@@ -21,7 +21,7 @@ interface jsPDFCustom extends jsPDF {
   templateUrl: './loan-component.component.html',
   styleUrls: ['./loan-component.component.scss']
 })
-export class LoanComponentComponent {
+export class LoanComponentComponent implements OnInit {
   customers!: Customer[];
   info: any[] = [];
   loading!: boolean;
@@ -30,16 +30,27 @@ export class LoanComponentComponent {
   formModel!: FormGroup;
   formModelLoan!: FormGroup;
   displayModal: boolean = false;
+  dataLoanDetail!: any[];
+  userId: any;
+  loanId: any;
+  admin!: boolean;
+  dataLoan!: any[];
 
-  constructor(private customerService: MainService, private messageService: MessageService,  private confirmationService: ConfirmationService,) {}
+  constructor(private service: MainService, private messageService: MessageService,  private confirmationService: ConfirmationService,private localStorageService: LocalStorageService,) {}
 
   ngOnInit() {
-      this.customerService.getCustomers().subscribe((res) =>{
+      this.service.getCustomers().subscribe((res) =>{
         console.log(res,"<==== res");
         this.customers = res.customers;
       })
       this.loading = true;
+      this.initMainForm();
       this.initMainFormStock();
+
+      
+    this.userId = this.localStorageService.retrieve('empId');
+    this.getEmployee(this.userId);
+    this.searchLoan();
   }
 
   initMainForm() {
@@ -59,12 +70,38 @@ export class LoanComponentComponent {
     // api search member
   }
 
+  getEmployee(id: any): void {
+    this.service.getEmployee(id).subscribe(data => {
+      this.loanId = data.loan.id;
+      console.log("loanId", this.loanId);
+      
+      this.searchLoanDetail(this.loanId);
+
+      if (data.id === 1 || data.id === 631){
+        this.admin = true;
+      }
+    });
+  }
+
+  searchLoanDetail(id: any): void {
+    this.service.searchLoanDetail(id).subscribe(data => {
+      this.dataLoanDetail = data
+      this.loading = false;
+    });
+  }
+
+  searchLoan(): void {
+    this.service.searchLoan().subscribe(data => {
+      this.dataLoan = data;
+       this.loading = false;
+    });
+  }
 
   loadCustomers(event: LazyLoadEvent) {
-    this.loading = true;
+    this.loading = true; 
 
     setTimeout(() => {
-      this.customerService.getCustomers({ lazyEvent: JSON.stringify(event) }).subscribe((res) =>{
+      this.service.getCustomers({ lazyEvent: JSON.stringify(event) }).subscribe((res) =>{
         console.log(res,"<==== res");
         //this.customers = res.customers;
         this.totalRecords = res.totalRecords;
@@ -235,7 +272,7 @@ export class LoanComponentComponent {
 
   onCloseLoan(data: any){
     this.confirmationService.confirm({
-      message: 'ต้องการปิดหนี้ให้คุณ ' + '.......' + ' ' + '.......',
+      message: 'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
       header: 'ปิดหนี้สมาชิก',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {

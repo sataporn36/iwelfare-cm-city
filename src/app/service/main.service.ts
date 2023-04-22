@@ -129,4 +129,41 @@ export class MainService {
     return this.http.post<EmployeeType[]>(AppPath.APP_API_SERVICE + '/v1/employee-type/search', null);
   }
 
+  searchStockDetail(id: number): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/stock-detail/search-by-stock/' + id, null);
+  }
+
+  searchStock(): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/stock/search', null);
+  }
+
+  updateStock(playload: any): Observable<any>{
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/stock', playload
+    );
+  }
+
+  updateResign(playload: any): Observable<any>{
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-resign', playload
+    );
+  }
+
+  updateStockValue(playload: any): Observable<any>{
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-stock-value', playload
+    );
+  }
+
+  searchNotify(): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/notify/search', null);
+  }
+
+  searchLoanDetail(id: number): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/search-by-loan/' + id, null);
+  }
+
+  searchLoan(): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/loan/search', null);
+  }
 }

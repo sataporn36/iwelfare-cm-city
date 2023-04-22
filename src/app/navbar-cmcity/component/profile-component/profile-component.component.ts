@@ -92,6 +92,8 @@ export class ProfileComponentComponent implements OnInit {
   displayModalResign: boolean = false;
   displayModalStock: boolean = false;
 
+  resign: boolean = false;
+
   public position: Observable<Positions[]> | any
   public affiliation: Observable<Affiliation[]> | any
   public bureau: Observable<Bureau[]> | any
@@ -133,6 +135,7 @@ export class ProfileComponentComponent implements OnInit {
     this.getPositions();
     this.getBureau();
     this.getDapartment();
+
   }
 
   getPositions(): void {
@@ -427,6 +430,11 @@ export class ProfileComponentComponent implements OnInit {
 
   getEmployee(id: any): void {
     this.service.getEmployee(id).subscribe(data => {
+
+      if (data.employeeStatus === 5) {
+        this.resign = true;
+      }
+
       this.formModel.patchValue({
         ...data,
         prefix: data?.prefix ? data?.prefix : '-',
@@ -1254,7 +1262,17 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   onSubmitResign(){
-     // api
+
+    const playloadResign = {
+      id: this.userId,
+      reason: this.formModelResign.get('reason')?.value
+    }
+
+     this.service.updateResign(playloadResign).subscribe((data) => {
+      this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+      this.displayModalResign = false;
+      this.ngOnInit();
+     });
   }
 
   onCancleResign(){
@@ -1274,6 +1292,16 @@ export class ProfileComponentComponent implements OnInit {
          this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
      }else{
       // api
+      const playload = {
+        id: this.userId,
+        stockValue: dataStock.monthlyStockMoney
+      }
+
+      this.service.updateStockValue(playload).subscribe((data) => {
+        this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+        this.displayModalResign = false;
+        this.ngOnInit();
+       });
      }
   }
 
