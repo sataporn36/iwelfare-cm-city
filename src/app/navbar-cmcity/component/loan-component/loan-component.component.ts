@@ -9,6 +9,8 @@ import 'src/assets/fonts/Sarabun-Regular-normal.js'
 import 'src/assets/fonts/Sarabun-Bold-bold.js'
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from 'src/assets/custom-fonts.js'
 
 interface jsPDFCustom extends jsPDF {
     autoTable: (options: UserOptions) => void;
@@ -71,51 +73,138 @@ export class LoanComponentComponent {
     }, 1000);
   }
 
-  exportPDF(){
-    this.customers?.forEach((element,index,array) =>{
-      this.info.push([element.name,element.country?.name,element.company,element.representative?.name]);
-    })
+  // exportPDF(){
+  //   this.customers?.forEach((element,index,array) =>{
+  //     this.info.push([element.name,element.country?.name,element.company,element.representative?.name]);
+  //   })
 
-    const pdf = new jsPDF('p', 'mm', 'a4') as jsPDFCustom;
-    pdf.setProperties({
-      title: 'ประวัติการส่งเงินกู้รายเดือน'
-    });
-    pdf.setFont('Sarabun-Regular');
-    pdf.setFontSize(14);
-    pdf.text("ประวัติการส่งเงินกู้รายเดือน ( Loan History)",60,10);
-    //autoTable(pdf, { html: '#contentTable' });
-    pdf.autoTable({ 
-      //styles : { halign : 'center'},
-      headStyles:{fillColor : [160, 160, 160]},
-      theme: 'grid',
-      head: [['Name','Country','Company','Representative']],
-      body: this.info,
-    })
-    pdf.output("dataurlnewwindow",{filename: "ประวัติการส่งเงินกู้รายเดือน"});
-    //pdf.save('test.pdf');
+  //   const pdf = new jsPDF('p', 'mm', 'a4') as jsPDFCustom;
+  //   pdf.setProperties({
+  //     title: 'ประวัติการส่งเงินกู้รายเดือน'
+  //   });
+  //   pdf.setFont('Sarabun-Regular');
+  //   pdf.setFontSize(14);
+  //   pdf.text("ประวัติการส่งเงินกู้รายเดือน ( Loan History)",60,10);
+  //   //autoTable(pdf, { html: '#contentTable' });
+  //   pdf.autoTable({ 
+  //     //styles : { halign : 'center'},
+  //     headStyles:{fillColor : [160, 160, 160]},
+  //     theme: 'grid',
+  //     head: [['Name','Country','Company','Representative']],
+  //     body: this.info,
+  //   })
+  //   pdf.output("dataurlnewwindow",{filename: "ประวัติการส่งเงินกู้รายเดือน"});
+  //   //pdf.save('test.pdf');
 
-  }
+  // }
 
-  downloadPDF(){
+  // downloadPDF(){
+  //   this.customers?.forEach((element,index,array) =>{
+  //     this.info.push([element.name,element.country?.name,element.company,element.representative?.name]);
+  //   })
+    
+  //   const pdf = new jsPDF() as jsPDFCustom;
+  //   pdf.setFont('Sarabun-Regular');
+  //   pdf.setFontSize(14);
+  //   pdf.text(" ประวัติการส่งเงินกู้รายเดือน ( Stock History) ",70,10);
+  //   //autoTable(pdf, { html: '#contentTable' });
+  //   pdf.autoTable({ 
+  //     //styles : { halign : 'center'},
+  //     headStyles:{fillColor : [160, 160, 160]},
+  //     theme: 'grid',
+  //     head: [['Name','Country','Company','Representative']],
+  //     body: this.info,
+  //   })
+  //   //pdf.output("dataurlnewwindow");
+  //   pdf.save('ประวัติการส่งเงินกู้รายเดือน.pdf');
+
+  // }
+
+  exportMakePDF(mode: any){
     this.customers?.forEach((element,index,array) =>{
       this.info.push([element.name,element.country?.name,element.company,element.representative?.name]);
     })
     
-    const pdf = new jsPDF() as jsPDFCustom;
-    pdf.setFont('Sarabun-Regular');
-    pdf.setFontSize(14);
-    pdf.text(" ประวัติการส่งเงินกู้รายเดือน ( Stock History) ",70,10);
-    //autoTable(pdf, { html: '#contentTable' });
-    pdf.autoTable({ 
-      //styles : { halign : 'center'},
-      headStyles:{fillColor : [160, 160, 160]},
-      theme: 'grid',
-      head: [['Name','Country','Company','Representative']],
-      body: this.info,
-    })
-    //pdf.output("dataurlnewwindow");
-    pdf.save('ประวัติการส่งเงินกู้รายเดือน.pdf');
-
+    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.fonts = {
+      // download default Roboto font from cdnjs.com
+      Roboto: {
+        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+      },
+      // Kanit Font
+      Sarabun: { // 3. set Kanit font
+        normal: 'Sarabun-Regular.ttf',
+        bold: 'Sarabun-Medium.ttf',
+        italics: 'Sarabun-Italic.ttf ',
+        bolditalics: 'Sarabun-MediumItalic.ttf '          
+      }
+    }
+    const docDefinition = {
+      pageSize: 'A2',
+      pageOrientation: 'landscape',
+      //pageMargins: [40, 80, 40, 60],
+      info: {
+        title: 'ประวัติการส่งเงินกู้รายเดือน',
+        // author: 'john doe',
+        // subject: 'subject of document',
+        // keywords: 'keywords for document',
+      },
+      content: [
+        { text: 'เทศบาลนครเชียงใหม่', style: 'header'},
+        { text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
+        '\n',
+        {
+          style: 'tableExample',
+          table: {
+            alignment: "center",
+            headerRows: 1,
+            widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+            body: [
+              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
+              { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+              { text: 'ผู้คํ้า 1', style: 'tableHeader', alignment: 'center' }, { text: 'ผู้คํ้า 2', style: 'tableHeader', alignment: 'center' },
+              { text: 'เดือนนี้ \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'เดือนนี้ \n(ต้น)', style: 'tableHeader', alignment: 'center' },
+              { text: 'สุดท้าย \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'สุดท้าย \n(ต้น)', style: 'tableHeader', alignment: 'center' },
+              { text: 'ส่งงวดที่', style: 'tableHeader', alignment: 'center' }, { text: 'รวมส่ง \n(ดอก)', style: 'tableHeader', alignment: 'center' },
+              { text: 'คงค้าง \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'รวมส่ง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
+              { text: 'คงค้าง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
+            ],
+           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
+           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
+           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
+           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
+           ['klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk','klk;lk',],
+              // ...this.info,
+            ]
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return (rowIndex === 0) ? '#CCCCCC' : null;
+            }
+          }
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 13,
+          bold: true,
+          alignment: 'center'
+        },
+      },
+      defaultStyle: { // 4. default style 'KANIT' font to test
+        font: 'Sarabun',
+      }
+    }
+    const pdf = pdfMake.createPdf(docDefinition);
+    if(mode === 'export'){
+      pdf.open();
+    }else{
+      pdf.download('ประวัติการส่งเงินกู้รายเดือน.pdf');
+    }
   }
 
   onEditLoan(data: any){

@@ -1,12 +1,16 @@
 <div class="card-table">
     <div style="padding-bottom: 1rem; display: flex; justify-content: space-between;">
         <div>
-            <button type="button" class="btn btn-login" style="width: 100%;" (click)="onPrintReceipt()">ใบเสร็จรับเงิน</button>
+            <button type="button" class="btn btn-login"  (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login"  (click)="onPrintTotal()">สรุปยอดรวม</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login"  (click)="onPrintInfoMember()">ข้อมูลสมาชิก</button>
         </div>
         <div>
-            <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
         </div>
     </div>
     <div class="p-card"> 
@@ -81,9 +85,9 @@
             <button type="button" class="btn btn-login" style="width: 100%;" (click)="updateStocktoMonth()">เปลี่ยนแปลงการส่งหุ้นรายเดือน</button>
         </div>
         <div>
-            <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
         </div>
     </div>
     <div class="p-card"> 

@@ -1,8 +1,8 @@
 <div class="card-table">
     <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
-        &nbsp;&nbsp;
-        <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+        <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
+         &nbsp;&nbsp;
+        <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
     </div>
     <div class="p-card"> 
         <p-table
@@ -76,9 +76,9 @@
             <button type="button" class="btn btn-login" style="width: 70%;" (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
         </div>
         <div>
-            <button type="button" class="btn btn-login" (click)="exportPDF()">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="downloadPDF()">Download PDF</button>
+           <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
         </div>
     </div>
     <div class="p-card"> 
