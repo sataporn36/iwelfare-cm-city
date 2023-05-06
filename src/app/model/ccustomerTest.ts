@@ -10,6 +10,7 @@ export interface Representative {
 }
 
 export interface Customer {
+    department: any;
     id?: number;
     name?: string;
     country?: Country;
