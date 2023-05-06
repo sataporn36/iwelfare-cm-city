@@ -37,6 +37,7 @@ export class NavbarCmcityComponent implements OnInit {
   userId: any;
   messager: boolean = false;
   dataNotify!: any[];
+  countNotify: any;
 
   constructor(private primengConfig: PrimeNGConfig, 
     private service: MainService, 
@@ -313,8 +314,8 @@ export class NavbarCmcityComponent implements OnInit {
   searchNotify(): void {
     this.service.searchNotify().subscribe(data => {
       this.dataNotify = data;
-
-      console.log(this.dataNotify.length);
+      this.countNotify = this.dataNotify.length;
+      // console.log(this.dataNotify.length);
       
     });
   }

@@ -1299,7 +1299,7 @@ export class ProfileComponentComponent implements OnInit {
 
       this.service.updateStockValue(playload).subscribe((data) => {
         this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
-        this.displayModalResign = false;
+        this.displayModalStock = false;
         this.ngOnInit();
        });
      }

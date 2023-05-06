@@ -1,65 +1,27 @@
 <div class="div-table-stocks">
-  <p>รายการแจ้งเตือน</p>
-  <!-- <table class="table" style="text-align: center;">
-    <thead>
-      <tr>
-        <th scope="col">วันที่สมัคร</th>
-        <th scope="col">ชื่อ-สกุล</th>
-        <th scope="col">เลขประจำตัวประชาชน</th>
-        <th scope="col">ตำแหน่ง</th>
-        <th scope="col">สังกัด</th>
-        <th scope="col">เบอร์โทร</th>
-        <th scope="col">อีเมล</th>
-        <th scope="col">ยืนยันการสมัคร</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of data">
-        <td>{{ pipeDateTH(data.createDate)}}</td>
-        <td>{{ data.firstName }} {{ data.lastName }}</td>
-        <td>{{ data.idCard }}</td>
-        <td class="text-truncate" style="max-width: 150px;" tooltipPosition="bottom" pTooltip="{{ data.positionName }}">{{ data.positionName }}</td>
-        <td class="text-truncate" style="max-width: 150px;" tooltipPosition="bottom" pTooltip="{{ data.affiliationName }}">{{ data.affiliationName }}</td>
-        <td>{{ data.tel }}</td>
-        <td>{{ data.email }}</td>
-        <td>
-          <button type="button" class="btn btn-login" (click)="onClickApproveEmp(data)">ยืนยัน</button>
-          <button type="button" class="btn btn-regis" (click)="onClickCancleApproveEmp(data)">ยกเลิก</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p>---------------------------------------------------------------------------------------------</p> -->
-
-  <p-table #dt2 
-    [value]="dataNotify" 
-    dataKey="id" 
-    editMode="row" 
-    [rows]="10" 
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 25, 50]" 
-    [loading]="loading" 
-    [paginator]="true" 
-    selectionMode="single"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['createDate', 'employee.employeeCode', 'employee.firstName', 'employee.lastName', 
-    'employee.position.name', 'employee.affiliation.name', 'status', 'reason' ]"
-    [tableStyle]="{'max-width': '100%'}">
+  <p-chip label="รายการแจ้งเตือน" styleClass="mr-2"></p-chip>
+  <br><br>
+  <p-table #dt2 [value]="dataNotify" dataKey="id" editMode="row" [rows]="5" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 20, 30]" [loading]="loading" [paginator]="true" selectionMode="single"
+    currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ" [globalFilterFields]="['createDate', 'employee.employeeCode', 'employee.firstName', 'employee.lastName', 
+    'employee.position.name', 'employee.affiliation.name', 'status', 'reason' ]" [tableStyle]="{'max-width': '100%'}">
     <ng-template pTemplate="header">
       <tr>
+        <th style="width:6%">ลำดับที่</th>
         <th style="width:10%">วันที่ร้องขอ</th>
         <th style="width:10%">รหัสพนักงาน</th>
-        <th style="width:10%">ชื่อ</th>
+        <th style="width:10%">ชื่อ</th> 
         <th style="width:10%">สกุล</th>
         <th style="width:15%">ตำแหน่ง</th>
         <th style="width:15%">สังกัด</th>
-        <th pSortableColumn="status" style="min-width: 10rem">
+        <th pSortableColumn="status" style="min-width: 8rem">
           <div class="flex justify-content-between align-items-center">
             สถานะ
-            <p-columnFilter field="status" matchMode="equals" display="menu" class="ml-auto" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+            <p-columnFilter field="status" matchMode="equals" display="menu" class="ml-auto" [showMatchModes]="false"
+              [showOperator]="false" [showAddButton]="false">
               <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="เลือกสถานะ">
+                <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                  placeholder="เลือกสถานะ">
                   <ng-template let-option pTemplate="item">
                     <span [class]="'notify-badge-' + option.value">{{option.label}}</span>
                   </ng-template>
@@ -68,14 +30,15 @@
             </p-columnFilter>
           </div>
         </th>
-        <th style="width:15%">หมายเหตุ/จำนวน</th>
+        <th style="width:10%">หมายเหตุ/จำนวน</th>
         <th style="width:10%">ยืนยัน</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-editing="editing" let-dataNotify let-ri="rowIndex">
+    <ng-template pTemplate="body" let-editing="editing" let-dataNotify let-rowIndex="rowIndex" let-ri="rowIndex">
       <tr [pEditableRow]="dataNotify">
+        <td>{{ rowIndex + 1  }}</td>
         <td>{{ pipeDateTH(dataNotify.createDate)}}</td>
-        <td>{{ dataNotify.employee.employeeCode }}</td>
+        <td>{{ dataNotify.employee.employeeCode || 'XXXXX' }}</td>
         <td>{{ dataNotify.employee.firstName }}</td>
         <td>{{ dataNotify.employee.lastName }}</td>
         <td>{{ dataNotify.employee.position.name }}</td>
@@ -84,48 +47,36 @@
           <span [class]="'notify-badge-' + dataNotify.status">{{statusNotify(dataNotify.status)}}</span>
         </td>
         <td>{{ dataNotify.reason }}</td>
-        <td>
-          <div class="flex align-items-center justify-content-center gap-2">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(dataNotify)" class="p-button-rounded p-button-text" tooltipPosition="top" pTooltip="เเก้ไข"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onClickApproveEmp(dataNotify)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onClickCancleApproveEmp(dataNotify)" class="p-button-rounded p-button-text p-button-danger"></button>
-          </div>
-        </td>
-        <!-- <td>
-          <button type="button" class="btn btn-login" (click)="onClickApproveEmp(data)">ยืนยัน</button>
-          <button type="button" class="btn btn-regis" (click)="onClickCancleApproveEmp(data)">ยกเลิก</button>
-        </td> -->
-        <!-- <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <p-inputNumber [(ngModel)]="dataStock.stockValue" inputId="minmaxfraction" mode="decimal"
-                [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2"> </p-inputNumber>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{dataStock.stockValue}}
-            </ng-template>
-          </p-cellEditor>
-        </td> -->
-        <!-- <td>{{ dataStock.stockAccumulate }}</td> -->
-        <!-- <td>
-          <div class="flex align-items-center justify-content-center gap-2">
+        <td style="text-align: -webkit-center;">
+          <!-- <div class="flex align-items-center justify-content-center gap-2">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-              (click)="onRowEditInit(dataStock)" class="p-button-rounded p-button-text" tooltipPosition="top"
+              (click)="onRowEditInit(dataNotify)" class="p-button-rounded p-button-text" tooltipPosition="top"
               pTooltip="เเก้ไข"></button>
             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-              (click)="onRowEditSave(dataStock)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+              (click)="onClickApproveEmp(dataNotify)"
+              class="p-button-rounded p-button-text p-button-success mr-2"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-              (click)="onRowEditCancel(dataStock, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+              (click)="onClickCancleApproveEmp(dataNotify)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+          </div> -->
+          <p-menu #menuDetail [model]="mess" [popup]="true"></p-menu>
+          <div class="div-menu">
+            <a (click)="selectedItem = dataNotify; menuDetail.toggle($event)">
+              <i class="bi bi-three-dots-vertical"></i>
+            </a>
           </div>
-        </td> -->
+
+          <!-- <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars" label="Show"></button> -->
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5">No customers found.</td>
+        <td colspan="9" style="color: #8690a1;">ไม่มีข้อมูล</td>
       </tr>
     </ng-template>
   </p-table>
+  <br>
 </div>
 
 <p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
@@ -147,4 +98,62 @@
     <button type="button" class="btn btn-login" (click)="onclikRemark()">ยืนยัน</button>
     <button type="button" class="btn btn-regis" (click)="displayModal=false">ยกเลิก</button>
   </ng-template>
+</p-dialog>
+<p-toast></p-toast>
+
+<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <div [formGroup]="detailModel">
+    <div class="div-profile">
+      <div class="text">
+          <div class="row">
+              <div class="col-3 mb-3">
+                  <label for="firstName" class="block">ชื่อ</label>
+                  <input class="form-control-plaintext" type="text" formControlName="firstName" />
+              </div>
+              <div class="col-3 mb-3">
+                  <label for="lastName" class="block">นามสกุล</label>
+                  <input class="form-control-plaintext" type="text" formControlName="lastName" />
+              </div>
+              <div class="col-3 mb-3">
+                  <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
+                  <input class="form-control-plaintext" type="text" formControlName="idCard" />
+              </div>
+              <div class="col-3 mb-3">
+                  <label class="block">ระดับ</label>
+                  <input class="form-control-plaintext" type="text" formControlName="levelName" />
+              </div>
+              <div class="col-3 mb-3">
+                  <label  class="block">ประเภทพนักงาน</label>
+                  <input class="form-control-plaintext" type="text" formControlName="employeeTypeName" />
+              </div>
+              <div class="col-3 mb-3">
+                  <label  class="block">ตำแหน่ง</label>
+                  <input class="form-control-plaintext" type="text" formControlName="positionName" />
+              </div>            
+              <div class="col-3 mb-3">
+                  <label  class="block">หน่วยงาน</label>
+                  <input class="form-control-plaintext" type="text" formControlName="departmentName" />
+              </div>
+              <div class="col-3 mb-3">
+                <label  class="block">สังกัด</label>
+                <input class="form-control-plaintext" type="text" formControlName="affiliationName" />
+              </div>
+              <div class="col-3 mb-3">
+                <label  class="block">สำนัก</label>
+                <input class="form-control-plaintext" type="text" formControlName="bureauName" />
+              </div>
+              <div class="col-3 mb-3">
+                <label  class="block">เงินหุ้นสะสม</label>
+                <input class="form-control-plaintext" type="text" formControlName="stockAccumulate" />
+              </div>
+              <div class="col-3 mb-3">
+                <label  class="block">หนี้คงค้าง</label>
+                <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
+                <!-- <p-inputNumber class="form-control-plaintext" inputId="integeronly" formControlName="loanBalance" mode="decimal" [required]="true" 
+                    [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7" ></p-inputNumber> -->
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
 </p-dialog>

@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+}
+
 .header-caption {
     display: flex;
     justify-content: center;
@@ -16,6 +21,7 @@
     font-weight: 500;
     font-size: 15px;
     height: 40px;
+    border-radius: 20px;
 }
 
 .btn-login {
@@ -49,4 +55,48 @@
   }
   .ui-confirmdialog-message {
     white-space: pre-line;
+}
+
+:host ::ng-deep p-paginator div {
+  display: flex;
+  justify-content: flex-end;
+
+  p-dropdown div .p-dropdown-trigger {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: none;
+  text-align: center;
+  font-weight: normal;
+  color: #8690a1;
+  font-size: 16px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header{
+  background: none;
+  border-top: none;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown {
+  height: 2.8rem;
+  width: 5rem;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label {
+  margin-top: -2px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-trigger {
+  width: 2.5rem;
+  span {
+    margin-top: 3px;
+  }
 }

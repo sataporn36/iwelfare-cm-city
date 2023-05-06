@@ -1,40 +1,21 @@
 <div class="card-table">
-    <div style="padding-bottom: 0.5rem; display: flex; justify-content: space-between;">
-        <div>
-            <button type="button" class="btn btn-login"  (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-login"  (click)="onPrintTotal()">สรุปยอดรวม</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-login"  (click)="onPrintInfoMember()">ข้อมูลสมาชิก</button>
+    <p-chip label="ตารางประวัติการส่งหุ้น (Stock History)" styleClass="mr-2"></p-chip>
+    <div style="padding-bottom: 1rem; display: flex; justify-content: space-between; margin-top: 1rem;">
+        <div> 
         </div>
-        <div>
+        <div> 
             <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
         </div>
     </div>
-    <div class="p-card"> 
-        <div style="font-family: 'Kanit';">
-            <p-table
-            dataKey="id"
-            [value]="dataStockDetail"
-            [loading]="loading"
-            [paginator]="true"
-            [rows]="10"
-            [showCurrentPageReport]="true"
-            currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
-            selectionMode="single"
-            [tableStyle]="{'max-width': '100%'}"
-            [rowsPerPageOptions]="[10, 50, 100]"
-            >
-            <ng-template pTemplate="caption"> 
-                <div class="header-caption">
-                    <span> ตารางประวัติการส่งหุ้น (Stock History) </span>
-                </div>
-            </ng-template>
+    <div style="font-family: 'Kanit';">
+        <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+            selectionMode="single" [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width:10%">เลขที่</th>
+                    <th style="width:10%">ลำดับที่</th>
                     <th style="width:15%">เดือนที่ทำรายการ</th>
                     <th style="width:15%">ปีที่ทำรายการ</th>
                     <th style="width:15%">ชื่อรายการ</th>
@@ -50,59 +31,59 @@
                     <td>{{ stockDetail.stockYear }}</td>
                     <td>ชำระหนี้ประจำเดือน</td>
                     <td>{{ stockDetail.installment }}</td>
-                    <td>{{ stockDetail.stockValue }}</td>
-                    <td>{{ stockDetail.stock.stockAccumulate }}</td>
+                    <td style="color: #EA3A3D;">{{ stockDetail.stockValue }}</td>
+                    <td style="color: #1AD598;">{{ stockDetail.stock.stockAccumulate }}</td>
                 </tr>
             </ng-template>
-            </p-table>
-        </div>
+        </p-table>
     </div>
 </div>
 <div style="padding-top: 1rem;"></div>
 <!-- Admin  -->
 <div class="card-table" *ngIf="admin">
-    <p-chip label="Admin" styleClass="mr-2"></p-chip>
+    <p-chip label="ผู้ดูแลระบบ (Admin)" styleClass="mr-2"></p-chip>
     <p-toast></p-toast>
     <div style="padding-bottom: 0.5rem; padding-top: 1rem; display: flex; justify-content: space-between;">
         <div>
-            <button type="button" class="btn btn-login" style="width: 100%;" (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
+            <button type="button" class="btn btn-login" style="width: 200px;"(click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login" (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login" (click)="onPrintTotal()">สรุปยอดรวม</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-login" (click)="onPrintInfoMember()">ข้อมูลสมาชิก</button>
         </div>
+        <!-- <div>
+            <button type="button" class="btn btn-login" style="width: 100%;"
+                (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
+        </div> -->
         <div>
             <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
         </div>
     </div>
-    <div class="p-card"> 
 
-    <p-table
-        #dt2
-        [value]="dataStock"
-        dataKey="id"
-        editMode="row" 
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        [loading]="loading"
-        [paginator]="true"
-        selectionMode="single"
+    <p-table #dt2 [value]="dataStock" dataKey="id" editMode="row" [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50, 100]" [loading]="loading" [paginator]="true" selectionMode="single"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
-        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]"
-        [tableStyle]="{'max-width': '100%'}"
-        >
+        [tableStyle]="{'max-width': '100%'}" [selectionPageOnly]="true"
+        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]">
         <ng-template pTemplate="caption">
             <div class="flex" style="display: flex; justify-content: space-between;">
-                <span style="margin-top: 10px;"> ตารางการส่งหุ้นของสมาชิก (Stock History Of Member) </span>
+                <span style="margin-top: 10px; font-weight: normal; font-size: 18px;"> ตารางการส่งหุ้นของสมาชิก (Stock History Of Member) </span>
                 <span class="p-input-icon-left ml-auto">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                    <i class="bi bi-search" style="color: #979797; display: flex;"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                        placeholder="ค้นหา"
+                        style="width: 10rem; border-radius: 10px; height: 45px; font-size: 15px; background-color: #f0f2f2; border: 0px;" />
                 </span>
             </div>
         </ng-template>
 
         <ng-template pTemplate="header">
             <tr>
-                <th style="width:10%">เลขที่</th>
+                <th style="width:10%">ลำดับที่</th>
                 <th style="width:10%">รหัสพนักงาน</th>
                 <th style="width:10%">ชื่อ</th>
                 <th style="width:10%">นามสกุล</th>
@@ -117,23 +98,31 @@
                 <td>{{ dataStock.employeeCode }}</td>
                 <td>{{ dataStock.firstName }}</td>
                 <td>{{ dataStock.lastName }}</td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <p-inputNumber [(ngModel)]="dataStock.stockValue" inputId="minmaxfraction" mode="decimal" [required]="true" 
-                            [minFractionDigits]="0" [maxFractionDigits]="2"> </p-inputNumber>
+                <td style="color: #EA3A3D;">
+                    <p-cellEditor style="display: flex; margin: -10px; justify-content: center;">
+                        <ng-template pTemplate="input" style="height: 0;">
+                            <p-inputNumber [(ngModel)]="dataStock.stockValue" inputId="minmaxfraction" mode="decimal"
+                                [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2"
+                                style="height: 35px; text-align: center;"></p-inputNumber>
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{dataStock.stockValue}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td>{{ dataStock.stockAccumulate }}</td>
-                <td>
-                    <div class="flex align-items-center justify-content-center gap-2">
-                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(dataStock)" class="p-button-rounded p-button-text" tooltipPosition="top" pTooltip="เเก้ไข"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(dataStock)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(dataStock, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                <td style="color: #1AD598;">{{ dataStock.stockAccumulate }}</td>
+                <td style="display: flex; justify-content: center;">
+                    <div class="flex align-items-center justify-content-center gap-2"
+                        style="height: 25px; display: flex;">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                            (click)="onRowEditInit(dataStock)" class="p-button-rounded p-button-text"
+                            tooltipPosition="top" pTooltip="เเก้ไข"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                            (click)="onRowEditSave(dataStock)"
+                            class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                            (click)="onRowEditCancel(dataStock, ri)"
+                            class="p-button-rounded p-button-text p-button-danger"></button>
                     </div>
                 </td>
             </tr>
@@ -144,7 +133,6 @@
             </tr>
         </ng-template>
     </p-table>
-  </div>
 </div>
 <div style="padding-top: 2rem;"></div>
 
@@ -153,7 +141,8 @@
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">เรียกเก็บหุ้นรายเดือน</span>
-            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom" pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"></i>
+            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"></i>
         </div>
     </ng-template>
     <div [formGroup]="formModelStock">
@@ -161,12 +150,12 @@
             <div class="col-12 " style="display: flex; justify-content: center;">
                 <div class="col-6">
                     <label class="block">เดือนที่ส่งหุ้น</label>
-                    <input class="form-control" type="text" formControlName="stockMonth" [disabled]="true"/>
+                    <input class="form-control" type="text" formControlName="stockMonth" [disabled]="true" />
                 </div>
                 <div style="padding-right: 0.5rem;"></div>
                 <div class="col-6">
                     <label class="block">ปีที่ส่งหุ้น</label>
-                    <input class="form-control" type="text" formControlName="stockYear" [disabled]="true"/>               
+                    <input class="form-control" type="text" formControlName="stockYear" [disabled]="true" />
                 </div>
             </div>
         </div>

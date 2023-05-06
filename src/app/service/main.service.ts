@@ -166,4 +166,10 @@ export class MainService {
   searchLoan(): Observable<any[]>{
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/loan/search', null);
   }
+
+  updateResignAdmin(playload: any): Observable<any>{
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-resign-admin', playload
+    );
+  }
 }

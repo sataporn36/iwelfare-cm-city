@@ -21,7 +21,6 @@ export class LoginPageComponent implements OnInit {
   formModelChild!: FormGroup;
   userId: any;
   displayModal: boolean = false;
-  //myDefaultDate2 = new Date('12/31/2012');
 
   constructor(
     protected router: Router,
@@ -68,30 +67,25 @@ export class LoginPageComponent implements OnInit {
       this.authorizeService.getAuthToken(payload).subscribe(
         {
           next: (res) => {
-            if (res !== null && res.data.id !== 0) {
-              //this.userId = res.data.id;
-              //etTimeout(() => { }, 500);
-              //this.service.userId.next(this.userId);
-
+            if (res !== null && res.data.employeeStatus == 2 || res.data.employeeStatus == 5) {
               setTimeout(() => { }, 500);
-
               console.log(res);
-              
-              
+
               // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
-              const statusChecklogin = false ;
-              if(res.data.passwordFlag){
+              const statusChecklogin = false;
+              if (res.data.passwordFlag) {
                 this.localStorageService.store('empId', res.data.id);
                 this.localStorageService.store('countDatetime', 0);
                 this.router.navigate(['/main/main-page'], {
                   //state: { data: this.userId }
                 });
-              }else{
+              } else {
                 this.router.navigate(['/forget-password'], {
                   state: { data: 'changePassword' }
                 });
               }
-             
+            } else if (res.data.employeeStatus == 3) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ท่านได้ลาออกแล้ว' });
             } else {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
             }
