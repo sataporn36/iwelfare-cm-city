@@ -9,12 +9,17 @@
       <tr>
         <th style="width:6%">ลำดับที่</th>
         <th style="width:10%">วันที่ร้องขอ</th>
-        <th style="width:10%">รหัสพนักงาน</th>
+        <th style="width:12%">
+          <div class="flex align-items-center">
+            รหัสพนักงาน
+            <p-columnFilter type="text" field="employee.employeeCode" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+          </div>
+        </th>
         <th style="width:10%">ชื่อ</th> 
         <th style="width:10%">สกุล</th>
         <th style="width:15%">ตำแหน่ง</th>
         <th style="width:15%">สังกัด</th>
-        <th pSortableColumn="status" style="min-width: 8rem">
+        <th pSortableColumn="status" style="width:12%">
           <div class="flex justify-content-between align-items-center">
             สถานะ
             <p-columnFilter field="status" matchMode="equals" display="menu" class="ml-auto" [showMatchModes]="false"
@@ -101,56 +106,58 @@
 </p-dialog>
 <p-toast></p-toast>
 
-<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }" [draggable]="false" [resizable]="false">
     <div [formGroup]="detailModel">
     <div class="div-profile">
+      <div class="img-pro">
+        <img class="profile_img" src="{{ checkImgProfile(detailModel.get('gender')?.value)}}" alt="logo" />
+      </div>
+      <div style="padding-right: 2rem;"></div>
       <div class="text">
           <div class="row">
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label for="firstName" class="block">ชื่อ</label>
                   <input class="form-control-plaintext" type="text" formControlName="firstName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label for="lastName" class="block">นามสกุล</label>
                   <input class="form-control-plaintext" type="text" formControlName="lastName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
                   <input class="form-control-plaintext" type="text" formControlName="idCard" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label class="block">ระดับ</label>
                   <input class="form-control-plaintext" type="text" formControlName="levelName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label  class="block">ประเภทพนักงาน</label>
                   <input class="form-control-plaintext" type="text" formControlName="employeeTypeName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label  class="block">ตำแหน่ง</label>
                   <input class="form-control-plaintext" type="text" formControlName="positionName" />
               </div>            
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                   <label  class="block">หน่วยงาน</label>
                   <input class="form-control-plaintext" type="text" formControlName="departmentName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                 <label  class="block">สังกัด</label>
                 <input class="form-control-plaintext" type="text" formControlName="affiliationName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                 <label  class="block">สำนัก</label>
                 <input class="form-control-plaintext" type="text" formControlName="bureauName" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                 <label  class="block">เงินหุ้นสะสม</label>
                 <input class="form-control-plaintext" type="text" formControlName="stockAccumulate" />
               </div>
-              <div class="col-3 mb-3">
+              <div class="col-4 mb-3">
                 <label  class="block">หนี้คงค้าง</label>
                 <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
-                <!-- <p-inputNumber class="form-control-plaintext" inputId="integeronly" formControlName="loanBalance" mode="decimal" [required]="true" 
-                    [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7" ></p-inputNumber> -->
               </div>
           </div>
       </div>

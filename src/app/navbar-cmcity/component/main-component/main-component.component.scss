@@ -152,7 +152,7 @@ svg{
             font-size: 12px;
             border-radius: 10px;
             margin-left: -2px;
-        }
+        }                                         
     }
 }
 
@@ -223,10 +223,26 @@ td {
     border-radius: 15px;
     margin-top: -18%;
     width: 106%;
-    height: 350px;
 }
 
-.div-table-stocks table{
+// .div-table-stocks table{
+//     margin-top: 10px;
+//     margin-bottom: 10px;
+// }
+
+:host ::ng-deep .p-datatable {
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    background: none;
+    text-align: center;
+    font-weight: normal;
+    color: #8690a1;
+    font-size: 16px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: center;
 }

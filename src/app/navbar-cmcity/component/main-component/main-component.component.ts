@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Employee } from 'src/app/model/employee';
+import { FormGroup } from '@angular/forms';
+import { LocalStorageService } from 'ngx-webstorage';
 import { MainService } from 'src/app/service/main.service';
 
 @Component({
@@ -12,13 +11,29 @@ import { MainService } from 'src/app/service/main.service';
 export class MainComponentComponent implements OnInit {
   
   @Input() formModel!: FormGroup;
+  dataStockDetail!: any[];
+  loading!: boolean;
+  stockId: any;
+  userId: any;
 
   constructor(
-    private service: MainService,
+    private service: MainService, private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
-    // window.location.reload();
+    this.userId = this.localStorageService.retrieve('empId');
+    this.getEmployee(this.userId);
+  }
+
+  getEmployee(id: any): void {
+    this.service.getEmployee(id).subscribe(data => {
+      this.stockId = data.stock.id;
+      this.searchStockDetail(this.stockId);
+    });
+  }
+
+  searchStockDetail(id: any): void {
+    this.service.searchStockDetail(id, "desc").subscribe(data => this.dataStockDetail = data);
   }
 
 

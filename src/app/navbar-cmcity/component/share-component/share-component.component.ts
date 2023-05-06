@@ -91,7 +91,7 @@ export class ShareComponentComponent implements OnInit {
     this.loading = true;
 
     setTimeout(() => {
-      this.service.searchStockDetail(this.stockId).subscribe((res) => {
+      this.service.searchStockDetail(this.stockId, "asc").subscribe((res) => {
         console.log(res, "<==== res");
         //this.customers = res.customers;
         this.totalRecords = res.length;
@@ -126,7 +126,7 @@ export class ShareComponentComponent implements OnInit {
   }
 
   searchStockDetail(id: any): void {
-    this.service.searchStockDetail(id).subscribe(data => this.dataStockDetail = data);
+    this.service.searchStockDetail(id, "asc").subscribe(data => this.dataStockDetail = data);
   }
 
   // generatePDF() {

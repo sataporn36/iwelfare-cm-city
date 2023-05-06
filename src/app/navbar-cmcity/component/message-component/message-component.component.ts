@@ -49,6 +49,7 @@ export class MessageComponentComponent implements OnInit {
         firstName: new FormControl(null),
         lastName: new FormControl(null),
         idCard: new FormControl(null),
+        gender: new FormControl(null),
 
         level: new FormControl(null),
         levelName: new FormControl(null),
@@ -309,4 +310,18 @@ export class MessageComponentComponent implements OnInit {
       ];
     }
 
+    checkImgProfile(gender: any) {
+      let textGender = ""
+      switch (gender) {
+        case 'ชาย':
+          textGender = "assets/images/boy.png"
+          break;
+        case 'หญิง':
+          textGender = "assets/images/girl.png"
+          break;
+        default:
+          break;
+      }
+      return textGender
+    }
 }

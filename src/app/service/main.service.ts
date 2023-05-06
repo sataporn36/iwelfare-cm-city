@@ -129,8 +129,8 @@ export class MainService {
     return this.http.post<EmployeeType[]>(AppPath.APP_API_SERVICE + '/v1/employee-type/search', null);
   }
 
-  searchStockDetail(id: number): Observable<any[]>{
-    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/stock-detail/search-by-stock/' + id, null);
+  searchStockDetail(id: number, value: string): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/stock-detail/search-by-stock/' + id + '/' + value , null);
   }
 
   searchStock(): Observable<any[]>{
