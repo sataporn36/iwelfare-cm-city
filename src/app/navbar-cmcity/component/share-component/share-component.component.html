@@ -5,9 +5,9 @@
             <button type="button" class="btn btn-login" (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
         </div>
         <div> 
-            <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1('export')">Export PDF</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1('download')">Download PDF</button>
         </div>
     </div>
     <div style="font-family: 'Kanit';">
@@ -33,7 +33,7 @@
                     <td>ชำระหนี้ประจำเดือน</td>
                     <td>{{ stockDetail.installment }}</td>
                     <td style="color: #EA3A3D;">{{ stockDetail.stockValue }}</td>
-                    <td style="color: #1AD598;">{{ stockDetail.stock.stockAccumulate }}</td>
+                    <td style="color: #1AD598;">{{ stockAccumulate }}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -44,7 +44,7 @@
 <div class="card-table" *ngIf="admin">
     <p-chip label="ผู้ดูแลระบบ (Admin)" styleClass="mr-2"></p-chip>
     <p-toast></p-toast>
-    <div style="padding-bottom: 0.5rem; padding-top: 1rem; display: flex; justify-content: space-between;">
+    <div style="padding-bottom: 0.5rem; padding-top: 1.5rem; display: flex; justify-content: space-between;">
         <div>
             <button type="button" class="btn btn-login" style="width: 200px;"(click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
             &nbsp;&nbsp;

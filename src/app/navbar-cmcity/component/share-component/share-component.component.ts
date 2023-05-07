@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import { jsPDF } from "jspdf";
@@ -10,7 +10,7 @@ import 'src/assets/fonts/Kanit-Thin-normal.js';
 import 'src/assets/fonts/Kanit-Regular-normal.js';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LocationStrategy } from '@angular/common';
+import { DecimalPipe, LocationStrategy } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Table } from 'primeng/table';
 
@@ -52,10 +52,13 @@ export class ShareComponentComponent implements OnInit {
   periodMonthDescOption: any = [];
   public dapartment: Observable<Department[]> | any;
   empDetail!: any;
-  admin!: boolean
+  admin!: boolean;
+  grandTotal: any;
+  stockAccumulate: any;
+
 
   constructor(private service: MainService, private messageService: MessageService, private locationStrategy: LocationStrategy,
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService, @Inject(LOCALE_ID) public locale: string) { }
 
   ngOnInit() {
     this.service.getCustomers().subscribe((res) => {
@@ -110,10 +113,10 @@ export class ShareComponentComponent implements OnInit {
 
   getEmployee(id: any): void {
     this.service.getEmployee(id).subscribe(data => {
-      //this.stockId = data.stock.id;
+      this.stockId = data.stock.id;
       this.empDetail = data;
-      console.log(this.empDetail,'this.empDetail');
-      
+      console.log(this.empDetail, 'this.empDetail');
+
       this.searchStockDetail(this.stockId);
 
       if (data.id === 1 || data.id === 631) {
@@ -137,7 +140,10 @@ export class ShareComponentComponent implements OnInit {
   }
 
   searchStockDetail(id: any): void {
-    this.service.searchStockDetail(id, "asc").subscribe(data => this.dataStockDetail = data);
+    this.service.searchStockDetail(id, "asc").subscribe(data => {
+      this.dataStockDetail = data;
+      this.stockAccumulate = data[0].stock.stockAccumulate
+    });
   }
 
   // generatePDF() {
@@ -403,15 +409,15 @@ export class ShareComponentComponent implements OnInit {
   }
 
   departmentNames: any[] = [];
-  checknullOfDepartment(name: any){
-     // หาข้อมูลสมาชิกตาม department ที่มีอยุ่ โดย query ข้อมูล มาตาม group เเละ ีข้อมูลย่อยสมาชิกอยู่ในนั้น
-     //...
-     const dName = this.dapartment;
-     if(name){
-       // ชื่อ department ที่ใช้า ใน pdf
-       this.departmentNames.push([name]);
-     }  
-    
+  checknullOfDepartment(name: any) {
+    // หาข้อมูลสมาชิกตาม department ที่มีอยุ่ โดย query ข้อมูล มาตาม group เเละ ีข้อมูลย่อยสมาชิกอยู่ในนั้น
+    //...
+    const dName = this.dapartment;
+    if (name) {
+      // ชื่อ department ที่ใช้า ใน pdf
+      this.departmentNames.push([name]);
+    }
+
   }
 
   infogroup1: any[] = [];
@@ -514,23 +520,104 @@ export class ShareComponentComponent implements OnInit {
   //     }
   // }
 
-  exportMakePDF(mode: any) {
-    this.customers?.forEach((element, index, array) => {
-      this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
-      this.checknullOfDepartment(element.department?.name);
-    })
+  list!: any[];
+  sumStock: any;
+  searchDocumentV1(mode: any) {
+
+    let stockInfo: any[] = [];
+    const playload = {
+      stockId: this.stockId
+    }
+    this.service.searchDocumentV1(playload).subscribe((data) => {
+      this.list = data;
+      console.log(data);
+
+      this.list?.forEach((element, index, array) => {
+        stockInfo.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      })
+      
+    });
+
+
+    this.service.searchDocumentV2Sum(playload).subscribe((data) => {
+      this.sumStock = data[0];
+      console.log( " this.sumStock" ,this.sumStock);
+      this.exportMakePDF(mode, stockInfo, this.sumStock)
+    });
+
+   
+  }
+
+  // searchDocumentV2Sum(mode: any) {
+
+  //   let stockInfo: any[] = [];
+  //   const playload= {
+  //     stockId: this.stockId
+  //   }
+  //   this.service.searchDocumentV2Sum(playload).subscribe((data) => {
+  //     this.list = data;
+  //     console.log(data);
+
+  //     this.list?.forEach((element, index, array) => {
+  //       stockInfo.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+  //       element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+  //     })
+  //     this.exportMakePDF(mode, stockInfo)
+  //   });
+  // }
+
+  exportMakePDF(mode: any, stockInfo: any[], sum: any) {
+
+    console.log("sum", sum);
+    
+    // this.customers?.forEach((element, index, array) => {
+    //   this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
+    //   // this.checknullOfDepartment(element.department?.name);
+    // })
+    // console.log("customers" , this.customers);
+    // console.log("element" , this.info);
+    // const sum = this.sumStock
+
+    // console.log("element", stockInfo);
+
+    // console.log("this.list", this.list );
+
+    // list.forEach(
+    // console.log("list" , this.list);
+    // )
+
+    // this.list.forEach((element, index, array) => {
+    //   console.log("element",element);
+    //   this.info.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment]);
+    //   // this.checknullOfDepartment(element.department?.name);
+
+
+    // })
+
+    // console.log("element" , this.info);
 
     // ทำ list รายเดือนหุ้น  ตอนนี้ยัง fix ค่าเดียวอยู่
-    const data = this.empDetail;
-    const fullName = data.prefix + data.firstName + ' ' + data.lastName;
-    const departMentName = data.department.name ;
-    const empCode = data.employeeCode ;
-    const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ' ;
-    const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ' ;
-    const stockValue = data.stock?.stockDetails.stockValue ? data.stock?.stockAccumulate : ' ' ;
-    const loanInstallment = data.loan?.loanDetails.installment ? data.loan?.loanDetails.installment : ' ' ;
-    const loanOrdinary = data.loan?.loanDetails.loanOrdinary ? data.loan?.loanDetails.loanOrdinary : ' ' ;
-    const interest = data.loan?.loanDetails.interest ? data.loan?.loanDetails.interest : ' ' ;
+    // const data = this.empDetail;
+    // const fullName = data.prefix + data.firstName + ' ' + data.lastName;
+    // const departMentName = data.department.name ;
+    // const empCode = data.employeeCode ;
+    // const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ' ;
+    // const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ' ;
+    // const stockValue = data.stock?.stockDetails.stockValue ? data.stock?.stockAccumulate : ' ' ;
+    // const loanInstallment = data.loan?.loanDetails.installment ? data.loan?.loanDetails.installment : ' ' ;
+    // const loanOrdinary = data.loan?.loanDetails.loanOrdinary ? data.loan?.loanDetails.loanOrdinary : ' ' ;
+    // const interest = data.loan?.loanDetails.interest ? data.loan?.loanDetails.interest : ' ' ;
+
+    // console.log("data 123 ", data);
+    // [departMentName, empCode, fullName, { text: installment, alignment: 'center' }, 
+    // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
+    // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
+    // { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
+    // [departMentName + ' Total', ' ', ' ', ' ', { text: stockValue, alignment: 'right' }, ' ', { text: loanOrdinary, alignment: 'right' }, 
+    // { text: interest, alignment: 'right' }, { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0) , alignment: 'right' } , { text: stockAccumulate, alignment: 'right' }],
+
+
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -566,9 +653,10 @@ export class ShareComponentComponent implements OnInit {
         '\n',
         {
           style: 'tableExample',
+          // alignment: 'right',
           table: {
             headerRows: 1,
-            widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+            widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
@@ -576,13 +664,17 @@ export class ShareComponentComponent implements OnInit {
               { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
               { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
-              [departMentName, empCode, fullName, { text: installment, alignment: 'center' }, 
-              { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
-              { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
-              { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
-              [departMentName + ' Total', ' ', ' ', ' ', { text: stockValue, alignment: 'right' }, ' ', { text: loanOrdinary, alignment: 'right' }, 
-              { text: interest, alignment: 'right' }, { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0) , alignment: 'right' } , { text: stockAccumulate, alignment: 'right' }],
-              // ...this.info,
+              ...stockInfo,
+
+
+              // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
+              // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
+              // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
+              // { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
+              [sum.departmentName + ' Total', ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' }, 
+              { text: sum.totalMonth, alignment: 'right' }, { text: sum.loanDetailOrdinaryTotal , alignment: 'right' } , { text: sum.loanDetailInterestTotal, alignment: 'right' }],
+
+
             ]
           },
           layout: {
@@ -612,7 +704,7 @@ export class ShareComponentComponent implements OnInit {
   }
 
 
-  
+
   exportMakePDFALL(mode: any) {
     this.customers?.forEach((element, index, array) => {
       this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
@@ -621,14 +713,14 @@ export class ShareComponentComponent implements OnInit {
 
     const data = this.empDetail;
     const fullName = data.prefix + data.firstName + ' ' + data.lastName;
-    const departMentName = data.department.name ;
-    const empCode = data.employeeCode ;
-    const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ' ;
-    const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ' ;
-    const stockValue = data.stock?.stockDetails.stockValue ? data.stock?.stockAccumulate : ' ' ;
-    const loanInstallment = data.loan?.loanDetails.installment ? data.loan?.loanDetails.installment : ' ' ;
-    const loanOrdinary = data.loan?.loanDetails.loanOrdinary ? data.loan?.loanDetails.loanOrdinary : ' ' ;
-    const interest = data.loan?.loanDetails.interest ? data.loan?.loanDetails.interest : ' ' ;
+    const departMentName = data.department.name;
+    const empCode = data.employeeCode;
+    const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ';
+    const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ';
+    const stockValue = data.stock?.stockDetails.stockValue ? data.stock?.stockAccumulate : ' ';
+    const loanInstallment = data.loan?.loanDetails.installment ? data.loan?.loanDetails.installment : ' ';
+    const loanOrdinary = data.loan?.loanDetails.loanOrdinary ? data.loan?.loanDetails.loanOrdinary : ' ';
+    const interest = data.loan?.loanDetails.interest ? data.loan?.loanDetails.interest : ' ';
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -659,7 +751,7 @@ export class ShareComponentComponent implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่า หุ้น เดือน'+this.month+' พ.ศ.'+this.year, style: 'header' },
+        { text: 'รายงานเงินกู้และค่า หุ้น เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
         '\n',
         {
           style: 'tableExample',
@@ -673,12 +765,12 @@ export class ShareComponentComponent implements OnInit {
               { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
               { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
-              [departMentName, empCode, fullName, { text: installment, alignment: 'center' }, 
-              { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
-              { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
-              { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
-              [departMentName + ' Total', ' ', ' ', ' ', { text: stockValue, alignment: 'right' }, ' ', { text: loanOrdinary, alignment: 'right' }, 
-              { text: interest, alignment: 'right' }, { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0) , alignment: 'right' } , { text: stockAccumulate, alignment: 'right' }],
+              [departMentName, empCode, fullName, { text: installment, alignment: 'center' },
+                { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' },
+                { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' },
+                { text: Number(stockValue ?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
+              [departMentName + ' Total', ' ', ' ', ' ', { text: stockValue, alignment: 'right' }, ' ', { text: loanOrdinary, alignment: 'right' },
+              { text: interest, alignment: 'right' }, { text: Number(stockValue ?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' }],
               // ...this.info,
             ]
           },
@@ -707,7 +799,7 @@ export class ShareComponentComponent implements OnInit {
       pdf.download('ประวัติการส่งหุ้น.pdf');
     }
   }
-  
+
 
   async onPrintReceiptMakePdf() {
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
@@ -730,13 +822,13 @@ export class ShareComponentComponent implements OnInit {
     this.pipeDateTH();
     const data = this.empDetail;
     const fullName = data.prefix + data.firstName + ' ' + data.lastName;
-    const departMentName = data.department.name ;
-    const empCode = data.employeeCode ;
-    const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ' ;
-    const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ' ;
-    const stockValue = data.stock?.stockDetails.stockValue ? data.stock?.stockAccumulate : ' ' ;
-    console.log(data,'<------------- data');
-    
+    const departMentName = data.department.name;
+    const empCode = data.employeeCode;
+    const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ';
+    const installment = data.stock?.stockDetails.slice(-1)[0].installment;
+    const stockValue = data.stock?.stockDetails.slice(-1)[0].stockValue;
+    console.log(data, '<------------- data');
+
     const docDefinition = {
       info: {
         title: 'ใบเสร็จรับเงิน',
@@ -757,11 +849,11 @@ export class ShareComponentComponent implements OnInit {
         { text: 'ใบเสร็จรับเงิน', style: 'header' },
         '\n',
         '\n',
-        { text: ['ประจําเดือน ', { text: ' '+this.month+' '+this.year+'               ', bold: true }, { text: 'เลขที่ ' }, { text: ' 00001 ', bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['ได้รับเงินจาก ', { text: ' '+fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['สังกัด ', { text: ' '+departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['เลขที่สมาชิก ', { text: ' '+empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['หุ้นสะสม ', { text: ' '+stockAccumulate+' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['ประจําเดือน ', { text: ' ' + this.month + ' ' + this.year + '               ', bold: true }, { text: 'เลขที่ ' }, { text: ' 00001 ', bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['หุ้นสะสม ', { text: ' ' + stockAccumulate + ' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
         '\n',
         {
           color: '#000',
@@ -863,7 +955,15 @@ export class ShareComponentComponent implements OnInit {
     });
   }
 
+  formattedNumber(number: any): any {
+    const decimalPipe = new DecimalPipe('en-US');
+    return decimalPipe.transform(number, '1.2-2');
+  }
+
+
   onPrintTotal() {
+    this.service.getGrandTotal().subscribe(data => this.grandTotal = data);
+
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -899,7 +999,7 @@ export class ShareComponentComponent implements OnInit {
         },
         {
           text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             ' + this.time + '                                                                             ', bold: false },
-            { text: 'ปี: ', bold: true }, { text: '' +this.year+ '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+            { text: 'ปี: ', bold: true }, { text: '' + this.year + '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
         },
         '\n',
         '\n',
@@ -910,7 +1010,7 @@ export class ShareComponentComponent implements OnInit {
             headerRows: 2,
             widths: ['*', '*'],
             body: [
-              [{ text: 'สรุปยอดรวมประจําเดือน '+this.month+' พ.ศ.'+this.year, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
+              [{ text: 'สรุปยอดรวมประจําเดือน ' + this.month + ' พ.ศ.' + this.year, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
               // [{ text: 'Name', style: 'tableHeader' }, { text: 'Country', style: 'tableHeader' }],
               [{
                 rowSpan: 1,
@@ -918,7 +1018,7 @@ export class ShareComponentComponent implements OnInit {
               },
               {
                 rowSpan: 1,
-                text: ' 630     ราย \n\n462     ราย \n\n68,280,859.00    บาท \n\n110,207,860.00    บาท\n\n', alignment: 'right'
+                text: this.grandTotal.sumEmp + '     ราย \n\n' + this.grandTotal.sumLoan + '     ราย \n\n' + this.formattedNumber(this.grandTotal.sumLoanBalance) + '    บาท \n\n' + this.formattedNumber(this.grandTotal.sumStockAccumulate) + '    บาท\n\n', alignment: 'right'
               }],
               [{
                 rowSpan: 1,
@@ -926,7 +1026,7 @@ export class ShareComponentComponent implements OnInit {
               },
               {
                 rowSpan: 1,
-                text: ' 1,332,030.00    บาท \n\n284,515.00    บาท \n\n1,378,989.00    บาท \n\n2,995,534.00    บาท \n\n', alignment: 'right'
+                text: this.formattedNumber(this.grandTotal.sumStockValue) + '   บาท \n\n' + this.formattedNumber(this.grandTotal.sumLoanInterest) + '    บาท \n\n' + this.formattedNumber(this.grandTotal.sumLoanOrdinary) + '    บาท \n\n' + this.formattedNumber(this.grandTotal.sumTotal) + '    บาท \n\n', alignment: 'right'
               }],
               //[{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
 

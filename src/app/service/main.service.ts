@@ -172,4 +172,17 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/v1/employee/update-resign-admin', playload
     );
   }
+
+  getGrandTotal(): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/grand-total', null);
+  }
+
+  searchDocumentV1(playload: any): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/search', playload);
+  }
+
+  searchDocumentV2Sum(playload: any): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v2/document/search', playload);
+  }
+
 }
