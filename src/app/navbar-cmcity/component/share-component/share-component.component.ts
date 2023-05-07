@@ -596,7 +596,29 @@ export class ShareComponentComponent implements OnInit {
     // })
 
     // console.log("element" , this.info);
+    // this.info = [];
+    // console.log(this.customers,'this.infothis.customers');
+    // this.customers?.forEach((element, index, array) => {
+    //   this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
+    //   // this.checknullOfDepartment(element.department?.name);
+    // })
 
+    let detailStock = this.list.map(function(item){
+      return [
+      { text :item.departmentName, alignment: 'left' },
+      { text :item.employeeCode, alignment: 'center' },
+      { text :item.fullName, alignment: 'left' },
+      { text :item.stockInstallment, alignment: 'center' },
+      { text :item.stockValue, alignment: 'right' },
+      { text :item.loanInstallment, alignment: 'center' },
+      { text :item.loanOrdinary, alignment: 'right' },
+      { text :item.interest, alignment: 'right' },
+      { text :item.sumMonth, alignment: 'right' },
+      { text :item.stockAccumulate, alignment: 'right' },
+    ]});
+
+    console.log(this.info,'this.info');
+    
     // ทำ list รายเดือนหุ้น  ตอนนี้ยัง fix ค่าเดียวอยู่
     // const data = this.empDetail;
     // const fullName = data.prefix + data.firstName + ' ' + data.lastName;
@@ -654,19 +676,16 @@ export class ShareComponentComponent implements OnInit {
         {
           style: 'tableExample',
           // alignment: 'right',
+
           table: {
             headerRows: 1,
             widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
+          
               ],
-              ...stockInfo,
-
-
+              ...detailStock,
               // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
               // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
               // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
@@ -674,8 +693,10 @@ export class ShareComponentComponent implements OnInit {
               [sum.departmentName + ' Total', ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' }, 
               { text: sum.totalMonth, alignment: 'right' }, { text: sum.loanDetailOrdinaryTotal , alignment: 'right' } , { text: sum.loanDetailInterestTotal, alignment: 'right' }],
 
-
             ]
+             //...this.info,
+             //...items1
+            // detail data
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
