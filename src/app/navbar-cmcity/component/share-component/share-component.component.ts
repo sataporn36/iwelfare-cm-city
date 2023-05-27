@@ -146,165 +146,9 @@ export class ShareComponentComponent implements OnInit {
     });
   }
 
-  // generatePDF() {
-  //   let pdf = new jsPDF('p', 'pt', 'a4');
-  //   pdf.html(this.el.nativeElement, {
-  //     callback: (pdf) => {
-  //       pdf.output("dataurlnewwindow");
-  //     },
-  //   })
-  // }
-
-  // convertToPDF() {
-  //   html2canvas(document.getElementById("contentTable")!).then(canvas => {
-  //     // Few necessary setting options
-  //     const contentDataURL = canvas.toDataURL('image/png')
-  //     let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-  //     var width = pdf.internal.pageSize.getWidth();
-  //     var height = canvas.height * width / canvas.width;
-  //     pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
-  //     pdf.save('output.pdf'); // Generated PDF
-  //   });
-  // }
-
-  // exportPDF() {
-  //   this.dataStockDetail?.forEach((element, index, array) => {
-  //     this.info.push([index+1, element.stockMonth, element.stockYear, 'ชำระหนี้ประจำเดือน', element.installment, element.stockValue, element.stock.stockAccumulate]);
-  //   })
-
-  //   const pdf = new jsPDF() as jsPDFCustom;
-  //   pdf.setProperties({
-  //     title: 'ประวัติการส่งหุ้น'
-  //   });
-  //   pdf.setFont('Sarabun-Regular');
-  //   pdf.setFontSize(14);
-  //   pdf.text(" ประวัติการส่งหุ้น ( Stock History) ", 70, 10);
-  //   //autoTable(pdf, { html: '#contentTable' });
-  //   pdf.autoTable({
-  //     //styles : { halign : 'center'},
-  //     // startY: 100,
-  //     styles: { font: 'Kanit-Regular', fontSize: 10 },
-  //     headStyles: { fillColor: [160, 160, 160] },
-  //     theme: 'grid',
-  //     head: [['เลขที่', 'เดือนที่ทำรายการ', 'ปีที่ทำรายการ', 'ชื้อรายการ', 'งวดที่', 'ยอดทำรายการ', 'หุ้นสะสม']],
-  //     body: this.info,
-  //   })
-  //   pdf.output("dataurlnewwindow",{filename: "ประวัติการส่งหุ้น"});
-  //   //pdf.save('test.pdf');
-
-  // }
-
-  // downloadPDF() {
-  //   this.customers?.forEach((element, index, array) => {
-  //     this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
-  //   })
-
-  //   const pdf = new jsPDF() as jsPDFCustom;
-  //   pdf.setFont('Sarabun-Regular');
-  //   pdf.setFontSize(14);
-  //   pdf.text(" ประวัติการส่งหุ้น ( Stock History) ", 70, 10);
-  //   //autoTable(pdf, { html: '#contentTable' });
-  //   pdf.autoTable({
-  //     //styles : { halign : 'center'},
-  //     styles: { font: 'Sarabun-Regular', fontSize: 14 },
-  //     headStyles: { fillColor: [160, 160, 160] },
-  //     theme: 'grid',
-  //     head: [['Name', 'Country', 'Company', 'Representative']],
-  //     body: this.info,
-  //   })
-  //   //pdf.output("dataurlnewwindow");
-  //   pdf.save('ประวัติการส่งหุ้น.pdf');
-
-  // }
-
   onRowEditInit(stock: any) {
     this.clonedProducts[stock.id!] = { ...stock };
   }
-
-
-  // onPrintReceipt() {
-  //   this.infoReceipt.push(['ค่าหุ้น', '3', '1,000.00', ' ']);
-  //   this.infoReceipt.push(['เงินต้น', ' ', ' ', ' ']);
-  //   this.infoReceipt.push(['ดอก', ' ', ' ', ' ']);
-  //   this.infoReceipt.push(['', 'รวมเงิน', '1,000.00', ' ']);
-  //   var img = new Image();
-  //   img.src = 'assets/images/logo.png';
-
-  //   var img1 = new Image();
-  //   img1.src = 'assets/images/text1.png';
-
-  //   var img2 = new Image();
-  //   img2.src = 'assets/images/text2.png';
-
-  //   //const textin1 = "ประจําเดือน " + " มีนาคม 2566 " + "            เลขที่่ " + " 00001";
-  //   const textin2 = "ได้รับเงินจาก " + " นายฉัตรชัย ตาเบอะ";
-  //   const textin3 = "สังกัด " + " แขวงกาวิละ";
-  //   const textin4 = "เลขที่สมาชิก " + " 05355";
-  //   const textin5 = "หุ้นสะสม " + " 3,000.00 " + " บาท";
-
-  //   const pdf = new jsPDF() as jsPDFCustom;
-  //   pdf.setProperties({
-  //     title: 'ใบเสร็จรับเงิน'
-  //   });
-  //   // let width = pdf.internal.pageSize.getWidth();
-  //   //let height = pdf.internal.pageSize.getHeight();
-  //   //pdf.setLineHeightFactor(50);
-  //   pdf.getTextWidth("20");
-  //   pdf.addImage(img,'png', 83, 10, 40, 40);
-  //   pdf.setFont('Sarabun-Regular');
-  //   pdf.setFontSize(16);
-  //   pdf.text(" กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่ ",52,60,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text(" ใบเสร็จรับเงิน \n ",86,70,{renderingMode:'fillThenStroke'});
-  //   pdf.setFont('Sarabun-Regular');
-  //   pdf.setFontSize(14);
-  //   pdf.text("ประจําเดือน",15,90); 
-  //   pdf.text("มีนาคม 2566",45,90,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("เลขที่",85,90); 
-  //   pdf.text("00001",100,90,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("ได้รับเงินจาก",15,100); 
-  //   pdf.text("นายฉัตรชัย ตาเบอะ",45,100,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("สังกัด",15,110); 
-  //   pdf.text("แขวงกาวิละ",30,110,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("เลขที่สมาชิก",15,120); 
-  //   pdf.text("05355",45,120,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("หุ้นสะสม",15,130); 
-  //   pdf.text("3,000.00",38,130,{renderingMode:'fillThenStroke'}); 
-  //   pdf.text("บาท",63,130); 
-  //   //pdf.text(" \n\n\n\n ",0,0);
-  //   pdf.autoTable({
-  //     styles: { font: 'Sarabun-Regular', fontSize: 14 },
-  //     margin: { top: 135, bottom: 0 },
-  //     headStyles: { fillColor: [160, 160, 160] },
-  //     theme: 'grid',
-  //     head: [['รายการ', 'งวด', 'เป็นเงิน', 'เงินต้นเหลือ']],
-  //     body: this.infoReceipt,
-  //   });
-  //   pdf.text(" (หนึ่งพันบาทถ้วน) ",20,190); 
-  //   pdf.text(" \n\n\n\n\n\n\n\n ",0,0);
-  //   pdf.addImage(img1,'png', 36, 200, 40, 40);
-  //   pdf.addImage(img1,'png', 132, 200, 40, 40);
-  //   pdf.text(" ประธานกองทุน " + "                                                        " + " เหรัญญิก ",40,245); 
-  //   // pdf.setLanguage('th');
-
-  //   // var fontSize = 16;
-  //   // var offsetY = 10.797777777777778;
-  //   // var lineHeight = 15.49111111111111;
-
-  //   // pdf.setFontSize(fontSize);
-
-  //   // pdf.text('วันที่ 1',10, 10 + lineHeight * 0 + offsetY);
-  //   // pdf.text('วันที่ 3',10, 10 + lineHeight * 1 + offsetY);
-  //   // pdf.text('วันที่ 2',10, 10 + lineHeight * 2 + offsetY);
-
-  //   // var dim = pdf.getTextDimensions('Text');
-  //   // console.log(dim); 
-
-
-  //   pdf.output("dataurlnewwindow",{filename: "ใบเสร็จรับเงิน"});
-  //   this.infoReceipt = [];
-
-  // }
-
 
   onRowEditSave(playload: any) {
     this.service.updateStock(playload).subscribe((data) => {
@@ -446,79 +290,114 @@ export class ShareComponentComponent implements OnInit {
   infogroup24: any[] = [];
   infogroup25: any[] = [];
   infogroup26: any[] = [];
-  // infogroup27: any[] = [];
-  // infogroup28: any[] = [];
-  // infogroup29: any[] = [];
-  // infogroup30: any[] = [];
-  // infogroup31: any[] = [];
+  infogroup27: any[] = [];
+  infogroup28: any[] = [];
+  infogroup29: any[] = [];
+  infogroup30: any[] = [];
+  infogroup31: any[] = [];
 
-  // checkDepartment(){
-  //     if(d === 'แขวงเม็งราย'){
+  checkDepartment(listData: any[]) {
 
-  //     }else if(d === 'แขวงกาวิละ'){
+    listData.forEach((element, index, array) => {
 
-  //     }else if(d === 'แผนงานบริหารทั่วไป'){
-
-  //     }else if(d === 'งานเทศกิจ'){
-
-  //     }else if(d === 'งานโรงพยาบาล'){
-
-  //     }else if(d === 'งานก่อสร้าง'){
-
-  //     }else if(d === 'งานบริหารงานคลัง'){
-
-  //     }else if(d === 'งานบริหารงานคลัง ฝ่ายประจำ'){
-
-  //     }else if(d === 'งานบริหารงานทั่วไป'){
-
-  //     }else if(d === 'งานบริหารทั่วไป'){
-
-  //     }else if(d === 'งานบริหารทั่วไป ฝ่ายประจำ'){
-
-  //     }else if(d === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน'){
-
-  //     }else if(d === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา'){
-
-  //     }else if(d === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์'){
-
-  //     }else if(d === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข'){
-
-  //     }else if(d === 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา'){
-
-  //     }else if(d === 'งานป้องกันและบรรเทาสาธารณภัย'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย'){
-
-  //     }else if(d === 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ'){
-
-  //     }else if(d === 'งานวางแผนสถิติและวิชาการ'){
-
-  //     }else if(d === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว'){
-
-  //     }else if(d === 'งานสุขาภิบาล'){
-
-  //     }else if(d === 'ระดับก่อนวัยเรียนและประถมศึกษา'){
-
-  //     }else{
-
-  //     }
-  // }
+      if (element.departmentName === 'แขวงเม็งราย') {
+        this.infogroup1.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'แขวงกาวิละ') {
+        this.infogroup2.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'แผนงานบริหารทั่วไป') {
+        this.infogroup3.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานเทศกิจ') {
+        this.infogroup4.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานโรงพยาบาล') {
+        this.infogroup5.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานก่อสร้าง') {
+        this.infogroup6.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารงานคลัง') {
+        this.infogroup7.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารงานคลัง ฝ่ายประจำ') {
+        this.infogroup8.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารงานทั่วไป') {
+        this.infogroup9.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไป') {
+        this.infogroup10.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไป ฝ่ายประจำ') {
+        this.infogroup11.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน') {
+        this.infogroup12.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา') {
+        this.infogroup13.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์') {
+        this.infogroup14.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข') {
+        this.infogroup15.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา') {
+        this.infogroup16.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานป้องกันและบรรเทาสาธารณภัย') {
+        this.infogroup17.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน') {
+        this.infogroup18.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน') {
+        this.infogroup19.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ') {
+        this.infogroup20.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย') {
+        this.infogroup21.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง') {
+        this.infogroup22.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง') {
+        this.infogroup23.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ') {
+        this.infogroup24.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง') {
+        this.infogroup25.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย') {
+        this.infogroup26.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ') {
+        this.infogroup27.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานวางแผนสถิติและวิชาการ') {
+        this.infogroup28.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว') {
+        this.infogroup29.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'งานสุขาภิบาล') {
+        this.infogroup30.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else if (element.departmentName === 'ระดับก่อนวัยเรียนและประถมศึกษา') {
+        this.infogroup31.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+        element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      } else {
+        console.log("else error !!!");
+      }
+    })
+  }
 
   list!: any[];
   sumStock: any;
@@ -536,110 +415,33 @@ export class ShareComponentComponent implements OnInit {
         stockInfo.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
         element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
       })
-      
     });
-
 
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data[0];
-      console.log( " this.sumStock" ,this.sumStock);
+      console.log(" this.sumStock", this.sumStock);
       this.exportMakePDF(mode, stockInfo, this.sumStock)
     });
-
-   
   }
-
-  // searchDocumentV2Sum(mode: any) {
-
-  //   let stockInfo: any[] = [];
-  //   const playload= {
-  //     stockId: this.stockId
-  //   }
-  //   this.service.searchDocumentV2Sum(playload).subscribe((data) => {
-  //     this.list = data;
-  //     console.log(data);
-
-  //     this.list?.forEach((element, index, array) => {
-  //       stockInfo.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-  //       element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-  //     })
-  //     this.exportMakePDF(mode, stockInfo)
-  //   });
-  // }
 
   exportMakePDF(mode: any, stockInfo: any[], sum: any) {
 
-    console.log("sum", sum);
-    
-    // this.customers?.forEach((element, index, array) => {
-    //   this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
-    //   // this.checknullOfDepartment(element.department?.name);
-    // })
-    // console.log("customers" , this.customers);
-    // console.log("element" , this.info);
-    // const sum = this.sumStock
-
-    // console.log("element", stockInfo);
-
-    // console.log("this.list", this.list );
-
-    // list.forEach(
-    // console.log("list" , this.list);
-    // )
-
-    // this.list.forEach((element, index, array) => {
-    //   console.log("element",element);
-    //   this.info.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment]);
-    //   // this.checknullOfDepartment(element.department?.name);
-
-
-    // })
-
-    // console.log("element" , this.info);
-    // this.info = [];
-    // console.log(this.customers,'this.infothis.customers');
-    // this.customers?.forEach((element, index, array) => {
-    //   this.info.push([element.name, element.country?.name, element.company, element.representative?.name]);
-    //   // this.checknullOfDepartment(element.department?.name);
-    // })
-
-    let detailStock = this.list.map(function(item){
+    let detailStock = this.list.map(function (item) {
       return [
-      { text :item.departmentName, alignment: 'left' },
-      { text :item.employeeCode, alignment: 'center' },
-      { text :item.fullName, alignment: 'left' },
-      { text :item.stockInstallment, alignment: 'center' },
-      { text :item.stockValue, alignment: 'right' },
-      { text :item.loanInstallment, alignment: 'center' },
-      { text :item.loanOrdinary, alignment: 'right' },
-      { text :item.interest, alignment: 'right' },
-      { text :item.sumMonth, alignment: 'right' },
-      { text :item.stockAccumulate, alignment: 'right' },
-    ]});
+        { text: item.departmentName, alignment: 'left' },
+        { text: item.employeeCode, alignment: 'center' },
+        { text: item.fullName, alignment: 'left' },
+        { text: item.stockInstallment, alignment: 'center' },
+        { text: item.stockValue, alignment: 'right' },
+        { text: item.loanInstallment, alignment: 'center' },
+        { text: item.loanOrdinary, alignment: 'right' },
+        { text: item.interest, alignment: 'right' },
+        { text: item.sumMonth, alignment: 'right' },
+        { text: item.stockAccumulate, alignment: 'right' },
+      ]
+    });
 
-    console.log(this.info,'this.info');
-    
-    // ทำ list รายเดือนหุ้น  ตอนนี้ยัง fix ค่าเดียวอยู่
-    // const data = this.empDetail;
-    // const fullName = data.prefix + data.firstName + ' ' + data.lastName;
-    // const departMentName = data.department.name ;
-    // const empCode = data.employeeCode ;
-    // const stockAccumulate = data.stock?.stockAccumulate ? data.stock?.stockAccumulate : ' ' ;
-    // const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ' ;
-    // const stockValue = data.stock?.stockDetails.stockValue ? data.stock?.stockAccumulate : ' ' ;
-    // const loanInstallment = data.loan?.loanDetails.installment ? data.loan?.loanDetails.installment : ' ' ;
-    // const loanOrdinary = data.loan?.loanDetails.loanOrdinary ? data.loan?.loanDetails.loanOrdinary : ' ' ;
-    // const interest = data.loan?.loanDetails.interest ? data.loan?.loanDetails.interest : ' ' ;
-
-    // console.log("data 123 ", data);
-    // [departMentName, empCode, fullName, { text: installment, alignment: 'center' }, 
-    // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
-    // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
-    // { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
-    // [departMentName + ' Total', ' ', ' ', ' ', { text: stockValue, alignment: 'right' }, ' ', { text: loanOrdinary, alignment: 'right' }, 
-    // { text: interest, alignment: 'right' }, { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0) , alignment: 'right' } , { text: stockAccumulate, alignment: 'right' }],
-
-
+    console.log(detailStock, 'detailStock');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -683,20 +485,14 @@ export class ShareComponentComponent implements OnInit {
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
-          
+              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
+              { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+              { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailStock,
-              // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
-              // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
-              // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
-              // { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
-              [sum.departmentName + ' Total', ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' }, 
-              { text: sum.totalMonth, alignment: 'right' }, { text: sum.loanDetailOrdinaryTotal , alignment: 'right' } , { text: sum.loanDetailInterestTotal, alignment: 'right' }],
-
+              [sum.departmentName + ' Total', ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' },
+              { text: sum.totalMonth, alignment: 'right' }, { text: sum.loanDetailOrdinaryTotal, alignment: 'right' }, { text: sum.loanDetailInterestTotal, alignment: 'right' }],
             ]
-             //...this.info,
-             //...items1
-            // detail data
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
@@ -725,6 +521,28 @@ export class ShareComponentComponent implements OnInit {
   }
 
 
+  searchDocumentV1All(mode: any) {
+
+    let stockInfo: any[] = [];
+    const playload = {
+      stockId: null
+    }
+    this.service.searchDocumentV1(playload).subscribe((data) => {
+      this.list = data;
+      console.log(data);
+
+      // this.list?.forEach((element, index, array) => {
+      //   stockInfo.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+      // })
+    });
+
+    this.service.searchDocumentV2Sum(playload).subscribe((data) => {
+      this.sumStock = data[0];
+      console.log(" this.sumStock", this.sumStock);
+      this.exportMakePDFALL(mode)
+    });
+  }
 
   exportMakePDFALL(mode: any) {
     this.customers?.forEach((element, index, array) => {
@@ -778,7 +596,7 @@ export class ShareComponentComponent implements OnInit {
           style: 'tableExample',
           table: {
             headerRows: 1,
-            widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+            widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
@@ -1085,152 +903,198 @@ export class ShareComponentComponent implements OnInit {
 
   }
 
-  onPrintInfoMember() {
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
-    pdfMake.fonts = {
-      // download default Roboto font from cdnjs.com
-      Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
-        bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
-      },
-      // Kanit Font
-      Sarabun: { // 3. set Kanit font
-        normal: 'Sarabun-Regular.ttf',
-        bold: 'Sarabun-Medium.ttf',
-        italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
+  // list!: any[];
+  // sumStock: any;
+  // searchDocumentV1(mode: any) {
+
+  //   let stockInfo: any[] = [];
+  //   const playload = {
+  //     stockId: this.stockId
+  //   }
+  //   this.service.searchDocumentV1(playload).subscribe((data) => {
+  //     this.list = data;
+  //     console.log(data);
+
+  //     this.list?.forEach((element, index, array) => {
+  //       stockInfo.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
+  //       element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
+  //     })
+  //   });
+
+  //   this.service.searchDocumentV2Sum(playload).subscribe((data) => {
+  //     this.sumStock = data[0];
+  //     console.log(" this.sumStock", this.sumStock);
+  //     this.exportMakePDF(mode, stockInfo, this.sumStock)
+  //   });
+  // }
+
+  // list!: any[];
+  documentInfoAll(){
+    this.service.documentInfoAll().subscribe((dataList) => {
+      // dataList.forEach((element, index, array) => {
+      // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
+      //   this.onPrintInfoMember(element)
+      // })
+      // console.log(dataList, "dataList");
+      this.onPrintInfoMember(dataList)
+    })
+
+  }
+
+  onPrintInfoMember(dataList: any[]) {
+    console.log(dataList, "dataList");
+    // this.service.documentInfoAll().subscribe((dataList) => {
+    //   console.log(dataList, "datalistInfoAll");
+
+      pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+      pdfMake.fonts = {
+        // download default Roboto font from cdnjs.com
+        Roboto: {
+          normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+          bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+          italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+          bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        },
+        // Kanit Font
+        Sarabun: { // 3. set Kanit font
+          normal: 'Sarabun-Regular.ttf',
+          bold: 'Sarabun-Medium.ttf',
+          italics: 'Sarabun-Italic.ttf ',
+          bolditalics: 'Sarabun-MediumItalic.ttf '
+        }
       }
-    }
-    const docDefinition = {
-      info: {
-        title: 'ข้อมูลสมาชิก',
-        // author: 'john doe',
-        // subject: 'subject of document',
-        // keywords: 'keywords for document',
-      },
-      background: function (currentPage, pageSize) {
-        return [
-          {
-            canvas: [
-              { type: 'line', x1: 25, y1: 25, x2: 570, y2: 25, lineWidth: 1 }, //Up line
-              { type: 'line', x1: 25, y1: 25, x2: 25, y2: 780, lineWidth: 1 }, //Left line
-              { type: 'line', x1: 25, y1: 780, x2: 570, y2: 780, lineWidth: 1 }, //Bottom line
-              { type: 'line', x1: 570, y1: 25, x2: 570, y2: 780, lineWidth: 1 }, //Rigth line
-              {
-                type: 'line',
-                x1: 25, y1: 360,
-                x2: 570, y2: 360,
-                lineWidth: 1
-              }, //center
-            ]
 
-          }
-        ]
-      },
-      content: [
-        { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'ข้อมูลสมาชิก', style: 'header' },
-        '\n',
-        {
-          text: ['หน้า 1                                                                                                    ',
-            { text: ' เดือน        ', bold: true, },
-            { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
-            { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+      let listInfo: any[] = [];
+
+      const docDefinition = {
+        info: {
+          title: 'ข้อมูลสมาชิก',
         },
-        { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['วันที่เป็นสมาชิก       ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['หน่วยงาน                ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['ประเภท                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['ตําแหน่ง                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['อัตราเงินเดือน         ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['คํ้าประกันให้            ', { text: ' 1. ไม่มี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: [' ', { text: ' 2. ไม่มี ', bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
-        {
-          text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: ' 00000 ', bold: false, style: 'texts' },
-            { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false }, { text: '\t\t 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        background: function (currentPage, pageSize) {
+          return [
+            {
+              canvas: [
+                { type: 'line', x1: 25, y1: 25, x2: 570, y2: 25, lineWidth: 1 }, //Up line
+                { type: 'line', x1: 25, y1: 25, x2: 25, y2: 780, lineWidth: 1 }, //Left line
+                { type: 'line', x1: 25, y1: 780, x2: 570, y2: 780, lineWidth: 1 }, //Bottom line
+                { type: 'line', x1: 570, y1: 25, x2: 570, y2: 780, lineWidth: 1 }, //Rigth line
+                {
+                  type: 'line',
+                  x1: 25, y1: 360,
+                  x2: 570, y2: 360,
+                  lineWidth: 1
+                }, //center
+              ]
+            }
+          ]
         },
-        {
-          text: ['หุ้นสะสม\t\t\t\t ', { text: ' 00000 ', bold: false, style: 'texts' },
-            { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ', bold: false }, { text: '\t00000 ' + '    บาท', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+        content: dataList.map((element, index, array) => 
+           [
+            { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
+            { text: 'ข้อมูลสมาชิก', style: 'header' },
+            '\n',
+            {
+              text: ['หน้า 1                                                                                                    ',
+                { text: ' เดือน        ', bold: true, },
+                { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
+                { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+            },
+            { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['วันที่เป็นสมาชิก       ', { text: element.regisDate, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['หน่วยงาน                ', { text: element.departmentName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['ประเภท                   ', { text: element.employeeTypeName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['ตําแหน่ง                   ', { text: element.positionsName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['อัตราเงินเดือน         ', { text: element.salary, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['คํ้าประกันให้            ', { text: ' 1. ไม่มี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: [' ', { text: ' 2. ไม่มี ', bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
+            {
+              text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: ' 00000 ', bold: false, style: 'texts' },
+                { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false }, { text: '\t\t 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+            },
+            {
+              text: ['หุ้นสะสม\t\t\t\t ', { text: ' 00000 ', bold: false, style: 'texts' },
+                { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ', bold: false }, { text: '\t00000 ' + '    บาท', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+            },
+            //<--------------------------------- center ---------------------------------> 
+            '\n', '\n',
+            { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
+            { text: 'ข้อมูลสมาชิก', style: 'header' },
+            '\n',
+            {
+              text: ['หน้า 2                                                                                                    ',
+                { text: ' เดือน        ', bold: true, },
+                { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
+                { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+            },
+            { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+            { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
+            {
+              text: ['กู้เงินจํานวน             ', { text: ' 00000 ', bold: false, style: 'texts' },
+                { text: '                     บาท ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+            },
+            {
+              text: ['ระยะเวลากู้              ', { text: ' 00000 ', bold: false, style: 'texts' },
+                { text: '                     เดือน ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+            },
+            {
+              text: ['อัตราดอกเบี้ย          ', { text: ' 00000 ', bold: false, style: 'texts' },
+                { text: '                     เปอร์เซ็นต์ต่อปี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
+            },
+            // { text: ['วันที่เริ่มกู้          ', { text: ' - ', bold: false, style: 'texts'}, 
+            // { text: '                     วันที่ทําสัญญา          ', bold: false}, { text: ' - ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
+            '\n',
+            {
+              style: 'tableExample',
+              table: {
+                widths: [90, 120, 80, 150],
+                body: [
+                  [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: ' - ', color: 'gray' }],
+                  [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+                  [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: ' ไม่มี ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+                  [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: ' ไม่มี ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+                  [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+                  { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: ' ' + '          บาท', color: 'gray' }],
+                  [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+                  { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: ' ' + '          บาท', color: 'gray' }],
+                  [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: '  ', color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
+                  [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+                  { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: ' ' + '          บาท', color: 'gray' }],
+                  [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
+                  { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: ' ' + '          บาท', color: 'gray' }],
+                ]
+              },
+              layout: 'noBorders',
+              pageBreak: 'after'
+            },
+          ],
+        ),
+        
+        defaultStyle: {
+          font: 'Sarabun',
         },
-        //<--------------------------------- center ---------------------------------> 
-        '\n', '\n',
-        { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'ข้อมูลสมาชิก', style: 'header' },
-        '\n',
-        {
-          text: ['หน้า 2                                                                                                    ',
-            { text: ' เดือน        ', bold: true, },
-            { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
-            { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
-        },
-        { text: ['รหัสพนักงาน           ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: ['ชื่อ-สกุล                   ', { text: ' 00000 ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-        { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
-        {
-          text: ['กู้เงินจํานวน             ', { text: ' 00000 ', bold: false, style: 'texts' },
-            { text: '                     บาท ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-        },
-        {
-          text: ['ระยะเวลากู้              ', { text: ' 00000 ', bold: false, style: 'texts' },
-            { text: '                     เดือน ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-        },
-        {
-          text: ['อัตราดอกเบี้ย          ', { text: ' 00000 ', bold: false, style: 'texts' },
-            { text: '                     เปอร์เซ็นต์ต่อปี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-        },
-        // { text: ['วันที่เริ่มกู้          ', { text: ' - ', bold: false, style: 'texts'}, 
-        // { text: '                     วันที่ทําสัญญา          ', bold: false}, { text: ' - ', bold: false, style: 'texts'}], margin: [0, 6, 0, 0], bold: false}, 
-        '\n',
-        {
-          style: 'tableExample',
-          table: {
-            widths: [90, 120, 80, 150],
-            body: [
-              [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: ' - ', color: 'gray' }],
-              [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-              [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: ' ไม่มี ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-              [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: ' ไม่มี ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-              [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
-              { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: ' ' + '          บาท', color: 'gray' }],
-              [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
-              { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: ' ' + '          บาท', color: 'gray' }],
-              [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: '  ', color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
-              [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
-              { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: ' ' + '          บาท', color: 'gray' }],
-              [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: '  ' + '          บาท', color: 'gray', fillColor: '#fff' },
-              { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: ' ' + '          บาท', color: 'gray' }],
-            ]
+        styles: {
+          header: {
+            fontSize: 12,
+            bold: true,
+            alignment: 'center',
           },
-          layout: 'noBorders'
+          header2: {
+            fontSize: 12,
+            bold: true,
+          },
+          texts: {
+            fontSize: 12,
+            bold: false,
+            color: '#555',
+          },
         },
+      }
 
-      ],
-      defaultStyle: {
-        font: 'Sarabun',
-      },
-      styles: {
-        header: {
-          fontSize: 12,
-          bold: true,
-          alignment: 'center',
-        },
-        header2: {
-          fontSize: 12,
-          bold: true,
-        },
-        texts: {
-          fontSize: 12,
-          bold: false,
-          color: '#555',
-        },
-      },
-    }
-    const pdf = pdfMake.createPdf(docDefinition);
-    pdf.open();
+      const pdf = pdfMake.createPdf(docDefinition);
+      pdf.open();
+    
   }
 
 }

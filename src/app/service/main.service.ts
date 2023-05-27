@@ -185,4 +185,7 @@ export class MainService {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v2/document/search', playload);
   }
 
+  documentInfoAll(): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/info-all', null);
+  }
 }
