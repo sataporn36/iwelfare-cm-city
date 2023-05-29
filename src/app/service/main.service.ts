@@ -41,7 +41,7 @@ export class MainService {
 
   login(playload: any): Observable<any>{
     return this.http.post<any>(
-      AppPath.APP_API_SERVICE + '/logic/v1/login/user-login', playload
+      AppPath.APP_API_SERVICE + '/logic/v1/login/user-login#POST', playload
     );
   }
 
