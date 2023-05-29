@@ -1,11 +1,13 @@
 {
     "/api/*":{
         "target":"http://203.159.93.121:8787/",
-        "secure": true,
+        "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
-        "pathRewrite": {
-            "^/api": ""
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     }
 }
