@@ -13,7 +13,7 @@ RUN npm ci
 COPY . .
 
 # Build the Angular app
-RUN npm run build -- --prod
+RUN npm run build 
 
 # Stage 2: Serve the built Angular app
 FROM nginx:1.18
