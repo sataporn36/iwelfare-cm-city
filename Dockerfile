@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:1.18
 
 # Copy the built app from the previous stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
 
 # Copy the nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
