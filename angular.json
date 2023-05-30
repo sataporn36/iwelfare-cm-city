@@ -77,8 +77,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ProjectIwelfareCmCity:build:production",
-            "proxyConfig": "proxy.conf.json"
+            "browserTarget": "ProjectIwelfareCmCity:build:production"
           },
           "configurations": {
             "production": {
