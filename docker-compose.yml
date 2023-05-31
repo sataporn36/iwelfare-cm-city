@@ -1,11 +1,19 @@
 version: '3.8'
 services:
-  angular-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 8080:80
+  
+  fronted:
+     build: ./iwelfare-cm-city/
+     ports: 
+        - 8080:4200
+
+  
+  # angular-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8080:80
+
   # web:
   #   image: nginx
   #   ports: 

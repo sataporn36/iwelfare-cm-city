@@ -3,7 +3,6 @@
         "target":"http://203.159.93.121:8787",
         "secure": false,
         "logLevel": "debug",
-        "changeOrigin": true,
-        "followRedirects": true
+        "changeOrigin": true
     }
 }
