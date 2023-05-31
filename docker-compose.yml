@@ -2,7 +2,7 @@ version: '3.8'
 services:
   
   fronted:
-     build: ./iwelfare-cm-city/
+     build: .
      ports: 
         - 8080:4200
 
