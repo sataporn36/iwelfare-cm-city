@@ -1,12 +1,12 @@
-version: '3.8'
+version: '3'
 services:
-  
-  fronted:
-     build: .
-     ports: 
-        - 8080:4200
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
 
-  
   # angular-app:
   #   build:
   #     context: .
