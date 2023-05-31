@@ -18,12 +18,11 @@ export class AuthorizeService {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Origin': 'http://203.159.93.121:8080/',
       'Authorization': 'Bearer AADDFFKKKLLLL'
     });
 
     return this.http.post<any>(
-      AppPath.APP_API_SERVICE + '/logic/v1/login/user-login', payload , { headers: headers });
+      AppPath.APP_API_SERVICE + '/logic/v1/login/user-login', payload , { headers });
 
     //   this.http.post(this.url+ ordernummer + "/" + this.id, arr, {
     //     headers: headers
