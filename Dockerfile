@@ -46,7 +46,7 @@ RUN npm install
 COPY . .
 
 #Build the Angular application
-RUN npm run build -- --prod
+RUN npm run build
 
 #Expose the port on which the Angular application will run (default is 80)
 EXPOSE 8080
