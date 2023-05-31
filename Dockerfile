@@ -51,5 +51,5 @@ RUN npm run build -- --prod
 #Expose the port on which the Angular application will run (default is 80)
 EXPOSE 8080
 
-Start the Angular application
+#Start the Angular application
 CMD ["npm", "start"]
