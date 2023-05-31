@@ -18,7 +18,8 @@ export class AuthorizeService {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Origin': 'http://203.159.93.121:8080/' // Replace with your Angular app's domain
+      'Origin': 'http://203.159.93.121:8080/',
+      'Authorization': 'Bearer AADDFFKKKLLLL'
     });
 
     return this.http.post<any>(
