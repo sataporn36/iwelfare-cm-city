@@ -30,25 +30,25 @@
 # # Start the nginx server
 # CMD ["nginx", "-g", "daemon off;"]
 
-Use an official Node.js runtime as the base image
+#Use an official Node.js runtime as the base image
 FROM node:16-alpine
 
-Set the working directory inside the container
+#Set the working directory inside the container
 WORKDIR /app
 
-Copy package.json and package-lock.json (if available) to the working directory
+#Copy package.json and package-lock.json (if available) to the working directory
 COPY package*.json ./
 
-Install project dependencies
+#Install project dependencies
 RUN npm install
 
-Copy the entire Angular application to the working directory
+#Copy the entire Angular application to the working directory
 COPY . .
 
-Build the Angular application
+#Build the Angular application
 RUN npm run build -- --prod
 
-Expose the port on which the Angular application will run (default is 80)
+#Expose the port on which the Angular application will run (default is 80)
 EXPOSE 8080
 
 Start the Angular application
