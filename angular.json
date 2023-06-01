@@ -24,6 +24,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/project-iwelfare-cm-city",
+            "proxyConfig": "proxy.config.json",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -77,8 +78,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ProjectIwelfareCmCity:build:production",
-            "proxyConfig": "proxy.config.json"
+            "browserTarget": "ProjectIwelfareCmCity:build:production"
           },
           "configurations": {
             "production": {
