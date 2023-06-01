@@ -5,9 +5,9 @@
             <button type="button" class="btn btn-login" (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
         </div>
         <div> 
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1('export')">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('export')">Export PDF</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1('download')">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">Download PDF</button>
         </div>
     </div>
     <div style="font-family: 'Kanit';">
@@ -48,7 +48,7 @@
         <div>
             <button type="button" class="btn btn-login" style="width: 200px;"(click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="onPrintTotal()">สรุปยอดรวม</button>
+            <button type="button" class="btn btn-login" (click)="getGrandTotal()">สรุปยอดรวม</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="documentInfoAll()">ข้อมูลสมาชิก</button>
         </div>
@@ -57,9 +57,9 @@
                 (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
         </div> -->
         <div>
-            <button type="button" class="btn btn-login" (click)="exportMakePDFALL('export')">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('export')">Export PDF</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="exportMakePDFALL('download')">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">Download PDF</button>
         </div>
     </div>
 

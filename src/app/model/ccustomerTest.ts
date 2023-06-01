@@ -10,6 +10,7 @@ export interface Representative {
 }
 
 export interface Customer {
+    emp_code: any;
     department: any;
     id?: number;
     name?: string;
