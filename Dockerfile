@@ -25,7 +25,7 @@ COPY --from=builder /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf 
 
 # Expose the default HTTP port
-EXPOSE 5000
+EXPOSE 3000
 
 # Start the nginx server
 CMD ["nginx", "-g", "daemon off;"]
