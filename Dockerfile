@@ -22,7 +22,7 @@ FROM nginx:1.18
 COPY --from=builder /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
 
 # Copy the nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the default HTTP port
 EXPOSE 3000
