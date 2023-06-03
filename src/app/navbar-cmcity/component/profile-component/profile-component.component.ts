@@ -466,7 +466,7 @@ export class ProfileComponentComponent implements OnInit {
         contractStart: data?.contractStartDate ? this.pipeDateTH(data?.contractStartDate) : '-',
         contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
         civilService: data?.civilServiceDate ? this.pipeDateTH(data?.civilServiceDate) : '-',
-        civilServiceDate: data?.civilServiceDate ? new Date(data?.civilServiceDate) : null,
+        civilServiceDate: data?.civilServiceDate ? new Date(data?.civilServiceDate) : '',
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
         billingStart: data?.billingStartDate ? this.pipeDateTH(data?.billingStartDate) : '-',
         billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
@@ -1062,8 +1062,12 @@ export class ProfileComponentComponent implements OnInit {
 
   accept() {
     const playload = this.formModel.getRawValue();
-
     playload.birthday = playload.birthday;
+    playload.employeeTypeId = Number(playload.employeeTypeId);
+
+    const civilServiceDate = playload.civilServiceDate;
+    playload.civilServiceDate = civilServiceDate ? civilServiceDate : ' ';
+ 
     playload.contact = {
       id: playload.contact.id,
       tel: playload.tel,

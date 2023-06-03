@@ -20,6 +20,7 @@ import { Department } from 'src/app/model/department';
 import { Observable } from 'rxjs';
 import { log } from 'console';
 
+
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
 }
@@ -305,104 +306,33 @@ export class ShareComponentComponent implements OnInit {
     this.infogroup3 = [];
     this.infogroup4 = [];
     this.infogroup5 = [];
+    this.infogroup6 = [];
+    this.infogroup7 = [];
+    this.infogroup8 = [];
+    this.infogroup9 = [];
+    this.infogroup10 = [];
+    this.infogroup11 = [];
+    this.infogroup12 = [];
+    this.infogroup13 = [];
+    this.infogroup14 = [];
+    this.infogroup15 = [];
+    this.infogroup16 = [];
+    this.infogroup17 = [];
+    this.infogroup18 = [];
+    this.infogroup19 = [];
+    this.infogroup20 = [];
+    this.infogroup21 = [];
+    this.infogroup22 = [];
+    this.infogroup23 = [];
+    this.infogroup24 = [];
+    this.infogroup25 = [];
+    this.infogroup26 = [];
+    this.infogroup27 = [];
+    this.infogroup28 = [];
+    this.infogroup29 = [];
+    this.infogroup30 = [];
+    this.infogroup31 = [];
     listData.forEach((element, index, array) => {
-
-      // if (element.departmentName === 'แขวงเม็งราย') {
-      //   this.infogroup1.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'แขวงกาวิละ') {
-      //   this.infogroup2.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'แผนงานบริหารทั่วไป') {
-      //   this.infogroup3.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานเทศกิจ') {
-      //   this.infogroup4.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานโรงพยาบาล') {
-      //   this.infogroup5.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานก่อสร้าง') {
-      //   this.infogroup6.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารงานคลัง') {
-      //   this.infogroup7.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารงานคลัง ฝ่ายประจำ') {
-      //   this.infogroup8.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารงานทั่วไป') {
-      //   this.infogroup9.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไป') {
-      //   this.infogroup10.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไป ฝ่ายประจำ') {
-      //   this.infogroup11.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน') {
-      //   this.infogroup12.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา') {
-      //   this.infogroup13.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์') {
-      //   this.infogroup14.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข') {
-      //   this.infogroup15.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา') {
-      //   this.infogroup16.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานป้องกันและบรรเทาสาธารณภัย') {
-      //   this.infogroup17.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน') {
-      //   this.infogroup18.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน') {
-      //   this.infogroup19.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ') {
-      //   this.infogroup20.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย') {
-      //   this.infogroup21.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง') {
-      //   this.infogroup22.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง') {
-      //   this.infogroup23.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ') {
-      //   this.infogroup24.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง') {
-      //   this.infogroup25.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย') {
-      //   this.infogroup26.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ') {
-      //   this.infogroup27.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานวางแผนสถิติและวิชาการ') {
-      //   this.infogroup28.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว') {
-      //   this.infogroup29.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'งานสุขาภิบาล') {
-      //   this.infogroup30.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else if (element.departmentName === 'ระดับก่อนวัยเรียนและประถมศึกษา') {
-      //   this.infogroup31.push([element.departmentName, element.employeeCode, element.fullName, element.stockInstallment,
-      //   element.stockValue, element.loanInstallment, element.loanOrdinary, element.interest, element.sumMonth, element.stockAccumulate]);
-      // } else {
-      //   console.log("else error !!!");
-      // }
 
       if (element.departmentName === 'แขวงเม็งราย') {
         this.infogroup1.push(element);
@@ -473,19 +403,20 @@ export class ShareComponentComponent implements OnInit {
   }
 
   checkListDataPDF(list: any[]){
+    const decimalPipe = new DecimalPipe('en-US');
     if(list.length > 0){
       let datalListGroup = list.map(function(item){
         return [
-          { text :item.departmentName, alignment: 'left' },
-          { text :item.employeeCode, alignment: 'center' },
-          { text :item.fullName, alignment: 'left' },
-          { text :item.stockInstallment, alignment: 'center' },
-          { text :item.stockValue, alignment: 'right' },
-          { text :item.loanInstallment, alignment: 'center' },
-          { text :item.loanOrdinary, alignment: 'right' },
-          { text :item.interest, alignment: 'right' },
-          { text :item.sumMonth, alignment: 'right' },
-          { text :item.stockAccumulate, alignment: 'right' },
+          { text: item.departmentName, alignment: 'left' },
+          { text: item.employeeCode, alignment: 'center' },
+          { text: item.fullName, alignment: 'left' },
+          { text: item.stockInstallment, alignment: 'center' },
+          { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
+          { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
+          { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+          { text: decimalPipe.transform(item.interest), alignment: 'right' },
+          { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
+          { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
         ]
       });
       return datalListGroup;
@@ -499,9 +430,9 @@ export class ShareComponentComponent implements OnInit {
       let sumDepartment;
       listSum?.forEach((element, _index, _array) => {
         if(element.departmentName === nameDepartment){
-          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: element.stockValueTotal, alignment: 'right' }, ' ', 
-          { text: element.loanDetailOrdinaryTotal , alignment: 'right' } , { text: element.loanDetailInterestTotal, alignment: 'right' }
-          ,{ text: element.totalMonth, alignment: 'right' },{ text: element.stockAccumulateTotal, alignment: 'right' }
+          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(element.stockValueTotal), alignment: 'right' }, ' ', 
+          { text: this.formattedNumber2(element.loanDetailOrdinaryTotal) , alignment: 'right' } , { text: this.formattedNumber2(element.loanDetailInterestTotal), alignment: 'right' }
+          ,{ text: this.formattedNumber2(element.totalMonth), alignment: 'right' },{ text: this.formattedNumber2(element.stockAccumulateTotal) , alignment: 'right' }
           ];
         }
       })
@@ -688,10 +619,6 @@ export class ShareComponentComponent implements OnInit {
 
     let data1 = this.checkListDataPDF(this.infogroup1);
     let dataSum1 = this.checkListSumAllByDepartment(listSum,'แขวงเม็งราย');
-
-    console.log(this.infogroup1,'<------------- infogroup1');
-    
-
     let data2 = this.checkListDataPDF(this.infogroup2);
     let dataSum2 = this.checkListSumAllByDepartment(listSum,'แขวงกาวิละ');
     let data3 = this.checkListDataPDF(this.infogroup3);
@@ -700,7 +627,63 @@ export class ShareComponentComponent implements OnInit {
     let dataSum4 = this.checkListSumAllByDepartment(listSum,'งานเทศกิจ');
     let data5 = this.checkListDataPDF(this.infogroup5);
     let dataSum5 = this.checkListSumAllByDepartment(listSum,'งานโรงพยาบาล');
-    
+
+    let data6 = this.checkListDataPDF(this.infogroup6);
+    let dataSum6 = this.checkListSumAllByDepartment(listSum,'งานก่อสร้าง');
+    let data7 = this.checkListDataPDF(this.infogroup7)
+    let dataSum7 = this.checkListSumAllByDepartment(listSum,'งานบริหารงานคลัง');
+    let data8 = this.checkListDataPDF(this.infogroup8);
+    let dataSum8 = this.checkListSumAllByDepartment(listSum,'งานบริหารงานคลัง ฝ่ายประจำ');
+    let data9 = this.checkListDataPDF(this.infogroup9);
+    let dataSum9 = this.checkListSumAllByDepartment(listSum,'งานบริหารงานทั่วไป');
+    let data10 = this.checkListDataPDF(this.infogroup10);
+    let dataSum10 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไป');
+
+    let data11 = this.checkListDataPDF(this.infogroup11);
+    let dataSum11 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไป ฝ่ายประจำ');
+    let data12 = this.checkListDataPDF(this.infogroup12)
+    let dataSum12 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน');
+    let data13 = this.checkListDataPDF(this.infogroup13);
+    let dataSum13 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไปเกี่ยวกับการศึกษา');
+    let data14 = this.checkListDataPDF(this.infogroup14);
+    let dataSum14 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์');
+    let data15 = this.checkListDataPDF(this.infogroup15);
+    let dataSum15 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข');
+
+    let data16 = this.checkListDataPDF(this.infogroup16);
+    let dataSum16 = this.checkListSumAllByDepartment(listSum,'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา');
+    let data17 = this.checkListDataPDF(this.infogroup17);
+    let dataSum17 = this.checkListSumAllByDepartment(listSum,'งานป้องกันและบรรเทาสาธารณภัย');
+    let data18 = this.checkListDataPDF(this.infogroup18)
+    let dataSum18 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน');
+    let data19 = this.checkListDataPDF(this.infogroup19);
+    let dataSum19 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน');
+    let data20 = this.checkListDataPDF(this.infogroup20);
+    let dataSum20 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ');
+
+    let data21 = this.checkListDataPDF(this.infogroup21);
+    let dataSum21 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย');
+    let data22 = this.checkListDataPDF(this.infogroup22)
+    let dataSum22 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง');
+    let data23 = this.checkListDataPDF(this.infogroup23);
+    let dataSum23 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง');
+    let data24 = this.checkListDataPDF(this.infogroup24);
+    let dataSum24 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ');
+    let data25 = this.checkListDataPDF(this.infogroup25);
+    let dataSum25 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง');
+
+    let data26 = this.checkListDataPDF(this.infogroup26);
+    let dataSum26 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย');
+    let data27 = this.checkListDataPDF(this.infogroup27)
+    let dataSum27 = this.checkListSumAllByDepartment(listSum,'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ');
+    let data28 = this.checkListDataPDF(this.infogroup28);
+    let dataSum28 = this.checkListSumAllByDepartment(listSum,'งานวางแผนสถิติและวิชาการ');
+    let data29 = this.checkListDataPDF(this.infogroup29);
+    let dataSum29 = this.checkListSumAllByDepartment(listSum,'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว');
+    let data30 = this.checkListDataPDF(this.infogroup30);
+    let dataSum30 = this.checkListSumAllByDepartment(listSum,'งานสุขาภิบาล');
+    let data31 = this.checkListDataPDF(this.infogroup31);
+    let dataSum31 = this.checkListSumAllByDepartment(listSum,'ระดับก่อนวัยเรียนและประถมศึกษา');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -737,7 +720,7 @@ export class ShareComponentComponent implements OnInit {
           style: 'tableExample',
           table: {
             headerRows: 1,
-            widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
+            widths: [220, 65, 150, 70, 90, 85, 90, 80, 85, 85],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
@@ -746,6 +729,7 @@ export class ShareComponentComponent implements OnInit {
               { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
 
+              // group 1
               ...data1,
               dataSum1,
               ...data2,
@@ -756,6 +740,63 @@ export class ShareComponentComponent implements OnInit {
               dataSum4,
               ...data5,
               dataSum5,
+              ...data6,
+              dataSum6,
+              ...data7,
+              dataSum7,
+              ...data8,
+              dataSum8,
+              ...data9,
+              dataSum9,
+              ...data10,
+              dataSum10,
+
+              // group 2
+              ...data11,
+              dataSum11,
+              ...data12,
+              dataSum12,
+              ...data13,
+              dataSum13,
+              ...data14,
+              dataSum14,
+              ...data15,
+              dataSum15,
+              ...data16,
+              dataSum16,
+              ...data17,
+              dataSum17,
+              ...data18,
+              dataSum18,
+              ...data19,
+              dataSum19,
+              ...data20,
+              dataSum20,
+
+               // group 1
+               ...data21,
+               dataSum21,
+               ...data22,
+               dataSum22,
+               ...data23,
+               dataSum23,
+               ...data24,
+               dataSum24,
+               ...data25,
+               dataSum25,
+               ...data26,
+               dataSum26,
+               ...data27,
+               dataSum27,
+               ...data28,
+               dataSum28,
+               ...data29,
+               dataSum29,
+               ...data30,
+               dataSum30,
+               ...data31,
+               dataSum31,
+
 
             ]
           },
@@ -943,6 +984,11 @@ export class ShareComponentComponent implements OnInit {
   formattedNumber(number: any): any {
     const decimalPipe = new DecimalPipe('en-US');
     return decimalPipe.transform(number, '1.2-2');
+  }
+
+  formattedNumber2(number: any): any {
+    const decimalPipe = new DecimalPipe('en-US');
+    return number !== null ? decimalPipe.transform(number) : '';
   }
 
   getGrandTotal(){
