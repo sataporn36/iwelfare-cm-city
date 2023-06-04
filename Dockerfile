@@ -18,6 +18,8 @@ RUN npm run build
 # Stage 2: Serve the built Angular app
 FROM nginx:1.18
 
+RUN rm -rf /usr/share/nginx/html/*
+
 # Copy the built app from the previous stage
 COPY --from=builder /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
 
