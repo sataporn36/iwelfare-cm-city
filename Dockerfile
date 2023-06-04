@@ -1,36 +1,36 @@
-# Stage 1: Build the Angular app
-FROM node:16 as builder
+# # Stage 1: Build the Angular app
+# FROM node:16 as builder
 
-WORKDIR /app
+# WORKDIR /app
 
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
+# # Copy the package.json and package-lock.json files
+# COPY package*.json ./
 
-# Install the dependencies
-RUN npm ci
+# # Install the dependencies
+# RUN npm ci
 
-# Copy the rest of the application code
-COPY . .
+# # Copy the rest of the application code
+# COPY . .
 
-# Build the Angular app
-RUN npm run build 
+# # Build the Angular app
+# RUN npm run build 
 
-# Stage 2: Serve the built Angular app
-FROM nginx:1.18
+# # Stage 2: Serve the built Angular app
+# FROM nginx:1.18
 
-RUN rm -rf /usr/share/nginx/html/*
+# RUN rm -rf /usr/share/nginx/html/*
 
-# Copy the built app from the previous stage
-COPY --from=builder /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
+# # Copy the built app from the previous stage
+# COPY --from=builder /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
 
-# Copy the nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
+# # Copy the nginx configuration file
+# COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose the default HTTP port
-EXPOSE 5000
+# # Expose the default HTTP port
+# EXPOSE 5000
 
-# Start the nginx server
-CMD ["nginx", "-g", "daemon off;"]
+# # Start the nginx server
+# CMD ["nginx", "-g", "daemon off;"]
 
 # #Use an official Node.js runtime as the base image
 # FROM node:16-alpine
@@ -88,20 +88,20 @@ CMD ["nginx", "-g", "daemon off;"]
 # EXPOSE 5000
 # CMD ["nginx", "-g", "daemon off;"]
 
-# # Stage 1: Base image
-# FROM node:16 AS base
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install
+# Stage 1: Base image
+FROM node:16 AS base
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
 
-# # Stage 2: Build Angular app
-# FROM base AS build
-# COPY . .
-# RUN npm run build
+# Stage 2: Build Angular app
+FROM base AS build
+COPY . .
+RUN npm run build
 
-# # Stage 3: Serve app with Nginx
-# FROM nginx:latest AS final
-# COPY --from=build /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
-# COPY nginx.conf /etc/nginx/nginx.conf
-# EXPOSE 5000
-# CMD ["nginx", "-g", "daemon off;"]
+# Stage 3: Serve app with Nginx
+FROM nginx:latest AS final
+COPY --from=build /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]

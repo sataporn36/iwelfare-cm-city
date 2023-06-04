@@ -17,8 +17,8 @@ export class AuthorizeService {
     // headers.append('Authorization', 'Bearer AADDFFKKKLLLL');
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer AADDFFKKKLLLL'
+      'Content-Type': 'application/json'
+      // 'Authorization': 'Bearer AADDFFKKKLLLL'
     });
 
     return this.http.post<any>(
