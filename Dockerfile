@@ -119,7 +119,7 @@ RUN npm run build
 
 # Stage 3: Serve app with Nginx
 FROM nginx:latest AS final
-COPY /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
+COPY --from=build /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 5000
