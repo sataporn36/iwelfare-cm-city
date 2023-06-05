@@ -88,6 +88,24 @@
 # EXPOSE 5000
 # CMD ["nginx", "-g", "daemon off;"]
 
+# # Stage 1: Base image
+# FROM node:16 AS base
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install
+
+# # Stage 2: Build Angular app
+# FROM base AS build
+# COPY . .
+# RUN npm run build
+
+# # Stage 3: Serve app with Nginx
+# FROM nginx:latest AS final
+# COPY --from=build /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
+# COPY nginx.conf /etc/nginx/nginx.conf
+# EXPOSE 5000
+# CMD ["nginx", "-g", "daemon off;"]
+
 # Stage 1: Base image
 FROM node:16 AS base
 WORKDIR /app
@@ -101,7 +119,7 @@ RUN npm run build
 
 # Stage 3: Serve app with Nginx
 FROM nginx:latest AS final
-COPY --from=build /dist/project-iwelfare-cm-city /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 5000
+COPY --from=build /app/dist/project-iwelfare-cm-city /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
