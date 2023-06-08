@@ -5,9 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthorizeService } from '../authorize.service';
-import { MainService } from '../service/main.service';
 import { LocalStorageService } from 'ngx-webstorage'
-import { BnNgIdleService } from 'bn-ng-idle';
 
 @Component({
   selector: 'app-login-page',
@@ -27,25 +25,23 @@ export class LoginPageComponent implements OnInit {
     protected route: ActivatedRoute,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private service: MainService,
     private locationStrategy: LocationStrategy,
     private authorizeService: AuthorizeService,
-    private localStorageService: LocalStorageService,
-    private bnIdle: BnNgIdleService
+    private localStorageService: LocalStorageService
   ) {
   }
 
   ngOnInit(): void {
     this.initMainForm();
-    this.preventBackButton();
+    // this.preventBackButton();
   }
 
-  preventBackButton() {
-    history.pushState(null, '', location.href);
-    this.locationStrategy.onPopState(() => {
-      history.pushState(null, '', location.href);
-    })
-  }
+  // preventBackButton() {
+  //   history.pushState(null, '', location.href);
+  //   this.locationStrategy.onPopState(() => {
+  //     history.pushState(null, '', location.href);
+  //   })
+  // }
 
   initMainForm() {
     this.formModel = new FormGroup({
@@ -117,7 +113,5 @@ export class LoginPageComponent implements OnInit {
       state: { data: null }
     });
   }
-
-  clickForgetPassWord() { }
 
 }

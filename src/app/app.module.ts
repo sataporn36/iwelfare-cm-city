@@ -29,17 +29,19 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
 import { AuthGuardService } from './auth-guard.service';
 import { BnNgIdleService } from 'bn-ng-idle'; 
 import { ChipModule } from 'primeng/chip';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 @NgModule({
-    declarations: [
+    declarations: [	
         AppComponent,
         NavbarCmcityComponent,
         LoginPageComponent,
         RegisterPageComponent,
         PageNotFoundComponent,
         ForgetPasswordPageComponent,
-    ],
+        LandingPageComponent
+   ],
     providers: [ConfirmationService,MessageService,AuthGuardService,BnNgIdleService],
     bootstrap: [AppComponent],
     imports: [

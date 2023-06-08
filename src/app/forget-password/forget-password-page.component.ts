@@ -1,4 +1,3 @@
-import { LocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,8 +31,7 @@ export class ForgetPasswordPageComponent implements OnInit{
     protected route: ActivatedRoute,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private service: MainService,
-    private locationStrategy: LocationStrategy
+    private service: MainService
   ) {
   }
 
@@ -124,10 +122,6 @@ export class ForgetPasswordPageComponent implements OnInit{
         this.service.changePassword(data).subscribe((res) => {
              if(res != null){
                  if(res.data.statusEmployee === 'CHANGE_SUCCESS'){
-                  //  this.router.navigate(['/login'],{
-                  //   state: {data: 'changePassword'}
-                  //  });
-                  // setTimeout(() => {}, 500);
                   this.messageService.add({severity:'success', summary: 'Success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ'});  
                   this.iconStatus = true;
                   this.formModel.reset();
@@ -144,5 +138,4 @@ export class ForgetPasswordPageComponent implements OnInit{
       reject: () => { }
     });
   }
-
 }

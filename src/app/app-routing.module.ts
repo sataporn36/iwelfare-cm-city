@@ -16,12 +16,18 @@ import { ProfilePageComponent } from './navbar-cmcity/page/profile-page/profile-
 import { SharePageComponent } from './navbar-cmcity/page/share-page/share-page.component';
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 import { RegisterPageComponent } from './Register/register-page.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
     {
       path: '',
-      redirectTo: 'login',
+      redirectTo: 'index',
       pathMatch: 'full'
+    },
+    {
+      path: 'index',
+      component: LandingPageComponent,
+      canActivate: [AuthGuard],
     },
     {
       path: 'login',
@@ -94,7 +100,6 @@ const routes: Routes = [
       path: '**',
       component: PageNotFoundComponent,
     },
-
 ];
 
 @NgModule({

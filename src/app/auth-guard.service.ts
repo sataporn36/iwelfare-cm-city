@@ -1,15 +1,13 @@
-import { Injectable, OnInit } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { CanActivate, CanActivateChild, Router} from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { BnNgIdleService } from 'bn-ng-idle';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate, CanActivateChild{
 
-  constructor(private localStorageService: LocalStorageService, protected router: Router,private bnIdle: BnNgIdleService) { }
+  constructor(private localStorageService: LocalStorageService, protected router: Router) { }
 
   canActivate(): boolean{
       if(this.localStorageService.retrieve('empId') === null){

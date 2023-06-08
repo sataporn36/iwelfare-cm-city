@@ -1,0 +1,59 @@
+*{
+	box-sizing:  border-box;
+	font-family: 'Kanit', sans-serif;
+}
+
+.pageFull{
+    background: #fff;
+    position: absolute;
+    width: 1400px;
+    height: 700px;
+    left: calc(50% - 1400px/2);
+    top: calc(50% - 700px/2);
+    border-radius: 40px;
+
+    .business{
+        position: absolute;
+        width: 700px;
+        left: calc(70% - 650px/2);
+        top: calc(48% - 650px/2);
+        z-index: 1;
+    }
+
+    .business-v6{
+        position: absolute;
+        width: 1400px;
+        height: 700px;
+        // left: calc(70% - 650px/2);
+        // top: calc(48% - 650px/2);
+        border-radius: 40px;
+    }
+
+    .page-landing{
+        position: absolute;
+        width: 500px;
+        left: calc(26% - 500px/2);
+        top: calc(58% - 500px/2);
+    }
+
+    .btn{
+        margin-top: 30px;
+        width: 200px;
+        font-weight: 500;
+        font-size: 16px;
+        height: 40px;
+        border-radius: 20px;
+    }
+    
+    .btn-login {
+        color: #fff;
+        background-color: #FE6BBA;
+    }
+    
+    .btn-regis {
+        color: #FE6BBA;
+        border-color: #FE6BBA;
+        background-color: #ffffff48;
+        margin-left: 40px;
+    }
+}
