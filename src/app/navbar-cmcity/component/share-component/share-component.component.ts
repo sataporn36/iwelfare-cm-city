@@ -29,8 +29,6 @@ interface jsPDFCustom extends jsPDF {
   styleUrls: ['./share-component.component.scss']
 })
 export class ShareComponentComponent implements OnInit {
-  [x: string]: any;
-
   @ViewChild('content', { static: false }) el!: ElementRef;
   customers!: Customer[];
   info: any[] = [];
@@ -42,6 +40,7 @@ export class ShareComponentComponent implements OnInit {
   formModel!: FormGroup;
   formModelStock!: FormGroup;
   displayModal: boolean = false;
+  displayLoadingPdf: boolean = false;
   dataStock!: any[];
   dataStockDetail!: any[];
   userId: any;
@@ -593,7 +592,7 @@ export class ShareComponentComponent implements OnInit {
 
 
   searchDocumentV1All(mode: any) {
-
+    this.displayLoadingPdf = true;
     let stockInfo: any[] = [];
     const playload = {
       stockId: null

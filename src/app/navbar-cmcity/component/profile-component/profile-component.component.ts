@@ -1064,9 +1064,20 @@ export class ProfileComponentComponent implements OnInit {
     const playload = this.formModel.getRawValue();
     playload.birthday = playload.birthday;
     playload.employeeTypeId = Number(playload.employeeTypeId);
+    playload.positionId= Number(playload.positionId);
+    playload.bureauId= Number(playload.bureauId);
+    playload.affiliationId= Number(playload.affiliationId);
+    playload.dapartmentId= Number(playload.dapartmentId);
 
     const civilServiceDate = playload.civilServiceDate;
-    playload.civilServiceDate = civilServiceDate ? civilServiceDate : ' ';
+    playload.civilServiceDate = civilServiceDate ? civilServiceDate : '';
+    playload.approvedResignationDate = '';
+    playload.beneficiaryMarital = '';
+    playload.countChild = '';
+    playload.dateOfDeath = '';
+    playload.description = '';
+    playload.reason = '';
+    playload.resignationDate = '';
  
     playload.contact = {
       id: playload.contact.id,
