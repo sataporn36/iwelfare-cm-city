@@ -1,13 +1,13 @@
 <div class="card-table">
-    <p-chip label="ตารางประวัติการส่งหุ้น (Stock History)" styleClass="mr-2"></p-chip>
+    <p-chip label="ตารางประวัติการส่งหุ้น" styleClass="mr-2"></p-chip>
     <div style="padding-bottom: 1rem; display: flex; justify-content: space-between; margin-top: 1rem;">
         <div> 
             <button type="button" class="btn btn-login" (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
         </div>
         <div> 
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('export')">Export PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('export')">ประวัติการส่งหุ้น</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
         </div>
     </div>
     <div style="font-family: 'Kanit';">
@@ -57,9 +57,9 @@
                 (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
         </div> -->
         <div>
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('export')">Export PDF</button>
+            <button type="button" class="btn btn-login" style="width: 60%;" (click)="searchDocumentV1All('export')">รวมประวัติการส่งหุ้นของสมาชิก</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">ดาวน์โหลด</button>
         </div>
     </div>
 
