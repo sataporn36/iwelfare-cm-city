@@ -18,6 +18,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
 import { Department } from 'src/app/model/department';
 import { Observable } from 'rxjs';
+import { log } from 'console';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -53,7 +54,10 @@ export class ShareComponentComponent implements OnInit {
   admin!: boolean;
   grandTotal!: any;
   stockAccumulate: any;
-
+  displayStatusMember: boolean = false;
+  employeeStatus: any;
+  employeeStatusList: any[];
+  empId: any
 
   constructor(private service: MainService, private messageService: MessageService, private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService, @Inject(LOCALE_ID) public locale: string) { }
@@ -73,6 +77,37 @@ export class ShareComponentComponent implements OnInit {
     this.setperiodMonthDescOption();
     this.getDapartment();
     this.pipeDateTH();
+
+    this.employeeStatusList = [
+      { name: 'กรุณาเลือกสถานะ', value: 0 },
+      //{ name: 'สมาชิกแรกเข้า', value: 1 },
+      //{ name: 'ใช้งานปกติ', value: 2 },
+      //{ name: 'ลาออก', value: 3 },
+      //{ name: '', value: 4 },
+      //{ name: 'รออนุมัติลาออก', value: 5 },
+      { name: 'เสียชีวิต', value: 6 },
+  ];
+  }
+
+  onRowEditStatusEmp(data: any){
+    this.empId = data.id;
+    this.displayStatusMember = true;
+  }
+
+  onChangeStatusEmp(){
+    const payload = {
+      id: this.empId ,
+      employeeStatus: this.employeeStatus.value
+    }
+
+     // service api
+
+     this.displayStatusMember = false;
+    
+  }
+
+  onCancleStatusEmp(){
+    this.displayStatusMember = false;
   }
 
   getDapartment(): void {
@@ -1142,6 +1177,7 @@ export class ShareComponentComponent implements OnInit {
 
   // list!: any[];
   documentInfoAll() {
+    this.displayLoadingPdf = true;
     this.service.documentInfoAll().subscribe((dataList) => {
       // dataList.forEach((element, index, array) => {
       // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
