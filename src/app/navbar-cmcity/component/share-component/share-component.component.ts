@@ -99,11 +99,11 @@ export class ShareComponentComponent implements OnInit {
       id: this.empId ,
       employeeStatus: this.employeeStatus.value
     }
-
-     // service api
-
-     this.displayStatusMember = false;
-    
+    this.service.updateEmployeeStatus(payload).subscribe(data => {
+      this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      this.displayStatusMember = false;
+      this.ngOnInit();
+    });
   }
 
   onCancleStatusEmp(){

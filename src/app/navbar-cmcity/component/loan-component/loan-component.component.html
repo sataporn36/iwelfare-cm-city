@@ -1,9 +1,9 @@
 <div class="card-table">
-    <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน (Loan History)" styleClass="mr-2"></p-chip>
+    <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน" styleClass="mr-2"></p-chip>
     <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
+        <button type="button" class="btn btn-login" style="width: max-content;" (click)="searchDocumentV1PDF('export')">ประวัติเงินกู้เเละค่าหุ้น</button>
         &nbsp;&nbsp;
-        <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
+        <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
     </div>
     <div style="font-family: 'Kanit';">
         <p-table dataKey="id" [value]="dataLoanDetail" [loading]="loading" [paginator]="true" [rows]="10"
@@ -45,9 +45,9 @@
             <button type="button" class="btn btn-login" style="width: 100%;">เรียกเก็บชำระเงินกู้รายเดือน</button>
         </div>
         <div>
-            <button type="button" class="btn btn-login" (click)="exportMakePDF('export')">Export PDF</button>
+            <button type="button" class="btn btn-login" style="width: max-content;" (click)="searchDocumentV1All('export')">รวมประวัติเงินกู้เเละค่าหุ้นของสมาชิก</button>
             &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="exportMakePDF('download')">Download PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">ดาวน์โหลด</button>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
         [tableStyle]="{'max-width': '100%'}">
         <ng-template pTemplate="caption">
             <div class="flex" style="display: flex; justify-content: space-between;">
-                <span style="margin-top: 10px; font-weight: normal; font-size: 18px;"> ตารางประวัติการส่งเงินกู้รายเดือน (Loan History) </span>
+                <span style="margin-top: 10px; font-weight: normal; font-size: 18px;"> ตารางประวัติการส่งเงินกู้รายเดือน</span>
                 <span class="p-input-icon-left ml-auto">
                     <i class="bi bi-search" style="color: #979797; display: flex;"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
@@ -138,3 +138,18 @@
         <button type="button" class="btn btn-login" (click)="cd.reject()">ยกเลิก</button>
     </ng-template>
 </p-confirmDialog>
+
+<p-dialog [(visible)]="displayLoadingPdf" [modal]="true" [style]="{ width: '30vw'}" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+        <span style="font-size: 18px; font-weight: bold;">รายงาน</span>
+    </ng-template>
+    <div style="display: flex;">
+        <!-- <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i> -->
+        <span>
+            โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที 
+        </span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button (click)="displayLoadingPdf = false" type="button" class="btn btn-login2" >ตกลง</button>
+    </ng-template>
+</p-dialog>

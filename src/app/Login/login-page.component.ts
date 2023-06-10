@@ -65,7 +65,7 @@ export class LoginPageComponent implements OnInit {
           next: (res) => {
             if (res !== null && res.data.employeeStatus == 2 || res.data.employeeStatus == 5) {
               setTimeout(() => { }, 500);
-              console.log(res);
+              console.log(res,'<---------- res');
 
               // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
               const statusChecklogin = false;

@@ -188,4 +188,19 @@ export class MainService {
   documentInfoAll(): Observable<any[]>{
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/info-all', null);
   }
+
+  searchDocumentV1Loan(playload: any): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan', playload);
+  }
+
+  searchDocumentV2SumLoan(playload: any): Observable<any[]>{
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v2/document/searchLoan', playload);
+  }
+
+  updateEmployeeStatus(playload: any): Observable<any>{
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-emp-status', playload
+    );
+  }
+
 }
