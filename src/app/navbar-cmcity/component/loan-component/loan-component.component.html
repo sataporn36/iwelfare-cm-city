@@ -27,8 +27,8 @@
                     <td>{{ loanDetail.loanMonth }}</td>
                     <td>{{ loanDetail.loanYear }}</td>
                     <td>ชำระหนี้ประจำเดือน</td>
-                    <td style="color: #EA3A3D;">{{ loanDetail.installment }}</td>
-                    <td style="color: #1AD598;">{{ loanDetail.loanOrdinary }}</td>
+                    <td style="color: #EA3A3D;">{{ loanDetail.installment | number }}</td>
+                    <td style="color: #1AD598;">{{ loanDetail.loanOrdinary | number }}</td>
                     <td>{{ loanDetail.interestPercent }}%</td>
                 </tr>
             </ng-template>
@@ -73,8 +73,9 @@
                 <th style="width:10%">รหัสพนักงาน</th>
                 <th style="width:10%">ชื่อ</th>
                 <th style="width:10%">นามสกุล</th>
-                <th style="width:10%">เงินหุ้นส่งรายเดือน</th>
-                <th style="width:10%">หุ้นสะสม</th>
+                <th style="width:10%">เวลากู้</th>
+                <th style="width:10%">เงินกู้สามัญ</th>
+                <th style="width:10%">เงินกู้คงเหลือ</th>
                 <th style="width:10%">แก้ไข</th>
             </tr>
         </ng-template>
@@ -84,8 +85,9 @@
                 <td>{{ dataLoan.employeeCode }}</td>
                 <td>{{ dataLoan.firstName }}</td>
                 <td>{{ dataLoan.lastName }}</td>
-                <td style="color: #EA3A3D;">{{ dataLoan.loanValue }}</td>
-                <td style="color: #1AD598;">{{ dataLoan.loanBalance }}</td>
+                <td>{{ dataLoan.loanTime }}</td>
+                <td style="color: #EA3A3D;">{{ dataLoan.loanValue | number }}</td>
+                <td style="color: #1AD598;">{{ dataLoan.loanBalance | number }}</td>
                 <td style="display: flex; justify-content: center;">
                     <div class="flex align-items-center justify-content-center gap-2" style="height: 25px; display: flex;">
                         <button pButton pRipple type="button" icon="pi pi-lock" tooltipPosition="top" pTooltip="ปิดหนี้"
