@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './share-page.component.html',
   styleUrls: ['./share-page.component.scss']
 })
-export class SharePageComponent {
-
-}
+export class SharePageComponent {}

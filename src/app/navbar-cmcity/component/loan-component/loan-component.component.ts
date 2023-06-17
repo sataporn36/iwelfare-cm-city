@@ -609,12 +609,15 @@ export class LoanComponentComponent implements OnInit {
   }
 
   searchDocumentV1All(mode: any) {
-    this.displayLoadingPdf = true;
+    // this.displayLoadingPdf = true;
+    this.showWarn();
+
     let stockInfo: any[] = [];
     const playload = {
       loanId: null,
       monthCurrent: this.month
     }
+
     console.log(playload, '<----------- playload');
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
@@ -892,6 +895,10 @@ export class LoanComponentComponent implements OnInit {
 
   requestLoanAgreement(){
      //
+  }
+
+  showWarn() {
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
   }
 
 }

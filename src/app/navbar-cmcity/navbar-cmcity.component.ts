@@ -20,7 +20,7 @@ export class NavbarCmcityComponent implements OnInit {
   displayModalRegister: boolean = false;
   
   emp: Observable<Employee> | any 
-  countNewRegister: Observable<any> | any 
+  // countNewRegister: Observable<any> | any 
 
   // check active model
   main: string = 'active';
@@ -55,7 +55,7 @@ export class NavbarCmcityComponent implements OnInit {
     const hours = formatDate.getHours();
     const minutes = formatDate.getMinutes();
     const seconds = formatDate.getSeconds();
-    const Milliseconds = formatDate.getMilliseconds() + 300000;
+    // const Milliseconds = formatDate.getMilliseconds() + 300000;
     console.log(day+'/'+month+'/'+year+' ' + hours+':'+minutes+':'+seconds);
     this.currentDateTime = month+'/'+day+'/'+year+' ' + hours+':'+(minutes + 5)+':'+seconds;
     if(this.localStorageService.retrieve('countDatetime') === 0){
@@ -88,7 +88,6 @@ export class NavbarCmcityComponent implements OnInit {
         }, 500);
      }
   })
- 
 
   ngOnInit() {
     this.items = [
@@ -108,19 +107,14 @@ export class NavbarCmcityComponent implements OnInit {
       }
     ];
     this.userId = this.localStorageService.retrieve('empId');
-    this.getEmployee(this.userId);
-    this.conutNewRegister();
+    this.getEmployeeOfMain(this.userId);
+    // this.conutNewRegister();
     this.initMainForm();
     this.searchNotify();
-
-    // if (this.userId) {
-    //   this.messager
-    // }
 
     if (this.userId === 1 || this.userId === 631){
       this.messager = true;
     }
-    
   }
 
   initMainForm() {
@@ -277,11 +271,21 @@ export class NavbarCmcityComponent implements OnInit {
     }
   }
 
-  getEmployee(id: any): void {
-    this.service.getEmployee(id).subscribe(data => {
+  // getEmployee(id: any): void {
+  //   this.service.getEmployee(id).subscribe(data => {
+  //     this.formModel.patchValue({
+  //       ...data
+  //     })
+  //   });
+  // }
+
+  getEmployeeOfMain(id: any): void {
+    this.service.getEmployeeOfMain(id).subscribe(data => {
       this.formModel.patchValue({
-        ...data
+        ...data,
       })
+
+      this.localStorageService.store('EmployeeOfMain', data);
     });
   }
 
@@ -301,9 +305,9 @@ export class NavbarCmcityComponent implements OnInit {
     return textGender
   }
 
-  conutNewRegister(): void {
-    this.service.conutNewRegister().subscribe(data => this.countNewRegister = data);
-  }
+  // conutNewRegister(): void {
+  //   this.service.conutNewRegister().subscribe(data => this.countNewRegister = data);
+  // }
 
   checkCount(count: any): any {
     if (count == 0) {
@@ -315,8 +319,6 @@ export class NavbarCmcityComponent implements OnInit {
     this.service.searchNotify().subscribe(data => {
       this.dataNotify = data;
       this.countNotify = this.dataNotify.length;
-      // console.log(this.dataNotify.length);
-      
     });
   }
 }

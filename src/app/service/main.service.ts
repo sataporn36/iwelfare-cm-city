@@ -23,9 +23,9 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  getCustomers(params?: any) {
-    return this.http.get<any>('https://www.primefaces.org/data/customers', { params: params });
-  }
+  // getCustomers(params?: any) {
+  //   return this.http.get<any>('https://www.primefaces.org/data/customers', { params: params });
+  // }
 
   register(playload: any): Observable<any>{
     return this.http.post<any>(
@@ -203,4 +203,21 @@ export class MainService {
     );
   }
 
+  insertStockDetail(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/stock/add-all', playload
+    );
+  }
+
+  getEmployeeOfMain(id: number): Observable<any>{
+    return this.http.get<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/employee/' + id , 
+    );
+  }
+
+  getStock(id: number): Observable<any>{
+    return this.http.get<any>(
+      AppPath.APP_API_SERVICE + '/v1/stock/' + id , 
+    );
+  }
 }

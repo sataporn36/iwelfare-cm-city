@@ -71,6 +71,8 @@ export class LoginPageComponent implements OnInit {
               const statusChecklogin = false;
               if (res.data.passwordFlag) {
                 this.localStorageService.store('empId', res.data.id);
+                this.localStorageService.store('stockId', res.data.stockId);
+                this.localStorageService.store('loanId', res.data.loanId);
                 this.localStorageService.store('countDatetime', 0);
                 this.router.navigate(['/main/main-page'], {
                   //state: { data: this.userId }

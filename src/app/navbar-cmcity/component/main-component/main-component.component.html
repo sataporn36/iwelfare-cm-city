@@ -81,7 +81,7 @@
                         <div class="row">
                             <span>ภาระค้ำประกัน</span>
                             <div class="col-2">
-                                <h2 [innerHTML]="formModel.get('')?.value"></h2>
+                                <h2 [innerHTML]="formModel.get('guarantee')?.value"></h2>
                             </div>
                             <div class="col-2" style="margin-top: 12px;">
                                 <span>คน</span>
@@ -262,8 +262,8 @@
             <div class="div-table-stocks">
                 <p-chip label="รายการหุ้น" styleClass="mr-2"></p-chip>
                 <br>
-                <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading" [rows]="5"
-                    [tableStyle]="{'max-width': '100%'}">
+                <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading"
+                    [tableStyle]="{'max-width': '100%'}" styleClass="p-datatable-md">
                     <ng-template pTemplate="header">
                         <tr>
                             <th style="width:10%">ลำดับที่</th>
@@ -276,7 +276,7 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-stockDetail let-i="rowIndex">
-                        <tr [pSelectableRow]="stockDetail">
+                        <tr [pSelectableRow]="stockDetail" style="height: 5px;">
                             <td>{{ i+1 }}</td>
                             <td>{{ stockDetail.stockMonth }}</td>
                             <td>{{ stockDetail.stockYear }}</td>

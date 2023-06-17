@@ -1,10 +1,10 @@
 <div class="card-table">
     <p-chip label="ตารางประวัติการส่งหุ้น" styleClass="mr-2"></p-chip>
     <div style="padding-bottom: 1rem; display: flex; justify-content: space-between; margin-top: 1rem;">
-        <div> 
+        <div class="btn-group" style="width: 120px;"> 
             <button type="button" class="btn btn-login" (click)="onPrintReceiptMakePdf()">ใบเสร็จรับเงิน</button>
         </div>
-        <div> 
+        <div class="btn-group"> 
             <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('export')">ประวัติการส่งหุ้น</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
@@ -45,7 +45,7 @@
     <p-chip label="ผู้ดูแลระบบ (Admin)" styleClass="mr-2"></p-chip>
     <p-toast></p-toast>
     <div style="padding-bottom: 0.5rem; padding-top: 1.5rem; display: flex; justify-content: space-between;">
-        <div>
+        <div class="btn-group" style="width: 25rem;"> 
             <button type="button" class="btn btn-login" style="width: 200px;"(click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="getGrandTotal()">สรุปยอดรวม</button>
@@ -56,8 +56,8 @@
             <button type="button" class="btn btn-login" style="width: 100%;"
                 (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
         </div> -->
-        <div>
-            <button type="button" class="btn btn-login" style="width: max-content;" (click)="searchDocumentV1All('export')">รวมประวัติการส่งหุ้นของสมาชิก</button>
+        <div class="btn-group" style="width: 23.5rem;"> 
+            <button type="button" class="btn btn-login" style="width: 60%;" (click)="searchDocumentV1All('export')">รวมประวัติการส่งหุ้นของสมาชิก</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">ดาวน์โหลด</button>
         </div>
@@ -201,3 +201,5 @@
         <button type="button" class="btn btn-regis2" (click)="onCancleStatusEmp()">ยกเลิก</button>
     </ng-template>
 </p-dialog>
+
+<p-toast></p-toast>
