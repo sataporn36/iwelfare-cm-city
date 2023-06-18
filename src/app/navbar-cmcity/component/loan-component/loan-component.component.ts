@@ -211,6 +211,7 @@ export class LoanComponentComponent implements OnInit {
 
   exportMakePDF(mode: any, loanInfo: any[], sum: any, sumLoanObj: any){
     const decimalPipe = new DecimalPipe('en-US');
+   
     let detailLoan = loanInfo.map(function (item) {
       return [
         { text: item.departmentName, alignment: 'left' },
@@ -233,6 +234,8 @@ export class LoanComponentComponent implements OnInit {
       ]
     });
 
+    const dataSum = this.checkTotalListGroup(loanInfo);
+
     console.log(detailLoan, 'detailLoan');
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -254,7 +257,7 @@ export class LoanComponentComponent implements OnInit {
     const docDefinition = {
       pageSize: 'A3',
       pageOrientation: 'landscape',
-      //pageMargins: [40, 80, 40, 60],
+      pageMargins: [20, 20, 20, 20],
       info: {
         title: 'ประวัติการส่งเงินกู้รายเดือน',
         // author: 'john doe',
@@ -271,7 +274,7 @@ export class LoanComponentComponent implements OnInit {
           table: {
             alignment: "center",
             headerRows: 1,
-            widths: [145, 65, 100, 70, 30, 19, 55, 55, 50, 50, 50, 50, 30, 50, 50, 50, 50],
+            widths: [150, 48, 95, 65, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60, 60],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' }, 
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
@@ -286,14 +289,14 @@ export class LoanComponentComponent implements OnInit {
               ...detailLoan,
               [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', 
               { text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ',' ', ' ',' ',
-              { text: decimalPipe.transform(sum.monthInterestTotal), alignment: 'right' }, 
-              { text: decimalPipe.transform(sum.monthPrincipleTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.lastMonthInterestTotal), alignment: 'right' }, 
-              { text: decimalPipe.transform(sum.lastMonthPrincipleTotal), alignment: 'right' }, ' ',
-              { text: decimalPipe.transform(sum.totalValueInterestTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.outStandInterestTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.totalValuePrincipleTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.outStandPrincipleTotal), alignment: 'right' },
+              { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' }, 
+              { text: decimalPipe.transform(dataSum.monthPrincipleSum), alignment: 'right' },
+              { text: decimalPipe.transform(dataSum.lastMonthInterestSum), alignment: 'right' }, 
+              { text: decimalPipe.transform(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
+              { text: decimalPipe.transform(dataSum.totalValueInterestSum), alignment: 'right' },
+              { text: decimalPipe.transform(dataSum.outStandInterestSum), alignment: 'right' },
+              { text: decimalPipe.transform(dataSum.totalValuePrincipleSum), alignment: 'right' },
+              { text: decimalPipe.transform(dataSum.outStandPrincipleSum), alignment: 'right' },
               ],
             ],
           },

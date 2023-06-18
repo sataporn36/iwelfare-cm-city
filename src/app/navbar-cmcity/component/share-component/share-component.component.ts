@@ -554,19 +554,19 @@ export class ShareComponentComponent implements OnInit {
   }
 
   exportMakePDF(mode: any, stockInfo: any[], sum: any) {
-
+    const decimalPipe = new DecimalPipe('en-US');
     let detailStock = stockInfo.map(function (item) {
       return [
         { text: item.departmentName, alignment: 'left' },
         { text: item.employeeCode, alignment: 'center' },
         { text: item.fullName, alignment: 'left' },
-        { text: item.stockInstallment, alignment: 'center' },
-        { text: item.stockValue, alignment: 'right' },
-        { text: item.loanInstallment, alignment: 'center' },
-        { text: item.loanOrdinary, alignment: 'right' },
-        { text: item.interest, alignment: 'right' },
-        { text: item.sumMonth, alignment: 'right' },
-        { text: item.stockAccumulate, alignment: 'right' },
+        { text: decimalPipe.transform(item.stockInstallment), alignment: 'center' },
+        { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
+        { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
+        { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+        { text: decimalPipe.transform(item.interest), alignment: 'right' },
+        { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
+        { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
       ]
     });
 
@@ -619,8 +619,13 @@ export class ShareComponentComponent implements OnInit {
               { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailStock,
-              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' },
-              { text: sum.totalMonth, alignment: 'right' }, { text: sum.loanDetailOrdinaryTotal, alignment: 'right' }, { text: sum.loanDetailInterestTotal, alignment: 'right' }],
+              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', 
+              { text: decimalPipe.transform(sum.stockValueTotal), alignment: 'right' }, ' ', 
+              { text: decimalPipe.transform(sum.loanDetailOrdinaryTotal), alignment: 'right' }, 
+              { text: decimalPipe.transform(sum.loanDetailInterestTotal), alignment: 'right' },
+              { text: decimalPipe.transform(sum.totalMonth), alignment: 'right' }, 
+              { text: decimalPipe.transform(sum.stockAccumulateTotal), alignment: 'right' },
+            ],
 
               // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
               // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
@@ -1311,15 +1316,15 @@ export class ShareComponentComponent implements OnInit {
           { text: ['หน่วยงาน                ', { text: element.departmentName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ประเภท                   ', { text: element.employeeTypeName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ตําแหน่ง                   ', { text: element.positionsName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['อัตราเงินเดือน         ', { text: element.salary, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+          { text: ['อัตราเงินเดือน         ', { text: this.formattedNumber2(element.salary), bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['คํ้าประกันให้            ', { text: this.checkNullOfGuarantee(element, 1), bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: [' ', { text: this.checkNullOfGuarantee(element, 2), bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
           {
-            text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: element.stockValue + '\tบาท', bold: false, style: 'texts' },
+            text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: this.formattedNumber2(element.stockValue) + '\tบาท', bold: false, style: 'texts' },
               { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false }, { text: '\t\t' + element.installment, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
           },
           {
-            text: ['หุ้นสะสม\t\t\t\t ', { text: element.stockAccumulate + '\tบาท', bold: false, style: 'texts' },
+            text: ['หุ้นสะสม\t\t\t\t ', { text: this.formattedNumber2(element.stockAccumulate) + '\tบาท', bold: false, style: 'texts' },
               { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ', bold: false }, { text: '\t - ' + '    บาท', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
           },
           //<--------------------------------- center ---------------------------------> 
@@ -1337,7 +1342,7 @@ export class ShareComponentComponent implements OnInit {
           { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
           {
-            text: ['กู้เงินจํานวน             ', { text: element.loanValue, bold: false, style: 'texts' },
+            text: ['กู้เงินจํานวน             ', { text: this.formattedNumber2(element.loanValue), bold: false, style: 'texts' },
               { text: '                     บาท ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
           },
           {
@@ -1358,15 +1363,15 @@ export class ShareComponentComponent implements OnInit {
                 [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: this.checkNullOfGuarantor(element, 1), color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: this.checkNullOfGuarantor(element, 2), color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-                [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: element.interestMonth + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: element.earlyMonth + '          บาท', color: 'gray' }],
-                [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: element.interestMonthLast + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: element.earlyMonthLast + '          บาท', color: 'gray' }],
-                [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: element.installmentLoan, color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
-                [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: element.totalValueInterest + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: element.outStandInterest + '          บาท', color: 'gray' }],
-                [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: element.totalValuePrinciple + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: element.outStandPrinciple + '          บาท', color: 'gray' }],
+                [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: this.formattedNumber2(element.interestMonth) + '          บาท', color: 'gray', fillColor: '#fff' },
+                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.earlyMonth) + '          บาท', color: 'gray' }],
+                [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: this.formattedNumber2(element.interestMonthLast) + '          บาท', color: 'gray', fillColor: '#fff' },
+                { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: this.formattedNumber2(element.earlyMonthLast) + '          บาท', color: 'gray' }],
+                [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: this.formattedNumber2(element.installmentLoan), color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
+                [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(element.totalValueInterest) + '          บาท', color: 'gray', fillColor: '#fff' },
+                { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.outStandInterest) + '          บาท', color: 'gray' }],
+                [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(element.totalValuePrinciple) + '          บาท', color: 'gray', fillColor: '#fff' },
+                { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: this.formattedNumber2(element.outStandPrinciple) + '          บาท', color: 'gray' }],
               ]
             },
             layout: 'noBorders',
