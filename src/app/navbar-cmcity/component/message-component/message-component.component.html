@@ -46,8 +46,8 @@
         <td>{{ dataNotify.employee.employeeCode || 'XXXXX' }}</td>
         <td>{{ dataNotify.employee.firstName }}</td>
         <td>{{ dataNotify.employee.lastName }}</td>
-        <td>{{ dataNotify.employee.position.name }}</td>
-        <td>{{ dataNotify.employee.affiliation.name }}</td>
+        <td>{{ dataNotify.employee.positionName }}</td>
+        <td>{{ dataNotify.employee.affiliationName }}</td>
         <td>
           <span [class]="'notify-badge-' + dataNotify.status">{{statusNotify(dataNotify.status)}}</span>
         </td>

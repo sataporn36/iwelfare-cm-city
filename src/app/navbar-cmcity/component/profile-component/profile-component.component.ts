@@ -440,11 +440,12 @@ export class ProfileComponentComponent implements OnInit {
         prefix: data?.prefix ? data?.prefix : '-',
         selectPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : 0,
         fullName: data.firstName + ' ' + data.lastName,
-        positionName: data.position?.name ? data.position?.name : '-',
-        affiliationName: data.affiliation?.name ? data.affiliation?.name : '-',
-        bureauName: data.affiliation?.bureau?.name ? data.affiliation?.bureau?.name : '-',
-        employeeTypeName: data.employeeType?.name ? data.employeeType?.name : '-',
-        levelName: data.level?.name ? data.level?.name : '-',
+        positionName: data.positionName ? data.positionName : '-',
+        affiliationName: data.affiliationName ? data.affiliationName : '-',
+        // **
+        bureauName: data.bureauName ? data.bureauName : '-',
+        employeeTypeName: data.employeeTypeName ? data.employeeTypeName : '-',
+        levelName: data.levelName ? data.levelName : '-',
         birthdayCalendar: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
         birthday: data?.birthday ? new Date(data.birthday) : null,
         age: data.birthday ? this.transformAge(data.birthday) : '-',
@@ -477,7 +478,7 @@ export class ProfileComponentComponent implements OnInit {
         textHidden: '-',
 
         beneficiarySize: data.beneficiaries.length > 0 ? true : false,
-        departmentName: data.department ? data.department.name : '-'
+        departmentName: data.departmentName ? data.departmentName : '-'
 
       })
 

@@ -83,7 +83,7 @@ export class MainService {
 
   getEmployee(id: number): Observable<any>{
     return this.http.get<any>(
-      AppPath.APP_API_SERVICE + '/v1/employee/' + id , 
+      AppPath.APP_API_SERVICE + '/logic/v1/employee/' + id , 
     );
   }
 
@@ -160,7 +160,7 @@ export class MainService {
   }
 
   searchLoanDetail(id: number): Observable<any[]>{
-    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/search-by-loan/' + id, null);
+    return this.http.get<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/search-by-loan/' + id);
   }
 
   searchLoan(): Observable<any[]>{
@@ -211,7 +211,7 @@ export class MainService {
 
   getEmployeeOfMain(id: number): Observable<any>{
     return this.http.get<any>(
-      AppPath.APP_API_SERVICE + '/logic/v1/employee/' + id , 
+      AppPath.APP_API_SERVICE + '/logic/v1/employee/of-main/' + id , 
     );
   }
 
