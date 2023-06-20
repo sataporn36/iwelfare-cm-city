@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppPath } from '../constans/config';
-import { Product } from '../constans/Product';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
 import { Bureau } from '../model/bureau';
@@ -218,6 +217,12 @@ export class MainService {
   getStock(id: number): Observable<any>{
     return this.http.get<any>(
       AppPath.APP_API_SERVICE + '/v1/stock/' + id , 
+    );
+  }
+
+  cancelNotification(id: number): Observable<any>{
+    return this.http.delete<any>(
+      AppPath.APP_API_SERVICE + '/v1/notify/cancel/' + id,
     );
   }
 }

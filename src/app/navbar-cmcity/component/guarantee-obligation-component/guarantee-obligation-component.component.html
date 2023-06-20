@@ -1,1 +1,74 @@
-<p>guarantee-obligation-component works! (ภาระค้ำประกัน)</p>
+<div [formGroup]="formModel">
+    <div class="card">
+        <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
+        <p style="color: #60646b; margin-top: 20px; margin-left: 10px;">ท่านสามารถเป็นผู้ค่ำประกันได้สูงสุด 2 คน และตอนนี้ท่านเป็นผู้ค้ำประกันเงินกู้ให้กับ</p>
+        <div style="padding-top: 1rem;"></div>
+        <div class="col-5" style="display: flex; justify-content: space-between; margin-left: 10px;">
+            <div>
+                <div class="guarantee" style="display: flex; justify-content: space-between;">
+                    <div>
+                        <img class="beneficiary_img" src="assets/images/pele.jpg" alt="logo" />
+                    </div>
+                    <div style="margin-left: 10px; margin-top: 13px;">
+                        <label>นายตัวอย่าง ตัวอย่าง</label>
+                        <label style="color: #60646b;">เลขสมาชิก: </label><span> 00001</span>
+                    </div>
+                </div>
+            </div>
+            <div style="padding-right: 0.5rem;"></div>
+            <div>
+                <div class="guarantee" style="display: flex; justify-content: space-between;">
+                    <div>
+                        <img class="beneficiary_img" src="assets/images/pele.jpg" alt="logo" />
+                    </div>
+                    <div style="margin-left: 10px; margin-top: 13px;">
+                        <label>นายตัวอย่าง ตัวอย่าง</label>
+                        <label style="color: #60646b;">เลขสมาชิก: </label><span> 00001</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 1rem;"></div>
+    <div class="card">
+        <p-chip label="ผู้ค้ำประกันเงินกู้ของท่าน" styleClass="mr-2"></p-chip>
+        <div class="col-2" style="margin: 15px; color: #60646b; line-height: 30px;">
+            <div>
+                <label class="col-6">เลขที่สัญญา :</label>
+                <span class="col-6" style="color: black;">-</span>
+            </div>
+            <div>
+                <label class="col-6">วงเงินกู้ :</label>
+                <span class="col-6" style="color: black;" [innerHTML]="formModel.get('loanValue')?.value"></span>
+            </div>
+        </div>
+
+        <div class="col-5" style="display: flex; justify-content: space-between; margin-left: 10px;">
+            <div>
+                <p style="color: #60646b; font-size: 14px; margin-top: 5px;">ผู้ค้ำคนที่หนึ่ง</p>
+                <div class="guarantee" style="display: flex; justify-content: space-between;">
+                    <div>
+                        <img class="beneficiary_img" src="assets/images/pele.jpg" alt="logo" />
+                    </div>
+                    <div style="margin-left: 10px; margin-top: 13px;">
+                        <label>นายตัวอย่าง ตัวอย่าง</label>
+                        <label style="color: #60646b;">เลขสมาชิก: </label><span> 00001</span>
+                    </div>
+                </div>
+            </div>
+            <div style="padding-right: 0.5rem;"></div>
+            <div>
+                <p style="color: #60646b; font-size: 14px; margin-top: 5px;">ผู้ค้ำคนที่สอง</p>
+                <div class="guarantee" style="display: flex; justify-content: space-between;">
+                    <div>
+                        <img class="beneficiary_img" src="assets/images/pele.jpg" alt="logo" />
+                    </div>
+                    <div style="margin-left: 10px; margin-top: 13px;">
+                        <label>นายตัวอย่าง ตัวอย่าง</label>
+                        <label style="color: #60646b;">เลขสมาชิก: </label><span> 00001</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

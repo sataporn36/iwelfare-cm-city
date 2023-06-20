@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    font-family: "Kanit", sans-serif;
+  }  
+
+.card{
+    border: 5px solid white;
+    border-radius: 20px;
+    width: 99%;
+    background-color: white;
+    padding: 2rem;
+}
+
+.guarantee{
+    border: 1px solid #d2d6df; 
+    border-radius: 15px;
+    width: 300px;
+    height: 90px;
+    line-height: 30px;
+    margin-top: -10px;
+
+    img{
+        width: 88px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+}

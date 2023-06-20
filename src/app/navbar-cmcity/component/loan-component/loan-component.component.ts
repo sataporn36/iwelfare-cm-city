@@ -173,8 +173,8 @@ export class LoanComponentComponent implements OnInit {
   list!: any[];
   sumLoan: any;
   searchDocumentV1PDF(mode: any) {
-
-    let loanInfo: any[] = [];
+    this.showWarn();
+    // let loanInfo: any[] = [];
     const playload = {
       loanId: this.loanId,
       monthCurrent: this.month
@@ -606,7 +606,7 @@ export class LoanComponentComponent implements OnInit {
     // this.displayLoadingPdf = true;
     this.showWarn();
 
-    let stockInfo: any[] = [];
+    // let stockInfo: any[] = [];
     const playload = {
       loanId: null,
       monthCurrent: this.month

@@ -1220,7 +1220,8 @@ export class ShareComponentComponent implements OnInit {
 
   // list!: any[];
   documentInfoAll() {
-    this.displayLoadingPdf = true;
+    // this.displayLoadingPdf = true;
+    this.showWarn();
     this.service.documentInfoAll().subscribe((dataList) => {
       // dataList.forEach((element, index, array) => {
       // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);

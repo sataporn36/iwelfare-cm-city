@@ -27,10 +27,13 @@ export class MessageComponentComponent implements OnInit {
   displayModal!: boolean;
   formModel!: FormGroup;
   id:any;
+  employeeId:any;
   statuses!: any[];
   selectedItem:any = null;
   detail: boolean;
   detailModel:FormGroup;
+  statusNotifys: any;
+
   constructor(
     private service: MainService,
     protected route: ActivatedRoute, 
@@ -50,24 +53,12 @@ export class MessageComponentComponent implements OnInit {
         lastName: new FormControl(null),
         idCard: new FormControl(null),
         gender: new FormControl(null),
-
-        level: new FormControl(null),
         levelName: new FormControl(null),
-
-        position: new FormControl(null),
         positionName: new FormControl(null),
-
-        affiliation: new FormControl(null),
         affiliationName: new FormControl(null),
-      
-        employeeType: new FormControl(null),
         employeeTypeName: new FormControl(null),
-
         bureauName: new FormControl(null),
-
-        department: new FormControl(null),
         departmentName: new FormControl(null),
-
         stockAccumulate: new FormControl(null),
         loanBalance: new FormControl(null),
       });
@@ -149,22 +140,23 @@ export class MessageComponentComponent implements OnInit {
           label: 'ข้อมูลสมาชิก',
           icon: 'pi pi-eye',
           command: (event) => {
-            console.log(this.selectedItem);
             this.detail = true;
             this.detailModel.patchValue({
               ...this.selectedItem.employee,
-              prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-              positionName: this.selectedItem.employee?.position?.name ? this.selectedItem.employee?.position?.name : '-',
-              affiliationName: this.selectedItem.employee?.affiliation?.name ? this.selectedItem.employee?.affiliation?.name : '-',
-              bureauName:  this.selectedItem.employee?.affiliation?.bureau?.name ?  this.selectedItem.employee?.affiliation?.bureau?.name : '-',
-              employeeTypeName:  this.selectedItem.employee?.employeeType?.name ?  this.selectedItem.employee?.employeeType?.name : '-',
-              levelName:  this.selectedItem.employee?.level?.name ?  this.selectedItem.employee?.level?.name : '-',
-              departmentName: this.selectedItem.employee?.department ? this.selectedItem.employee?.department.name : '-',
-              stockAccumulate: this.selectedItem.employee?.stock.stockAccumulate? this.selectedItem.employee?.stock.stockAccumulate : '-',
-              loanBalance: this.selectedItem.employee?.loan.loanBalance? this.selectedItem.employee?.loan.loanBalance : '-'
-            })
 
-            // this.detailModel = this.selectedItem.employee
+              prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
+              // positionName: this.selectedItem.employee?.position?.name ? this.selectedItem.employee?.position?.name : '-',
+              // affiliationName: this.selectedItem.employee?.affiliation?.name ? this.selectedItem.employee?.affiliation?.name : '-',
+              // bureauName:  this.selectedItem.employee?.affiliation?.bureau?.name ?  this.selectedItem.employee?.affiliation?.bureau?.name : '-',
+              // employeeTypeName:  this.selectedItem.employee?.employeeType?.name ?  this.selectedItem.employee?.employeeType?.name : '-',
+              // levelName:  this.selectedItem.employee?.level?.name ?  this.selectedItem.employee?.level?.name : '-',
+              // departmentName: this.selectedItem.employee?.department ? this.selectedItem.employee?.department.name : '-',
+              // stockAccumulate: this.selectedItem.employee?.stock.stockAccumulate? this.selectedItem.employee?.stock.stockAccumulate : '-',
+              // loanBalance: this.selectedItem.employee?.loan.loanBalance? this.selectedItem.employee?.loan.loanBalance : '-'
+            })
+         
+            console.log("--->" , this.selectedItem.employee);
+
           }
         },
         {
@@ -201,20 +193,16 @@ export class MessageComponentComponent implements OnInit {
         { label: 'สมัครสมาชิก', value: '3' }
       ];
     }
-  
-    // searchRegiste(): void {
-    // this.service.searchRegister().subscribe(data => this.data = data);
-    // }
 
     searchNotify(): void {
-      this.service.searchNotify().subscribe(data => this.dataNotify = data);
+      this.service.searchNotify().subscribe(data => {
+        this.dataNotify = data
+        // this.selectedItem
+      });
     }
   
 
     onClickApproveEmp(data :any){
-      console.log("datadatadatadatadatadata", data);
-      
-
       if (data.status == 3) {
         const approve = {
           id : data.employee.id,
@@ -265,20 +253,29 @@ export class MessageComponentComponent implements OnInit {
     }
 
     onClickCancleApproveEmp(data :any){
+
        this.id = data.id;
+       this.employeeId = data.employee.id;
+       this.statusNotifys = data.status;
        this.displayModal = true;
     }
 
     onclikRemark(){
       const value = this.formModel.getRawValue();
-      const cancelRegis = {
-        id : this.id,
-        remark : value.remark
+
+      if (this.statusNotifys == 3) {
+        const cancelRegis = {
+          id : this.employeeId,
+          remark : value.remark
+        }
+        this.service.cancelApproveRegister(cancelRegis).subscribe((data) => {
+          this.data = data;
+          this.ngOnInit();
+        });
+      }else{
+        this.service.cancelNotification(this.id).subscribe();
       }
-      this.service.cancelApproveRegister(cancelRegis).subscribe((data) => {
-        this.data = data;
-        this.ngOnInit();
-      });
+
       this.displayModal = false
     }
 
