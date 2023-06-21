@@ -1307,9 +1307,9 @@ export class ShareComponentComponent implements OnInit {
           '\n',
           {
             text: ['หน้า 1                                                                                                    ',
-              { text: ' เดือน        ', bold: true, },
-              { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
-              { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+              { text: '      เดือน ', bold: true, },
+              { text: this.month + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
+              { text: this.year, style: 'texts' }], margin: [0, 6, 0, 0]
           },
           { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
@@ -1335,9 +1335,9 @@ export class ShareComponentComponent implements OnInit {
           '\n',
           {
             text: ['หน้า 2                                                                                                    ',
-              { text: ' เดือน        ', bold: true, },
-              { text: ' มีนาคม       ', style: 'texts' }, { text: ' ปี         ', bold: true },
-              { text: ' 2566        ', style: 'texts' }], margin: [0, 6, 0, 0]
+              { text: '      เดือน ', bold: true, },
+              { text: this.month + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
+              { text: this.year, style: 'texts' }], margin: [0, 6, 0, 0]
           },
           { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },

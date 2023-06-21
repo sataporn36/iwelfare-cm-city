@@ -128,3 +128,30 @@
     margin-top: 3px;
   }
 }
+
+:host ::ng-deep .p-num-4 {
+
+  .p-inputnumber-input {
+    width: 11.3rem;
+  }
+ 
+}
+
+:host ::ng-deep .p-num-6 {
+
+  .p-inputnumber-input {
+    width: 16.9rem;
+  }
+ 
+}
+
+.btn-regis-loan {
+  width: 70px;
+  font-weight: 500;
+  font-size: 15px;
+  height: 40px;
+  color: #fe6bba;
+  border-color: #fe6bba;
+  margin-left: 200px;
+  margin-top: 10px;
+}

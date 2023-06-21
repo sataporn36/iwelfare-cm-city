@@ -225,4 +225,23 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/v1/notify/cancel/' + id,
     );
   }
+
+  searchEmployeeLoanNew(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-add-new', playload
+    );
+  }
+
+  onCalculateLoanOld(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/calculate-loan-old', playload
+    );
+  }
+
+  searchGuarantorUnique(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-guarantor-unique', playload
+    );
+  }
+
 }

@@ -10,6 +10,8 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
+import { Subject, debounceTime } from 'rxjs';
+import { log } from 'console';
 
 @Component({
   selector: 'app-loan-component',
@@ -24,6 +26,7 @@ export class LoanComponentComponent implements OnInit {
   clonedProducts: { [s: number]: Customer } = {};
   formModel!: FormGroup;
   formModelLoan!: FormGroup;
+  formModelLoanNew!: FormGroup;
   displayModal: boolean = false;
   dataLoanDetail!: any[];
   empDetail: any;
@@ -32,7 +35,21 @@ export class LoanComponentComponent implements OnInit {
   admin!: boolean;
   dataLoan!: any[];
   displayLoadingPdf: boolean = false;
+  displayModalLoanNew: boolean = false;
   periodMonthDescOption: any = [];
+  disabledCheck: boolean = true;
+  inputSubject = new Subject<string>();
+  inputGuaranteeStock = new Subject<string>();
+  inputLoanTime = new Subject<string>();
+  inputGuarantorUnique1 = new Subject<string>();
+  inputGuarantorUnique2 = new Subject<string>();
+  dataNewLoan: any;
+  dataNewLoanFlag: boolean = false;
+  dataLanTimeFlag: boolean = false;
+  displayMessageError: boolean = false;
+  guarantorUniqueFlag1: any = 'C';
+  guarantorUniqueFlag2: any = 'C';
+  messageError: any;
 
   constructor(private service: MainService, private messageService: MessageService, private confirmationService: ConfirmationService, private localStorageService: LocalStorageService,) { }
 
@@ -40,6 +57,7 @@ export class LoanComponentComponent implements OnInit {
     this.loading = true;
     this.initMainForm();
     this.initMainFormStock();
+    this.initMainFormLoanNew();
 
     this.userId = this.localStorageService.retrieve('empId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
@@ -49,6 +67,158 @@ export class LoanComponentComponent implements OnInit {
     this.searchLoan();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
+
+    this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
+      // Perform your action here based on the latest value
+      if(value.length >= 5){
+        const payload = {
+          empId: value
+        }
+        this.service.searchEmployeeLoanNew(payload).subscribe({
+          next: (res) => {
+            if(res !== null || res){
+              this.dataNewLoan = res;
+              console.log(this.dataNewLoan,'<--------- this.dataNewLoan');
+              this.formModelLoanNew.patchValue({
+                interestPercent: res.interestPercent ? res.interestPercent + '%' : '',
+                stockValue: this.formattedNumber2(Number(res.stockAccumulate)),
+                fullName: res.fullName
+              });
+            }else{
+              this.formModelLoanNew.reset();
+            }
+          },
+          error: error => {
+            this.formModelLoanNew.reset();
+            // this.formModelLoanNew.get('employeeCode').setValue(null);
+          },
+        });
+      }else{
+        this.formModelLoanNew.reset();
+      }
+      
+    });
+
+    
+    this.inputGuaranteeStock.pipe(debounceTime(1000)).subscribe(value => {
+        if(value.length > 0){
+          const data = this.dataNewLoan ? this.dataNewLoan.stockAccumulate : null;
+          const valueParse = value.replace(',','');
+          if(data !== null && ( Number(valueParse) > data) ){
+            this.formModelLoanNew.patchValue({
+              guaranteeStock: 'ได้'
+            });
+            this.dataNewLoanFlag = true;
+            this.formModelLoanNew.get('loanTime').enable();
+            this.formModelLoanNew.get('guarantorOne').disable();
+            this.formModelLoanNew.get('guarantorTwo').disable();
+          }else{
+            this.formModelLoanNew.patchValue({
+              guaranteeStock: 'ไม่ได้'
+            });
+            this.dataNewLoanFlag = false;
+            this.formModelLoanNew.get('loanTime').enable();
+            this.formModelLoanNew.get('guarantorOne').enable();
+            this.formModelLoanNew.get('guarantorTwo').enable();
+          }
+        }else{
+          this.formModelLoanNew.get('guaranteeStock').setValue(null);
+          this.formModelLoanNew.get('loanTime').disable();
+          this.formModelLoanNew.get('guarantorOne').enable();
+          this.formModelLoanNew.get('guarantorTwo').enable();
+          this.dataNewLoanFlag = false;
+        }
+    });
+
+    this.inputLoanTime.pipe(debounceTime(1000)).subscribe(value => {
+      if(value.length > 0){
+        this.dataLanTimeFlag = true;
+      }else{
+        this.dataLanTimeFlag = false;
+        this.formModelLoanNew.get('loanTime').setValue(null);
+      }
+    });
+
+    this.inputGuarantorUnique1.pipe(debounceTime(1000)).subscribe(value => {
+      if(value.length > 0){
+         const playload = {
+          empCode: value
+         }
+         this.service.searchGuarantorUnique(playload).subscribe({
+          next: (res) => {
+            if(res !== null){
+              if(res.length >= 2){
+                this.guarantorUniqueFlag1 = 'N';
+                setTimeout(() => {}, 800);
+                this.formModelLoanNew.get('guarantorOne').setValue(null);
+              }else{
+                  const data = this.formModelLoanNew.getRawValue();
+                  if(value !== data.guarantorTwo){
+                    this.guarantorUniqueFlag1 = 'Y';
+                  }else{
+                    this.guarantorUniqueFlag1 = 'Q';
+                    setTimeout(() => {}, 800);
+                    this.formModelLoanNew.get('guarantorOne').setValue(null);
+                  }
+              }
+            }else{
+              this.guarantorUniqueFlag2 = 'N';
+              setTimeout(() => {}, 800);
+              this.formModelLoanNew.get('guarantorOne').setValue(null);
+            }
+          },
+          error: error => {
+              this.guarantorUniqueFlag2 = 'N';
+              setTimeout(() => {}, 800);
+              this.formModelLoanNew.get('guarantorOne').setValue(null);
+          } 
+         });
+      }else{
+        this.formModelLoanNew.get('guarantorOne').setValue(null);
+      }
+    });
+
+    this.inputGuarantorUnique2.pipe(debounceTime(1000)).subscribe(value => {
+      if(value.length > 0){
+        const playload = {
+          empCode: value
+         }
+        this.service.searchGuarantorUnique(playload).subscribe({
+          next: (res) => {
+            if(res !== null){
+              if(res.length >= 2){
+                this.guarantorUniqueFlag2 = 'N';
+                setTimeout(() => {}, 800);
+                this.formModelLoanNew.get('guarantorTwo').setValue(null);
+              }else{
+                      const data = this.formModelLoanNew.getRawValue();
+                      if(value !== data.guarantorOne){
+                        this.guarantorUniqueFlag2 = 'Y';
+                      }else{
+                        this.guarantorUniqueFlag2 = 'Q';
+                        setTimeout(() => {}, 800);
+                        this.formModelLoanNew.get('guarantorTwo').setValue(null);
+                      }
+              }
+            }else{
+              this.guarantorUniqueFlag2 = 'N';
+              setTimeout(() => {}, 800);
+              this.formModelLoanNew.get('guarantorTwo').setValue(null);
+            }
+          },
+          error: error => {
+              this.guarantorUniqueFlag2 = 'N';
+              setTimeout(() => {}, 800);
+              this.formModelLoanNew.get('guarantorTwo').setValue(null);
+          }
+        });
+      }else{
+        this.formModelLoanNew.get('guarantorTwo').setValue(null);
+      }
+    });
+
+    
+
   }
 
   month: any;
@@ -93,6 +263,22 @@ export class LoanComponentComponent implements OnInit {
   initMainFormStock() {
     this.formModelLoan = new FormGroup({
       monthlyLoanMoney: new FormControl(null, Validators.required),
+    });;
+  }
+
+  initMainFormLoanNew() {
+    this.formModelLoanNew = new FormGroup({
+      employeeCode: new FormControl(null, Validators.required),
+      fullName: new FormControl(null, Validators.required),
+      loanValue: new FormControl(null, Validators.required),
+      interestPercent: new FormControl(null, Validators.required),
+      loanTime: new FormControl(null, Validators.required),
+      startDateLoan: new FormControl(null, Validators.required),
+      stockValue: new FormControl(null, Validators.required),
+      guaranteeStock: new FormControl(null, Validators.required),
+      guarantorOne: new FormControl(null, Validators.required),
+      guarantorTwo: new FormControl(null, Validators.required),
+      loanOrdinary: new FormControl(null, Validators.required),
     });;
   }
 
@@ -612,10 +798,8 @@ export class LoanComponentComponent implements OnInit {
       monthCurrent: this.month
     }
 
-    console.log(playload, '<----------- playload');
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
-      console.log(data, '<-----------  sum data');
       const key = 'installment';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
       this.getSearchDocumentV2SumAll(playload, mode, data);
@@ -625,7 +809,6 @@ export class LoanComponentComponent implements OnInit {
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
       this.sumLoan = data;
-      console.log(this.sumLoan, '<-----------  sum sumStock');
       this.checkDepartment(listdata);
       this.exportMakePDFAll(mode, data)
     });
@@ -866,6 +1049,37 @@ export class LoanComponentComponent implements OnInit {
     this.displayModal = false;
   }
 
+  onShowLoanAddNew(){
+    this.displayModalLoanNew = true;
+    this.formModelLoanNew.get('interestPercent').disable();
+    this.formModelLoanNew.get('startDateLoan').disable();
+    this.formModelLoanNew.get('loanOrdinary').disable();
+    this.formModelLoanNew.get('guaranteeStock').disable();
+    this.formModelLoanNew.get('stockValue').disable();
+    this.formModelLoanNew.get('loanTime').disable();
+  }
+
+  insertLoanDetail() {
+     if(this.dataNewLoan.loanBalance <= 0){
+        // api
+     }else{
+        this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังหมีหยี้คงค้างอยู่ ' 
+        + this.formattedNumber2(this.dataNewLoan.loanBalance) + '  บาท';
+        this.displayMessageError = true;
+     }
+  }
+
+  onCancleLoan() {
+    this.formModelLoanNew.reset();
+    this.dataLanTimeFlag = false;
+    this.formModelLoanNew.get('loanTime').disable();
+    this.formModelLoanNew.get('guarantorOne').enable();
+    this.formModelLoanNew.get('guarantorTwo').enable();
+    this.guarantorUniqueFlag1 = 'C';
+    this.guarantorUniqueFlag2 = 'C';
+    //this.displayModalLoanNew = false;
+  }
+
   checkNull: boolean = true;
   checkValueOfNull(event: any) {
     if (!event.value) {
@@ -873,6 +1087,65 @@ export class LoanComponentComponent implements OnInit {
     } else {
       this.checkNull = false;
     }
+  }
+
+  checkSetValueEmp(event: any){
+    this.inputSubject.next(event.target.value);
+  }
+
+  checkGuaranteeStock(event: any){
+    this.inputGuaranteeStock.next(event.target.value);
+  }
+
+  checkLoanTime(event: any){
+    this.inputLoanTime.next(event.target.value);
+  }
+
+  checkGuarantorUnique1(event: any){
+    this.inputGuarantorUnique1.next(event.target.value);
+  }
+
+  checkGuarantorUnique2(event: any){
+    this.inputGuarantorUnique2.next(event.target.value);
+  }
+
+  monthNew: any;
+  yearNew: any;
+  timeNew: any;
+  pipeDateTHNewLan() {
+    const format = new Date();
+    format.setMonth(format.getMonth());
+    const month = format.getMonth();
+    format.setDate(0);
+    const day = format.getDate();
+    const year = format.getFullYear();
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+
+    const firstDayOfNextMonth = new Date(year, month + 1, 1);
+    const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
+    return year + '-' + monthSelect.value + '-' + lastDayOfMonth;
+  }
+
+  onCalculateLoanOld(){
+      const datePayLoanNew = this.pipeDateTHNewLan();
+      const data = this.formModelLoanNew.getRawValue();
+      const payload = {
+        principal: data.loanValue,
+        interestRate: this.dataNewLoan.interestPercent,
+        numOfPayments: data.loanTime,
+        paymentStartDate: "2023-01-31"
+      }
+      this.service.onCalculateLoanOld(payload).subscribe((res) => {
+        const data = res[0];
+        this.formModelLoanNew.patchValue({
+          loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
+          startDateLoan: datePayLoanNew
+        });
+      })
   }
 
   onCloseLoan(data: any) {
