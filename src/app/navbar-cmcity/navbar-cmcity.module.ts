@@ -50,6 +50,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { TagModule } from 'primeng/tag';
     TooltipModule,
     InputTextareaModule,
     DropdownModule,
-    TagModule
+    TagModule,
+    AvatarModule
   ]
 })
 export class NavbarCmcityModule { }

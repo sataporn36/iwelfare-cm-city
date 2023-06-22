@@ -10,3 +10,21 @@
     background-color: white;
     padding: 2rem;
 }
+
+.guarantee{
+    border: 1px solid #d2d6df; 
+    border-radius: 15px;
+    width: 500px;
+    height: 200px;
+    line-height: 35px;
+    margin-top: 10px;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 40px;
+    img{
+        width: 108px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        background: #ffeef7;
+    }
+}

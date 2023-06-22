@@ -32,8 +32,8 @@
                     <td>{{ stockDetail.stockYear }}</td>
                     <td>ชำระหนี้ประจำเดือน</td>
                     <td>{{ stockDetail.installment }}</td>
-                    <td style="color: #EA3A3D;">{{ stockDetail.stockValue }}</td>
-                    <td style="color: #1AD598;">{{ stockAccumulate }}</td>
+                    <td style="color: #EA3A3D;">{{ stockDetail.stockValue | number }}</td>
+                    <td style="color: #1AD598;">{{ stockAccumulate | number }}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -105,11 +105,11 @@
                                 style="height: 35px; text-align: center;"></p-inputNumber>
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{dataStock.stockValue}}
+                            {{ dataStock.stockValue | number }}
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td style="color: #1AD598;">{{ dataStock.stockAccumulate }}</td>
+                <td style="color: #1AD598;">{{ dataStock.stockAccumulate | number }}</td>
                 <td style="display: flex; justify-content: center;">
                     <div class="flex align-items-center justify-content-center gap-2"
                         style="height: 25px; display: flex;">

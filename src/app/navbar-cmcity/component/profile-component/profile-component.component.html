@@ -23,7 +23,7 @@
                         <input class="form-control-plaintext number" id="firstName" type="text"
                             formControlName="employeeCode" />
                     </div>
-                    <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
+
                     <div class=" div-btn" *ngIf="!mode" style="transform: translate(1120px, -55px);">
                         <div class="row" style="margin-left: -18px;">
                             <div class="col-4">
@@ -37,13 +37,19 @@
                     </div>
                 </div>
             </div>
-            <div  *ngIf="mode" class="col-6" style="display: flex; align-items: flex-end; justify-content: flex-end; padding-bottom: 3.4rem; width: 52.5%;">
-                <button type="button" class="btn btn-login" style="width: 12%;" (click)="displayResign()" [disabled]="resign">ขอลาออก</button>
-                &nbsp;&nbsp;
-                <button type="button" class="btn btn-login" style="width: 25%;" (click)="displayChangeStockToMonth()">ขอเปลี่ยนเงินส่งหุ้นรายเดือน</button>
+            <div class="btn-group" style="width: 32rem; margin-left: 25rem;" *ngIf="mode">
+                <div style="display: flex; align-items: flex-end; justify-content: flex-end;">
+                    <button type="button" class="btn btn-login1"  (click)="displayResign()"
+                        [disabled]="resign">ขอลาออก</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-login2" 
+                        (click)="displayChangeStockToMonth()">ขอเปลี่ยนเงินส่งหุ้นรายเดือน</button>
+                    &nbsp;
+                    <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
+                </div>
             </div>
         </div>
-        
+
     </div>
 
     <div class="div-profile">
@@ -898,13 +904,13 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModalResign" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
-    styleClass="customDialog">
+<p-dialog [(visible)]="displayModalResign" [modal]="true" [style]="{width: '28vw'}" [draggable]="false"
+    [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">ขอลาออก</span>
-            <i class="pi pi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom" 
-            pTooltip="เมื่อร้องขอการลาออก รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ "></i>
+            <i class="pi pi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เมื่อร้องขอการลาออก รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ "></i>
         </div>
     </ng-template>
     <div [formGroup]="formModelResign">
@@ -912,8 +918,8 @@
             <div class="col-12 " style="display: flex; justify-content: center;">
                 <div class="grid">
                     <label class="block">เหตุผล *</label>
-                    <textarea class="form-control" rows="5" cols="30"  pInputTextarea formControlName="reason" [autoResize]="true"
-                     style="height: 300px; width: 25rem;" ></textarea>
+                    <textarea class="form-control" rows="5" cols="30" pInputTextarea formControlName="reason"
+                        [autoResize]="true" style="height: 300px; width: 25rem;"></textarea>
                 </div>
             </div>
         </div>
@@ -926,13 +932,13 @@
 </p-dialog>
 
 
-<p-dialog [(visible)]="displayModalStock" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
-    styleClass="customDialog">
+<p-dialog [(visible)]="displayModalStock" [modal]="true" [style]="{width: '28vw'}" [draggable]="false"
+    [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">เปลี่ยนแปลงเงินส่งหุ้นรายเดือน</span>
-            <i class="pi pi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom" 
-            pTooltip="เมื่อร้องขอเปลี่ยนแปลงเงินส่งหุ้นรายเดือน รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ"></i>
+            <i class="pi pi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เมื่อร้องขอเปลี่ยนแปลงเงินส่งหุ้นรายเดือน รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ"></i>
         </div>
     </ng-template>
     <div [formGroup]="formModelStock">
@@ -940,20 +946,23 @@
             <div class="row" style="margin: 10px;">
                 <div class="col-6" style="display: grid;">
                     <label class="block">เงินส่งหุ้นรายเดือนเดิม</label>
-                    <span [innerHTML]="formModel.get('monthlyStockMoney')?.value ? formModel.get('monthlyStockMoney')?.value : '-'" style="font-size: 16px; color: red; font-weight: 700;"></span>
+                    <span
+                        [innerHTML]="formModel.get('monthlyStockMoney')?.value ? formModel.get('monthlyStockMoney')?.value : '-'"
+                        style="font-size: 16px; color: red; font-weight: 700;"></span>
                 </div>
                 <br>
                 <div class="col-6">
                     <label class="block">เงินส่งหุ้นรายเดือนใหม่ *</label>
-                    <p-inputNumber inputId="integeronly" formControlName="monthlyStockMoney" mode="decimal" [required]="true" 
-                    [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7" (onInput)="checkValueOfNull($event)"></p-inputNumber>
+                    <p-inputNumber inputId="integeronly" formControlName="monthlyStockMoney" mode="decimal"
+                        [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7"
+                        (onInput)="checkValueOfNull($event)"></p-inputNumber>
                 </div>
             </div>
         </div>
     </div>
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="onUpdateStockToMonth()" 
-            [disabled]="checkNull">ยืนยัน</button>
+        <button type="button" class="btn btn-login2" (click)="onUpdateStockToMonth()"
+            [disabled]="checkStockValueFlag">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleStock()">ยกเลิก</button>
     </ng-template>
 </p-dialog>

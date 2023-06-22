@@ -1,27 +1,62 @@
 * {
-    box-sizing: border-box;
-    font-family: "Kanit", sans-serif;
-  }  
-
-.card{
-    border: 5px solid white;
-    border-radius: 20px;
-    width: 99%;
-    background-color: white;
-    padding: 2rem;
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
 }
 
-.guarantee{
-    border: 1px solid #d2d6df; 
-    border-radius: 15px;
-    width: 300px;
-    height: 90px;
-    line-height: 30px;
-    margin-top: -10px;
-
-    img{
-        width: 88px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-    }
+.card {
+  border: 5px solid white;
+  border-radius: 20px;
+  width: 99%;
+  background-color: white;
+  padding: 2rem;
 }
+
+.guarantee {
+  border: 1px solid #d2d6df;
+  border-radius: 15px;
+  width: 360px;
+  height: 110px;
+  line-height: 35px;
+  margin-top: -10px;
+
+  img {
+    width: 108px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #ffeef7;
+  }
+}
+
+.btn {
+  width: 60px;
+  height: 34px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: -5px;
+  border-radius: 18px;
+}
+
+.btn-edit {
+  color: #fe6bba;
+  border-color: #fe6bba;
+//   transform: translate(1180px, -50px);
+}
+
+.btn-login2 {
+    width: 140px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    color: #fff;
+    background-color: #fe6bba;
+  }
+
+  .btn-regis2 {
+    width: 140px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    color: #fe6bba;
+    border-color: #fe6bba;
+    margin-left: 40px;
+  }

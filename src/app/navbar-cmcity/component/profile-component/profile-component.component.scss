@@ -239,10 +239,63 @@
   }
 }
 
+.btn-group {
+  display: flex;
+  padding-top: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #dee2e6;
+  width: 18rem;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-top: 200px;
+
+  .btn {
+    width: 130px;
+    height: 34px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // .btn {
+  //   width: 60px;
+  //   height: 34px;
+  //   font-weight: 500;
+  //   font-size: 14px;
+  //   margin-top: -5px;
+  //   border-radius: 18px;
+  // }
+
+  .btn-login1 {
+    color: #fff;
+    background-color: #fe6bba;
+  }
+
+  .btn-login2 {
+    color: #fff;
+    background-color: #fe6bba;
+    width: 230px;
+  }
+
+
+  .btn-edit {
+    color: #fe6bba;
+    border-color: #fe6bba;
+    background-color: #ffffff81;
+    // transform: translate(1180px, -50px);
+  }
+}
+
 .btn-edit {
   color: #fe6bba;
   border-color: #fe6bba;
-  transform: translate(1180px, -50px);
+  // transform: translate(1180px, -50px);
 }
 
 :host ::ng-deep .p-calendar input {

@@ -1,3 +1,65 @@
+<!-- <div class="card">
+    <p-chip label="สิทธิ์การกู้" styleClass="mr-2"></p-chip>
+</div> -->
+
+<!-- <div class="card">
+    <p-chip label="สิทธิ์การกู้" styleClass="mr-2"></p-chip>
+    <p style="color: #60646b; margin-top: 20px; margin-left: 10px;">ท่านสามารถเป็นผู้ค้ำประกันให้บุคคลอื่นได้สูงสุด 2 คน และตอนนี้ท่านเป็นผู้ค้ำประกันเงินกู้ให้กับ</p>
+    <div style="padding-top: 1rem;"></div>
+    <div class="col-5" style="display: flex; justify-content: space-between; margin-left: 10px;">
+        <div>
+            <div class="guarantee" style="display: flex; justify-content: space-between;">
+                <div>
+                    <img class="beneficiary_img" src="assets/images/pele.jpg" alt="logo" />
+                </div>
+                <div style="margin-right: 10px; margin-top: 20px; width: 200px;">
+                    <label>asdasd</label><br>
+                    <label style="color: #60646b;">เลขสมาชิก: </label><span> asdasd</span>
+                </div>
+            </div>
+        </div>
+        <div style="padding-right: 0.5rem;"></div>
+        <div>
+            <div class="guarantee" style="display: flex; justify-content: space-between;">
+                <div>
+                    <img class="beneficiary_img" src="assets/images/pele.jpg" alt="logo" />
+                </div>
+                <div style="margin-right: 10px; margin-top: 20px; width: 200px;">
+                    <label>asdasd</label>
+                    <label style="color: #60646b;">เลขสมาชิก: </label><span>  asdsad </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
 <div class="card">
     <p-chip label="สิทธิ์การกู้" styleClass="mr-2"></p-chip>
+    <div class="col-2" style="margin: 15px; color: #60646b; line-height: 30px;">
+        <div style="display: flex; justify-content: space-between; width: 280px;">
+            <label>สิทธิ์กู้เงินสามัญสูงสุด:</label>
+            <span style="color: black;">{{ sumLoan | number }} <span style="margin-left: 10px;">บาท</span></span>
+        </div>
+        <!-- <div>
+            <label class="col-6">วงเงินกู้ :</label>
+            <span class="col-6" style="color: black;"></span>
+        </div> -->
+    </div>
+    <div class="guarantee" *ngIf="!loanValueNull">
+        <p style="color: #FE6BBA; background: #ffeef7; border-radius: 15px; width: 120px; text-align: center;">หักลบเงินกู้เดิม</p>
+        <div style="padding-left: 30px; padding-top: 5px;">
+            <div style="display: flex; justify-content: space-between; color: #60646b; margin-top: -15px;">
+                <label class="col-6">เลขที่สัญญา:</label>
+                <span class="col-6" style="color: black; text-align: right;">-<span style="margin-left: 30px;">บาท</span></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #60646b;">
+                <label class="col-6">หนี้เงินกู้คงเหลือ:</label>
+                <span class="col-6" style="color: black; text-align: right;">{{ userInfo.loanBalance | number }}<span style="margin-left: 30px;">บาท</span></span>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: #60646b; padding-left: 10px;">
+            <label class="col-6" style="color: #000;">ประมาณการรับเงินสุทธิ:</label>
+            <span class="col-6" style="color: #FE6BBA; text-align: right;">{{totalLoan | number}}<span style="margin-left: 30px; color: #000;">บาท</span></span>
+        </div>
+    </div>
 </div>

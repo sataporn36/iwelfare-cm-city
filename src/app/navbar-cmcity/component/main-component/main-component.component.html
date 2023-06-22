@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-5">
                         <span>หุ้น</span>
-                        <h2 [innerHTML]="formModel.get('stockAccumulate')?.value"></h2>
+                        <h2 [innerHTML]="formModel.get('stockAccumulate')?.value | number"></h2>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-5">
                         <span>เงินกู้ </span>
-                        <h2 [innerHTML]="formModel.get('loanValue')?.value"></h2>
+                        <h2 [innerHTML]="formModel.get('loanValue')?.value | number"></h2>
                     </div>
                 </div>
             </div>
@@ -282,8 +282,8 @@
                             <td>{{ stockDetail.stockYear }}</td>
                             <td>ชำระหนี้ประจำเดือน</td>
                             <td>{{ stockDetail.installment }}</td>
-                            <td style="color: #EA3A3D;">{{ stockDetail.stockValue }}</td>
-                            <td style="color: #1AD598;">{{ stockDetail.stock.stockAccumulate }}</td>
+                            <td style="color: #EA3A3D;">{{ stockDetail.stockValue | number }}</td>
+                            <td style="color: #1AD598;">{{ stockDetail.stock.stockAccumulate | number }}</td>
                         </tr>
                     </ng-template>
                 </p-table>

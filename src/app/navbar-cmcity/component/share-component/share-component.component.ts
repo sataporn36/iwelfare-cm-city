@@ -93,7 +93,7 @@ export class ShareComponentComponent implements OnInit {
     ];
 
     if (this.userId === 1 || this.userId === 631) {
-        this.admin = true;
+      this.admin = true;
     }
   }
 
@@ -619,13 +619,13 @@ export class ShareComponentComponent implements OnInit {
               { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailStock,
-              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', 
-              { text: decimalPipe.transform(sum.stockValueTotal), alignment: 'right' }, ' ', 
-              { text: decimalPipe.transform(sum.loanDetailOrdinaryTotal), alignment: 'right' }, 
+              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ',
+              { text: decimalPipe.transform(sum.stockValueTotal), alignment: 'right' }, ' ',
+              { text: decimalPipe.transform(sum.loanDetailOrdinaryTotal), alignment: 'right' },
               { text: decimalPipe.transform(sum.loanDetailInterestTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.totalMonth), alignment: 'right' }, 
+              { text: decimalPipe.transform(sum.totalMonth), alignment: 'right' },
               { text: decimalPipe.transform(sum.stockAccumulateTotal), alignment: 'right' },
-            ],
+              ],
 
               // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
               // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
@@ -693,7 +693,7 @@ export class ShareComponentComponent implements OnInit {
     // const stockAccumulate = data.stockAccumulate ? data.stockAccumulate : ' ';
 
     // const departMentName = data.department.name;
-    
+
     // const dataStock = this.dataStock
 
     // const installment = data.stock?.stockDetails.installment ? data.stock?.stockAccumulate : ' ';
@@ -1151,7 +1151,7 @@ export class ShareComponentComponent implements OnInit {
               }],
               [{
                 rowSpan: 1,
-                text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงนิกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\n'
+                text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\n'
               },
               {
                 rowSpan: 1,
@@ -1407,7 +1407,7 @@ export class ShareComponentComponent implements OnInit {
 
   }
 
-    showWarn() {
+  showWarn() {
     this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
   }
 

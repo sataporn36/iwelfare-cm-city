@@ -93,6 +93,7 @@ export class ProfileComponentComponent implements OnInit {
   displayModalStock: boolean = false;
 
   resign: boolean = false;
+  checkStockValueFlag: boolean = false;
 
   public position: Observable<Positions[]> | any
   public affiliation: Observable<Affiliation[]> | any
@@ -112,30 +113,36 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.arrayChild = [];
-    this.dadArray = [];
-    this.momArray = [];
-    this.gmArray = [];
-    this.gfArray = [];
 
-    this.userId = this.localStorageService.retrieve('empId');
+    if (!localStorage.getItem('foo')) {
+      localStorage.setItem('foo', 'no reload');
+      history.go(0);
+    } else {
+      localStorage.removeItem('foo')
+      this.arrayChild = [];
+      this.dadArray = [];
+      this.momArray = [];
+      this.gmArray = [];
+      this.gfArray = [];
 
-    this.getEmployee(this.userId);
+      this.userId = this.localStorageService.retrieve('empId');
 
-    this.initMainForm();
-    this.formModel.disable();
-    this.formModelGf.disable();
-    this.formModelGm.disable();
-    this.formModelDad.disable();
-    this.formModelMom.disable();
-    this.setperiodMonthDescOption();
+      this.getEmployee(this.userId);
 
-    this.searchLevel();
-    this.searchEmployeeType();
-    this.getPositions();
-    this.getBureau();
-    this.getDapartment();
+      this.initMainForm();
+      this.formModel.disable();
+      this.formModelGf.disable();
+      this.formModelGm.disable();
+      this.formModelDad.disable();
+      this.formModelMom.disable();
+      this.setperiodMonthDescOption();
 
+      this.searchLevel();
+      this.searchEmployeeType();
+      this.getPositions();
+      this.getBureau();
+      this.getDapartment();
+    }
   }
 
   getPositions(): void {
@@ -431,6 +438,8 @@ export class ProfileComponentComponent implements OnInit {
   getEmployee(id: any): void {
     this.service.getEmployee(id).subscribe(data => {
 
+      this.checkStockValueFlag = data.checkStockValueFlag
+
       if (data.employeeStatus === 5) {
         this.resign = true;
       }
@@ -451,6 +460,16 @@ export class ProfileComponentComponent implements OnInit {
         age: data.birthday ? this.transformAge(data.birthday) : '-',
         marital: data?.marital ? data?.marital : '-',
         selectMarital: data?.marital ? this.checkMaritalV2(data?.marital) : 0,
+
+        // **
+        employeeType: data.employeeType,
+        level: data.level,
+        position: data.position,
+        affiliation: data.affiliation,
+        department: data.department,
+        user: data.user,
+        loan: data.loan,
+        stock: data.stock,
 
         // contact
         tel: data.contact?.tel ? data.contact?.tel : '-',
@@ -481,6 +500,9 @@ export class ProfileComponentComponent implements OnInit {
         departmentName: data.departmentName ? data.departmentName : '-'
 
       })
+
+      console.log("data.level", data);
+
 
       this.formModelChild.patchValue({
         ...data,
@@ -1063,12 +1085,14 @@ export class ProfileComponentComponent implements OnInit {
 
   accept() {
     const playload = this.formModel.getRawValue();
+    playload.id = this.userId;
     playload.birthday = playload.birthday;
     playload.employeeTypeId = Number(playload.employeeTypeId);
-    playload.positionId= Number(playload.positionId);
-    playload.bureauId= Number(playload.bureauId);
-    playload.affiliationId= Number(playload.affiliationId);
-    playload.dapartmentId= Number(playload.dapartmentId);
+    playload.positionId = Number(playload.positionId);
+    playload.bureauId = Number(playload.bureauId);
+    playload.affiliationId = Number(playload.affiliationId);
+    playload.dapartmentId = Number(playload.dapartmentId);
+    playload.level;
 
     const civilServiceDate = playload.civilServiceDate;
     playload.civilServiceDate = civilServiceDate ? civilServiceDate : '';
@@ -1079,7 +1103,7 @@ export class ProfileComponentComponent implements OnInit {
     playload.description = '';
     playload.reason = '';
     playload.resignationDate = '';
- 
+
     playload.contact = {
       id: playload.contact.id,
       tel: playload.tel,
@@ -1269,44 +1293,44 @@ export class ProfileComponentComponent implements OnInit {
   }
 
 
-  displayResign(){ 
-     this.displayModalResign = true;
+  displayResign() {
+    this.displayModalResign = true;
   }
 
-  displayChangeStockToMonth(){
+  displayChangeStockToMonth() {
     this.displayModalStock = true;
   }
 
-  onSubmitResign(){
+  onSubmitResign() {
 
     const playloadResign = {
       id: this.userId,
       reason: this.formModelResign.get('reason')?.value
     }
 
-     this.service.updateResign(playloadResign).subscribe((data) => {
+    this.service.updateResign(playloadResign).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
       this.displayModalResign = false;
       this.ngOnInit();
-     });
+    });
   }
 
-  onCancleResign(){
+  onCancleResign() {
     this.formModelResign.reset();
     this.displayModalResign = false;
   }
 
-  onUpdateStockToMonth(){
-     const dataStock = this.formModelStock.getRawValue();
-     console.log(dataStock,"dataStock *****");
-     
-     //this.formModel.get('monthlyStockMoney')?.setValue(500);
-     const data = this.formModel.getRawValue();
-     console.log(data.monthlyStockMoney,"monthlyStockMoney *****");
+  onUpdateStockToMonth() {
+    const dataStock = this.formModelStock.getRawValue();
+    console.log(dataStock, "dataStock *****");
 
-     if(dataStock.monthlyStockMoney === data.monthlyStockMoney){
-         this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
-     }else{
+    //this.formModel.get('monthlyStockMoney')?.setValue(500);
+    const data = this.formModel.getRawValue();
+    console.log(data.monthlyStockMoney, "monthlyStockMoney *****");
+
+    if (dataStock.monthlyStockMoney === data.monthlyStockMoney) {
+      this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
+    } else {
       // api
       const playload = {
         id: this.userId,
@@ -1317,20 +1341,20 @@ export class ProfileComponentComponent implements OnInit {
         this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
         this.displayModalStock = false;
         this.ngOnInit();
-       });
-     }
+      });
+    }
   }
 
-  onCancleStock(){
+  onCancleStock() {
     this.formModelStock.reset();
     this.displayModalStock = false;
   }
 
   checkNull: boolean = true;
-  checkValueOfNull(event: any){
-    if(!event.value){
+  checkValueOfNull(event: any) {
+    if (!event.value) {
       this.checkNull = true;
-    }else{
+    } else {
       this.checkNull = false;
     }
   }

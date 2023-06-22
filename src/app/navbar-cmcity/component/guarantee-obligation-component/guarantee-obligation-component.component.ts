@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
+import { MainService } from 'src/app/service/main.service';
 
 @Component({
   selector: 'app-guarantee-obligation-component',
@@ -13,24 +14,28 @@ export class GuaranteeObligationComponentComponent implements OnInit {
 
   formModel!: FormGroup;
   userInfo: any;
+  guarantor: any;
+  guarantorIf: any;
+  guarantee: any;
+  guaranteeIf: any;
+  userId: any;
 
   constructor(
+    private service: MainService,
     protected router: Router,
     protected route: ActivatedRoute,
     private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('foo')) {
-      localStorage.setItem('foo', 'no reload');
-      history.go(0);
-    } else {
-      localStorage.removeItem('foo')
-      this.initMainForm();
-      this.userInfo = this.localStorageService.retrieve('employeeofmain');
-      this.getEmployeeOfMain(this.userInfo);
-    }
+    localStorage.removeItem('foo')
+    this.initMainForm();
+    this.userInfo = this.localStorageService.retrieve('employeeofmain');
+    this.userId = this.localStorageService.retrieve('empId');
+    // this.getEmployeeOfMain(this.userInfo);
+    this.getGuarantor(this.userId);
+    this.getGuarantee(this.userId);
     this.preventBackButton();
   }
 
@@ -58,10 +63,48 @@ export class GuaranteeObligationComponentComponent implements OnInit {
     });
   }
 
-  getEmployeeOfMain(data: any): void {
-    this.formModel.patchValue({
-      ...data,
-      fullName: data.firstName + ' ' + data.lastName
-    })
+  // getEmployeeOfMain(data: any): void {
+
+  //   // this.formModel.patchValue({
+  //   //   ...data,
+  //   //   fullName: data.firstName + ' ' + data.lastName
+  //   // })
+  // }
+
+  getGuarantor(id: any) {
+    this.service.getGuarantor(id).subscribe(data => {
+      this.guarantor = data;
+      if (data.codeGuarantorOne == null) {
+        this.guarantorIf = true;
+      }else{
+        this.guarantorIf = false;
+      }
+    });
+  }
+
+  getGuarantee(id: any) {
+    this.service.getGuarantee(id).subscribe(data => {
+      this.guarantee = data;
+      if (data.codeGuaranteeOne == null) {
+        this.guaranteeIf = true;
+      }else{
+        this.guaranteeIf = false;
+      }
+    });
+  }
+
+  checkImgProfile(gender: any) {
+    let textGender = ""
+    switch (gender) {
+      case 'ชาย':
+        textGender = "assets/images/boy.png"
+        break;
+      case 'หญิง':
+        textGender = "assets/images/girl.png"
+        break;
+      default:
+        break;
+    }
+    return textGender
   }
 }
