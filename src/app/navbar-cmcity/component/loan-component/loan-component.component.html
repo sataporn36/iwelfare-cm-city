@@ -6,6 +6,10 @@
                 (click)="searchDocumentV1PDF('export')">ประวัติเงินกู้เเละค่าหุ้น</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
+
+            <button (click)="initiateDownload()">Download PDF</button>
+            <a #downloadLink href="/assets/pdf/วิเคราะห์ข้อมูลคุณสมศรี.pdf" style="display: none;" download></a>
+
         </div>
     </div>
     <div style="font-family: 'Kanit';">

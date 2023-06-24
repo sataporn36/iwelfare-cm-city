@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import 'jspdf-autotable';
@@ -51,7 +51,13 @@ export class LoanComponentComponent implements OnInit {
   guarantorUniqueFlag2: any = 'A';
   messageError: any;
 
+  @ViewChild('downloadLink') downloadLinkRef!: ElementRef;
+
   constructor(private service: MainService, private messageService: MessageService, private confirmationService: ConfirmationService, private localStorageService: LocalStorageService,) { }
+
+  initiateDownload(): void {
+    this.downloadLinkRef.nativeElement.click();
+  }
 
   ngOnInit() {
     this.loading = true;
