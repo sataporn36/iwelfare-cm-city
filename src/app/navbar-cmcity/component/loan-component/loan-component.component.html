@@ -246,6 +246,9 @@
                         <em *ngIf="this.guarantorUniqueFlag1 === 'Q'">
                             <span style="font-size: 18px; color: red;">ถูกใช้เเล้ว</span>
                         </em>
+                        <em *ngIf="this.guarantorUniqueFlag1 === 'C'">
+                            <span style="font-size: 18px; color: red;">ไม่สามารถค้ำให้ตนเองได้</span>
+                        </em>
                     </div>
                     <div class="col-6">
                         <label class="block">รหัสพนักงานค้ำ2</label>
@@ -262,6 +265,9 @@
                         <em *ngIf="this.guarantorUniqueFlag2 === 'Q'">
                             <span style="font-size: 18px; color: red;">ถูกใช้เเล้ว</span>
                         </em>
+                        <em *ngIf="this.guarantorUniqueFlag2 === 'C'">
+                            <span style="font-size: 18px; color: red;">ไม่สามารถค้ำให้ตนเองได้</span>
+                        </em>
                     </div>
                 </div>
                 
@@ -274,8 +280,9 @@
                         <label class="block">ยอดที่ต้องชำระต่อเดือน</label> <br>
                         <input class="form-control" pInputText type="text" formControlName="loanOrdinary" required="true" maxlength="11"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
-                        <div *ngIf="this.dataLanTimeFlag">
-                            <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanOld()">คำนวน</button>
+                        <div class="row" *ngIf="this.dataLanTimeFlag" >
+                            <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanOld()">คำนวณ</button>
+                            <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
                         </div>
                         <!-- <p-inputNumber class="disabled-p-num" formControlName="loanOrdinary" inputId="minmaxfraction" mode="decimal"
                         [required]="true" [maxlength]="12" ></p-inputNumber> -->
@@ -286,7 +293,8 @@
         </div>
     </div>
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="insertLoanDetail()"  [disabled]="!formModelLoanNew.valid">ยืนยัน</button>
+        <button type="button" class="btn btn-login2" (click)="insertLoanDetail()"  
+        [disabled]="!formModelLoanNew.valid">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleLoan()">ยกเลิก</button>
     </ng-template>
 </p-dialog>

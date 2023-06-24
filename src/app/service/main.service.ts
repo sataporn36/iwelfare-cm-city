@@ -274,4 +274,10 @@ export class MainService {
     );
   }
 
+  insertLoanNew(playload: any): Observable<any>{
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/v1/loan/add-loan-New', playload
+    );
+  }
+
 }
