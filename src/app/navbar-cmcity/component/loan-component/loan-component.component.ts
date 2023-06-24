@@ -110,7 +110,7 @@ export class LoanComponentComponent implements OnInit {
         if(value.length > 0){
           const data = this.dataNewLoan ? this.dataNewLoan.stockAccumulate : null;
           const valueParse = value.replace(',','');
-          if(data !== null && ( Number(valueParse <= data)) ){
+          if(data !== null && ( Number(valueParse) <= data) ){
             this.formModelLoanNew.patchValue({
               guaranteeStock: 'ได้'
             });
