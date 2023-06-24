@@ -293,6 +293,9 @@ export class LoanComponentComponent implements OnInit {
       loanOrdinary: new FormControl(null, Validators.required),
       interestLoan: new FormControl(null),
       loanBalance: new FormControl(null),
+      interestLoanLastMonth: new FormControl(null),
+      loanYear: new FormControl(null),
+      loanMonth: new FormControl(null),
     });;
   }
 
@@ -1075,16 +1078,27 @@ export class LoanComponentComponent implements OnInit {
 
   checkValidFormLoan(){
     const data = this.formModelLoanNew.getRawValue();
-    if(this.guarantorUniqueFlag1 !== 'Y' || this.guarantorUniqueFlag2 !== 'Y'){
-      this.messageError = 'ตรวจสอบรหัสพนักงานค้ำให้ถูกต้อง'
-      this.displayMessageError = true;
-      return false;
-    }else if(data.loanOrdinary === null || !data.loanOrdinary){
-      this.messageError = 'กรุณาคำนวนยอดที่ต้องชำระต่อเดือน'
-      this.displayMessageError = true;
-      return false;
+    const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
+    if(flagStock === 'Y'){
+      if(data.loanOrdinary === null || !data.loanOrdinary){
+        this.messageError = 'กรุณาคำนวนยอดที่ต้องชำระต่อเดือน'
+        this.displayMessageError = true;
+        return false;
+      }else{
+        return true;
+      }
     }else{
-      return true;
+      if(this.guarantorUniqueFlag1 !== 'Y' || this.guarantorUniqueFlag2 !== 'Y'){
+        this.messageError = 'ตรวจสอบรหัสพนักงานค้ำให้ถูกต้อง'
+        this.displayMessageError = true;
+        return false;
+      }else if(data.loanOrdinary === null || !data.loanOrdinary){
+        this.messageError = 'กรุณาคำนวนยอดที่ต้องชำระต่อเดือน'
+        this.displayMessageError = true;
+        return false;
+      }else{
+        return true;
+      }
     }
  }
 
@@ -1186,6 +1200,9 @@ export class LoanComponentComponent implements OnInit {
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
 
+    this.formModelLoanNew.get('loanYear').setValue(Number(year + 543));
+    this.formModelLoanNew.get('loanMonth').setValue(monthSelect.label);
+
     const firstDayOfNextMonth = new Date(year, month + 1, 1);
     const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
     return year + '-' + monthSelect.value + '-' + lastDayOfMonth;
@@ -1206,7 +1223,8 @@ export class LoanComponentComponent implements OnInit {
           loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
           startDateLoan: datePayLoanNew,
           interestLoan: 0, //interest
-          loanBalance: 0 //principalBalance
+          loanBalance: 0, //principalBalance
+          interestLoanLastMonth: 0 // interestLastMonth
         });
       })
   }
