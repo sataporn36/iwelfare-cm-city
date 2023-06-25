@@ -16,11 +16,13 @@ export class MainComponentComponent implements OnInit {
   dataStockDetail: any[] = [];
   loading!: boolean;
   stockId: any;
-  // userId: any;
+  userId: any;
 
   formModel!: FormGroup;
   userInfo: any;
   countDemo: any;
+  arrayBeneficiary: any;
+  countBeneficiary: any;
   // localStorageService: any;
 
   // constructor(
@@ -55,15 +57,24 @@ export class MainComponentComponent implements OnInit {
       localStorage.removeItem('foo')
       this.initMainForm();
 
-      // this.userId = this.localStorageService.retrieve('empId');
+      this.userId = this.localStorageService.retrieve('empId');
       this.userInfo = this.localStorageService.retrieve('employeeofmain');
       this.getEmployeeOfMain(this.userInfo);
 
       this.stockId = this.localStorageService.retrieve('stockId');
       this.searchStockDetail(this.stockId);
+
+      this.getBeneficiaryByEmpId(this.userId);
     }
     // this.userId = this.localStorageService.retrieve('empId');
-    this.preventBackButton();
+    //this.preventBackButton();
+  }
+
+  getBeneficiaryByEmpId(id: any) {
+    this.service.getBeneficiaryByEmpId(id).subscribe(data => {
+      this.arrayBeneficiary = data;
+      this.countBeneficiary = data.length;
+    });
   }
 
   // listStockDetail: any[];
@@ -106,6 +117,14 @@ export class MainComponentComponent implements OnInit {
     this.locationStrategy.onPopState(() => {
       history.pushState(null, '', location.href);
     })
+  }
+
+  checkBeneficiaryCss() {
+    if (this.arrayBeneficiary.length > 0) {
+      return "margin-top: -15.6rem;"
+    } else {
+      return "margin-top: -12rem;"
+    }
   }
 
   initMainForm() {

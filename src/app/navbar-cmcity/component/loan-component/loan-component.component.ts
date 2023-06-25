@@ -51,13 +51,7 @@ export class LoanComponentComponent implements OnInit {
   guarantorUniqueFlag2: any = 'A';
   messageError: any;
 
-  @ViewChild('downloadLink') downloadLinkRef!: ElementRef;
-
   constructor(private service: MainService, private messageService: MessageService, private confirmationService: ConfirmationService, private localStorageService: LocalStorageService,) { }
-
-  initiateDownload(): void {
-    this.downloadLinkRef.nativeElement.click();
-  }
 
   ngOnInit() {
     this.loading = true;
@@ -86,8 +80,8 @@ export class LoanComponentComponent implements OnInit {
               this.dataNewLoan = res;
               console.log(this.dataNewLoan,'<--------- this.dataNewLoan');
               this.formModelLoanNew.patchValue({
-                interestPercent: res.interestPercent ? res.interestPercent + '%' : '',
-                stockValue: this.formattedNumber2(Number(res.stockAccumulate)),
+                interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
+                stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)): 0,
                 fullName: res.fullName
               });
             }else{
@@ -275,6 +269,8 @@ export class LoanComponentComponent implements OnInit {
   initMainFormStock() {
     this.formModelLoan = new FormGroup({
       monthlyLoanMoney: new FormControl(null, Validators.required),
+      loanYear: new FormControl(null),
+      loanMonth: new FormControl(null),
     });;
   }
 
@@ -1053,13 +1049,13 @@ export class LoanComponentComponent implements OnInit {
     /// api
   }
 
-  updateLoantoMonth() {
-    this.displayModal = true;
-  }
+  // updateLoantoMonth() {
+  //   this.displayModal = true;
+  // }
 
-  onupdateLoanToMonth() {
-    // api update stock to everyone 
-  }
+  // onupdateLoanToMonth() {
+  //   // api update stock to everyone 
+  // }
 
   onCancle() {
     this.formModelLoan.reset();
@@ -1106,16 +1102,17 @@ export class LoanComponentComponent implements OnInit {
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
      if(this.dataNewLoan){
-      if(this.dataNewLoan.loanBalance <= 0){
+      const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
+      if(!this.dataNewLoan.loanActive){
         if(this.checkValidFormLoan()){
           // api
           const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
           data.guaranteeStock = flagStock;
           const interestRE = data.interestPercent.replace('%','');
           data.interestPercent = interestRE;
-          const loanOrdinaryRE = data.loanOrdinary.replace(',','');
+          const loanOrdinaryRE = data.loanOrdinary ? data.loanOrdinary.replace(',',''): 0;
           data.loanOrdinary = loanOrdinaryRE;
-          const stockValueRE = data.stockValue.replace(',','');
+          const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
           data.stockValue = stockValueRE;
           console.log(data,'<------------- loan new');
           this.service.insertLoanNew(data).subscribe((res) =>{
@@ -1124,6 +1121,8 @@ export class LoanComponentComponent implements OnInit {
               }else{
                 this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
               }
+
+              this.displayModalLoanNew = false;
           });
         }
      }else{
@@ -1135,8 +1134,9 @@ export class LoanComponentComponent implements OnInit {
         // const loanOrdinaryRE = data.loanOrdinary.replace(',','');
         // data.loanOrdinary = loanOrdinaryRE;
         // console.log(data,'<------------- loan new');
-        this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังหมีหยี้คงค้างอยู่ ' 
-        + this.formattedNumber2(this.dataNewLoan.loanBalance) + '  บาท';
+        const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
+        this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ ' 
+        + this.formattedNumber2(loanBalance) + '  บาท';
         this.displayMessageError = true;
       }
      }
@@ -1230,12 +1230,19 @@ export class LoanComponentComponent implements OnInit {
   }
 
   onCloseLoan(data: any) {
+    console.log("data", data);
+    
     this.confirmationService.confirm({
       message: 'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
       header: 'ปิดหนี้สมาชิก',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //api
+        
+        this.service.closeLoan(data.id).subscribe((res) => {
+          this.messageService.add({ severity: 'success', detail: 'ปิดหนี้สำเร็จ' });
+          this.ngOnInit();
+        })
       },
       reject: () => { }
     });
@@ -1247,6 +1254,59 @@ export class LoanComponentComponent implements OnInit {
 
   showWarn() {
     this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
+  }
+
+  oldMonth: any;
+  newMonth: any;
+  newYear: any;
+  updateLoantoMonth() {
+    this.displayModal = true;
+
+    const formatDate = new Date()
+    const month = formatDate.getMonth()
+    this.newYear = formatDate.getFullYear() + 543
+
+    this.newMonth = this.periodMonthDescOption[month];
+    this.oldMonth = this.periodMonthDescOption[month - 1];
+
+    this.formModelLoan.patchValue({
+      loanYear: this.newYear,
+      loanMonth: this.newMonth.label,
+    })
+
+    this.formModelLoan.get('loanMonth')?.disable();
+    this.formModelLoan.get('loanYear')?.disable();
+
+    this.checkInsertLoanDetailAll();
+  }
+
+  checkInsertLoanDetailAll() {
+
+    const loanDetail = this.dataLoanDetail
+    const formatDate = new Date()
+    const month = formatDate.getMonth()
+    const monthSelect = this.periodMonthDescOption[month];
+
+    if (loanDetail[loanDetail.length - 1].loanMonth === monthSelect.label) {
+      this.checkNull = true;
+    } else {
+      this.checkNull = false;
+    }
+  }
+
+  onupdateLoanToMonth() {
+    // api update stock to everyone 
+    const payload = {
+      oldMonth: this.oldMonth.label,
+      oldYear: this.newYear,
+      newMonth: this.newMonth.label,
+      newYear: this.newYear
+    }
+    this.service.insertLoanDetail(payload).subscribe(data => {
+      this.messageService.add({ severity: 'success', detail: 'เพิ่มสำเร็จ' });
+      this.displayModal = false;
+      this.ngOnInit();
+    });
   }
 
 }

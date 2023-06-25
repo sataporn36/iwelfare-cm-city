@@ -208,6 +208,12 @@ export class MainService {
     );
   }
 
+  insertLoanDetail(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/loan/add-all', playload
+    );
+  }
+
   getEmployeeOfMain(id: number): Observable<any> {
     return this.http.get<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/employee/of-main/' + id,
@@ -226,19 +232,19 @@ export class MainService {
     );
   }
 
-  searchEmployeeLoanNew(playload: any): Observable<any>{
+  searchEmployeeLoanNew(playload: any): Observable<any> {
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-add-new', playload
     );
   }
 
-  onCalculateLoanOld(playload: any): Observable<any>{
+  onCalculateLoanOld(playload: any): Observable<any> {
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/document/calculate-loan-old', playload
     );
   }
 
-  searchGuarantorUnique(playload: any): Observable<any>{
+  searchGuarantorUnique(playload: any): Observable<any> {
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-guarantor-unique', playload
     );
@@ -274,10 +280,15 @@ export class MainService {
     );
   }
 
-  insertLoanNew(playload: any): Observable<any>{
+  insertLoanNew(playload: any): Observable<any> {
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/v1/loan/add-loan-New', playload
     );
   }
 
+  closeLoan(id: number): Observable<any> {
+    return this.http.get<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/loan/close/' + id,
+    );
+  }
 }

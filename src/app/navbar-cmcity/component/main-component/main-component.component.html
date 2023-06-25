@@ -1,6 +1,6 @@
 <div [formGroup]="formModel">
-    <div class="row" style="margin-top: -4px;">
-        <div class="col-3">
+    <div class="row" style="margin-top: -8px;">
+        <div class="col-3" style="width: 320px;">
             <div class="div-card">
                 <div class="row">
                     <div class="col-2">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-3" style="margin-left: -12px; width: 320px;">
             <div class="div-card">
                 <div class="row">
                     <div class="col-2">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="div-card">
+            <div class="div-card" style="margin-left: -12px; width: 320px;">
                 <div class="row">
                     <div class="col-2">
                         <div class="div-img" style="background: #CCE9FF;">
@@ -55,7 +55,7 @@
                         <div class="row">
                             <span>ผู้รับผลประโยชน์</span>
                             <div class="col-2">
-                                <h2 [innerHTML]="formModel.get('')?.value"></h2>
+                                <h2>{{ countBeneficiary || 0 }}</h2>
                             </div>
                             <div class="col-2" style="margin-top: 12px;">
                                 <span>คน</span>
@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="div-card">
+            <div class="div-card" style="margin-left: 0px; width: 320px;">
                 <div class="row">
                     <div class="col-2">
                         <div class="div-img" style="background: #D1F7EA;">
@@ -91,8 +91,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-2">
-            <div class="card-profile" style="margin-top: 10px;">
+        <div class="col-2" style="height: fit-content;">
+            <div class="card-profile" style="margin-top: 10px; margin-left: 12px;">
                 <img class="profile_img" src="{{ checkImgProfile(formModel.get('gender')?.value)}}" alt="logo" />
                 <p [innerHTML]="formModel.get('fullName')?.value"></p>
                 <div class="row">
@@ -132,7 +132,7 @@
             <div class="div-new">
                 <p-chip label="ข่าวประชาสัมพันธ์" styleClass="mr-2"></p-chip>
                 <div class="row" style="margin-top: 15px;">
-                    <div class="col-2">
+                    <div class="col-2" style="width: 285px;">
                         <div class="row" style="margin-top: -24px;">
                             <div class="col-1">
                                 <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -152,7 +152,7 @@
                         </div>
                     </div>
 
-                    <div class="col-2">
+                    <div class="col-2" style="width: 285px;">
                         <div class="row" style="margin-top: -24px;">
                             <div class="col-1">
                                 <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -172,7 +172,7 @@
                         </div>
                     </div>
 
-                    <div class="col-2">
+                    <div class="col-2" style="width: 285px;">
                         <div class="row" style="margin-top: -24px;">
                             <div class="col-1">
                                 <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -192,7 +192,7 @@
                         </div>
                     </div>
 
-                    <div class="col-2">
+                    <div class="col-2" style="width: 285px;">
                         <div class="row" style="margin-top: -24px;">
                             <div class="col-1">
                                 <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -214,56 +214,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="div-beneficiary">
-                <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip><br><br>
-                <div class="row" style="margin-left: 0px;">
-                    <div class="col-12">
-                        <span>ชื่อ-สกุล</span>
-                    </div>
-                </div>
-                <ul>
-                    <li>
-                        <div class="row">
-                            <div class="col-2">
-                                <img class="beneficiary_img" src="assets/images/logo.png" alt="logo" />
-                            </div>
-                            <div class="col-8" style="margin-top: 20px; margin-left: 20px;">
-                                <span>ตัวอย่าง ตัวอย่าง</span>
-                            </div>
-                            <!-- <div class="col-3" style="margin-top: 20px;">
-                            <div class="div-beneficiary-span">
-                                <span>บุตร</span>
-                            </div>
-                        </div> -->
-                        </div>
-                    </li>
-                    <li>
-                        <div class="row">
-                            <div class="col-2">
-                                <img class="beneficiary_img" src="assets/images/logo.png" alt="logo" />
-                            </div>
-                            <div class="col-8" style="margin-top: 20px; margin-left: 20px;">
-                                <span>Henry Rashford</span>
-                            </div>
-                            <!-- <div class="col-3" style="margin-top: 20px;">
-                            <div class="div-beneficiary-span">
-                                <span>บุตรบุญธรรม</span>
-                            </div>
-                        </div> -->
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="row">
+        <div style="padding-top: 1rem;"></div>
         <div class="col-9">
             <div class="div-table-stocks">
                 <p-chip label="รายการหุ้น" styleClass="mr-2"></p-chip>
                 <br>
-                <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading"
-                    [tableStyle]="{'max-width': '100%'}" styleClass="p-datatable-md">
+                <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading" [tableStyle]="{'max-width': '100%'}"
+                    styleClass="p-datatable-md">
                     <ng-template pTemplate="header">
                         <tr>
                             <th style="width:10%">ลำดับที่</th>
@@ -288,6 +245,28 @@
                     </ng-template>
                 </p-table>
             </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="div-beneficiary" [style]="checkBeneficiaryCss()">
+            <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip><br><br>
+            <div class="row" style="margin-left: 0px;">
+                <div class="col-12">
+                    <span>ชื่อ-สกุล</span>
+                </div>
+            </div>
+            <ul>
+                <li *ngFor="let beneficiary of arrayBeneficiary">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div class="col-2">
+                            <img src="{{ checkImgProfile(beneficiary?.gender)}}" />
+                        </div>
+                        <div class="col-10" style="margin-top: 20px; margin-left: 20px;">
+                            <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

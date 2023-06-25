@@ -26,6 +26,9 @@ export class RegisterPageComponent implements OnInit{
   pnumberValidation: boolean = false;
   iconStatus: boolean = false;
   statusCheck: any;
+  level: any;
+  employeeType: any;
+  periodMonthDescOption: any = [];
 
 
   public position: Observable<Positions[]> | any 
@@ -51,6 +54,9 @@ export class RegisterPageComponent implements OnInit{
     this.getPositions();
     this.getBureau();
     this.getDapartment();
+    this.searchLevel();
+    this.searchEmployeeType();
+    this.setperiodMonthDescOption();
   }
 
   getPositions(): void {
@@ -65,6 +71,14 @@ export class RegisterPageComponent implements OnInit{
     this.service.searchDepartment().subscribe(data => this.dapartment = data)
   }
 
+  searchLevel(): void {
+    this.service.searchLevel().subscribe(data => this.level = data);
+  }
+
+  searchEmployeeType(): void {
+    this.service.searchEmployeeType().subscribe(data => this.employeeType = data);
+  }
+
   initMainForm(){
     this.formModel = new FormGroup({
       prefix: new FormControl('0',Validators.required),
@@ -77,7 +91,45 @@ export class RegisterPageComponent implements OnInit{
       affiliationId: new FormControl('0',Validators.required),
       email: new FormControl(null,Validators.required),
       dapartmentId: new FormControl('0',Validators.required),
+      levelId: new FormControl('0',Validators.required),
+      employeeTypeId: new FormControl('0',Validators.required),
+      stockValue: new FormControl(null,Validators.required),
+      stockMonth: new FormControl(null),
+      stockYear: new FormControl(null),
     });
+  }
+
+  month: any;
+  year: any;
+  time: any;
+  pipeDateTH() {
+    const format = new Date()
+    const day = format.getDate()
+    const month = format.getMonth()
+    const year = format.getFullYear() + 543
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+    return day + ' ' + monthSelect.label + ' ' + year
+  }
+
+  setperiodMonthDescOption() {
+    this.periodMonthDescOption = [
+      { value: '01', label: 'มกราคม' },
+      { value: '02', label: 'กุมภาพันธ์' },
+      { value: '03', label: 'มีนาคม' },
+      { value: '04', label: 'เมษายน' },
+      { value: '05', label: 'พฤษภาคม' },
+      { value: '06', label: 'มิถุนายน' },
+      { value: '07', label: 'กรกฎาคม' },
+      { value: '08', label: 'สิงหาคม' },
+      { value: '09', label: 'กันยายน' },
+      { value: '10', label: 'ตุลาคม' },
+      { value: '11', label: 'พฤศจิกายน' },
+      { value: '12', label: 'ธันวาคม' },
+    ];
   }
 
   checkNullOfValue() {
@@ -118,6 +170,9 @@ export class RegisterPageComponent implements OnInit{
 
   onRegister(){
     const playload = this.formModel.getRawValue();
+    playload.stockMonth = this.month;
+    playload.stockYear = this.year;
+
     this.service.register(playload).subscribe((res) => {
       console.log(res,'======================> res')
       if(res !== null){

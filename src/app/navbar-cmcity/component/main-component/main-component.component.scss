@@ -25,7 +25,7 @@
     border-radius: 50%;
     text-align: center;
     margin: 15.5px;
-    margin-left: 25px;
+    // margin-left: 25px;
 }
 
 .iconify{
@@ -58,7 +58,7 @@ svg{
 }
 
 .card-profile{
-    height: 380px;
+    height: 448px;
     background: #fff;
     border-radius: 15px;
     text-align: center;
@@ -68,7 +68,7 @@ svg{
 .profile_img{
     width: 180px;
     height: 180px;
-    margin-top: 25px;
+    margin-top: 50px;
     margin-bottom: 15px;
     border-radius: 50%;
     border: 4px solid #fd79a8;
@@ -101,21 +101,24 @@ svg{
     background: #fff;
     padding: 30px;
     border-radius: 15px;
-    margin-top: -23.5%;
-    width: 106%;
-    height: 342px;
+    margin-top: -29.8%;
+    padding-left: 30px;
+    width: 107.2%;
+    // width: max-content;
+    // height: px;
 }
 
 .div-new .row{
+    // padding-left: 10px;
     .col-2{
-        margin-left: 20px;
+        margin-left: 10px;
         width: 278px;
-        height: 230px;
+        height: 240px;
         border: 1px solid #d2d6df;
         border-radius: 15px;
         img{
-            width: 276px;
-            height: 140px;
+            width: 285px;
+            height: 150px;
             object-fit: cover;
             margin-left: -12px;
             border-top-left-radius: 15px;
@@ -157,31 +160,38 @@ td {
 
 .div-beneficiary{
     background: #fff;
-    margin: 10px;
+    margin: 7px;
     border-radius: 15px;
-    margin-left: 24%;
+    margin-left: 80rem;
+    // margin-top: -15.6rem;
+    // margin-top: -12rem;
     width: 310px;
-    padding: 25px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 17px;
+    // transform: translate(75rem, -182px);
 }
 
 .div-beneficiary p{
     font-size: 20px;
 }
 
-.div-beneficiary .row{
-    width: 100%;
-}
+// .div-beneficiary .row{
+//     width: 100%;
+// }
 
 .div-beneficiary span{
     font-size: 15px;
-    color: #8690a1;
+    color: #4e4e4e;
+    width: max-content;
 }
 
 .div-beneficiary img{
     width: 50px;
     border-radius: 50%;
     margin-top: 10px;
-
+    background: #ffeef7;
+    // background: ;
 }
 
 .div-beneficiary ul {
@@ -210,8 +220,9 @@ td {
     background: #fff;
     padding: 30px;
     border-radius: 15px;
-    margin-top: -18.5%;
-    width: 106%;
+    margin-top: -5px;
+    width: 107.2%;
+    // transform: translate(0, -182px);
 }
 
 :host ::ng-deep .p-datatable {

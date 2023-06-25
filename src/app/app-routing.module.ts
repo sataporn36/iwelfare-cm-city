@@ -17,6 +17,7 @@ import { SharePageComponent } from './navbar-cmcity/page/share-page/share-page.c
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 import { RegisterPageComponent } from './Register/register-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { AdminPageComponent } from './navbar-cmcity/page/admin-page/admin-page.component';
 
 const routes: Routes = [
     {
@@ -93,6 +94,10 @@ const routes: Routes = [
         {
           path: 'message-page',
           component: MessagePageComponent,
+        },
+        {
+          path: 'admin-page',
+          component: AdminPageComponent,
         },
       ]
     },

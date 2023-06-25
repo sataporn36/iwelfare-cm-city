@@ -132,6 +132,9 @@ export class NavbarCmcityComponent implements OnInit {
     this.localStorageService.clear('empId');
     this.localStorageService.clear('currentDateTime');
     this.localStorageService.clear('countDatetime');
+    this.localStorageService.clear('stockId');
+    this.localStorageService.clear('loanId');
+    this.localStorageService.clear('employeeofmain');
     this.router.navigate(['/login'])
   }
 

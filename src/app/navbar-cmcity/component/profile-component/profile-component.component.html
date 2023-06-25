@@ -24,7 +24,7 @@
                             formControlName="employeeCode" />
                     </div>
 
-                    <div class=" div-btn" *ngIf="!mode" style="transform: translate(1120px, -55px);">
+                    <div class="div-btn" *ngIf="!mode" style="transform: translate(1120px, -55px);">
                         <div class="row" style="margin-left: -18px;">
                             <div class="col-4">
                                 <button type="button" class="btn btn-login" (click)="accept()">บันทึก</button>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-group" style="width: 32rem; margin-left: 25rem;" *ngIf="mode">
+            <div class="btn-group" style="width: max-content; margin-left: 25rem;" *ngIf="mode">
                 <div style="display: flex; align-items: flex-end; justify-content: flex-end;">
                     <button type="button" class="btn btn-login1"  (click)="displayResign()"
                         [disabled]="resign">ขอลาออก</button>
@@ -49,7 +49,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="div-profile">

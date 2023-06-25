@@ -1,17 +1,16 @@
 <div class="card-table">
-    <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน" styleClass="mr-2"></p-chip>
-    <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
-        <div class="btn-group">
-            <button type="button" class="btn btn-login" style="width: max-content;"
-                (click)="searchDocumentV1PDF('export')">ประวัติเงินกู้เเละค่าหุ้น</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
-
-            <button (click)="initiateDownload()">Download PDF</button>
-            <a #downloadLink href="/assets/pdf/วิเคราะห์ข้อมูลคุณสมศรี.pdf" style="display: none;" download></a>
-
+    <div style="display: flex; justify-content: space-between;">
+        <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน" styleClass="mr-2"></p-chip>
+        <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-login" style="width: max-content;"
+                    (click)="searchDocumentV1PDF('export')">ประวัติเงินกู้เเละค่าหุ้น</button>
+                &nbsp;&nbsp;
+                <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
+            </div>
         </div>
     </div>
+    
     <div style="font-family: 'Kanit';">
         <p-table dataKey="id" [value]="dataLoanDetail" [loading]="loading" [paginator]="true" [rows]="10"
             [showCurrentPageReport]="true" selectionMode="single"
@@ -49,7 +48,7 @@
     <p-toast></p-toast>
     <div style="padding-bottom: 0.5rem; padding-top: 1rem; display: flex; justify-content: space-between;">
         <div class="btn-group" style="width: 30%;">
-            <button type="button" class="btn btn-login" style="width: max-content;">เรียกเก็บชำระเงินกู้รายเดือน</button>
+            <button type="button" class="btn btn-login" style="width: max-content;" (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" style="width: max-content;" (click)="onShowLoanAddNew()">สร้างสัญญาเงินกู้ใหม่</button>
         </div>
@@ -92,7 +91,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-editing="editing" let-dataLoan let-ri="rowIndex">
             <tr [pEditableRow]="dataLoan">
-                <td>{{ dataLoan.id }}</td>
+                <td>{{ ri + 1 }}</td>
                 <td>{{ dataLoan.employeeCode }}</td>
                 <td>{{ dataLoan.firstName }}</td>
                 <td>{{ dataLoan.lastName }}</td>
@@ -117,7 +116,7 @@
 </div>
 <div style="padding-top: 2rem;"></div>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
+<!-- <p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
     styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
@@ -143,7 +142,7 @@
             [disabled]="checkNull">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-confirmDialog #cd [appendTo]="'body'" position="center" [draggable]="false" [dismissableMask]="true"
     [style]="{width: '18vw'}">
@@ -319,5 +318,35 @@
     </ng-template>
 </p-dialog>
 
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">เรียกเก็บชำระเงินกู้รายเดือน</span>
+            <!-- <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"></i> -->
+        </div>
+    </ng-template>
+    <div [formGroup]="formModelLoan">
+        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+            <div class="col-12 " style="display: flex; justify-content: center;">
+                <div class="col-6">
+                    <label class="block">เดือนที่ชำระเงินกู้</label>
+                    <input class="form-control" type="text" formControlName="loanMonth" [disabled]="true" />
+                </div>
+                <div style="padding-right: 0.5rem;"></div>
+                <div class="col-6">
+                    <label class="block">ปีที่ชำระเงินกู้</label>
+                    <input class="form-control" type="text" formControlName="loanYear" [disabled]="true" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login2" (click)="onupdateLoanToMonth()"
+            [disabled]="checkNull">ยืนยัน</button>
+        <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
 
 <p-toast></p-toast>

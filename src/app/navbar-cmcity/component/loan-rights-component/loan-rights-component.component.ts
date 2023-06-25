@@ -1,5 +1,5 @@
 import { LocationStrategy } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 
@@ -14,6 +14,7 @@ export class LoanRightsComponentComponent implements OnInit {
   sumLoan: any;
   totalLoan: any;
   loanValueNull: any;
+  @ViewChild('downloadLink') downloadLinkRef!: ElementRef;
 
   constructor(
     protected router: Router,
@@ -21,6 +22,10 @@ export class LoanRightsComponentComponent implements OnInit {
     private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService
   ) { }
+
+  initiateDownload(): void {
+    this.downloadLinkRef.nativeElement.click();
+  }
 
   ngOnInit(): void {
     this.userInfo = this.localStorageService.retrieve('employeeofmain');

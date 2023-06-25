@@ -51,6 +51,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
+import { AdminComponentComponent } from './component/admin-component/admin-component.component';
+import { AdminPageComponent } from './page/admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { AvatarModule } from 'primeng/avatar';
     ProfileComponentComponent,
     ProfilePageComponent,
     MessageComponentComponent,
-    MessagePageComponent
+    MessagePageComponent,
+    AdminComponentComponent,
+    AdminPageComponent
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent],

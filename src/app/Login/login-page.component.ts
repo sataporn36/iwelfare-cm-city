@@ -56,7 +56,7 @@ export class LoginPageComponent implements OnInit {
       state: { data: '' }
     });
   }
-
+ 
   clickLogin() {
     if (this.formModel.valid) {
       const payload = this.formModel.getRawValue();

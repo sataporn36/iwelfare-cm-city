@@ -5,10 +5,10 @@
 
 .register{
     position: absolute;
-    width: 1200px;
-    height: 700px;
-    left: calc(50% - 1200px/2);
-    top: calc(50% - 700px/2);
+    width: 1500px;
+    height: 850px;
+    left: calc(50% - 1500px/2);
+    top: calc(50% - 850px/2);
 
     /* white */
     background: #FFFFFF;
@@ -16,11 +16,17 @@
     border-radius: 50px;
 }
 
+.text{
+    margin-top: 8%;
+    margin-left: 6%;
+    width: 500px;
+}
+
 .card{
     position: absolute;
-    width: 500px;
-    height: 700px;
-    left: 700px;
+    width: 600px;
+    height: 850px;
+    left: 900px;
     top: 0px;
     background: rgba(255, 204, 204, 0.4);
     border-top-right-radius: 50px;
@@ -35,11 +41,6 @@ img{
     top: calc(48% - 400px/2);
 }
 
-.text{
-    margin-top: 6.5%;
-    margin-left: 9%;
-}
-
 h1{
     font-weight: bold;
     margin-top: -20px;
@@ -50,11 +51,11 @@ span{
 }
 
 .text-group{
-    margin-top: 35px;
+    margin-top: 20px;
 }
 
 .row{
-    width: 540px;
+    width: 740px;
 }
 
 .mb-3{
@@ -110,11 +111,11 @@ hr{
 } 
 
 .btn{
-    width: 490px;
+    width: 720px;
     height: 45px;
     font-weight: 500;
-    font-size: 15px;
-    margin-top: 20px;
+    font-size: 16px;
+    margin-top: 40px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -124,5 +125,5 @@ hr{
 .btn-regis {
     color: #fff;
     background-color: #FE6BBA;
-    margin-left: 0px;
+    margin-left: -4px;
 }
