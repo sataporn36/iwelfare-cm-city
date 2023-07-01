@@ -19,12 +19,15 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width:10%">ลำดับที่</th>
-                    <th style="width:15%">เดือนที่ทำรายการ</th>
-                    <th style="width:15%">ปีที่ทำรายการ</th>
-                    <th style="width:15%">ชื่อรายการ</th>
+                    <th style="width:10%">เดือนที่ทำรายการ</th>
+                    <th style="width:10%">ปีที่ทำรายการ</th>
+                    <th style="width:10%">ชื่อรายการ</th>
                     <th style="width:10%">งวดที่</th>
-                    <th style="width:15%">เงินกู้สามัญ</th>
-                    <th style="width:15%">ดอกเบี้ย (%)</th>
+                    <th style="width:10%">ดอกเบี้ย(เดือนนี้)</th>
+                    <!-- <th style="width:10%">เงินกู้ส่งรายเดือน</th> -->
+                    <th style="width:10%">เงินกู้สามัญ</th>
+                    <th style="width:10%">เงินกู้คงเหลือ</th>
+                    <th style="width:10%">ดอกเบี้ย (%)</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-loanDetail let-i="rowIndex">
@@ -34,7 +37,10 @@
                     <td>{{ loanDetail.loanYear }}</td>
                     <td>ชำระหนี้ประจำเดือน</td>
                     <td style="color: #EA3A3D;">{{ loanDetail.installment | number }}</td>
-                    <td style="color: #1AD598;">{{ loanDetail.loanOrdinary | number }}</td>
+                    <td style="color: #1AD598;">{{ loanDetail.interest | number }}</td>
+                    <!-- <td style="color: #1AD598;">{{ loanDetail.loanOrdinary | number }}</td> -->
+                    <td style="color: #EA3A3D;">{{ loanDetail.loanValue | number }}</td>
+                    <td style="color: #1AD598;">{{ loanDetail.loanBalance | number }}</td>
                     <td>{{ loanDetail.interestPercent }}%</td>
                 </tr>
             </ng-template>
@@ -147,8 +153,8 @@
 <p-confirmDialog #cd [appendTo]="'body'" position="center" [draggable]="false" [dismissableMask]="true"
     [style]="{width: '18vw'}">
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
-        <button type="button" class="btn btn-login" (click)="cd.reject()">ยกเลิก</button>
+        <button type="button" class="btn btn-login2"  (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-regis2"  (click)="cd.reject()">ยกเลิก</button>
     </ng-template>
 </p-confirmDialog>
 
@@ -161,6 +167,9 @@
         <!-- <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i> -->
         <span>
             โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที
+        </span><br>
+        <span style="color: red;">
+           * กรุณาปิดหนี้ถึงจะสามารถกู้ได้
         </span>
     </div>
     <ng-template pTemplate="footer">
@@ -241,16 +250,17 @@
                         (keyup)="checkGuarantorUnique1($event)"
                         [required]="true"/>
                         <em *ngIf="this.guarantorUniqueFlag1 === 'Y'">
-                            <span style="font-size: 18px; color: green;">ใช้ได้</span>
+                            <!-- <span style="font-size: 18px; color: green;">ใช้ได้</span> -->
+                            <span style="font-size: 16px; color: green;">{{ this.guarantorUniqueName1 }}</span>
                         </em>
                         <em *ngIf="this.guarantorUniqueFlag1 === 'N'">
-                            <span style="font-size: 18px; color: red;">ใช้ไม่ได้</span>
+                            <span style="font-size: 16px; color: red;">ใช้ไม่ได้</span>
                         </em>
                         <em *ngIf="this.guarantorUniqueFlag1 === 'Q'">
-                            <span style="font-size: 18px; color: red;">ถูกใช้เเล้ว</span>
+                            <span style="font-size: 16px; color: red;">ถูกใช้เเล้ว</span>
                         </em>
                         <em *ngIf="this.guarantorUniqueFlag1 === 'C'">
-                            <span style="font-size: 18px; color: red;">ไม่สามารถค้ำให้ตนเองได้</span>
+                            <span style="font-size: 16px; color: red;">ไม่สามารถค้ำให้ตนเองได้</span>
                         </em>
                     </div>
                     <div class="col-6">
@@ -260,16 +270,17 @@
                         (keyup)="checkGuarantorUnique2($event)"
                         [required]="true"/>
                         <em *ngIf="this.guarantorUniqueFlag2 === 'Y'">
-                            <span style="font-size: 18px; color: green;">ใช้ได้</span>
+                            <!-- <span style="font-size: 16px; color: green;">ใช้ได้</span> -->
+                            <span style="font-size: 16px; color: green;">{{ this.guarantorUniqueName2 }}</span>
                         </em>
                         <em *ngIf="this.guarantorUniqueFlag2 === 'N'">
-                            <span style="font-size: 18px; color: red;">ใช้ไม่ได้</span>
+                            <span style="font-size: 16px; color: red;">ใช้ไม่ได้</span>
                         </em>
                         <em *ngIf="this.guarantorUniqueFlag2 === 'Q'">
-                            <span style="font-size: 18px; color: red;">ถูกใช้เเล้ว</span>
+                            <span style="font-size: 16px; color: red;">ถูกใช้เเล้ว</span>
                         </em>
                         <em *ngIf="this.guarantorUniqueFlag2 === 'C'">
-                            <span style="font-size: 18px; color: red;">ไม่สามารถค้ำให้ตนเองได้</span>
+                            <span style="font-size: 16px; color: red;">ไม่สามารถค้ำให้ตนเองได้</span>
                         </em>
                     </div>
                 </div>
@@ -277,14 +288,14 @@
                 <div style="display: flex; gap: 1rem; padding-top: 1rem;">
                     <div class="col-6">
                         <label class="block">วันที่เริ่มชำระ</label>
-                        <input class="form-control" pInputText type="text" formControlName="startDateLoan" required="true" maxlength="50" />
+                        <input class="form-control" pInputText type="text" formControlName="startDateLoan" required maxlength="50" />
                     </div>
                     <div class="col-6 p-num-6">
                         <label class="block">ยอดที่ต้องชำระต่อเดือน</label> <br>
-                        <input class="form-control" pInputText type="text" formControlName="loanOrdinary" required="true" maxlength="11"
+                        <input class="form-control" pInputText type="text" formControlName="loanOrdinary" required maxlength="11"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
                         <div class="row" *ngIf="this.dataLanTimeFlag" >
-                            <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanOld()">คำนวณ</button>
+                            <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
                             <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
                         </div>
                         <!-- <p-inputNumber class="disabled-p-num" formControlName="loanOrdinary" inputId="minmaxfraction" mode="decimal"

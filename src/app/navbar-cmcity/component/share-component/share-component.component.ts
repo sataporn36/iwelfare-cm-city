@@ -58,8 +58,12 @@ export class ShareComponentComponent implements OnInit {
   employeeStatus: any;
   employeeStatusList: any[];
   empId: any
+  elementLoan: any;
+  sumElementLoan: any;
 
-  constructor(private service: MainService, private messageService: MessageService, private localStorageService: LocalStorageService, @Inject(LOCALE_ID) public locale: string) { }
+  constructor(private service: MainService, private messageService: 
+    MessageService, private localStorageService: LocalStorageService, 
+    @Inject(LOCALE_ID) public locale: string) { }
 
   ngOnInit() {
     // this.service.getCustomers().subscribe((res) => {
@@ -917,8 +921,43 @@ export class ShareComponentComponent implements OnInit {
     }
   }
 
+  onSearchCalculateLoanOld(res: any,stockValue: any){
+    const payloadOld = {
+      principal: res.loanValue,
+      interestRate: Number(res.interestPercent),
+      numOfPayments: res.loanTime,
+      paymentStartDate: "2023-01-31"
+     }
+    this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
+      const data = resL;
+      data.forEach((element, index, array) => {
+        if(element.installment === res.installment){
+          this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
+          this.elementLoan = element;
+          this.onPrintReceiptMakePdf(element,this.sumElementLoan)
+        }
+      })
+    });
+  }
 
-  async onPrintReceiptMakePdf() {
+  onSearchEmployeeLoanNew(){
+    const stock = this.stockInfo;
+    const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
+    const payload = {
+      empId: this.empDetail.employeeCode
+    }
+    this.service.searchEmployeeLoanNew(payload).subscribe({
+      next: (res) => {
+        const dataRes = res;
+        this.dataResLoan = res;
+        this.onSearchCalculateLoanOld(res,stockValue);
+      },
+      error: error => {},
+    });
+  }
+
+  dataResLoan: any
+  async onPrintReceiptMakePdf(elementLoan: any, sumElementLoan: any) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -946,7 +985,6 @@ export class ShareComponentComponent implements OnInit {
     const stock = this.stockInfo;
     const installment = stock?.stockDetails.slice(-1)[0].installment;
     const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
-    console.log(data, '<------------- data');
 
     const docDefinition = {
       info: {
@@ -972,22 +1010,23 @@ export class ShareComponentComponent implements OnInit {
         { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['หุ้นสะสม ', { text: ' ' + stockAccumulate + ' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['หุ้นสะสม ', { text: ' ' + this.formattedNumber2(stockAccumulate) + ' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
         '\n',
         {
           color: '#000',
           table: {
             widths: ['*', '*', '*', '*'],
             headerRows: 4,
-            // keepWithHeaderRows: 1,
+            // keepWithHeaderRows: 1, , alignment: 'right'
             body: [
               [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', installment, stockValue, ' '],
-              ['เงินต้น', ' ', ' ', ' '],
-              ['ดอก', ' ', ' ', ' '],
+              ['ค่าหุ้น', { text: this.formattedNumber2(installment), alignment: 'right' }, { text: this.formattedNumber(stockValue), alignment: 'right' }, ' '],
+              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber(elementLoan.totalDeduction) : '', alignment: 'right' }
+              , { text: elementLoan ? this.formattedNumber(elementLoan.principalBalance) : '', alignment: 'right' }],
+              ['ดอก', ' ', { text: elementLoan ? this.formattedNumber(elementLoan.interest) : '', alignment: 'right' }, ' '],
               //['รวมเงิน', {colSpan: 2, rowSpan: 2, text: '1000'}, ' '],
               //[{colSpan: 2, rowSpan: 2, text: 'รวมเงิน'}, '1000', '', ''],
-              [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: stockValue, style: 'tableHeader', alignment: 'left' }, {}],
+              [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
             ]
           },
           layout: {
@@ -997,7 +1036,7 @@ export class ShareComponentComponent implements OnInit {
           }
         },
         '\n',
-        { text: '(หนึ่งพันบาทถ้วน)', style: 'header2', margin: [20, 0, 0, 0] },
+        { text: "("+ this.transformPipeThai(sumElementLoan) +")", style: 'header2', margin: [20, 0, 0, 0] },
         '\n',
         {
           style: 'tableExample',
@@ -1046,6 +1085,32 @@ export class ShareComponentComponent implements OnInit {
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
     //pdf.download('ประวัติการส่งหุ้น.pdf');
+  }
+
+  transformPipeThai(value: number): string {
+    const digits = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+    const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+    
+    let bahtText = '';
+    const numString = value.toString();
+
+    // Process each digit of the number
+    for (let i = 0; i < numString.length; i++) {
+      const digit = parseInt(numString.charAt(i));
+
+      // Skip if the digit is zero
+      if (digit === 0) {
+        continue;
+      }
+
+      const position = positions[numString.length - i - 1];
+      const digitText = digits[digit];
+
+      // Append the digit and position to the Thai Baht text
+      bahtText += digitText + position;
+    }
+
+    return bahtText + 'บาทถ้วน';
   }
 
   getBase64ImageFromURL(url) {
@@ -1249,7 +1314,7 @@ export class ShareComponentComponent implements OnInit {
     } else if (data.codeGuarantorTwo != null && data.fullNameGuarantorTwo && num == 2) {
       return data.codeGuarantorTwo + ' ' + data.fullNameGuarantorTwo
     } else {
-      return ''
+      return ' ไม่มี '
     }
   }
 
@@ -1318,8 +1383,8 @@ export class ShareComponentComponent implements OnInit {
           { text: ['ประเภท                   ', { text: element.employeeTypeName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ตําแหน่ง                   ', { text: element.positionsName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['อัตราเงินเดือน         ', { text: this.formattedNumber2(element.salary), bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['คํ้าประกันให้            ', { text: this.checkNullOfGuarantee(element, 1), bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: [' ', { text: this.checkNullOfGuarantee(element, 2), bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
+          { text: ['คํ้าประกันให้            ', { text: element.codeGuaranteeOne ? this.checkNullOfGuarantee(element, 1) : '1. ไม่มี', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+          { text: [' ', { text: element.codeGuaranteeTwo ? this.checkNullOfGuarantee(element, 2) : '2. ไม่มี', bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
           {
             text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: this.formattedNumber2(element.stockValue) + '\tบาท', bold: false, style: 'texts' },
               { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false }, { text: '\t\t' + element.installment, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
@@ -1362,8 +1427,8 @@ export class ShareComponentComponent implements OnInit {
               body: [
                 [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: ' - ', color: 'gray' }],
                 [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-                [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: this.checkNullOfGuarantor(element, 1), color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-                [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: this.checkNullOfGuarantor(element, 2), color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+                [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: element.codeGuarantorOne ? this.checkNullOfGuarantor(element, 1) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
+                [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: element.codeGuarantorTwo ? this.checkNullOfGuarantor(element, 2) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: this.formattedNumber2(element.interestMonth) + '          บาท', color: 'gray', fillColor: '#fff' },
                 { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.earlyMonth) + '          บาท', color: 'gray' }],
                 [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: this.formattedNumber2(element.interestMonthLast) + '          บาท', color: 'gray', fillColor: '#fff' },

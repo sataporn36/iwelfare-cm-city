@@ -50,6 +50,8 @@ export class LoanComponentComponent implements OnInit {
   guarantorUniqueFlag1: any = 'A';
   guarantorUniqueFlag2: any = 'A';
   messageError: any;
+  guarantorUniqueName1: any;
+  guarantorUniqueName2: any;
 
   constructor(private service: MainService, private messageService: MessageService, private confirmationService: ConfirmationService, private localStorageService: LocalStorageService,) { }
 
@@ -71,6 +73,8 @@ export class LoanComponentComponent implements OnInit {
     this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
       // Perform your action here based on the latest value
       if(value.length >= 5){
+        this.formModelLoanNew.get('guarantorOne').enable();
+        this.formModelLoanNew.get('guarantorTwo').enable();
         const payload = {
           empId: value
         }
@@ -157,6 +161,12 @@ export class LoanComponentComponent implements OnInit {
                     this.guarantorUniqueFlag1 = 'C';
                   }else if(value !== data.guarantorTwo){
                     this.guarantorUniqueFlag1 = 'Y';
+                    const playload1 = {
+                      empCode: data.guarantorOne
+                    }
+                    this.service.searchEmpCodeOfId(playload1).subscribe((resG1)=>{
+                      this.guarantorUniqueName1 = resG1 ? resG1.fullName : 'ใช้ได้';
+                    });
                   }else{
                     this.guarantorUniqueFlag1 = 'Q';
                     setTimeout(() => {}, 800);
@@ -199,6 +209,12 @@ export class LoanComponentComponent implements OnInit {
                         this.guarantorUniqueFlag2 = 'C';
                       }else if(value !== data.guarantorOne){
                         this.guarantorUniqueFlag2 = 'Y';
+                        const playload2 = {
+                          empCode: data.guarantorTwo
+                        }
+                        this.service.searchEmpCodeOfId(playload2).subscribe((resG2)=>{
+                          this.guarantorUniqueName2 = resG2 ? resG2.fullName : 'ใช้ได้';
+                        });
                       }else{
                         this.guarantorUniqueFlag2 = 'Q';
                         setTimeout(() => {}, 800);
@@ -311,6 +327,8 @@ export class LoanComponentComponent implements OnInit {
   searchLoanDetail(id: any): void {
     this.service.searchLoanDetail(id).subscribe(data => {
       this.dataLoanDetail = data
+      console.log(this.dataLoanDetail,'<-------------- this.dataLoanDetail');
+      
       this.loading = false;
     });
   }
@@ -374,12 +392,15 @@ export class LoanComponentComponent implements OnInit {
   searchDocumentV1PDF(mode: any) {
     this.showWarn();
     // let loanInfo: any[] = [];
+    console.log(this.loanId,'<---------- this.loanId');
+    
     const playload = {
       loanId: this.loanId,
       monthCurrent: this.month
     }
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
+      console.log(this.list,'<----------- this.this.list');
       const key = 'installment';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
       console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
@@ -393,6 +414,7 @@ export class LoanComponentComponent implements OnInit {
 
   getSearchDocumentV2Sum(playload: any, loanInfo: any[], mode: any, sumLoanObj: any) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
+      console.log(data,'<----------- this.sumLoan');
       this.sumLoan = data[0];
       console.log(" this.sumLoan", sumLoanObj);
       this.exportMakePDF(mode, loanInfo, this.sumLoan, sumLoanObj)
@@ -1070,6 +1092,8 @@ export class LoanComponentComponent implements OnInit {
     this.formModelLoanNew.get('guaranteeStock').disable();
     this.formModelLoanNew.get('stockValue').disable();
     this.formModelLoanNew.get('loanTime').disable();
+    this.formModelLoanNew.get('guarantorOne').disable();
+    this.formModelLoanNew.get('guarantorTwo').disable();
   }
 
   checkValidFormLoan(){
@@ -1215,7 +1239,7 @@ export class LoanComponentComponent implements OnInit {
         principal: data.loanValue,
         interestRate: this.dataNewLoan.interestPercent,
         numOfPayments: data.loanTime,
-        paymentStartDate: "2023-01-31"
+        paymentStartDate: datePayLoanNew
       }
       this.service.onCalculateLoanOld(payload).subscribe((res) => {
         const data = res[0];
@@ -1226,8 +1250,29 @@ export class LoanComponentComponent implements OnInit {
           loanBalance: 0, //principalBalance
           interestLoanLastMonth: 0 // interestLastMonth
         });
-      })
+      });
   }
+
+  onCalculateLoanNew(){
+    const datePayLoanNew = this.pipeDateTHNewLan();
+    const data = this.formModelLoanNew.getRawValue();
+    const payload = {
+      principal: data.loanValue,
+      interestRate: this.dataNewLoan.interestPercent,
+      numOfPayments: data.loanTime,
+      paymentStartDate: datePayLoanNew
+    }
+    this.service.onCalculateLoanNew(payload).subscribe((res) => {
+      const data = res[0];
+      this.formModelLoanNew.patchValue({
+        loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
+        startDateLoan: datePayLoanNew,
+        interestLoan: 0, //interest
+        loanBalance: 0, //principalBalance
+        interestLoanLastMonth: 0 // interestLastMonth
+      });
+    });
+}
 
   onCloseLoan(data: any) {
     console.log("data", data);

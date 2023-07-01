@@ -106,28 +106,10 @@
     border-color: #fe6bba;
     margin-left: 40px;
   }
-}
 
-.btn-login2 {
-    width: 140px;
-    font-weight: 500;
-    font-size: 15px;
-    height: 40px;
-    color: #fff;
-    background-color: #fe6bba;
-  }
-
-  .btn-regis2 {
-    width: 140px;
-    font-weight: 500;
-    font-size: 15px;
-    height: 40px;
-    color: #fe6bba;
-    border-color: #fe6bba;
-    margin-left: 40px;
-  }
   .ui-confirmdialog-message {
     white-space: pre-line;
+  } 
 }
 
 :host ::ng-deep p-paginator div {

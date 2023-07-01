@@ -244,9 +244,21 @@ export class MainService {
     );
   }
 
+  onCalculateLoanNew(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/calculate-loan-new', playload
+    );
+  }
+
   searchGuarantorUnique(playload: any): Observable<any> {
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-guarantor-unique', playload
+    );
+  }
+
+  searchEmpCodeOfId(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/search-emp-code-of-id', playload
     );
   }
 

@@ -43,6 +43,15 @@
             <span style="color: black;">{{ sumLoan | number }} <span style="margin-left: 10px;">บาท</span></span>
         </div>
     </div>
+    <div class="col-10" style="margin-left: 15px; ">
+        <div>
+            <span style="color: black;">* แต่ไม่เกิน {{ 900000 | number }} บาท</span>
+        </div>
+        <div>
+            <span style="color: black;">* หมายเหตุ สิทธิ์การกู้เงินสามัญ เป็นเพียงการวงเงินประมาณการเท่านั้น แต่สิทธิ์กู้เงินที่ได้จริง จะต้องคิด
+                จากเงินเดือนคงเหลือ หากมีข้อสงสัยกรุณาติดต่อกองทุนสวัสดิการฯ</span>
+        </div>
+    </div>
     <div class="guarantee" *ngIf="!loanValueNull">
         <p style="color: #FE6BBA; background: #ffeef7; border-radius: 15px; width: 120px; text-align: center;">
             หักลบเงินกู้เดิม</p>
