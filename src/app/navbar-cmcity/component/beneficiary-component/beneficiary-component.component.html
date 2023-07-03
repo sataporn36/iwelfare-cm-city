@@ -1,5 +1,5 @@
 <div class="card">
-    <div  style="display: flex; justify-content: space-between;">
+    <div style="display: flex; justify-content: space-between;">
         <div>
             <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
         </div>
@@ -9,7 +9,7 @@
     </div>
 
     <p style="color: #60646b; margin-top: 20px; margin-left: 10px;">ท่านสามารถแก้ไข หรือเลือกผู้รับผลประโยชน์ใหม่ได้</p>
-    
+
     <div class="row row-cols-4">
         <div *ngFor="let beneficiary of arrayBeneficiary" style="margin-top: 20px;">
             <div class="guarantee" style="display: flex; justify-content: space-between;">
@@ -18,41 +18,44 @@
                 </div>
                 <div style="margin-left: 20px; margin-top: 20px; width: 300px;">
                     <label>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</label><br>
-                    <label style="color: #60646b;">ความสัมพันธ์: </label><span> {{ beneficiary?.relationship || '' }}</span>
+                    <label style="color: #60646b;">ความสัมพันธ์: </label><span> {{ beneficiary?.relationship || ''
+                        }}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false" styleClass="customDialog">
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
     <ng-template pTemplate="header">
-            <p-chip label="แก้ไขผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
+        <p-chip label="แก้ไขผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
     </ng-template>
-    
+
     <!-- <div class="card"> -->
-        <p-table  [value]="beneficiaryInfo" [(selection)]="selectedProducts" dataKey="id" [tableStyle]="{'min-width': '20rem'}">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="width: 4rem">
-                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                    </th>
-                    <th>ชื่อ-สกุล</th>
-                    <th>เพศ</th>
-                    <th>ความสัมพันธ์</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-beneficiaryInfo>
-                <tr>
-                    <td>
-                        <p-tableCheckbox [value]="beneficiaryInfo"></p-tableCheckbox>
-                    </td>
-                    <td>{{beneficiaryInfo.prefix}}{{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}</td>
-                    <td>{{beneficiaryInfo.gender}}</td>
-                    <td>{{beneficiaryInfo.relationship}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
+    <p-table [value]="beneficiaryInfo" [(selection)]="selectedProducts" dataKey="id"
+        [tableStyle]="{'min-width': '20rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>ชื่อ-สกุล</th>
+                <th>เพศ</th>
+                <th>ความสัมพันธ์</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-beneficiaryInfo>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="beneficiaryInfo"></p-tableCheckbox>
+                </td>
+                <td>{{beneficiaryInfo.prefix}}{{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}</td>
+                <td>{{beneficiaryInfo.gender}}</td>
+                <td>{{beneficiaryInfo.relationship}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
 
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login2" (click)="checkUpdate()">ยืนยัน</button>

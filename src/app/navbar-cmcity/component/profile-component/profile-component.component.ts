@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 import { Beneficiary } from 'src/app/model/beneficiary';
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { Positions } from 'src/app/model/position';
 import { Affiliation } from 'src/app/model/affiliation';
 import { Bureau } from 'src/app/model/bureau';
 import { Department } from 'src/app/model/department';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile-component',
@@ -79,9 +80,8 @@ export class ProfileComponentComponent implements OnInit {
   myDefaultDate = new Date();
 
   userId: any;
-  public marital: Observable<Marital[]> | any
+  public marital: Observable<Marital[]> | any;
   products: any;
-
   emailCheck: any;
   emailValidation: boolean = false;
   pnumberCheck: any;
@@ -95,30 +95,34 @@ export class ProfileComponentComponent implements OnInit {
   resign: boolean = false;
   checkStockValueFlag: boolean = false;
 
-  public position: Observable<Positions[]> | any
-  public affiliation: Observable<Affiliation[]> | any
-  public bureau: Observable<Bureau[]> | any
+  public position: Observable<Positions[]> | any;
+  public affiliation: Observable<Affiliation[]> | any;
+  public bureau: Observable<Bureau[]> | any;
   public dapartment: Observable<Department[]> | any;
 
-  public level: Observable<Level[]> | any
-  public employeeType: Observable<EmployeeType[]> | any
+  public level: Observable<Level[]> | any;
+  public employeeType: Observable<EmployeeType[]> | any;
 
-  constructor(private primengConfig: PrimeNGConfig,
+  gender: any;
+  profileImgId: any;
+  imageSrc: SafeUrl;
+
+  constructor(
     private service: MainService,
     protected router: Router,
     private localStorageService: LocalStorageService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sanitizer: DomSanitizer
   ) {
   }
 
   ngOnInit(): void {
-
     if (!localStorage.getItem('foo')) {
       localStorage.setItem('foo', 'no reload');
       history.go(0);
     } else {
-      localStorage.removeItem('foo')
+      localStorage.removeItem('foo');
       this.arrayChild = [];
       this.dadArray = [];
       this.momArray = [];
@@ -126,8 +130,9 @@ export class ProfileComponentComponent implements OnInit {
       this.gfArray = [];
 
       this.userId = this.localStorageService.retrieve('empId');
-
+      this.profileImgId = this.localStorageService.retrieve('profileImgId');
       this.getEmployee(this.userId);
+      this.getImage(this.profileImgId);
 
       this.initMainForm();
       this.formModel.disable();
@@ -154,7 +159,7 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   getDapartment(): void {
-    this.service.searchDepartment().subscribe(data => this.dapartment = data)
+    this.service.searchDepartment().subscribe(data => this.dapartment = data);
   }
 
   searchLevel(): void {
@@ -438,7 +443,8 @@ export class ProfileComponentComponent implements OnInit {
   getEmployee(id: any): void {
     this.service.getEmployee(id).subscribe(data => {
 
-      this.checkStockValueFlag = data.checkStockValueFlag
+      this.gender = data.gender;
+      this.checkStockValueFlag = data.checkStockValueFlag;
 
       if (data.employeeStatus === 5) {
         this.resign = true;
@@ -517,7 +523,7 @@ export class ProfileComponentComponent implements OnInit {
       })
 
       this.beneficiarysCheck = data.beneficiaries.length;
-      this.beneficiarys = data.beneficiaries
+      this.beneficiarys = data.beneficiaries;
       this.check(data.beneficiaries);
     });
   }
@@ -598,13 +604,13 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   pipeDateTH(date: any) {
-    const format = new Date(date)
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
+    const format = new Date(date);
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
 
     const monthSelect = this.periodMonthDescOption[month];
-    return day + ' ' + monthSelect.label + ' ' + year
+    return day + ' ' + monthSelect.label + ' ' + year;
   }
 
   setperiodMonthDescOption() {
@@ -645,37 +651,22 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   checkRetirementDate(dateOfBirth: any) {
-    const formatDate = new Date(dateOfBirth)
-    const day = formatDate.getDate()
-    const month = formatDate.getMonth() + 1
-    const year = formatDate.getFullYear() + 543
+    const formatDate = new Date(dateOfBirth);
+    const day = formatDate.getDate();
+    const month = formatDate.getMonth() + 1;
+    const year = formatDate.getFullYear() + 543;
 
     const monthSelect = this.periodMonthDescOption[9 - 1];
     if (month > 9) {
-      return 30 + ' ' + monthSelect.label + ' ' + (year + 61)
+      return 30 + ' ' + monthSelect.label + ' ' + (year + 61);
     } else {
-      return 30 + ' ' + monthSelect.label + ' ' + (year + 60)
+      return 30 + ' ' + monthSelect.label + ' ' + (year + 60);
     }
-  }
-
-  checkImgProfile(gender: any) {
-    let textGender = ""
-    switch (gender) {
-      case 'ชาย':
-        textGender = "assets/images/boy.png"
-        break;
-      case 'หญิง':
-        textGender = "assets/images/girl.png"
-        break;
-      default:
-        break;
-    }
-    return textGender
   }
 
   onClickEdit() {
     this.textString = 'form-control';
-    this.mode = false;
+    this.mode = false;;
     this.formModel.enable();
 
     // check disable
@@ -819,7 +810,7 @@ export class ProfileComponentComponent implements OnInit {
   childChange(e: any) {
     if (e.checked) {
       this.child = true;
-      this.countChildDisplay = Array.from(new Array(this.formModel.get('countChild')?.value), (x, i) => i + 1)
+      this.countChildDisplay = Array.from(new Array(this.formModel.get('countChild')?.value), (x, i) => i + 1);
     } else {
       this.child = false;
     }
@@ -934,7 +925,6 @@ export class ProfileComponentComponent implements OnInit {
         break;
     }
   }
-
 
   checkPrefix_text(data: any): any {
     switch (data) {
@@ -1113,7 +1103,7 @@ export class ProfileComponentComponent implements OnInit {
       facebook: playload.facebook,
     }
 
-    playload.marital = this.checkMaritalV2_text(playload.selectMarital)
+    playload.marital = this.checkMaritalV2_text(playload.selectMarital);
 
     this.service.updateEmp(playload).subscribe((res) => {
       this.getEmployee(this.userId);
@@ -1145,7 +1135,6 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      // this.getEmployee(this.userId);
       this.formModelGf.disable();
       this.initMainForm();
       this.textStringGf = 'form-control-plaintext';
@@ -1174,7 +1163,6 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      // this.getEmployee(this.userId);
       this.formModelGm.disable();
       this.initMainForm();
       this.textStringGm = 'form-control-plaintext';
@@ -1203,7 +1191,6 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      // this.getEmployee(this.userId);
       this.formModelDad.disable();
       this.initMainForm();
       this.textStringDad = 'form-control-plaintext';
@@ -1232,7 +1219,6 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      // this.getEmployee(this.userId);
       this.formModelMom.disable();
       this.initMainForm();
       this.textStringMom = 'form-control-plaintext';
@@ -1292,7 +1278,6 @@ export class ProfileComponentComponent implements OnInit {
     this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
 
-
   displayResign() {
     this.displayModalResign = true;
   }
@@ -1302,7 +1287,6 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   onSubmitResign() {
-
     const playloadResign = {
       id: this.userId,
       reason: this.formModelResign.get('reason')?.value
@@ -1324,7 +1308,6 @@ export class ProfileComponentComponent implements OnInit {
     const dataStock = this.formModelStock.getRawValue();
     console.log(dataStock, "dataStock *****");
 
-    //this.formModel.get('monthlyStockMoney')?.setValue(500);
     const data = this.formModel.getRawValue();
     console.log(data.monthlyStockMoney, "monthlyStockMoney *****");
 
@@ -1359,6 +1342,56 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
+  profileImg() {
+    let textGender = '';
+    if (this.profileImgId != 0) {
+      return this.imageSrc;
+    } else {
+      switch (this.gender) {
+        case 'ชาย':
+          textGender = 'assets/images/boy.png';
+          break;
+        case 'หญิง':
+          textGender = 'assets/images/girl.png';
+          break;
+        default:
+          break;
+      }
+      return textGender;
+    }
+  }
+
+  getImage(id: any) {
+    if (id != 0) {
+      this.service.getImage(id).subscribe(
+        (imageBlob: Blob) => {
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+        },
+        (error: any) => {
+          console.error('Failed to fetch image:', error);
+        }
+      );
+    }
+  }
+
+  onProfilePicChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('empId', this.userId.toString());
+
+    this.service.uploadImage(formData).subscribe(
+      () => {
+        console.log('Image uploaded successfully.');
+        this.ngOnInit();
+        this.ngOnInit();
+        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
+      },
+      (error) => {
+        console.log('Error uploading image:', error);
+        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+      }
+    );
+  }
 }
-
-

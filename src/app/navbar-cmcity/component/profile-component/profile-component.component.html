@@ -1,17 +1,32 @@
 <div [formGroup]="formModel">
     <div class="div-background">
         <div class="row">
-            <div class="col-1 div-img">
-                <img class="profile_img" src="{{ checkImgProfile(formModel.get('gender')?.value)}}" alt="logo" />
+            <div class="profile-pic-wrapper">
+                <div class="pic-holder">
+                    <img id="profilePic" class="pic" [src]="profileImg()">
+
+                    <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
+                        id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                    <label for="newProfilePhoto" class="upload-file-block">
+                        <div class="text-center">
+                            <div class="mb-2">
+                                <i class="fa fa-camera fa-2x"></i>
+                            </div>
+                            <div class="text-uppercase">
+                                อัพโหลด
+                            </div>
+                        </div>
+                    </label>
+                </div>
             </div>
             <div class="col-4" style="margin-top: 140px;">
-                <div class="row" style="margin-left: 150px;">
-                    <div class="col mb-3" style="margin-left: 20px;">
+                <div class="row" style="margin-left: 20px;">
+                    <div class="col mb-3">
                         <input type="text" readonly class="form-control-plaintext name" formControlName="fullName"
                             style="font-size: 26px; margin-top: -5px; letter-spacing: 1px;" />
                     </div>
                 </div>
-                <div class="row div-text" style="margin-left: 180px;">
+                <div class="row div-text" style="margin-left: 30px;">
                     <div class="col-1 mb-3">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -37,12 +52,12 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-group" style="width: max-content; margin-left: 25rem;" *ngIf="mode">
+            <div class="btn-group" style="width: max-content; margin-left: 16rem;" *ngIf="mode">
                 <div style="display: flex; align-items: flex-end; justify-content: flex-end;">
-                    <button type="button" class="btn btn-login1"  (click)="displayResign()"
+                    <button type="button" class="btn btn-login1" (click)="displayResign()"
                         [disabled]="resign">ขอลาออก</button>
                     &nbsp;
-                    <button type="button" class="btn btn-login2" 
+                    <button type="button" class="btn btn-login2"
                         (click)="displayChangeStockToMonth()">ขอเปลี่ยนเงินส่งหุ้นรายเดือน</button>
                     &nbsp;
                     <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
@@ -157,12 +172,8 @@
                     <div>
                         <input [class]="textString" id="positionName" type="text" formControlName="positionName"
                             *ngIf="this.formModel.get('profileFlag')?.value != null || mode || this.formModel.get('positionName')?.value != null" />
-                        <!-- <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode"
-                            tooltipPosition="bottom" pTooltip="{{ formModel.get('positionName')?.value }}"
-                            [innerHTML]="formModel.get('positionName')?.value"></span> -->
                         <div class="col mb-3"
                             *ngIf="this.formModel.get('profileFlag')?.value == null && !mode && this.formModel.get('positionName')?.value == null ">
-                            <!-- <label for="position" class="block">ตำแหน่ง</label> -->
                             <select class="form-select" aria-label="Default select example" formControlName="positionId"
                                 required="true">
                                 <option value="0" selected>เลือกตำแหน่ง</option>
@@ -179,9 +190,6 @@
                     <div>
                         <input [class]="textString" id="departmentName" type="text" formControlName="departmentName"
                             *ngIf="this.formModel.get('profileFlag')?.value != null || mode || this.formModel.get('departmentName')?.value != null" />
-                        <!-- <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode"
-                            tooltipPosition="bottom" pTooltip="{{ formModel.get('departmentName')?.value }}"
-                            [innerHTML]="formModel.get('departmentName')?.value"></span> -->
                         <div class="col mb-3"
                             *ngIf="this.formModel.get('profileFlag')?.value == null && !mode && this.formModel.get('departmentName')?.value == null ">
                             <select class="form-select" aria-label="Default select example"
@@ -200,9 +208,6 @@
                     <div>
                         <input [class]="textString" id="affiliationName" type="text" formControlName="affiliationName"
                             *ngIf="this.formModel.get('profileFlag')?.value != null || mode || this.formModel.get('affiliationName')?.value != null" />
-                        <!-- <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode"
-                            tooltipPosition="bottom" pTooltip="{{ formModel.get('affiliationName')?.value }}"
-                            [innerHTML]="formModel.get('affiliationName')?.value"></span> -->
                         <div class="col mb-3"
                             *ngIf="this.formModel.get('profileFlag')?.value == null && !mode && this.formModel.get('affiliationName')?.value == null ">
                             <select class="form-select" aria-label="Default select example"
@@ -221,9 +226,6 @@
                     <div>
                         <input [class]="textString" id="bureauName" type="text" formControlName="bureauName"
                             *ngIf="this.formModel.get('profileFlag')?.value != null || mode || this.formModel.get('bureauName')?.value != null" />
-                        <!-- <span class="d-inline-block text-truncate" style="max-width: 100%;" *ngIf="mode"
-                            tooltipPosition="bottom" pTooltip="{{ formModel.get('bureauName')?.value }}"
-                            [innerHTML]="formModel.get('bureauName')?.value"></span> -->
                         <div class="col mb-3"
                             *ngIf="this.formModel.get('profileFlag')?.value == null && !mode && this.formModel.get('bureauName')?.value == null ">
                             <select class="form-select" aria-label="Default select example" formControlName="bureauId"
@@ -266,7 +268,7 @@
                         <option value="2">แต่งงานแล้ว</option>
                         <option value="3">หม้าย</option>
                         <option value="4">หย่า</option>
-                        <option value="5">แยกกันอยู่</option> <!-- สร้าง column database มาเก็บอีก 1 coloumn  -->
+                        <option value="5">แยกกันอยู่</option> 
                     </select>
                 </div>
                 <div class="col-2 mb-3">

@@ -21,7 +21,10 @@
 //     background-color: white;
 //     padding: 2rem;
 // }
-
+:host ::ng-deep .p-chart {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
 
 .guarantee{
     border: 1px solid #d2d6df; 

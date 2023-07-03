@@ -65,14 +65,23 @@ svg{
     width: 310px;
 }
 
-.profile_img{
-    width: 180px;
-    height: 180px;
-    margin-top: 50px;
-    margin-bottom: 15px;
+.div-profile-img{
+    width: 220px;
+    height: 220px;
+    margin-left: 45px;
     border-radius: 50%;
-    border: 4px solid #fd79a8;
     background: #f8f2f2;
+    border: 8px solid #f0f2f2;
+    z-index: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile_img{
+    width: 100%;
 }
 
 .card-profile p{
@@ -188,6 +197,7 @@ td {
 
 .div-beneficiary img{
     width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-top: 10px;
     background: #ffeef7;

@@ -303,4 +303,22 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/logic/v1/loan/close/' + id,
     );
   }
+
+  // displayImage(id: number): Observable<any[]> {
+  //   return this.http.get<any[]>(
+  //     AppPath.APP_API_SERVICE + '/v1/file-resource/display/' + id,
+  //   );
+  // }
+
+  getImage(id: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/display/' + id, { responseType: 'blob' as 'json' }
+    );
+  }
+
+  uploadImage(playload: any): Observable<any> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/add', playload 
+    );
+  }
 }

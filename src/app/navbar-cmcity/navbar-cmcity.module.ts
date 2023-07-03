@@ -53,6 +53,7 @@ import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
 import { AdminComponentComponent } from './component/admin-component/admin-component.component';
 import { AdminPageComponent } from './page/admin-page/admin-page.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { AdminPageComponent } from './page/admin-page/admin-page.component';
     InputTextareaModule,
     DropdownModule,
     TagModule,
-    AvatarModule
+    AvatarModule,
+    ChartModule
   ]
 })
 export class NavbarCmcityModule { }

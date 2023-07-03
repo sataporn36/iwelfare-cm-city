@@ -14,6 +14,10 @@ export class LoanRightsComponentComponent implements OnInit {
   sumLoan: any;
   totalLoan: any;
   loanValueNull: any;
+
+  data: any;
+  options: any;
+
   @ViewChild('downloadLink') downloadLinkRef!: ElementRef;
 
   constructor(
@@ -31,9 +35,44 @@ export class LoanRightsComponentComponent implements OnInit {
     this.userInfo = this.localStorageService.retrieve('employeeofmain');
     this.sumLoan = this.userInfo?.salary * 10;
     this.totalLoan = this.sumLoan - this.userInfo?.loanBalance;
-    
+
     if (this.userInfo?.loanValue == 0.0) {
       this.loanValueNull = true;
     }
+
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+
+    this.data = {
+      labels: ['เงินกู้สามัญสูงสุด', 'หนี้เงินกู้คงเหลือ'],
+      datasets: [
+        {
+          data: [this.sumLoan, this.userInfo.loanBalance],
+          backgroundColor: [documentStyle.getPropertyValue('--pink-800'), documentStyle.getPropertyValue('--pink-600')],
+          hoverBackgroundColor: [documentStyle.getPropertyValue('--pink-800'), documentStyle.getPropertyValue('--pink-600')]
+        }
+      ]
+    };
+
+    this.options = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+            color: textColor,
+            font: {
+              family: 'Kanit, sans-serif',
+              size: 16,
+            }
+          }
+        }
+      },
+      // layout: {
+      //   padding: {
+      //     top: 20,
+      //     bottom: 20
+      //   }
+      // }
+    };
   }
 }

@@ -1,11 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Employee } from '../model/employee';
 import { MainService } from '../service/main.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-navbar-cmcity',
@@ -18,11 +19,7 @@ export class NavbarCmcityComponent implements OnInit {
   items!: MenuItem[];
   displayModal: boolean = false;
   displayModalRegister: boolean = false;
-  
-  emp: Observable<Employee> | any 
-  // countNewRegister: Observable<any> | any 
-
-  // check active model
+  emp: Observable<Employee> | any
   main: string = 'active';
   deposit!: string;
   stock!: string;
@@ -38,55 +35,58 @@ export class NavbarCmcityComponent implements OnInit {
   messager: boolean = false;
   dataNotify!: any[];
   countNotify: any;
+  imageSrc: SafeUrl;
+  gender: any;
+  profileImgId: any;
 
-  constructor(private primengConfig: PrimeNGConfig, 
-    private service: MainService, 
+  constructor(
+    private service: MainService,
     protected router: Router,
     private localStorageService: LocalStorageService,
-    ) { 
-      this.currentDate();
-    }
+    private sanitizer: DomSanitizer
+  ) {
+    this.currentDate();
+  }
 
-   currentDate(){
+  currentDate() {
     const formatDate = new Date();
     const day = formatDate.getDate();
     const month = formatDate.getMonth() + 1;
-    const year = formatDate.getFullYear(); 
+    const year = formatDate.getFullYear();
     const hours = formatDate.getHours();
     const minutes = formatDate.getMinutes();
     const seconds = formatDate.getSeconds();
-    // const Milliseconds = formatDate.getMilliseconds() + 300000;
-    console.log(day+'/'+month+'/'+year+' ' + hours+':'+minutes+':'+seconds);
-    this.currentDateTime = month+'/'+day+'/'+year+' ' + hours+':'+(minutes + 5)+':'+seconds;
-    if(this.localStorageService.retrieve('countDatetime') === 0){
+    console.log(day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds);
+    this.currentDateTime = month + '/' + day + '/' + year + ' ' + hours + ':' + (minutes + 5) + ':' + seconds;
+    if (this.localStorageService.retrieve('countDatetime') === 0) {
       this.localStorageService.store('currentDateTime', new Date().getTime() + 3600000);
     }
-    this.countDatetime ++;
-    this.localStorageService.store('countDatetime',this.countDatetime);
-   }
+    this.countDatetime++;
+    this.localStorageService.store('countDatetime', this.countDatetime);
+  }
 
-   countDemo: any;
-   currentDateTime: any;
-   
-   x = setInterval(()=>{
-     let now = new Date().getTime();
-     let countDate = new Date(this.localStorageService.retrieve('currentDateTime')).getTime();
-     let distance = countDate - now;
-     let days = Math.floor(distance/(1000*60*60*24));
-     let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-     let minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-     let seconds = Math.floor((distance % (1000*60)) / 1000);
-     
-     this.countDemo = minutes + "m " + seconds + "s " ;
+  countDemo: any;
+  currentDateTime: any;
 
-     if(distance < 0){
-        clearInterval(this.x);
-        this.countDemo = 'time out';
-        setTimeout(() => {
-          alert(' เวลาในระบบหมดอายุ กรุณาเข้าสู่ระบบใหม่อีกครั้ง ');
-          this.onLogout();
-        }, 500);
-     }
+  x = setInterval(() => {
+    let now = new Date().getTime();
+    let countDate = new Date(this.localStorageService.retrieve('currentDateTime')).getTime();
+    let distance = countDate - now;
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    this.countDemo = minutes + "m " + seconds + "s ";
+
+    if (distance < 0) {
+      clearInterval(this.x);
+      this.countDemo = 'time out';
+      setTimeout(() => {
+        alert(' เวลาในระบบหมดอายุ กรุณาเข้าสู่ระบบใหม่อีกครั้ง ');
+        this.onLogout();
+      }, 500);
+    }
   })
 
   ngOnInit() {
@@ -95,24 +95,23 @@ export class NavbarCmcityComponent implements OnInit {
         label: 'ข้อมูลส่วนตัว',
         icon: 'pi pi-user',
         command: () => {
-          this.onProfile()
+          this.onProfile();
         }
       },
       {
         label: 'ออกจากระบบ',
         icon: 'pi pi-sign-out',
         command: () => {
-          this.onLogout()
+          this.onLogout();
         }
       }
     ];
     this.userId = this.localStorageService.retrieve('empId');
     this.getEmployeeOfMain(this.userId);
-    // this.conutNewRegister();
     this.initMainForm();
     this.searchNotify();
 
-    if (this.userId === 1 || this.userId === 631){
+    if (this.userId === 1 || this.userId === 631) {
       this.messager = true;
     }
   }
@@ -135,7 +134,7 @@ export class NavbarCmcityComponent implements OnInit {
     this.localStorageService.clear('stockId');
     this.localStorageService.clear('loanId');
     this.localStorageService.clear('employeeofmain');
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
 
   showModalDialog() {
@@ -270,17 +269,9 @@ export class NavbarCmcityComponent implements OnInit {
         this.message = "message";
         break;
       default:
-      break;
+        break;
     }
   }
-
-  // getEmployee(id: any): void {
-  //   this.service.getEmployee(id).subscribe(data => {
-  //     this.formModel.patchValue({
-  //       ...data
-  //     })
-  //   });
-  // }
 
   getEmployeeOfMain(id: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
@@ -289,32 +280,35 @@ export class NavbarCmcityComponent implements OnInit {
       })
 
       this.localStorageService.store('EmployeeOfMain', data);
+      this.getImage(data.profileImgId);
+      this.gender = data.gender;
+      this.profileImgId = data.profileImgId;
+      this.localStorageService.store('profileImgId', data.profileImgId);
     });
   }
 
-  // TODO: ImgProfile
-  checkImgProfile(gender: any) {
-    let textGender = ''
-    switch (gender) {
-      case 'ชาย':
-        textGender = 'assets/images/boy.png'
-        break;
-      case 'หญิง':
-        textGender = 'assets/images/girl.png'
-        break;
-      default:
-      break;
+  profileImg() {
+    let textGender = '';
+    if (this.profileImgId != 0) {
+      return this.imageSrc;
+    }else{
+      switch (this.gender) {
+        case 'ชาย':
+          textGender = 'assets/images/boy.png';
+          break;
+        case 'หญิง':
+          textGender = 'assets/images/girl.png';
+          break;
+        default:
+          break;
+      }
+      return textGender;
     }
-    return textGender
   }
-
-  // conutNewRegister(): void {
-  //   this.service.conutNewRegister().subscribe(data => this.countNewRegister = data);
-  // }
 
   checkCount(count: any): any {
     if (count == 0) {
-      return "none"
+      return "none";
     }
   }
 
@@ -323,5 +317,18 @@ export class NavbarCmcityComponent implements OnInit {
       this.dataNotify = data;
       this.countNotify = this.dataNotify.length;
     });
+  }
+
+  getImage(id: any) {
+    if (id != 0) {
+      this.service.getImage(id).subscribe(
+        (imageBlob: Blob) => {
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+        },
+        (error: any) => {
+          console.error('Failed to fetch image:', error);
+        }
+      );
+    }
   }
 }

@@ -60,9 +60,11 @@ export class ShareComponentComponent implements OnInit {
   empId: any
   elementLoan: any;
   sumElementLoan: any;
+  displayModalBill: boolean = false;
+  formModelBill!: FormGroup;
 
-  constructor(private service: MainService, private messageService: 
-    MessageService, private localStorageService: LocalStorageService, 
+  constructor(private service: MainService, private messageService:
+    MessageService, private localStorageService: LocalStorageService,
     @Inject(LOCALE_ID) public locale: string) { }
 
   ngOnInit() {
@@ -81,7 +83,7 @@ export class ShareComponentComponent implements OnInit {
 
     this.searchStock();
     this.searchStockDetail(this.stockId);
-
+    this.initMainFormBill();
     this.setperiodMonthDescOption();
     // this.getDapartment();
     this.pipeDateTH();
@@ -129,7 +131,14 @@ export class ShareComponentComponent implements OnInit {
   initMainForm() {
     this.formModel = new FormGroup({
       fullName: new FormControl(null),
-    });;
+    });
+  }
+
+  initMainFormBill() {
+    this.formModelBill = new FormGroup({
+      month: new FormControl(null),
+      year: new FormControl(null),
+    });
   }
 
   initMainFormStock() {
@@ -195,7 +204,7 @@ export class ShareComponentComponent implements OnInit {
   searchStockDetail(id: any): void {
     this.service.searchStockDetail(id, "asc").subscribe(data => {
       this.dataStockDetail = data;
-      this.stockAccumulate = data[0].stock.stockAccumulate
+      // this.stockAccumulate = data.stock.stockAccumulate
     });
   }
 
@@ -540,12 +549,18 @@ export class ShareComponentComponent implements OnInit {
 
     let stockInfo: any[] = [];
     const playload = {
-      stockId: this.stockId
+      empId: this.userId
     }
+
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
       console.log(data, '<---------- this.list');
-      this.getSearchDocumentV2Sum(playload, data, mode);
+
+      const key = 'stockInstallment';
+      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
+
+      this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
     });
   }
 
@@ -553,6 +568,11 @@ export class ShareComponentComponent implements OnInit {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data[0];
       console.log(" this.sumStock", this.sumStock);
+
+      // const key = 'stockInstallment';
+      // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      // console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
+      
       this.exportMakePDF(mode, stockInfo, this.sumStock)
     });
   }
@@ -670,9 +690,25 @@ export class ShareComponentComponent implements OnInit {
     // this.displayLoadingPdf = true;
     this.showWarn();
 
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+
+    // const payload = {
+    //   empCode: this.empDetail.employeeCode,
+    //   monthCurrent: this.billMonth,
+    //   yearCurrent: bill.year
+    // }
+
+    // const formatDate = new Date()
+    // const month = formatDate.getMonth()
+    // const monthSelect = this.periodMonthDescOption[month];
+
+    // if (stockDetail[stockDetail.length - 1].stockMonth === monthSelect.label) {
+
     const playload = {
-      stockId: null
+      monthCurrent: this.billMonth
     }
+
     console.log(playload, '<----------- playload');
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
@@ -921,38 +957,77 @@ export class ShareComponentComponent implements OnInit {
     }
   }
 
-  onSearchCalculateLoanOld(res: any,stockValue: any){
+  onSearchCalculateLoanOld(res: any, stockValue: any) {
     const payloadOld = {
       principal: res.loanValue,
       interestRate: Number(res.interestPercent),
       numOfPayments: res.loanTime,
       paymentStartDate: "2023-01-31"
-     }
+    }
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
       const data = resL;
       data.forEach((element, index, array) => {
-        if(element.installment === res.installment){
+        if (element.installment === res.installment) {
           this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
           this.elementLoan = element;
-          this.onPrintReceiptMakePdf(element,this.sumElementLoan)
+          this.onPrintReceiptMakePdf(element, this.sumElementLoan)
         }
       })
     });
   }
 
-  onSearchEmployeeLoanNew(){
+  headerName: string
+  ondisplayModalMonth(headerName: string) {
+    this.displayModalBill = true;
+    this.headerName = headerName;
+
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
+
+    this.newMonth = this.periodMonthDescOption[month];
+
+    this.formModelBill.patchValue({
+      year: this.newYear,
+      month: this.newMonth.value,
+    });
+
+    this.formModelBill.get('year')?.disable();
+  }
+
+  onDisplay(){
+    if (this.headerName == 'ใบเสร็จรับเงิน') {
+      this.onupdateBill();
+      this.displayModalBill = false;
+    }else if (this.headerName == 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
+      this.searchDocumentV1All('export');
+      this.displayModalBill = false;
+    }
+  }
+
+  billMonth: any;
+  // stockAccumulateBill: any;
+  onupdateBill() {
     const stock = this.stockInfo;
     const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
+
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+
     const payload = {
-      empId: this.empDetail.employeeCode
+      empCode: this.empDetail.employeeCode,
+      monthCurrent: this.billMonth,
+      yearCurrent: bill.year
     }
+
     this.service.searchEmployeeLoanNew(payload).subscribe({
       next: (res) => {
         const dataRes = res;
         this.dataResLoan = res;
-        this.onSearchCalculateLoanOld(res,stockValue);
+        this.onSearchCalculateLoanOld(res, stockValue);
+        // this.stockAccumulateBill = res.stockAccumulate;
       },
-      error: error => {},
+      error: error => { },
     });
   }
 
@@ -1006,10 +1081,10 @@ export class ShareComponentComponent implements OnInit {
         { text: 'ใบเสร็จรับเงิน', style: 'header' },
         '\n',
         '\n',
-        { text: ['ประจําเดือน ', { text: ' ' + this.month + ' ' + this.year + '               ', bold: true }, { text: 'เลขที่ ' }, { text: ' 00001 ', bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.year + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['หุ้นสะสม ', { text: ' ' + this.formattedNumber2(stockAccumulate) + ' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
         '\n',
         {
@@ -1020,13 +1095,13 @@ export class ShareComponentComponent implements OnInit {
             // keepWithHeaderRows: 1, , alignment: 'right'
             body: [
               [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', { text: this.formattedNumber2(installment), alignment: 'right' }, { text: this.formattedNumber(stockValue), alignment: 'right' }, ' '],
-              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber(elementLoan.totalDeduction) : '', alignment: 'right' }
-              , { text: elementLoan ? this.formattedNumber(elementLoan.principalBalance) : '', alignment: 'right' }],
-              ['ดอก', ' ', { text: elementLoan ? this.formattedNumber(elementLoan.interest) : '', alignment: 'right' }, ' '],
+              ['ค่าหุ้น', { text: this.formattedNumber2(installment), alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
+              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.totalDeduction) : '', alignment: 'right' }
+                , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
+              ['ดอก', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
               //['รวมเงิน', {colSpan: 2, rowSpan: 2, text: '1000'}, ' '],
               //[{colSpan: 2, rowSpan: 2, text: 'รวมเงิน'}, '1000', '', ''],
-              [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
+              [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber2(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
             ]
           },
           layout: {
@@ -1036,7 +1111,7 @@ export class ShareComponentComponent implements OnInit {
           }
         },
         '\n',
-        { text: "("+ this.transformPipeThai(sumElementLoan) +")", style: 'header2', margin: [20, 0, 0, 0] },
+        { text: "(" + this.transformPipeThai(sumElementLoan) + ")", style: 'header2', margin: [20, 0, 0, 0] },
         '\n',
         {
           style: 'tableExample',
@@ -1090,7 +1165,7 @@ export class ShareComponentComponent implements OnInit {
   transformPipeThai(value: number): string {
     const digits = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
     const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
-    
+
     let bahtText = '';
     const numString = value.toString();
 
