@@ -120,7 +120,7 @@ export class MainComponentComponent implements OnInit {
   checkBeneficiaryCss() {
     try {
       if (this.arrayBeneficiary.length > 0) {
-        return "margin-top: -19.3rem;"
+        return "margin-top: -15.6rem;"
       } else {
         return "margin-top: -12rem;"
       }
