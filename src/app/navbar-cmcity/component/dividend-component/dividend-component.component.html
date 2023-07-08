@@ -1,8 +1,164 @@
-<p>dividend-component works! (เงินปันผล)</p>
-<div class="card" style="margin-right: 1%; padding: 3rem; border-color: #FFFFFF;">
-    <div class="btn-group" style="width: max-content; gap: 0.5rem;">
-        <button type="button" class="btn btn-login" (click)="onMemberDividend()">ใบเสร็จปันผลสมาชิกทั่วไป</button>
-        <button type="button" class="btn btn-login" (click)="getReportMergeAnnouncement('export')">รายงาน(ประกาศรวม)</button>
-        <button type="button" class="btn btn-login" (click)="getReportSplitAnnouncement('export')">รายงาน(ประกาศแยก)</button>
+<div class="card-table" style="margin-right: 1%; padding: 3rem; border-color: #FFFFFF;">
+    <div style="display: flex; justify-content: space-between;">
+        <p-chip label="เงินปันผล" styleClass="mr-2"></p-chip>
+        <div style="padding-bottom: 1rem;">
+            <div class="btn-group" style="width: max-content; gap: 0.5rem;">
+                <button type="button" class="btn btn-login" (click)="onMemberDividend()">ใบเสร็จปันผลสมาชิกทั่วไป</button>
+            </div>
+        </div>
+    </div>
+    <div style="font-family: 'Kanit';">
+        <p-table dataKey="id" [value]="dataDividendDetail" [loading]="loading" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+            selectionMode="single" [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:6%">ลำดับที่</th>
+                    <th style="width:15%">หน่วยงาน</th>
+                    <th style="width:10%">รหัสพนักงาน</th>
+                    <th style="width:15%">ชื่อพนักงาน</th>
+                    <th style="width:10%">เลขที่บัญชีธนาคาร</th>
+                    <th style="width:8%">ค่าหุ้นสะสม</th>
+                    <th style="width:8%">ปันผลหุ้น</th>
+                    <th style="width:8%">ดอกเบี้ยสะสม</th>
+                    <th style="width:8%">ปันผลดอกเบี้ย</th>
+                    <th style="width:8%">รวมปันผล</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-stockDividend let-i="rowIndex">
+                <tr [pSelectableRow]="stockDividend">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ stockDividend.departmentName }}</td>
+                    <td>{{ stockDividend.employeeCode }}</td>
+                    <td>{{ stockDividend.fullName }}</td>
+                    <td>{{ stockDividend.bankAccountReceivingNumber }}</td>
+                    <td style="color: #EA3A3D;">{{ stockDividend.stockAccumulate | number }}</td>
+                    <td style="color: #1AD598;">{{ stockDividend.stockDividend | number }}</td>
+                    <td style="color: #1AD598;">{{ stockDividend.cumulativeInterest | number }}</td>
+                    <td style="color: #1AD598;">{{ stockDividend.interestDividend | number }}</td>
+                    <td style="color: #e440d6;">{{ stockDividend.totalDividend | number }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 </div>
+
+<div style="padding-top: 1rem;"></div>
+
+<div *ngIf="admin" class="card-table" style="margin-right: 1%; padding: 3rem; border-color: #FFFFFF;">
+    <div style="display: flex; justify-content: space-between;">
+        <p-chip label="เจ้าหน้าที่" styleClass="mr-2"></p-chip>
+        <div style="padding-bottom: 1rem;">
+            <div class="btn-group" style="width: max-content; gap: 0.5rem;">
+                <button type="button" class="btn btn-login" (click)="setDividend()">กำหนดอัตราปันผลหุ้น</button>
+                <button type="button" class="btn btn-login" (click)="chackReportMergeAnnouncement('export')">รายงาน(ประกาศรวม)</button>
+                <button type="button" class="btn btn-login" (click)="chackReportSplitAnnouncement('export')">รายงาน(ประกาศแยก)</button>
+            </div>
+        </div>
+    </div>
+    <div style="font-family: 'Kanit';">
+        <p-table dataKey="id" [value]="dataDividendDetailAll" [loading]="loadingAll" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+            selectionMode="single" [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:6%">ลำดับที่</th>
+                    <th style="width:15%">หน่วยงาน</th>
+                    <th style="width:10%">รหัสพนักงาน</th>
+                    <th style="width:15%">ชื่อพนักงาน</th>
+                    <th style="width:10%">เลขที่บัญชีธนาคาร</th>
+                    <th style="width:8%">ค่าหุ้นสะสม</th>
+                    <th style="width:8%">ปันผลหุ้น</th>
+                    <th style="width:8%">ดอกเบี้ยสะสม</th>
+                    <th style="width:8%">ปันผลดอกเบี้ย</th>
+                    <th style="width:8%">รวมปันผล</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-stockDividendAll let-i="rowIndex">
+                <tr [pSelectableRow]="stockDividendAll">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ stockDividendAll.departmentName }}</td>
+                    <td>{{ stockDividendAll.employeeCode }}</td>
+                    <td>{{ stockDividendAll.fullName }}</td>
+                    <td>{{ stockDividendAll.bankAccountReceivingNumber }}</td>
+                    <td style="color: #EA3A3D;">{{ stockDividendAll.stockAccumulate | number }}</td>
+                    <td style="color: #1AD598;">{{ stockDividendAll.stockDividend | number }}</td>
+                    <td style="color: #1AD598;">{{ stockDividendAll.cumulativeInterest | number }}</td>
+                    <td style="color: #1AD598;">{{ stockDividendAll.interestDividend | number }}</td>
+                    <td style="color: #e440d6;">{{ stockDividendAll.totalDividend | number }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayModalDividend" [modal]="true" [style]="{width: '30vw'}" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">กำหนดอัตราปันผลหุ้น</span>
+            <!-- <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i> -->
+        </div>
+    </ng-template>
+    <div [formGroup]="formModelDividend">
+        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+            <div style="padding: 0rem 2rem 2rem 2rem;">
+                <div style="display: grid; gap: 1rem; padding-top: 1rem;">
+                    <div class="col-6">
+                        <label class="block">ปันผลหุ้น</label>
+                        <div style="display: flex;">
+                            <p-inputNumber formControlName="stockDevidend" inputId="minmaxfraction" mode="decimal"
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" ></p-inputNumber>
+                            <div style="padding-left: 2rem; 
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;">
+                                <span style="color: #363738;">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="block">ปันผลเงินกู้</label>
+                        <div style="display: flex;">
+                            <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal"
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" ></p-inputNumber>
+                            <div style="padding-left: 2rem; 
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;">
+                                <span style="color: #363738;">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="block">วงเงินที่ต้องใช้</label> <br>
+                        <!-- <input class="form-control" pInputText type="text" formControlName="amountRequired" maxlength="5"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" /> -->
+                        <p-inputNumber formControlName="amountRequired" inputId="minmaxfraction" mode="decimal"
+                        [required]="true" [maxlength]="12"></p-inputNumber>
+                    </div>
+                    <div class="col-12">
+                        <label class="block">ยอดจัดสรร</label>
+                        <input class="form-control" pInputText type="text" formControlName="allotmentAmount" maxlength="5"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </div>
+                    <div class="col-12">
+                        <label class="block">เงินคงเหลือ</label>
+                        <input class="form-control" pInputText type="text" formControlName="balance" maxlength="5"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login2" (click)="calculateDividend()"  
+        [disabled]="!formModelDividend.valid">คำนวน</button>
+        <button type="button" class="btn btn-login2" (click)="clearDividend()">ล้างข้อมูล</button>
+        <button type="button" class="btn btn-regis2" (click)="onCancleDividend()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
+
