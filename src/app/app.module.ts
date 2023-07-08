@@ -40,7 +40,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
         RegisterPageComponent,
         PageNotFoundComponent,
         ForgetPasswordPageComponent,
-        LandingPageComponent
+        LandingPageComponent,
    ],
     providers: [ConfirmationService,MessageService,AuthGuardService,BnNgIdleService],
     bootstrap: [AppComponent],
@@ -65,7 +65,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
         CalendarModule,
         TooltipModule,
         NgxWebstorageModule.forRoot(),
-        ChipModule
+        ChipModule,
     ]
 })
 export class AppModule { }

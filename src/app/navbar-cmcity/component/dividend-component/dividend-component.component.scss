@@ -1,0 +1,27 @@
+.btn-group {
+    display: flex;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #dee2e6;
+    width: 18rem;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+  
+    .btn {
+      width: max-content;
+      height: 34px;
+      font-weight: 500;
+      font-size: 15px;
+      border-radius: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .btn-login {
+      color: #fff;
+      background-color: #fe6bba;
+    }
+  }

@@ -17,8 +17,10 @@ import { SharePageComponent } from './navbar-cmcity/page/share-page/share-page.c
 import { PageNotFoundComponent } from './PageNotFound/page-not-found.component';
 import { RegisterPageComponent } from './Register/register-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { AdminPageComponent } from './navbar-cmcity/page/admin-page/admin-page.component';
-
+import { AdminComponentComponent } from './navbar-cmcity/component/admin-component/admin-component.component';
+import { AdminPage1Component } from './navbar-cmcity/component/admin-component/page/admin-page1/admin-page1.component';
+import { AdminPage2Component } from './navbar-cmcity/component/admin-component/page/admin-page2/admin-page2.component';
+import { AdminPage3Component } from './navbar-cmcity/component/admin-component/page/admin-page3/admin-page3.component';
 const routes: Routes = [
     {
       path: '',
@@ -96,8 +98,28 @@ const routes: Routes = [
           component: MessagePageComponent,
         },
         {
-          path: 'admin-page',
-          component: AdminPageComponent,
+          path: 'admin',
+          component: AdminComponentComponent,
+          canActivateChild: [AuthGuard],
+          children: [
+            {
+              path: '',
+              redirectTo: 'admin-page1',
+              pathMatch: 'full'
+            },
+            {
+              path: 'admin-page1',
+              component: AdminPage1Component,
+            },
+            {
+              path: 'admin-page2',
+              component: AdminPage2Component,
+            },
+            {
+              path: 'admin-page3',
+              component: AdminPage3Component,
+            },
+          ]
         },
       ]
     },

@@ -51,9 +51,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
-import { AdminComponentComponent } from './component/admin-component/admin-component.component';
-import { AdminPageComponent } from './page/admin-page/admin-page.component';
 import { ChartModule } from 'primeng/chart';
+import { AdminComponentComponent } from './component/admin-component/admin-component.component';
+import { AdminCompponentModule } from './component/admin-component/admin-compponent.module';
 
 @NgModule({
   declarations: [
@@ -78,7 +78,6 @@ import { ChartModule } from 'primeng/chart';
     MessageComponentComponent,
     MessagePageComponent,
     AdminComponentComponent,
-    AdminPageComponent
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent],
@@ -113,7 +112,8 @@ import { ChartModule } from 'primeng/chart';
     DropdownModule,
     TagModule,
     AvatarModule,
-    ChartModule
+    ChartModule,
+    AdminCompponentModule
   ]
 })
 export class NavbarCmcityModule { }
