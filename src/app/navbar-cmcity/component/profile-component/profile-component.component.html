@@ -721,7 +721,7 @@
             <div class="col-12 " style="display: flex; justify-content: space-between;">
                 <div class="col-6">
                     <label for="beneficiaryPrefix" class="block" style="color: #747d8c;">คำนำหน้า</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix"
+                    <select class="form-select" aria-label="Default select example" formControlName="beneficiaryPrefix" (change)="onSelectValue($event)"
                         required="true" style="height: 2.8rem;">
                         <option value="0" selected>เลือกคำนำหน้า</option>
                         <option value="1">นาย</option>
@@ -776,7 +776,7 @@
             <div class="col-12 " style="display: flex; justify-content: space-between;">
                 <div class="col-6">
                     <label for="beneficiaryLifeStatus" class="block">สถานภาพ</label>
-                    <select class="form-select" aria-label="Default select example"
+                    <select class="form-select" aria-label="Default select example"  (change)="onSelectValue2($event)"
                         formControlName="beneficiaryLifeStatus" required="true" style="height: 2.8rem;">
                         <option value="0" selected>เลือกสถานภาพ</option>
                         <option value="1">มีชีวิต</option>
@@ -786,7 +786,7 @@
                 <div style="padding-right: 0.5rem;"></div>
                 <div class="col-6">
                     <label for="beneficiaryRelationship" class="block">ความสัมพันธ์</label>
-                    <select class="form-select" aria-label="Default select example" style="height: 2.8rem;"
+                    <select class="form-select" aria-label="Default select example" style="height: 2.8rem;" (change)="onSelectValue3($event)"
                         formControlName="beneficiaryRelationship" required="true">
                         <option value="0" selected>เลือกความสัมพันธ์</option>
                         <option value="5">บุตร</option>
@@ -799,7 +799,10 @@
 
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login2" (click)="onClickAddChild()"
-            [disabled]="!formModelChild.valid">ยืนยัน</button>
+            [disabled]="!formModelChild.valid 
+            || childFlag
+            || childFlag1
+            || childFlag2 ">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleAddChild()">ยกเลิก</button>
     </ng-template>
 </p-dialog>

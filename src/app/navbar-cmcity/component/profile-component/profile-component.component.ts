@@ -1394,4 +1394,35 @@ export class ProfileComponentComponent implements OnInit {
       }
     );
   }
+
+  childFlag:boolean = true;
+  onSelectValue(event: any){
+    const value = event.target.value;
+    if(value === '0'){
+      this.childFlag = true;
+    }else{
+      this.childFlag = false;
+    }
+  }
+
+  childFlag1:boolean = true;
+  onSelectValue2(event: any){
+    const value = event.target.value;
+    if(value === '0'){
+      this.childFlag1 = true;
+    }else{
+      this.childFlag1 = false;
+    }
+  }
+
+  childFlag2:boolean = true;
+  onSelectValue3(event: any){
+    const value = event.target.value;
+    if(value === '0'){
+      this.childFlag2 = true;
+    }else{
+      this.childFlag2 = false;
+    }
+  }
+
 }

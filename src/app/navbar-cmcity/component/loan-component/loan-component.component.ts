@@ -76,13 +76,14 @@ export class LoanComponentComponent implements OnInit {
         this.formModelLoanNew.get('guarantorOne').enable();
         this.formModelLoanNew.get('guarantorTwo').enable();
         const payload = {
-          empId: value
+          empCode: value,
+          monthCurrent: this.month,
+          yearCurrent: this.year
         }
         this.service.searchEmployeeLoanNew(payload).subscribe({
           next: (res) => {
             if(res !== null || res){
               this.dataNewLoan = res;
-              console.log(this.dataNewLoan,'<--------- this.dataNewLoan');
               this.formModelLoanNew.patchValue({
                 interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
                 stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)): 0,
