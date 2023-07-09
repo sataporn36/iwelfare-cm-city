@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Representative } from 'src/app/model/ccustomerTest';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-message-component',
@@ -33,14 +34,15 @@ export class MessageComponentComponent implements OnInit {
   detail: boolean;
   detailModel:FormGroup;
   statusNotifys: any;
-
+  userId: any;
   constructor(
     private service: MainService,
     protected route: ActivatedRoute, 
     private fb: FormBuilder, 
     protected router: Router,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService,
     ) {}
 
     initMainForm(){
@@ -69,16 +71,14 @@ export class MessageComponentComponent implements OnInit {
         localStorage.setItem('foo', 'no reload');
         history.go(0);
       } else {
-        localStorage.removeItem('foo') 
+        localStorage.removeItem('foo');
         this.initMainForm();
-        // this.searchRegiste();
         this.setperiodMonthDescOption();
         this.searchNotify();
       }
 
       this.checkStatus();
       this.checkMess();
-
     }
 
     checkPrefix(data: any): any {
@@ -273,7 +273,8 @@ export class MessageComponentComponent implements OnInit {
           this.ngOnInit();
         });
       }else{
-        this.service.cancelNotification(this.id).subscribe();
+        this.service.cancelNotification(this.id, this.employeeId).subscribe();
+        this.ngOnInit();
       }
 
       this.displayModal = false

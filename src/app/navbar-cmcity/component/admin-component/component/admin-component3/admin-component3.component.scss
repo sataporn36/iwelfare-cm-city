@@ -1,0 +1,179 @@
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+}
+
+.header-caption {
+  display: flex;
+  justify-content: center;
+}
+
+.card-table {
+  border: 5px solid white;
+  border-radius: 15px;
+  width: 99%;
+  background-color: white;
+  padding: 2rem;
+  margin-top: 5px;
+}
+
+.btn-group {
+  display: flex;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #dee2e6;
+  width: 20rem;
+  height: 45px;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 20px;
+
+  .btn {
+    width: 130px;
+    height: 34px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-login {
+    color: #fff;
+    background-color: #fe6bba;
+  }
+}
+
+// .btn{
+//     width: 140px;
+//     font-weight: 500;
+//     font-size: 15px;
+//     height: 40px;
+//     border-radius: 20px;
+// }
+
+// .btn-login {
+//     color: #fff;
+//     background-color: #FE6BBA;
+// }
+
+.test-child {
+  label {
+    color: #747d8c;
+  }
+  input {
+    height: 2.8rem;
+  }
+}
+
+::ng-deep .p-dialog {
+  .p-dialog-header {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+  }
+
+  .p-dialog-footer {
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  .btn {
+    width: 60px;
+    height: 34px;
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: -5px;
+    border-radius: 18px;
+  }
+
+  .btn-login2 {
+    width: 140px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    color: #fff;
+    background-color: #fe6bba;
+  }
+
+  .btn-regis2 {
+    width: 140px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    color: #fe6bba;
+    border-color: #fe6bba;
+    margin-left: 40px;
+  }
+
+  .ui-confirmdialog-message {
+    white-space: pre-line;
+  }
+}
+
+:host ::ng-deep p-paginator div {
+  display: flex;
+  justify-content: flex-end;
+
+  p-dropdown div .p-dropdown-trigger {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: none;
+  text-align: center;
+  font-weight: normal;
+  color: #8690a1;
+  font-size: 16px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: none;
+  border-top: none;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown {
+  height: 2.8rem;
+  width: 5rem;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label {
+  margin-top: -2px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-trigger {
+  width: 2.5rem;
+  span {
+    margin-top: 3px;
+  }
+}
+
+:host ::ng-deep .p-num-4 {
+  .p-inputnumber-input {
+    width: 11.3rem;
+  }
+}
+
+:host ::ng-deep .p-num-6 {
+  .p-inputnumber-input {
+    width: 16.9rem;
+  }
+}
+
+.btn-regis-loan {
+  width: 70px;
+  font-weight: 500;
+  font-size: 15px;
+  height: 40px;
+  color: #fe6bba;
+  border-color: #fe6bba;
+  margin-left: 200px;
+  margin-top: 10px;
+}

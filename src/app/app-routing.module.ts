@@ -21,112 +21,117 @@ import { AdminComponentComponent } from './navbar-cmcity/component/admin-compone
 import { AdminPage1Component } from './navbar-cmcity/component/admin-component/page/admin-page1/admin-page1.component';
 import { AdminPage2Component } from './navbar-cmcity/component/admin-component/page/admin-page2/admin-page2.component';
 import { AdminPage3Component } from './navbar-cmcity/component/admin-component/page/admin-page3/admin-page3.component';
+import { AdminPage4Component } from './navbar-cmcity/component/admin-component/page/admin-page4/admin-page4.component';
 const routes: Routes = [
-    {
-      path: '',
-      redirectTo: 'index',
-      pathMatch: 'full'
-    },
-    {
-      path: 'index',
-      component: LandingPageComponent,
-      canActivate: [AuthGuard],
-    },
-    {
-      path: 'login',
-      component: LoginPageComponent,
-      canActivate: [AuthGuard],
-    },
-    {
-      path: 'register',
-      component: RegisterPageComponent,
-      canActivate: [AuthGuard],
-    },
-    {
-      path: 'forget-password',
-      component: ForgetPasswordPageComponent,
-      canActivate: [AuthGuard],
-    },
-    {
-      path: 'main',
-      component: NavbarCmcityComponent,
-      canActivateChild: [AuthGuard],
-      children: [
-        {
-          path: '',
-          redirectTo: 'main-page',
-          pathMatch: 'full'
-        },
-        {
-          path: 'main-page',
-          component: MainPageComponent,
-        },
-        {
-          path: 'deposit-page',
-          component: DepositPageComponent,
-        },
-        {
-          path: 'share-page',
-          component: SharePageComponent,
-        },
-        {
-          path: 'loan-page',
-          component: LoanPageComponent,
-        },
-        {
-          path: 'loan-rigths-page',
-          component: LoanRightsPageComponent,
-        },
-        {
-          path: 'beneficiary-page',
-          component: BeneficiaryPageComponent,
-        },
-        {
-          path: 'guarantee-obligation-page',
-          component: GuaranteeObligationPageComponent,
-        },
-        {
-          path: 'dividend-page',
-          component: DividendPageComponent,
-        },
-        {
-          path: 'profile-page',
-          component: ProfilePageComponent,
-        },
-        {
-          path: 'message-page',
-          component: MessagePageComponent,
-        },
-        {
-          path: 'admin',
-          component: AdminComponentComponent,
-          canActivateChild: [AuthGuard],
-          children: [
-            {
-              path: '',
-              redirectTo: 'admin-page1',
-              pathMatch: 'full'
-            },
-            {
-              path: 'admin-page1',
-              component: AdminPage1Component,
-            },
-            {
-              path: 'admin-page2',
-              component: AdminPage2Component,
-            },
-            {
-              path: 'admin-page3',
-              component: AdminPage3Component,
-            },
-          ]
-        },
-      ]
-    },
-    {
-      path: '**',
-      component: PageNotFoundComponent,
-    },
+  {
+    path: '',
+    redirectTo: 'index',
+    pathMatch: 'full'
+  },
+  {
+    path: 'index',
+    component: LandingPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'forget-password',
+    component: ForgetPasswordPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'main',
+    component: NavbarCmcityComponent,
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'main-page',
+        pathMatch: 'full'
+      },
+      {
+        path: 'main-page',
+        component: MainPageComponent,
+      },
+      {
+        path: 'deposit-page',
+        component: DepositPageComponent,
+      },
+      {
+        path: 'share-page',
+        component: SharePageComponent,
+      },
+      {
+        path: 'loan-page',
+        component: LoanPageComponent,
+      },
+      {
+        path: 'loan-rigths-page',
+        component: LoanRightsPageComponent,
+      },
+      {
+        path: 'beneficiary-page',
+        component: BeneficiaryPageComponent,
+      },
+      {
+        path: 'guarantee-obligation-page',
+        component: GuaranteeObligationPageComponent,
+      },
+      {
+        path: 'dividend-page',
+        component: DividendPageComponent,
+      },
+      {
+        path: 'profile-page',
+        component: ProfilePageComponent,
+      },
+      {
+        path: 'message-page',
+        component: MessagePageComponent,
+      },
+      // {
+      //   // path: 'admin',
+      //   // component: AdminComponentComponent,
+      //   // canActivateChild: [AuthGuard],
+      //   // children: [
+      //   //   {
+      //   path: '',
+      //   redirectTo: 'admin-page1',
+      //   pathMatch: 'full'
+      // },
+      {
+        path: 'admin-page1',
+        component: AdminPage1Component,
+      },
+      {
+        path: 'admin-page2',
+        component: AdminPage2Component,
+      },
+      {
+        path: 'admin-page3',
+        component: AdminPage3Component,
+        //   },
+        // ]
+      },
+      {
+        path: 'admin-page4',
+        component: AdminPage4Component,
+      },
+    ]
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
+  },
 ];
 
 @NgModule({

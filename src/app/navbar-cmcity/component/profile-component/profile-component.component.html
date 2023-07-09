@@ -265,7 +265,7 @@
                         formControlName="selectMarital" required="true">
                         <option value="0" selected>เลือกความสัมพันธ์</option>
                         <option value="1">โสด</option>
-                        <option value="2">แต่งงานแล้ว</option>
+                        <option value="2">อยู่ร่วมกัน</option>
                         <option value="3">หม้าย</option>
                         <option value="4">หย่า</option>
                         <option value="5">แยกกันอยู่</option> 
@@ -386,7 +386,7 @@
                                 formControlName="beneficiaryLifeStatus" required="true" *ngIf="!modeGf">
                                 <option value="0" selected>เลือกสถานภาพ</option>
                                 <option value="1">มีชีวิต</option>
-                                <option value="2">ไม่มีชีวิต</option>
+                                <option value="2">เสียชีวิต</option>
                             </select>
                         </div>
                     </div>
@@ -477,7 +477,7 @@
                                 formControlName="beneficiaryLifeStatus" required="true" *ngIf="!modeGm">
                                 <option value="0" selected>เลือกสถานภาพ</option>
                                 <option value="1">มีชีวิต</option>
-                                <option value="2">ไม่มีชีวิต</option>
+                                <option value="2">เสียชีวิต</option>
                             </select>
                         </div>
                     </div>
@@ -569,7 +569,7 @@
                                 formControlName="beneficiaryLifeStatus" required="true" *ngIf="!modeDad">
                                 <option value="0" selected>เลือกสถานภาพ</option>
                                 <option value="1">มีชีวิต</option>
-                                <option value="2">ไม่มีชีวิต</option>
+                                <option value="2">เสียชีวิต</option>
                             </select>
                         </div>
                         <div style="padding-right: 0.5rem;"></div>
@@ -581,7 +581,7 @@
                                 formControlName="beneficiaryMarital" required="true">
                                 <option value="0" selected>เลือกสถานภาพสมรส</option>
                                 <option value="1">โสด</option>
-                                <option value="2">แต่งงานแล้ว</option>
+                                <option value="2">อยู่ร่วมกัน</option>
                                 <option value="3">หม้าย</option>
                                 <option value="4">หย่า</option>
                                 <option value="5">แยกกันอยู่</option>
@@ -679,7 +679,7 @@
                                 formControlName="beneficiaryLifeStatus" required="true" *ngIf="!modeMom">
                                 <option value="0" selected>เลือกสถานภาพ</option>
                                 <option value="1">มีชีวิต</option>
-                                <option value="2">ไม่มีชีวิต</option>
+                                <option value="2">เสียชีวิต</option>
                             </select>
                         </div>
                         <div style="padding-right: 0.5rem;"></div>
@@ -691,7 +691,7 @@
                                 formControlName="beneficiaryMarital" required="true">
                                 <option value="0" selected>เลือกสถานภาพสมรส</option>
                                 <option value="1">โสด</option>
-                                <option value="2">แต่งงานแล้ว</option>
+                                <option value="2">อยู่ร่วมกัน</option>
                                 <option value="3">หม้าย</option>
                                 <option value="4">หย่า</option>
                                 <option value="5">แยกกันอยู่</option>
@@ -780,7 +780,7 @@
                         formControlName="beneficiaryLifeStatus" required="true" style="height: 2.8rem;">
                         <option value="0" selected>เลือกสถานภาพ</option>
                         <option value="1">มีชีวิต</option>
-                        <option value="2">ไม่มีชีวิต</option>
+                        <option value="2">เสียชีวิต</option>
                     </select>
                 </div>
                 <div style="padding-right: 0.5rem;"></div>
@@ -958,7 +958,7 @@
                 <div class="col-6">
                     <label class="block">เงินส่งหุ้นรายเดือนใหม่ *</label>
                     <p-inputNumber inputId="integeronly" formControlName="monthlyStockMoney" mode="decimal"
-                        [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2" [maxlength]="7"
+                        [required]="true" [minFractionDigits]="0" [min]="0" [maxFractionDigits]="2" [maxlength]="7"
                         (onInput)="checkValueOfNull($event)"></p-inputNumber>
                 </div>
             </div>

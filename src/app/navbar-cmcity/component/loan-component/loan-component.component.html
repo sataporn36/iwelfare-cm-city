@@ -24,7 +24,6 @@
                     <th style="width:10%">ชื่อรายการ</th>
                     <th style="width:10%">งวดที่</th>
                     <th style="width:10%">ดอกเบี้ย(เดือนนี้)</th>
-                    <!-- <th style="width:10%">เงินกู้ส่งรายเดือน</th> -->
                     <th style="width:10%">เงินกู้สามัญ</th>
                     <th style="width:10%">เงินกู้คงเหลือ</th>
                     <th style="width:10%">ดอกเบี้ย (%)</th>
@@ -38,7 +37,6 @@
                     <td>ชำระหนี้ประจำเดือน</td>
                     <td style="color: #EA3A3D;">{{ loanDetail.installment | number }}</td>
                     <td style="color: #1AD598;">{{ loanDetail.interest | number }}</td>
-                    <!-- <td style="color: #1AD598;">{{ loanDetail.loanOrdinary | number }}</td> -->
                     <td style="color: #EA3A3D;">{{ loanDetail.loanValue | number }}</td>
                     <td style="color: #1AD598;">{{ loanDetail.loanBalance | number }}</td>
                     <td>{{ loanDetail.interestPercent }}%</td>
@@ -47,7 +45,7 @@
         </p-table>
     </div>
 </div>
-<div style="padding-top: 1rem;"></div>
+<!-- <div style="padding-top: 1rem;"></div>
 
 <div class="card-table" *ngIf="admin">
     <p-chip label="เจ้าหน้าที่" styleClass="mr-2"></p-chip>
@@ -120,35 +118,7 @@
         </ng-template>
     </p-table>
 </div>
-<div style="padding-top: 2rem;"></div>
-
-<!-- <p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
-    styleClass="customDialog">
-    <ng-template pTemplate="header">
-        <div style="display: flex; align-items: center;">
-            <span style="font-size: 18px; font-weight: bold;">เปลี่ยนแปลงการชำระเงินกู้รายเดือน</span>
-            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
-                pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i>
-        </div>
-    </ng-template>
-    <div [formGroup]="formModelLoan">
-        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
-            <div class="col-12 " style="display: flex; justify-content: center;">
-                <div class="col-6">
-                    <label class="block">เงินกู้รายเดือน *</label>
-                    <p-inputNumber formControlName="monthlyLoanMoney" inputId="minmaxfraction" mode="decimal"
-                        [required]="true" [minFractionDigits]="2" [maxFractionDigits]="2" [maxlength]="10"
-                        (onInput)="checkValueOfNull($event)"></p-inputNumber>
-                </div>
-            </div>
-        </div>
-    </div>
-    <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="onupdateLoanToMonth()"
-            [disabled]="checkNull">ยืนยัน</button>
-        <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
-    </ng-template>
-</p-dialog> -->
+<div style="padding-top: 2rem;"></div> -->
 
 <p-confirmDialog #cd [appendTo]="'body'" position="center" [draggable]="false" [dismissableMask]="true"
     [style]="{width: '18vw'}">
@@ -164,7 +134,6 @@
         <span style="font-size: 18px; font-weight: bold;">รายงาน</span>
     </ng-template>
     <div style="display: flex;">
-        <!-- <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i> -->
         <span>
             โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที
         </span><br>
@@ -182,8 +151,6 @@
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">สร้างสัญญาเงินกู้ใหม่</span>
-            <!-- <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
-                pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i> -->
         </div>
     </ng-template>
     <div [formGroup]="formModelLoanNew">
@@ -204,8 +171,6 @@
                 <div style="display: flex; gap: 0.5rem; padding-top: 1rem;">
                     <div class="col-4 p-num-4">
                         <label class="block">ยอดเงินกู้</label> <br>
-                        <!-- <input class="form-control"  pInputText type="text" formControlName="loanValue" required="true" maxlength="11"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/> -->
                         <p-inputNumber formControlName="loanValue" inputId="minmaxfraction" mode="decimal"
                         [required]="true" [maxlength]="12" (keyup)="checkGuaranteeStock($event)"></p-inputNumber>
                     </div>
@@ -216,8 +181,6 @@
                     </div>
                     <div class="col-4 p-num-4">
                         <label class="block">ผ่อนชำระ(งวด)</label> <br>
-                        <!-- <input class="form-control"  pInputText type="text" formControlName="loanTime" required="true" maxlength="10"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/> -->
                         <p-inputNumber formControlName="loanTime" inputId="minmaxfraction" mode="decimal"
                         [required]="true" [maxlength]="12" (keyup)="checkLoanTime($event)"></p-inputNumber>
                     </div>
@@ -228,8 +191,6 @@
                         <label class="block">หุ้น</label> <br>
                         <input class="form-control"  pInputText type="text" formControlName="stockValue" required="true" maxlength="50"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
-                        <!-- <p-inputNumber formControlName="stockValue" inputId="minmaxfraction" mode="decimal"
-                        [required]="true" [maxlength]="12" ></p-inputNumber> -->
                     </div>
                     <div class="col-6">
                         <label class="block">ใช้หุ้นค้ำ</label>

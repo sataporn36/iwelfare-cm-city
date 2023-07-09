@@ -67,7 +67,7 @@
                             <div class="col-1">
                                 <span class="iconify" data-icon="mdi:people-group"></span>
                             </div>
-                            <div class="col-10" style="margin-left: 1px;">
+                            <div class="col-10">
                                 <a class="nav-link" routerLink="beneficiary-page"
                                     (click)="checkActive('beneficiary')">ผู้รับผลประโยชน์</a>
                             </div>
@@ -100,6 +100,47 @@
                             <div class="col-10" style="margin-left: -5px;">
                                 <a class="nav-link" routerLink="dividend-page"
                                     (click)="checkActive('dividend')">เงินปันผล</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li [ngClass]="'nav-item '+ setting">
+                        <div class="row" style="margin-left: 10px; margin-bottom: 12px;">
+                            <div class="col-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor"
+                                    class="bi bi-sliders" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z" />
+                                </svg>
+                            </div>
+                            <div class="col-10" style="margin-left: -5px;">
+                                <a class="nav-link active" href="#" (click)="toggleCollapse($event)"
+                                    [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
+                                    เจ้าหน้าที่
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="collapse" [ngClass]="{ 'show': isCollapsed }" (click)="preventCollapse($event)"
+                            id="tasksCollapse">
+                            <div class="nav-admin" style="color: #747d8c;">
+                                <ul class="nav flex-column">
+                                    <li class="nav-items">
+                                        <a [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
+                                            style="display: flex; align-items: center;" (click)="checkActive('settingEmployee')">การจัดการสมาชิก</a>
+                                    </li>
+                                    <li class="nav-items">
+                                        <a [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
+                                            style="display: flex; align-items: center;" (click)="checkActive('settingStock')">การจัดการหุ้น</a>
+                                    </li>
+                                    <li class="nav-items">
+                                        <a [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
+                                            style="display: flex; align-items: center;" (click)="checkActive('settingLoan')">การจัดการเงินกู้</a>
+                                    </li>
+                                    <li class="nav-items">
+                                        <a [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
+                                            style="display: flex; align-items: center;" (click)="checkActive('settingDividend')">การจัดการเงินปันผล</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </li>
@@ -179,7 +220,8 @@
                                 <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu
                                     [popup]="true" [model]="items"></p-menu>
                                 <a class="dropdown-toggle" (click)="menu.toggle($event)">
-                                    <img class="profile_img" [src]="profileImg()" alt="logo" style="background: #f8f2f2;" />
+                                    <img class="profile_img" [src]="profileImg()" alt="logo"
+                                        style="background: #f8f2f2;" />
                                 </a>
                             </div>
                         </li>

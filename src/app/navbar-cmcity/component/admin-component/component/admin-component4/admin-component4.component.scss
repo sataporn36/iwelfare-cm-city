@@ -1,0 +1,82 @@
+.btn-group {
+  display: flex;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  background-color: #dee2e6;
+  width: 18rem;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+
+  .btn {
+    width: max-content;
+    height: 34px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-login {
+    color: #fff;
+    background-color: #fe6bba;
+  }
+}
+
+.card-table {
+  border: 5px solid white;
+  border-radius: 15px;
+  width: 99%;
+  background-color: white;
+  padding: 2rem;
+  margin-top: 5px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: none;
+  text-align: center;
+  font-weight: normal;
+  color: #8690a1;
+  font-size: 16px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: none;
+  border-top: none;
+}
+
+.btn {
+  width: 60px;
+  height: 34px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: -5px;
+  border-radius: 18px;
+}
+
+.btn-login2 {
+  width: 140px;
+  font-weight: 500;
+  font-size: 15px;
+  height: 40px;
+  color: #fff;
+  background-color: #fe6bba;
+}
+
+.btn-regis2 {
+  width: 140px;
+  font-weight: 500;
+  font-size: 15px;
+  height: 40px;
+  color: #fe6bba;
+  border-color: #fe6bba;
+  margin-left: 40px;
+}

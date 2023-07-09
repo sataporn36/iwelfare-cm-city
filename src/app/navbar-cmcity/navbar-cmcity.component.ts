@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -38,12 +38,19 @@ export class NavbarCmcityComponent implements OnInit {
   imageSrc: SafeUrl;
   gender: any;
   profileImgId: any;
+  setting: any;
+  settingEmployee: any;
+  settingStock: any;
+  settingLoan: any;
+  settingDividend: any;
 
   constructor(
     private service: MainService,
     protected router: Router,
     private localStorageService: LocalStorageService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private elementRef: ElementRef,
+    private renderer: Renderer2
   ) {
     this.currentDate();
   }
@@ -116,6 +123,23 @@ export class NavbarCmcityComponent implements OnInit {
     }
   }
 
+  isCollapsed: boolean = false;
+
+  toggleCollapse(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: MouseEvent): void {
+  //   this.isCollapsed = true;
+  // }
+
+  preventCollapse(event: MouseEvent): void {
+    event.stopPropagation();
+  }
+
   initMainForm() {
     this.formModel = new FormGroup({
       gender: new FormControl(null),
@@ -159,6 +183,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "deposit":
         this.main = "";
@@ -171,6 +200,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "stock":
         this.main = "";
@@ -183,6 +217,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "loan":
         this.main = "";
@@ -195,6 +234,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "rigths":
         this.main = "";
@@ -207,6 +251,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "beneficiary":
         this.main = "";
@@ -219,6 +268,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "guarantee":
         this.main = "";
@@ -231,6 +285,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "dividend":
         this.main = "";
@@ -243,6 +302,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "active";
         this.profile = "";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "profile":
         this.main = "";
@@ -255,6 +319,11 @@ export class NavbarCmcityComponent implements OnInit {
         this.dividend = "";
         this.profile = "active";
         this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
       case "message":
         this.main = "";
@@ -266,8 +335,81 @@ export class NavbarCmcityComponent implements OnInit {
         this.guarantee = "";
         this.dividend = "";
         this.profile = "";
-        this.message = "message";
+        this.message = "active";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "";
         break;
+      case "settingEmployee":
+        this.main = "";
+        this.deposit = "";
+        this.stock = "";
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        this.message = "";
+        this.settingEmployee = "active";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "active";
+        break;
+      case "settingStock":
+        this.main = "";
+        this.deposit = "";
+        this.stock = "";
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "active";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "active";
+        break;
+      case "settingLoan":
+        this.main = "";
+        this.deposit = "";
+        this.stock = "";
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "active";
+        this.settingDividend = "";
+        this.setting = "active";
+        break;
+        case "settingDividend":
+          this.main = "";
+          this.deposit = "";
+          this.stock = "";
+          this.loan = "";
+          this.rigths = "";
+          this.beneficiary = "";
+          this.guarantee = "";
+          this.dividend = "";
+          this.profile = "";
+          this.message = "";
+          this.settingEmployee = "";
+          this.settingStock = "";
+          this.settingLoan = "";
+          this.settingDividend = "active";
+          this.setting = "active";
+          break;
       default:
         break;
     }
@@ -291,7 +433,7 @@ export class NavbarCmcityComponent implements OnInit {
     let textGender = '';
     if (this.profileImgId != 0) {
       return this.imageSrc;
-    }else{
+    } else {
       switch (this.gender) {
         case 'ชาย':
           textGender = 'assets/images/boy.png';

@@ -69,6 +69,10 @@ path {
     color: #fe6bba;
     font-size: 15px;
   }
+  .nav-admin a.nav-link {
+    color: #747d8c;
+    font-size: 15px;
+  }
   path {
     fill: #fe6bba;
   }
@@ -79,6 +83,10 @@ li.active {
   .iconify {
     font-size: 22px;
     color: #fe6bba;
+  }
+  .nav-admin a.nav-link {
+    color: #747d8c;
+    font-size: 15px;
   }
   a.nav-link {
     color: #fe6bba;
@@ -199,3 +207,55 @@ img.profile_img {
     fill: #fe6bba;
   }
 }
+
+.nav-admin .nav .nav-items {
+  position: relative;
+  margin-left: -8px;
+}
+
+.nav-admin .nav .nav-items:after {
+  background-color: #747d8c;
+  content: "";
+  height: .625rem;
+  left: 2.375rem;
+  opacity: .3;
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+  width: .0625rem;
+  // margin-left: -5px;
+}
+
+.nav-admin .nav .nav-items:first-child:after {
+  height: .625rem;
+}
+
+.nav-admin .nav .nav-link {
+  /* font-size:.75rem; */
+  padding-bottom: .5625rem;
+  padding-left: 3.625rem;
+  padding-top: .5625rem;
+  position: relative;
+}
+
+.nav-admin .nav .nav-link:before {
+  background-color: #747d8c;
+  border-radius: .375rem;
+  content: "";
+  height: .375rem;
+  left: 2.25rem;
+  opacity: .3;
+  position: absolute;
+  top: var(--bs-nav-link-padding-y)-.1875rem 0.03125rem;
+  width: .375rem;
+}
+
+.nav-admin .nav .nav-link.active:before,.nav-admin .nav .nav-link.show:before {
+  background-color: #fe6bba;
+  opacity: 1;
+}
+
+// .nav-admin .nav .nav-link .nav-link {
+//   display: flex; 
+//   align-items: center;
+// }

@@ -218,6 +218,7 @@ export class RegisterPageComponent implements OnInit{
           this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ เเละรอการอนุมัติ'});  
           this.iconStatus = true;
           this.formModel.reset();
+          this.router.navigate(['/login'], {});
         }else if(res.data.statusEmployee === 'ERROR_EMPLOYEE'){
           this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
           this.iconStatus = false;

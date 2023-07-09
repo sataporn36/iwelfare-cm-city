@@ -226,9 +226,9 @@ export class MainService {
     );
   }
 
-  cancelNotification(id: number): Observable<any> {
+  cancelNotification(id: number, empId: number): Observable<any> {
     return this.http.delete<any>(
-      AppPath.APP_API_SERVICE + '/v1/notify/cancel/' + id,
+      AppPath.APP_API_SERVICE + '/v1/notify/cancel/' + id + '/' + empId,
     );
   }
 

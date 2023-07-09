@@ -1021,7 +1021,7 @@ export class ProfileComponentComponent implements OnInit {
     switch (data) {
       case 'มีชีวิต':
         return '1'
-      case 'ไม่มีชีวิต':
+      case 'เสียชีวิต':
         return '2'
       default:
         break;
@@ -1033,7 +1033,7 @@ export class ProfileComponentComponent implements OnInit {
       case '1':
         return 'มีชีวิต'
       case '2':
-        return 'ไม่มีชีวิต'
+        return 'เสียชีวิต'
       default:
         break;
     }
@@ -1043,7 +1043,7 @@ export class ProfileComponentComponent implements OnInit {
     switch (data) {
       case 'โสด':
         return '1'
-      case 'แต่งงานแล้ว':
+      case 'อยู่ร่วมกัน':
         return '2'
       case 'เป็นหม้าย':
         return '3'
@@ -1061,7 +1061,7 @@ export class ProfileComponentComponent implements OnInit {
       case '1':
         return 'โสด'
       case '2':
-        return 'แต่งงานแล้ว'
+        return 'อยู่ร่วมกัน'
       case '3':
         return 'เป็นหม้าย'
       case '4':

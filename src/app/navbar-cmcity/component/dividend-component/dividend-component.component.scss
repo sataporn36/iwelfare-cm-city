@@ -81,4 +81,12 @@
   margin-left: 40px;
 }
 
-  
+:host ::ng-deep p-paginator div {
+  display: flex;
+  justify-content: flex-end;
+
+  p-dropdown div .p-dropdown-trigger {
+    display: flex;
+    justify-content: center;
+  }
+}

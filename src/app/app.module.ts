@@ -30,7 +30,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { BnNgIdleService } from 'bn-ng-idle'; 
 import { ChipModule } from 'primeng/chip';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 @NgModule({
     declarations: [	
@@ -66,6 +66,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
         TooltipModule,
         NgxWebstorageModule.forRoot(),
         ChipModule,
+        PanelMenuModule
     ]
 })
 export class AppModule { }
