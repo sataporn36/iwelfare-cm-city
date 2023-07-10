@@ -43,6 +43,7 @@ export class NavbarCmcityComponent implements OnInit {
   settingStock: any;
   settingLoan: any;
   settingDividend: any;
+  admin: boolean = false;
 
   constructor(
     private service: MainService,
@@ -118,8 +119,9 @@ export class NavbarCmcityComponent implements OnInit {
     this.initMainForm();
     this.searchNotify();
 
-    if (this.userId === 1 || this.userId === 631) {
+    if (this.userId === 1) {
       this.messager = true;
+      this.admin = true;
     }
   }
 
