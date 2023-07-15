@@ -91,7 +91,7 @@
   </ng-template>
 </p-confirmDialog>
 
-<p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"
+<p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }"
   [draggable]="false" [resizable]="false">
   <div [formGroup]="formModel">
     <div class="col mb-1">
@@ -106,7 +106,7 @@
 </p-dialog>
 <p-toast></p-toast>
 
-<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }" [draggable]="false" [resizable]="false">
+<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
     <div [formGroup]="detailModel">
     <div class="div-profile">
       <div class="img-pro">

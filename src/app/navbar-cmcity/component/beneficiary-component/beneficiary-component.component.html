@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false"
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"
     styleClass="customDialog">
     <ng-template pTemplate="header">
         <p-chip label="แก้ไขผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>

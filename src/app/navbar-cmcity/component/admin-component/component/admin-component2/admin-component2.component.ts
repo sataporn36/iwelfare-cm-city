@@ -1146,7 +1146,11 @@ export class AdminComponent2Component implements OnInit {
   }
 
   getGrandTotal() {
-    this.service.getGrandTotal().subscribe(data => {
+    const payload = {
+      monthCurrent: this.month,
+      yearCurrent: this.year
+    }
+    this.service.getGrandTotal(payload).subscribe(data => {
       this.grandTotal = data;
       console.log(this.grandTotal, '<---------------- this.grandTotal');
       this.onPrintTotal(this.grandTotal);

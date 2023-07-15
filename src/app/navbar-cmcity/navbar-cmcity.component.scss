@@ -4,8 +4,8 @@
 }
 
 .menubar {
-  position: absolute;
-  width: 280px;
+  // position: absolute;
+  // width: 280px;
   height: 900px;
   background: #ffffff;
   border-radius: 15px;
@@ -48,7 +48,7 @@ img {
 }
 
 .nav-item {
-  width: 250px;
+  // width: 250px;
   height: 50px;
   border-radius: 15px;
   margin: 5px;
@@ -112,18 +112,18 @@ li {
   background: #fff;
   height: 60px;
   border-radius: 15px;
-  width: 102%;
-  margin-left: -15px;
+  // width: 100%;
+  //margin-left: -15px;
 }
 
-.searchbar .row .col-3 {
-  margin: 10px;
-}
+// .searchbar .row .col-3 {
+//   margin: 10px;
+// }
 
-.searchbar .row .col-8 {
-  margin-top: 50px;
-  text-align: right;
-}
+// .searchbar .row .col-8 {
+//   margin-top: 50px;
+//   text-align: right;
+// }
 
 input.search {
   border-radius: 10px;
@@ -138,19 +138,20 @@ input.search {
   color: #747d8c;
 }
 
-.searchbar svg {
-  transform: translate(340px, -33px);
-}
+// .searchbar svg {
+//   transform: translate(340px, -33px);
+// }
 
-.searchbar ul.bar {
-  list-style-type: none;
-  margin-left: 58%;
-}
+// .searchbar ul.bar {
+//   list-style-type: none;
+//   //margin-left: 58%;
+// }
 
-.searchbar ul.bar li {
-  float: left;
-  margin-left: 22px;
-}
+// .searchbar ul.bar li {
+//   float: left;
+//   padding-left: 1rem;
+//   //margin-left: 22px;
+// }
 
 img.profile_img {
   width: 40px;
@@ -188,7 +189,7 @@ img.profile_img {
 ::ng-deep .p-menu {
   margin-top: 25px;
   font-size: 15px;
-  margin-left: 23px;
+  //margin-left: 23px;
   border-radius: 10px;
 }
 
@@ -197,9 +198,10 @@ img.profile_img {
 }
 
 .count {
-  margin-top: -1.5%;
-  margin-left: 18.8%;
-  z-index: 1;
+  // margin-top: -1.5%;
+  // margin-left: 18.8%;
+  // z-index: 1;
+  margin-left: 20px;
 }
 
 .searchbar .message {

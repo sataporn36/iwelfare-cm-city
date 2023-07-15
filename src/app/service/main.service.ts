@@ -158,8 +158,8 @@ export class MainService {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/notify/search', null);
   }
 
-  searchLoanDetail(id: number): Observable<any[]> {
-    return this.http.get<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/search-by-loan/' + id);
+  searchLoanDetail(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/search-by-loan',playload);
   }
 
   searchLoan(): Observable<any[]> {
@@ -172,8 +172,8 @@ export class MainService {
     );
   }
 
-  getGrandTotal(): Observable<any[]> {
-    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/grand-total', null);
+  getGrandTotal(payload: any): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/grand-total', payload);
   }
 
   searchDocumentV1(playload: any): Observable<any[]> {

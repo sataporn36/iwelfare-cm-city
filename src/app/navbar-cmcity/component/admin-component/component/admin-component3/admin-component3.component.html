@@ -2,7 +2,7 @@
     <p-chip label="การจัดการเงินกู้" styleClass="mr-2"></p-chip>
     <p-toast></p-toast>
     <div style="padding-bottom: 0.5rem; padding-top: 1rem; display: flex; justify-content: space-between;">
-        <div class="btn-group" style="width: 30%;">
+        <div class="btn-group" style="width: 26rem;">
             <button type="button" class="btn btn-login" style="width: max-content;" (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" style="width: max-content;" (click)="onShowLoanAddNew()">สร้างสัญญาเงินกู้ใหม่</button>
@@ -79,7 +79,7 @@
     </ng-template>
 </p-confirmDialog>
 
-<p-dialog [(visible)]="displayLoadingPdf" [modal]="true" [style]="{ width: '30vw'}" [draggable]="false"
+<p-dialog [(visible)]="displayLoadingPdf" [modal]="true" [style]="{ width: '30vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false"
     [resizable]="false">
     <ng-template pTemplate="header">
         <span style="font-size: 18px; font-weight: bold;">รายงาน</span>
@@ -97,7 +97,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="displayModalLoanNew" [modal]="true" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false"
+<p-dialog [(visible)]="displayModalLoanNew" [modal]="true" [style]="{width: '45vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"
     styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
@@ -223,7 +223,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="displayMessageError" [modal]="true" [style]="{ width: '30vw'}" [draggable]="false"
+<p-dialog [(visible)]="displayMessageError" [modal]="true" [style]="{ width: '30vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false"
     [resizable]="false">
     <ng-template pTemplate="header">
         <span style="font-size: 18px; font-weight: bold;">เเจ้งเตือน</span>
@@ -239,7 +239,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [draggable]="false" [resizable]="false"
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '28vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"
     styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">

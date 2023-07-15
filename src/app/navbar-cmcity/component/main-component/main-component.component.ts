@@ -12,6 +12,7 @@ import { MainService } from 'src/app/service/main.service';
 })
 export class MainComponentComponent implements OnInit {
 
+  maxLength: number = 10;
   dataStockDetail: any[] = [];
   loading!: boolean;
   stockId: any;
@@ -142,4 +143,12 @@ export class MainComponentComponent implements OnInit {
       );
     }
   }
+
+  transformText(value: string, limit: number): string {
+    if (value.length > limit) {
+      return value.substring(0, limit) + '...';
+    }
+    return value;
+  }
+  
 }

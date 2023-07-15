@@ -41,7 +41,7 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModalBill" [modal]="true" [style]="{width: '28vw'}" [draggable]="false"
+<p-dialog [(visible)]="displayModalBill" [modal]="true" [style]="{width: '28vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false"
     [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">

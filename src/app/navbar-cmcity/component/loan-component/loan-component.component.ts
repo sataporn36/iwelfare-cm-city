@@ -326,10 +326,11 @@ export class LoanComponentComponent implements OnInit {
   }
 
   searchLoanDetail(id: any): void {
-    this.service.searchLoanDetail(id).subscribe(data => {
+    const payload  ={
+      loanId: id
+    }
+    this.service.searchLoanDetail(payload).subscribe(data => {
       this.dataLoanDetail = data
-      console.log(this.dataLoanDetail,'<-------------- this.dataLoanDetail');
-      
       this.loading = false;
     });
   }

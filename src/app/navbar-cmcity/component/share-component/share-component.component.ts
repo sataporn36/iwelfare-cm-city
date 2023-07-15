@@ -189,7 +189,9 @@ export class ShareComponentComponent implements OnInit {
 
   searchStockDetail(id: any): void {
     this.service.searchStockDetail(id, "asc").subscribe(data => {
-      this.dataStockDetail = data;
+      const key = 'installment';
+      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      this.dataStockDetail = arrayUniqueByKey.sort((a, b) => a.installment - b.installment);
       // this.stockAccumulate = data.stock.stockAccumulate
     });
   }
@@ -535,17 +537,15 @@ export class ShareComponentComponent implements OnInit {
 
     let stockInfo: any[] = [];
     const playload = {
-      empId: this.userId
+      empId: this.userId, 
+      monthCurrent: null, //this.month
+      yearCurrent: this.year
     }
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-      console.log(data, '<---------- this.list');
-
       const key = 'stockInstallment';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
-
       this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
     });
   }

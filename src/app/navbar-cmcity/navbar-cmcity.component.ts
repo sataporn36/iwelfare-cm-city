@@ -98,6 +98,8 @@ export class NavbarCmcityComponent implements OnInit {
   })
 
   ngOnInit() {
+    console.log(window.location.href,'<------------ window.location.href');
+    this.checkURLClick(window.location.href.toString());
     this.items = [
       {
         label: 'ข้อมูลส่วนตัว',
@@ -123,6 +125,41 @@ export class NavbarCmcityComponent implements OnInit {
       this.messager = true;
       this.admin = true;
     }
+  }
+
+  checkURLClick(textUrl: any){
+    const baseUrl = 'http://localhost:4200/main/';
+    const url = textUrl.replace(baseUrl, '');
+    console.log(url,'<--- url text');
+    
+       if(url.toLowerCase().includes('main')){
+         this.checkActive('main')
+       }else if(url.toLowerCase().includes('share')){
+         this.checkActive('stock')
+       }else if(url.toLowerCase().includes('loan')){
+        this.checkActive('loan')
+       }else if(url.toLowerCase().includes('rigths')){
+        this.checkActive('rigths')
+       }else if(url.toLowerCase().includes('beneficiary')){
+        this.checkActive('beneficiary')
+       }else if(url.toLowerCase().includes('guarantee')){
+        this.checkActive('guarantee')
+       }else if(url.toLowerCase().includes('dividend')){
+        this.checkActive('dividend')
+       }else if(url.toLowerCase().includes('page1')){
+        this.checkActive('settingEmployee')
+       }else if(url.toLowerCase().includes('page2')){
+        this.checkActive('settingStock')
+       }else if(url.toLowerCase().includes('page3')){
+        this.checkActive('settingLoan')
+       }else if(url.toLowerCase().includes('page4')){
+        this.checkActive('settingDividend')
+       }else if(url.toLowerCase().includes('profile')){
+        this.checkActive('profile')
+       }
+      //  else if(url.toLowerCase().includes('')){
+      //   this.checkActive('setting')
+      //  }
   }
 
   isCollapsed: boolean = false;
