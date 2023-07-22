@@ -972,7 +972,7 @@ export class AdminComponent3Component implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
+        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'header' },
         // text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
         '\n',
         {
@@ -1394,22 +1394,26 @@ export class AdminComponent3Component implements OnInit {
     });
   }
 
+  monthSelectNew: any;
+  yearSelectNew: any;
   onSearchDocumentV1All(){
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
+    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
        loanId: null,
-       monthCurrent: dataMY.month,
+       monthCurrent: monthNew,
        yearCurrent: dataMY.year
     }
-  
+    this.monthSelectNew = monthNew;
+    this.yearSelectNew = dataMY.year;
     this.service.searchDocumentV1Loan(payload).subscribe((data) => {
       this.list = data;
-      const key = 'installment';
+      const key = 'employeeCode';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      this.getSearchDocumentV2SumAll(payload, this.mode, data);
+      this.getSearchDocumentV2SumAll(payload, this.mode, arrayUniqueByKey);
     });
   }
 

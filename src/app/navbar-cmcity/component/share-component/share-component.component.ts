@@ -717,6 +717,8 @@ export class ShareComponentComponent implements OnInit {
     }
   }
 
+  monthSelectNew: any;
+  yearSelectNew: any;
   billMonth: any;
   onupdateBill() {
     const stock = this.stockInfo;
@@ -730,7 +732,8 @@ export class ShareComponentComponent implements OnInit {
       monthCurrent: this.billMonth,
       yearCurrent: bill.year
     }
-
+    this.monthSelectNew = this.billMonth;
+    this.yearSelectNew = bill.year;
     this.service.searchEmployeeLoanNew(payload).subscribe({
       next: (res) => {
         const dataRes = res;
@@ -788,7 +791,7 @@ export class ShareComponentComponent implements OnInit {
         { text: 'ใบเสร็จรับเงิน', style: 'header' },
         '\n',
         '\n',
-        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.year + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.yearSelectNew + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },

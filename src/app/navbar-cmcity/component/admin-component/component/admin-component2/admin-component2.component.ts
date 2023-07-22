@@ -64,6 +64,8 @@ export class AdminComponent2Component implements OnInit {
   displayModalBill: boolean = false;
   formModelBill!: FormGroup;
   inputSubject = new Subject<string>();
+  monthSelectNew: any;
+  yearSelectNew: any;
 
   constructor(private service: MainService, private messageService:
     MessageService, private localStorageService: LocalStorageService,
@@ -674,10 +676,11 @@ export class AdminComponent2Component implements OnInit {
     this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
 
     const playload = {
-      monthCurrent: this.billMonth
+      monthCurrent: this.billMonth,
+      yearCurrent: bill.year
     }
-
-    console.log(playload, '<----------- playload');
+    this.monthSelectNew = this.billMonth;
+    this.yearSelectNew = bill.year;
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
       console.log(data, '<-----------  sum data');
@@ -795,7 +798,7 @@ export class AdminComponent2Component implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
+        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'header' },
         '\n',
         {
           style: 'tableExample',
@@ -959,6 +962,7 @@ export class AdminComponent2Component implements OnInit {
   }
 
   docInfoAll(){
+    this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
     const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
     const payload = {
@@ -967,6 +971,8 @@ export class AdminComponent2Component implements OnInit {
        monthCurrent: monthNew,
        yearCurrent: dataMY.year
     }
+    this.monthSelectNew = monthNew;
+    this.yearSelectNew = dataMY.year;
     this.service.documentInfoAll(payload).subscribe((dataList) => {
       // dataList.forEach((element, index, array) => {
       // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
@@ -981,11 +987,12 @@ export class AdminComponent2Component implements OnInit {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
     const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
-   
     const payload = {
        monthCurrent: monthNew,
        yearCurrent: dataMY.year
     }
+    this.monthSelectNew = monthNew;
+    this.yearSelectNew = dataMY.year;
     console.log(payload, '<---------------- dataMY');
     this.service.getGrandTotal(payload).subscribe(data => {
       this.grandTotal = data;
@@ -1008,7 +1015,8 @@ export class AdminComponent2Component implements OnInit {
       monthCurrent: this.billMonth,
       yearCurrent: bill.year
     }
-
+    this.monthSelectNew = this.billMonth;
+    this.yearSelectNew = bill.year;
     this.service.searchEmployeeLoanNew(payload).subscribe({
       next: (res) => {
         const dataRes = res;
@@ -1070,7 +1078,7 @@ export class AdminComponent2Component implements OnInit {
         { text: 'ใบเสร็จรับเงิน', style: 'header' },
         '\n',
         '\n',
-        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.year + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.yearSelectNew + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
@@ -1255,11 +1263,11 @@ export class AdminComponent2Component implements OnInit {
         '\n',
         {
           text: ['วันที่ปริ้นเอกสารฉบับนี้: ', { text: '                ' + this.pipeDateTH() + '                                                          ', bold: false },
-            { text: 'เดือน: ', bold: true }, { text: ' ' + this.month + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+            { text: 'เดือน: ', bold: true }, { text: ' ' + this.monthSelectNew + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
         },
         {
           text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             ' + this.time + '                                                                             ', bold: false },
-            { text: '   ปี: ', bold: true }, { text: ' ' + this.year + '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+            { text: '   ปี: ', bold: true }, { text: ' ' + this.yearSelectNew + '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
         },
         '\n',
         '\n',
@@ -1436,8 +1444,8 @@ export class AdminComponent2Component implements OnInit {
           {
             text: ['หน้า 1                                                                                                    ',
               { text: '      เดือน ', bold: true, },
-              { text: this.month + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
-              { text: this.year, style: 'texts' }], margin: [0, 6, 0, 0]
+              { text: this.monthSelectNew + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
+              { text: this.yearSelectNew, style: 'texts' }], margin: [0, 6, 0, 0]
           },
           { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
@@ -1464,8 +1472,8 @@ export class AdminComponent2Component implements OnInit {
           {
             text: ['หน้า 2                                                                                                    ',
               { text: '      เดือน ', bold: true, },
-              { text: this.month + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
-              { text: this.year, style: 'texts' }], margin: [0, 6, 0, 0]
+              { text: this.monthSelectNew + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
+              { text: this.yearSelectNew, style: 'texts' }], margin: [0, 6, 0, 0]
           },
           { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
