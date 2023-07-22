@@ -21,7 +21,7 @@
                     <th style="width:10%">ลำดับที่</th>
                     <th style="width:10%">เดือนที่ทำรายการ</th>
                     <th style="width:10%">ปีที่ทำรายการ</th>
-                    <th style="width:10%">ชื่อรายการ</th>
+                    <th style="width:10%">เลขที่สัญญา</th>
                     <th style="width:10%">งวดที่</th>
                     <th style="width:10%">ดอกเบี้ย(เดือนนี้)</th>
                     <th style="width:10%">เงินกู้สามัญ</th>
@@ -34,7 +34,7 @@
                     <td>{{ i+1 }}</td>
                     <td>{{ loanDetail.loanMonth }}</td>
                     <td>{{ loanDetail.loanYear }}</td>
-                    <td>ชำระหนี้ประจำเดือน</td>
+                    <td>เลขที่สัญญา</td>
                     <td style="color: #EA3A3D;">{{ loanDetail.installment | number }}</td>
                     <td style="color: #1AD598;">{{ loanDetail.interest | number }}</td>
                     <td style="color: #EA3A3D;">{{ loanDetail.loanValue | number }}</td>

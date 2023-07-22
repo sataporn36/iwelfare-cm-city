@@ -74,7 +74,9 @@
                 <div style="padding-right: 0.5rem;"></div>
                 <div class="col-6">
                     <label class="block">ปี</label>
-                    <input class="form-control" type="text" formControlName="year" [disabled]="true" />
+                    <input class="form-control" type="text" formControlName="year" maxlength="4" 
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                    [disabled]="true" />
                 </div>
             </div>
         </div>

@@ -136,10 +136,10 @@ export class NavbarCmcityComponent implements OnInit {
          this.checkActive('main')
        }else if(url.toLowerCase().includes('share')){
          this.checkActive('stock')
-       }else if(url.toLowerCase().includes('loan')){
-        this.checkActive('loan')
        }else if(url.toLowerCase().includes('rigths')){
         this.checkActive('rigths')
+       }else if(url.toLowerCase().includes('loan')){
+        this.checkActive('loan')
        }else if(url.toLowerCase().includes('beneficiary')){
         this.checkActive('beneficiary')
        }else if(url.toLowerCase().includes('guarantee')){

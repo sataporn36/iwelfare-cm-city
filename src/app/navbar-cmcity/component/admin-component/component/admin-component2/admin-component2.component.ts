@@ -17,7 +17,7 @@ import { Table } from 'primeng/table';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
 import { Department } from 'src/app/model/department';
-import { Observable } from 'rxjs';
+import { Observable, Subject, debounceTime } from 'rxjs';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -63,6 +63,7 @@ export class AdminComponent2Component implements OnInit {
   sumElementLoan: any;
   displayModalBill: boolean = false;
   formModelBill!: FormGroup;
+  inputSubject = new Subject<string>();
 
   constructor(private service: MainService, private messageService:
     MessageService, private localStorageService: LocalStorageService,
@@ -71,24 +72,37 @@ export class AdminComponent2Component implements OnInit {
 
     ngOnInit() {
       this.loading = true;
-    this.initMainForm();
-    this.initMainFormStock();
+      this.initMainForm();
+      this.initMainFormStock();
 
-    this.userId = this.localStorageService.retrieve('empId');
-    this.stockId = this.localStorageService.retrieve('stockId');
-    this.empDetail = this.localStorageService.retrieve('employeeofmain');
-    this.getStock(this.stockId);
+      this.userId = this.localStorageService.retrieve('empId');
+      this.stockId = this.localStorageService.retrieve('stockId');
+      this.empDetail = this.localStorageService.retrieve('employeeofmain');
+      this.getStock(this.stockId);
 
-    this.searchStock();
-    this.searchStockDetail(this.stockId);
-    this.initMainFormBill();
-    this.setperiodMonthDescOption();
-    this.pipeDateTH();
+      this.searchStock();
+      this.searchStockDetail(this.stockId);
+      this.initMainFormBill();
+      this.setperiodMonthDescOption();
+      this.pipeDateTH();
 
-    this.employeeStatusList = [
-      { name: 'กรุณาเลือกสถานะ', value: 0 },
-      { name: 'เสียชีวิต', value: 6 },
-    ];
+      this.employeeStatusList = [
+        { name: 'กรุณาเลือกสถานะ', value: 0 },
+        { name: 'เสียชีวิต', value: 6 },
+      ];
+
+      this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
+        // Perform your action here based on the latest value
+        if(Number(value) <= this.year){
+          this.formModelBill.patchValue({
+            year: value,
+          });
+        }else{
+          this.formModelBill.get('year').setValue(null);
+          this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
+        }
+        
+      });
     }
 
     
@@ -191,6 +205,7 @@ export class AdminComponent2Component implements OnInit {
   month: any;
   year: any;
   time: any;
+  monthValue: any;
   pipeDateTH() {
     const format = new Date()
     const day = format.getDate()
@@ -199,9 +214,14 @@ export class AdminComponent2Component implements OnInit {
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
-    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.monthValue = monthSelect.value;
+    const time = this.addLeadingZero(format.getHours()) + ':' + this.addLeadingZero(format.getMinutes()) + ' น.';
     this.time = time;
-    return day + ' ' + monthSelect.label + ' ' + year
+    return day + ' ' + monthSelect.label + ' ' + year;
+  }
+
+  addLeadingZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
   }
 
   setperiodMonthDescOption() {
@@ -261,6 +281,14 @@ export class AdminComponent2Component implements OnInit {
       this.messageService.add({ severity: 'success', detail: 'เพิ่มสำเร็จ' });
       this.displayModal = false;
       this.ngOnInit();
+    });
+  }
+
+  onCancleModalBill(){
+    this.formModelBill.reset();
+    this.formModelBill.patchValue({
+      year: this.year,
+      month: this.monthValue,
     });
   }
 
@@ -912,18 +940,57 @@ export class AdminComponent2Component implements OnInit {
       year: this.newYear,
       month: this.newMonth.value,
     });
-
-    this.formModelBill.get('year')?.disable();
+    this.formModelBill.get('year').enable();
+    //this.formModelBill.get('year')?.disable();
   }
 
   onDisplay(){
-    if (this.headerName == 'ใบเสร็จรับเงิน') {
+    if (this.headerName === 'ใบเสร็จรับเงิน') {
       this.onupdateBill();
       this.displayModalBill = false;
-    }else if (this.headerName == 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
+    }else if (this.headerName === 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
       this.searchDocumentV1All('export');
       this.displayModalBill = false;
+    }else if(this.headerName === 'สรุปยอดรวม'){
+      this.totalMemLoan();
+    }else if(this.headerName ==='ข้อมูลสมาชิก'){
+      this.docInfoAll();
     }
+  }
+
+  docInfoAll(){
+    const dataMY = this.formModelBill.getRawValue();
+    const payload = {
+      // monthCurrent: this.month,
+      // yearCurrent: this.year.toString()
+       monthCurrent: dataMY.month,
+       yearCurrent: dataMY.year
+    }
+    this.service.documentInfoAll(payload).subscribe((dataList) => {
+      // dataList.forEach((element, index, array) => {
+      // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
+      //   this.onPrintInfoMember(element)
+      // })
+      // console.log(dataList, "dataList");
+      this.onPrintInfoMember(dataList)
+    })
+  }
+
+  totalMemLoan(){
+    this.showWarn();
+    const dataMY = this.formModelBill.getRawValue();
+    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
+   
+    const payload = {
+       monthCurrent: monthNew,
+       yearCurrent: dataMY.year
+    }
+    console.log(payload, '<---------------- dataMY');
+    this.service.getGrandTotal(payload).subscribe(data => {
+      this.grandTotal = data;
+      console.log(this.grandTotal, '<---------------- this.grandTotal');
+      this.onPrintTotal(this.grandTotal);
+    });
   }
 
   billMonth: any;
@@ -1145,16 +1212,14 @@ export class AdminComponent2Component implements OnInit {
     return number !== null ? decimalPipe.transform(number) : '';
   }
 
-  getGrandTotal() {
-    const payload = {
-      monthCurrent: this.month,
-      yearCurrent: this.year
-    }
-    this.service.getGrandTotal(payload).subscribe(data => {
-      this.grandTotal = data;
-      console.log(this.grandTotal, '<---------------- this.grandTotal');
-      this.onPrintTotal(this.grandTotal);
+  getGrandTotal(headerName: any) {
+    this.headerName = headerName;
+    this.formModelBill.patchValue({
+      year: this.year,
+      month: this.monthValue,
     });
+    this.formModelBill.get('year').enable();
+    this.displayModalBill = true;
   }
 
   onPrintTotal(grandTotal: any) {
@@ -1284,18 +1349,15 @@ export class AdminComponent2Component implements OnInit {
   // }
 
   // list!: any[];
-  documentInfoAll() {
+  documentInfoAll(headerName: any) {
+    this.headerName = headerName;
+    this.formModelBill.patchValue({
+      year: this.year,
+      month: this.monthValue,
+    });
+    this.formModelBill.get('year').enable();
+    this.displayModalBill = true;
     // this.displayLoadingPdf = true;
-    this.showWarn();
-    this.service.documentInfoAll().subscribe((dataList) => {
-      // dataList.forEach((element, index, array) => {
-      // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
-      //   this.onPrintInfoMember(element)
-      // })
-      // console.log(dataList, "dataList");
-      this.onPrintInfoMember(dataList)
-    })
-
   }
 
   checkNullOfGuarantee(data: any, num: any) {
@@ -1473,7 +1535,11 @@ export class AdminComponent2Component implements OnInit {
   }
 
   showWarn() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที', life: 10000 });
+  }
+
+  checkSetValueBill(event: any){
+    this.inputSubject.next(event.target.value);
   }
 
 }

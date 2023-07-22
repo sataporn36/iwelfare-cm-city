@@ -67,6 +67,15 @@
   }
 }
 
+.test-child2 {
+  label {
+    color: #747d8c;
+  }
+  input {
+    //height: 2.8rem;
+  }
+}
+
 ::ng-deep .p-dialog {
   .p-dialog-header {
     border-top-right-radius: 20px;
@@ -157,7 +166,7 @@
 
 :host ::ng-deep .p-num-4 {
   .p-inputnumber-input {
-    width: 11.3rem;
+    width: 13rem;
     height: 2.8rem
   }
 }

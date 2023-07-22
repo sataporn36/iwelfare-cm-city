@@ -52,6 +52,10 @@ export class AdminComponent3Component implements OnInit {
   messageError: any;
   guarantorUniqueName1: any;
   guarantorUniqueName2: any;
+  displayModalBill: boolean = false;
+  formModelBill!: FormGroup;
+  inputSubjectBill = new Subject<string>();
+  headerName: any;
 
   constructor(private service: MainService, private messageService: MessageService, private confirmationService: ConfirmationService, private localStorageService: LocalStorageService,) { }
 
@@ -60,6 +64,7 @@ export class AdminComponent3Component implements OnInit {
     this.initMainForm();
     this.initMainFormStock();
     this.initMainFormLoanNew();
+    this.initMainFormBill();
 
     this.userId = this.localStorageService.retrieve('empId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
@@ -240,13 +245,25 @@ export class AdminComponent3Component implements OnInit {
       }
     });
 
-    
+    this.inputSubjectBill.pipe(debounceTime(1000)).subscribe(value => {
+      // Perform your action here based on the latest value
+      if(Number(value) <= this.year){
+        this.formModelBill.patchValue({
+          year: value,
+        });
+      }else{
+        this.formModelBill.get('year').setValue(null);
+        this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
+      }
+      
+    });
 
   }
 
   month: any;
   year: any;
   time: any;
+  monthValue: any;
   pipeDateTH() {
     const format = new Date()
     const day = format.getDate();
@@ -255,6 +272,7 @@ export class AdminComponent3Component implements OnInit {
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
+    this.monthValue = monthSelect.value;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
     return day + ' ' + monthSelect.label + ' ' + year
@@ -280,7 +298,14 @@ export class AdminComponent3Component implements OnInit {
   initMainForm() {
     this.formModel = new FormGroup({
       fullName: new FormControl(null),
-    });;
+    });
+  }
+
+  initMainFormBill() {
+    this.formModelBill = new FormGroup({
+      month: new FormControl(null),
+      year: new FormControl(null),
+    });
   }
 
   initMainFormStock() {
@@ -288,7 +313,7 @@ export class AdminComponent3Component implements OnInit {
       monthlyLoanMoney: new FormControl(null, Validators.required),
       loanYear: new FormControl(null),
       loanMonth: new FormControl(null),
-    });;
+    });
   }
 
   initMainFormLoanNew() {
@@ -824,22 +849,17 @@ export class AdminComponent3Component implements OnInit {
     return number !== null ? decimalPipe.transform(number) : '';
   }
 
+  mode: any
   searchDocumentV1All(mode: any) {
     // this.displayLoadingPdf = true;
-    this.showWarn();
-
-    // let stockInfo: any[] = [];
-    const playload = {
-      loanId: null,
-      monthCurrent: this.month
-    }
-
-    this.service.searchDocumentV1Loan(playload).subscribe((data) => {
-      this.list = data;
-      const key = 'installment';
-      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      this.getSearchDocumentV2SumAll(playload, mode, data);
+    this.headerName = 'ประวัติเงินกู้เเละค่าหุ้นของสมาชิกทั้งหมด';
+    this.mode = mode;
+    this.formModelBill.patchValue({
+      year: this.year,
+      month: this.monthValue,
     });
+    this.formModelBill.get('year').enable();
+    this.displayModalBill = true;
   }
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
@@ -1354,5 +1374,44 @@ export class AdminComponent3Component implements OnInit {
       this.ngOnInit();
     });
   }
+
+  checkSetValueBill(event: any){
+    this.inputSubjectBill.next(event.target.value);
+  }
+
+  onDisplay(){
+    if (this.headerName === 'ประวัติเงินกู้เเละค่าหุ้นของสมาชิกทั้งหมด') {
+      this.onSearchDocumentV1All();
+      this.displayModalBill = false;
+    }
+  }
+
+  onCancleModalBill(){
+    this.formModelBill.reset();
+    this.formModelBill.patchValue({
+      year: this.year,
+      month: this.monthValue,
+    });
+  }
+
+  onSearchDocumentV1All(){
+    this.showWarn();
+    const dataMY = this.formModelBill.getRawValue();
+    const payload = {
+      // monthCurrent: this.month,
+      // yearCurrent: this.year.toString()
+       loanId: null,
+       monthCurrent: dataMY.month,
+       yearCurrent: dataMY.year
+    }
+  
+    this.service.searchDocumentV1Loan(payload).subscribe((data) => {
+      this.list = data;
+      const key = 'installment';
+      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      this.getSearchDocumentV2SumAll(payload, this.mode, data);
+    });
+  }
+
 
 }
