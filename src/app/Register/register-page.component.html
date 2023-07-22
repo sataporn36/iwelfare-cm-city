@@ -94,11 +94,11 @@
                         </select>
                     </div>
                     <div class="col mb-3">
-                        <label for="dapartment" class="block">หน่วยงาน <span style="color: red;">*</span></label>
-                        <select class="form-select" aria-label="Default select example" formControlName="dapartmentId"
+                        <label for="department" class="block">หน่วยงาน <span style="color: red;">*</span></label>
+                        <select class="form-select" aria-label="Default select example" formControlName="departmentId"
                             required="true">
                             <option value="0" selected>เลือกหน่วยงาน</option>
-                            <option *ngFor="let dapartment of dapartment" value="{{ dapartment.id }}">{{ dapartment.name
+                            <option *ngFor="let department of department" value="{{ department.id }}">{{ department.name
                                 }}</option>
                         </select>
                     </div>
@@ -134,10 +134,10 @@
                     </div>
                     <div class="col mb-3">
                         <div class="flex">
-                            <label for="email" class="block">อีเมล <span style="color: red;">*</span></label>
+                            <label for="email" class="block">อีเมล</label>
                         </div>
                         <input class="form-control" id="email" pInputText type="email" formControlName="email"
-                            required="true" placeholder="example@gmail.com" (keyup)="checkEmail()" />
+                            placeholder="example@gmail.com" (keyup)="checkEmail()" />
                         <em *ngIf="emailValidation === true && formModel.get('email')?.value">
                             <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
                         </em>
@@ -164,7 +164,6 @@
 
             <div class="mb-3">
                 <button type="button" class="btn btn-regis" (click)="onRegister()" [disabled]="!formModel.valid 
-                || !(emailValidation === false && formModel.get('email')?.value) 
                 || !(idCardValidation === false && formModel.get('idCard')?.value)
                 || !(pnumberValidation === false && formModel.get('tel')?.value) 
                 || !checkNullOfValue()">

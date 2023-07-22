@@ -39,6 +39,11 @@
                     <td style="color: #e440d6;">{{ stockDividend.totalDividend | number }}</td>
                 </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="9">ไม่พบข้อมูลเงินปันผลในฐานข้อมูล</td>
+                </tr>
+            </ng-template>
         </p-table>
     </div>
 </div>

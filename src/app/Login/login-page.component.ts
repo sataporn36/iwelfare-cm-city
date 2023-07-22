@@ -69,7 +69,7 @@ export class LoginPageComponent implements OnInit {
 
               // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
               const statusChecklogin = false;
-              if (res.data.passwordFlag) {
+              // if (res.data.passwordFlag) {
                 this.localStorageService.store('empId', res.data.id);
                 this.localStorageService.store('stockId', res.data.stockId);
                 this.localStorageService.store('loanId', res.data.loanId);
@@ -77,11 +77,11 @@ export class LoginPageComponent implements OnInit {
                 this.router.navigate(['/main/main-page'], {
                   //state: { data: this.userId }
                 });
-              } else {
-                this.router.navigate(['/forget-password'], {
-                  state: { data: 'changePassword' }
-                });
-              }
+              // } else {
+              //   this.router.navigate(['/forget-password'], {
+              //     state: { data: 'changePassword' }
+              //   });
+              // }
             } else if (res.data.employeeStatus == 3) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ท่านได้ลาออกแล้ว' });
             } else {

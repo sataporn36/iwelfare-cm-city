@@ -100,8 +100,8 @@
             <div class="col-12" style="padding-top: 1rem;">
                 <div class="div-new">
                     <p-chip label="ข่าวประชาสัมพันธ์" styleClass="mr-2"></p-chip>
-                    <div class="row" style="margin-top: 15px;">
-                        <div class="col-2" style="width: 285px;">
+                    <div class="row">
+                        <div class="col-2" style="width: 285px; margin: 10px;">
                             <div class="row" style="margin-top: -24px;">
                                 <div class="col-1">
                                     <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -121,7 +121,7 @@
                             </div>
                         </div>
         
-                        <div class="col-2" style="width: 285px;">
+                        <div class="col-2" style="width: 285px; margin: 10px;">
                             <div class="row" style="margin-top: -24px;">
                                 <div class="col-1">
                                     <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -141,7 +141,7 @@
                             </div>
                         </div>
         
-                        <div class="col-2" style="width: 285px;">
+                        <div class="col-2" style="width: 285px; margin: 10px;">
                             <div class="row" style="margin-top: -24px;">
                                 <div class="col-1">
                                     <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
         
-                        <div class="col-2" style="width: 285px;">
+                        <div class="col-2" style="width: 285px; margin: 10px;">
                             <div class="row" style="margin-top: -24px;">
                                 <div class="col-1">
                                     <label class="news">17 กุมภาพันธ์ 2566</label>
@@ -227,7 +227,7 @@
                 </div>
                 <div style="padding-top: 1rem;"></div>
                 <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <div class="div-detail" style="gap: 10px;">
                     <div class="col-5">
                         <span style="font-size: 15px; color: #8690a1;">เลขสมาชิก</span>
                         <div class="div-text">
@@ -265,11 +265,11 @@
                 </div> -->
                 <ul style="margin-top: 20px;">
                     <li *ngFor="let beneficiary of arrayBeneficiary">
-                        <div style="display: flex; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; margin-top: 10px;">
                             <div class="col-2">
                                 <img [src]="beneficiaryImg(beneficiary.gender)" />
                             </div>
-                            <div class="col-10" style="padding-left: 1rem; padding-top: 1.5rem;">
+                            <div class="col-10">
                                 <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
                             </div>
                         </div>

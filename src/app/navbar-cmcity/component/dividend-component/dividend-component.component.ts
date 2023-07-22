@@ -162,10 +162,18 @@ export class DividendComponentComponent implements OnInit {
     return number !== null ? decimalPipe.transform(number) : '';
   }
 
+  showWarnNull() {
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'ไม่พบข้อมูลเงินปันผล' });
+  }
+
 
   // ปันผลสมาชิก
   async onMemberDividend(){
     const data = this.dataDividendDetail[0];
+    if (data == null) {
+      this.showWarnNull();
+    }
+
     const fullName = data.fullName;
     const empCode = data.employeeCode;
     const stockAccumulate = data.stockAccumulate ? data.stockAccumulate : ' ';

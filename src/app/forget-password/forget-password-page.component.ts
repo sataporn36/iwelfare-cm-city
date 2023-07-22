@@ -25,6 +25,8 @@ export class ForgetPasswordPageComponent implements OnInit{
   memNumber: any;
   memNumberValidation: boolean = false;
   iconStatus: boolean = false;
+  pnumberCheck: any;
+  pnumberValidation: boolean = false;
 
   constructor(
     protected router: Router,
@@ -138,5 +140,14 @@ export class ForgetPasswordPageComponent implements OnInit{
       },
       reject: () => { }
     });
+  }
+
+  checkPhoneNumber() {
+    this.pnumberCheck = this.formModel.get('tel')?.value;
+    if (this.pnumberCheck?.match("^[0-9]{10}$")) {
+      this.pnumberValidation = false;
+    } else {
+      this.pnumberValidation = true;
+    }
   }
 }

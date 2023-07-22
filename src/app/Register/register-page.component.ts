@@ -34,7 +34,7 @@ export class RegisterPageComponent implements OnInit{
   public position: Observable<Positions[]> | any 
   public affiliation: Observable<Affiliation[]> | any 
   public bureau: Observable<Bureau[]> | any 
-  public dapartment: Observable<Department[]> | any;
+  public department: Observable<Department[]> | any;
 
   constructor(
     protected route: ActivatedRoute, 
@@ -68,7 +68,7 @@ export class RegisterPageComponent implements OnInit{
   }
 
   getDapartment(): void {
-    this.service.searchDepartment().subscribe(data => this.dapartment = data)
+    this.service.searchDepartment().subscribe(data => this.department = data)
   }
 
   searchLevel(): void {
@@ -89,8 +89,8 @@ export class RegisterPageComponent implements OnInit{
       positionId: new FormControl('0',Validators.required),
       bureauId: new FormControl('0',Validators.required),
       affiliationId: new FormControl('0',Validators.required),
-      email: new FormControl(null,Validators.required),
-      dapartmentId: new FormControl('0',Validators.required),
+      email: new FormControl(null),
+      departmentId: new FormControl('0',Validators.required),
       levelId: new FormControl('0',Validators.required),
       employeeTypeId: new FormControl('0',Validators.required),
       stockValue: new FormControl(null,Validators.required),
@@ -172,6 +172,13 @@ export class RegisterPageComponent implements OnInit{
     const playload = this.formModel.getRawValue();
     playload.stockMonth = this.month;
     playload.stockYear = this.year;
+    const email = playload.email
+    console.log(email);
+    
+    if (!email) {
+      playload.email = null;
+    }
+    
 
     this.service.register(playload).subscribe((res) => {
       console.log(res,'======================> res')
@@ -196,15 +203,19 @@ export class RegisterPageComponent implements OnInit{
             header: 'สมัครสมาชิก',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-              const playload = {
-                id: res.data.id
-              }
+              // this.playload = {
+              //   id: res.data.id
+              // }
+              playload.id = res.data.id
               this.service.editStatusEmployeeResign(playload).subscribe((res) => {
                    if(res != null){
                        if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
-                         this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ'});  
+                         this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
                          this.iconStatus = true;
-                         this.formModel.reset();
+                         setTimeout(() => {
+                          this.formModel.reset();
+                          this.router.navigate(['/login'], {});
+                        }, 1000);
                        }
                    }else{
                       this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
@@ -215,10 +226,13 @@ export class RegisterPageComponent implements OnInit{
             reject: () => { }
           });
         }else if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
-          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จ เเละรอการอนุมัติ'});  
+          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
           this.iconStatus = true;
-          this.formModel.reset();
-          this.router.navigate(['/login'], {});
+          setTimeout(() => {
+            this.formModel.reset();
+            this.router.navigate(['/login'], {});
+          }, 1000);
+          
         }else if(res.data.statusEmployee === 'ERROR_EMPLOYEE'){
           this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
           this.iconStatus = false;

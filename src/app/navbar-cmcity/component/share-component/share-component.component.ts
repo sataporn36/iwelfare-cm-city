@@ -531,22 +531,32 @@ export class ShareComponentComponent implements OnInit {
     return sumDepartment;
   }
 
+  showWarnNull() {
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'ไม่พบข้อมูลหุ้น' });
+  }
+
   list!: any[];
   sumStock: any;
   searchDocumentV1PDF(mode: any) {
 
     let stockInfo: any[] = [];
     const playload = {
-      empId: this.userId, 
+      empId: this.userId,
       monthCurrent: null, //this.month
       yearCurrent: this.year
     }
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-      const key = 'stockInstallment';
-      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
+
+      if (data == null) {
+        this.showWarnNull();
+      } else {
+
+        const key = 'stockInstallment';
+        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+        this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
+      }
     });
   }
 
@@ -558,7 +568,7 @@ export class ShareComponentComponent implements OnInit {
       // const key = 'stockInstallment';
       // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
       // console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
-      
+
       this.exportMakePDF(mode, stockInfo, this.sumStock)
     });
   }
@@ -710,7 +720,7 @@ export class ShareComponentComponent implements OnInit {
     this.formModelBill.get('year')?.disable();
   }
 
-  onDisplay(){
+  onDisplay() {
     if (this.headerName == 'ใบเสร็จรับเงิน') {
       this.onupdateBill();
       this.displayModalBill = false;
@@ -737,8 +747,13 @@ export class ShareComponentComponent implements OnInit {
     this.service.searchEmployeeLoanNew(payload).subscribe({
       next: (res) => {
         const dataRes = res;
-        this.dataResLoan = res;
-        this.onSearchCalculateLoanOld(res, stockValue);
+
+        if (res == null) {
+          this.showWarnNull();
+        }else{
+          this.dataResLoan = res;
+          this.onSearchCalculateLoanOld(res, stockValue);
+        }
       },
       error: error => { },
     });
@@ -807,7 +822,7 @@ export class ShareComponentComponent implements OnInit {
               ['ค่าหุ้น', { text: this.formattedNumber2(installment), alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
               ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.totalDeduction) : '', alignment: 'right' }
                 , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
-              ['ดอก', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
+              ['ดอกเบี้ย', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
               [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber2(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
             ]
           },

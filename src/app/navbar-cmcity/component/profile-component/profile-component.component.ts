@@ -14,6 +14,7 @@ import { Affiliation } from 'src/app/model/affiliation';
 import { Bureau } from 'src/app/model/bureau';
 import { Department } from 'src/app/model/department';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile-component',
@@ -442,7 +443,7 @@ export class ProfileComponentComponent implements OnInit {
 
   getEmployee(id: any): void {
     this.service.getEmployee(id).subscribe(data => {
-
+      const decimalPipe = new DecimalPipe('en-US');
       this.gender = data.gender;
       this.checkStockValueFlag = data.checkStockValueFlag;
 
@@ -478,17 +479,17 @@ export class ProfileComponentComponent implements OnInit {
         stock: data.stock,
 
         // contact
-        tel: data.contact?.tel ? data.contact?.tel : '-',
+        tel: (data.contact?.tel != "NULL" && data.contact?.tel) ? data.contact?.tel : '-',
         officePhone: data.contact?.officePhone ? data.contact?.officePhone : '-',
-        email: data.contact?.email ? data.contact?.email : '-',
-        fax: data.contact?.fax ? data.contact?.fax : '-',
-        lineId: data.contact?.lineId ? data.contact?.lineId : '-',
-        facebook: data.contact?.facebook ? data.contact?.facebook : '-',
+        email: (data.contact?.email != "NULL" && data.contact?.email) ? data.contact?.email : '-',
+        fax: (data.contact?.fax != "NULL" && data.contact?.fax ) ? data.contact?.fax : '-',
+        lineId: (data.contact?.lineId != "NULL" && data.contact?.lineId) ? data.contact?.lineId : '-',
+        facebook: (data.contact?.facebook != "NULL" && data.contact?.facebook) ? data.contact?.facebook : '-',
         address: data.contact?.address ? data.contact?.address : '-',
 
         retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
 
-        compensation: data.compensation ? data.compensation : '-',
+        compensation: data.compensation ? decimalPipe.transform(data.compensation) : '-',
         contractStart: data?.contractStartDate ? this.pipeDateTH(data?.contractStartDate) : '-',
         contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
         civilService: data?.civilServiceDate ? this.pipeDateTH(data?.civilServiceDate) : '-',
@@ -496,8 +497,9 @@ export class ProfileComponentComponent implements OnInit {
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
         billingStart: data?.billingStartDate ? this.pipeDateTH(data?.billingStartDate) : '-',
         billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
-        monthlyStockMoney: data.monthlyStockMoney ? data.monthlyStockMoney : 0,
+        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : 0,
         salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber : '-',
+        salary: data.salary ? decimalPipe.transform(data.salary) : '-',
         bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber : '-',
         profileFlag: data.profileFlag,
         textHidden: '-',

@@ -37,6 +37,11 @@
                     <td style="color: #1AD598;">{{ stockDetail.stockAccumulate | number }}</td>
                 </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">ไม่พบข้อมูลหุ้นในฐานข้อมูล</td>
+                </tr>
+            </ng-template>
         </p-table>
     </div>
 </div>

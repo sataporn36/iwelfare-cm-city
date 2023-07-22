@@ -351,7 +351,11 @@ export class AdminComponent3Component implements OnInit {
   }
 
   searchLoanDetail(id: any): void {
-    this.service.searchLoanDetail(id).subscribe(data => {
+    // console.log(id,'<-------------- this.id');
+    const payload = {
+      loanId: id
+    }
+    this.service.searchLoanDetail(payload).subscribe(data => {
       this.dataLoanDetail = data
       console.log(this.dataLoanDetail,'<-------------- this.dataLoanDetail');
       
@@ -746,6 +750,18 @@ export class AdminComponent3Component implements OnInit {
           { text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' },
           { text: this.formattedNumber2(dataSum.outStandPrincipleSum), alignment: 'right' },
           ];
+        }else{
+          sumDepartment = [{ text: '' + ' Total', alignment: 'left', bold: true }, ' ', ' ',
+          { text: 0, alignment: 'right' }, ' ', ' ', ' ', ' ',
+          { text: 0, alignment: 'right' },
+          { text: 0, alignment: 'right' },
+          { text: 0, alignment: 'right' },
+          { text: 0, alignment: 'right' }, ' ',
+          { text: 0, alignment: 'right' },
+          { text: 0, alignment: 'right' },
+          { text: 0, alignment: 'right' },
+          { text: 0, alignment: 'right' },
+          ];
         }
       })
       return sumDepartment;
@@ -864,6 +880,8 @@ export class AdminComponent3Component implements OnInit {
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
+      console.log(data, 'searchDocumentV2SumLoan');
+      
       this.sumLoan = data;
       this.checkDepartment(listdata);
       this.exportMakePDFAll(mode, data)
@@ -1403,6 +1421,7 @@ export class AdminComponent3Component implements OnInit {
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
+       admin: false,
        loanId: null,
        monthCurrent: monthNew,
        yearCurrent: dataMY.year

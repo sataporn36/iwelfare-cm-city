@@ -116,7 +116,7 @@ export class AdminComponent2Component implements OnInit {
   onChangeStatusEmp() {
     const payload = {
       id: this.empId,
-      employeeStatus: this.employeeStatus.value
+      type: this.employeeStatus.value
     }
     this.service.updateEmployeeStatus(payload).subscribe(data => {
       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
