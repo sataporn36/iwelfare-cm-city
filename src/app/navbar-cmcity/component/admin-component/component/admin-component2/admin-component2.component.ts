@@ -960,10 +960,11 @@ export class AdminComponent2Component implements OnInit {
 
   docInfoAll(){
     const dataMY = this.formModelBill.getRawValue();
+    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
-       monthCurrent: dataMY.month,
+       monthCurrent: monthNew,
        yearCurrent: dataMY.year
     }
     this.service.documentInfoAll(payload).subscribe((dataList) => {
