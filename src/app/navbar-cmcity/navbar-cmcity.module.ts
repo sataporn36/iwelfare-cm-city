@@ -56,6 +56,7 @@ import { AdminComponentComponent } from './component/admin-component/admin-compo
 import { AdminCompponentModule } from './component/admin-component/admin-compponent.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { GalleriaModule } from 'primeng/galleria';
+import { PickListModule } from 'primeng/picklist';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,7 @@ import { GalleriaModule } from 'primeng/galleria';
     ProfilePageComponent,
     MessageComponentComponent,
     MessagePageComponent,
-    AdminComponentComponent,
+    AdminComponentComponent
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent],
@@ -117,7 +118,8 @@ import { GalleriaModule } from 'primeng/galleria';
     ChartModule,
     AdminCompponentModule,
     PanelMenuModule,
-    GalleriaModule
+    GalleriaModule,
+    PickListModule
   ]
 })
 export class NavbarCmcityModule { }

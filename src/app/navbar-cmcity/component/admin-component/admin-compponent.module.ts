@@ -38,6 +38,7 @@ import { ChartModule } from 'primeng/chart';
 import { AdminComponent4Component } from './component/admin-component4/admin-component4.component';
 import { AdminPage4Component } from './page/admin-page4/admin-page4.component';
 import { GalleriaModule } from 'primeng/galleria';
+import { PickListModule } from 'primeng/picklist';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { GalleriaModule } from 'primeng/galleria';
     TagModule,
     AvatarModule,
     ChartModule,
-    GalleriaModule
+    GalleriaModule,
+    PickListModule
   ]
 })
 export class AdminCompponentModule { }

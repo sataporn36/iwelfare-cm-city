@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Product } from 'src/app/constans/Product';
 import { MainService } from 'src/app/service/main.service';
 
 @Component({
@@ -49,17 +50,25 @@ export class AdminComponent1Component {
         }
     ];
 
+    sourceProducts: Product[];
+    targetProducts: Product[];
+
   constructor(private service: MainService, 
     private messageService: MessageService, 
     private confirmationService: ConfirmationService, 
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer) 
-    { }
+    { 
+     
+    }
 
   ngOnInit() {
     this.getconfigList();
     this.initMainFormInterest();
     this.initMainFormSignature();
+
+    this.service.getProductsSmall().then((products) => (this.sourceProducts = products));
+    this.targetProducts = [];
   }
 
   getconfigList(){
