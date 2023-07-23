@@ -12,6 +12,24 @@
   margin-top: 10px;
 }
 
+.card-2 {
+  border: 5px solid white;
+  border-radius: 15px;
+  width: 40%;
+  background-color: white;
+  padding: 1rem;
+  margin-top: 10px;
+}
+
+.card-3 {
+  border: 5px solid white;
+  border-radius: 15px;
+  width: 60%;
+  background-color: white;
+  padding: 1rem;
+  margin-top: 10px;
+}
+
 // .guarantee {
 //   border: 1px solid #d2d6df;
 //   border-radius: 15px;
@@ -44,7 +62,7 @@
 }
 
 .btn-login2 {
-  width: 140px;
+  //width: 140px;
   font-weight: 500;
   font-size: 15px;
   height: 40px;
@@ -53,13 +71,33 @@
 }
 
 .btn-regis2 {
-  width: 140px;
+  //width: 140px;
   font-weight: 500;
   font-size: 15px;
   height: 40px;
   color: #fe6bba;
   border-color: #fe6bba;
   margin-left: 40px;
+}
+
+.btn-signature1{
+ width: max-content;
+ font-weight: 500;
+ font-size: 15px;
+ height: 40px;
+ color: #fff;
+ background-color: #fe6bba;
+ border-radius: 5px;
+}
+
+.btn-signature2{
+  width: max-content;
+   font-weight: 500;
+   font-size: 15px;
+   height: 40px;
+   color: #fff;
+   background-color: #fe6bba;
+   border-radius: 5px;
 }
 
 input.search {
@@ -79,3 +117,12 @@ input.search {
 .search svg {
   transform: translate(-30px, 0px);
 }
+
+.pic1{
+  height: 100px;
+}
+
+.pic2{
+  height: 100px;
+}
+

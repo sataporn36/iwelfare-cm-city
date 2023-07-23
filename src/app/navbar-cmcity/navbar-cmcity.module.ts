@@ -55,6 +55,7 @@ import { ChartModule } from 'primeng/chart';
 import { AdminComponentComponent } from './component/admin-component/admin-component.component';
 import { AdminCompponentModule } from './component/admin-component/admin-compponent.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     AvatarModule,
     ChartModule,
     AdminCompponentModule,
-    PanelMenuModule
+    PanelMenuModule,
+    GalleriaModule
   ]
 })
 export class NavbarCmcityModule { }

@@ -121,7 +121,7 @@
                     </div>
                 </div>
                 
-                <div style="display: flex; padding-top: 1rem;">
+                <div style="display: flex; padding-top: 1rem; padding-left: 1rem;">
                     <div class="col-4 p-num-4">
                         <label class="block">ยอดเงินกู้</label> <br>
                         <p-inputNumber formControlName="loanValue" inputId="minmaxfraction" mode="decimal"
@@ -134,8 +134,8 @@
                     </div>
                     <div class="col-4 p-num-4">
                         <label class="block">ผ่อนชำระ(งวด)</label> <br>
-                        <p-inputNumber formControlName="loanTime" inputId="minmaxfraction" mode="decimal"
-                        [required]="true" [maxlength]="12" (keyup)="checkLoanTime($event)"></p-inputNumber>
+                        <p-inputNumber formControlName="loanTime" inputId="minmaxfraction" mode="decimal" [min]="0" [max]="99"
+                        [required]="true" [maxlength]="2" (keyup)="checkLoanTime($event)"></p-inputNumber>
                     </div>
                 </div>
                 
@@ -208,9 +208,13 @@
                         <label class="block">ยอดที่ต้องชำระต่อเดือน</label> <br>
                         <input class="form-control" pInputText type="text" formControlName="loanOrdinary" required maxlength="11"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
-                        <div class="row" *ngIf="this.dataLanTimeFlag" >
-                            <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
-                            <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
+                        <div *ngIf="this.dataLanTimeFlag" style="display: grid;">
+                            <div>
+                                <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
+                            </div>
+                            <div>
+                                <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -237,6 +241,7 @@
         </span>
     </div>
     <ng-template pTemplate="footer">
+        <button *ngIf="statusQuagmire" (click)="displayInsetLoanNew()" type="button" class="btn btn-login2">กู้หล่ม</button>
         <button (click)="displayMessageError = false" type="button" class="btn btn-login2">ปิด</button>
     </ng-template>
 </p-dialog>
@@ -312,6 +317,32 @@
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login2" (click)="onDisplay()">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleModalBill()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayLoanNewQuagmire" [modal]="true" [style]="{ width: '30vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false"
+    [resizable]="false">
+    <ng-template pTemplate="header">
+        <span style="font-size: 18px; font-weight: bold;">กู้หล่ม</span>
+    </ng-template>
+    <div [formGroup]="formModelLoanNew" style="display: grid; justify-content: center;">
+        <div>
+            <span style="color: red;">
+                *{{ this.messageQuagmire }}
+            </span>
+        </div>
+        <div class="col-4 p-num-4">
+            <label class="block">ยอดเงินกู้ที่จะได้รับ</label> <br>
+            <div style="display: flex;">
+                <p-inputNumber formControlName="loanValueQuagmire" inputId="minmaxfraction" mode="decimal"
+                [required]="true" [maxlength]="12"></p-inputNumber>
+                <label class="block" style="padding-left: 1rem;"> บาท </label>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button (click)="checkInsetLoanNewQuagmire()" type="button" class="btn btn-login2">ยืนยัน</button>
+        <button (click)="displayLoanNewQuagmire = false" type="button" class="btn btn-login2">ปิด</button>
     </ng-template>
 </p-dialog>
 

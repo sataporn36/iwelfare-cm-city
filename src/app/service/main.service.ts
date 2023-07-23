@@ -328,4 +328,28 @@ export class MainService {
     );
   }
 
+  getConfigByList(): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/admin/logic/document/getConfigByList', null
+    );
+  }
+
+  editConfig(payload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/admin/logic/document/updateConfig', payload
+    );
+  }
+
+  getImageConfig(id: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      AppPath.APP_API_SERVICE + '/admin/logic/document/getImageConfig/' + id, { responseType: 'blob' as 'json' }
+    );
+  }
+
+  uploadImageConfig(playload: any): Observable<any> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/admin/logic/document/getImageConfig/add', playload 
+    );
+  }
+
 }

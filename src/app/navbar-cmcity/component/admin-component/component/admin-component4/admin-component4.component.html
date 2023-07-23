@@ -50,6 +50,8 @@
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">กำหนดอัตราปันผลหุ้น</span>
+            <i class="pi pi-file-edit" (click)="ondispalyEditConfigDividend()"
+            style="font-size: 1rem; padding-left: 1rem; cursor: pointer;"></i>
             <!-- <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
                 pTooltip="เปลี่ยนแปลงเงินกู้รายเดือนของสมาชิกทั้งหมด"></i> -->
         </div>
@@ -110,6 +112,55 @@
         [disabled]="!formModelDividend.valid">คำนวน</button>
         <button type="button" class="btn btn-login2" (click)="clearDividend()">ล้างข้อมูล</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleDividend()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayModalDividendConfig" [modal]="true" [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">เเก้ไขกำหนดอัตราปันผลหุ้น</span>
+            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="เมื่อทำการเปลี่ยนเเปลงอัตราปันผลหุ้น จะมีการคำนวณใหม่ทั้งระบบที่เกี่ยวกับเงินปันผล"></i>
+        </div>
+    </ng-template>
+    <div [formGroup]="formModelDividend">
+        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+            <div style="padding: 0rem 2rem 2rem 2rem;">
+                <div style="display: grid; gap: 1rem; padding-top: 1rem;">
+                    <div class="col-6">
+                        <label class="block">ปันผลหุ้น</label>
+                        <div style="display: flex;">
+                            <p-inputNumber formControlName="stockDevidend" inputId="minmaxfraction" mode="decimal"
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" ></p-inputNumber>
+                            <div style="padding-left: 2rem; 
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;">
+                                <span style="color: #363738;">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="block">ปันผลเงินกู้</label>
+                        <div style="display: flex;">
+                            <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal"
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" ></p-inputNumber>
+                            <div style="padding-left: 2rem; 
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;">
+                                <span style="color: #363738;">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login2" (click)="onEditConfigDividend()">เเก้ไข</button>
+        <button type="button" class="btn btn-regis2" (click)="onCancleEditConfigDividend()">ยกเลิก</button>
     </ng-template>
 </p-dialog>
 

@@ -18,6 +18,8 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
 import { Department } from 'src/app/model/department';
 import { Observable } from 'rxjs';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { log } from 'console';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -62,10 +64,21 @@ export class ShareComponentComponent implements OnInit {
   sumElementLoan: any;
   displayModalBill: boolean = false;
   formModelBill!: FormGroup;
+  configAdmin: any;
+  profileImgId: any;
+  imageSrc: SafeUrl;
+  imageBlob1: Blob;
+  imageBlob2: Blob;
+  imageSrc1: SafeUrl;
+  imageSrc2: SafeUrl;
+  fileImg1: any;
+  fileImg2: any;
+  imageSrc1Blob: any;
+  imageSrc2Blob: any;
 
   constructor(private service: MainService, private messageService:
     MessageService, private localStorageService: LocalStorageService,
-    @Inject(LOCALE_ID) public locale: string) { }
+    @Inject(LOCALE_ID) public locale: string,private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     // this.service.getCustomers().subscribe((res) => {
@@ -73,6 +86,7 @@ export class ShareComponentComponent implements OnInit {
     //   this.customers = res.customers;
     // })
     this.loading = true;
+    this.getconfigList();
     this.initMainForm();
     this.initMainFormStock();
 
@@ -97,10 +111,78 @@ export class ShareComponentComponent implements OnInit {
       //{ name: 'รออนุมัติลาออก', value: 5 },
       { name: 'เสียชีวิต', value: 6 },
     ];
-
     // if (this.userId === 1 || this.userId === 631) {
     //   this.admin = true;
     // }
+  }
+
+ 
+  getconfigList(){
+    this.service.getConfigByList().subscribe((res) =>{
+      if(res){
+        this.configAdmin = res;
+        this.fileImg1 = res[3].configId;
+        this.fileImg2 = res[4].configId;
+        console.log(this.fileImg1);
+      }
+    });
+  }
+
+  getImgSig1(dataImg: any, id: any){
+    if(id !== null || id){
+      this.getImage(id,1,dataImg);
+    }else{
+      this.imageSrc1Blob = this.profileImg(dataImg);
+    }
+  }
+
+  getImgSig2(dataImg: any, id: any){
+    if(id !== null || id){
+      this.getImage(id,2,dataImg);
+    }else{
+      this.imageSrc2Blob = this.profileImg(dataImg);
+    }
+  }
+
+  profileImg(dataImg: any) {
+    let textImg = '';
+    switch (dataImg) {
+        case 'signature1':
+          textImg = "../../assets/images/text1.png";
+          break;
+        case 'signature2':
+          textImg = "../../assets/images/text2.png";
+          break;
+        default:
+          break;
+    }
+    return textImg;
+  }
+
+  getImage(id: any,imageSrc: any,dataImg: any) {
+    console.log(id,',---  this.imageSrc1   idididid');
+    console.log(dataImg,',---  dataImg');
+    if (id != 0 || id != null) {
+      this.service.getImageConfig(id).subscribe(
+        (imageBlob: Blob) => {
+          if(imageSrc === 1){
+            this.imageSrc1Blob = URL.createObjectURL(imageBlob);
+            console.log(this.imageSrc1Blob,',---  this.imageSrc1');
+          }else{
+            this.imageSrc2Blob = URL.createObjectURL(imageBlob);
+            console.log(this.imageSrc2Blob,',---  this.imageSrc2');
+          }
+        },
+        (error: any) => {
+          if(imageSrc === 1){
+            this.imageSrc1Blob =  this.profileImg(dataImg);
+          }else{
+            this.imageSrc2Blob =  this.profileImg(dataImg);
+          }
+          console.error('Failed to fetch image:', error);
+        }
+      );
+    }
   }
 
   onRowEditStatusEmp(data: any) {
@@ -745,14 +827,16 @@ export class ShareComponentComponent implements OnInit {
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
     this.service.searchEmployeeLoanNew(payload).subscribe({
-      next: (res) => {
+      next: async (res) => {
         const dataRes = res;
 
         if (res == null) {
           this.showWarnNull();
         }else{
           this.dataResLoan = res;
-          this.onSearchCalculateLoanOld(res, stockValue);
+          this.getImgSig1('signature1',this.fileImg1);
+          this.getImgSig2('signature2',this.fileImg2);
+          await this.onSearchCalculateLoanOld(res, stockValue);
         }
       },
       error: error => { },
@@ -842,13 +926,13 @@ export class ShareComponentComponent implements OnInit {
             headerRows: 2,
             body: [
               [{
-                image: await this.getBase64ImageFromURL("../../assets/images/text1.png"), style: 'tableHeader',
+                image: await this.getBase64ImageFromURL(this.imageSrc1Blob), style: 'tableHeader',
                 width: 150,
                 height: 80,
                 alignment: 'center'
               },
               {
-                image: await this.getBase64ImageFromURL("../../assets/images/text2.png"), style: 'tableHeader',
+                image: await this.getBase64ImageFromURL(this.imageSrc2Blob), style: 'tableHeader',
                 width: 150,
                 height: 80,
                 alignment: 'center'
@@ -956,6 +1040,8 @@ export class ShareComponentComponent implements OnInit {
   showWarn() {
     this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
   }
+
+ 
 
 }
 

@@ -56,8 +56,13 @@ export class AdminComponent3Component implements OnInit {
   formModelBill!: FormGroup;
   inputSubjectBill = new Subject<string>();
   headerName: any;
+  displayLoanNewQuagmire: boolean = false;
+  messageQuagmire: any;
 
-  constructor(private service: MainService, private messageService: MessageService, private confirmationService: ConfirmationService, private localStorageService: LocalStorageService,) { }
+  constructor(private service: MainService, private messageService: MessageService, 
+    private confirmationService: ConfirmationService, 
+    private localStorageService: LocalStorageService,) 
+    { }
 
   ngOnInit() {
     this.loading = true;
@@ -334,7 +339,8 @@ export class AdminComponent3Component implements OnInit {
       interestLoanLastMonth: new FormControl(null),
       loanYear: new FormControl(null),
       loanMonth: new FormControl(null),
-    });;
+      loanValueQuagmire: new FormControl(0),
+    });
   }
 
   onSearchMember() {
@@ -1161,12 +1167,12 @@ export class AdminComponent3Component implements OnInit {
     }
  }
 
-
+  statusQuagmire: boolean = false;
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
      if(this.dataNewLoan){
       const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
-      if(!this.dataNewLoan.loanActive){
+      if(!this.dataNewLoan.loanActive && loanBalance <= 0){
         if(this.checkValidFormLoan()){
           // api
           const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
@@ -1197,6 +1203,7 @@ export class AdminComponent3Component implements OnInit {
         // const loanOrdinaryRE = data.loanOrdinary.replace(',','');
         // data.loanOrdinary = loanOrdinaryRE;
         // console.log(data,'<------------- loan new');
+        this.statusQuagmire = true;
         const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
         this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ ' 
         + this.formattedNumber2(loanBalance) + '  บาท';
@@ -1436,5 +1443,22 @@ export class AdminComponent3Component implements OnInit {
     });
   }
 
+  displayInsetLoanNew(){
+    this.displayLoanNewQuagmire = true;
+    this.formModelLoanNew.get('loanValueQuagmire').disable();
+    const data = this.formModelLoanNew.getRawValue();
+    if(this.dataNewLoan){
+     const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
+     const sum = data.loanValue - loanBalance;
+     this.formModelLoanNew.get('loanValueQuagmire').setValue(sum);
+    }
+    this.messageQuagmire = 'กู้หล่มจะทำการปิดหนี้คงค้างทั้งหมดและสร้างสัญญาใหม่';
+  }
+
+  checkInsetLoanNewQuagmire(){
+    this.dataNewLoan.loanBalance = 0;
+    this.displayLoanNewQuagmire = false;
+    this.insertLoanDetail();
+  }
 
 }

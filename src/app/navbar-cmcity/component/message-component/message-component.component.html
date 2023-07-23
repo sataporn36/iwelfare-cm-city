@@ -1,4 +1,4 @@
-<div class="div-table-stocks">
+<div class="div-table-stocks" style="padding-top: 1rem;">
   <p-chip label="รายการแจ้งเตือน" styleClass="mr-2"></p-chip>
   <br><br>
   <p-table #dt2 [value]="dataNotify" dataKey="id" editMode="row" [rows]="5" [showCurrentPageReport]="true"
@@ -64,13 +64,19 @@
               (click)="onClickCancleApproveEmp(dataNotify)"
               class="p-button-rounded p-button-text p-button-danger"></button>
           </div> -->
-          <p-menu #menuDetail [model]="mess" [popup]="true"></p-menu>
+          <!-- <p-menu #menuDetail [model]="mess" [popup]="true"></p-menu>
           <div class="div-menu">
             <a (click)="selectedItem = dataNotify; menuDetail.toggle($event)">
               <i class="bi bi-three-dots-vertical"></i>
             </a>
+          </div> -->
+          <div>
+            <p-toast></p-toast>
+            <p-menu #menu [model]="mess" [popup]="true"></p-menu>
+            <a (click)="selectedItem = dataNotify; menu.toggle($event)">
+              <i class="bi bi-three-dots-vertical"></i>
+            </a>
           </div>
-
           <!-- <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars" label="Show"></button> -->
         </td>
       </tr>

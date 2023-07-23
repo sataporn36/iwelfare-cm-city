@@ -37,6 +37,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ChartModule } from 'primeng/chart';
 import { AdminComponent4Component } from './component/admin-component4/admin-component4.component';
 import { AdminPage4Component } from './page/admin-page4/admin-page4.component';
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { AdminPage4Component } from './page/admin-page4/admin-page4.component';
     DropdownModule,
     TagModule,
     AvatarModule,
-    ChartModule
+    ChartModule,
+    GalleriaModule
   ]
 })
 export class AdminCompponentModule { }

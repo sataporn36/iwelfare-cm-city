@@ -23,10 +23,12 @@ export class AdminComponent4Component implements OnInit {
   empDetail: any;
   admin!: boolean;
   displayModalDividend: boolean = false;
+  displayModalDividendConfig: boolean = false;
   formModelDividend!: FormGroup;
   inputSubject = new Subject<string>();
-  stockDevidendPercent: number = 2.25;
-  interestDevidendPercent: number = 37;
+  stockDevidendPercent: any;
+  interestDevidendPercent: any;
+  configAdmin: any;
 
   constructor(private service: MainService, private messageService: 
     MessageService, private localStorageService: LocalStorageService, 
@@ -52,9 +54,6 @@ export class AdminComponent4Component implements OnInit {
       }
     });
 
-    this.getDataDividendDetail();
-    this.getDataDividendDetailAll();
-
   }
 
   checkSetDividend(res: any){
@@ -74,9 +73,18 @@ export class AdminComponent4Component implements OnInit {
       allotmentAmount: new FormControl(null),
       balance: new FormControl(null),
     });
-    this.formModelDividend.patchValue({
-      stockDevidend: this.stockDevidendPercent,
-      interestDevidend: this.interestDevidendPercent
+    this.service.getConfigByList().subscribe((res) =>{
+      if(res){
+        this.formModelDividend.patchValue({
+          stockDevidend: Number(res[1].value),
+          interestDevidend: Number(res[2].value)
+        });
+        this.stockDevidendPercent =  Number(res[1].value);
+        this.interestDevidendPercent =   Number(res[2].value);
+        this.configAdmin = res;
+      }
+      this.getDataDividendDetail();
+      this.getDataDividendDetailAll();
     });
   }
 
@@ -87,6 +95,8 @@ export class AdminComponent4Component implements OnInit {
 
   getDataDividendDetail(){
      const data = this.formModelDividend.getRawValue();
+     console.log(data,'<  data config');
+     
      const payload = {
       empCode: this.empDetail.employeeCode,
       yearCurrent: this.year,
@@ -676,6 +686,40 @@ export class AdminComponent4Component implements OnInit {
 
   showWarn1() {
     this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'กรุณากำหนดอัตราปันผลหุ้น' });
+  }
+
+  ondispalyEditConfigDividend(){
+    this.displayModalDividendConfig = true;
+  }
+
+  onEditConfigDividend(){
+    let dataCobfigList = [];
+    const dataConfig = this.formModelDividend.getRawValue();
+    const stockConfig = { id: this.configAdmin[1].configId, value: dataConfig.stockDevidend };
+    const interestConfig = { id: this.configAdmin[2].configId, value: dataConfig.interestDevidend }
+    dataCobfigList.push(stockConfig);
+    dataCobfigList.push(interestConfig);
+    for (let i = 0; i < dataCobfigList.length; i++) {
+      console.log(dataCobfigList[i]);
+      const payload = {
+        configId: dataCobfigList[i].id,
+        value: dataCobfigList[i].value
+      }
+      this.service.editConfig(payload).subscribe((res) => {
+        if(res){
+          if(i === dataCobfigList.length - 1){
+            this.displayModalDividend = false;
+            this.displayModalDividendConfig = false;
+            this.ngOnInit();
+            this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+          }
+        }
+      });
+    }
+  }
+
+  onCancleEditConfigDividend(){
+
   }
   
 }
