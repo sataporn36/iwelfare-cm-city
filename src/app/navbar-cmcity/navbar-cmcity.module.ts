@@ -57,6 +57,7 @@ import { AdminCompponentModule } from './component/admin-component/admin-comppon
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { GalleriaModule } from 'primeng/galleria';
 import { PickListModule } from 'primeng/picklist';
+import { SlideMenuModule } from 'primeng/slidemenu';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { PickListModule } from 'primeng/picklist';
     AdminCompponentModule,
     PanelMenuModule,
     GalleriaModule,
-    PickListModule
+    PickListModule,
+    SlideMenuModule
   ]
 })
 export class NavbarCmcityModule { }

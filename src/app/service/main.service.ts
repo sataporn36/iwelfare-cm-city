@@ -697,4 +697,16 @@ export class MainService {
     );
   }
 
+  getEmployeeByList(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/admin/logic/document/getEmployeeByList', playload
+    );
+  }
+
+  updateRoleEmp(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/admin/logic/document/updateRoleEmp', playload
+    );
+  }
+
 }

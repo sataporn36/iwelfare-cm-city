@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthorizeService } from '../authorize.service';
 import { LocalStorageService } from 'ngx-webstorage'
+import { MainService } from '../service/main.service';
 
 @Component({
   selector: 'app-login-page',
@@ -27,7 +28,8 @@ export class LoginPageComponent implements OnInit {
     private messageService: MessageService,
     private locationStrategy: LocationStrategy,
     private authorizeService: AuthorizeService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private service: MainService,
   ) {
   }
 
@@ -70,6 +72,7 @@ export class LoginPageComponent implements OnInit {
               // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
               const statusChecklogin = false;
               // if (res.data.passwordFlag) {
+                this.getEmployeeOfMain(res.data.id);
                 this.localStorageService.store('empId', res.data.id);
                 this.localStorageService.store('stockId', res.data.stockId);
                 this.localStorageService.store('loanId', res.data.loanId);
@@ -113,6 +116,15 @@ export class LoginPageComponent implements OnInit {
   clickRegister() {
     this.router.navigate(['register'], {
       state: { data: null }
+    });
+  }
+
+  getEmployeeOfMain(id: any): void {
+    this.service.getEmployeeOfMain(id).subscribe(data => {
+      if(data){
+        this.localStorageService.store('EmployeeOfMain', data);
+        this.localStorageService.store('profileImgId', data.profileImgId);
+      }
     });
   }
 

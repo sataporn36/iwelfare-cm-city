@@ -11,6 +11,7 @@ import pdfFonts from 'src/assets/custom-fonts.js'
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
+import { log } from 'console';
 
 
 @Component({
@@ -97,7 +98,9 @@ export class AdminComponent3Component implements OnInit {
               this.formModelLoanNew.patchValue({
                 interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
                 stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)): 0,
-                fullName: res.fullName
+                fullName: res.fullName,
+                empId: res.empId,
+                loanId: res.loanId,
               });
             }else{
               this.formModelLoanNew.reset();
@@ -161,6 +164,8 @@ export class AdminComponent3Component implements OnInit {
          }
          this.service.searchGuarantorUnique(playload).subscribe({
           next: (res) => {
+            console.log(res,'<---- searchGuarantorUnique');
+            
             if(res !== null){
               if(res.length >= 2){
                 this.guarantorUniqueFlag1 = 'N';
@@ -323,6 +328,7 @@ export class AdminComponent3Component implements OnInit {
 
   initMainFormLoanNew() {
     this.formModelLoanNew = new FormGroup({
+      empId: new FormControl(null),
       employeeCode: new FormControl(null, Validators.required),
       fullName: new FormControl(null, Validators.required),
       loanValue: new FormControl(null, Validators.required),
@@ -340,6 +346,7 @@ export class AdminComponent3Component implements OnInit {
       loanYear: new FormControl(null),
       loanMonth: new FormControl(null),
       loanValueQuagmire: new FormControl(0),
+      loanId: new FormControl(null),
     });
   }
 
@@ -987,7 +994,7 @@ export class AdminComponent3Component implements OnInit {
     const docDefinition = {
       pageSize: 'A3',
       pageOrientation: 'landscape',
-      pageMargins: [20, 20, 20, 20],
+      pageMargins: [10, 20, 20, 20],
       info: {
         title: 'ประวัติการส่งเงินกู้รายเดือน',
         // author: 'john doe',
@@ -1004,7 +1011,7 @@ export class AdminComponent3Component implements OnInit {
           table: {
             alignment: "center",
             headerRows: 1,
-            widths: [150, 48, 95, 65, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60, 60],
+            widths: [150, 48, 95, 75, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60, 60],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัส\nพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
@@ -1167,12 +1174,19 @@ export class AdminComponent3Component implements OnInit {
     }
  }
 
+  closeLoanOld(data){
+    this.service.closeLoan(data.loanId).subscribe((res) => {
+      // this.messageService.add({ severity: 'success', detail: 'ปิดหนี้สำเร็จ' });
+      // this.ngOnInit();
+    })
+  }
+
   statusQuagmire: boolean = false;
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
      if(this.dataNewLoan){
       const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
-      if(!this.dataNewLoan.loanActive && loanBalance <= 0){
+      if(this.dataNewLoan.loanActive && loanBalance <= 0){
         if(this.checkValidFormLoan()){
           // api
           const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
@@ -1184,14 +1198,18 @@ export class AdminComponent3Component implements OnInit {
           const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
           data.stockValue = stockValueRE;
           console.log(data,'<------------- loan new');
+          
           this.service.insertLoanNew(data).subscribe((res) =>{
-              if(res){
-                this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
-              }else{
-                this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
-              }
-
-              this.displayModalLoanNew = false;
+            console.log(res,'<--------------- resresresresres');
+            if(res){
+              this.closeLoanOld(data);
+              this.ngOnInit();
+              this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
+            }else{
+              this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
+            }
+            this.displayModalLoanNew = false;
+            this.displayMessageError = false;
           });
         }
      }else{
@@ -1218,8 +1236,8 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoanNew.reset();
     this.dataLanTimeFlag = false;
     this.formModelLoanNew.get('loanTime').disable();
-    this.formModelLoanNew.get('guarantorOne').enable();
-    this.formModelLoanNew.get('guarantorTwo').enable();
+    this.formModelLoanNew.get('guarantorOne').disable();
+    this.formModelLoanNew.get('guarantorTwo').disable();
     this.guarantorUniqueFlag1 = 'A';
     this.guarantorUniqueFlag2 = 'A';
     //this.displayModalLoanNew = false;
@@ -1428,7 +1446,7 @@ export class AdminComponent3Component implements OnInit {
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
-       admin: false,
+       admin: true,
        loanId: null,
        monthCurrent: monthNew,
        yearCurrent: dataMY.year
@@ -1458,6 +1476,8 @@ export class AdminComponent3Component implements OnInit {
   checkInsetLoanNewQuagmire(){
     this.dataNewLoan.loanBalance = 0;
     this.displayLoanNewQuagmire = false;
+    this.displayMessageError = false;
+    this.displayModalLoanNew = false;
     this.insertLoanDetail();
   }
 

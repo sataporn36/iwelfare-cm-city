@@ -103,6 +103,9 @@
                         <input class="form-control" pInputText type="text" formControlName="balance" maxlength="5"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
                     </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-login2" style="width: max-content !important;" (click)="displayModalPublish = true">กำหนดการเผยเเพร่</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,6 +164,43 @@
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login2" (click)="onEditConfigDividend()">เเก้ไข</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleEditConfigDividend()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayModalPublish" [modal]="true" [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"
+    styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">การเผยเเพร่</span>
+            <i class="pi pi-info-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="จะเป็นการกำหนดให้เผยเเพร่เเก่สมาชิกทุกคน"></i>
+        </div>
+    </ng-template>
+    <div [formGroup]="formModelDividend">
+        <div class="col-12">
+            <div class="flex align-items-center" 
+            style="border: 2px solid #DCDCDC;
+            border-radius: 5px;
+            height: 3rem;
+            display: flex;
+            align-content: center;
+            justify-content: center;">
+                <div class="flex flex-wrap gap-3" style="display: flex;">
+                    <div>
+                        <p-radioButton name="statusPublishDividend" value="Y" formControlName="statusPublishDividend" inputId="ingredient1"></p-radioButton>
+                        <label for="ingredient1" class="ml-2">เผยเเพร่</label>
+                    </div>
+                    <div>
+                        <p-radioButton name="statusPublishDividend" value="N" formControlName="statusPublishDividend" inputId="ingredient2"></p-radioButton>
+                        <label for="ingredient2" class="ml-2">ไม่เผยเเพร่</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+       </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-login2" (click)="onEditConfigPublish()">เเก้ไข</button>
+        <button type="button" class="btn btn-regis2" (click)="onCancleEditConfigPublish()">ยกเลิก</button>
     </ng-template>
 </p-dialog>
 

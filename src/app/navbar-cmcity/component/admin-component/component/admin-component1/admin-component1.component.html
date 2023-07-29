@@ -1,3 +1,12 @@
+
+<p-blockUI [blocked]="blockedDocument">
+    <div style="display: grid; justify-content: center; align-items: center;">
+        <!-- <i class="pi pi-lock" style="font-size: 3rem; color: #FFFFFF; text-align: center;"></i> <br>
+        <span style="font-size: 2rem; color: #FFFFFF;">ไม่มีการเผยเเพร่เเก่สมาชิก</span> -->
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+</p-blockUI>
+
 <div class="card">
     <div style="display: flex; justify-content: space-between;">
         <div>
@@ -50,12 +59,12 @@
             <p-chip label="รูปภาพลายเซ็น" styleClass="mr-2"></p-chip>
         </div>
         <div  class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
-            <div [formGroup]="formModelSignature" style="display: flex;">
+            <div style="display: flex;">
                 <div  style="padding-left: 1rem;">
                     <div style="display: flex; justify-content: center;">
                         <img id="profilePic1" class="pic1" [src]="imageSrc1" >
                     </div>
-                    <div>
+                    <div style="text-align: center;">
                         <label class="block">รูปภาพลายเซ็น (ประธานกองทุน)</label>
                     </div>
                     <div style="padding-top: 2rem; ">
@@ -88,7 +97,7 @@
                     <div style="display: flex; justify-content: center;">
                         <img id="profilePic2" class="pic2" [src]="imageSrc2" >
                     </div>
-                    <div>
+                    <div style="text-align: center;">
                         <label class="block">รูปภาพลายเซ็น (เหรัญญิก)</label>
                     </div>
                     <div style="padding-top: 2rem;">
@@ -133,25 +142,34 @@
         <p-chip label="การจัดการบทบาทสมาชิก" styleClass="mr-2"></p-chip>
     </div>
 
-    <p-pickList [source]="sourceProducts" [target]="targetProducts" sourceHeader="Available" targetHeader="Selected" [dragdrop]="true" [responsive]="true" 
+    <!-- <p-pickList [source]="sourceProducts" [target]="targetProducts" sourceHeader="Available" targetHeader="Selected" [dragdrop]="true" [responsive]="true" 
     [sourceStyle]="{ height: '20rem' }" [targetStyle]="{ height: '20rem' }" breakpoint="1400px">
-    <ng-template let-product pTemplate="item">
-        <div class="flex flex-wrap p-2 align-items-center gap-3">
-            <img class="w-4rem shadow-2 flex-shrink-0 border-round" src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" alt="{item.name}" />
-            <div class="flex-1 flex flex-column gap-2">
-                <span class="font-bold">{{ product.name }}</span>
-                <div class="flex align-items-center gap-2">
-                    <i class="pi pi-tag text-sm"></i>
-                    <span>{{ product.category }}</span>
+        <ng-template let-product pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3">
+                <img class="w-4rem shadow-2 flex-shrink-0 border-round" src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" alt="{item.name}" />
+                <div class="flex-1 flex flex-column gap-2">
+                    <span class="font-bold">{{ product.name }}</span>
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-tag text-sm"></i>
+                        <span>{{ product.category }}</span>
+                    </div>
                 </div>
+                <span class="font-bold text-900">{{ '$' + product.price }}</span>
             </div>
-            <span class="font-bold text-900">{{ '$' + product.price }}</span>
-        </div>
-    </ng-template>
-</p-pickList>
+        </ng-template>
+    </p-pickList> -->
 
+    <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป" targetHeader="ผู้ดูเเลระบบ" 
+    [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '30rem' }" (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
+    [targetStyle]="{ height: '30rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก" targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
+        <ng-template let-employee pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3">
+                <span style="font-size: 16px;">{{ employee.fullName }}</span>
+                <span style="padding-left: 1rem;font-size: 16px; color: #fe6bba;">( {{ employee.employeeTypeName ? employee.employeeTypeName : '-' }} )</span>
+            </div>
+        </ng-template>
+    </p-pickList>
 </div>
-
 
 <p-toast></p-toast>
 

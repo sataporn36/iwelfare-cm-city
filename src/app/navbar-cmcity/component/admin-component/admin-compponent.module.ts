@@ -39,6 +39,8 @@ import { AdminComponent4Component } from './component/admin-component4/admin-com
 import { AdminPage4Component } from './page/admin-page4/admin-page4.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { PickListModule } from 'primeng/picklist';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import { PickListModule } from 'primeng/picklist';
     AvatarModule,
     ChartModule,
     GalleriaModule,
-    PickListModule
+    PickListModule,
+    RadioButtonModule,
+    ProgressSpinnerModule
   ]
 })
 export class AdminCompponentModule { }

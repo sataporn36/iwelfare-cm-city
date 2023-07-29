@@ -34,8 +34,8 @@ export class MainComponentComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer
   ) { 
-    this.userId = this.localStorageService.retrieve('empId');
-    this.userInfo = this.localStorageService.retrieve('employeeofmain');
+    // this.userId = this.localStorageService.retrieve('empId');
+    // this.userInfo = this.localStorageService.retrieve('employeeofmain');
   }
 
   ngOnInit(): void {

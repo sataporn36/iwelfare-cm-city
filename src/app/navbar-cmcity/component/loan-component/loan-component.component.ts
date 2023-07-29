@@ -398,12 +398,13 @@ export class LoanComponentComponent implements OnInit {
 
     const playload = {
       loanId: this.loanId,
-      monthCurrent: this.month,
-      admin: false
+      monthCurrent: null,  //this.month
+      admin: true
     }
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
-
+      console.log(data,'<----------- searchDocumentV1Loan');
+      
       if (data == null) {
         this.showWarnNull();
       } else {
@@ -412,9 +413,10 @@ export class LoanComponentComponent implements OnInit {
         const key = 'installment';
         const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
         let sumLoan = 0;
-        arrayUniqueByKey.forEach((element, index, array) => {
-          sumLoan = sumLoan + Number(element.loanValue);
-        })
+        // arrayUniqueByKey.forEach((element, index, array) => {
+        //   sumLoan = sumLoan + Number(element.loanValue);
+        // });
+        sumLoan = arrayUniqueByKey[0].loanValue;
         this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode, sumLoan);
       }
     });

@@ -25,6 +25,7 @@ export class AdminComponent1Component {
   fileImg1: any;
   fileImg2: any;
   interestId: any;
+  periodMonthDescOption: any = [];
 
   displayBasic1: boolean | undefined;
   images1: any[] = [];
@@ -53,6 +54,9 @@ export class AdminComponent1Component {
     sourceProducts: Product[];
     targetProducts: Product[];
 
+    sourceEmployeeRole: any[] = [];
+    targetEmployeeRole: any[] = [];
+
   constructor(private service: MainService, 
     private messageService: MessageService, 
     private confirmationService: ConfirmationService, 
@@ -63,13 +67,76 @@ export class AdminComponent1Component {
     }
 
   ngOnInit() {
+    this.setperiodMonthDescOption();
+    this.pipeDateTH();
     this.getconfigList();
     this.initMainFormInterest();
-    this.initMainFormSignature();
+    //this.initMainFormSignature();
 
-    this.service.getProductsSmall().then((products) => (this.sourceProducts = products));
-    this.targetProducts = [];
+    // this.service.getProductsSmall().then((products) => (this.sourceProducts = products));
+    // this.targetProducts = [];
+
+    this.getEmpListForRoleSource();
+    this.getEmpListForRoleTarget();
   }
+
+  getEmpListForRoleSource(){
+    const payload = {
+      adminFlag: false
+    };
+    this.service.getEmployeeByList(payload).subscribe((res) =>{
+       if(res){
+        this.sourceEmployeeRole = res;
+       }
+    });
+  }
+
+  getEmpListForRoleTarget(){
+    const payload = {
+      adminFlag: true
+    };
+    this.service.getEmployeeByList(payload).subscribe((res) =>{
+       if(res){
+          this.targetEmployeeRole = res;
+       }
+    });
+  }
+
+  month: any;
+  year: any;
+  time: any;
+  monthValue: any;
+  pipeDateTH() {
+    const format = new Date()
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    this.monthValue = monthSelect.value;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+    return day + ' ' + monthSelect.label + ' ' + year
+  }
+
+  setperiodMonthDescOption() {
+    this.periodMonthDescOption = [
+      { value: '01', label: 'มกราคม' },
+      { value: '02', label: 'กุมภาพันธ์' },
+      { value: '03', label: 'มีนาคม' },
+      { value: '04', label: 'เมษายน' },
+      { value: '05', label: 'พฤษภาคม' },
+      { value: '06', label: 'มิถุนายน' },
+      { value: '07', label: 'กรกฎาคม' },
+      { value: '08', label: 'สิงหาคม' },
+      { value: '09', label: 'กันยายน' },
+      { value: '10', label: 'ตุลาคม' },
+      { value: '11', label: 'พฤศจิกายน' },
+      { value: '12', label: 'ธันวาคม' },
+    ];
+  }
+
 
   getconfigList(){
     this.service.getConfigByList().subscribe((res) =>{
@@ -87,6 +154,7 @@ export class AdminComponent1Component {
       }
     });
   }
+  
 
   initMainFormInterest() {
     this.formModelInterest = new FormGroup({
@@ -95,13 +163,13 @@ export class AdminComponent1Component {
     });
   }
 
-  initMainFormSignature() {
-    this.formModelSignature = new FormGroup({
-      id: new FormControl(null),
-      Signature1: new FormControl(null),
-      Signature2: new FormControl(null),
-    });
-  }
+  // initMainFormSignature() {
+  //   this.formModelSignature = new FormGroup({
+  //     id: new FormControl(null),
+  //     Signature1: new FormControl(null),
+  //     Signature2: new FormControl(null),
+  //   });
+  // }
 
   getImgSig1(dataImg: any, id: any){
     if(id !== null || id){
@@ -193,15 +261,40 @@ export class AdminComponent1Component {
       }
   }
 
+  monthNew: any;
+  yearNew: any;
+  timeNew: any;
+  pipeDateTHNewLan() {
+    const format = new Date();
+    format.setMonth(format.getMonth());
+    const month = format.getMonth();
+    format.setDate(0);
+    const day = format.getDate();
+    const year = format.getFullYear();
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+
+    const firstDayOfNextMonth = new Date(year, month + 1, 1);
+    const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
+    return year + '-' + monthSelect.value + '-' + lastDayOfMonth;
+  }
+
+
   updateIntereat(){
+    const datePayLoanNew = this.pipeDateTHNewLan();
     const data = this.formModelInterest.getRawValue();
     const payload = {
       configId: this.interestId,
-      value: data.interest
+      value: data.interest,
+      monthCurrent: this.month,
+      yearCurrent: this.year.toString(),
+      paymentStartDate: datePayLoanNew
     }
      this.service.editConfig(payload).subscribe((res) => {
          if(res.data !== null || res.data){
-          console.log();
           this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
          }
      });
@@ -212,5 +305,40 @@ export class AdminComponent1Component {
     this.ngOnInit();
   }
 
+  checkRoleToSource(event: any){
+      const payload = {
+        empId: event.items[0].empId,
+        adminFlag: false
+      }
+      this.service.updateRoleEmp(payload).subscribe((res) => {
+        if(res){
+         this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
+         this.blockDocument();
+         this.ngOnInit();
+        }
+      });
+  }
+
+  checkRoleToTarget(event: any){
+    const payload = {
+      empId: event.items[0].empId,
+      adminFlag: true
+    }
+    this.service.updateRoleEmp(payload).subscribe((res) => {
+      if(res){
+       this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาทเเอดมินสำเร็จ' });
+       this.blockDocument();
+       this.ngOnInit();
+      }
+    });
+  }
+
+  blockedDocument: boolean = false;
+  blockDocument() {
+    this.blockedDocument = true;
+      setTimeout(() => {
+        this.blockedDocument = false;
+    }, 500);
+  }
   
 }

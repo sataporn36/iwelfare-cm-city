@@ -40,6 +40,7 @@ export class DividendComponentComponent implements OnInit {
   fileImg2: any;
   imageSrc1Blob: any;
   imageSrc2Blob: any;
+  blockedPanel: boolean = false;
 
   constructor(private service: MainService, private messageService: 
     MessageService, private localStorageService: LocalStorageService, 
@@ -78,11 +79,20 @@ export class DividendComponentComponent implements OnInit {
           stockDevidend: Number(res[1].value),
           interestDevidend: Number(res[2].value)
         });
+        const publish = res[5].value;
+        console.log(publish,'<----------- publish');
+        
+        if(publish === 'N'){
+           this.blockedPanel = true;
+           this.dataDividendDetail = null;
+           this.dataDividendDetailAll = null;
+        }else{
+          this.getDataDividendDetail();
+          this.getDataDividendDetailAll();
+        }
         this.stockDevidendPercent = Number(res[1].value);
         this.interestDevidendPercent = Number(res[2].value);
       }
-      this.getDataDividendDetail();
-      this.getDataDividendDetailAll();
     });
   }
 
@@ -118,17 +128,13 @@ export class DividendComponentComponent implements OnInit {
   }
 
   getImage(id: any,imageSrc: any,dataImg: any) {
-    console.log(id,',---  this.imageSrc1   idididid');
-    console.log(dataImg,',---  dataImg');
     if (id != 0 || id != null) {
       this.service.getImageConfig(id).subscribe(
         (imageBlob: Blob) => {
           if(imageSrc === 1){
             this.imageSrc1Blob = URL.createObjectURL(imageBlob);
-            console.log(this.imageSrc1Blob,',---  this.imageSrc1');
           }else{
             this.imageSrc2Blob = URL.createObjectURL(imageBlob);
-            console.log(this.imageSrc2Blob,',---  this.imageSrc2');
           }
         },
         (error: any) => {

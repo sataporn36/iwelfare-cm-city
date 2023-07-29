@@ -160,17 +160,13 @@ export class ShareComponentComponent implements OnInit {
   }
 
   getImage(id: any,imageSrc: any,dataImg: any) {
-    console.log(id,',---  this.imageSrc1   idididid');
-    console.log(dataImg,',---  dataImg');
     if (id != 0 || id != null) {
       this.service.getImageConfig(id).subscribe(
         (imageBlob: Blob) => {
           if(imageSrc === 1){
             this.imageSrc1Blob = URL.createObjectURL(imageBlob);
-            console.log(this.imageSrc1Blob,',---  this.imageSrc1');
           }else{
             this.imageSrc2Blob = URL.createObjectURL(imageBlob);
-            console.log(this.imageSrc2Blob,',---  this.imageSrc2');
           }
         },
         (error: any) => {
@@ -270,10 +266,11 @@ export class ShareComponentComponent implements OnInit {
   }
 
   searchStockDetail(id: any): void {
-    this.service.searchStockDetail(id, "asc").subscribe(data => {
-      const key = 'installment';
-      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      this.dataStockDetail = arrayUniqueByKey.sort((a, b) => a.installment - b.installment);
+    this.service.searchStockDetail(id, "desc").subscribe(data => {
+      // const key = 'installment';
+      // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      // this.dataStockDetail = arrayUniqueByKey.sort((a, b) => a.installment - b.installment);
+      this.dataStockDetail = data;
       // this.stockAccumulate = data.stock.stockAccumulate
     });
   }
@@ -625,19 +622,21 @@ export class ShareComponentComponent implements OnInit {
     const playload = {
       empId: this.userId,
       monthCurrent: null, //this.month
-      yearCurrent: this.year
+      yearCurrent: null
     }
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-
+      console.log(data,'<--------- searchDocumentV1');
+      
       if (data == null) {
         this.showWarnNull();
       } else {
-
-        const key = 'stockInstallment';
-        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-        this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
+        const listStock = this.dataStockDetail;
+        console.log(listStock,'<----------- listStock');
+        // const key = 'stockInstallment';
+        // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+        this.getSearchDocumentV2Sum(playload, listStock, mode);
       }
     });
   }
@@ -657,17 +656,29 @@ export class ShareComponentComponent implements OnInit {
 
   exportMakePDF(mode: any, stockInfo: any[], sum: any) {
     const decimalPipe = new DecimalPipe('en-US');
+    const fullName = this.empDetail.prefix + this.empDetail.firstName + ' ' + this.empDetail.lastName;
+    const departmentName = this.empDetail.departmentName;
+    const employeeCode = this.empDetail.employeeCode;
     let detailStock = stockInfo.map(function (item) {
       return [
-        { text: item.departmentName, alignment: 'left' },
-        { text: item.employeeCode, alignment: 'center' },
-        { text: item.fullName, alignment: 'left' },
-        { text: decimalPipe.transform(item.stockInstallment), alignment: 'center' },
+        // { text: item.departmentName, alignment: 'left' },
+        // { text: item.employeeCode, alignment: 'center' },
+        // { text: item.fullName, alignment: 'left' },
+        // { text: decimalPipe.transform(item.stockInstallment), alignment: 'center' },
+        // { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
+        // { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
+        // { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+        // { text: decimalPipe.transform(item.interest), alignment: 'right' },
+        // { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
+        // { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
+
+        { text: departmentName, alignment: 'left' },
+        { text: employeeCode, alignment: 'center' },
+        { text: fullName, alignment: 'left' },
+        { text: item.stockMonth, alignment: 'center' },
+        { text: item.stockYear, alignment: 'center' },
+        { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
-        { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
-        { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
-        { text: decimalPipe.transform(item.interest), alignment: 'right' },
-        { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
         { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
       ]
     });
@@ -692,9 +703,9 @@ export class ShareComponentComponent implements OnInit {
       }
     }
     const docDefinition = {
-      pageSize: 'A3',
+      pageSize: 'A4',
       pageOrientation: 'landscape',
-      //pageMargins: [40, 80, 40, 60],
+      pageMargins: [15, 40, 20, 40],
       info: {
         title: 'ประวัติการส่งหุ้น',
         // author: 'john doe',
@@ -704,7 +715,7 @@ export class ShareComponentComponent implements OnInit {
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
         //{ text: 'รายงานเงินกู้และค่าหุ้น เดือน'+this.month+' พ.ศ.'+this.year, style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น', style: 'header' },
+        { text: 'รายงานค่าหุ้น', style: 'header' },
         '\n',
         {
           style: 'tableExample',
@@ -712,22 +723,30 @@ export class ShareComponentComponent implements OnInit {
 
           table: {
             headerRows: 1,
-            widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
+            // widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
+            widths: ['*', 65, '*', 70, 70, 85, 90, 85],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
-              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
+              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
+              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'เดือน', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'ปี', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
+              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, 
+              // { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
+              // { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, 
+              // { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+              // { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailStock,
-              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ',
-              { text: decimalPipe.transform(sum.stockValueTotal), alignment: 'right' }, ' ',
-              { text: decimalPipe.transform(sum.loanDetailOrdinaryTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.loanDetailInterestTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.totalMonth), alignment: 'right' },
-              { text: decimalPipe.transform(sum.stockAccumulateTotal), alignment: 'right' },
-              ],
+              // [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ',
+              // { text: decimalPipe.transform(sum.stockValueTotal), alignment: 'right' }, ' ',
+              // { text: decimalPipe.transform(sum.loanDetailOrdinaryTotal), alignment: 'right' },
+              // { text: decimalPipe.transform(sum.loanDetailInterestTotal), alignment: 'right' },
+              // { text: decimalPipe.transform(sum.totalMonth), alignment: 'right' },
+              // { text: decimalPipe.transform(sum.stockAccumulateTotal), alignment: 'right' },
+              // ],
 
               // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
               // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 

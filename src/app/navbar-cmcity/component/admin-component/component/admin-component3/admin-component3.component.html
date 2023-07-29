@@ -127,8 +127,8 @@
                         <p-inputNumber formControlName="loanValue" inputId="minmaxfraction" mode="decimal"
                         [required]="true" [maxlength]="12" (keyup)="checkGuaranteeStock($event)"></p-inputNumber>
                     </div>
-                    <div class="col-4 p-num-4" style="padding-right: 1rem;">
-                        <label class="block">อัตราดอกเบี้ย(%ต่อปี)</label>
+                    <div class="col-4" style="padding-right: 1rem;">
+                        <label class="block">อัตราดอกเบี้ยต่อปี</label>
                         <input class="form-control" pInputText type="text" formControlName="interestPercent" required="true" maxlength="10"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
                     </div>

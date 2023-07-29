@@ -126,3 +126,12 @@ input.search {
   height: 100px;
 }
 
+::ng-deep .p-picklist-buttons > button:nth-child(2),
+::ng-deep .p-picklist-buttons > button:nth-child(4) {
+    display: none;
+  }
+
+:host ::ng-deep .p-picklist .p-picklist-list .p-picklist-item {
+    padding: 0.5rem 0.5rem !important;
+}
+

@@ -24,6 +24,7 @@ export class AdminComponent4Component implements OnInit {
   admin!: boolean;
   displayModalDividend: boolean = false;
   displayModalDividendConfig: boolean = false;
+  displayModalPublish: boolean = false;
   formModelDividend!: FormGroup;
   inputSubject = new Subject<string>();
   stockDevidendPercent: any;
@@ -72,12 +73,14 @@ export class AdminComponent4Component implements OnInit {
       amountRequired: new FormControl(null, Validators.required),
       allotmentAmount: new FormControl(null),
       balance: new FormControl(null),
+      statusPublishDividend: new FormControl(null),
     });
     this.service.getConfigByList().subscribe((res) =>{
       if(res){
         this.formModelDividend.patchValue({
           stockDevidend: Number(res[1].value),
-          interestDevidend: Number(res[2].value)
+          interestDevidend: Number(res[2].value),
+          statusPublishDividend: res[5].value
         });
         this.stockDevidendPercent =  Number(res[1].value);
         this.interestDevidendPercent =   Number(res[2].value);
@@ -719,7 +722,28 @@ export class AdminComponent4Component implements OnInit {
   }
 
   onCancleEditConfigDividend(){
+    this.ngOnInit();
+  }
 
+  onEditConfigPublish(){
+    const dataConfig = this.formModelDividend.getRawValue();
+    const payload = {
+      configId: this.configAdmin[5].configId,
+      value: dataConfig.statusPublishDividend
+    }
+    this.service.editConfig(payload).subscribe((res) => {
+      if(res){
+        this.displayModalDividend = false;
+        this.displayModalPublish = false;
+        this.ngOnInit();
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      }
+    });
+  }
+
+  onCancleEditConfigPublish(){
+    //this.ngOnInit();
+    this.displayModalPublish = false;
   }
   
 }
