@@ -98,8 +98,6 @@ export class AdminComponent4Component implements OnInit {
 
   getDataDividendDetail(){
      const data = this.formModelDividend.getRawValue();
-     console.log(data,'<  data config');
-     
      const payload = {
       empCode: this.empDetail.employeeCode,
       yearCurrent: this.year,
@@ -681,6 +679,11 @@ export class AdminComponent4Component implements OnInit {
     this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalInterestDividends));
     this.formModelDividend.get('stockDevidend').setValue(this.stockDevidendPercent);
     this.formModelDividend.get('interestDevidend').setValue(this. interestDevidendPercent);
+    const dataConfigRes =  this.configAdmin;
+    this.formModelDividend.patchValue({
+      statusPublishDividend: dataConfigRes[5].value
+    });
+    //this.ngOnInit();
   }
 
   showWarn() {

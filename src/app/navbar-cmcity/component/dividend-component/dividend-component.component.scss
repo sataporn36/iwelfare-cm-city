@@ -90,3 +90,22 @@
     justify-content: center;
   }
 }
+
+:host ::ng-deep .p-panel .p-panel-content {
+   padding: 0rem !important;
+   border: 0px solid #dee2e6 !important;
+   background: #ffffff;
+   color: #495057;
+   border-bottom-right-radius: 0px !important;
+   border-bottom-left-radius: 0px !important;
+   border-top: 0 none !important;
+}
+
+:host ::ng-deep .p-panel .p-panel-header {
+   border: 0px #ffffff !important;
+   padding: 0rem !important;
+   background: #f8f9fa;
+   color: #343a40;
+   border-top-right-radius: 0px !important;
+   border-top-left-radius: 0px !important;
+}
