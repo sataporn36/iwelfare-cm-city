@@ -122,7 +122,7 @@ export class LoginPageComponent implements OnInit {
   getEmployeeOfMain(id: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
       if(data){
-        this.localStorageService.store('EmployeeOfMain', data);
+        this.localStorageService.store('employeeofmain', data);
         this.localStorageService.store('profileImgId', data.profileImgId);
       }
     });

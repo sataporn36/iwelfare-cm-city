@@ -1197,12 +1197,14 @@ export class AdminComponent3Component implements OnInit {
           data.loanOrdinary = loanOrdinaryRE;
           const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
           data.stockValue = stockValueRE;
-          console.log(data,'<------------- loan new');
-          
-          this.service.insertLoanNew(data).subscribe((res) =>{
-            console.log(res,'<--------------- resresresresres');
+         
+          this.service.insertLoanNew(data).subscribe((res) =>{         
             if(res){
               this.closeLoanOld(data);
+              this.localStorageService.clear('employeeofmain');
+              this.getEmployeeOfMain(this.userId);
+              this.localStorageService.clear('loanId');
+              this.localStorageService.store('loanId', res.data.id);
               this.ngOnInit();
               this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
             }else{
@@ -1230,6 +1232,15 @@ export class AdminComponent3Component implements OnInit {
      }
     }
      
+  }
+
+  getEmployeeOfMain(id: any): void {
+    this.service.getEmployeeOfMain(id).subscribe(data => {
+      if(data){
+        this.localStorageService.store('employeeofmain', data);
+        //this.localStorageService.store('profileImgId', data.profileImgId);
+      }
+    });
   }
 
   onCancleLoan() {

@@ -135,3 +135,20 @@ input.search {
     padding: 0.5rem 0.5rem !important;
 }
 
+p-picklist {
+  width: 100%;
+}
+
+@media screen and (max-width: 1366px) {
+     .text-img{
+       //
+     }
+
+     .btn-img{
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      justify-items: center;
+     }
+}
+

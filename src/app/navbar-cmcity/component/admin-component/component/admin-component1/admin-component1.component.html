@@ -64,10 +64,10 @@
                     <div style="display: flex; justify-content: center;">
                         <img id="profilePic1" class="pic1" [src]="imageSrc1" >
                     </div>
-                    <div style="text-align: center;">
+                    <div class="text-img" style="text-align: center;">
                         <label class="block">รูปภาพลายเซ็น (ประธานกองทุน)</label>
                     </div>
-                    <div style="padding-top: 2rem; ">
+                    <div class="btn-img" style="padding-top: 2rem; ">
                         <button (click)="file1.click()" type="button" class="btn btn-signature1">เปลี่ยนลายเซ็นประธานกองทุน</button>
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-signature1" icon="pi pi-external-link" (click)="displayBasic1 = true">ดูรูปภาพ</button>
@@ -97,10 +97,10 @@
                     <div style="display: flex; justify-content: center;">
                         <img id="profilePic2" class="pic2" [src]="imageSrc2" >
                     </div>
-                    <div style="text-align: center;">
+                    <div class="text-img" style="text-align: center;">
                         <label class="block">รูปภาพลายเซ็น (เหรัญญิก)</label>
                     </div>
-                    <div style="padding-top: 2rem;">
+                    <div  class="btn-img" style="padding-top: 2rem;">
                         <button (click)="file2.click()" type="button" class="btn btn-signature2">เปลี่ยนลายเซ็นเหรัญญิก</button>
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-signature1" icon="pi pi-external-link" (click)="displayBasic2 = true">ดูรูปภาพ</button>
@@ -160,8 +160,8 @@
     </p-pickList> -->
 
     <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป" targetHeader="ผู้ดูเเลระบบ" 
-    [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '30rem' }" (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
-    [targetStyle]="{ height: '30rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก" targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
+    [dragdrop]="true" [responsive]="false" [sourceStyle]="{ height: '20rem' }" (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
+    [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก" targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
         <ng-template let-employee pTemplate="item">
             <div class="flex flex-wrap p-2 align-items-center gap-3">
                 <span style="font-size: 16px;">{{ employee.fullName }}</span>

@@ -460,7 +460,7 @@ export class NavbarCmcityComponent implements OnInit {
         ...data,
       })
 
-      this.localStorageService.store('EmployeeOfMain', data);
+      this.localStorageService.store('employeeofmain', data);
       this.getImage(data.profileImgId);
       this.gender = data.gender;
       this.profileImgId = data.profileImgId;

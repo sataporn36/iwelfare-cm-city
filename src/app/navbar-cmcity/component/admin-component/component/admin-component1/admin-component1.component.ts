@@ -271,7 +271,7 @@ export class AdminComponent1Component {
     format.setDate(0);
     const day = format.getDate();
     const year = format.getFullYear();
-    this.year = year;
+    //this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';

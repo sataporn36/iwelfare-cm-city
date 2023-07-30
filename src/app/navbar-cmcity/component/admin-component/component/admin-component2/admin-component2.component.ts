@@ -496,11 +496,21 @@ export class AdminComponent2Component implements OnInit {
   checkListSumAllByDepartment(listSum: any[], nameDepartment: any) {
     if (listSum.length > 0) {
       let sumDepartment;
+      let stockValueTotal = 0;
+      let loanDetailOrdinaryTotal = 0;
+      let loanDetailInterestTotal = 0;
+      let totalMonth = 0;
+      let stockAccumulateTotal = 0;
       listSum?.forEach((element, _index, _array) => {
         if (element.departmentName === nameDepartment) {
-          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(element.stockValueTotal), alignment: 'right' }, ' ',
-          { text: this.formattedNumber2(element.loanDetailOrdinaryTotal), alignment: 'right' }, { text: this.formattedNumber2(element.loanDetailInterestTotal), alignment: 'right' }
-            , { text: this.formattedNumber2(element.totalMonth), alignment: 'right' }, { text: this.formattedNumber2(element.stockAccumulateTotal), alignment: 'right' }
+          stockValueTotal += Number(element.stockValueTotal);
+          loanDetailOrdinaryTotal += Number(element.loanDetailOrdinaryTotal);
+          loanDetailInterestTotal += Number(element.loanDetailInterestTotal);
+          totalMonth += Number(element.totalMonth);
+          stockAccumulateTotal += Number(element.stockAccumulateTotal);
+          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(stockValueTotal), alignment: 'right' }, ' ',
+          { text: this.formattedNumber2(loanDetailOrdinaryTotal), alignment: 'right' }, { text: this.formattedNumber2(loanDetailInterestTotal), alignment: 'right' }
+            , { text: this.formattedNumber2(totalMonth), alignment: 'right' }, { text: this.formattedNumber2(stockAccumulateTotal), alignment: 'right' }
           ];
         }
       })
@@ -683,7 +693,6 @@ export class AdminComponent2Component implements OnInit {
     this.yearSelectNew = bill.year;
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-      console.log(data, '<-----------  sum data');
       this.getSearchDocumentV2SumAll(playload, mode, data);
     });
   }
@@ -691,7 +700,8 @@ export class AdminComponent2Component implements OnInit {
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data;
-      console.log(this.sumStock, '<-----------  sum sumStock');
+      console.log(data,'<------- listSum');
+      
       this.checkDepartment(listdata);
       this.exportMakePDFALL(mode, data)
     });
