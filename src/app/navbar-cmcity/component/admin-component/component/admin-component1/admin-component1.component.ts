@@ -26,6 +26,10 @@ export class AdminComponent1Component {
   fileImg2: any;
   interestId: any;
   periodMonthDescOption: any = [];
+  empDetail: any;
+  loanId: any;
+  userId: any;
+  admin!: boolean;
 
   displayBasic1: boolean | undefined;
   images1: any[] = [];
@@ -71,6 +75,10 @@ export class AdminComponent1Component {
     this.pipeDateTH();
     this.getconfigList();
     this.initMainFormInterest();
+
+    this.userId = this.localStorageService.retrieve('empId');
+    this.empDetail = this.localStorageService.retrieve('employeeofmain');
+    this.loanId = this.localStorageService.retrieve('loanid');
     //this.initMainFormSignature();
 
     // this.service.getProductsSmall().then((products) => (this.sourceProducts = products));
@@ -295,9 +303,23 @@ export class AdminComponent1Component {
     }
      this.service.editConfig(payload).subscribe((res) => {
          if(res.data !== null || res.data){
+          this.localStorageService.clear('employeeofmain');
+          this.getEmployeeOfMain(this.userId);
+          this.localStorageService.clear('loanId');
+          this.localStorageService.store('loanId', res.data.id);
+          this.ngOnInit();
           this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
          }
      });
+  }
+
+  getEmployeeOfMain(id: any): void {
+    this.service.getEmployeeOfMain(id).subscribe(data => {
+      if(data){
+        this.localStorageService.store('employeeofmain', data);
+        //this.localStorageService.store('profileImgId', data.profileImgId);
+      }
+    });
   }
 
   resetInterst(){

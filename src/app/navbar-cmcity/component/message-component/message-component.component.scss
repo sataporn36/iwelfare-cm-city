@@ -80,6 +80,13 @@ textarea{
     background: #74b9ff;
 }
 
+.notify-badge-4 {
+    width: 50px;
+    padding: 6px;
+    border-radius: 10px;
+    background: #00bcd4;
+}
+
 :host ::ng-deep p-paginator div{
     display: flex;
     justify-content: flex-end;

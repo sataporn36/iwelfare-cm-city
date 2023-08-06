@@ -709,4 +709,16 @@ export class MainService {
     );
   }
 
+  updateBeneficiaryId(playload: any): Observable<any> {
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-beneficiary-id', playload
+    );
+  }
+
+  deleteNotify(id: number): Observable<any> {
+    return this.http.delete<any>(
+      AppPath.APP_API_SERVICE + '/v1/notify/delete-notify/' + id ,
+    );
+  }
+
 }

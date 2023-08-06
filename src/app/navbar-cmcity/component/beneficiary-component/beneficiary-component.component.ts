@@ -21,6 +21,7 @@ export class BeneficiaryComponentComponent implements OnInit {
   displayModal: boolean = false;
   selectedProducts!: any;
   beneficiaryInfo: any = [];
+  filteredData: any = [];
 
   constructor(
     private service: MainService,
@@ -46,6 +47,7 @@ export class BeneficiaryComponentComponent implements OnInit {
 
   searchBeneficiary(id: any) {
     this.service.searchBeneficiary(id).subscribe(data => {
+      this.filteredData = data.filter((item) => item.active === false);
       this.beneficiaryInfo = data;
     });
   }
@@ -55,20 +57,28 @@ export class BeneficiaryComponentComponent implements OnInit {
       const beneficiary = this.beneficiaryInfo.find(info => info.id === product.id);
       if (beneficiary) {
         beneficiary.active = true;
+        beneficiary.empId = this.userId;
       }
     }
 
     for (const beneficiary of this.beneficiaryInfo) {
       if (!this.selectedProducts.some(product => product.id === beneficiary.id)) {
         beneficiary.active = false;
+        beneficiary.empId = this.userId;
       }
     }
 
     console.log("beneficiaryInfo", this.beneficiaryInfo);
-    this.service.updateBeneficiaryLogic(this.beneficiaryInfo).subscribe(data => {
-      this.showSuccess();
-      this.displayModal = false;
-      this.ngOnInit();
+    // this.service.updateBeneficiaryLogic(this.beneficiaryInfo).subscribe(data => {
+    //   this.showSuccess();
+    //   this.displayModal = false;
+    //   this.ngOnInit();
+    // });
+
+    this.service.updateBeneficiaryId(this.beneficiaryInfo).subscribe(data => {
+        this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+        this.displayModal = false;
+        this.ngOnInit();
     });
   }
 

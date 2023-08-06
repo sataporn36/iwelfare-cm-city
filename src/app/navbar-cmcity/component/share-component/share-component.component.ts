@@ -848,6 +848,7 @@ export class ShareComponentComponent implements OnInit {
     this.service.searchEmployeeLoanNew(payload).subscribe({
       next: async (res) => {
         const dataRes = res;
+        console.log(dataRes,'<-------- dataRes');
 
         if (res == null) {
           this.showWarnNull();

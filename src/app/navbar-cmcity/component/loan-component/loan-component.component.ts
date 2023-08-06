@@ -327,7 +327,8 @@ export class LoanComponentComponent implements OnInit {
 
   searchLoanDetail(id: any): void {
     const payload = {
-      loanId: id
+      loanId: id,
+      empId: this.userId
     }
     this.service.searchLoanDetail(payload).subscribe(data => {
       this.dataLoanDetail = data
@@ -394,12 +395,11 @@ export class LoanComponentComponent implements OnInit {
   searchDocumentV1PDF(mode: any) {
 
     // let loanInfo: any[] = [];
-    console.log(this.loanId, '<---------- this.loanId');
-
     const playload = {
       loanId: this.loanId,
       monthCurrent: null,  //this.month
-      admin: true
+      admin: true,
+      empId: this.userId
     }
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
@@ -510,7 +510,8 @@ export class LoanComponentComponent implements OnInit {
               ],
               ...detailLoan,
               [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ',
-              { text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ', ' ', ' ', ' ',
+              //{ text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ', ' ', ' ', ' ',
+              { text: ' ', alignment: 'right' }, ' ', ' ', ' ', ' ',
               { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' },
               { text: decimalPipe.transform(dataSum.monthPrincipleSum), alignment: 'right' },
               { text: decimalPipe.transform(dataSum.lastMonthInterestSum), alignment: 'right' },

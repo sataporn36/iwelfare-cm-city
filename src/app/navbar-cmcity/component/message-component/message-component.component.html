@@ -165,8 +165,48 @@
                 <label  class="block">หนี้คงค้าง</label>
                 <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
               </div>
+              <div *ngIf="this.descriptionUser">
+                <button type="button" class="btn btn-login" style="width: max-content;" (click)="onCheckBeneficiary()">ข้อมูลการเปลี่ยนผู้รับผลประโยช์</button>
+              </div>
           </div>
       </div>
     </div>
   </div>
+</p-dialog>
+
+
+<p-dialog header="ข้อมูลการเปลี่ยนผู้รับผลประโยช์" [(visible)]="displayModalUser" [modal]="true" [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }"
+  [draggable]="false" [resizable]="false">
+  <div>
+    <div class="col-12">
+        <div>
+             <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อผู้รับผลประโยชน์ทั้งหมด</span>
+             <div *ngFor="let allUser of arrayListDescriptionUser">
+                <div style="display: flex; padding: 0.5rem 0.5rem;">
+                  <p-chip label="{{ allUser.prefix + allUser.firstName + ' ' + allUser.lastName }}" icon="pi pi-user"></p-chip>
+                  &nbsp;&nbsp;&nbsp;
+                  <div style="padding-top: 0.2rem;">
+                    <p-tag [style]="{ 'background-color': checkRelationshipColor(allUser.relationship) }" value="{{ allUser.relationship }}"></p-tag>
+                  </div>
+                </div>
+             </div>
+        </div>
+        <div style="padding-top: 1rem;">
+             <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อขอเปลี่ยนผู้รับผลประโยชน์</span>
+             <div *ngFor="let selectUser of filteredData">
+                <div style="display: flex; padding: 0.5rem 0.5rem;">
+                  <p-chip label="{{ selectUser.prefix + selectUser.firstName + ' ' + selectUser.lastName }}" icon="pi pi-user"></p-chip>
+                  &nbsp;&nbsp;&nbsp;
+                  <div style="padding-top: 0.2rem;">
+                    <p-tag [style]="{ 'background-color': checkRelationshipColor(selectUser.relationship) }" value="{{ selectUser.relationship }}"></p-tag>
+                  </div>
+                </div>
+             </div>
+        </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-login" (click)="updateBeneficairyList(arrayListDescriptionUser)">ยืนยัน</button>
+    <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+  </ng-template>
 </p-dialog>
