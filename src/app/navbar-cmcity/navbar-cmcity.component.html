@@ -12,7 +12,7 @@
                         <span>พนักงานและลูกจ้าง</span>
                     </div>
                 </div>
-                <div>
+                <div style="margin-bottom: 20px; margin-top: -10px;">
                     <ul class="nav nav-bordered nav-stacked flex-md-column">
                         <li [ngClass]="'nav-item ' + main">
                             <div class="row" style="margin-left: 10px;">
@@ -146,6 +146,11 @@
                                                 style="display: flex; align-items: center;"
                                                 (click)="checkActive('settingDividend')">การจัดการเงินปันผล</a>
                                         </li>
+                                        <li class="nav-items">
+                                            <a [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
+                                                style="display: flex; align-items: center;"
+                                                (click)="checkActive('settingNews')">ข่าวสาร</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -233,7 +238,7 @@
                 <div class="bar" style="display: flex; justify-content:center; align-items: center; gap: 1.5rem; margin-right: 1%">
                     <div routerLink="message-page" (click)="checkActive('message')" *ngIf="messager">
                         <span *ngIf="countNotify > 0"
-                            class="count position-absolute translate-middle badge rounded-pill bg-danger">
+                            class="count position-absolute translate-middle badge rounded-pill bg-danger" style="margin-top: 5px;">
                             {{ countNotify }}
                             <span class="visually-hidden">unread messages</span>
                         </span>

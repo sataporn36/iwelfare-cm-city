@@ -20,9 +20,9 @@
   height: 3rem;
 }
 
-.col-12 {
-  //padding: 0.75rem;
-}
+// .col-12 {
+//   //padding: 0.75rem;
+// }
 
 .div-profile {
   width: 100%;
@@ -32,8 +32,9 @@
   border-bottom-right-radius: 15px;
   margin-top: -120px;
   z-index: 1;
-  padding-top: 150px;
-  padding-left: 40px;
+  padding-top: 130px;
+  padding-left: 50px;
+  // padding-right: 0px;
   padding-bottom: 2rem;
 }
 
@@ -126,24 +127,75 @@
 }
 
 .div-profile-three {
-  width: 100%;
-  //height: 380px;
+  width: 75%;
+  height: fit-content;
   background: #fff;
   border-radius: 15px;
   margin-top: 20px;
   z-index: 1;
-  padding-top: 50px;
-  padding-left: 40px;
-  padding-bottom: 2rem;
-  .col-2 {
-    width: 250px;
-    margin-top: 25px;
+  padding: 50px;
+  // padding-top: 50px;
+  // padding-left: 40px;
+  padding-bottom: 1.5rem;
+  // .col-2 {
+  //   width: 250px;
+  //   margin-top: 25px;
+  // }
+  justify-content: center;
+  .text{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    // .col-2 {
+    //   width: 33.3%;
+    // }
+  }
+}
+
+.div-doc{
+  width: 24%;
+  background-color: #fff; 
+  margin-top: 1.2rem; 
+  padding: 2rem; 
+  border-radius: 15px;
+  // height: ;
+  .doc-group {
+    display: flex; 
+    margin-left: 5px;
+  }
+  p{
+    color: #5d6066;
+    margin-top: 20px; 
   }
 }
 
 .div-profile-four {
   width: 520px;
-  height: 380px;
+  // height: 380px;
+  background: #fff;
+  border-radius: 15px;
+  margin-top: 20px;
+  padding: 2rem;
+
+  .col-12 {
+    padding: 0.5rem;
+  }
+
+  label {
+    font-size: 15px;
+    color: #747d8c;
+  }
+}
+
+.div-profile-six-child{
+  border: 2px solid #F0F2F2;  
+  height: 22.3rem; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  // width: 350px;
+  width: 350px;
+  // height: 380px;
   background: #fff;
   border-radius: 15px;
   margin-top: 20px;
@@ -161,7 +213,7 @@
 
 .div-profile-six {
   width: 350px;
-  height: 380px;
+  // height: 380px;
   background: #fff;
   border-radius: 15px;
   margin-top: 20px;
@@ -183,8 +235,9 @@
   border-radius: 15px;
   margin-top: 20px;
   z-index: 1;
+  padding: 30px;
   .col {
-    width: 376px;
+    width: 370px;
   }
 }
 
@@ -244,7 +297,7 @@
   //margin-top: 200px;
 
   .btn {
-    width: 130px;
+    width: max-content;
     height: 34px;
     font-weight: 500;
     font-size: 15px;
@@ -271,7 +324,7 @@
   .btn-login2 {
     color: #fff;
     background-color: #fe6bba;
-    width: 230px;
+    // width: 230px;
   }
 
 
@@ -589,7 +642,7 @@
 }
 
 .pic-holder .pic {
-  // height: 100%;
+  height: 100%;
   width: 100%;
   // object-fit: cover;
   // object-position: center;
@@ -687,5 +740,191 @@
   .col-5 {
     flex: 0 0 auto;
     width: 43%;
+  }
+}
+
+// doc
+.pic-holder-doc {
+  display: flex;
+  // text-align: center;
+  position: relative;
+  border-radius: 5px;
+  // width: 100%;
+  // height: 20%;
+  width: 145px;
+  height: 180px;
+  overflow: hidden;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // justify-content: center;
+  border: 1px solid #b4b2b2;
+  // margin-bottom: 20px;
+  // margin-top: -0px;
+  //margin-left: -12px;
+}
+
+.pic-holder-doc .pic-doc {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  // object-fit: cover;
+  // object-position: center;
+}
+
+.pic-holder-doc .upload-file-block,
+.pic-holder-doc .upload-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(90, 92, 105, 0.7);
+  color: #f8f9fc;
+  font-size: 14px;
+  // font-weight: 600;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.pic-holder-doc .upload-file-block {
+  cursor: pointer;
+}
+
+.pic-holder-doc:hover .upload-file-block,
+.uploadProfileInput:focus ~ .upload-file-block {
+  opacity: 1;
+}
+
+.pic-holder-doc .uploadInProgress .upload-file-block {
+  display: none;
+}
+
+.pic-holder-doc .uploadInProgress .upload-loader {
+  opacity: 1;
+}
+
+.galleria-img{
+  width: 120%; 
+  display: block;
+}
+
+.div-profile-button{
+  margin-left: 3%;
+}
+
+@media screen and (max-width: 1366px) {
+  .div-background {
+    width: 100%;
+  }
+  .div-profile .text .row .col-2 {
+    width: 200px;
+  }
+
+  .div-profile .text .row .col-4 {
+    width: 45%;
+    margin-left: -80px;
+  }
+
+  .div-profile .text .row .col-12 {
+    width: 50%;
+    margin-left: -80px;
+  }
+
+  .div-profile-button{
+    margin-left: -23%;
+  }
+
+  .div-profile-three {
+    width: 75%;
+    .text{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .col-2 {
+        width: 33.3%;
+      }
+    }
+  }
+
+  .div-doc {
+    .doc-group {
+      display: flex; 
+      margin-left: 5px;
+      flex-direction: column;
+    }
+    .pic-holder-doc {
+      width: 180px;
+      height: 180px;
+    }
+  }
+
+  .galleria-img{
+    width: 100%; 
+    display: block;
+  }
+
+  .div-profile-six-child{
+    border: 2px solid #F0F2F2;  
+    height: 22.3rem; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    // width: 350px;
+    width: 330px;
+    // height: 380px;
+    background: #fff;
+    border-radius: 15px;
+    margin-top: 20px;
+    padding: 2rem;
+  
+    .col-12 {
+      padding: 0.5rem;
+    }
+  
+    label {
+      font-size: 15px;
+      color: #747d8c;
+    }
+  }
+
+  .div-profile-six {
+    width: 330px;
+    // height: 380px;
+    background: #fff;
+    border-radius: 15px;
+    margin-top: 20px;
+    padding: 2rem;
+  
+    .col-12 {
+      padding: 0.5rem;
+    }
+  
+    label {
+      font-size: 15px;
+      color: #747d8c;
+    }
+  }
+  
+  .div-profile-five {
+    width: 100%;
+    background: #fff;
+    border-radius: 15px;
+    margin-top: 20px;
+    z-index: 1;
+    padding: 30px;
+    .col {
+      width: 350px;
+    }
+  }
+
+  .btn-child {
+    width: 6.8rem;
+    .btn {
+      width: fit-content;
+    }
   }
 }

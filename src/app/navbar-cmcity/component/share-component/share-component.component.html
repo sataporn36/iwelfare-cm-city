@@ -22,7 +22,7 @@
                     <th style="width:15%">ปีที่ทำรายการ</th>
                     <th style="width:15%">ชื่อรายการ</th>
                     <th style="width:10%">งวดที่</th>
-                    <th style="width:15%">เงินหุ้นส่งรายเดือน</th>
+                    <th style="width:15%">เงินส่งหุ้นรายเดือน</th>
                     <th style="width:15%">หุ้นสะสม</th>
                 </tr>
             </ng-template>
@@ -31,7 +31,7 @@
                     <td>{{ i+1 }}</td>
                     <td>{{ stockDetail.stockMonth }}</td>
                     <td>{{ stockDetail.stockYear }}</td>
-                    <td>ชำระหนี้ประจำเดือน</td>
+                    <td>ชำระหุ้นรายเดือน</td>
                     <td>{{ stockDetail.installment }}</td>
                     <td style="color: #EA3A3D;">{{ stockDetail.stockValue | number }}</td>
                     <td style="color: #1AD598;">{{ stockDetail.stockAccumulate | number }}</td>

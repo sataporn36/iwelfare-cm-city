@@ -1,0 +1,145 @@
+<div class="add-news">
+    <div [formGroup]="newsModel">
+        <p-chip label="เพิ่มข่าวสาร" styleClass="mr-2"></p-chip>
+        <div style="display: flex;">
+            <div class="col-3 div-img">
+                <p-chip label="รูปหลัก" styleClass="mr-2"></p-chip>
+                <div class="img-css">
+                    <div class="profile-pic-wrapper">
+                        <div class="pic-holder">
+                            <img id="profilePic" class="pic" [src]="imageCover">
+                            <input class="uploadProfileInput" type="file" (change)="onNewsPicChange($event)"
+                                id="newsPhoto" accept="image/*" style="opacity: 0;" />
+                            <label for="newsPhoto" class="upload-file-block">
+                                <div class="text-center">
+                                    <div class="mb-2">
+                                        <i class="bi bi-camera-fill fa-2x"></i>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        อัพโหลด
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left: 0.5rem;"></div>
+            <div class="col-9 div-text">
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                    <p-chip label="รายละเอียด" styleClass="mr-2"></p-chip>
+                    <button type="button" (click)="onAccept()" class="btn btn-login">บันทึก</button>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="block">เรื่อง</label>
+                        <input class="form-control" type="text" formControlName="name" />
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="block">รายละเอียด</label>
+                        <textarea class="form-control" type="text" formControlName="description" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <p-table #dt2 [value]="listEmp" dataKey="id" editMode="row" [rows]="5" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[5, 10, 25, 50]" [loading]="loading" [paginator]="true" selectionMode="single"
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ" [globalFilterFields]="['name']"
+        [tableStyle]="{'max-width': '100%'}">
+        <ng-template pTemplate="caption">
+            <div class="flex" style="display: flex; justify-content: space-between;">
+                <div>
+                    <p-chip label="การจัดการข่าวสาร" styleClass="mr-2"></p-chip>
+                </div>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="bi bi-search" style="color: #979797; display: flex;"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                        placeholder="ค้นหา" style="width: 10rem; border-radius: 10px; height: 45px; font-size: 15px;" />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%">เรื่อง</th>
+                <th style="width:20%">รายละเอียด</th>
+                <th style="width:20%">วันที่ข่าวสาร</th>
+                <th style="width:20%">แก้ไข</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-listEmp let-i="rowIndex">
+            <tr [pEditableRow]="listEmp">
+                <td>{{ listEmp.name }}</td>
+                <td>{{ listEmp.description }}</td>
+                <td>{{ pipeDateTHD(listEmp.createDate) }}</td>
+                <td style="display: flex; justify-content: center;">
+                    <div class="news-button" style="display: flex;">
+                        <button type="button" (click)="onEdit(listEmp.id)" class="btn btn-login"><i class="pi pi-file-edit"></i></button>
+                        <button type="button" (click)="onDelete(listEmp.id)" class="btn btn-icon"><i class="pi pi-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">ไม่พบข้อมูลข่าวสารในฐานข้อมูล</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-dialog header="แก้ไขข่าวสาร" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }"
+    [breakpoints]="{ '1000px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
+    <div [formGroup]="detailModel">
+        <div class="div-detail-news">
+            <div class="div-img">
+                <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
+                <div class="img-css">
+                    <div class="profile-pic-wrapper">
+                        <div class="pic-holder">
+                            <img id="profilePic" class="pic" [src]="imageCoverDetail">
+                            <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
+                                id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                            <label for="newProfilePhoto" class="upload-file-block">
+                                <div class="text-center">
+                                    <div class="mb-2">
+                                        <i class="bi bi-camera-fill fa-2x"></i>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        อัพโหลด
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left: 0.5rem;"></div>
+            <div class="col-8 div-text">
+                <div class="div-info-bt">
+                    <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>
+                    <div style="display: flex;">
+                        <button type="button" (click)="onAcceptDetail()" class="btn btn-login">บันทึก</button>
+                        <button type="button" (click)="onClearDetail()" class="btn btn-regis">ยกเลิก</button>
+                    </div>
+                </div>
+                <div class="div-info">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label class="block">เรื่อง</label>
+                            <input class="form-control" type="text" formControlName="name" />
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="block">รายละเอียด</label>
+                            <textarea class="form-control" type="text" formControlName="description"
+                                rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+<p-toast></p-toast>

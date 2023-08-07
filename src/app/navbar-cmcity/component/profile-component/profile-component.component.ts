@@ -107,6 +107,8 @@ export class ProfileComponentComponent implements OnInit {
   gender: any;
   profileImgId: any;
   imageSrc: SafeUrl;
+  imageSrcAddress: SafeUrl;
+  imageSrcIdCard: SafeUrl;
 
   constructor(
     private service: MainService,
@@ -1363,11 +1365,40 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
+  displayBasicAddress: boolean | undefined;
+  displayBasicIdCard: boolean | undefined;
+  imagesAddress: any[] = [];
+  imagesIdCard: any[] = [];
+
   getImage(id: any) {
     if (id != 0) {
       this.service.getImage(id).subscribe(
         (imageBlob: Blob) => {
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+        },
+        (error: any) => {
+          console.error('Failed to fetch image:', error);
+        }
+      );
+
+      this.service.getImageAddress(id).subscribe(
+        (imageBlob: Blob) => {
+          this.imageSrcAddress = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imagesAddress.push({
+            itemImageSrc : this.imageSrcAddress
+          })
+        },
+        (error: any) => {
+          console.error('Failed to fetch image:', error);
+        }
+      );
+
+      this.service.getImageIdCard(id).subscribe(
+        (imageBlob: Blob) => {
+          this.imageSrcIdCard = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imagesIdCard.push({
+            itemImageSrc : this.imageSrcIdCard
+          })
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -1389,6 +1420,48 @@ export class ProfileComponentComponent implements OnInit {
         this.ngOnInit();
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
+      },
+      (error) => {
+        console.log('Error uploading image:', error);
+        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+      }
+    );
+  }
+
+  onProfilePicChangeDocAddress(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('empId', this.userId.toString());
+
+    this.service.uploadImageAddress(formData).subscribe(
+      () => {
+        console.log('Image uploaded successfully.');
+        this.ngOnInit();
+        this.ngOnInit();
+        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ' });
+      },
+      (error) => {
+        console.log('Error uploading image:', error);
+        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+      }
+    );
+  }
+
+  onProfilePicChangeDocIdCard(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('empId', this.userId.toString());
+
+    this.service.uploadImageIdCard(formData).subscribe(
+      () => {
+        console.log('Image uploaded successfully.');
+        this.ngOnInit();
+        this.ngOnInit();
+        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ' });
       },
       (error) => {
         console.log('Error uploading image:', error);

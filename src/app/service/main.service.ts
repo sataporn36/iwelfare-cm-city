@@ -395,6 +395,12 @@ export class MainService {
     );
   }
 
+  resetPassword(playload: any): Observable<any> {
+    return this.http.put<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/login/change/reset-password', playload
+    );
+  }
+
   searchRegister(): Observable<SearchNewResgter[]> {
     return this.http.post<SearchNewResgter[]>(AppPath.APP_API_SERVICE + '/logic/v1/register/search-register', null);
   }
@@ -660,10 +666,34 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/v1/file-resource/display/' + id, { responseType: 'blob' as 'json' }
     );
   }
+  
+  getImageIdCard(id: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/display/id-card/' + id, { responseType: 'blob' as 'json' }
+    );
+  }
+
+  getImageAddress(id: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/display/address/' + id, { responseType: 'blob' as 'json' }
+    );
+  }
 
   uploadImage(playload: any): Observable<any> {
     return this.http.post(
       AppPath.APP_API_SERVICE + '/v1/file-resource/add', playload 
+    );
+  }
+
+  uploadImageIdCard(playload: any): Observable<any> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/add-id-card', playload 
+    );
+  }
+
+  uploadImageAddress(playload: any): Observable<any> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/add-address', playload 
     );
   }
 
@@ -721,4 +751,53 @@ export class MainService {
     );
   }
 
+  searchEmployee(): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/employee/search', null);
+  }
+
+  updateInfo(playload: any): Observable<any> {
+    return this.http.put<any>(
+      AppPath.APP_API_SERVICE + '/admin/logic/update-info', playload
+    );
+  }
+
+  uploadImageNews(playload: any): Observable<any> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/add-news', playload 
+    );
+  }
+
+  getImageNews(id: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/display/news/' + id, { responseType: 'blob' as 'json' }
+    );
+  }
+
+  searchNews(): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/news/search', null);
+  }
+
+  createNews(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/v1/news', playload
+    );
+  }
+
+  getNews(id: number): Observable<any> {
+    return this.http.get<any>(
+      AppPath.APP_API_SERVICE + '/v1/news/' + id,
+    );
+  }
+
+  editNews(playload: any): Observable<any> {
+    return this.http.put<any>(
+      AppPath.APP_API_SERVICE + '/v1/news/update', playload
+    );
+  }
+
+  deleteNews(id: number): Observable<any> {
+    return this.http.delete<any>(
+      AppPath.APP_API_SERVICE + '/v1/news/' + id,
+    );
+  }
 }

@@ -43,6 +43,7 @@ export class NavbarCmcityComponent implements OnInit {
   settingStock: any;
   settingLoan: any;
   settingDividend: any;
+  settingNews: any;
   admin: boolean = false;
 
   constructor(
@@ -109,6 +110,13 @@ export class NavbarCmcityComponent implements OnInit {
         }
       },
       {
+        label: 'เปลี่ยนรหัสผ่าน',
+        icon: 'pi pi-bars',
+        command: () => {
+          this.onForgetPassword();
+        }
+      },
+      {
         label: 'ออกจากระบบ',
         icon: 'pi pi-sign-out',
         command: () => {
@@ -156,6 +164,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.checkActive('settingDividend')
        }else if(url.toLowerCase().includes('profile')){
         this.checkActive('profile')
+       }else if(url.toLowerCase().includes('news-page')){
+        this.checkActive('settingNews')
        }
       //  else if(url.toLowerCase().includes('')){
       //   this.checkActive('setting')
@@ -186,8 +196,12 @@ export class NavbarCmcityComponent implements OnInit {
   }
 
   onProfile() {
-    this.router.navigate(['/main/profile-page'])
-    this.checkActive("profile")
+    this.router.navigate(['/main/profile-page']);
+    this.checkActive("profile");
+  }
+
+  onForgetPassword() {
+    this.router.navigate(['/main/reset-password-page']);
   }
 
   onLogout() {
@@ -227,6 +241,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "deposit":
         this.main = "";
@@ -244,6 +259,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "stock":
         this.main = "";
@@ -261,6 +277,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "loan":
         this.main = "";
@@ -278,6 +295,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "rigths":
         this.main = "";
@@ -295,6 +313,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "beneficiary":
         this.main = "";
@@ -312,6 +331,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "guarantee":
         this.main = "";
@@ -329,6 +349,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "dividend":
         this.main = "";
@@ -346,6 +367,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "profile":
         this.main = "";
@@ -363,6 +385,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "message":
         this.main = "";
@@ -380,6 +403,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "";
+        this.settingNews = "";
         break;
       case "settingEmployee":
         this.main = "";
@@ -397,6 +421,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "active";
+        this.settingNews = "";
         break;
       case "settingStock":
         this.main = "";
@@ -414,6 +439,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "";
         this.settingDividend = "";
         this.setting = "active";
+        this.settingNews = "";
         break;
       case "settingLoan":
         this.main = "";
@@ -431,6 +457,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingLoan = "active";
         this.settingDividend = "";
         this.setting = "active";
+        this.settingNews = "";
         break;
         case "settingDividend":
           this.main = "";
@@ -448,7 +475,26 @@ export class NavbarCmcityComponent implements OnInit {
           this.settingLoan = "";
           this.settingDividend = "active";
           this.setting = "active";
+          this.settingNews = "";
           break;
+          case "settingNews":
+            this.main = "";
+            this.deposit = "";
+            this.stock = "";
+            this.loan = "";
+            this.rigths = "";
+            this.beneficiary = "";
+            this.guarantee = "";
+            this.dividend = "";
+            this.profile = "";
+            this.message = "";
+            this.settingEmployee = "";
+            this.settingStock = "";
+            this.settingLoan = "";
+            this.settingDividend = "";
+            this.setting = "active";
+            this.settingNews = "active";
+            break;
       default:
         break;
     }

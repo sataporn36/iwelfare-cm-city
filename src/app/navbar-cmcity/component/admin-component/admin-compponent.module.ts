@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 import { AdminCompponentRoutingModule } from './admin-compponent-routing.module';
 import { AdminComponent1Component } from './component/admin-component1/admin-component1.component';
@@ -41,6 +41,13 @@ import { GalleriaModule } from 'primeng/galleria';
 import { PickListModule } from 'primeng/picklist';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
+import { SlideMenuModule } from 'primeng/slidemenu';
+import { AppComponent } from 'src/app/app.component';
+import { AdminNewsPageComponent } from './page/admin-news-page/admin-news-page.component';
+import { AdminNewsComponentComponent } from './component/admin-news-component/admin-news-component.component';
 
 @NgModule({
   declarations: [
@@ -51,8 +58,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     AdminPage2Component,
     AdminPage3Component,
     AdminComponent4Component,
-    AdminPage4Component
+    AdminPage4Component,
+    AdminNewsPageComponent,
+    AdminNewsComponentComponent,
   ],
+  bootstrap: [AppComponent],
+  providers: [DecimalPipe],
   imports: [
     CommonModule,
     AdminCompponentRoutingModule,
@@ -88,7 +99,13 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     GalleriaModule,
     PickListModule,
     RadioButtonModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    PanelMenuModule,
+    FileUploadModule,
+    ImageModule,
+    GalleriaModule,
+    PickListModule,
+    SlideMenuModule
   ]
 })
 export class AdminCompponentModule { }

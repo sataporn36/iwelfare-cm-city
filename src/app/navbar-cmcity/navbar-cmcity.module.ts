@@ -55,9 +55,13 @@ import { ChartModule } from 'primeng/chart';
 import { AdminComponentComponent } from './component/admin-component/admin-component.component';
 import { AdminCompponentModule } from './component/admin-component/admin-compponent.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
 import { PickListModule } from 'primeng/picklist';
 import { SlideMenuModule } from 'primeng/slidemenu';
+import { ResetPasswordPageComponent } from './page/reset-password-page/reset-password-page.component';
+import { ResetPasswordComponentComponent } from './component/reset-password-component/reset-password-component.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +85,9 @@ import { SlideMenuModule } from 'primeng/slidemenu';
     ProfilePageComponent,
     MessageComponentComponent,
     MessagePageComponent,
-    AdminComponentComponent
+    AdminComponentComponent,
+    ResetPasswordPageComponent,
+    ResetPasswordComponentComponent
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent],
@@ -119,6 +125,8 @@ import { SlideMenuModule } from 'primeng/slidemenu';
     ChartModule,
     AdminCompponentModule,
     PanelMenuModule,
+    FileUploadModule,
+    ImageModule,
     GalleriaModule,
     PickListModule,
     SlideMenuModule

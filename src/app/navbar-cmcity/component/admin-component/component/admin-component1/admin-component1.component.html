@@ -1,4 +1,3 @@
-
 <p-blockUI [blocked]="blockedDocument">
     <div style="display: grid; justify-content: center; align-items: center;">
         <!-- <i class="pi pi-lock" style="font-size: 3rem; color: #FFFFFF; text-align: center;"></i> <br>
@@ -8,23 +7,50 @@
 </p-blockUI>
 
 <div class="card">
-    <div style="display: flex; justify-content: space-between;">
-        <div>
-            <p-chip label="การจัดการสมาชิก" styleClass="mr-2"></p-chip>
-        </div>
-        <!-- <div>
-            <button type="button" (click)="displayDialog()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
-        </div> -->
-        <div class="search" style="display: flex; justify-content: space-between;">
-            <input class="form-control search" type="text" placeholder="ค้นหาสมาชิก" aria-label="Search" />
-            <svg width="15" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M19.1848 20.6L14.6738 16.088C11.1558 18.8606 6.08655 18.4109 3.11151 15.0625C0.136414 11.714 0.286499 6.62711 3.4538 3.45985C6.62103 0.292603 11.708 0.142586 15.0564 3.11768C18.4048 6.09278 18.8544 11.162 16.0818 14.68L20.5938 19.191C20.9279 19.5882 20.9027 20.1749 20.5357 20.5419C20.1687 20.9089 19.582 20.9342 19.1848 20.6L19.1848 20.6ZM2.96375 9.44102C2.96375 12.0414 4.52118 14.3899 6.91748 15.4021C9.31378 16.4142 12.0833 15.8933 13.9481 14.0797C13.9677 14.057 13.9868 14.035 14.0078 14.014C14.0287 13.993 14.0508 13.973 14.0728 13.955C16.1074 11.8638 16.4909 8.66951 15.0091 6.15607C13.5272 3.64262 10.5466 2.43175 7.73169 3.19964C4.91681 3.96754 2.96399 6.52424 2.96375 9.44199V9.44102Z"
-                    fill="#979797" />
-            </svg>
-        </div>
-    </div>
+    <p-table #dt2 [value]="listEmp" dataKey="id" editMode="row" [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" selectionMode="single"
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]"
+        [tableStyle]="{'max-width': '100%'}">
+        <ng-template pTemplate="caption">
+            <div class="flex" style="display: flex; justify-content: space-between;">
+                <!-- <span style="margin-top: 10px; font-weight: normal; font-size: 18px;">
+                    ตารางการส่งเงินกู้ของสมาชิก</span> -->
+                <div>
+                    <p-chip label="การจัดการสมาชิก" styleClass="mr-2"></p-chip>
+                </div>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="bi bi-search" style="color: #979797; display: flex;"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                        placeholder="ค้นหา" style="width: 10rem; border-radius: 10px; height: 45px; font-size: 15px;" />
+                </span>
+            </div>
+        </ng-template>
 
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%">รหัสพนักงาน</th>
+                <th style="width:20%">คำนำหน้า</th>
+                <th style="width:20%">ชื่อ</th>
+                <th style="width:20%">นามสกุล</th>
+                <th style="width:20%">เลขประจำตัวประชาชน</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-listEmp let-i="rowIndex">
+            <tr [pEditableRow]="listEmp" (click)="clickInfo(listEmp.id)">
+                <td>{{ listEmp.employeeCode }}</td>
+                <td>{{ listEmp.prefix }}</td>
+                <td>{{ listEmp.firstName }}</td>
+                <td>{{ listEmp.lastName }}</td>
+                <td>{{ listEmp.idCard }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">ไม่พบข้อมูลสมาชิกในฐานข้อมูล</td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
 
 <div style="display: flex; justify-content: space-between;">
@@ -32,16 +58,18 @@
         <div>
             <p-chip label="อัตาราดอกเบี้ย (%)" styleClass="mr-2"></p-chip>
         </div>
-        <div  class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
-            <div [formGroup]="formModelInterest" >
-                <div class="col-12" style="padding: 1rem;" >
-                    <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตาราดอกเบี้ย จะมีการคำนวณเงินกู้ใหม่หรืออื่นๆที่มีการเรียกใช้อัตาราดอกเบี้ยทั้งหมด</label>
+        <div class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
+            <div [formGroup]="formModelInterest">
+                <div class="col-12" style="padding: 1rem;">
+                    <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตาราดอกเบี้ย
+                        จะมีการคำนวณเงินกู้ใหม่หรืออื่นๆที่มีการเรียกใช้อัตาราดอกเบี้ยทั้งหมด</label>
                 </div>
                 <div style="display: grid; justify-content: center; padding-top: 2rem;">
                     <label class="block">อัตาราดอกเบี้ย</label>
                     <div style="display: flex;">
                         <p-inputNumber formControlName="interest" inputId="minmaxfraction" mode="decimal"
-                        [required]="true"[maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" [min]="0"></p-inputNumber>
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
+                            [maxFractionDigits]="5" [min]="0"></p-inputNumber>
                         <label class="block" style="padding-left: 1rem; padding-top: 1rem;"> % </label>
                     </div>
                 </div>
@@ -49,7 +77,7 @@
         </div>
         <div class="col-12" style="display: flex; padding-top: 3rem; justify-content: flex-end;">
             <button (click)="updateIntereat()" type="button" class="btn btn-login2">บันทึก</button>
-             <div style="padding-left: 0.5rem;"></div>
+            <div style="padding-left: 0.5rem;"></div>
             <button (click)="resetInterst()" type="button" class="btn btn-login2">ยกเลิก</button>
         </div>
     </div>
@@ -58,72 +86,64 @@
         <div>
             <p-chip label="รูปภาพลายเซ็น" styleClass="mr-2"></p-chip>
         </div>
-        <div  class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
+        <div class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
             <div style="display: flex;">
-                <div  style="padding-left: 1rem;">
+                <div style="padding-left: 1rem;">
                     <div style="display: flex; justify-content: center;">
-                        <img id="profilePic1" class="pic1" [src]="imageSrc1" >
+                        <img id="profilePic1" class="pic1" [src]="imageSrc1">
                     </div>
                     <div class="text-img" style="text-align: center;">
                         <label class="block">รูปภาพลายเซ็น (ประธานกองทุน)</label>
                     </div>
                     <div class="btn-img" style="padding-top: 2rem; ">
-                        <button (click)="file1.click()" type="button" class="btn btn-signature1">เปลี่ยนลายเซ็นประธานกองทุน</button>
+                        <button (click)="file1.click()" type="button"
+                            class="btn btn-signature1">เปลี่ยนลายเซ็นประธานกองทุน</button>
                         &nbsp;&nbsp;
-                        <button type="button" class="btn btn-signature1" icon="pi pi-external-link" (click)="displayBasic1 = true">ดูรูปภาพ</button>
+                        <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
+                            (click)="displayBasic1 = true">ดูรูปภาพ</button>
                         <div class="card flex justify-content-center">
-                            <p-galleria
-                                [value]="images1"
-                                [(visible)]="displayBasic1"
-                                [responsiveOptions]="responsiveOptions"
-                                [containerStyle]="{ 'max-width': '850px' }"
-                                [numVisible]="1"
-                                [circular]="false"
-                                [fullScreen]="true"
-                                [showItemNavigators]="false"
-                                [showThumbnails]="false"
-                            >
+                            <p-galleria [value]="images1" [(visible)]="displayBasic1"
+                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
+                                [showThumbnails]="false">
                                 <ng-template pTemplate="item" let-item>
                                     <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
                                 </ng-template>
                             </p-galleria>
                         </div>
                         <br>
-                        <input #file1 class="uploadProfileInput" type="file" (change)="onConfigPicChange($event,'signature1')"
-                        id="newConfigImg1" accept="image/*" style="opacity: 0; width: 50px;" />
+                        <input #file1 class="uploadProfileInput" type="file"
+                            (change)="onConfigPicChange($event,'signature1')" id="newConfigImg1" accept="image/*"
+                            style="opacity: 0; width: 50px;" />
                     </div>
                 </div>
                 <div style="padding-left: 5rem;">
                     <div style="display: flex; justify-content: center;">
-                        <img id="profilePic2" class="pic2" [src]="imageSrc2" >
+                        <img id="profilePic2" class="pic2" [src]="imageSrc2">
                     </div>
                     <div class="text-img" style="text-align: center;">
                         <label class="block">รูปภาพลายเซ็น (เหรัญญิก)</label>
                     </div>
-                    <div  class="btn-img" style="padding-top: 2rem;">
-                        <button (click)="file2.click()" type="button" class="btn btn-signature2">เปลี่ยนลายเซ็นเหรัญญิก</button>
+                    <div class="btn-img" style="padding-top: 2rem;">
+                        <button (click)="file2.click()" type="button"
+                            class="btn btn-signature2">เปลี่ยนลายเซ็นเหรัญญิก</button>
                         &nbsp;&nbsp;
-                        <button type="button" class="btn btn-signature1" icon="pi pi-external-link" (click)="displayBasic2 = true">ดูรูปภาพ</button>
+                        <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
+                            (click)="displayBasic2 = true">ดูรูปภาพ</button>
                         <div class="card flex justify-content-center">
-                            <p-galleria
-                                [value]="images2"
-                                [(visible)]="displayBasic2"
-                                [responsiveOptions]="responsiveOptions"
-                                [containerStyle]="{ 'max-width': '850px' }"
-                                [numVisible]="1"
-                                [circular]="false"
-                                [fullScreen]="true"
-                                [showItemNavigators]="false"
-                                [showThumbnails]="false"
-                            >
+                            <p-galleria [value]="images2" [(visible)]="displayBasic2"
+                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
+                                [showThumbnails]="false">
                                 <ng-template pTemplate="item" let-item>
                                     <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
                                 </ng-template>
                             </p-galleria>
                         </div>
                         <br>
-                        <input #file2 class="uploadProfileInput" type="file" (change)="onConfigPicChange($event,'signature2')"
-                        id="newConfigImg2" accept="image/*" style="opacity: 0; width: 50px;" />
+                        <input #file2 class="uploadProfileInput" type="file"
+                            (change)="onConfigPicChange($event,'signature2')" id="newConfigImg2" accept="image/*"
+                            style="opacity: 0; width: 50px;" />
                     </div>
                 </div>
             </div>
@@ -159,13 +179,16 @@
         </ng-template>
     </p-pickList> -->
 
-    <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป" targetHeader="ผู้ดูเเลระบบ" 
-    [dragdrop]="true" [responsive]="false" [sourceStyle]="{ height: '20rem' }" (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
-    [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก" targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
+    <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป"
+        targetHeader="เจ้าหน้าที่" [dragdrop]="true" [responsive]="false" [sourceStyle]="{ height: '20rem' }"
+        (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
+        [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก"
+        targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
         <ng-template let-employee pTemplate="item">
             <div class="flex flex-wrap p-2 align-items-center gap-3">
                 <span style="font-size: 16px;">{{ employee.fullName }}</span>
-                <span style="padding-left: 1rem;font-size: 16px; color: #fe6bba;">( {{ employee.employeeTypeName ? employee.employeeTypeName : '-' }} )</span>
+                <span style="padding-left: 1rem;font-size: 16px; color: #fe6bba;">( {{ employee.employeeTypeName ?
+                    employee.employeeTypeName : '-' }} )</span>
             </div>
         </ng-template>
     </p-pickList>
@@ -173,3 +196,338 @@
 
 <p-toast></p-toast>
 
+<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '80vw' }"
+    [breakpoints]="{ '1000px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
+    <div [formGroup]="detailModel">
+        <div class="div-profile">
+            <div style="display: flex; flex-direction: column; padding-right: 0.5rem;">
+                <div class="div-img">
+                    <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
+                    <div class="img-css">
+                        <div class="profile-pic-wrapper">
+                            <div class="pic-holder">
+                                <img id="profilePic" class="pic" [src]="profileDetailImg()">
+                                <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
+                                    id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                                <label for="newProfilePhoto" class="upload-file-block">
+                                    <div class="text-center">
+                                        <div class="mb-2">
+                                            <i class="bi bi-camera-fill fa-2x"></i>
+                                        </div>
+                                        <div class="text-uppercase">
+                                            อัพโหลด
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div-doc">
+                    <p-chip label="เอกสาร" styleClass="mr-2"></p-chip>
+                    <div class="doc-group">
+                        <div>
+                            <p style="color: #747d8c;">ทะเบียนบ้าน</p>
+                            <div class="pic-holder-doc">
+                                <img id="profilePicDoc" class="pic-doc" [src]="imageSrcAddress">
+
+                                <input class="uploadProfileInput" type="file"
+                                    (change)="onProfilePicChangeDocAddress($event)" id="newProfilePhotoAddress"
+                                    accept="image/*" style="opacity: 0;" />
+                                <div class="upload-file-block">
+                                    <div class="text-center">
+                                        <div (click)="displayBasicAddress = true">
+                                            <i class="pi pi-eye" style="font-size: 1rem"></i>
+                                        </div>
+                                        <div class="text-uppercase">
+                                            ดูรูป
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 1rem;"></div>
+                                    <label for="newProfilePhotoAddress">
+                                        <div class="text-center">
+                                            <div>
+                                                <i class="pi pi-file-import" style="font-size: 1rem"></i>
+                                            </div>
+                                            <div class="text-uppercase">
+                                                อัพโหลด
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <p-galleria [value]="imagesAddress" [(visible)]="displayBasicAddress"
+                                    [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                    [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
+                                    [showThumbnails]="false">
+                                    <ng-template pTemplate="item" let-item>
+                                        <img [src]="item.itemImageSrc" class="galleria-img" />
+                                    </ng-template>
+                                </p-galleria>
+                            </div>
+                        </div>
+                        <div style="margin-left: 10px;"></div>
+                        <div>
+                            <p style="color: #747d8c;">บัตรประชาชน</p>
+                            <div class="pic-holder-doc">
+                                <img id="profilePicDoc" class="pic-doc" [src]="imageSrcIdCard">
+
+                                <input class="uploadProfileInput" type="file"
+                                    (change)="onProfilePicChangeDocIdCard($event)" id="newProfilePhotoIdCard"
+                                    accept="image/*" style="opacity: 0;" />
+                                <div class="upload-file-block">
+                                    <div class="text-center">
+                                        <div (click)="displayBasicIdCard = true">
+                                            <i class="pi pi-eye" style="font-size: 1rem"></i>
+                                        </div>
+                                        <div class="text-uppercase">
+                                            ดูรูป
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 1rem;"></div>
+                                    <label for="newProfilePhotoIdCard">
+                                        <div class="text-center">
+                                            <div>
+                                                <i class="pi pi-file-import" style="font-size: 1rem"></i>
+                                            </div>
+                                            <div class="text-uppercase">
+                                                อัพโหลด
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <p-galleria [value]="imagesIdCard" [(visible)]="displayBasicIdCard"
+                                    [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                    [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
+                                    [showThumbnails]="false">
+                                    <ng-template pTemplate="item" let-item>
+                                        <img [src]="item.itemImageSrc" class="galleria-img" />
+                                    </ng-template>
+                                </p-galleria>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div-text">
+                <div class="div-info-bt">
+                    <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>
+                    <div style="display: flex;">
+                        <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
+                        <button type="button" (click)="onAccept()" class="btn btn-login" *ngIf="!mode">บันทึก</button>
+                        <button type="button" (click)="onClear()" class="btn btn-regis" *ngIf="!mode">ยกเลิก</button>
+                    </div>
+                </div>
+                <div class="div-info">
+                    <div class="row">
+                        <div class="col-2 mb-3">
+                            <label for="prefix" class="block">คำนำหน้า</label>
+                            <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="firstName" class="block">ชื่อ</label>
+                            <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lastName" class="block">นามสกุล</label>
+                            <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="gender" class="block">เพศ</label>
+                            <input [class]="textString" id="gender" type="text" formControlName="gender" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
+                            <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="birthday" class="block">วันเกิด</label>
+                            <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar"
+                                *ngIf="mode" />
+                            <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode"
+                                (onSelect)="onCheckAge($event)" (onClearClick)="onClearAge()" [showButtonBar]="true"
+                                dateFormat="dd/mm/yy" [maxDate]="defaultDateline"></p-calendar>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="age" class="block">อายุ</label>
+                            <input [class]="textString" id="age" type="text" formControlName="age" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="tel" class="block">หมายเลขโทรศัพท์</label>
+                            <input [class]="textString" id="" type="text" formControlName="tel" maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                (keyup)="checkPhoneNumber()" />
+                            <!-- <em *ngIf="pnumberValidation === true && detailModel.get('tel')?.value">
+                                <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span>
+                            </em> -->
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lineId" class="block">ไลน์ไอดี</label>
+                            <input [class]="textString" id="lineId" type="text" formControlName="lineId" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="facebook" class="block">เฟสบุ๊ค</label>
+                            <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
+                        </div>
+                        <div class="col-4 mb-3">
+                            <label for="email" class="block">อีเมล</label>
+                            <input [class]="textString" id="email" type="text" formControlName="email"
+                                (keyup)="checkEmail()" />
+                            <!-- <em *ngIf="emailValidation === true && detailModel.get('email')?.value">
+                                <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
+                            </em> -->
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label for="address" class="block">ที่อยู่</label>
+                            <input [class]="textString" id="address" type="text" formControlName="address" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="employeeTypeName" class="block">ระดับ</label>
+                            <input [class]="textString" id="levelName" type="text" formControlName="levelName"
+                                *ngIf="mode" />
+                            <div class="col mb-3" *ngIf="!mode">
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="levelId" required="true">
+                                    <option value="0" selected>เลือกระดับ</option>
+                                    <option *ngFor="let level of level" value="{{ level.id }}">{{ level.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
+                            <input [class]="textString" id="employeeTypeName" type="text"
+                                formControlName="employeeTypeName" *ngIf="mode" />
+                            <div class="col mb-3" *ngIf="!mode">
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="employeeTypeId" required="true">
+                                    <option value="0" selected>เลือกประเภทพนักงาน</option>
+                                    <option *ngFor="let employeeType of employeeType" value="{{ employeeType.id }}">{{
+                                        employeeType.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="positionName" class="block">ตำแหน่ง</label>
+                            <input [class]="textString" id="positionName" type="text" formControlName="positionName"
+                                *ngIf="mode" />
+                            <div class="col mb-3" *ngIf="!mode">
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="positionId" required="true">
+                                    <option value="0" selected>เลือกตำแหน่ง</option>
+                                    <option *ngFor="let position of position" value="{{ position.id }}">{{
+                                        position.name
+                                        }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="departmentName" class="block">หน่วยงาน</label>
+                            <input [class]="textString" id="departmentName" type="text" formControlName="departmentName"
+                                *ngIf="mode" />
+                            <div class="col mb-3" *ngIf="!mode">
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="departmentId" required="true">
+                                    <option value="0" selected>เลือกหน่วยงาน</option>
+                                    <option *ngFor="let department of department" value="{{ department.id }}">{{
+                                        department.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="bureauName" class="block">สำนัก</label>
+                            <input [class]="textString" id="bureauName" type="text" formControlName="bureauName"
+                                *ngIf="mode" />
+                            <div class="col mb-3" *ngIf="!mode">
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="bureauId" required="true">
+                                    <option value="0" selected>เลือกสำนัก</option>
+                                    <option *ngFor="let bureau of bureau" value="{{ bureau.id }}">{{ bureau.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="affiliationName" class="block">สังกัด</label>
+                            <input [class]="textString" id="affiliationName" type="text"
+                                formControlName="affiliationName" *ngIf="mode" />
+                            <div class="col mb-3" *ngIf="!mode">
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="affiliationId" required="true">
+                                    <option value="0" selected>เลือกสังกัด</option>
+                                    <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{
+                                        affiliation.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="marital" class="block">สถานภาพสมรส</label>
+                            <input [class]="textString" id="marital" type="text" formControlName="marital"
+                                *ngIf="mode" />
+                            <select class="form-select" aria-label="Default select example" *ngIf="!mode"
+                                formControlName="selectMarital" required="true">
+                                <option value="0" selected>เลือกความสัมพันธ์</option>
+                                <option value="1">โสด</option>
+                                <option value="2">อยู่ร่วมกัน</option>
+                                <option value="3">หม้าย</option>
+                                <option value="4">หย่า</option>
+                                <option value="5">แยกกันอยู่</option>
+                            </select>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="salary" class="block">เงินเดือน</label>
+                            <input [class]="textString" id="salary" type="text" formControlName="salary" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="compensation" class="block">ค่าตอบแทน</label>
+                            <input [class]="textString" id="compensation" type="text" formControlName="compensation" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lastName" class="block">เงินหุ้นรายเดือน</label>
+                            <input [class]="textString" id="monthlyStockMoney" type="text"
+                                formControlName="monthlyStockMoney" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="contractStartDate" class="block">วันที่เริ่มทำงาน</label>
+                            <input [class]="textString" id="contractStart" type="text" formControlName="contractStart"
+                                *ngIf="mode" />
+                            <p-calendar inputId="basic" formControlName="contractStartDate" *ngIf="!mode"
+                                dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="civilServiceDate" class="block">วันที่เข้ารับราชการ</label>
+                            <input [class]="textString" id="civilServiceDate" type="text" formControlName="civilService"
+                                *ngIf="mode" />
+                            <p-calendar inputId="basic" formControlName="civilServiceDate" *ngIf="!mode"
+                                dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lastName" class="block">วันที่เป็นสมาชิก</label>
+                            <input [class]="textString" id="billingStartDate" type="text" formControlName="billingStart"
+                                *ngIf="mode" />
+                            <p-calendar inputId="basic" formControlName="billingStartDate" *ngIf="!mode"
+                                dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lastName" class="block">บัญชีธนาคาร</label>
+                            <input [class]="textString" id="salaryBankAccountNumber" type="text"
+                                formControlName="salaryBankAccountNumber" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lastName" class="block">เลขที่บัญชีธนาคาร</label>
+                            <input [class]="textString" id="bankAccountReceivingNumber" type="text"
+                                formControlName="bankAccountReceivingNumber" />
+                        </div>
+                        <div class="col-2 mb-3">
+                            <label for="lastName" class="block">วันที่เกษียณอายุราชการ</label>
+                            <input [class]="textString" id="retirementDate" type="text"
+                                formControlName="retirementDate" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

@@ -4,16 +4,17 @@
 }
 
 .menubar {
-  // position: absolute;
-  // width: 280px;
-  height: 900px;
+  height: max-content;
   background: #ffffff;
   border-radius: 15px;
   margin-left: 5px;
+  padding-bottom: 20px;
 }
 
 .logo {
   padding: 5%;
+  display: flex;
+  align-items: center;
 
   h5 {
     margin-top: 12px;
@@ -81,7 +82,8 @@ hr {
 }
 
 img {
-  width: 80px;
+  width: 100px;
+  margin-top: 10px;
 }
 
 .nav-item .col-1 {
@@ -108,6 +110,7 @@ path {
 
 .nav-item:hover {
   background: #fff7fb;
+  width: 90%;
   .iconify {
     font-size: 22px;
     color: #fe6bba;
@@ -127,6 +130,7 @@ path {
 
 li.active {
   background: #fff7fb;
+  width: 90%;
   .iconify {
     font-size: 22px;
     color: #fe6bba;

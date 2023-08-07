@@ -153,5 +153,4 @@ export class MainComponentComponent implements OnInit {
     }
     return value;
   }
-  
 }
