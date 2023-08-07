@@ -1,4 +1,4 @@
-<div class="div-table-stocks" style="padding-top: 1rem;">
+<div class="div-table-stocks">
   <p-chip label="รายการแจ้งเตือน" styleClass="mr-2"></p-chip>
   <br><br>
   <p-table #dt2 [value]="dataNotify" dataKey="id" editMode="row" [rows]="5" [showCurrentPageReport]="true"
@@ -7,9 +7,9 @@
     'employee.position.name', 'employee.affiliation.name', 'status', 'reason' ]" [tableStyle]="{'max-width': '100%'}">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width:6%">ลำดับที่</th>
+        <th style="width:5%">ลำดับที่</th>
         <th style="width:10%">วันที่ร้องขอ</th>
-        <th style="width:12%">
+        <th style="width:10%">
           <div class="flex align-items-center">
             รหัสพนักงาน
             <p-columnFilter type="text" field="employee.employeeCode" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
@@ -17,11 +17,11 @@
         </th>
         <th style="width:10%">ชื่อ</th> 
         <th style="width:10%">สกุล</th>
-        <th style="width:15%">ตำแหน่ง</th>
-        <th style="width:15%">สังกัด</th>
-        <th pSortableColumn="status" style="width:12%">
+        <!-- <th style="width:15%">ตำแหน่ง</th>
+        <th style="width:15%">สังกัด</th> -->
+        <th pSortableColumn="status" style="width:15%">
           <div class="flex justify-content-between align-items-center">
-            สถานะ
+            สถานะการแจ้งเตือน
             <p-columnFilter field="status" matchMode="equals" display="menu" class="ml-auto" [showMatchModes]="false"
               [showOperator]="false" [showAddButton]="false">
               <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -35,8 +35,8 @@
             </p-columnFilter>
           </div>
         </th>
-        <th style="width:10%">หมายเหตุ/จำนวน</th>
-        <th style="width:10%">ยืนยัน</th>
+        <th style="width:15%">หมายเหตุ/จำนวน</th>
+        <th style="width:5%">ยืนยัน</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-editing="editing" let-dataNotify let-rowIndex="rowIndex" let-ri="rowIndex">
@@ -46,30 +46,13 @@
         <td>{{ dataNotify.employee.employeeCode || 'XXXXX' }}</td>
         <td>{{ dataNotify.employee.firstName }}</td>
         <td>{{ dataNotify.employee.lastName }}</td>
-        <td>{{ dataNotify.employee.positionName }}</td>
-        <td>{{ dataNotify.employee.affiliationName }}</td>
+        <!-- <td>{{ dataNotify.employee.positionName }}</td>
+        <td>{{ dataNotify.employee.affiliationName }}</td> -->
         <td>
           <span [class]="'notify-badge-' + dataNotify.status">{{statusNotify(dataNotify.status)}}</span>
         </td>
         <td>{{ dataNotify.reason }}</td>
         <td style="text-align: -webkit-center;">
-          <!-- <div class="flex align-items-center justify-content-center gap-2">
-            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-              (click)="onRowEditInit(dataNotify)" class="p-button-rounded p-button-text" tooltipPosition="top"
-              pTooltip="เเก้ไข"></button>
-            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-              (click)="onClickApproveEmp(dataNotify)"
-              class="p-button-rounded p-button-text p-button-success mr-2"></button>
-            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-              (click)="onClickCancleApproveEmp(dataNotify)"
-              class="p-button-rounded p-button-text p-button-danger"></button>
-          </div> -->
-          <!-- <p-menu #menuDetail [model]="mess" [popup]="true"></p-menu>
-          <div class="div-menu">
-            <a (click)="selectedItem = dataNotify; menuDetail.toggle($event)">
-              <i class="bi bi-three-dots-vertical"></i>
-            </a>
-          </div> -->
           <div>
             <p-toast></p-toast>
             <p-menu #menu [model]="mess" [popup]="true"></p-menu>
@@ -77,7 +60,6 @@
               <i class="bi bi-three-dots-vertical"></i>
             </a>
           </div>
-          <!-- <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars" label="Show"></button> -->
         </td>
       </tr>
     </ng-template>

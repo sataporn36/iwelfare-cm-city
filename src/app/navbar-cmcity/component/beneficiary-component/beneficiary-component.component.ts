@@ -68,13 +68,6 @@ export class BeneficiaryComponentComponent implements OnInit {
       }
     }
 
-    console.log("beneficiaryInfo", this.beneficiaryInfo);
-    // this.service.updateBeneficiaryLogic(this.beneficiaryInfo).subscribe(data => {
-    //   this.showSuccess();
-    //   this.displayModal = false;
-    //   this.ngOnInit();
-    // });
-
     this.service.updateBeneficiaryId(this.beneficiaryInfo).subscribe(data => {
         this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
         this.displayModal = false;

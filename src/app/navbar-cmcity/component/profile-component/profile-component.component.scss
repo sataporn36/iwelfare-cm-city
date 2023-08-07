@@ -32,10 +32,10 @@
   border-bottom-right-radius: 15px;
   margin-top: -120px;
   z-index: 1;
-  padding-top: 130px;
-  padding-left: 50px;
-  // padding-right: 0px;
-  padding-bottom: 2rem;
+  padding-top: 120px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 1.5rem;
 }
 
 .div-background .div-text {
@@ -133,10 +133,10 @@
   border-radius: 15px;
   margin-top: 20px;
   z-index: 1;
-  padding: 50px;
+  padding: 35px;
   // padding-top: 50px;
   // padding-left: 40px;
-  padding-bottom: 1.5rem;
+  // padding-bottom: 1.5rem;
   // .col-2 {
   //   width: 250px;
   //   margin-top: 25px;
@@ -146,9 +146,10 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    // .col-2 {
-    //   width: 33.3%;
-    // }
+    .col-2 {
+      // width: 25%;
+      margin-left: 0.5rem;
+    }
   }
 }
 
@@ -371,17 +372,18 @@
   display: flex;
   padding-top: 5px;
   background-color: #dee2e6;
-  width: 7.8rem;
-  height: 36px;
+  width: 9.5rem;
+  height: 46px;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 20px;
+  margin-left: 13rem;
 
   .btn {
-    width: 55px;
-    height: 28px;
+    width: fit-content;
+    height: fit-content;
     font-weight: 500;
-    font-size: 13px;
+    font-size: 15px;
     border-radius: 18px;
     display: flex;
     justify-content: center;
@@ -827,11 +829,17 @@
   .div-profile .text .row .col-4 {
     width: 45%;
     margin-left: -80px;
+    input{
+      width: 375px;
+    }
   }
 
   .div-profile .text .row .col-12 {
     width: 50%;
-    margin-left: -80px;
+    margin-left: -75px;
+    input{
+      width: 580px;
+    }
   }
 
   .div-profile-button{
@@ -840,12 +848,13 @@
 
   .div-profile-three {
     width: 75%;
+    height: 36.5rem;
     .text{
       width: 100%;
       display: flex;
       flex-wrap: wrap;
       .col-2 {
-        width: 33.3%;
+        width: 32%;
       }
     }
   }

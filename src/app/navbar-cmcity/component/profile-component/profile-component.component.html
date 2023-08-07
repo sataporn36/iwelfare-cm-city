@@ -123,8 +123,7 @@
                 </div>
                 <div class="col-4 mb-3">
                     <label for="email" class="block">อีเมล</label>
-                    <input [class]="textString" id="email" type="text" formControlName="email" style="width: 475px;"
-                        (keyup)="checkEmail()" />
+                    <input [class]="textString" id="email" type="text" formControlName="email" (keyup)="checkEmail()" />
                     <em *ngIf="emailValidation === true && formModel.get('email')?.value">
                         <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
                     </em>
@@ -134,86 +133,12 @@
                     <input [class]="textString" id="address" type="text" formControlName="address" />
                 </div>
             </div>
-            <!-- <div> -->
-            <!-- <div class="col-12" style="display: flex;"> -->
-            <!-- <div class="col-2 mb-3">
-                        <label for="prefix" class="block">คำนำหน้า</label>
-                        <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="firstName" class="block">ชื่อ</label>
-                        <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="lastName" class="block">นามสกุล</label>
-                        <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
-                        <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
-                    </div> -->
-            <!-- </div>
-                <div class="col-12" style="display: flex; gap: 10px;"> -->
-            <!-- <div class="col-2 mb-3">
-                        <label for="birthday" class="block">วันเกิด</label>
-                        <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar"
-                            *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode"
-                            (onSelect)="onCheckAge($event)" (onClearClick)="onClearAge()" [showButtonBar]="true"
-                            dateFormat="dd/mm/yy" [maxDate]="defaultDateline"></p-calendar>
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="age" class="block">อายุ</label>
-                        <input [class]="textString" id="age" type="text" formControlName="age" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="gender" class="block">เพศ</label>
-                        <input [class]="textString" id="gender" type="text" formControlName="gender" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="tel" class="block">หมายเลขโทรศัพท์</label>
-                        <input [class]="textString" id="" type="text" formControlName="tel" maxlength="10"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-                            (keyup)="checkPhoneNumber()" />
-                        <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
-                            <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span>
-                        </em>
-                    </div> -->
-            <!-- </div> -->
-            <!-- <div class="col-12 " style="display: flex; gap: 10px;">
-                    <div class="col-2 mb-3">
-                        <label for="lineId" class="block">ไลน์ไอดี</label>
-                        <input [class]="textString" id="lineId" type="text" formControlName="lineId" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="facebook" class="block">เฟสบุ๊ค</label>
-                        <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
-                    </div>
-                    <div class="col-2 mb-3">
-                        <label for="email" class="block">อีเมล</label>
-                        <input [class]="textString" id="email" type="text" formControlName="email"
-                            (keyup)="checkEmail()" />
-                        <em *ngIf="emailValidation === true && formModel.get('email')?.value">
-                            <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
-                        </em>
-                    </div> -->
-            <!-- <div class="col-1 mb-3"></div> -->
-            <!-- </div>
-                <div class="col-12 " style="display: flex; gap: 10px;"> -->
-            <!-- <div class="col-6 mb-3">
-                        <label for="address" class="block">ที่อยู่</label>
-                        <input [class]="textString" id="address" type="text" formControlName="address" />
-                    </div>
-                </div> -->
-            <!-- </div> -->
         </div>
     </div>
 
     <div style="display: flex; justify-content: space-between;">
         <div class="div-profile-three" style="display: flex;">
             <div class="text">
-                <!-- <div style="display: grid; justify-content: center; align-items: center;"> -->
-                <!-- <div class="col-12" style="display: flex; gap: 10px;"> -->
                 <div class="col-2 mb-3">
                     <label for="employeeTypeName" class="block">ระดับ</label>
                     <input [class]="textString" id="levelName" type="text" formControlName="levelName"
@@ -279,8 +204,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- </div> -->
-                <!-- <div class="col-12" style="display: flex; gap: 10px;"> -->
                 <div class="grid col-2 mb-3">
                     <div>
                         <label for="affiliationName" class="block">สังกัด</label>
@@ -325,8 +248,6 @@
                     <label for="compensation" class="block">ค่าตอบแทน</label>
                     <input [class]="textString" id="compensation" type="text" formControlName="compensation" />
                 </div>
-                <!-- </div> -->
-                <!-- <div class="col-12" style="display: flex; gap: 10px;"> -->
                 <div class="col-2 mb-3">
                     <label for="contractStartDate" class="block">วันที่เริ่มทำงาน</label>
                     <input [class]="textString" id="contractStart" type="text" formControlName="contractStart"
@@ -361,8 +282,6 @@
                     <p-calendar inputId="basic" formControlName="billingStartDate" *ngIf="!mode" dateFormat="dd/mm/yy"
                         [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
                 </div>
-                <!-- </div> -->
-                <!-- <div class="col-12" style="display: flex; gap: 10px;"> -->
                 <div class="col-2 mb-3">
                     <label for="lastName" class="block">เงินหุ้นรายเดือน</label>
                     <input [class]="textString" id="monthlyStockMoney" type="text"
@@ -382,9 +301,7 @@
                     <label for="lastName" class="block">วันที่ครบอายุ/เกษียณอายุราชการ</label>
                     <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
                 </div>
-                <!-- </div> -->
             </div>
-            <!-- </div> -->
         </div>
 
         <div class="div-doc">

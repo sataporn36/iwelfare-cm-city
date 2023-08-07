@@ -109,21 +109,16 @@ export class AdminComponent1Component {
     this.userId = this.localStorageService.retrieve('empId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
     this.loanId = this.localStorageService.retrieve('loanid');
-    //this.initMainFormSignature();
 
-    // this.service.getProductsSmall().then((products) => (this.sourceProducts = products));
-    // this.targetProducts = [];
     this.searchEmployee();
     this.getEmpListForRoleSource();
     this.getEmpListForRoleTarget();
-    
 
     this.searchLevel();
     this.searchEmployeeType();
     this.getPositions();
     this.getBureau();
     this.getDepartment();
-    
   }
 
   getPositions(): void {
@@ -313,7 +308,9 @@ export class AdminComponent1Component {
 
   myDefaultDate = new Date();
   checkBureau(id: any) {
-    this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
+    if (id.target.value != null )  {
+      this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
+    }
   }
 
   getEmpListForRoleSource() {
@@ -679,7 +676,6 @@ export class AdminComponent1Component {
     this.service.getEmployeeOfMain(id).subscribe(data => {
       if(data){
         this.localStorageService.store('employeeofmain', data);
-        //this.localStorageService.store('profileImgId', data.profileImgId);
       }
     });
   }
@@ -843,23 +839,10 @@ export class AdminComponent1Component {
       const decimalPipe = new DecimalPipe('en-US');
       this.gender = data.gender;
       this.detail = true;
-      console.log(data, 'data');
-
       this.getEmployeeOfMain(id);
-
-      // this.service.getEmployeeOfMain(id).subscribe(main => {
-      //   if (main) {
-      //     this.profileImgId = main.profileImgId;
-      //     this.getImagePro(main.profileImgId);
-      //   }
-      //   console.log(main, 'main');
-
-      // });
-      // console.log(this.profileImgId, 'this.profileImgId');
-
-
       this.profileDetailImg();
-
+      this.service.searchByBureau(data.affiliation.bureau.id).subscribe(data => this.affiliation = data);
+      
       this.detailModel.patchValue({
         ...data,
         prefix: data?.prefix ? data?.prefix : '-',

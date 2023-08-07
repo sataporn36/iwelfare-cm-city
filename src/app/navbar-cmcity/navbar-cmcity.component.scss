@@ -25,13 +25,8 @@
 
 @media screen and (max-width: 1366px) {
   .menubar {
-    height: 980px;
-    // margin-bottom: 0%;
+    height: fit-content;
   }
-  
-  // .div-foot {
-  //   margin-top: 50%;
-  // }
 
   .logo {
     display: flex;
@@ -46,6 +41,7 @@
 
     img{
       width: 120px;
+      margin-left: -35px;
     }
   
     h5 {
@@ -67,6 +63,10 @@
       // margin-left: 5px;
     }
   }
+
+  // .profile_img{
+  //   margin-top: -180px;
+  // }
 }
 
 hr {

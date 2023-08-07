@@ -715,6 +715,7 @@ export class ProfileComponentComponent implements OnInit {
     this.formModel.get('idCard')?.disable();
     this.formModel.get('gender')?.disable();
     this.formModel.get('retirementDate')?.disable();
+    this.formModel.get('monthlyStockMoney')?.disable();
 
     this.arrayChild = [];
     this.dadArray = [];
