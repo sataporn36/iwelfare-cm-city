@@ -165,8 +165,8 @@ export class AdminNewsComponentComponent {
     this.detail = true;
     this.detailId = id;
     this.service.getNews(id).subscribe(data => {
-      this.imageCoverDetailId = data.coverImgId
-      this.getImageNewsDetail(data.coverImgId)
+      this.imageCoverDetailId = data.coverImgId;
+      this.getImageNewsDetail(data.coverImgId);
 
       this.detailModel.patchValue({
         ...data
@@ -181,10 +181,11 @@ export class AdminNewsComponentComponent {
     formData.append('image', file);
     formData.append('empId', this.detailId.toString());
 
-    this.service.uploadImage(formData).subscribe(
+    this.service.updateImageNews(formData).subscribe(
       () => {
         console.log('Image uploaded successfully.');
         this.ngOnInit();
+        this.onEdit(this.detailId);
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {

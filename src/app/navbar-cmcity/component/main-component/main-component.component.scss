@@ -325,15 +325,16 @@ svg {
     margin-top: 10px;
     width: 260px;
     height: 230px;
-    border: 1px solid #d2d6df;
+    border: 2px solid #f0f2f2;
     border-radius: 15px;
     img {
-      width: 260px;
-      height: 140px;
+      width: 256px;
+      height: 145px;
       object-fit: cover;
       margin-left: -12px;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      border-top-left-radius: 13.5px;
+      border-top-right-radius: 13.5px;
+      margin-top: -1px;
     }
     .topic {
       font-size: 16px;
@@ -348,13 +349,17 @@ svg {
       max-width: 240px;
     }
     .news {
-      width: 110px;
+      width: fit-content;
       text-align: center;
       background: #cf6a87;
       transform: translate(-5px, 25px);
       font-size: 12px;
       border-radius: 10px;
       margin-left: -2px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
 }

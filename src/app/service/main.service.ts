@@ -767,6 +767,12 @@ export class MainService {
     );
   }
 
+  updateImageNews(playload: any): Observable<any> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/v1/file-resource/update-news', playload 
+    );
+  }
+
   getImageNews(id: number): Observable<Blob> {
     return this.http.get<Blob>(
       AppPath.APP_API_SERVICE + '/v1/file-resource/display/news/' + id, { responseType: 'blob' as 'json' }
@@ -775,6 +781,10 @@ export class MainService {
 
   searchNews(): Observable<any[]> {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/news/search', null);
+  }
+
+  searchNewsMain(): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/news/search/main', null);
   }
 
   createNews(playload: any): Observable<any> {

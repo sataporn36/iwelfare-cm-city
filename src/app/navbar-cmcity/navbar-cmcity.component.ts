@@ -129,7 +129,7 @@ export class NavbarCmcityComponent implements OnInit {
     this.initMainForm();
     this.searchNotify();
 
-    if (this.userId === 1) {
+    if (this.adminFlag != null || this.adminFlag != false) {
       this.messager = true;
       this.admin = true;
     }
@@ -500,12 +500,14 @@ export class NavbarCmcityComponent implements OnInit {
     }
   }
 
+  adminFlag: any = false
   getEmployeeOfMain(id: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
       this.formModel.patchValue({
         ...data,
       })
 
+      this.adminFlag = data.adminFlag;
       this.localStorageService.store('employeeofmain', data);
       this.getImage(data.profileImgId);
       this.gender = data.gender;

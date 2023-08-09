@@ -449,8 +449,11 @@ export class AdminComponent1Component {
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        if (error.error.text === 'ProfileNull') {
+          this.messageService.add({ severity: 'error', detail: 'กรุณาเพิ่มรูปประจำตัวก่อน' });
+        }else{
+          this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        }
       }
     );
   }
@@ -471,8 +474,11 @@ export class AdminComponent1Component {
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        if (error.error.text === 'ProfileNull') {
+          this.messageService.add({ severity: 'error', detail: 'กรุณาเพิ่มรูปประจำตัวก่อน' });
+        }else{
+          this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        }
       }
     );
   }

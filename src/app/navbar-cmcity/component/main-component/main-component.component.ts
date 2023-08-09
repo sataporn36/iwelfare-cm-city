@@ -33,7 +33,7 @@ export class MainComponentComponent implements OnInit {
     private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer
-  ) { 
+  ) {
     // this.userId = this.localStorageService.retrieve('empId');
     // this.userInfo = this.localStorageService.retrieve('employeeofmain');
   }
@@ -53,6 +53,8 @@ export class MainComponentComponent implements OnInit {
       this.stockId = this.localStorageService.retrieve('stockId');
       this.searchStockDetail(this.stockId);
       this.getBeneficiaryByEmpId(this.userId);
+      this.searchNewsMain();
+      this.setperiodMonthDescOption();
     }
   }
 
@@ -67,6 +69,60 @@ export class MainComponentComponent implements OnInit {
     this.service.searchStockDetail(id, "desc").subscribe(data => {
       this.dataStockDetail.push(data[0], data[1], data[2]);
     });
+  }
+
+  listNews: any;
+  imgNewsList: SafeUrl[] = []; 
+  searchNewsMain() {
+    this.service.searchNewsMain().subscribe(data => {
+      this.listNews = data;
+
+      // Loop through the list of news and fetch images
+      for (let i = 0; i < this.listNews.length; i++) {
+        const news = this.listNews[i];
+  
+        this.service.getImageNews(news.coverImgId).subscribe(
+          (imageBlob: Blob) => {
+            const imgURL = URL.createObjectURL(imageBlob);
+            const sanitizedURL = this.sanitizer.bypassSecurityTrustUrl(imgURL);
+            
+            // Store the sanitized image URL at the corresponding index
+            this.imgNewsList[i] = sanitizedURL;
+          },
+          (error: any) => {
+            console.error('Failed to fetch image:', error);
+          }
+        );
+      }
+    });
+  }
+
+  periodMonthDescOption: any = [];
+  pipeDateTHD(date: any) {
+    const format = new Date(date);
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
+
+    const monthSelect = this.periodMonthDescOption[month];
+    return day + ' ' + monthSelect.label + ' ' + year;
+  }
+
+  setperiodMonthDescOption() {
+    this.periodMonthDescOption = [
+      { value: '01', label: 'มกราคม' },
+      { value: '02', label: 'กุมภาพันธ์' },
+      { value: '03', label: 'มีนาคม' },
+      { value: '04', label: 'เมษายน' },
+      { value: '05', label: 'พฤษภาคม' },
+      { value: '06', label: 'มิถุนายน' },
+      { value: '07', label: 'กรกฎาคม' },
+      { value: '08', label: 'สิงหาคม' },
+      { value: '09', label: 'กันยายน' },
+      { value: '10', label: 'ตุลาคม' },
+      { value: '11', label: 'พฤศจิกายน' },
+      { value: '12', label: 'ธันวาคม' },
+    ];
   }
 
   profileImg() {
