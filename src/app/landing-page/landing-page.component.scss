@@ -6,42 +6,58 @@
 .pageFull{
     background: #fff;
     position: absolute;
-    width: 1400px;
-    height: 700px;
-    left: calc(50% - 1400px/2);
-    top: calc(50% - 700px/2);
-    border-radius: 40px;
+    width: 100%;
+    height: 100%;
+    // left: calc(50% - 1400px/2);
+    // top: calc(50% - 700px/2);
+    // border-radius: 40px;
 
     .business{
         position: absolute;
-        width: 700px;
-        left: calc(70% - 650px/2);
-        top: calc(48% - 650px/2);
+        width: 950px;
+        left: calc(70% - 950px/2);
+        top: calc(50% - 950px/2);
         z-index: 1;
     }
 
     .business-v6{
         position: absolute;
-        width: 1400px;
-        height: 700px;
+        width: 100%;
+        height: 100%;
+        // margin-left: 20px;
         // left: calc(70% - 650px/2);
         // top: calc(48% - 650px/2);
-        border-radius: 40px;
+        // border-radius: 40px;
     }
 
     .page-landing{
         position: absolute;
-        width: 500px;
-        left: calc(26% - 500px/2);
-        top: calc(58% - 500px/2);
+        width: 600px;
+        left: calc(26% - 600px/2);
+        top: calc(58% - 600px/2);
+
+        .landing-name{
+            font-size: 60px; 
+            font-weight: bold; 
+            color: #ff4aab;
+        }
+    
+        .landing-detail{
+            font-size: 20px; 
+            text-indent: 2em; 
+            letter-spacing: 0.5px; 
+            line-height: 1.8; 
+            margin-top: 30px; 
+            color: #4b4b4b;
+        }
     }
 
     .btn{
         margin-top: 30px;
-        width: 200px;
+        width: 250px;
         font-weight: 500;
-        font-size: 16px;
-        height: 40px;
+        font-size: 18px;
+        height: 50px;
         border-radius: 20px;
     }
     
@@ -55,5 +71,92 @@
         border-color: #FE6BBA;
         background-color: #ffffff48;
         margin-left: 40px;
+    }
+}
+
+
+@media screen and (max-width: 1366px) {
+    // .pageFull{
+    //     // width: 100%;
+    //     // height: 100%;
+
+    //     background: #fff;
+    //     // position: absolute;
+    //     width: 1366px;
+    //     height: 768px;
+    //     // left: calc(50% - 1366px/2);
+    //     // top: calc(50% - 768px/2);
+    //     // border-radius: 40px;
+    // }
+
+    .pageFull{
+        background: #fff;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        // left: calc(50% - 1400px/2);
+        // top: calc(50% - 700px/2);
+        // border-radius: 40px;
+    
+        .business{
+            position: absolute;
+            width: 650px;
+            left: calc(70% - 650px/2);
+            top: calc(50% - 650px/2);
+            z-index: 1;
+        }
+    
+        .business-v6{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            // margin-left: 20px;
+            // left: calc(70% - 650px/2);
+            // top: calc(48% - 650px/2);
+            // border-radius: 40px;
+        }
+    
+        .page-landing{
+            position: absolute;
+            width: 500px;
+            left: calc(26% - 500px/2);
+            top: calc(58% - 500px/2);
+    
+            .landing-name{
+                font-size: 50px; 
+                font-weight: bold; 
+                color: #ff4aab;
+            }
+        
+            .landing-detail{
+                font-size: 18px; 
+                text-indent: 2em; 
+                letter-spacing: 0.5px; 
+                line-height: 1.8; 
+                margin-top: 30px; 
+                color: #4b4b4b;
+            }
+        }
+    
+        .btn{
+            margin-top: 30px;
+            width: 200px;
+            font-weight: 500;
+            font-size: 16px;
+            height: 45px;
+            border-radius: 20px;
+        }
+        
+        .btn-login {
+            color: #fff;
+            background-color: #FE6BBA;
+        }
+        
+        .btn-regis {
+            color: #FE6BBA;
+            border-color: #FE6BBA;
+            background-color: #ffffff48;
+            margin-left: 40px;
+        }
     }
 }
