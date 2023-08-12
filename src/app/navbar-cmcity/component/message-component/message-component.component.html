@@ -55,10 +55,18 @@
         <td style="text-align: -webkit-center;">
           <div>
             <p-toast></p-toast>
-            <p-menu #menu [model]="mess" [popup]="true"></p-menu>
-            <a (click)="selectedItem = dataNotify; menu.toggle($event)">
-              <i class="bi bi-three-dots-vertical"></i>
-            </a>
+            <div *ngIf="dataNotify.status === 4">
+              <p-menu #menu [model]="mess2" [popup]="true"></p-menu>
+              <a (click)="selectedItem = dataNotify; menu.toggle($event)">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+            </div>
+            <div *ngIf="dataNotify.status !== 4">
+              <p-menu #menu [model]="mess" [popup]="true"></p-menu>
+              <a (click)="selectedItem = dataNotify; menu.toggle($event)">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+            </div>
           </div>
         </td>
       </tr>

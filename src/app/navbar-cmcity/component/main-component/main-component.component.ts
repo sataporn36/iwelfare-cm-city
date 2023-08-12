@@ -36,6 +36,7 @@ export class MainComponentComponent implements OnInit {
   ) {
     // this.userId = this.localStorageService.retrieve('empId');
     // this.userInfo = this.localStorageService.retrieve('employeeofmain');
+    // this.stockId = this.localStorageService.retrieve('stockId');
   }
 
   ngOnInit(): void {
@@ -44,17 +45,16 @@ export class MainComponentComponent implements OnInit {
       history.go(0);
     } else {
       localStorage.removeItem('foo');
-
+      this.setperiodMonthDescOption();
       this.userId = this.localStorageService.retrieve('empId');
       this.userInfo = this.localStorageService.retrieve('employeeofmain');
+      this.stockId = this.localStorageService.retrieve('stockId');
       this.gender = this.userInfo.gender;
       this.profileImgId = this.userInfo.profileImgId;
       this.getImage(this.userInfo.profileImgId);
-      this.stockId = this.localStorageService.retrieve('stockId');
       this.searchStockDetail(this.stockId);
       this.getBeneficiaryByEmpId(this.userId);
       this.searchNewsMain();
-      this.setperiodMonthDescOption();
     }
   }
 

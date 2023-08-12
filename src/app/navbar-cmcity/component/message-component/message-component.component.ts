@@ -25,6 +25,7 @@ export class MessageComponentComponent implements OnInit {
   clonedProducts: { [s: number]: any } = {};
   representatives!: Representative[];
   mess!: MenuItem[];
+  mess2!: MenuItem[];
   displayModal!: boolean;
   displayModalUser!: boolean;
   formModel!: FormGroup;
@@ -160,10 +161,8 @@ export class MessageComponentComponent implements OnInit {
             // loanBalance: this.selectedItem.employee?.loan.loanBalance? this.selectedItem.employee?.loan.loanBalance : '-'
           })
 
-          console.log("--->", this.selectedItem);
-          console.log("description --->", this.selectedItem.description);
-
-          this.descriptionUser = this.selectedItem.description;
+          //this.descriptionUser = this.selectedItem.description;
+          this.descriptionUser = null;
           this.idNotify = this.selectedItem.id;
 
         }
@@ -182,6 +181,47 @@ export class MessageComponentComponent implements OnInit {
           this.onClickCancleApproveEmp(this.selectedItem)
         }
       }
+    ];
+    this.mess2 = [
+      {
+        label: 'ข้อมูลสมาชิก',
+        icon: 'pi pi-eye',
+        command: (event) => {
+          this.detail = true;
+          this.detailModel.patchValue({
+            ...this.selectedItem.employee,
+
+            prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
+            // positionName: this.selectedItem.employee?.position?.name ? this.selectedItem.employee?.position?.name : '-',
+            // affiliationName: this.selectedItem.employee?.affiliation?.name ? this.selectedItem.employee?.affiliation?.name : '-',
+            // bureauName:  this.selectedItem.employee?.affiliation?.bureau?.name ?  this.selectedItem.employee?.affiliation?.bureau?.name : '-',
+            // employeeTypeName:  this.selectedItem.employee?.employeeType?.name ?  this.selectedItem.employee?.employeeType?.name : '-',
+            // levelName:  this.selectedItem.employee?.level?.name ?  this.selectedItem.employee?.level?.name : '-',
+            // departmentName: this.selectedItem.employee?.department ? this.selectedItem.employee?.department.name : '-',
+            // stockAccumulate: this.selectedItem.employee?.stock.stockAccumulate? this.selectedItem.employee?.stock.stockAccumulate : '-',
+            // loanBalance: this.selectedItem.employee?.loan.loanBalance? this.selectedItem.employee?.loan.loanBalance : '-'
+          })
+
+          this.descriptionUser = this.selectedItem.description;
+          this.idNotify = this.selectedItem.id;
+
+        }
+      },
+      // {
+      //   label: 'ยืนยัน',
+      //   icon: 'pi pi-check-circle ',
+      //   command: () => {
+      //     this.updateBeneficairyList(this.arrayListDescriptionUser)
+      //   }
+      // },
+      // {
+      //   label: 'ปฏิเสธ',
+      //   icon: 'pi pi-times-circle',
+      //   command: () => {
+      //     this.displayModalUser=false;
+      //     this.detail = false;
+      //   }
+      // }
     ];
   }
 
