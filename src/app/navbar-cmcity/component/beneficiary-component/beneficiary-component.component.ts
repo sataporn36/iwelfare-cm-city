@@ -52,6 +52,10 @@ export class BeneficiaryComponentComponent implements OnInit {
     });
   }
 
+  cancelUpdate(){
+    this.displayModal = false;
+  }
+
   checkUpdate() {
     for (const product of this.selectedProducts) {
       const beneficiary = this.beneficiaryInfo.find(info => info.id === product.id);
@@ -71,6 +75,12 @@ export class BeneficiaryComponentComponent implements OnInit {
     this.service.updateBeneficiaryId(this.beneficiaryInfo).subscribe(data => {
         this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
         this.displayModal = false;
+        if (!localStorage.getItem('foo')) {
+          localStorage.setItem('foo', 'no reload');
+          history.go(0);
+        } else {
+          localStorage.removeItem('foo');
+        }
         this.ngOnInit();
     });
   }

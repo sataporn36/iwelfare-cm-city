@@ -38,7 +38,7 @@
   font-weight: 500;
   font-size: 14px;
   margin-top: -5px;
-  border-radius: 18px;
+  border-radius: 15px;
 }
 
 .btn-edit {
@@ -63,6 +63,7 @@
   height: 40px;
   color: #fff;
   background-color: #fe6bba;
+  width: 80px;
 }
 
 .btn-regis2 {
@@ -122,6 +123,15 @@ input.search {
 
 p-picklist {
   width: 100%;
+}
+
+.div-signature{
+  padding-top: 3rem; 
+  padding-left: 4rem; 
+  padding-right: 4rem; 
+  padding-bottom: 1.5rem; 
+  border: 2px solid #f0f2f2; 
+  border-radius: 15px;
 }
 
 @media screen and (max-width: 1366px) {

@@ -26,6 +26,7 @@ export class MessageComponentComponent implements OnInit {
   representatives!: Representative[];
   mess!: MenuItem[];
   mess2!: MenuItem[];
+  mess3!: MenuItem[];
   displayModal!: boolean;
   displayModalUser!: boolean;
   formModel!: FormGroup;
@@ -40,15 +41,14 @@ export class MessageComponentComponent implements OnInit {
   descriptionUser: any;
   arrayListDescriptionUser: any[] = [];
   idNotify: any;
+  displayEditByUser: boolean;
 
   constructor(
     private service: MainService,
     protected route: ActivatedRoute,
-    private fb: FormBuilder,
     protected router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private localStorageService: LocalStorageService,
   ) { }
 
   initMainForm() {
@@ -69,6 +69,12 @@ export class MessageComponentComponent implements OnInit {
       departmentName: new FormControl(null),
       stockAccumulate: new FormControl(null),
       loanBalance: new FormControl(null),
+    });
+
+    this.formModelInfo = new FormGroup({
+      firstName: new FormControl(null),
+      lastName: new FormControl(null),
+      marital: new FormControl(null),
     });
   }
 
@@ -138,7 +144,7 @@ export class MessageComponentComponent implements OnInit {
       default:
         break;
     }
-  }
+  } 
 
   checkMess() {
     this.mess = [
@@ -164,7 +170,6 @@ export class MessageComponentComponent implements OnInit {
           //this.descriptionUser = this.selectedItem.description;
           this.descriptionUser = null;
           this.idNotify = this.selectedItem.id;
-
         }
       },
       {
@@ -190,6 +195,39 @@ export class MessageComponentComponent implements OnInit {
           this.detail = true;
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
+            prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
+          })
+
+          this.idNotify = this.selectedItem.id;
+        }
+      },
+      {
+        label: 'ข้อมูลการเปลี่ยนผู้รับผลประโยชน์',
+        icon: 'pi pi-check-circle ',
+        command: () => {
+        
+          this.descriptionUser = this.selectedItem.description;
+          this.idNotify = this.selectedItem.id;
+          this.onCheckBeneficiary();
+        }
+      }
+      // {
+      //   label: 'ปฏิเสธ',
+      //   icon: 'pi pi-times-circle',
+      //   command: () => {
+      //     this.displayModalUser=false;
+      //     this.detail = false;
+      //   }
+      // }
+    ];
+    this.mess3 = [
+      {
+        label: 'ข้อมูลสมาชิก',
+        icon: 'pi pi-eye',
+        command: (event) => {
+          this.detail = true;
+          this.detailModel.patchValue({
+            ...this.selectedItem.employee,
 
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
             // positionName: this.selectedItem.employee?.position?.name ? this.selectedItem.employee?.position?.name : '-',
@@ -207,6 +245,16 @@ export class MessageComponentComponent implements OnInit {
 
         }
       },
+      {
+        label: 'ข้อมูลการแก้ไขข้อมูลส่วนตัว',
+        icon: 'pi pi-check-circle ',
+        command: () => {
+        
+          this.descriptionUser = this.selectedItem.description;
+          this.idNotify = this.selectedItem.id;
+          this.onCheckInfo();
+        }
+      }
       // {
       //   label: 'ยืนยัน',
       //   icon: 'pi pi-check-circle ',
@@ -240,7 +288,8 @@ export class MessageComponentComponent implements OnInit {
       { label: 'ลาออก', value: '1' },
       { label: 'หุ้นรายเดือน', value: '2' },
       { label: 'สมัครสมาชิก', value: '3' },
-      { label: 'ผู้รับผลประโยชน์', value: '4' }
+      { label: 'ผู้รับผลประโยชน์', value: '4' },
+      { label: 'แก้ไขข้อมูลส่วนตัว', value: '5' }
     ];
   }
 
@@ -378,6 +427,23 @@ export class MessageComponentComponent implements OnInit {
     this.arrayListDescriptionUser = JSON.parse(this.descriptionUser);
     this.displayModalUser = true;
     this.filteredData = this.arrayListDescriptionUser.filter((item) => item.active === true);
+  }
+
+  descriptionUserInfo: any;
+  formModelInfo!: FormGroup;
+  onCheckInfo() {
+    this.descriptionUserInfo = JSON.parse(this.descriptionUser);
+    this.displayEditByUser = true;
+    this.formModelInfo.patchValue({...this.descriptionUserInfo});
+  }
+
+  approveUpdateByUser(){
+    this.service.approveUpdateByUser(this.descriptionUserInfo).subscribe(data => {
+      this.showSuccess();
+      this.displayEditByUser = false;
+      this.service.deleteNotify(this.idNotify).subscribe();
+      this.ngOnInit();
+    });
   }
 
   updateBeneficairyList(arrayListDescriptionUser: any[]) {

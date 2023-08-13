@@ -255,6 +255,23 @@ export class AdminComponent1Component {
     return parseInt(value.replace(/,/g, ''), 10);
   }
 
+  checkMaritalV2_text(data: any): any {
+    switch (data) {
+      case '1':
+        return 'โสด'
+      case '2':
+        return 'อยู่ร่วมกัน'
+      case '3':
+        return 'เป็นหม้าย'
+      case '4':
+        return 'หย่าร้าง'
+      case '5':
+        return 'แยกกันอยู่'
+      default:
+        break;
+    }
+  }
+
   onAccept() {
     const detail = this.detailModel.getRawValue();
     const playload = {
@@ -275,7 +292,7 @@ export class AdminComponent1Component {
       positionId: Number(detail.positionId),
       departmentId: Number(detail.departmentId),
       affiliationId: Number(detail.affiliationId),
-      marital: detail.marital,
+      marital: this.checkMaritalV2_text(detail.selectMarital),
       salary: detail.salary ? this.changeToNumber(detail.salary) : null,
       compensation: detail.compensation ? this.changeToNumber(detail.compensation) : null,
       monthlyStockMoney: detail.monthlyStockMone ? this.changeToNumber(detail.monthlyStockMoney) : null,
@@ -307,6 +324,8 @@ export class AdminComponent1Component {
   clearDialog(){
     this.mode = true;
     this.textString = 'form-control-plaintext';
+    this.imageSrcIdCard = null;
+    this.imageSrcAddress = null;
   }
 
   myDefaultDate = new Date();

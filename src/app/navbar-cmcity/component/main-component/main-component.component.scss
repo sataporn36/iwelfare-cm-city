@@ -3,7 +3,7 @@
 }
 
 .row .col-3 {
-  width: 320px;
+  // width: 320px;
   margin-top: 10px;
 }
 
@@ -68,6 +68,13 @@ svg {
   text-align: center;
   padding-top: 3rem;
   //width: 290px;
+
+  .div-text span {
+    white-space: nowrap; 
+    width: 100px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .div-profile-img {
@@ -136,8 +143,8 @@ svg {
   }
 
   .div-beneficiary {
-    .col-10 {
-      padding: 1rem;
+    .col-9 {
+      padding-right: 1rem;
     }
   }
 
@@ -145,6 +152,12 @@ svg {
     height: 350px;
     padding-top: 1rem;
 
+    .div-text span {
+      white-space: nowrap; 
+      width: 100px; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     // z-index: 2;
   }
 
@@ -260,6 +273,13 @@ svg {
       white-space: nowrap;
       color: #fff;
     }
+
+    // .div-col-3 {
+    //   .col-3 {
+    //     flex: 0 0 auto;
+    //     width: 20%;
+    //   }
+    // }
   }
 }
 
@@ -297,9 +317,8 @@ svg {
 // }
 
 .div-beneficiary {
-  .col-10 {
-    padding-left: 1rem;
-    padding-top: 1rem;
+  .col-9 {
+    margin-left: 1rem;
   }
 }
 
@@ -471,6 +490,13 @@ td {
 .div-col-3 {
   .col-3 {
     flex: 0 0 auto;
-    width: 24.6%;
+    width: 24.2%;
+  }
+
+  @media screen and (max-width: 1366px) {
+    .col-3 {
+      flex: 0 0 auto;
+      width: 23.8%;
+    }
   }
 }

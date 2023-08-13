@@ -716,6 +716,10 @@ export class ProfileComponentComponent implements OnInit {
     this.formModel.get('gender')?.disable();
     this.formModel.get('retirementDate')?.disable();
     this.formModel.get('monthlyStockMoney')?.disable();
+    this.formModel.get('salary')?.disable();
+    this.formModel.get('compensation')?.disable();
+    // this.formModel.get('contractStartDate')?.disable();
+    // this.formModel.get('civilServiceDate')?.disable();
 
     this.arrayChild = [];
     this.dadArray = [];
@@ -1079,44 +1083,33 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   accept() {
-    const playload = this.formModel.getRawValue();
-    playload.id = this.userId;
-    playload.birthday = playload.birthday;
-    playload.employeeTypeId = Number(playload.employeeTypeId);
-    playload.positionId = Number(playload.positionId);
-    playload.bureauId = Number(playload.bureauId);
-    playload.affiliationId = Number(playload.affiliationId);
-    playload.dapartmentId = Number(playload.dapartmentId);
-    playload.level;
-
-    const civilServiceDate = playload.civilServiceDate;
-    playload.civilServiceDate = civilServiceDate ? civilServiceDate : '';
-    playload.approvedResignationDate = '';
-    playload.beneficiaryMarital = '';
-    playload.countChild = '';
-    playload.dateOfDeath = '';
-    playload.description = '';
-    playload.reason = '';
-    playload.resignationDate = '';
-
-    playload.contact = {
-      id: playload.contact.id,
-      tel: playload.tel,
-      email: playload.email,
-      lineId: playload.lineId,
-      address: playload.address,
-      facebook: playload.facebook,
+    const emp = this.formModel.getRawValue();
+    const playload = {
+      id: this.userId,
+      firstName: emp.firstName,
+      lastName: emp.lastName,
+      birthday: emp.birthday,
+      tel: emp.tel,
+      lineId: emp.lineId,
+      facebook: emp.facebook,
+      email: emp.email,
+      address: emp.address,
+      marital: this.checkMaritalV2_text(emp.selectMarital),
+      contractStartDate: emp.contractStartDate,
+      civilServiceDate: emp.civilServiceDate,
+      billingStartDate: emp.billingStartDate,
+      salaryBankAccountNumber: emp.salaryBankAccountNumber,
+      bankAccountReceivingNumber: emp.bankAccountReceivingNumber
     }
 
-    playload.marital = this.checkMaritalV2_text(playload.selectMarital);
-
-    this.service.updateEmp(playload).subscribe((res) => {
+    this.service.updateByUser(playload).subscribe((res) => {
       this.getEmployee(this.userId);
       this.formModel.disable();
       this.initMainForm();
       this.textString = 'form-control-plaintext';
       this.mode = true;
-      this.ngOnInit();
+      this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+      this.ngOnInit(); 
     });
   }
 

@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12" style="display: flex; padding-top: 3rem; justify-content: flex-end;">
+        <div class="col-12" style="display: flex; padding-right: 1rem; padding-top: 4rem; justify-content: flex-end;">
             <button (click)="updateIntereat()" type="button" class="btn btn-login2">บันทึก</button>
             <div style="padding-left: 0.5rem;"></div>
             <button (click)="resetInterst()" type="button" class="btn btn-login2">ยกเลิก</button>
@@ -88,7 +88,7 @@
         </div>
         <div class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
             <div style="display: flex;">
-                <div style="padding-left: 1rem;">
+                <div class="div-signature">
                     <div style="display: flex; justify-content: center;">
                         <img id="profilePic1" class="pic1" [src]="imageSrc1">
                     </div>
@@ -101,23 +101,23 @@
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
                             (click)="displayBasic1 = true">ดูรูปภาพ</button>
-                        <div class="card flex justify-content-center">
-                            <p-galleria [value]="images1" [(visible)]="displayBasic1"
-                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                                [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
-                                [showThumbnails]="false">
-                                <ng-template pTemplate="item" let-item>
-                                    <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-                                </ng-template>
-                            </p-galleria>
-                        </div>
-                        <br>
+                        <!-- <div class="card flex justify-content-center"> -->
+                        <p-galleria [value]="images1" [(visible)]="displayBasic1"
+                            [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                            [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
+                            [showThumbnails]="false">
+                            <ng-template pTemplate="item" let-item>
+                                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+                            </ng-template>
+                        </p-galleria>
+                        <!-- </div> -->
                         <input #file1 class="uploadProfileInput" type="file"
                             (change)="onConfigPicChange($event,'signature1')" id="newConfigImg1" accept="image/*"
                             style="opacity: 0; width: 50px;" />
                     </div>
                 </div>
-                <div style="padding-left: 5rem;">
+                <div style="padding-left: 1rem;"></div>
+                <div class="div-signature">
                     <div style="display: flex; justify-content: center;">
                         <img id="profilePic2" class="pic2" [src]="imageSrc2">
                     </div>
@@ -130,17 +130,16 @@
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
                             (click)="displayBasic2 = true">ดูรูปภาพ</button>
-                        <div class="card flex justify-content-center">
-                            <p-galleria [value]="images2" [(visible)]="displayBasic2"
-                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                                [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
-                                [showThumbnails]="false">
-                                <ng-template pTemplate="item" let-item>
-                                    <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-                                </ng-template>
-                            </p-galleria>
-                        </div>
-                        <br>
+                        <!-- <div class="card flex justify-content-center"> -->
+                        <p-galleria [value]="images2" [(visible)]="displayBasic2"
+                            [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                            [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
+                            [showThumbnails]="false">
+                            <ng-template pTemplate="item" let-item>
+                                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+                            </ng-template>
+                        </p-galleria>
+                        <!-- </div> -->
                         <input #file2 class="uploadProfileInput" type="file"
                             (change)="onConfigPicChange($event,'signature2')" id="newConfigImg2" accept="image/*"
                             style="opacity: 0; width: 50px;" />
@@ -176,21 +175,56 @@
 
 <p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '80vw' }"
     [breakpoints]="{ '1000px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
-    <div [formGroup]="detailModel">
-        <div class="div-profile">
-            <div style="display: flex; flex-direction: column; padding-right: 0.5rem;">
-                <div class="div-img">
-                    <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
-                    <div class="img-css">
-                        <div class="profile-pic-wrapper">
-                            <div class="pic-holder">
-                                <img id="profilePic" class="pic" [src]="profileDetailImg()">
-                                <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
-                                    id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
-                                <label for="newProfilePhoto" class="upload-file-block">
+    <div class="div-profile">
+        <div style="display: flex; flex-direction: column; padding-right: 0.5rem;">
+            <div class="div-img">
+                <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
+                <div class="img-css">
+                    <div class="profile-pic-wrapper">
+                        <div class="pic-holder">
+                            <img id="profilePic" class="pic" [src]="profileDetailImg()">
+                            <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
+                                id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                            <label for="newProfilePhoto" class="upload-file-block">
+                                <div class="text-center">
+                                    <div class="mb-2">
+                                        <i class="bi bi-camera-fill fa-2x"></i>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        อัพโหลด
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div-doc">
+                <p-chip label="เอกสาร" styleClass="mr-2"></p-chip>
+                <div class="doc-group">
+                    <div>
+                        <p style="color: #747d8c;">ทะเบียนบ้าน</p>
+                        <div class="pic-holder-doc">
+                            <img id="profilePicDoc" class="pic-doc" [src]="imageSrcAddress">
+
+                            <input class="uploadProfileInput" type="file"
+                                (change)="onProfilePicChangeDocAddress($event)" id="newProfilePhotoAddress"
+                                accept="image/*" style="opacity: 0;" />
+                            <div class="upload-file-block">
+                                <div class="text-center">
+                                    <div (click)="displayBasicAddress = true">
+                                        <i class="pi pi-eye" style="font-size: 1rem"></i>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        ดูรูป
+                                    </div>
+                                </div>
+                                <div style="margin-left: 1rem;"></div>
+                                <label for="newProfilePhotoAddress">
                                     <div class="text-center">
-                                        <div class="mb-2">
-                                            <i class="bi bi-camera-fill fa-2x"></i>
+                                        <div>
+                                            <i class="pi pi-file-import" style="font-size: 1rem"></i>
                                         </div>
                                         <div class="text-uppercase">
                                             อัพโหลด
@@ -198,97 +232,61 @@
                                     </div>
                                 </label>
                             </div>
+
+                            <p-galleria [value]="imagesAddress" [(visible)]="displayBasicAddress"
+                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
+                                [showThumbnails]="false">
+                                <ng-template pTemplate="item" let-item>
+                                    <img [src]="item.itemImageSrc" class="galleria-img" />
+                                </ng-template>
+                            </p-galleria>
                         </div>
                     </div>
-                </div>
+                    <div style="margin-left: 10px;"></div>
+                    <div>
+                        <p style="color: #747d8c;">บัตรประชาชน</p>
+                        <div class="pic-holder-doc">
+                            <img id="profilePicDoc" class="pic-doc" [src]="imageSrcIdCard">
 
-                <div class="div-doc">
-                    <p-chip label="เอกสาร" styleClass="mr-2"></p-chip>
-                    <div class="doc-group">
-                        <div>
-                            <p style="color: #747d8c;">ทะเบียนบ้าน</p>
-                            <div class="pic-holder-doc">
-                                <img id="profilePicDoc" class="pic-doc" [src]="imageSrcAddress">
-
-                                <input class="uploadProfileInput" type="file"
-                                    (change)="onProfilePicChangeDocAddress($event)" id="newProfilePhotoAddress"
-                                    accept="image/*" style="opacity: 0;" />
-                                <div class="upload-file-block">
+                            <input class="uploadProfileInput" type="file" (change)="onProfilePicChangeDocIdCard($event)"
+                                id="newProfilePhotoIdCard" accept="image/*" style="opacity: 0;" />
+                            <div class="upload-file-block">
+                                <div class="text-center">
+                                    <div (click)="displayBasicIdCard = true">
+                                        <i class="pi pi-eye" style="font-size: 1rem"></i>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        ดูรูป
+                                    </div>
+                                </div>
+                                <div style="margin-left: 1rem;"></div>
+                                <label for="newProfilePhotoIdCard">
                                     <div class="text-center">
-                                        <div (click)="displayBasicAddress = true">
-                                            <i class="pi pi-eye" style="font-size: 1rem"></i>
+                                        <div>
+                                            <i class="pi pi-file-import" style="font-size: 1rem"></i>
                                         </div>
                                         <div class="text-uppercase">
-                                            ดูรูป
+                                            อัพโหลด
                                         </div>
                                     </div>
-                                    <div style="margin-left: 1rem;"></div>
-                                    <label for="newProfilePhotoAddress">
-                                        <div class="text-center">
-                                            <div>
-                                                <i class="pi pi-file-import" style="font-size: 1rem"></i>
-                                            </div>
-                                            <div class="text-uppercase">
-                                                อัพโหลด
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <p-galleria [value]="imagesAddress" [(visible)]="displayBasicAddress"
-                                    [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                                    [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
-                                    [showThumbnails]="false">
-                                    <ng-template pTemplate="item" let-item>
-                                        <img [src]="item.itemImageSrc" class="galleria-img" />
-                                    </ng-template>
-                                </p-galleria>
+                                </label>
                             </div>
-                        </div>
-                        <div style="margin-left: 10px;"></div>
-                        <div>
-                            <p style="color: #747d8c;">บัตรประชาชน</p>
-                            <div class="pic-holder-doc">
-                                <img id="profilePicDoc" class="pic-doc" [src]="imageSrcIdCard">
-
-                                <input class="uploadProfileInput" type="file"
-                                    (change)="onProfilePicChangeDocIdCard($event)" id="newProfilePhotoIdCard"
-                                    accept="image/*" style="opacity: 0;" />
-                                <div class="upload-file-block">
-                                    <div class="text-center">
-                                        <div (click)="displayBasicIdCard = true">
-                                            <i class="pi pi-eye" style="font-size: 1rem"></i>
-                                        </div>
-                                        <div class="text-uppercase">
-                                            ดูรูป
-                                        </div>
-                                    </div>
-                                    <div style="margin-left: 1rem;"></div>
-                                    <label for="newProfilePhotoIdCard">
-                                        <div class="text-center">
-                                            <div>
-                                                <i class="pi pi-file-import" style="font-size: 1rem"></i>
-                                            </div>
-                                            <div class="text-uppercase">
-                                                อัพโหลด
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-                                <p-galleria [value]="imagesIdCard" [(visible)]="displayBasicIdCard"
-                                    [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                                    [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
-                                    [showThumbnails]="false">
-                                    <ng-template pTemplate="item" let-item>
-                                        <img [src]="item.itemImageSrc" class="galleria-img" />
-                                    </ng-template>
-                                </p-galleria>
-                            </div>
+                            <p-galleria [value]="imagesIdCard" [(visible)]="displayBasicIdCard"
+                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
+                                [showThumbnails]="false">
+                                <ng-template pTemplate="item" let-item>
+                                    <img [src]="item.itemImageSrc" class="galleria-img" />
+                                </ng-template>
+                            </p-galleria>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div [formGroup]="detailModel">
             <div class="div-text">
                 <div class="div-info-bt">
                     <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>

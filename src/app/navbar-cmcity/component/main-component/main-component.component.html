@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-3" style="margin-left: 0.5rem;">
                         <div class="div-card">
                             <div style="display: flex;">
                                 <div class="col-1 grid-check">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-3" style="margin-left: 0.5rem;">
                         <div class="div-card">
                             <div style="display: flex;">
                                 <div class="col-1 grid-check">
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-3" style="margin-left: 0.5rem;">
                         <div class="div-card">
                             <div style="display: flex;">
                                 <div class="col-1 grid-check">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <!-- new -->
+            <!-- new --> 
             <div class="col-12" style="padding-top: 1rem;">
                 <div class="div-new">
                     <p-chip label="ข่าวประชาสัมพันธ์" styleClass="mr-2"></p-chip>
@@ -192,7 +192,7 @@
                                         d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z"
                                         fill="#FE6BBA" />
                                 </svg>
-                                <span>{{ userInfo.employeeCode }}</span>
+                                <span style="text-align: left;">{{ userInfo.employeeCode }}</span>
                             </div>
                         </div>
                         <div class="col-5">
@@ -204,8 +204,8 @@
                                         d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z"
                                         fill="#3A36DB" />
                                 </svg>
-                                <span tooltipPosition="bottom" pTooltip="{{ userInfo.positionName }}">{{
-                                    transformText(userInfo.positionName,8) }}</span>
+                                <span style="text-align: left;" tooltipPosition="bottom" pTooltip="{{ userInfo.positionName }}">{{
+                                    userInfo.positionName }}</span>
                             </div>
                         </div>
                     </div>
@@ -226,7 +226,7 @@
                                 <div class="col-2">
                                     <img [src]="beneficiaryImg(beneficiary.gender)" />
                                 </div>
-                                <div class="col-10">
+                                <div class="col-9">
                                     <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName
                                         }}</span>
                                 </div>

@@ -1,8 +1,8 @@
-<div class="div-table-stocks">
+<div class="div-table-stocks" style="padding-top: 2.5rem;">
   <p-chip label="รายการแจ้งเตือน" styleClass="mr-2"></p-chip>
-  <br><br>
-  <p-table #dt2 [value]="dataNotify" dataKey="id" editMode="row" [rows]="5" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[5, 10, 20, 30]" [loading]="loading" [paginator]="true" selectionMode="single"
+  <br>
+  <p-table #dt2 [value]="dataNotify" dataKey="id" editMode="row" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30]" [loading]="loading" [paginator]="true" selectionMode="single"
     currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ" [globalFilterFields]="['createDate', 'employee.employeeCode', 'employee.firstName', 'employee.lastName', 
     'employee.position.name', 'employee.affiliation.name', 'status', 'reason' ]" [tableStyle]="{'max-width': '100%'}">
     <ng-template pTemplate="header">
@@ -12,13 +12,12 @@
         <th style="width:10%">
           <div class="flex align-items-center">
             รหัสพนักงาน
-            <p-columnFilter type="text" field="employee.employeeCode" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+            <p-columnFilter type="text" field="employee.employeeCode" display="menu" [showMatchModes]="false"
+              [showOperator]="false" [showAddButton]="false"></p-columnFilter>
           </div>
         </th>
-        <th style="width:10%">ชื่อ</th> 
+        <th style="width:10%">ชื่อ</th>
         <th style="width:10%">สกุล</th>
-        <!-- <th style="width:15%">ตำแหน่ง</th>
-        <th style="width:15%">สังกัด</th> -->
         <th pSortableColumn="status" style="width:15%">
           <div class="flex justify-content-between align-items-center">
             สถานะการแจ้งเตือน
@@ -41,13 +40,11 @@
     </ng-template>
     <ng-template pTemplate="body" let-editing="editing" let-dataNotify let-rowIndex="rowIndex" let-ri="rowIndex">
       <tr [pEditableRow]="dataNotify">
-        <td>{{ rowIndex + 1  }}</td>
+        <td>{{ rowIndex + 1 }}</td>
         <td>{{ pipeDateTH(dataNotify.createDate)}}</td>
         <td>{{ dataNotify.employee.employeeCode || 'XXXXX' }}</td>
         <td>{{ dataNotify.employee.firstName }}</td>
         <td>{{ dataNotify.employee.lastName }}</td>
-        <!-- <td>{{ dataNotify.employee.positionName }}</td>
-        <td>{{ dataNotify.employee.affiliationName }}</td> -->
         <td>
           <span [class]="'notify-badge-' + dataNotify.status">{{statusNotify(dataNotify.status)}}</span>
         </td>
@@ -55,13 +52,19 @@
         <td style="text-align: -webkit-center;">
           <div>
             <p-toast></p-toast>
-            <div *ngIf="dataNotify.status === 4">
-              <p-menu #menu [model]="mess2" [popup]="true"></p-menu>
+            <div *ngIf="dataNotify.status === 5">
+              <p-menu #menu [model]="mess3" [popup]="true" [style]="{ width: '14vw', 'margin-left': '-70px' }"></p-menu>
               <a (click)="selectedItem = dataNotify; menu.toggle($event)">
                 <i class="bi bi-three-dots-vertical"></i>
               </a>
             </div>
-            <div *ngIf="dataNotify.status !== 4">
+            <div *ngIf="dataNotify.status === 4">
+              <p-menu #menu [model]="mess2" [popup]="true" [style]="{ width: '14vw', 'margin-left': '-70px' }"></p-menu>
+              <a (click)="selectedItem = dataNotify; menu.toggle($event)">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+            </div>
+            <div *ngIf="dataNotify.status !== 4 && dataNotify.status !== 5">
               <p-menu #menu [model]="mess" [popup]="true"></p-menu>
               <a (click)="selectedItem = dataNotify; menu.toggle($event)">
                 <i class="bi bi-three-dots-vertical"></i>
@@ -87,8 +90,8 @@
   </ng-template>
 </p-confirmDialog>
 
-<p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }"
-  [draggable]="false" [resizable]="false">
+<p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '25vw'}"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
   <div [formGroup]="formModel">
     <div class="col mb-1">
       <textarea class="form-control" rows="3" cols="36" autoResize="false" formControlName="remark"
@@ -102,101 +105,136 @@
 </p-dialog>
 <p-toast></p-toast>
 
-<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
-    <div [formGroup]="detailModel">
+<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <div [formGroup]="detailModel">
     <div class="div-profile">
       <div class="img-pro">
         <img class="profile_img" src="{{ checkImgProfile(detailModel.get('gender')?.value)}}" alt="logo" />
       </div>
       <div style="padding-right: 2rem;"></div>
       <div class="text">
-          <div class="row">
-              <div class="col-4 mb-3">
-                  <label for="firstName" class="block">ชื่อ</label>
-                  <input class="form-control-plaintext" type="text" formControlName="firstName" />
-              </div>
-              <div class="col-4 mb-3">
-                  <label for="lastName" class="block">นามสกุล</label>
-                  <input class="form-control-plaintext" type="text" formControlName="lastName" />
-              </div>
-              <div class="col-4 mb-3">
-                  <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
-                  <input class="form-control-plaintext" type="text" formControlName="idCard" />
-              </div>
-              <div class="col-4 mb-3">
-                  <label class="block">ระดับ</label>
-                  <input class="form-control-plaintext" type="text" formControlName="levelName" />
-              </div>
-              <div class="col-4 mb-3">
-                  <label  class="block">ประเภทพนักงาน</label>
-                  <input class="form-control-plaintext" type="text" formControlName="employeeTypeName" />
-              </div>
-              <div class="col-4 mb-3">
-                  <label  class="block">ตำแหน่ง</label>
-                  <input class="form-control-plaintext" type="text" formControlName="positionName" />
-              </div>            
-              <div class="col-4 mb-3">
-                  <label  class="block">หน่วยงาน</label>
-                  <input class="form-control-plaintext" type="text" formControlName="departmentName" />
-              </div>
-              <div class="col-4 mb-3">
-                <label  class="block">สังกัด</label>
-                <input class="form-control-plaintext" type="text" formControlName="affiliationName" />
-              </div>
-              <div class="col-4 mb-3">
-                <label  class="block">สำนัก</label>
-                <input class="form-control-plaintext" type="text" formControlName="bureauName" />
-              </div>
-              <div class="col-4 mb-3">
-                <label  class="block">เงินหุ้นสะสม</label>
-                <input class="form-control-plaintext" type="text" formControlName="stockAccumulate" />
-              </div>
-              <div class="col-4 mb-3">
-                <label  class="block">หนี้คงค้าง</label>
-                <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
-              </div>
-              <div *ngIf="this.descriptionUser">
-                <button type="button" class="btn btn-login" style="width: max-content;" (click)="onCheckBeneficiary()">ข้อมูลการเปลี่ยนผู้รับผลประโยช์</button>
-              </div>
+        <div class="row">
+          <div class="col-4 mb-3">
+            <label for="firstName" class="block">ชื่อ</label>
+            <input class="form-control-plaintext" type="text" formControlName="firstName" />
           </div>
+          <div class="col-4 mb-3">
+            <label for="lastName" class="block">นามสกุล</label>
+            <input class="form-control-plaintext" type="text" formControlName="lastName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
+            <input class="form-control-plaintext" type="text" formControlName="idCard" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">ระดับ</label>
+            <input class="form-control-plaintext" type="text" formControlName="levelName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">ประเภทพนักงาน</label>
+            <input class="form-control-plaintext" type="text" formControlName="employeeTypeName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">ตำแหน่ง</label>
+            <input class="form-control-plaintext" type="text" formControlName="positionName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">หน่วยงาน</label>
+            <input class="form-control-plaintext" type="text" formControlName="departmentName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">สังกัด</label>
+            <input class="form-control-plaintext" type="text" formControlName="affiliationName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">สำนัก</label>
+            <input class="form-control-plaintext" type="text" formControlName="bureauName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">เงินหุ้นสะสม</label>
+            <input class="form-control-plaintext" type="text" formControlName="stockAccumulate" />
+          </div>
+          <div class="col-4 mb-3">
+            <label class="block">หนี้คงค้าง</label>
+            <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
+          </div>
+          <div *ngIf="this.descriptionUser">
+            <button type="button" class="btn btn-login" style="width: max-content;"
+              (click)="onCheckBeneficiary()">ข้อมูลการเปลี่ยนผู้รับผลประโยช์</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </p-dialog>
 
-
-<p-dialog header="ข้อมูลการเปลี่ยนผู้รับผลประโยช์" [(visible)]="displayModalUser" [modal]="true" [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }"
-  [draggable]="false" [resizable]="false">
+<p-dialog header="ข้อมูลการเปลี่ยนผู้รับผลประโยชน์" [(visible)]="displayModalUser" [modal]="true" [style]="{width: '25vw'}"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
   <div>
     <div class="col-12">
-        <div>
-             <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อผู้รับผลประโยชน์ทั้งหมด</span>
-             <div *ngFor="let allUser of arrayListDescriptionUser">
-                <div style="display: flex; padding: 0.5rem 0.5rem;">
-                  <p-chip label="{{ allUser.prefix + allUser.firstName + ' ' + allUser.lastName }}" icon="pi pi-user"></p-chip>
-                  &nbsp;&nbsp;&nbsp;
-                  <div style="padding-top: 0.2rem;">
-                    <p-tag [style]="{ 'background-color': checkRelationshipColor(allUser.relationship) }" value="{{ allUser.relationship }}"></p-tag>
-                  </div>
-                </div>
-             </div>
+      <div>
+        <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อผู้รับผลประโยชน์ทั้งหมด</span>
+        <div *ngFor="let allUser of arrayListDescriptionUser">
+          <div style="display: flex; padding: 0.5rem 0.5rem;">
+            <p-chip label="{{ allUser.prefix + allUser.firstName + ' ' + allUser.lastName }}"
+              icon="pi pi-user"></p-chip>
+            &nbsp;&nbsp;&nbsp;
+            <div style="padding-top: 0.2rem;">
+              <p-tag [style]="{ 'background-color': checkRelationshipColor(allUser.relationship) }"
+                value="{{ allUser.relationship }}"></p-tag>
+            </div>
+          </div>
         </div>
-        <div style="padding-top: 1rem;">
-             <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อขอเปลี่ยนผู้รับผลประโยชน์</span>
-             <div *ngFor="let selectUser of filteredData">
-                <div style="display: flex; padding: 0.5rem 0.5rem;">
-                  <p-chip label="{{ selectUser.prefix + selectUser.firstName + ' ' + selectUser.lastName }}" icon="pi pi-user"></p-chip>
-                  &nbsp;&nbsp;&nbsp;
-                  <div style="padding-top: 0.2rem;">
-                    <p-tag [style]="{ 'background-color': checkRelationshipColor(selectUser.relationship) }" value="{{ selectUser.relationship }}"></p-tag>
-                  </div>
-                </div>
-             </div>
+      </div>
+      <div style="padding-top: 1rem;">
+        <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อขอเปลี่ยนผู้รับผลประโยชน์</span>
+        <div *ngFor="let selectUser of filteredData">
+          <div style="display: flex; padding: 0.5rem 0.5rem;">
+            <p-chip label="{{ selectUser.prefix + selectUser.firstName + ' ' + selectUser.lastName }}"
+              icon="pi pi-user"></p-chip>
+            &nbsp;&nbsp;&nbsp;
+            <div style="padding-top: 0.2rem;">
+              <p-tag [style]="{ 'background-color': checkRelationshipColor(selectUser.relationship) }"
+                value="{{ selectUser.relationship }}"></p-tag>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button type="button" class="btn btn-login" (click)="updateBeneficairyList(arrayListDescriptionUser)">ยืนยัน</button>
+    <button type="button" class="btn btn-login"
+      (click)="updateBeneficairyList(arrayListDescriptionUser)">ยืนยัน</button>
+    <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="ข้อมูลการแก้ไขข้อมูลส่วนตัว" [(visible)]="displayEditByUser" [modal]="true"
+  [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <div [formGroup]="formModelInfo">
+    <div class="col-12">
+      <div class="text">
+        <div class="row">
+          <div class="col-4 mb-3">
+            <label for="firstName" class="block">ชื่อ</label>
+            <input class="form-control-plaintext" type="text" formControlName="firstName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label for="lastName" class="block">นามสกุล</label>
+            <input class="form-control-plaintext" type="text" formControlName="lastName" />
+          </div>
+          <div class="col-4 mb-3">
+            <label for="marital" class="block">สถานภาพสมรส</label>
+            <input class="form-control-plaintext" type="text" formControlName="marital" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-login"
+      (click)="approveUpdateByUser()">ยืนยัน</button>
     <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
   </ng-template>
 </p-dialog>

@@ -810,4 +810,17 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/v1/news/' + id,
     );
   }
+
+  updateByUser(playload: any): Observable<any> {
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-by-user', playload
+    );
+  }
+
+  approveUpdateByUser(playload: any): Observable<any> {
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/approve-update-by-user', playload
+    );
+  }
+
 }
