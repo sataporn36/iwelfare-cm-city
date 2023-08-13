@@ -33,11 +33,7 @@ export class MainComponentComponent implements OnInit {
     private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer
-  ) {
-    // this.userId = this.localStorageService.retrieve('empId');
-    // this.userInfo = this.localStorageService.retrieve('employeeofmain');
-    // this.stockId = this.localStorageService.retrieve('stockId');
-  }
+  ) {}
 
   ngOnInit(): void {
     if (!localStorage.getItem('foo')) {

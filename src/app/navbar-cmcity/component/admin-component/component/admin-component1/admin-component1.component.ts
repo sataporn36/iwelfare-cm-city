@@ -2,6 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { Component, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
@@ -96,7 +97,9 @@ export class AdminComponent1Component {
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     private decimalPipe: DecimalPipe,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    protected router: Router,
+    protected route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -669,7 +672,7 @@ export class AdminComponent1Component {
      this.service.editConfig(payload).subscribe((res) => {
          if(res.data !== null || res.data){
           this.localStorageService.clear('employeeofmain');
-          this.getEmployeeOfMains(this.userId);
+          this.getEmployeeOfMains(this.userId,'');
           this.localStorageService.clear('loanId');
           this.localStorageService.store('loanId', res.data.id);
           this.ngOnInit();
@@ -678,10 +681,18 @@ export class AdminComponent1Component {
      });
   }
 
-  getEmployeeOfMains(id: any): void {
+  getEmployeeOfMains(id: any,text: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
       if(data){
         this.localStorageService.store('employeeofmain', data);
+        if(text === 'user'){
+          this.router.navigate(['/main/main-page'], {});
+        }else{
+          setTimeout(() => {
+            this.ngOnInit();
+          }, 500);
+          
+        }
       }
     });
   }
@@ -700,7 +711,7 @@ export class AdminComponent1Component {
       if (res) {
         this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
         this.blockDocument();
-        this.ngOnInit();
+        this.reFreshEmpOfMain('user');
       }
     });
   }
@@ -714,9 +725,28 @@ export class AdminComponent1Component {
       if (res) {
         this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาทเเอดมินสำเร็จ' });
         this.blockDocument();
-        this.ngOnInit();
+        this.reFreshEmpOfMain('admin');
       }
     });
+  }
+
+  reFreshEmpOfMain(text: any){
+    // if (!localStorage.getItem('foo')) {
+    //   localStorage.setItem('foo', 'no reload');
+    //   history.go(0);
+    // } else {
+    //   localStorage.removeItem('foo');
+    //     this.localStorageService.clear('employeeofmain');
+    //     if(text === 'user'){
+    //       this.getEmployeeOfMains(this.userId);
+    //       this.router.navigate(['/main/main-page'], {});
+    //     }else{
+    //       this.getEmployeeOfMains(this.userId);
+    //       this.ngOnInit();
+    //     }
+    // }
+    this.localStorageService.clear('employeeofmain');
+    this.getEmployeeOfMains(this.userId,text);
   }
 
   blockedDocument: boolean = false;

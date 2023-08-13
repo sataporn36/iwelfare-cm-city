@@ -129,10 +129,10 @@ export class NavbarCmcityComponent implements OnInit {
     this.initMainForm();
     this.searchNotify();
 
-    if (this.adminFlag != null || this.adminFlag != false) {
-      this.messager = true;
-      this.admin = true;
-    }
+    // if (this.adminFlag) {
+    //   this.messager = true;
+    //   this.admin = true;
+    // }
   }
 
   checkURLClick(textUrl: any){
@@ -508,6 +508,7 @@ export class NavbarCmcityComponent implements OnInit {
       })
 
       this.adminFlag = data.adminFlag;
+      this.admin = data.adminFlag;
       this.localStorageService.store('employeeofmain', data);
       this.getImage(data.profileImgId);
       this.gender = data.gender;

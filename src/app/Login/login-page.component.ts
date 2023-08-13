@@ -20,6 +20,7 @@ export class LoginPageComponent implements OnInit {
   formModelChild!: FormGroup;
   userId: any;
   displayModal: boolean = false;
+  dataEmp: any;
 
   constructor(
     protected router: Router,
@@ -70,14 +71,23 @@ export class LoginPageComponent implements OnInit {
               // ลองเช็คเมื่อ login ครั้งเเรก ให้ไปเปลี่ยน password ก่อน ถ้าครั้งสองไป ให้เข้าหน้า main ได้เลย  *** ต้องดึงข้อมูลมาจากหลังบ้าน รอเพิ่ม column เก็บ
               const statusChecklogin = false;
               // if (res.data.passwordFlag) {
-                this.getEmployeeOfMain(res.data.id);
-                this.localStorageService.store('empId', res.data.id);
-                this.localStorageService.store('stockId', res.data.stockId);
-                this.localStorageService.store('loanId', res.data.loanId);
-                this.localStorageService.store('countDatetime', 0);
-                this.router.navigate(['/main/main-page'], {
-                  //state: { data: this.userId }
+                //this.getEmployeeOfMain(res.data.id);
+                //console.log(this.dataEmp,'<----------  this.dataEmp');
+                this.service.getEmployeeOfMain(res.data.id).subscribe((data) => {
+                  if(data){
+                    this.dataEmp = data;
+                    this.localStorageService.store('employeeofmain', data);
+                    this.localStorageService.store('profileImgId', data.profileImgId);
+                    this.localStorageService.store('empId', res.data.id);
+                    this.localStorageService.store('stockId', res.data.stockId);
+                    this.localStorageService.store('loanId', res.data.loanId);
+                    this.localStorageService.store('countDatetime', 0);
+                    this.router.navigate(['/main/main-page'], {
+                      //state: { data: this.userId }
+                    });
+                  }
                 });
+                
               // } else {
               //   this.router.navigate(['/forget-password'], {
               //     state: { data: 'changePassword' }
@@ -117,11 +127,10 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  getEmployeeOfMain(id: any): void {
-    this.service.getEmployeeOfMain(id).subscribe(data => {
+  getEmployeeOfMain(id: number): void {
+    this.service.getEmployeeOfMain(id).subscribe((data) => {
       if(data){
-        this.localStorageService.store('employeeofmain', data);
-        this.localStorageService.store('profileImgId', data.profileImgId);
+        this.dataEmp = data;
       }
     });
   }
