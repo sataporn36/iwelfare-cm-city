@@ -121,12 +121,14 @@
                     <label for="facebook" class="block">เฟสบุ๊ค</label>
                     <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
                 </div>
-                <div class="col-5 mb-3">
+                <div class="col-2 mb-3">
                     <label for="email" class="block">อีเมล</label>
                     <input [class]="textString" id="email" type="text" formControlName="email" (keyup)="checkEmail()" />
                     <em *ngIf="emailValidation === true && formModel.get('email')?.value">
                         <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
                     </em>
+                </div>
+                <div class="col-2 mb-3">
                 </div>
                 <div class="col-10 mb-3">
                     <label for="address" class="block">ที่อยู่</label>
