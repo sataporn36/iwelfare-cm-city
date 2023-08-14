@@ -44,6 +44,7 @@ export class NavbarCmcityComponent implements OnInit {
   settingLoan: any;
   settingDividend: any;
   settingNews: any;
+  settingSystem: any;
   admin: boolean = false;
 
   constructor(
@@ -166,6 +167,8 @@ export class NavbarCmcityComponent implements OnInit {
         this.checkActive('profile')
        }else if(url.toLowerCase().includes('news-page')){
         this.checkActive('settingNews')
+       }else if(url.toLowerCase().includes('setting-page')){
+        this.checkActive('settingSystem')
        }
       //  else if(url.toLowerCase().includes('')){
       //   this.checkActive('setting')
@@ -242,6 +245,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "deposit":
         this.main = "";
@@ -260,6 +264,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "stock":
         this.main = "";
@@ -278,6 +283,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "loan":
         this.main = "";
@@ -296,6 +302,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "rigths":
         this.main = "";
@@ -314,6 +321,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "beneficiary":
         this.main = "";
@@ -332,6 +340,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "guarantee":
         this.main = "";
@@ -350,6 +359,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "dividend":
         this.main = "";
@@ -368,6 +378,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "profile":
         this.main = "";
@@ -386,6 +397,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "message":
         this.main = "";
@@ -404,6 +416,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "settingEmployee":
         this.main = "";
@@ -422,6 +435,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "active";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "settingStock":
         this.main = "";
@@ -440,6 +454,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "active";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
       case "settingLoan":
         this.main = "";
@@ -458,6 +473,7 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingDividend = "";
         this.setting = "active";
         this.settingNews = "";
+        this.settingSystem = "";
         break;
         case "settingDividend":
           this.main = "";
@@ -476,6 +492,7 @@ export class NavbarCmcityComponent implements OnInit {
           this.settingDividend = "active";
           this.setting = "active";
           this.settingNews = "";
+          this.settingSystem = "";
           break;
           case "settingNews":
             this.main = "";
@@ -494,7 +511,27 @@ export class NavbarCmcityComponent implements OnInit {
             this.settingDividend = "";
             this.setting = "active";
             this.settingNews = "active";
+            this.settingSystem = "";
             break;
+            case "settingSystem":
+              this.main = "";
+              this.deposit = "";
+              this.stock = "";
+              this.loan = "";
+              this.rigths = "";
+              this.beneficiary = "";
+              this.guarantee = "";
+              this.dividend = "";
+              this.profile = "";
+              this.message = "";
+              this.settingEmployee = "";
+              this.settingStock = "";
+              this.settingLoan = "";
+              this.settingDividend = "";
+              this.setting = "active";
+              this.settingNews = "";
+              this.settingSystem = "active";
+              break;
       default:
         break;
     }
@@ -508,6 +545,9 @@ export class NavbarCmcityComponent implements OnInit {
       })
 
       this.adminFlag = data.adminFlag;
+      if (this.adminFlag) {
+        this.messager = true;
+      }
       this.admin = data.adminFlag;
       this.localStorageService.store('employeeofmain', data);
       this.getImage(data.profileImgId);

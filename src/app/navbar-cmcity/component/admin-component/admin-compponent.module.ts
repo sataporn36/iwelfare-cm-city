@@ -49,6 +49,8 @@ import { AppComponent } from 'src/app/app.component';
 import { AdminNewsPageComponent } from './page/admin-news-page/admin-news-page.component';
 import { AdminNewsComponentComponent } from './component/admin-news-component/admin-news-component.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { AdminSettingComponentComponent } from './component/admin-setting-component/admin-setting-component.component';
+import { AdminSettingPageComponent } from './page/admin-setting-page/admin-setting-page.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     AdminPage4Component,
     AdminNewsPageComponent,
     AdminNewsComponentComponent,
+    AdminSettingComponentComponent,
+    AdminSettingPageComponent,
   ],
   bootstrap: [AppComponent],
   providers: [DecimalPipe],

@@ -257,21 +257,50 @@
   border-radius: 18px;
 }
 
+.div-btn-ch {
+  display: flex;
+  padding-top: 5px;
+  background-color: #dee2e6;
+  width: 8.5rem;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-left: 13rem;
+
+  .btn {
+    width: fit-content;
+    height: 32px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-regis {
+    color: #fe6bba;
+    border-color: #fe6bba;
+    background-color: #f1f2f6;
+  }
+}
+
 .btn-child {
   display: flex;
   padding-top: 5px;
   background-color: #dee2e6;
-  width: 8rem;
-  height: 36px;
+  width: 6.9rem;
+  height: 38px;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
 
   .btn {
-    width: 55px;
-    height: 28px;
+    width: fit-content;
+    height: 30px;
     font-weight: 500;
-    font-size: 13px;
+    font-size: 14px;
     border-radius: 18px;
     display: flex;
     justify-content: center;
@@ -345,21 +374,71 @@
   // transform: translate(1180px, -50px);
 }
 
+// :host ::ng-deep .p-calendar .date-birthday input {
+//   height: 37px;
+//   width: 100px;
+//   font-family: "Kanit", sans-serif;
+// }
+// .date-birthday
+
 :host ::ng-deep .p-calendar input {
   height: 37px;
   width: 310px;
+  font-family: "Kanit", sans-serif;
+
+  @media screen and (max-width: 1366px) {
+    width: 215px;
+  }
 }
 
 :host ::ng-deep .custom-calendar input {
   height: 45px;
   width: 310px;
+  font-family: "Kanit", sans-serif;
 }
-
 
 :host .div-calendar-child ::ng-deep .p-datepicker {
-  position: absolute;
-  transform: translate(-3rem, -12.5rem);
+  transform: translate(-17.5rem, -10rem);
+  td > span {
+    width: 25px !important;
+    height: 26px !important;
+  }
+
+  .p-highlight {
+    color: #fe6bba;
+    background: #ffeffd;
+  }
 }
+
+// ::ng-deep {
+//   .p-datepicker .p-datepicker-buttonbar {
+//     padding: 0.2rem 0;
+//     .p-button {
+//       color: #495057;
+//     }
+//   }
+  
+//   .p-button.p-button-text:enabled:hover {
+//     background: rgba(233, 135, 220, 0.04);
+//     color: #fe6bba;
+//   }
+
+//   .p-datepicker table td > span.p-highlight {
+//     color: #fe6bba;
+//     background: #ffeffd;
+//   }
+
+//   .p-datepicker td > span {
+//     width: 25px !important;
+//     height: 25px !important;
+//   }
+// }
+
+// :host .div-calendar-child ::ng-deep .p-datepicker {
+//   position: absolute;
+//   z-index: 10;
+//   transform: translate(-3rem, -12.5rem);
+// }
 
 
 /////
@@ -460,11 +539,11 @@
   }
 }
 
-:host .div-calendar ::ng-deep .p-datepicker {
-  position: absolute;
-  margin-top: 5px;
-  margin-left: -75px;
-}
+// :host .div-calendar ::ng-deep .p-datepicker {
+//   position: absolute;
+//   margin-top: 5px;
+//   margin-left: -75px;
+// }
 
 //------------------------------------------//
 // .profile-pic-wrapper {

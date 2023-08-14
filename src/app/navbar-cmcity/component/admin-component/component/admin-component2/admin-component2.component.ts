@@ -90,7 +90,10 @@ export class AdminComponent2Component implements OnInit {
 
       this.employeeStatusList = [
         { name: 'กรุณาเลือกสถานะ', value: 0 },
+        { name: 'ลาออก', value: 3 },
         { name: 'เสียชีวิต', value: 6 },
+        { name: 'หนีหนี้', value: 7 },
+        { name: 'เกษียณ', value: 8 },
       ];
 
       this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {

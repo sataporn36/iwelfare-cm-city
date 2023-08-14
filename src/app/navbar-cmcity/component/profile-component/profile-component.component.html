@@ -290,7 +290,7 @@
                         formControlName="monthlyStockMoney" />
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="lastName" class="block">เลขที่บัญชีธนาคารเงินเดือน</label>
+                    <label for="lastName" class="block">ชื่อบัญชีธนาคาร</label>
                     <input [class]="textString" id="salaryBankAccountNumber" type="text"
                         formControlName="salaryBankAccountNumber" />
                 </div>
@@ -407,7 +407,7 @@
                         <button type="button" (click)="onClickGf()" class="btn btn-regis" *ngIf="modeGf">แก้ไข</button>
                     </div>
 
-                    <div class="div-btn" style="display: flex;" *ngIf="!modeGf">
+                    <div class="div-btn-ch" style="display: flex;" *ngIf="!modeGf">
                         <button type="button" class="btn btn-login" (click)="acceptGf()">บันทึก</button>
                         <button type="button" (click)="onClickCancalGf()" class="btn btn-regis"
                             style="margin-left: 3px;">ยกเลิก</button>
@@ -455,7 +455,7 @@
                             <label for="beneficiaryBirthday" class="block">วันเกิด</label> <br>
                             <input [class]="textStringGf" id="beneficiaryBirthday" type="text"
                                 formControlName="birthday" *ngIf="modeGf" />
-                            <p-calendar inputId="basic" formControlName="beneficiaryBirthday" style="width: 390px;"
+                            <p-calendar inputId="basic" formControlName="beneficiaryBirthday"
                                 [maxDate]="defaultDateline" dateFormat="dd/mm/yy" *ngIf="!modeGf"
                                 [showButtonBar]="true"></p-calendar>
                         </div>
@@ -500,7 +500,7 @@
                         <button type="button" (click)="onClickGm()" class="btn btn-regis" *ngIf="modeGm">แก้ไข</button>
                     </div>
 
-                    <div class="div-btn" style="display: flex;" *ngIf="!modeGm">
+                    <div class="div-btn-ch" style="display: flex;" *ngIf="!modeGm">
                         <button type="button" class="btn btn-login" (click)="acceptGm()">บันทึก</button>
                         <button type="button" (click)="onClickCancalGm()" class="btn btn-regis"
                             style="margin-left: 3px;">ยกเลิก</button>
@@ -592,7 +592,7 @@
                             *ngIf="modeDad">แก้ไข</button>
                     </div>
 
-                    <div class="div-btn" style="display: flex;" *ngIf="!modeDad">
+                    <div class="div-btn-ch" style="display: flex;" *ngIf="!modeDad">
                         <button type="button" class="btn btn-login" (click)="acceptDad()">บันทึก</button>
                         <button type="button" (click)="onClickCancalDad()" class="btn btn-regis"
                             style="margin-left: 3px;">ยกเลิก</button>
@@ -671,18 +671,16 @@
                             formControlName="beneficiaryMarital" required="true">
                             <option value="0" selected>เลือกสถานภาพสมรส</option>
                             <option value="1">โสด</option>
-                            <option value="2">อยู่ร่วมกัน</option>
+                            <option value="2">แต่งงานแล้ว</option>
                             <option value="3">หม้าย</option>
                             <option value="4">หย่า</option>
                             <option value="5">แยกกันอยู่</option>
                         </select>
                     </div>
-                    <!-- <div class="col-6"></div> -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div style="padding-right: 0.5rem;"></div> -->
 
     <!-- ภรรยา -->
     <div *ngIf="this.formModel.get('gender')?.value === 'ชาย'" class="div-profile-four" style="height: fit-content;">
@@ -693,13 +691,11 @@
                         <p-chip label="ภรรยา" image="https://cdn-icons-png.flaticon.com/512/9071/9071202.png"
                             styleClass="mr-2"></p-chip>
                     </div>
-
                     <div style="display: flex; padding-top: 8px;">
                         <button type="button" (click)="onClickMom()" class="btn btn-regis"
                             *ngIf="modeMom">แก้ไข</button>
                     </div>
-
-                    <div class="div-btn" style="display: flex;" *ngIf="!modeMom">
+                    <div class="div-btn-ch" style="display: flex;" *ngIf="!modeMom">
                         <button type="button" class="btn btn-login" (click)="acceptMom()">บันทึก</button>
                         <button type="button" (click)="onClickCancalMom()" class="btn btn-regis"
                             style="margin-left: 3px;">ยกเลิก</button>
@@ -795,8 +791,8 @@
 </div>
 
 <!-- popup add child -->
-<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '28vw'}" [breakpoints]="{ '960px': '90vw' }"
-    [draggable]="false" [resizable]="false" styleClass="customDialog">
+<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '35vw', height: '25vw'}" [breakpoints]="{ '960px': '90vw' }"
+    [draggable]="false" [resizable]="false" styleClass="customDialog" (onHide)="clearDialog()">
     <ng-template pTemplate="header">
         <div *ngIf="modeChildstatus === 'ADD'">
             <p-chip label="เพิ่มบุตร/บุตรบุญธรรม" styleClass="mr-2"></p-chip>
@@ -806,7 +802,7 @@
         </div>
     </ng-template>
     <div [formGroup]="formModelChild">
-        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
+        <div class="test-child" style="display: grid; justify-content: center; padding: 30px;">
             <div class="col-12 " style="display: flex; justify-content: space-between;">
                 <div class="col-6">
                     <label for="beneficiaryPrefix" class="block" style="color: #747d8c;">คำนำหน้า</label>
@@ -856,7 +852,7 @@
                 <div class="col-6">
                     <label for="basic" class="block">วันเกิด</label> <br>
                     <div class="div-calendar-child">
-                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" [maxDate]="defaultDateline"
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday"
                             dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
                     </div>
                 </div>
@@ -887,11 +883,17 @@
     </div>
 
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="onClickAddChild()" [disabled]="!formModelChild.valid 
-            || childFlag
-            || childFlag1
-            || childFlag2 ">ยืนยัน</button>
-        <button type="button" class="btn btn-regis2" (click)="onCancleAddChild()">ยกเลิก</button>
+        <div *ngIf="modeChildstatus === 'ADD'">
+            <button type="button" class="btn btn-login2" (click)="onClickAddChild()" [disabled]="!formModelChild.valid 
+                || childFlag
+                || childFlag1
+                || childFlag2 ">ยืนยัน</button>
+            <button type="button" class="btn btn-regis2" (click)="onCancleAddChild()">ยกเลิก</button>
+        </div>
+        <div *ngIf="modeChildstatus === 'EDIT'">
+            <button type="button" class="btn btn-login2" (click)="onClickAddChild()">ยืนยัน</button>
+            <button type="button" class="btn btn-regis2" (click)="onCancleAddChild()">ยกเลิก</button>
+        </div>
     </ng-template>
 </p-dialog>
 
@@ -958,7 +960,7 @@
                                 <div class="col-6 ">
                                     <label for="basic" class="block">วันเกิด</label> <br>
                                     <input class="form-control-plaintext" id="birthday" type="text"
-                                        value="{{this.checkRetirementDate(child.birthday)}}" disabled />
+                                        value="{{this.pipeDateTH(child.birthday)}}" disabled />
                                 </div>
                             </div>
 

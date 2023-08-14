@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import 'jspdf-autotable';
@@ -11,7 +11,6 @@ import pdfFonts from 'src/assets/custom-fonts.js'
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
-import { log } from 'console';
 
 
 @Component({

@@ -249,7 +249,6 @@ export class MessageComponentComponent implements OnInit {
         label: 'ข้อมูลการแก้ไขข้อมูลส่วนตัว',
         icon: 'pi pi-check-circle ',
         command: () => {
-        
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
           this.onCheckInfo();

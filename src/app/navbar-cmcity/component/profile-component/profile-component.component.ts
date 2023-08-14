@@ -752,7 +752,7 @@ export class ProfileComponentComponent implements OnInit {
     this.modeGf = true;
     this.formModelGf.disable();
     this.textStringGf = 'form-control-plaintext';
-    this.ngOnInit()
+    // this.ngOnInit()
   }
 
   // มารดา  
@@ -767,7 +767,7 @@ export class ProfileComponentComponent implements OnInit {
     this.modeGm = true;
     this.formModelGm.disable();
     this.textStringGm = 'form-control-plaintext';
-    this.ngOnInit()
+    // this.ngOnInit()
   }
 
   // สามี    
@@ -782,7 +782,7 @@ export class ProfileComponentComponent implements OnInit {
     this.modeDad = true;
     this.formModelDad.disable();
     this.textStringDad = 'form-control-plaintext';
-    this.ngOnInit()
+    // this.ngOnInit()
   }
 
   onClickMom() {
@@ -797,7 +797,7 @@ export class ProfileComponentComponent implements OnInit {
     this.modeMom = true;
     this.formModelMom.disable();
     this.textStringMom = 'form-control-plaintext';
-    this.ngOnInit()
+    // this.ngOnInit()
   }
 
   // ลูก  
@@ -1052,7 +1052,7 @@ export class ProfileComponentComponent implements OnInit {
     switch (data) {
       case 'โสด':
         return '1'
-      case 'อยู่ร่วมกัน':
+      case 'แต่งงานแล้ว':
         return '2'
       case 'เป็นหม้าย':
         return '3'
@@ -1070,7 +1070,7 @@ export class ProfileComponentComponent implements OnInit {
       case '1':
         return 'โสด'
       case '2':
-        return 'อยู่ร่วมกัน'
+        return 'แต่งงานแล้ว'
       case '3':
         return 'เป็นหม้าย'
       case '4':
@@ -1103,13 +1103,25 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateByUser(playload).subscribe((res) => {
+
+      console.log(res, 'update res');
+      
+
       this.getEmployee(this.userId);
       this.formModel.disable();
       this.initMainForm();
       this.textString = 'form-control-plaintext';
       this.mode = true;
-      this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
-      this.ngOnInit(); 
+
+      if (res.data === "UPDATE") {
+          this.messageService.add({ severity: 'success', detail: 'บันทึกสำเร็จ' });
+      }else{
+          this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+      }
+
+      setTimeout(() => {
+        this.ngOnInit();
+      }, 1000);
     });
   }
 
@@ -1133,11 +1145,9 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.formModelGf.disable();
-      this.initMainForm();
+      this.ngOnInit();
       this.textStringGf = 'form-control-plaintext';
       this.modeGf = true;
-      this.ngOnInit();
     });
   }
 
@@ -1161,8 +1171,8 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.formModelGm.disable();
-      this.initMainForm();
+      // this.formModelGm.disable();
+      // this.initMainForm();
       this.textStringGm = 'form-control-plaintext';
       this.modeGm = true;
       this.ngOnInit();
@@ -1189,8 +1199,8 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.formModelDad.disable();
-      this.initMainForm();
+      // this.formModelDad.disable();
+      // this.initMainForm();
       this.textStringDad = 'form-control-plaintext';
       this.modeDad = true;
       this.ngOnInit();
@@ -1217,8 +1227,8 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
-      this.formModelMom.disable();
-      this.initMainForm();
+      // this.formModelMom.disable();
+      // this.initMainForm();
       this.textStringMom = 'form-control-plaintext';
       this.modeMom = true;
       this.ngOnInit();
@@ -1494,4 +1504,11 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
+  clearDialog() {
+    this.formModelChild.reset();
+    this.formModelChild.get('beneficiaryPrefix')?.setValue(0);
+    this.formModelChild.get('beneficiaryMarital')?.setValue(0);
+    this.formModelChild.get('beneficiaryLifeStatus')?.setValue(0);
+    this.formModelChild.get('beneficiaryRelationship')?.setValue(0);
+  }
 }

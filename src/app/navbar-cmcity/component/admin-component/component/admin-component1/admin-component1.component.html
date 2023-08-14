@@ -53,19 +53,19 @@
     </p-table>
 </div>
 
-<div style="display: flex; justify-content: space-between;">
+<!-- <div style="display: flex; justify-content: space-between;">
     <div class="card-2">
         <div>
-            <p-chip label="อัตาราดอกเบี้ย (%)" styleClass="mr-2"></p-chip>
+            <p-chip label="อัตราดอกเบี้ย (%)" styleClass="mr-2"></p-chip>
         </div>
         <div class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
             <div [formGroup]="formModelInterest">
                 <div class="col-12" style="padding: 1rem;">
-                    <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตาราดอกเบี้ย
-                        จะมีการคำนวณเงินกู้ใหม่หรืออื่นๆที่มีการเรียกใช้อัตาราดอกเบี้ยทั้งหมด</label>
+                    <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตราดอกเบี้ย
+                        จะมีการคำนวณเงินกู้ใหม่หรืออื่นๆที่มีการเรียกใช้อัตราดอกเบี้ยทั้งหมด</label>
                 </div>
                 <div style="display: grid; justify-content: center; padding-top: 2rem;">
-                    <label class="block">อัตาราดอกเบี้ย</label>
+                    <label class="block">อัตราดอกเบี้ย</label>
                     <div style="display: flex;">
                         <p-inputNumber formControlName="interest" inputId="minmaxfraction" mode="decimal"
                             [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
@@ -101,7 +101,6 @@
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
                             (click)="displayBasic1 = true">ดูรูปภาพ</button>
-                        <!-- <div class="card flex justify-content-center"> -->
                         <p-galleria [value]="images1" [(visible)]="displayBasic1"
                             [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
                             [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
@@ -110,7 +109,6 @@
                                 <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
                             </ng-template>
                         </p-galleria>
-                        <!-- </div> -->
                         <input #file1 class="uploadProfileInput" type="file"
                             (change)="onConfigPicChange($event,'signature1')" id="newConfigImg1" accept="image/*"
                             style="opacity: 0; width: 50px;" />
@@ -130,7 +128,6 @@
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
                             (click)="displayBasic2 = true">ดูรูปภาพ</button>
-                        <!-- <div class="card flex justify-content-center"> -->
                         <p-galleria [value]="images2" [(visible)]="displayBasic2"
                             [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
                             [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
@@ -139,7 +136,6 @@
                                 <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
                             </ng-template>
                         </p-galleria>
-                        <!-- </div> -->
                         <input #file2 class="uploadProfileInput" type="file"
                             (change)="onConfigPicChange($event,'signature2')" id="newConfigImg2" accept="image/*"
                             style="opacity: 0; width: 50px;" />
@@ -148,10 +144,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="card">
-
+<!-- <div class="card">
     <div style="padding-bottom: 2rem;">
         <p-chip label="การจัดการบทบาทสมาชิก" styleClass="mr-2"></p-chip>
     </div>
@@ -169,9 +164,9 @@
             </div>
         </ng-template>
     </p-pickList>
-</div>
+</div> -->
 
-<p-toast></p-toast>
+<p-toast></p-toast> 
 
 <p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '80vw' }"
     [breakpoints]="{ '1000px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
@@ -487,7 +482,7 @@
                                 dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
                         </div>
                         <div class="col-2 mb-3">
-                            <label for="lastName" class="block">บัญชีธนาคาร</label>
+                            <label for="lastName" class="block">ชื่อบัญชีธนาคาร</label>
                             <input [class]="textString" id="salaryBankAccountNumber" type="text"
                                 formControlName="salaryBankAccountNumber" />
                         </div>

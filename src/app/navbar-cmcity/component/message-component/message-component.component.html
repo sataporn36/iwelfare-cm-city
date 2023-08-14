@@ -103,6 +103,7 @@
     <button type="button" class="btn btn-regis" (click)="displayModal=false">ยกเลิก</button>
   </ng-template>
 </p-dialog>
+
 <p-toast></p-toast>
 
 <p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }"
@@ -159,10 +160,10 @@
             <label class="block">หนี้คงค้าง</label>
             <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
           </div>
-          <div *ngIf="this.descriptionUser">
+          <!-- <div *ngIf="this.descriptionUser">
             <button type="button" class="btn btn-login" style="width: max-content;"
               (click)="onCheckBeneficiary()">ข้อมูลการเปลี่ยนผู้รับผลประโยช์</button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

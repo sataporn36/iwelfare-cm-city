@@ -23,6 +23,7 @@ import { AdminPage3Component } from './navbar-cmcity/component/admin-component/p
 import { AdminPage4Component } from './navbar-cmcity/component/admin-component/page/admin-page4/admin-page4.component';
 import { ResetPasswordPageComponent } from './navbar-cmcity/page/reset-password-page/reset-password-page.component';
 import { AdminNewsPageComponent } from './navbar-cmcity/component/admin-component/page/admin-news-page/admin-news-page.component';
+import { AdminSettingPageComponent } from './navbar-cmcity/component/admin-component/page/admin-setting-page/admin-setting-page.component';
 const routes: Routes = [
   {
     path: '',
@@ -122,6 +123,10 @@ const routes: Routes = [
       {
         path: 'admin-news-page',
         component: AdminNewsPageComponent,
+      },
+      {
+        path: 'admin-setting-page',
+        component: AdminSettingPageComponent,
       },
     ]
   },
