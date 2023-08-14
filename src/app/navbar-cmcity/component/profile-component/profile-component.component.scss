@@ -161,8 +161,10 @@
   border-radius: 15px;
   // height: ;
   .doc-group {
-    display: flex; 
+    display: grid; 
     margin-left: 5px;
+    align-items: center;
+    justify-content: center;
   }
   p{
     color: #5d6066;
