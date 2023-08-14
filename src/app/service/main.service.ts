@@ -613,6 +613,12 @@ export class MainService {
     );
   }
 
+  searchIdOfEmpCode(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/search-id-of-emp-code', playload
+    );
+  }
+
   getGuarantor(id: number): Observable<any> {
     return this.http.get<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/loan/guarantor/' + id,
@@ -820,6 +826,12 @@ export class MainService {
   approveUpdateByUser(playload: any): Observable<any> {
     return this.http.patch<any>(
       AppPath.APP_API_SERVICE + '/v1/employee/approve-update-by-user', playload
+    );
+  }
+
+  updateLoanEmpOfGuarantor(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/loan/update-loan-emp-guarantor', playload
     );
   }
 

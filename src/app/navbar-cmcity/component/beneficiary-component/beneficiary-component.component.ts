@@ -39,6 +39,10 @@ export class BeneficiaryComponentComponent implements OnInit {
 
   }
 
+  toggleBeneficiaryActive(beneficiaryInfo: any) {
+    beneficiaryInfo.active = !beneficiaryInfo.active;
+  }
+
   getBeneficiaryByEmpId(id: any) {
     this.service.getBeneficiaryByEmpId(id).subscribe(data => {
       this.arrayBeneficiary = data;
@@ -49,6 +53,8 @@ export class BeneficiaryComponentComponent implements OnInit {
     this.service.searchBeneficiary(id).subscribe(data => {
       this.filteredData = data.filter((item) => item.active === false);
       this.beneficiaryInfo = data;
+      console.log(this.beneficiaryInfo,'<---------- this.beneficiaryInfo');
+      
     });
   }
 

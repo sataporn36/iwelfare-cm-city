@@ -730,7 +730,9 @@ export class AdminComponent1Component {
       if (res) {
         this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
         this.blockDocument();
-        this.reFreshEmpOfMain('user');
+        if(this.userId === event.items[0].empId){
+          this.reFreshEmpOfMain('admin');
+        }
       }
     });
   }

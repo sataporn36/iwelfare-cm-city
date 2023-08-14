@@ -48,6 +48,7 @@ import { SlideMenuModule } from 'primeng/slidemenu';
 import { AppComponent } from 'src/app/app.component';
 import { AdminNewsPageComponent } from './page/admin-news-page/admin-news-page.component';
 import { AdminNewsComponentComponent } from './component/admin-news-component/admin-news-component.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { AdminNewsComponentComponent } from './component/admin-news-component/ad
     ImageModule,
     GalleriaModule,
     PickListModule,
-    SlideMenuModule
+    SlideMenuModule,
+    CheckboxModule
   ]
 })
 export class AdminCompponentModule { }
