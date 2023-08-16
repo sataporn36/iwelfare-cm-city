@@ -160,11 +160,14 @@
   padding: 2rem; 
   border-radius: 15px;
   // height: ;
+  // display: flex;
+  
   .doc-group {
-    display: grid; 
-    margin-left: 5px;
-    align-items: center;
-    justify-content: center;
+    margin-top: -10px;
+    // display: grid; 
+    margin-left: 30%;
+    // align-items: center;
+    // justify-content: center;
   }
   p{
     color: #5d6066;
@@ -381,13 +384,17 @@
 // }
 // .date-birthday
 
-:host ::ng-deep .p-calendar input {
-  height: 37px;
-  width: 310px;
-  font-family: "Kanit", sans-serif;
+:host ::ng-deep {
+  .p-calendar input {
+    height: 37px;
+    width: 310px;
+    font-family: "Kanit", sans-serif;
+  }
 
   @media screen and (max-width: 1366px) {
-    width: 215px;
+    .birthday-calendar input {
+      width: 178px;
+    }
   }
 }
 
@@ -834,23 +841,26 @@
   border-radius: 5px;
   // width: 100%;
   // height: 20%;
-  width: 145px;
-  height: 180px;
+  // width: 145px;
+  // height: 180px;
+  // width: 50%;
+  // height: 10%;
+  width: 60%;
   overflow: hidden;
   // display: flex;
   // justify-content: center;
   // align-items: center;
   // justify-content: center;
-  border: 1px solid #b4b2b2;
+  border: 2px solid #f0f2f2;
   // margin-bottom: 20px;
   // margin-top: -0px;
   //margin-left: -12px;
 }
 
 .pic-holder-doc .pic-doc {
-  height: 100%;
+  // height: 100%;
   width: 100%;
-  position: absolute;
+  // position: absolute;
   // object-fit: cover;
   // object-position: center;
 }
@@ -896,7 +906,7 @@
 }
 
 .div-profile-button{
-  margin-left: 3%;
+  margin-left: 20%;
 }
 
 @media screen and (max-width: 1366px) {
@@ -924,7 +934,7 @@
   }
 
   .div-profile-button{
-    margin-left: -23%;
+    margin-left: -5%;
   }
 
   .div-profile-three {
@@ -947,8 +957,10 @@
       flex-direction: column;
     }
     .pic-holder-doc {
-      width: 180px;
-      height: 180px;
+      width: 100%;
+    }
+    .pic-holder-doc .pic-doc {
+      width: 100%;
     }
   }
 
