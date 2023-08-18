@@ -150,6 +150,18 @@ export class ProfileComponentComponent implements OnInit {
       this.getPositions();
       this.getBureau();
       this.getDapartment();
+      this.checkDefaultImage();
+    }
+  }
+
+  checkDefaultImage(){
+    if (this.imageSrcAddress == null) {
+      this.imageSrcAddress = 'assets/images/image-default2.png';
+    }
+
+    
+    if (this.imageSrcIdCard == null) {
+      this.imageSrcIdCard = 'assets/images/image-default2.png';
     }
   }
 

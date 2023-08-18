@@ -28,6 +28,10 @@ export class AdminNewsComponentComponent {
     this.initMainFormDetail();
     this.searchNews();
     this.getImageNews(this.imageCoverId);
+
+    if (this.imageCover == null) {
+      this.imageCover = 'assets/images/image-default2.png';
+    }
   }
 
   initMainForm() {

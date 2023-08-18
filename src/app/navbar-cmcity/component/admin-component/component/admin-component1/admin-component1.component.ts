@@ -122,6 +122,17 @@ export class AdminComponent1Component {
     this.getPositions();
     this.getBureau();
     this.getDepartment();
+    this.checkDefaultImage();
+  }
+
+  checkDefaultImage(){
+    if (this.imageSrcAddress == null) {
+      this.imageSrcAddress = 'assets/images/image-default2.png';
+    }
+    
+    if (this.imageSrcIdCard == null) {
+      this.imageSrcIdCard = 'assets/images/image-default2.png';
+    }
   }
 
   getPositions(): void {
@@ -326,6 +337,7 @@ export class AdminComponent1Component {
     this.textString = 'form-control-plaintext';
     this.imageSrcIdCard = null;
     this.imageSrcAddress = null;
+    this.checkDefaultImage();
   }
 
   myDefaultDate = new Date();
