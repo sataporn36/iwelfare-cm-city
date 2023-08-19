@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+}
+
+.doc {
+  margin-top: 10px;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+}
+
+.div-doc-pdf {
+  margin: 20px;
+}
+
+.doc-pdf {
+  margin-top: 20px;
+}
+
+.btn {
+  width: fit-content;
+  height: 34px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: -5px;
+  border-radius: 15px;
+}
+
+.btn-login {
+  color: #fff;
+  background-color: #fe6bba;
+}

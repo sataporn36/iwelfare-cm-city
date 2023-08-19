@@ -66,13 +66,7 @@ export class LoanRightsComponentComponent implements OnInit {
             }
           }
         }
-      },
-      // layout: {
-      //   padding: {
-      //     top: 20,
-      //     bottom: 20
-      //   }
-      // }
+      }
     };
   }
 }

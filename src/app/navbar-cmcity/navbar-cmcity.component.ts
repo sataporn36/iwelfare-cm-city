@@ -100,7 +100,7 @@ export class NavbarCmcityComponent implements OnInit {
   })
 
   ngOnInit() {
-    console.log(window.location.href,'<------------ window.location.href');
+    console.log(window.location.href, '<------------ window.location.href');
     this.checkURLClick(window.location.href.toString());
     this.items = [
       {
@@ -136,43 +136,45 @@ export class NavbarCmcityComponent implements OnInit {
     // }
   }
 
-  checkURLClick(textUrl: any){
+  checkURLClick(textUrl: any) {
     const baseUrl = 'http://localhost:4200/main/';
     const url = textUrl.replace(baseUrl, '');
-    console.log(url,'<--- url text');
-    
-       if(url.toLowerCase().includes('main')){
-         this.checkActive('main')
-       }else if(url.toLowerCase().includes('share')){
-         this.checkActive('stock')
-       }else if(url.toLowerCase().includes('rigths')){
-        this.checkActive('rigths')
-       }else if(url.toLowerCase().includes('loan')){
-        this.checkActive('loan')
-       }else if(url.toLowerCase().includes('beneficiary')){
-        this.checkActive('beneficiary')
-       }else if(url.toLowerCase().includes('guarantee')){
-        this.checkActive('guarantee')
-       }else if(url.toLowerCase().includes('dividend')){
-        this.checkActive('dividend')
-       }else if(url.toLowerCase().includes('page1')){
-        this.checkActive('settingEmployee')
-       }else if(url.toLowerCase().includes('page2')){
-        this.checkActive('settingStock')
-       }else if(url.toLowerCase().includes('page3')){
-        this.checkActive('settingLoan')
-       }else if(url.toLowerCase().includes('page4')){
-        this.checkActive('settingDividend')
-       }else if(url.toLowerCase().includes('profile')){
-        this.checkActive('profile')
-       }else if(url.toLowerCase().includes('news-page')){
-        this.checkActive('settingNews')
-       }else if(url.toLowerCase().includes('setting-page')){
-        this.checkActive('settingSystem')
-       }
-      //  else if(url.toLowerCase().includes('')){
-      //   this.checkActive('setting')
-      //  }
+    console.log(url, '<--- url text');
+
+    if (url.toLowerCase().includes('main')) {
+      this.checkActive('main')
+    } else if (url.toLowerCase().includes('share')) {
+      this.checkActive('stock')
+    } else if (url.toLowerCase().includes('rigths')) {
+      this.checkActive('rigths')
+    } else if (url.toLowerCase().includes('loan')) {
+      this.checkActive('loan')
+    } else if (url.toLowerCase().includes('beneficiary')) {
+      this.checkActive('beneficiary')
+    } else if (url.toLowerCase().includes('guarantee')) {
+      this.checkActive('guarantee')
+    } else if (url.toLowerCase().includes('dividend')) {
+      this.checkActive('dividend')
+    } else if (url.toLowerCase().includes('page1')) {
+      this.checkActive('settingEmployee')
+    } else if (url.toLowerCase().includes('page2')) {
+      this.checkActive('settingStock')
+    } else if (url.toLowerCase().includes('page3')) {
+      this.checkActive('settingLoan')
+    } else if (url.toLowerCase().includes('page4')) {
+      this.checkActive('settingDividend')
+    } else if (url.toLowerCase().includes('profile')) {
+      this.checkActive('profile')
+    } else if (url.toLowerCase().includes('news-page')) {
+      this.checkActive('settingNews')
+    } else if (url.toLowerCase().includes('setting-page')) {
+      this.checkActive('settingSystem')
+    } else if (url.toLowerCase().includes('deposit-page')) {
+      this.checkActive('deposit')
+    }
+    //  else if(url.toLowerCase().includes('')){
+    //   this.checkActive('setting')
+    //  }
   }
 
   isCollapsed: boolean = false;
@@ -475,63 +477,63 @@ export class NavbarCmcityComponent implements OnInit {
         this.settingNews = "";
         this.settingSystem = "";
         break;
-        case "settingDividend":
-          this.main = "";
-          this.deposit = "";
-          this.stock = "";
-          this.loan = "";
-          this.rigths = "";
-          this.beneficiary = "";
-          this.guarantee = "";
-          this.dividend = "";
-          this.profile = "";
-          this.message = "";
-          this.settingEmployee = "";
-          this.settingStock = "";
-          this.settingLoan = "";
-          this.settingDividend = "active";
-          this.setting = "active";
-          this.settingNews = "";
-          this.settingSystem = "";
-          break;
-          case "settingNews":
-            this.main = "";
-            this.deposit = "";
-            this.stock = "";
-            this.loan = "";
-            this.rigths = "";
-            this.beneficiary = "";
-            this.guarantee = "";
-            this.dividend = "";
-            this.profile = "";
-            this.message = "";
-            this.settingEmployee = "";
-            this.settingStock = "";
-            this.settingLoan = "";
-            this.settingDividend = "";
-            this.setting = "active";
-            this.settingNews = "active";
-            this.settingSystem = "";
-            break;
-            case "settingSystem":
-              this.main = "";
-              this.deposit = "";
-              this.stock = "";
-              this.loan = "";
-              this.rigths = "";
-              this.beneficiary = "";
-              this.guarantee = "";
-              this.dividend = "";
-              this.profile = "";
-              this.message = "";
-              this.settingEmployee = "";
-              this.settingStock = "";
-              this.settingLoan = "";
-              this.settingDividend = "";
-              this.setting = "active";
-              this.settingNews = "";
-              this.settingSystem = "active";
-              break;
+      case "settingDividend":
+        this.main = "";
+        this.deposit = "";
+        this.stock = "";
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "active";
+        this.setting = "active";
+        this.settingNews = "";
+        this.settingSystem = "";
+        break;
+      case "settingNews":
+        this.main = "";
+        this.deposit = "";
+        this.stock = "";
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "active";
+        this.settingNews = "active";
+        this.settingSystem = "";
+        break;
+      case "settingSystem":
+        this.main = "";
+        this.deposit = "";
+        this.stock = "";
+        this.loan = "";
+        this.rigths = "";
+        this.beneficiary = "";
+        this.guarantee = "";
+        this.dividend = "";
+        this.profile = "";
+        this.message = "";
+        this.settingEmployee = "";
+        this.settingStock = "";
+        this.settingLoan = "";
+        this.settingDividend = "";
+        this.setting = "active";
+        this.settingNews = "";
+        this.settingSystem = "active";
+        break;
       default:
         break;
     }

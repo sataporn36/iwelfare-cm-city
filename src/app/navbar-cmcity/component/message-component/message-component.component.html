@@ -107,11 +107,11 @@
 <p-toast></p-toast>
 
 <p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '60vw' }"
-  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
   <div [formGroup]="detailModel">
     <div class="div-profile">
       <div class="img-pro">
-        <img class="profile_img" src="{{ checkImgProfile(detailModel.get('gender')?.value)}}" alt="logo" />
+        <img class="profile_img" [src]="checkImgProfile()" alt="logo" />
       </div>
       <div style="padding-right: 2rem;"></div>
       <div class="text">
@@ -160,43 +160,43 @@
             <label class="block">หนี้คงค้าง</label>
             <input class="form-control-plaintext" type="number" formControlName="loanBalance" />
           </div>
-          <!-- <div *ngIf="this.descriptionUser">
-            <button type="button" class="btn btn-login" style="width: max-content;"
-              (click)="onCheckBeneficiary()">ข้อมูลการเปลี่ยนผู้รับผลประโยช์</button>
-          </div> -->
+          <div class="col-4 mb-3">
+            <label class="block">สถานภาพสมรส</label>
+            <input class="form-control-plaintext" type="text" formControlName="marital" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </p-dialog>
 
-<p-dialog header="ข้อมูลการเปลี่ยนผู้รับผลประโยชน์" [(visible)]="displayModalUser" [modal]="true" [style]="{width: '25vw'}"
-  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
-  <div>
+<p-dialog header="ข้อมูลการเปลี่ยนผู้รับผลประโยชน์" [(visible)]="displayModalUser" [modal]="true"
+  [style]="{width: '30vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <div style="margin-top: 10px; margin-left: 10px;">
     <div class="col-12">
       <div>
-        <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อผู้รับผลประโยชน์ทั้งหมด</span>
+        <span style="color: #747d8c; font-size: 17px; font-weight: bold;">รายชื่อผู้รับผลประโยชน์ทั้งหมด</span>
         <div *ngFor="let allUser of arrayListDescriptionUser">
           <div style="display: flex; padding: 0.5rem 0.5rem;">
             <p-chip label="{{ allUser.prefix + allUser.firstName + ' ' + allUser.lastName }}"
               icon="pi pi-user"></p-chip>
             &nbsp;&nbsp;&nbsp;
             <div style="padding-top: 0.2rem;">
-              <p-tag [style]="{ 'background-color': checkRelationshipColor(allUser.relationship) }"
+              <p-tag [style]="{ 'background-color': checkRelationshipColor(allUser.relationship), 'font-weight': 'normal', 'font-size': '15px'}"
                 value="{{ allUser.relationship }}"></p-tag>
             </div>
           </div>
         </div>
       </div>
       <div style="padding-top: 1rem;">
-        <span style="color: #607d8b; font-size: 17px; font-weight: bold;">รายชื่อขอเปลี่ยนผู้รับผลประโยชน์</span>
+        <span style="color: #747d8c; font-size: 17px; font-weight: bold;">รายชื่อขอเปลี่ยนผู้รับผลประโยชน์</span>
         <div *ngFor="let selectUser of filteredData">
           <div style="display: flex; padding: 0.5rem 0.5rem;">
             <p-chip label="{{ selectUser.prefix + selectUser.firstName + ' ' + selectUser.lastName }}"
               icon="pi pi-user"></p-chip>
             &nbsp;&nbsp;&nbsp;
             <div style="padding-top: 0.2rem;">
-              <p-tag [style]="{ 'background-color': checkRelationshipColor(selectUser.relationship) }"
+              <p-tag [style]="{ 'background-color': checkRelationshipColor(selectUser.relationship), 'font-weight': 'normal', 'font-size': '15px'}"
                 value="{{ selectUser.relationship }}"></p-tag>
             </div>
           </div>
@@ -205,37 +205,56 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button type="button" class="btn btn-login"
+    <div style="margin-top: 10px;">
+      <button type="button" class="btn btn-login"
       (click)="updateBeneficairyList(arrayListDescriptionUser)">ยืนยัน</button>
     <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+    </div>
   </ng-template>
 </p-dialog>
 
-<p-dialog header="ข้อมูลการแก้ไขข้อมูลส่วนตัว" [(visible)]="displayEditByUser" [modal]="true"
-  [style]="{width: '25vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
-  <div [formGroup]="formModelInfo">
-    <div class="col-12">
+<p-dialog header="การแก้ไขข้อมูลส่วนตัว" [(visible)]="displayEditByUser" [modal]="true" [style]="{width: '35vw'}"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <div style="display: flex; justify-content: space-evenly; margin-top: 10px;">
+    <div class="edit-info">
+      <p-chip label="ข้อมูลส่วนตัว" styleClass="mr-2"></p-chip>
       <div class="text">
-        <div class="row">
-          <div class="col-4 mb-3">
-            <label for="firstName" class="block">ชื่อ</label>
-            <input class="form-control-plaintext" type="text" formControlName="firstName" />
-          </div>
-          <div class="col-4 mb-3">
-            <label for="lastName" class="block">นามสกุล</label>
-            <input class="form-control-plaintext" type="text" formControlName="lastName" />
-          </div>
-          <div class="col-4 mb-3">
-            <label for="marital" class="block">สถานภาพสมรส</label>
-            <input class="form-control-plaintext" type="text" formControlName="marital" />
-          </div>
+        <div class="mb-3">
+          <label for="firstName" class="block">ชื่อ</label>
+          <input class="form-control-plaintext" type="text" [value]="firstNameOld" />
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="block">นามสกุล</label>
+          <input class="form-control-plaintext" type="text" [value]="lastNameOld" />
+        </div>
+        <div class="mb-3">
+          <label for="marital" class="block">สถานภาพสมรส</label>
+          <input class="form-control-plaintext" type="text" [value]="maritalOld" />
+        </div>
+      </div>
+    </div>
+    <div [formGroup]="formModelInfo" class="edit-info" style="border: 2px solid #ffeef7;">
+      <p>ข้อมูลที่ต้องการแก้ไข</p>
+      <div class="text">
+        <div class="mb-3">
+          <label for="firstName" class="block">ชื่อ</label>
+          <input class="form-control-plaintext" type="text" formControlName="firstName" />
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="block">นามสกุล</label>
+          <input class="form-control-plaintext" type="text" formControlName="lastName" />
+        </div>
+        <div class="mb-3">
+          <label for="marital" class="block">สถานภาพสมรส</label>
+          <input class="form-control-plaintext" type="text" formControlName="marital" />
         </div>
       </div>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button type="button" class="btn btn-login"
-      (click)="approveUpdateByUser()">ยืนยัน</button>
-    <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+    <div class="footer-button" style="margin-top: 10px;">
+      <button type="button" class="btn btn-login" (click)="approveUpdateByUser()">ยืนยัน</button>
+      <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+    </div>
   </ng-template>
 </p-dialog>

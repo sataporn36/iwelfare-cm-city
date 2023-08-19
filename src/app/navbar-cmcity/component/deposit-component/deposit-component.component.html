@@ -1,5 +1,14 @@
-<p>deposit-component works! (เงินฝาก)</p>
-
-
-
-
+<div class="doc">
+    <p-chip label="เอกสารของกองทุนฯ" styleClass="mr-2"></p-chip>
+    <div class="div-doc-pdf">
+        <ng-container *ngFor="let document of documents; let i = index">
+            <div class="doc-pdf">
+                <button type="button" class="btn btn-login" (click)="initiateDownload(i)">
+                    ดาวน์โหลด{{ document.label }}
+                </button>
+                <a #downloadLink [href]="document.path" style="display: none;" download>
+                </a>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -128,6 +128,10 @@ const routes: Routes = [
         path: 'admin-setting-page',
         component: AdminSettingPageComponent,
       },
+      {
+        path: 'deposit-page',
+        component: DepositPageComponent,
+      },
     ]
   },
   {

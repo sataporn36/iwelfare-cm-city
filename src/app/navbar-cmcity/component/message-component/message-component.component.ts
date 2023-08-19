@@ -9,6 +9,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Representative } from 'src/app/model/ccustomerTest';
 import { LocalStorageService } from 'ngx-webstorage';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-message-component',
@@ -42,6 +43,10 @@ export class MessageComponentComponent implements OnInit {
   arrayListDescriptionUser: any[] = [];
   idNotify: any;
   displayEditByUser: boolean;
+  firstNameOld: any;
+  lastNameOld: any;
+  maritalOld: any;
+  profileImgId: any;
 
   constructor(
     private service: MainService,
@@ -49,6 +54,7 @@ export class MessageComponentComponent implements OnInit {
     protected router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private sanitizer: DomSanitizer
   ) { }
 
   initMainForm() {
@@ -69,6 +75,7 @@ export class MessageComponentComponent implements OnInit {
       departmentName: new FormControl(null),
       stockAccumulate: new FormControl(null),
       loanBalance: new FormControl(null),
+      marital: new FormControl(null),
     });
 
     this.formModelInfo = new FormGroup({
@@ -144,7 +151,7 @@ export class MessageComponentComponent implements OnInit {
       default:
         break;
     }
-  } 
+  }
 
   checkMess() {
     this.mess = [
@@ -155,21 +162,14 @@ export class MessageComponentComponent implements OnInit {
           this.detail = true;
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
-
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-            // positionName: this.selectedItem.employee?.position?.name ? this.selectedItem.employee?.position?.name : '-',
-            // affiliationName: this.selectedItem.employee?.affiliation?.name ? this.selectedItem.employee?.affiliation?.name : '-',
-            // bureauName:  this.selectedItem.employee?.affiliation?.bureau?.name ?  this.selectedItem.employee?.affiliation?.bureau?.name : '-',
-            // employeeTypeName:  this.selectedItem.employee?.employeeType?.name ?  this.selectedItem.employee?.employeeType?.name : '-',
-            // levelName:  this.selectedItem.employee?.level?.name ?  this.selectedItem.employee?.level?.name : '-',
-            // departmentName: this.selectedItem.employee?.department ? this.selectedItem.employee?.department.name : '-',
-            // stockAccumulate: this.selectedItem.employee?.stock.stockAccumulate? this.selectedItem.employee?.stock.stockAccumulate : '-',
-            // loanBalance: this.selectedItem.employee?.loan.loanBalance? this.selectedItem.employee?.loan.loanBalance : '-'
           })
 
-          //this.descriptionUser = this.selectedItem.description;
           this.descriptionUser = null;
           this.idNotify = this.selectedItem.id;
+          this.profileImgId = this.selectedItem.employee.profileImgId ? this.selectedItem.employee.profileImgId : 0;
+          this.gender = this.selectedItem.employee.gender;
+          this.getImage(this.profileImgId);
         }
       },
       {
@@ -199,26 +199,22 @@ export class MessageComponentComponent implements OnInit {
           })
 
           this.idNotify = this.selectedItem.id;
+          this.idNotify = this.selectedItem.id;
+          this.profileImgId = this.selectedItem.employee.profileImgId;
+          this.gender = this.selectedItem.employee.gender;
+          this.getImage(this.profileImgId);
         }
       },
       {
         label: 'ข้อมูลการเปลี่ยนผู้รับผลประโยชน์',
         icon: 'pi pi-check-circle ',
         command: () => {
-        
+
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
           this.onCheckBeneficiary();
         }
       }
-      // {
-      //   label: 'ปฏิเสธ',
-      //   icon: 'pi pi-times-circle',
-      //   command: () => {
-      //     this.displayModalUser=false;
-      //     this.detail = false;
-      //   }
-      // }
     ];
     this.mess3 = [
       {
@@ -228,48 +224,42 @@ export class MessageComponentComponent implements OnInit {
           this.detail = true;
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
-
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-            // positionName: this.selectedItem.employee?.position?.name ? this.selectedItem.employee?.position?.name : '-',
-            // affiliationName: this.selectedItem.employee?.affiliation?.name ? this.selectedItem.employee?.affiliation?.name : '-',
-            // bureauName:  this.selectedItem.employee?.affiliation?.bureau?.name ?  this.selectedItem.employee?.affiliation?.bureau?.name : '-',
-            // employeeTypeName:  this.selectedItem.employee?.employeeType?.name ?  this.selectedItem.employee?.employeeType?.name : '-',
-            // levelName:  this.selectedItem.employee?.level?.name ?  this.selectedItem.employee?.level?.name : '-',
-            // departmentName: this.selectedItem.employee?.department ? this.selectedItem.employee?.department.name : '-',
-            // stockAccumulate: this.selectedItem.employee?.stock.stockAccumulate? this.selectedItem.employee?.stock.stockAccumulate : '-',
-            // loanBalance: this.selectedItem.employee?.loan.loanBalance? this.selectedItem.employee?.loan.loanBalance : '-'
           })
 
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
-
+          this.profileImgId = this.selectedItem.employee.profileImgId;
+          this.gender = this.selectedItem.employee.gender;
+          this.getImage(this.profileImgId);
         }
       },
       {
-        label: 'ข้อมูลการแก้ไขข้อมูลส่วนตัว',
+        label: 'การแก้ไขข้อมูลส่วนตัว',
         icon: 'pi pi-check-circle ',
         command: () => {
+
+          this.firstNameOld = this.selectedItem.employee.firstName;
+          this.lastNameOld = this.selectedItem.employee.lastName;
+          this.maritalOld = this.selectedItem.employee.marital;
+
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
           this.onCheckInfo();
         }
       }
-      // {
-      //   label: 'ยืนยัน',
-      //   icon: 'pi pi-check-circle ',
-      //   command: () => {
-      //     this.updateBeneficairyList(this.arrayListDescriptionUser)
-      //   }
-      // },
-      // {
-      //   label: 'ปฏิเสธ',
-      //   icon: 'pi pi-times-circle',
-      //   command: () => {
-      //     this.displayModalUser=false;
-      //     this.detail = false;
-      //   }
-      // }
     ];
+  }
+
+  clearDialog() {
+    this.gender = null;
+    this.profileImgId = null;
+    this.imageSrc = null;
+    // this.checkImgProfile();
+
+    this.firstNameOld = null;
+    this.lastNameOld = null;
+    this.maritalOld = null;
   }
 
   onRowEditInit(stock: any) {
@@ -406,19 +396,43 @@ export class MessageComponentComponent implements OnInit {
     ];
   }
 
-  checkImgProfile(gender: any) {
-    let textGender = ""
-    switch (gender) {
-      case 'ชาย':
-        textGender = "assets/images/boy.png"
-        break;
-      case 'หญิง':
-        textGender = "assets/images/girl.png"
-        break;
-      default:
-        break;
+  imageSrc: SafeUrl;
+  gender: any;
+  checkImgProfile() {
+    let textGender = ''
+    if (this.profileImgId != 0) {
+      return this.imageSrc
+    } else {
+      switch (this.gender) {
+        case 'ชาย':
+          textGender = 'assets/images/boy.png'
+          break;
+        case 'หญิง':
+          textGender = 'assets/images/girl.png'
+          break;
+        default:
+          break;
+      }
     }
+
     return textGender
+  }
+
+  getImage(id: any) {
+    console.log(id, 'id');
+
+    if (id != 0) {
+      this.service.getImage(id).subscribe(
+        (imageBlob: Blob) => {
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          console.log(this.imageSrc, 'this.imageSrc');
+
+        },
+        (error: any) => {
+          console.error('Failed to fetch image:', error);
+        }
+      );
+    }
   }
 
   filteredData: any = [];
@@ -433,10 +447,10 @@ export class MessageComponentComponent implements OnInit {
   onCheckInfo() {
     this.descriptionUserInfo = JSON.parse(this.descriptionUser);
     this.displayEditByUser = true;
-    this.formModelInfo.patchValue({...this.descriptionUserInfo});
+    this.formModelInfo.patchValue({ ...this.descriptionUserInfo });
   }
 
-  approveUpdateByUser(){
+  approveUpdateByUser() {
     this.service.approveUpdateByUser(this.descriptionUserInfo).subscribe(data => {
       this.showSuccess();
       this.displayEditByUser = false;
@@ -456,7 +470,7 @@ export class MessageComponentComponent implements OnInit {
   }
 
   showSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'แก้ไขผู้รับผลประโยชน์'});
+    this.messageService.add({ severity: 'success', summary: 'แก้ไขผู้รับผลประโยชน์' });
   }
 
   checkRelationshipColor(relationship: any) {
