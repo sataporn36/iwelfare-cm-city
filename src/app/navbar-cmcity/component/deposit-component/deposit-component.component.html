@@ -8,7 +8,7 @@
                 </button>
                 <a #downloadLink [href]="document.path" style="display: none;" download>
                 </a> -->
-                <p-image src="/assets/images/pdf.png" alt="Image" width="33"></p-image>
+                <img src="/assets/images/pdf.png" alt="Image" width="33">
                 <a #downloadLink [href]="document.path" download (click)="initiateDownload(i)">{{ document.label }}</a>
             </div>
         </ng-container>
