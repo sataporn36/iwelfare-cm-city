@@ -90,14 +90,15 @@
   </ng-template>
 </p-confirmDialog>
 
-<p-dialog header="สาเหตุการยกเลิก" [(visible)]="displayModal" [modal]="true" [style]="{width: '25vw'}"
+<p-dialog header="แจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"
   [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
-  <div [formGroup]="formModel">
+  <!-- <div [formGroup]="formModel">
     <div class="col mb-1">
       <textarea class="form-control" rows="3" cols="36" autoResize="false" formControlName="remark"
         placeholder="ข้อความ"></textarea>
     </div>
-  </div>
+  </div> -->
+  <span>ยืนยันการปฏิเสธคำขอหรือไม่</span>
   <ng-template pTemplate="footer">
     <button type="button" class="btn btn-login" (click)="onclikRemark()">ยืนยัน</button>
     <button type="button" class="btn btn-regis" (click)="displayModal=false">ยกเลิก</button>
@@ -208,7 +209,7 @@
     <div style="margin-top: 10px;">
       <button type="button" class="btn btn-login"
       (click)="updateBeneficairyList(arrayListDescriptionUser)">ยืนยัน</button>
-    <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+    <button type="button" class="btn btn-regis" (click)="onclikCancel()">ปฏิเสธ</button>
     </div>
   </ng-template>
 </p-dialog>
@@ -254,7 +255,7 @@
   <ng-template pTemplate="footer">
     <div class="footer-button" style="margin-top: 10px;">
       <button type="button" class="btn btn-login" (click)="approveUpdateByUser()">ยืนยัน</button>
-      <button type="button" class="btn btn-regis" (click)="displayModalUser=false">ยกเลิก</button>
+      <button type="button" class="btn btn-regis" (click)="onclikCancel()">ปฏิเสธ</button>
     </div>
   </ng-template>
 </p-dialog>

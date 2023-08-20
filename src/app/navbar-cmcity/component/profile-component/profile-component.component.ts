@@ -503,7 +503,7 @@ export class ProfileComponentComponent implements OnInit {
 
         retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
 
-        compensation: data.compensation ? decimalPipe.transform(data.compensation) : '-',
+        compensation: data.compensation ? decimalPipe.transform(data.compensation) : null,
         contractStart: data?.contractStartDate ? this.pipeDateTH(data?.contractStartDate) : '-',
         contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
         civilService: data?.civilServiceDate ? this.pipeDateTH(data?.civilServiceDate) : '-',
@@ -511,9 +511,9 @@ export class ProfileComponentComponent implements OnInit {
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
         billingStart: data?.billingStartDate ? this.pipeDateTH(data?.billingStartDate) : '-',
         billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
-        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : 0,
+        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : null,
         salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber : '-',
-        salary: data.salary ? decimalPipe.transform(data.salary) : '-',
+        salary: data.salary ? decimalPipe.transform(data.salary) : null,
         bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber : '-',
         profileFlag: data.profileFlag,
         textHidden: '-',

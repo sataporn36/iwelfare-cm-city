@@ -338,6 +338,8 @@ export class AdminComponent1Component {
     this.imageSrcIdCard = null;
     this.imageSrcAddress = null;
     this.checkDefaultImage();
+    this.initMainForm();
+    this.infoId = null;
   }
 
   myDefaultDate = new Date();
@@ -910,7 +912,10 @@ export class AdminComponent1Component {
       this.detail = true;
       this.getEmployeeOfMain(id);
       this.profileDetailImg();
-      this.service.searchByBureau(data.affiliation.bureau.id).subscribe(data => this.affiliation = data);
+
+      if (data.affiliation != null) {
+        this.service.searchByBureau(data.affiliation.bureau.id).subscribe(data => this.affiliation = data);
+      }
       
       this.detailModel.patchValue({
         ...data,
@@ -930,26 +935,26 @@ export class AdminComponent1Component {
         selectMarital: data?.marital ? this.checkMaritalV2(data?.marital) : 0,
 
         // **
-        employeeType: data.employeeType,
-        employeeTypeId: data.employeeType.id,
+        employeeType: data.employeeType ? data.employeeType: null,
+        employeeTypeId: data.employeeType ? data.employeeType.id: 0,
 
-        level: data.level,
-        levelId: data.level.id,
+        level: data.level ? data.level: null,
+        levelId: data.level ? data.level.id: 0,
 
-        position: data.position,
-        positionId: data.position.id,
+        position: data.position ? data.position: null,
+        positionId: data.position ? data.position.id: 0,
 
-        affiliation: data.affiliation,
-        affiliationId: data.affiliation.id,
+        affiliation: data.affiliation ? data.affiliation: null,
+        affiliationId: data.affiliation ? data.affiliation.id: 0,
 
-        bureau: data.affiliation.bureau,
-        bureauId: data.affiliation.bureau.id,
-        bureauName: data.affiliation.bureau.name,
+        bureau: data.affiliation?.bureau ? data.affiliation?.bureau: null,
+        bureauId: data.affiliation?.bureau ? data.affiliation?.bureau.id: 0,
+        bureauName: data.affiliation?.bureau ? data.affiliation?.bureau.name: null,
         
-        department: data.department,
-        departmentId: data.department.id,
+        department: data.department ? data.department: null,
+        departmentId: data.department ? data.department.id: 0,
 
-        user: data.user,
+        user: data.user ? data.user: null,
         // loan: data.loan,
         // stock: data.stock,
 
@@ -964,7 +969,7 @@ export class AdminComponent1Component {
 
         retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
 
-        compensation: data.compensation ? decimalPipe.transform(data.compensation) : '-',
+        compensation: data.compensation ? decimalPipe.transform(data.compensation) : null,
         contractStart: data?.contractStartDate ? this.pipeDateTHD(data?.contractStartDate) : '-',
         contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
         civilService: data?.civilServiceDate ? this.pipeDateTHD(data?.civilServiceDate) : '-',
@@ -972,9 +977,9 @@ export class AdminComponent1Component {
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
         billingStart: data?.billingStartDate ? this.pipeDateTHD(data?.billingStartDate) : '-',
         billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
-        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : 0,
+        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : null,
         salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber : '-',
-        salary: data.salary ? decimalPipe.transform(data.salary) : '-',
+        salary: data.salary ? decimalPipe.transform(data.salary) : null,
         bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber : '-',
         profileFlag: data.profileFlag,
         textHidden: '-',

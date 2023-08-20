@@ -1,7 +1,5 @@
 <p-blockUI [blocked]="blockedDocument">
     <div style="display: grid; justify-content: center; align-items: center;">
-        <!-- <i class="pi pi-lock" style="font-size: 3rem; color: #FFFFFF; text-align: center;"></i> <br>
-        <span style="font-size: 2rem; color: #FFFFFF;">ไม่มีการเผยเเพร่เเก่สมาชิก</span> -->
         <p-progressSpinner></p-progressSpinner>
     </div>
 </p-blockUI>
@@ -14,8 +12,6 @@
         [tableStyle]="{'max-width': '100%'}">
         <ng-template pTemplate="caption">
             <div class="flex" style="display: flex; justify-content: space-between;">
-                <!-- <span style="margin-top: 10px; font-weight: normal; font-size: 18px;">
-                    ตารางการส่งเงินกู้ของสมาชิก</span> -->
                 <div>
                     <p-chip label="การจัดการสมาชิก" styleClass="mr-2"></p-chip>
                 </div>
@@ -52,119 +48,6 @@
         </ng-template>
     </p-table>
 </div>
-
-<!-- <div style="display: flex; justify-content: space-between;">
-    <div class="card-2">
-        <div>
-            <p-chip label="อัตราดอกเบี้ย (%)" styleClass="mr-2"></p-chip>
-        </div>
-        <div class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
-            <div [formGroup]="formModelInterest">
-                <div class="col-12" style="padding: 1rem;">
-                    <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตราดอกเบี้ย
-                        จะมีการคำนวณเงินกู้ใหม่หรืออื่นๆที่มีการเรียกใช้อัตราดอกเบี้ยทั้งหมด</label>
-                </div>
-                <div style="display: grid; justify-content: center; padding-top: 2rem;">
-                    <label class="block">อัตราดอกเบี้ย</label>
-                    <div style="display: flex;">
-                        <p-inputNumber formControlName="interest" inputId="minmaxfraction" mode="decimal"
-                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
-                            [maxFractionDigits]="5" [min]="0"></p-inputNumber>
-                        <label class="block" style="padding-left: 1rem; padding-top: 1rem;"> % </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12" style="display: flex; padding-right: 1rem; padding-top: 4rem; justify-content: flex-end;">
-            <button (click)="updateIntereat()" type="button" class="btn btn-login2">บันทึก</button>
-            <div style="padding-left: 0.5rem;"></div>
-            <button (click)="resetInterst()" type="button" class="btn btn-login2">ยกเลิก</button>
-        </div>
-    </div>
-    <div style="padding-left: 1rem;"></div>
-    <div class="card-3">
-        <div>
-            <p-chip label="รูปภาพลายเซ็น" styleClass="mr-2"></p-chip>
-        </div>
-        <div class="col-12" style="display: grid; justify-content: center; padding-top: 1rem;">
-            <div style="display: flex;">
-                <div class="div-signature">
-                    <div style="display: flex; justify-content: center;">
-                        <img id="profilePic1" class="pic1" [src]="imageSrc1">
-                    </div>
-                    <div class="text-img" style="text-align: center;">
-                        <label class="block">รูปภาพลายเซ็น (ประธานกองทุน)</label>
-                    </div>
-                    <div class="btn-img" style="padding-top: 2rem; ">
-                        <button (click)="file1.click()" type="button"
-                            class="btn btn-signature1">เปลี่ยนลายเซ็นประธานกองทุน</button>
-                        &nbsp;&nbsp;
-                        <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
-                            (click)="displayBasic1 = true">ดูรูปภาพ</button>
-                        <p-galleria [value]="images1" [(visible)]="displayBasic1"
-                            [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                            [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
-                            [showThumbnails]="false">
-                            <ng-template pTemplate="item" let-item>
-                                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-                            </ng-template>
-                        </p-galleria>
-                        <input #file1 class="uploadProfileInput" type="file"
-                            (change)="onConfigPicChange($event,'signature1')" id="newConfigImg1" accept="image/*"
-                            style="opacity: 0; width: 50px;" />
-                    </div>
-                </div>
-                <div style="padding-left: 1rem;"></div>
-                <div class="div-signature">
-                    <div style="display: flex; justify-content: center;">
-                        <img id="profilePic2" class="pic2" [src]="imageSrc2">
-                    </div>
-                    <div class="text-img" style="text-align: center;">
-                        <label class="block">รูปภาพลายเซ็น (เหรัญญิก)</label>
-                    </div>
-                    <div class="btn-img" style="padding-top: 2rem;">
-                        <button (click)="file2.click()" type="button"
-                            class="btn btn-signature2">เปลี่ยนลายเซ็นเหรัญญิก</button>
-                        &nbsp;&nbsp;
-                        <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
-                            (click)="displayBasic2 = true">ดูรูปภาพ</button>
-                        <p-galleria [value]="images2" [(visible)]="displayBasic2"
-                            [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                            [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
-                            [showThumbnails]="false">
-                            <ng-template pTemplate="item" let-item>
-                                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-                            </ng-template>
-                        </p-galleria>
-                        <input #file2 class="uploadProfileInput" type="file"
-                            (change)="onConfigPicChange($event,'signature2')" id="newConfigImg2" accept="image/*"
-                            style="opacity: 0; width: 50px;" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<!-- <div class="card">
-    <div style="padding-bottom: 2rem;">
-        <p-chip label="การจัดการบทบาทสมาชิก" styleClass="mr-2"></p-chip>
-    </div>
-
-    <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป"
-        targetHeader="เจ้าหน้าที่" [dragdrop]="true" [responsive]="false" [sourceStyle]="{ height: '20rem' }"
-        (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
-        [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก"
-        targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
-        <ng-template let-employee pTemplate="item">
-            <div class="flex flex-wrap p-2 align-items-center gap-3">
-                <span style="font-size: 16px;">{{ employee.fullName }}</span>
-                <span style="padding-left: 1rem;font-size: 16px; color: #fe6bba;">( {{ employee.employeeTypeName ?
-                    employee.employeeTypeName : '-' }} )</span>
-            </div>
-        </ng-template>
-    </p-pickList>
-</div> -->
 
 <p-toast></p-toast> 
 

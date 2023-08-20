@@ -341,7 +341,6 @@ export class MessageComponentComponent implements OnInit {
   }
 
   onClickCancleApproveEmp(data: any) {
-
     this.id = data.id;
     this.employeeId = data.employee.id;
     this.statusNotifys = data.status;
@@ -349,23 +348,39 @@ export class MessageComponentComponent implements OnInit {
   }
 
   onclikRemark() {
-    const value = this.formModel.getRawValue();
+    // const value = this.formModel.getRawValue();
 
-    if (this.statusNotifys == 3) {
-      const cancelRegis = {
-        id: this.employeeId,
-        remark: value.remark
-      }
-      this.service.cancelApproveRegister(cancelRegis).subscribe((data) => {
-        this.data = data;
-        this.ngOnInit();
-      });
-    } else {
+    // if (this.statusNotifys == 3) {
+    //   const cancelRegis = {
+    //     id: this.employeeId,
+    //     remark: value.remark
+    //   }
+    //   this.service.cancelApproveRegister(cancelRegis).subscribe((data) => {
+    //     this.data = data;
+    //     this.ngOnInit();
+    //   });
+    // } else {
+    //   this.service.cancelNotification(this.id, this.employeeId).subscribe();
+    //   this.ngOnInit();
+    // }
+    
+    if (this.statusNotifys == 2) {
       this.service.cancelNotification(this.id, this.employeeId).subscribe();
-      this.ngOnInit();
+    }else{
+      this.service.deleteNotify(this.id).subscribe();
     }
 
-    this.displayModal = false
+    this.displayModalUser = false;
+    this.displayModal = false;
+    this.ngOnInit();
+  }
+
+  onclikCancel() {
+    this.service.deleteNotify(this.idNotify).subscribe();
+    this.displayEditByUser = false;
+    this.displayModalUser = false;
+    this.displayModal = false;
+    this.ngOnInit();
   }
 
   pipeDateTH(date: any) {
