@@ -1,6 +1,13 @@
 <div class="card-table">
     <div style="display: flex; justify-content: space-between;">
-        <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน" styleClass="mr-2"></p-chip>
+        <div>
+            <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน" styleClass="mr-2"></p-chip>
+            <p-tag style="padding-left: 0.5rem;" icon="" severity="success">
+                <span> ยอดเงินกู้คงเหลือ </span>  &nbsp;&nbsp;
+                <span style="color: #ffd54f;"> {{ empDetail.loanBalance | number }} </span>  &nbsp;&nbsp;
+                <span> บาท </span>
+            </p-tag>
+        </div>
         <div style="padding-bottom: 1rem; display: flex; justify-content: flex-end;">
             <div class="btn-group">
                 <button type="button" class="btn btn-login"
@@ -25,7 +32,7 @@
                     <th style="width:10%">งวดที่</th>
                     <th style="width:10%">ดอกเบี้ย</th>
                     <th style="width:10%">เงินกู้สามัญ</th>
-                    <th style="width:10%">เงินกู้คงเหลือ</th>
+                    <!-- <th style="width:10%">เงินกู้คงเหลือ</th> -->
                     <th style="width:10%">ดอกเบี้ย (%)</th>
                 </tr>
             </ng-template>
@@ -38,7 +45,7 @@
                     <td style="color: #EA3A3D;">{{ loanDetail.installment | number }}</td>
                     <td style="color: #1AD598;">{{ loanDetail.interest | number }}</td>
                     <td style="color: #EA3A3D;">{{ loanDetail.loanValue | number }}</td>
-                    <td style="color: #1AD598;">{{ loanDetail.loanBalance | number }}</td>
+                    <!-- <td style="color: #1AD598;">{{ loanDetail.loanBalance | number }}</td> -->
                     <td>{{ loanDetail.interestPercent }}%</td>
                 </tr>
             </ng-template>

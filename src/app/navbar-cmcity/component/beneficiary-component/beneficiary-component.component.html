@@ -58,17 +58,23 @@
                 <th>ชื่อ-สกุล</th>
                 <th>เพศ</th>
                 <th>ความสัมพันธ์</th>
+                <th>สถานะผู้รับผลประโยชน์</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-beneficiaryInfo>
             <tr>
                 <td>
                     <p-tableCheckbox [value]="beneficiaryInfo"></p-tableCheckbox>
-                    {{ beneficiaryInfo.active }}
                 </td>
                 <td>{{beneficiaryInfo.prefix}}{{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}</td>
                 <td>{{beneficiaryInfo.gender}}</td>
                 <td>{{beneficiaryInfo.relationship}}</td>
+                <td>
+                    <div style="display: flex; justify-content: center;">
+                        <i *ngIf="beneficiaryInfo.active" class="pi pi-check-circle" style="color: #009688; font-size: 1.5rem;"></i>
+                        <i *ngIf="!beneficiaryInfo.active" class="pi pi-times-circle" style="color: #e51c23; font-size: 1.5rem;"></i>
+                    </div>
+                </td>
             </tr>
         </ng-template>
     </p-table>

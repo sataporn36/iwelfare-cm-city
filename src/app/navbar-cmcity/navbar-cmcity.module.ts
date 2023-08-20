@@ -62,6 +62,7 @@ import { PickListModule } from 'primeng/picklist';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { ResetPasswordPageComponent } from './page/reset-password-page/reset-password-page.component';
 import { ResetPasswordComponentComponent } from './component/reset-password-component/reset-password-component.component';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -129,7 +130,8 @@ import { ResetPasswordComponentComponent } from './component/reset-password-comp
     ImageModule,
     GalleriaModule,
     PickListModule,
-    SlideMenuModule
+    SlideMenuModule,
+    RippleModule
   ]
 })
 export class NavbarCmcityModule { }

@@ -182,3 +182,19 @@
   margin-left: 200px;
   margin-top: 10px;
 }
+
+:host ::ng-deep .p-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-family: "Kanit", sans-serif;
+  font-weight: 500 !important;
+  padding: 0.3rem 0.4rem !important;
+  border-radius: 15px !important;
+}
+
+:host ::ng-deep .p-tag.p-tag-success {
+  background-color: #009688;
+  color: #ffffff;
+}

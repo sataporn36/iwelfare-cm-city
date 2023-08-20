@@ -431,8 +431,39 @@ export class LoanComponentComponent implements OnInit {
     });
   }
 
+ async searchIdOfEmpCodeValue1(id) {
+    const payload = {
+      empId: id
+    };
+  
+    try {
+      const res = await this.service.searchIdOfEmpCode(payload).toPromise();
+      return res ? res.empCode : ' ';
+    } catch (error) {
+      console.error(error);
+      return ' ';
+    }
+  }
+  
+
+  async searchIdOfEmpCodeValue2(id) {
+    const payload = {
+      empId: id
+    };
+  
+    try {
+      const res = await this.service.searchIdOfEmpCode(payload).toPromise();
+      return res ? res.empCode : ' ';
+    } catch (error) {
+      console.error(error);
+      return ' ';
+    }
+  }
+
   exportMakePDF(mode: any, loanInfo: any[], sum: any, sumLoanObj: any) {
     const decimalPipe = new DecimalPipe('en-US');
+    // let guarantor1Id = await this.searchIdOfEmpCodeValue1(item.guarantor1);
+    // let guarantor2Id = await this.searchIdOfEmpCodeValue2(item.guarantor2);
 
     let detailLoan = loanInfo.map(function (item) {
       return [
@@ -442,8 +473,8 @@ export class LoanComponentComponent implements OnInit {
         { text: decimalPipe.transform(item.loanValue), alignment: 'right' },
         { text: decimalPipe.transform(item.loanTime), alignment: 'center' },
         { text: decimalPipe.transform(item.interestPercent), alignment: 'right' },
-        { text: decimalPipe.transform(item.guarantor1), alignment: 'center' },
-        { text: decimalPipe.transform(item.guarantor2), alignment: 'center' },
+        { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
+        { text: item.guarantorCode2 ? item.guarantorCode2 : ' ' , alignment: 'center' },
         { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
         { text: decimalPipe.transform(item.monthPrinciple), alignment: 'right' },
         { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
@@ -488,7 +519,8 @@ export class LoanComponentComponent implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
+        { text: 'รายงานเงินกู้', style: 'header' },
+        // { text: 'รายงานเงินกู้ เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
         //{ text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
         '\n',
         {

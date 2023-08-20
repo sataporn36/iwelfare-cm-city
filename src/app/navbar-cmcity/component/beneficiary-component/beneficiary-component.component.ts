@@ -22,6 +22,7 @@ export class BeneficiaryComponentComponent implements OnInit {
   selectedProducts!: any;
   beneficiaryInfo: any = [];
   filteredData: any = [];
+  isChecked: boolean = true;
 
   constructor(
     private service: MainService,
@@ -37,10 +38,6 @@ export class BeneficiaryComponentComponent implements OnInit {
     this.getBeneficiaryByEmpId(this.userId);
     this.searchBeneficiary(this.userId);
 
-  }
-
-  toggleBeneficiaryActive(beneficiaryInfo: any) {
-    beneficiaryInfo.active = !beneficiaryInfo.active;
   }
 
   getBeneficiaryByEmpId(id: any) {
@@ -114,4 +111,6 @@ export class BeneficiaryComponentComponent implements OnInit {
   showSuccess() {
     this.messageService.add({ severity: 'success', summary: 'แก้ไขสำเร็จ', detail: 'แก้ไขผู้รับผลประโยชน์' });
   }
+
+
 }

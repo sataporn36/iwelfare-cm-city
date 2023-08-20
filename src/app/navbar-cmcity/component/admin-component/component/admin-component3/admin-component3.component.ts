@@ -895,7 +895,7 @@ export class AdminComponent3Component implements OnInit {
   mode: any
   searchDocumentV1All(mode: any) {
     // this.displayLoadingPdf = true;
-    this.headerName = 'ประวัติเงินกู้เเละค่าหุ้นของสมาชิกทั้งหมด';
+    this.headerName = 'ประวัติเงินกู้ของสมาชิกทั้งหมด';
     this.mode = mode;
     this.formModelBill.patchValue({
       year: this.year,
@@ -1302,8 +1302,6 @@ export class AdminComponent3Component implements OnInit {
   guarantorTwoValue: any;
   isInputDisabled: boolean = true
   async editLoanEmp(data: any){
-    console.log(data,'<-------- editLoanEmp');
-    
      this.modeLoan = 'EDIT';
      this.initMainFormLoanNew();
      this.dataLanTimeFlag = false;
@@ -1338,12 +1336,20 @@ export class AdminComponent3Component implements OnInit {
        fullName: data.prefix + data.firstName + ' ' + data.lastName,
        stockValue: this.empDetail.stockAccumulate ? this.formattedNumber2(Number(this.empDetail.stockAccumulate)) : 0,
        loanValue: data.loanValue ? this.formattedNumber2(Number(data.loanValue)) : 0,
-       loanId: data.id
+       loanId: data.id,
+       guaranteeStockFlag: data.stockFlag ? data.stockFlag : false
       //  guarantorOne: data.guarantorOne ? data.guarantorOne : null,
       //  guarantorTwo: data.guarantorOne ? data.guarantorOne : null
       });
-      await this.checkGuarantorValue1(data.guarantorOne);
-      await this.checkGuarantorValue2(data.guarantorTwo);
+      if(data.stockFlag){
+        this.formModelLoanNew.get('guarantorOne').disable();
+        this.formModelLoanNew.get('guarantorTwo').disable();
+        await this.checkGuarantorValue1(null);
+        await this.checkGuarantorValue2(null);
+       }else{
+        await this.checkGuarantorValue1(data.guarantorOne);
+        await this.checkGuarantorValue2(data.guarantorTwo);
+       }
       // if(data.guarantorOneValue){
       //   this.inputGuarantorUnique1.next(data.guarantorOneValue);
       // }else{
