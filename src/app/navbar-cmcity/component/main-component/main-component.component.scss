@@ -3,7 +3,6 @@
 }
 
 .row .col-3 {
-  // width: 320px;
   margin-top: 10px;
 }
 
@@ -28,8 +27,6 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  // margin: 15.5px;
-  // margin-left: 25px;
 }
 
 .iconify {
@@ -49,6 +46,9 @@ svg {
 
 .div-card .col-5 .row {
   width: 200px;
+  .people{
+    margin-top: 5px;
+  }
 }
 
 .div-card .col-5 span {
@@ -67,11 +67,10 @@ svg {
   border-radius: 15px;
   text-align: center;
   padding-top: 3rem;
-  //width: 290px;
 
   .div-text span {
-    white-space: nowrap; 
-    width: 100px; 
+    white-space: nowrap;
+    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -80,16 +79,10 @@ svg {
 .div-profile-img {
   width: 200px;
   height: 200px;
-  // margin-left: 45px;
   border-radius: 50%;
   background: #f8f2f2;
   border: 8px solid #f0f2f2;
-  // z-index: 0;
-  // position: relative;
   overflow: hidden;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
 }
 
 .profile_img {
@@ -153,12 +146,11 @@ svg {
     padding-top: 1rem;
 
     .div-text span {
-      white-space: nowrap; 
-      width: 100px; 
+      white-space: nowrap;
+      width: 100px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    // z-index: 2;
   }
 
   .div-profile-img {
@@ -169,29 +161,8 @@ svg {
   .div-detail {
     margin-top: -0.5rem;
   }
-
-  // .triangle {
-  //   width: 100px;
-  //   margin-left: -12%;
-  //   margin-top: -5.5%;
-  //   border-top-right-radius: 15px;
-  //   border-left: 90px solid transparent;
-  //   border-top: 90px solid #6d6bfe;
-  // }
 }
 
-// @media screen and (max-width: 1366px) {
-//   .card-profile .div-triangle {
-//     width: 100px;
-//     margin-left: -12%;
-//     margin-top: -5.5%;
-//     border-top-right-radius: 15px;
-//     border-left: 100px solid transparent;
-//     border-top: 100px solid #fe6bba;
-//   }
-// }
-
-// @media screen and (max-width: 1980px) {
 .triangle {
   position: absolute;
   z-index: 1;
@@ -239,7 +210,7 @@ svg {
     border-left: 100px solid transparent;
     border-top: 100px solid #fe6bba;
 
-    .group-tx{
+    .group-tx {
       margin-top: 12px;
       margin-left: 12px;
     }
@@ -258,7 +229,7 @@ svg {
       white-space: nowrap;
       color: #fff;
     }
-  
+
     .tx2 {
       margin-left: -80px;
       margin-top: -20px;
@@ -273,48 +244,8 @@ svg {
       white-space: nowrap;
       color: #fff;
     }
-
-    // .div-col-3 {
-    //   .col-3 {
-    //     flex: 0 0 auto;
-    //     width: 20%;
-    //   }
-    // }
   }
 }
-
-// .small-triangle {
-//   width: 100px;
-//   margin-left: 5%;
-//   margin-top: -0.5%;
-
-//   .tx1 {
-//     margin-left: -50px;
-//     margin-top: -130px;
-//   }
-
-//   .tx2 {
-//     margin-left: -90px;
-//     margin-top: -20px;
-//   }
-// }
-
-// .medium-triangle {
-//   width: 142px;
-//   margin-left: 12%;
-//   margin-top: -2.5%;
-
-//   .tx1 {
-//     margin-left: -50px;
-//     margin-top: -130px;
-//   }
-
-//   .tx2 {
-//     margin-left: -90px;
-//     margin-top: -20px;
-//   }
-// }
-// }
 
 .div-beneficiary {
   .col-9 {
@@ -331,14 +262,9 @@ svg {
   background: #fff;
   padding: 2rem;
   border-radius: 15px;
-  // padding-left: 30px;
-  // width: 100%;
-  // width: max-content;
-  // height: px;
 }
 
 .div-new .row {
-  // padding-left: 10px;
   .col-2 {
     margin-left: 12px;
     margin-top: 10px;
@@ -395,25 +321,11 @@ td {
 
 .div-beneficiary {
   background: #fff;
-  //margin: 7px;
   border-radius: 15px;
-  //margin-left: 80rem;
-  // margin-top: -15.6rem;
-  // margin-top: -12rem;
-  //width: 295px;
   padding-top: 20px;
   padding-left: 20px;
   padding-bottom: 17px;
-  // transform: translate(75rem, -182px);
 }
-
-// .div-beneficiary p {
-//   font-size: 20px;
-// }
-
-// .div-beneficiary .row{
-//     width: 100%;
-// }
 
 .div-beneficiary span {
   font-size: 15px;
@@ -425,9 +337,7 @@ td {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  //   margin-top: 10px;
   background: #ffeef7;
-  // background: ;
 }
 
 .div-beneficiary ul {
@@ -441,7 +351,6 @@ td {
 
 .div-beneficiary-span {
   border: 1px solid #fe6bba;
-  // width: 100px;
   text-align: center;
   border-radius: 6px;
   height: 30px;
@@ -456,9 +365,6 @@ td {
   background: #fff;
   padding: 30px;
   border-radius: 15px;
-  // margin-top: -5px;
-  // width: 107.2%;
-  // transform: translate(0, -182px);
 }
 
 .grid-check {
@@ -492,11 +398,124 @@ td {
     flex: 0 0 auto;
     width: 24.2%;
   }
+}
 
-  @media screen and (max-width: 1366px) {
+// Responsive
+@media screen and (max-width: 1680px) {
+  .div-new .row {
+    .col-2 {
+      width: 223px;
+      height: 225px;
+      img {
+        width: 223px;
+        height: 140px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .div-new .row {
+    .col-2 {
+      width: 211px;
+      height: 210px;
+      img {
+        width: 211px;
+        height: 130px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .dc {
+    padding-top: 0.2rem;
+  }
+  .div-card .col-5 {
+    width: 118px;
+    h4 {
+      font-size: 20px;
+    }
+    span {
+      color: #8690a1;
+      font-size: 14px;
+    }
+    .row {
+      width: 118px;
+      .people{
+        margin-top: 0px;
+      }
+    }
+  }
+
+  .div-new{
+    width: 99%;
+  }
+
+  .div-new .row {
+    .col-2 {
+      width: 350px;
+      height: 240px;
+      img {
+        width: 350px;
+        height: 160px;
+      }
+    }
+  }
+
+  .div-col-3 {
     .col-3 {
       flex: 0 0 auto;
-      width: 23.8%;
+      width: 23.5%;
+    }
+  }
+
+  .grid-info{
+    width: 26%;
+    margin-left: -10px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    font-size: 15px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    font-size: 15px;
+  }
+
+  .div-table-stocks{
+    width: 99%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .div-new .row {
+    .col-2 {
+      width: 330px;
+      height: 240px;
+      img {
+        width: 330px;
+        height: 160px;
+      }
+    }
+  }
+
+  .div-beneficiary{
+    .col-9{
+      width: 160px;
+    }
+  }
+}
+
+@media screen and (max-width: 1240px) {
+  .div-new .row {
+    .col-2 {
+      width: 310px;
+      height: 240px;
+      img {
+        width: 310px;
+        height: 160px;
+      }
     }
   }
 }

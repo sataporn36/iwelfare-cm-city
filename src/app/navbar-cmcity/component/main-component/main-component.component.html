@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-3" style="margin-left: 0.5rem;">
                         <div class="div-card">
-                            <div style="display: flex;">
+                            <div class="dc" style="display: flex;">
                                 <div class="col-1 grid-check">
                                     <div class="div-img" style="background: #CCE9FF; padding-left: 1rem;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor"
@@ -62,7 +62,7 @@
                                         <div class="col-2">
                                             <h4>{{ countBeneficiary || 0 }}</h4>
                                         </div>
-                                        <div class="col-2" style="margin-top: 5px;">
+                                        <div class="col-2 people">
                                             <span>คน</span>
                                         </div>
                                     </div>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-3" style="margin-left: 0.5rem;">
                         <div class="div-card">
-                            <div style="display: flex;">
+                            <div class="dc" style="display: flex;">
                                 <div class="col-1 grid-check">
                                     <div class="div-img" style="background: #D1F7EA;">
                                         <svg width="25" viewBox="0 0 26 23" fill="none"
@@ -89,7 +89,7 @@
                                         <div class="col-2">
                                             <h4>{{ userInfo.guarantee | number }}</h4>
                                         </div>
-                                        <div class="col-2" style="margin-top: 5px;">
+                                        <div class="col-2 people">
                                             <span>คน</span>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <!-- new --> 
+            <!-- new -->
             <div class="col-12" style="padding-top: 1rem;">
                 <div class="div-new">
                     <p-chip label="ข่าวประชาสัมพันธ์" styleClass="mr-2"></p-chip>
@@ -126,7 +126,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div style="padding-top: 1rem;"></div> -->
             <div class="col-12" style="padding-top: 1rem;">
                 <div class="div-table-stocks">
                     <p-chip label="รายการหุ้น" styleClass="mr-2"></p-chip>
@@ -165,7 +164,7 @@
             </div>
         </div>
 
-        <div class="grid col-3 ">
+        <div class="grid col-3 grid-info">
             <div style="padding-left: 1rem; padding-top: 1rem;">
                 <div class="card-profile">
                     <div class="triangle" *ngIf="!userInfo.passwordFlag">
@@ -174,7 +173,6 @@
                             <span class="tx2">เปลี่ยนรหัสผ่าน</span>
                         </div>
                     </div>
-
                     <div style="display: flex; align-items: center; justify-content: center;">
                         <div class="div-profile-img">
                             <img class="profile_img" [src]="profileImg()" />
@@ -204,7 +202,8 @@
                                         d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z"
                                         fill="#3A36DB" />
                                 </svg>
-                                <span style="text-align: left;" tooltipPosition="bottom" pTooltip="{{ userInfo.positionName }}">{{
+                                <span style="text-align: left;" tooltipPosition="bottom"
+                                    pTooltip="{{ userInfo.positionName }}">{{
                                     userInfo.positionName }}</span>
                             </div>
                         </div>
@@ -212,14 +211,8 @@
                 </div>
             </div>
             <div style="padding-left: 1rem; padding-top: 1rem;">
-                <!-- [style]="checkBeneficiaryCss()" -->
                 <div class="div-beneficiary">
                     <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip><br>
-                    <!-- <div class="row" style="margin-left: 0px;">
-                    <div class="col-12">
-                        <span>ชื่อ-สกุล</span>
-                    </div>
-                </div> -->
                     <ul style="margin-top: 20px;">
                         <li *ngFor="let beneficiary of arrayBeneficiary">
                             <div style="display: flex; align-items: center; margin-top: 10px;">

@@ -25,59 +25,12 @@
   }
 }
 
-@media screen and (max-width: 1366px) {
-  .menubar {
-    height: fit-content;
-  }
-
-  .logo {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    padding: 5%;
-
-    .text{
-      width: fit-content;
-      margin-top: -5px;
-    }
-
-    img{
-      width: 120px;
-      margin-left: -35px;
-    }
-  
-    h5 {
-      margin-top: 12px;
-      color: #fe6bba;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    span{
-      font-size: 16px;
-    }
-
-    hr {
-      width: 100%;
-      border-color: #a3185b;
-      margin-top: -5px;
-      margin-bottom: -1px;
-      // margin-left: 5px;
-    }
-  }
-
-  // .profile_img{
-  //   margin-top: -180px;
-  // }
-}
-
 hr {
   width: 85%;
   border-color: #a3185b;
   margin-top: -5px;
   margin-bottom: -1px;
 }
-
 
 .logo .text span {
   color: #f78fb3;
@@ -132,7 +85,7 @@ path {
 
 li.active {
   background: #fff7fb;
-  width: 85%;
+  width: 90%;
   .iconify {
     font-size: 22px;
     color: #fe6bba;
@@ -165,18 +118,7 @@ li {
   background: #fff;
   height: 60px;
   border-radius: 15px;
-  // width: 100%;
-  //margin-left: -15px;
 }
-
-// .searchbar .row .col-3 {
-//   margin: 10px;
-// }
-
-// .searchbar .row .col-8 {
-//   margin-top: 50px;
-//   text-align: right;
-// }
 
 input.search {
   border-radius: 10px;
@@ -190,21 +132,6 @@ input.search {
 ::placeholder {
   color: #747d8c;
 }
-
-// .searchbar svg {
-//   transform: translate(340px, -33px);
-// }
-
-// .searchbar ul.bar {
-//   list-style-type: none;
-//   //margin-left: 58%;
-// }
-
-// .searchbar ul.bar li {
-//   float: left;
-//   padding-left: 1rem;
-//   //margin-left: 22px;
-// }
 
 img.profile_img {
   width: 40px;
@@ -242,7 +169,6 @@ img.profile_img {
 ::ng-deep .p-menu {
   margin-top: 25px;
   font-size: 15px;
-  //margin-left: 23px;
   border-radius: 10px;
 }
 
@@ -254,9 +180,6 @@ img.profile_img {
 }
 
 .count {
-  // margin-top: -1.5%;
-  // margin-left: 18.8%;
-  // z-index: 1;
   margin-left: 20px;
 }
 
@@ -281,7 +204,6 @@ img.profile_img {
   top: 0;
   transform: translateY(-50%);
   width: 0.0625rem;
-  // margin-left: -5px;
 }
 
 .nav-admin .nav .nav-items:first-child:after {
@@ -289,7 +211,6 @@ img.profile_img {
 }
 
 .nav-admin .nav .nav-link {
-  /* font-size:.75rem; */
   padding-bottom: 0.5625rem;
   padding-left: 3.625rem;
   padding-top: 0.5625rem;
@@ -314,7 +235,147 @@ img.profile_img {
   opacity: 1;
 }
 
-// .nav-admin .nav .nav-link .nav-link {
-//   display: flex;
-//   align-items: center;
-// }
+.nav-menu {
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 1680px) {
+  .nav-menu {
+    margin-bottom: 60px;
+  }
+
+  .nav-item:hover {
+    width: 88%;
+  }
+
+  li {
+    width: 88%;
+  }
+
+  li.active {
+    width: 88%;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .nav-menu {
+    margin-bottom: 70px;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .menubar {
+    height: fit-content;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 5%;
+
+    .text {
+      width: fit-content;
+      margin-top: -5px;
+    }
+
+    img {
+      width: 120px;
+      margin-left: -35px;
+    }
+
+    h5 {
+      margin-top: 12px;
+      color: #fe6bba;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    span {
+      font-size: 16px;
+    }
+
+    hr {
+      width: 100%;
+      border-color: #a3185b;
+      margin-top: -5px;
+      margin-bottom: -1px;
+    }
+  }
+
+  .nav-menu {
+    margin-bottom: 40px;
+  }
+
+  .nav-item:hover {
+    width: 86%;
+    a.nav-link {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+    .nav-admin a.nav-link {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+  }
+
+  li {
+    width: 86%;
+    a.nav-link {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+  }
+
+  li.active {
+    width: 86%;
+    .nav-admin a.nav-link {
+      font-size: 13px;
+      margin-top: 2px;
+    }
+    a.nav-link {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .nav-menu {
+    margin-bottom: 70px;
+  }
+
+  .nav-item:hover {
+    width: 88%;
+    a.nav-link {
+      font-size: 13px;
+    }
+    .nav-admin a.nav-link {
+      font-size: 13px;
+    }
+  }
+
+  li {
+    width: 88%;
+    a.nav-link {
+      font-size: 13px;
+    }
+  }
+
+  li.active {
+    width: 88%;
+    .nav-admin a.nav-link {
+      font-size: 13px;
+    }
+    a.nav-link {
+      font-size: 13px;
+    }
+  }
+}
+
+@media screen and (max-width: 1240px) {
+  .nav-menu {
+    margin-bottom: 100px;
+  }
+}
