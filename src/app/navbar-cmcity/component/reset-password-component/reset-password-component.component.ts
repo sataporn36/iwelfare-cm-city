@@ -75,12 +75,13 @@ export class ResetPasswordComponentComponent implements OnInit {
       header: 'เปลี่ยนรหัสผ่าน',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.service.resetPassword(data).subscribe((res) => {
+        this.service.resetPassword(data).subscribe(async (res) => {
           if (res != null) {
             if (res.statusEmployee === 'success') {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ' });
               this.iconStatus = true;
               this.formModel.reset();
+              await new Promise(resolve => setTimeout(resolve, 1000))
               this.onLogout();
             } else {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
