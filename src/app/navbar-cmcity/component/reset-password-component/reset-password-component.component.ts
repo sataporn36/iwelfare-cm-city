@@ -81,6 +81,7 @@ export class ResetPasswordComponentComponent implements OnInit {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ' });
               this.iconStatus = true;
               this.formModel.reset();
+              this.onLogout();
             } else {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
               this.iconStatus = false;
@@ -94,4 +95,15 @@ export class ResetPasswordComponentComponent implements OnInit {
       reject: () => { }
     });
   }
+
+  onLogout() {
+    this.localStorageService.clear('empId');
+    this.localStorageService.clear('currentDateTime');
+    this.localStorageService.clear('countDatetime');
+    this.localStorageService.clear('stockId');
+    this.localStorageService.clear('loanId');
+    this.localStorageService.clear('employeeofmain');
+    this.router.navigate(['/login']);
+  }
+
 }
