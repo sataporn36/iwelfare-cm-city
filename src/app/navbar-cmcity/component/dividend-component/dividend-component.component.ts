@@ -453,7 +453,14 @@ export class DividendComponentComponent implements OnInit {
       const digitText = digits[digit];
 
       // Append the digit and position to the Thai Baht text
-      bahtText += digitText + position;
+      //bahtText += digitText + position;.
+      if (position === 'สิบ' && digit === 2) {
+        bahtText += 'ยี่' + position;
+      } else if(position === '' && digit === 1){
+        bahtText += 'เอ็ด' + position;
+      } else {
+        bahtText += digitText + position;
+      }
     }
 
     return bahtText + 'บาทถ้วน';
