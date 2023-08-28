@@ -1,17 +1,17 @@
 * {
-    box-sizing: border-box;
-    font-family: "Kanit", sans-serif;
-  }  
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+}
 
-.card{
-    border: 5px solid white;
-    border-radius: 15px;
-    width: 100%;
-    background-color: white;
-    padding: 2rem;
-    margin-top: 10px;
-    // height: 51.6rem;
-    height: max-content;
+.card {
+  border: 5px solid white;
+  border-radius: 15px;
+  width: 100%;
+  background-color: white;
+  padding: 2rem;
+  margin-top: 10px;
+  // height: 51.6rem;
+  height: max-content;
 }
 
 // .card1{
@@ -26,36 +26,36 @@
   margin-bottom: 100px;
 }
 
-.guarantee{
-    border: 1px solid #d2d6df; 
-    border-radius: 15px;
-    width: 500px;
-    height: 200px;
-    line-height: 35px;
-    margin-top: 10px;
-    padding-top: 25px;
-    padding-left: 25px;
-    padding-right: 40px;
-    img{
-        width: 108px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-        background: #ffeef7;
-    }
+.guarantee {
+  border: 2px solid #f0f2f2;
+  border-radius: 15px;
+  width: 500px;
+  height: 200px;
+  line-height: 35px;
+  margin-top: 10px;
+  padding-top: 25px;
+  padding-left: 25px;
+  padding-right: 40px;
+  img {
+    width: 108px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #ffeef7;
+  }
 }
 
 .btn {
-    width: max-content;
-    height: 34px;
-    font-weight: 500;
-    font-size: 15px;
-    border-radius: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .btn-login {
-    color: #fff;
-    background-color: #fe6bba;
-  }
+  width: max-content;
+  height: 34px;
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-login {
+  color: #fff;
+  background-color: #fe6bba;
+}

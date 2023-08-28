@@ -23,6 +23,7 @@ export class BeneficiaryComponentComponent implements OnInit {
   beneficiaryInfo: any = [];
   filteredData: any = [];
   isChecked: boolean = true;
+  colScreen!: any;
 
   constructor(
     private service: MainService,
@@ -37,7 +38,29 @@ export class BeneficiaryComponentComponent implements OnInit {
     this.userId = this.localStorageService.retrieve('empId');
     this.getBeneficiaryByEmpId(this.userId);
     this.searchBeneficiary(this.userId);
+    this.checkColScreen();
+  }
 
+  // checkColScreen() {
+  //   switch (window.innerWidth) {
+  //     case (1920 > 1900):
+  //       this.colScreen = 4;
+  //       break;
+  //     case 1680:
+  //       this.colScreen = 4;
+  //       break;
+  //     default:
+  //       this.colScreen = 3;
+  //       break;
+  //   }
+  // }
+
+  checkColScreen() {
+    if (window.innerWidth > 1679) {
+      this.colScreen = 4;
+    } else {
+      this.colScreen = 3;
+    }
   }
 
   getBeneficiaryByEmpId(id: any) {
@@ -50,12 +73,12 @@ export class BeneficiaryComponentComponent implements OnInit {
     this.service.searchBeneficiary(id).subscribe(data => {
       this.filteredData = data.filter((item) => item.active === false);
       this.beneficiaryInfo = data;
-      console.log(this.beneficiaryInfo,'<---------- this.beneficiaryInfo');
-      
+      console.log(this.beneficiaryInfo, '<---------- this.beneficiaryInfo');
+
     });
   }
 
-  cancelUpdate(){
+  cancelUpdate() {
     this.displayModal = false;
   }
 
@@ -76,15 +99,15 @@ export class BeneficiaryComponentComponent implements OnInit {
     }
 
     this.service.updateBeneficiaryId(this.beneficiaryInfo).subscribe(data => {
-        this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
-        this.displayModal = false;
-        if (!localStorage.getItem('foo')) {
-          localStorage.setItem('foo', 'no reload');
-          history.go(0);
-        } else {
-          localStorage.removeItem('foo');
-        }
-        this.ngOnInit();
+      this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+      this.displayModal = false;
+      if (!localStorage.getItem('foo')) {
+        localStorage.setItem('foo', 'no reload');
+        history.go(0);
+      } else {
+        localStorage.removeItem('foo');
+      }
+      this.ngOnInit();
     });
   }
 

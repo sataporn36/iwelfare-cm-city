@@ -9,36 +9,20 @@
     </div>
 
     <p style="color: #60646b; margin-top: 20px; margin-left: 10px;">ท่านสามารถแก้ไข หรือเลือกผู้รับผลประโยชน์ใหม่ได้</p>
-
-    <div class="row row-cols-3">
+    
+    <div [ngClass]="'row row-cols-' + colScreen">
         <div *ngFor="let beneficiary of arrayBeneficiary" style="margin-top: 20px;">
-            <div class="guarantee" style="display: flex; width: 340px;">
+            <div class="guarantee">
                 <div>
                     <img src="{{ checkImgProfile(beneficiary?.gender)}}" />
                 </div>
-                <div style="padding: 0.5rem;">
-                    <label>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</label><br>
-                    <label style="color: #60646b;">ความสัมพันธ์: </label><span> {{ beneficiary?.relationship || ''
-                        }}</span>
+                <div class="info-text">
+                    <label>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</label>
+                    <label style="color: #60646b;">ความสัมพันธ์: {{ beneficiary?.relationship || ''}}</label>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- <div class="row row-cols-4">
-        <div *ngFor="let beneficiary of arrayBeneficiary" style="margin-top: 20px;">
-            <div class="guarantee" style="display: flex; justify-content: space-between;">
-                <div>
-                    <img src="{{ checkImgProfile(beneficiary?.gender)}}" />
-                </div>
-                <div style="margin-left: 20px; margin-top: 20px; width: 300px;">
-                    <label>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</label><br>
-                    <label style="color: #60646b;">ความสัมพันธ์: </label><span> {{ beneficiary?.relationship || ''
-                        }}</span>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </div>
 
 <p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"

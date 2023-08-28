@@ -1,166 +1,200 @@
-*{
-	box-sizing:  border-box;
-	font-family: 'Kanit', sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
 }
 
-.register{
-    position: absolute;
-    width: 1500px;
-    height: 850px;
-    left: calc(50% - 1500px/2);
-    top: calc(50% - 850px/2);
+.register {
+  position: absolute;
+  width: 1500px;
+  height: 850px;
+  left: calc(50% - 1500px / 2);
+  top: calc(50% - 850px / 2);
 
-    /* white */
-    background: #FFFFFF;
-    box-shadow: 0px 141px 200px -80px rgba(25, 58, 75, 0.3);
-    border-radius: 50px;
+  /* white */
+  background: #ffffff;
+  box-shadow: 0px 141px 200px -80px rgba(25, 58, 75, 0.3);
+  border-radius: 50px;
 }
 
-.text{
-    margin-top: 8%;
-    margin-left: 6%;
-    width: 500px;
+.text {
+  margin-top: 8%;
+  margin-left: 6%;
+  width: 500px;
 }
 
-.card{
-    position: absolute;
-    width: 600px;
-    height: 850px;
-    left: 900px;
-    top: 0px;
-    background: rgba(255, 204, 204, 0.4);
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
-    border: 0ch;
+.card {
+  position: absolute;
+  width: 600px;
+  height: 850px;
+  left: 900px;
+  top: 0px;
+  background: rgba(255, 204, 204, 0.4);
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border: 0ch;
 }
 
-img{
-    position: absolute;
-    width: 400px;
-    left: calc(50% - 400px/2);
-    top: calc(48% - 400px/2);
+img {
+  position: absolute;
+  width: 400px;
+  left: calc(50% - 400px / 2);
+  top: calc(48% - 400px / 2);
 }
 
-h1{
-    font-weight: bold;
-    margin-top: -20px;
+h1 {
+  font-weight: bold;
+  margin-top: -20px;
 }
 
-span{
-    font-weight: normal;
+span {
+  font-weight: normal;
 }
 
-.text-group{
-    margin-top: 20px;
+.text-group {
+  margin-top: 20px;
 }
 
-.row{
-    width: 740px;
+.row {
+  width: 740px;
 }
 
-.mb-3{
-    font-weight: bold;
-    font-size: 15px;
+.mb-3 {
+  font-weight: bold;
+  font-size: 15px;
 }
 
 input {
-    width: 220px;
-    height: 35px;
-    font-size: 15px;
-    border-color: #ffabd8;
+  width: 220px;
+  height: 35px;
+  font-size: 15px;
+  border-color: #ffabd8;
 }
 
 .form-control:hover {
-    border-color: #f167b1;
+  border-color: #f167b1;
 }
 
 ::ng-deep .p-input-icon-right > .p-inputtext {
-    width: 220px;
-    height: 35px;
-    border-color: #ffabd8;
-    font-size: 15px;
-    color: #ffabd8;
+  width: 220px;
+  height: 35px;
+  border-color: #ffabd8;
+  font-size: 15px;
+  color: #ffabd8;
 }
 
-select{
-    width: 220px;
-    height: 35px;
-    font-size: 15px;
-    border-color: #ffabd8;
+select {
+  width: 220px;
+  height: 35px;
+  font-size: 15px;
+  border-color: #ffabd8;
 }
 
-hr{
-    width: 48%;
-    border-top: 2px dashed #8c8b8c;
-    margin-top: 5px;
+hr {
+  width: 48%;
+  border-top: 2px dashed #8c8b8c;
+  margin-top: 5px;
 }
 
-.regis-key .row{
-    width: 370px;
+.regis-key .row {
+  width: 370px;
 }
 
 ::placeholder {
-    font-size: 15px;
-    color: rgb(175, 174, 174);
-    font-weight: normal;
+  font-size: 15px;
+  color: rgb(175, 174, 174);
+  font-weight: normal;
 }
 
 .form-control:focus {
-    border-color: #FE6BBA;
-    box-shadow: 0 0 0 0.2rem rgba(167, 40, 146, 0.25);
-} 
+  border-color: #fe6bba;
+  box-shadow: 0 0 0 0.2rem rgba(167, 40, 146, 0.25);
+}
 
-.btn{
-    width: 720px;
-    height: 45px;
-    font-weight: 500;
-    font-size: 16px;
-    margin-top: 40px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+.btn {
+  width: 720px;
+  height: 45px;
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 40px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .btn-regis {
-    color: #fff;
-    background-color: #FE6BBA;
-    margin-left: -4px;
+  color: #fff;
+  background-color: #fe6bba;
+  margin-left: -4px;
 }
 
 @media screen and (max-width: 1366px) {
-    .register{
-        position: absolute;
-        width: 1300px;
-        height: 700px;
+  .register {
+    position: absolute;
+    width: 1300px;
+    height: 700px;
 
-        left: calc(50% - 1300px/2);
-        top: calc(50% - 700px/2);
+    left: calc(50% - 1300px / 2);
+    top: calc(50% - 700px / 2);
+  }
 
-        /* white */
-        // background: #FFFFFF;
-        // box-shadow: 0px 141px 200px -80px rgba(25, 58, 75, 0.3);
-        // border-radius: 50px;
-    }
+  .text {
+    margin-top: 5%;
+    margin-left: 5%;
+  }
 
-    .text{
-        margin-top: 5%;
-        margin-left: 5%;
-    }
+  .card {
+    position: absolute;
+    width: 450px;
+    height: 700px;
+    left: 850px;
+    top: 0px;
+  }
 
-    .card{
-        position: absolute;
-        width: 450px;
-        height: 700px;
-        left: 850px;
-        top: 0px;
-    }
+  .text-group {
+    margin-top: 15px;
+  }
 
-    .text-group{
-        margin-top: 15px;
-    }
+  .btn {
+    margin-top: 10px;
+  }
+}
 
-    .btn{
-        margin-top: 10px;
-    }
+@media screen and (max-width: 1280px) {
+  .register {
+    position: absolute;
+    width: 1200px;
+    height: 660px;
+
+    left: calc(50% - 1200px / 2);
+    top: calc(50% - 660px / 2);
+  }
+
+  .text {
+    margin-top: 5%;
+    margin-left: 5%;
+  }
+
+  .card {
+    position: absolute;
+    width: 370px;
+    height: 660px;
+    left: 830px;
+    top: 0px;
+  }
+
+  .text-group {
+    margin-top: 6px;
+  }
+
+  .btn {
+    margin-top: 5px;
+  }
+
+  img {
+    position: absolute;
+    width: 300px;
+    left: calc(50% - 300px / 2);
+    top: calc(48% - 300px / 2);
+  }
 }

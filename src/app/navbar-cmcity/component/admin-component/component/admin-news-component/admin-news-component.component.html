@@ -73,7 +73,7 @@
         <ng-template pTemplate="body" let-listEmp let-i="rowIndex">
             <tr [pEditableRow]="listEmp">
                 <td>{{ listEmp.name }}</td>
-                <td>{{ listEmp.description }}</td>
+                <td><p class="news-description">{{ listEmp.description }}</p></td>
                 <td>{{ pipeDateTHD(listEmp.createDate) }}</td>
                 <td style="display: flex; justify-content: center;">
                     <div class="news-button" style="display: flex;">

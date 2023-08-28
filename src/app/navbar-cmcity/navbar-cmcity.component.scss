@@ -256,11 +256,19 @@ img.profile_img {
   li.active {
     width: 88%;
   }
+
+  .nav-admin ul li a{
+    width: 16rem;
+  }
 }
 
 @media screen and (max-width: 1600px) {
   .nav-menu {
     margin-bottom: 70px;
+  }
+
+  .nav-admin ul li a{
+    width: 15rem;
   }
 }
 
@@ -331,7 +339,7 @@ img.profile_img {
   li.active {
     width: 86%;
     .nav-admin a.nav-link {
-      font-size: 13px;
+      font-size: 14px;
       margin-top: 2px;
     }
     a.nav-link {
@@ -339,43 +347,51 @@ img.profile_img {
       margin-top: 2px;
     }
   }
+
+  .nav-admin ul li a{
+    width: 13rem;
+  }
 }
 
 @media screen and (max-width: 1280px) {
   .nav-menu {
-    margin-bottom: 70px;
+    margin-bottom: 50px;
   }
 
   .nav-item:hover {
     width: 88%;
     a.nav-link {
-      font-size: 13px;
+      font-size: 13.5px;
     }
     .nav-admin a.nav-link {
-      font-size: 13px;
+      font-size: 13.5px;
     }
   }
 
   li {
     width: 88%;
     a.nav-link {
-      font-size: 13px;
+      font-size: 13.5px;
     }
   }
 
   li.active {
     width: 88%;
     .nav-admin a.nav-link {
-      font-size: 13px;
+      font-size: 13.5px;
     }
     a.nav-link {
-      font-size: 13px;
+      font-size: 13.5px;
     }
+  }
+
+  .nav-admin ul li a{
+    width: 12rem;
   }
 }
 
 @media screen and (max-width: 1240px) {
   .nav-menu {
-    margin-bottom: 100px;
+    margin-bottom: 60px;
   }
 }
