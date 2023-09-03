@@ -629,7 +629,7 @@ export class ShareComponentComponent implements OnInit {
       this.list = data;
       console.log(data,'<--------- searchDocumentV1');
       
-      if (data == null) {
+      if (this.dataStockDetail.length > 0 || this.dataStockDetail.length !== null) {
         this.showWarnNull();
       } else {
         const listStock = this.dataStockDetail;
