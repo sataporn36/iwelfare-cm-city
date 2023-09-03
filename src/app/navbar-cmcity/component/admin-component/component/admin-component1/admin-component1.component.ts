@@ -962,7 +962,7 @@ export class AdminComponent1Component {
 
         retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
 
-        compensation: data.compensation ? decimalPipe.transform(data.compensation) : null,
+        compensation: data.compensation ? this.checkDecimalPipeOfNull(data.compensation) : null,
         contractStart: data?.contractStartDate ? this.pipeDateTHD(data?.contractStartDate) : '-',
         contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
         civilService: data?.civilServiceDate ? this.pipeDateTHD(data?.civilServiceDate) : '-',
@@ -970,9 +970,9 @@ export class AdminComponent1Component {
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
         billingStart: data?.billingStartDate ? this.pipeDateTHD(data?.billingStartDate) : '-',
         billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
-        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : null,
+        monthlyStockMoney: data.monthlyStockMoney ? this.checkDecimalPipeOfNull(data.monthlyStockMoney) : null,
         salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber : '-',
-        salary: data.salary ? decimalPipe.transform(data.salary) : null,
+        salary: data.salary ? this.checkDecimalPipeOfNull(data.salary) : null,
         bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber : '-',
         profileFlag: data.profileFlag,
         textHidden: '-',
@@ -983,4 +983,14 @@ export class AdminComponent1Component {
       })
     });
   }
+
+  checkDecimalPipeOfNull(compensation: any){
+     const decimalPipe = new DecimalPipe('en-US');
+     if(compensation === ' ' || compensation === '-'){
+        return decimalPipe.transform(0)
+     }else{
+        return decimalPipe.transform(compensation)
+     }
+  }
+
 }
