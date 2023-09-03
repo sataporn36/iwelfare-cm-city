@@ -163,8 +163,6 @@ export class AdminComponent3Component implements OnInit {
          }
          this.service.searchGuarantorUnique(playload).subscribe({
           next: (res) => {
-            console.log(res,'<---- searchGuarantorUnique');
-            
             if(res !== null){
               if(res.length >= 2){
                 this.guarantorUniqueFlag1 = 'N';
@@ -381,7 +379,6 @@ export class AdminComponent3Component implements OnInit {
   }
 
   searchLoanDetail(id: any): void {
-    // console.log(id,'<-------------- this.id');
     const payload = {
       loanId: id
     }
@@ -473,7 +470,6 @@ export class AdminComponent3Component implements OnInit {
   getSearchDocumentV2Sum(playload: any, loanInfo: any[], mode: any, sumLoanObj: any) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
       this.sumLoan = data[0];
-      console.log(" this.sumLoan", sumLoanObj);
       this.exportMakePDF(mode, loanInfo, this.sumLoan, sumLoanObj)
     });
   }
@@ -505,7 +501,6 @@ export class AdminComponent3Component implements OnInit {
 
     const dataSum = this.checkTotalListGroup(loanInfo);
 
-    console.log(detailLoan, 'detailLoan');
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -907,8 +902,7 @@ export class AdminComponent3Component implements OnInit {
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
-      console.log(data, 'searchDocumentV2SumLoan');
-      
+     
       this.sumLoan = data;
       this.checkDepartment(listdata);
       this.exportMakePDFAll(mode, data)
@@ -1419,10 +1413,9 @@ export class AdminComponent3Component implements OnInit {
 
   updateLoanEmp(){
     const data = this.formModelLoanNew.getRawValue();
-    console.log(data,'<-----------  updateLoanEmp');
+    
     this.service.updateLoanEmpOfGuarantor(data).subscribe((res) => {
         if(res){
-          console.log(res,'<-----------  updateLoanEmpOfGuarantor');
           this.displayModalLoanNew = false;
           this.messageService.add({ severity: 'success', detail: 'เเก้ไขสัญญาเงินกู้สำเร็จ' });
           this.ngOnInit();
@@ -1532,7 +1525,6 @@ export class AdminComponent3Component implements OnInit {
 }
 
   onCloseLoan(data: any) {
-    console.log("data", data);
     
     this.confirmationService.confirm({
       message: 'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,

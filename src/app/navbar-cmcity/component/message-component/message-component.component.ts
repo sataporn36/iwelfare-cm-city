@@ -434,14 +434,10 @@ export class MessageComponentComponent implements OnInit {
   }
 
   getImage(id: any) {
-    console.log(id, 'id');
-
     if (id != 0) {
       this.service.getImage(id).subscribe(
         (imageBlob: Blob) => {
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
-          console.log(this.imageSrc, 'this.imageSrc');
-
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);

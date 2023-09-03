@@ -72,7 +72,6 @@ export class LoginPageComponent implements OnInit {
               const statusChecklogin = false;
               // if (res.data.passwordFlag) {
                 //this.getEmployeeOfMain(res.data.id);
-                //console.log(this.dataEmp,'<----------  this.dataEmp');
                 this.service.getEmployeeOfMain(res.data.id).subscribe((data) => {
                   if(data){
                     this.dataEmp = data;

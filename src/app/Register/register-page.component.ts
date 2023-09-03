@@ -47,7 +47,6 @@ export class RegisterPageComponent implements OnInit{
 
   ngOnInit(): void {
     if(history.state.data){
-      console.log(history.state.data," =========================> history.state.data");
       this.userId = history.state.data;
     }
     this.initMainForm();
@@ -173,7 +172,6 @@ export class RegisterPageComponent implements OnInit{
     playload.stockMonth = this.month;
     playload.stockYear = this.year;
     const email = playload.email
-    console.log(email);
     
     if (!email) {
       playload.email = null;
@@ -181,7 +179,6 @@ export class RegisterPageComponent implements OnInit{
     
 
     this.service.register(playload).subscribe((res) => {
-      console.log(res,'======================> res')
       if(res !== null){
         if(res.data.statusEmployee === 'NORMAL_EMPLOYEE'){
           this.confirmationService.confirm({
@@ -247,7 +244,6 @@ export class RegisterPageComponent implements OnInit{
   }
 
   checkBureau(id: any){
-    // console.log("data ---------------> ", data.target.value);
     this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
 }

@@ -85,7 +85,6 @@ export class GuaranteeObligationComponentComponent implements OnInit {
   getGuarantee(id: any) {
     this.service.getGuarantee(id).subscribe(data => {
 
-      console.log(data);
       this.guarantee = data;
       if (data.codeGuaranteeOne == null) {
         this.guaranteeIf = true;

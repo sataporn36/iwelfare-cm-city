@@ -403,8 +403,6 @@ export class LoanComponentComponent implements OnInit {
     }
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
-      console.log(data,'<----------- searchDocumentV1Loan');
-      
       if (data == null) {
         this.showWarnNull();
       } else {
@@ -424,9 +422,7 @@ export class LoanComponentComponent implements OnInit {
 
   getSearchDocumentV2Sum(playload: any, loanInfo: any[], mode: any, sumLoanObj: any) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
-      console.log(data, '<----------- this.sumLoan');
       this.sumLoan = data[0];
-      console.log(" this.sumLoan", sumLoanObj);
       this.exportMakePDF(mode, loanInfo, this.sumLoan, sumLoanObj)
     });
   }
@@ -489,7 +485,6 @@ export class LoanComponentComponent implements OnInit {
 
     const dataSum = this.checkTotalListGroup(loanInfo);
 
-    console.log(detailLoan, 'detailLoan');
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -1181,7 +1176,6 @@ export class LoanComponentComponent implements OnInit {
           data.loanOrdinary = loanOrdinaryRE;
           const stockValueRE = data.stockValue ? data.stockValue.replace(',', '') : 0;
           data.stockValue = stockValueRE;
-          console.log(data, '<------------- loan new');
           this.service.insertLoanNew(data).subscribe((res) => {
             if (res) {
               this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
@@ -1200,7 +1194,6 @@ export class LoanComponentComponent implements OnInit {
           // data.interestPercent = interestRE;
           // const loanOrdinaryRE = data.loanOrdinary.replace(',','');
           // data.loanOrdinary = loanOrdinaryRE;
-          // console.log(data,'<------------- loan new');
           const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
           this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ '
             + this.formattedNumber2(loanBalance) + '  บาท';
@@ -1318,8 +1311,6 @@ export class LoanComponentComponent implements OnInit {
   }
 
   onCloseLoan(data: any) {
-    console.log("data", data);
-
     this.confirmationService.confirm({
       message: 'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
       header: 'ปิดหนี้สมาชิก',

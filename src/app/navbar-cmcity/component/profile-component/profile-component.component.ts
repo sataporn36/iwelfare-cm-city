@@ -523,9 +523,6 @@ export class ProfileComponentComponent implements OnInit {
 
       })
 
-      console.log("data.level", data);
-
-
       this.formModelChild.patchValue({
         ...data,
         textHidden: '-',
@@ -1115,10 +1112,6 @@ export class ProfileComponentComponent implements OnInit {
     }
 
     this.service.updateByUser(playload).subscribe((res) => {
-
-      console.log(res, 'update res');
-      
-
       this.getEmployee(this.userId);
       this.formModel.disable();
       this.initMainForm();
@@ -1326,10 +1319,7 @@ export class ProfileComponentComponent implements OnInit {
 
   onUpdateStockToMonth() {
     const dataStock = this.formModelStock.getRawValue();
-    console.log(dataStock, "dataStock *****");
-
     const data = this.formModel.getRawValue();
-    console.log(data.monthlyStockMoney, "monthlyStockMoney *****");
 
     if (dataStock.monthlyStockMoney === data.monthlyStockMoney) {
       this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
@@ -1432,13 +1422,11 @@ export class ProfileComponentComponent implements OnInit {
 
     this.service.uploadImage(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );
@@ -1453,13 +1441,11 @@ export class ProfileComponentComponent implements OnInit {
 
     this.service.uploadImageAddress(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );
@@ -1474,13 +1460,11 @@ export class ProfileComponentComponent implements OnInit {
 
     this.service.uploadImageIdCard(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );

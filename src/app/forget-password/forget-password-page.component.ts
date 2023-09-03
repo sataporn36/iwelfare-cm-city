@@ -115,7 +115,6 @@ export class ForgetPasswordPageComponent implements OnInit{
 
   clickChangePassword(){
     const data = this.formModel.getRawValue();
-    console.log('===================> data new pass',data)
     this.confirmationService.confirm({
       message: 'ท่านต้องการเปลี่ยนรหัสผ่านใหม่หรือไม่',
       header: 'เปลี่ยนรหัสผ่านสมาชิก',

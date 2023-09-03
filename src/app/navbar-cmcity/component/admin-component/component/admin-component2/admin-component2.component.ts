@@ -161,7 +161,6 @@ export class AdminComponent2Component implements OnInit {
 
     setTimeout(() => {
       this.service.searchStockDetail(this.stockId, "asc").subscribe((res) => {
-        console.log(res, "<==== res");
         this.totalRecords = res.length;
         this.loading = false;
       })
@@ -560,12 +559,8 @@ export class AdminComponent2Component implements OnInit {
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-      console.log(data, '<---------- this.list');
-
       const key = 'stockInstallment';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
-
       this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
     });
   }
@@ -573,8 +568,6 @@ export class AdminComponent2Component implements OnInit {
   getSearchDocumentV2Sum(playload: any, stockInfo: any[], mode: any) {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data[0];
-      console.log(" this.sumStock", this.sumStock);
-      
       this.exportMakePDF(mode, stockInfo, this.sumStock)
     });
   }
@@ -595,8 +588,6 @@ export class AdminComponent2Component implements OnInit {
         { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
       ]
     });
-
-    console.log(detailStock, 'detailStock');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -703,8 +694,6 @@ export class AdminComponent2Component implements OnInit {
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data;
-      console.log(data,'<------- listSum');
-      
       this.checkDepartment(listdata);
       this.exportMakePDFALL(mode, data)
     });
@@ -991,7 +980,6 @@ export class AdminComponent2Component implements OnInit {
       // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
       //   this.onPrintInfoMember(element)
       // })
-      // console.log(dataList, "dataList");
       this.onPrintInfoMember(dataList)
     })
   }
@@ -1006,10 +994,8 @@ export class AdminComponent2Component implements OnInit {
     }
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
-    console.log(payload, '<---------------- dataMY');
     this.service.getGrandTotal(payload).subscribe(data => {
       this.grandTotal = data;
-      console.log(this.grandTotal, '<---------------- this.grandTotal');
       this.onPrintTotal(this.grandTotal);
     });
   }
@@ -1372,7 +1358,7 @@ export class AdminComponent2Component implements OnInit {
 
   //   this.service.searchDocumentV2Sum(playload).subscribe((data) => {
   //     this.sumStock = data[0];
-  //     console.log(" this.sumStock", this.sumStock);
+  //      (" this.sumStock", this.sumStock);
   //     this.exportMakePDF(mode, stockInfo, this.sumStock)
   //   });
   // }
@@ -1410,10 +1396,7 @@ export class AdminComponent2Component implements OnInit {
   }
 
   onPrintInfoMember(dataList: any[]) {
-    console.log(dataList, "dataList");
     // this.service.documentInfoAll().subscribe((dataList) => {
-    //   console.log(dataList, "datalistInfoAll");
-
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com

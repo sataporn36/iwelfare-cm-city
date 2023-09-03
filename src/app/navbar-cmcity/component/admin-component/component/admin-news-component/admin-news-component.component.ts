@@ -92,14 +92,11 @@ export class AdminNewsComponentComponent {
 
     this.service.uploadImageNews(formData).subscribe(
       (res) => {
-        console.log(res, "res");
         this.imageCoverId = res.data.id
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );
@@ -187,13 +184,11 @@ export class AdminNewsComponentComponent {
 
     this.service.updateImageNews(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.onEdit(this.detailId);
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );

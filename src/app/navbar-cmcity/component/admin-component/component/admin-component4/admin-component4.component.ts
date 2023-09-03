@@ -713,7 +713,6 @@ export class AdminComponent4Component implements OnInit {
     dataCobfigList.push(stockConfig);
     dataCobfigList.push(interestConfig);
     for (let i = 0; i < dataCobfigList.length; i++) {
-      console.log(dataCobfigList[i]);
       const payload = {
         configId: dataCobfigList[i].id,
         value: dataCobfigList[i].value

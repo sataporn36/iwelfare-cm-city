@@ -123,7 +123,6 @@ export class ShareComponentComponent implements OnInit {
         this.configAdmin = res;
         this.fileImg1 = res[3].configId;
         this.fileImg2 = res[4].configId;
-        console.log(this.fileImg1);
       }
     });
   }
@@ -236,7 +235,6 @@ export class ShareComponentComponent implements OnInit {
 
     setTimeout(() => {
       this.service.searchStockDetail(this.stockId, "asc").subscribe((res) => {
-        console.log(res, "<==== res");
         //this.customers = res.customers;
         this.totalRecords = res.length;
         this.loading = false;
@@ -627,13 +625,10 @@ export class ShareComponentComponent implements OnInit {
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-      console.log(data,'<--------- searchDocumentV1');
-      
       if (this.dataStockDetail.length > 0 || this.dataStockDetail.length !== null) {
         this.showWarnNull();
       } else {
         const listStock = this.dataStockDetail;
-        console.log(listStock,'<----------- listStock');
         // const key = 'stockInstallment';
         // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
         this.getSearchDocumentV2Sum(playload, listStock, mode);
@@ -644,7 +639,6 @@ export class ShareComponentComponent implements OnInit {
   getSearchDocumentV2Sum(playload: any, stockInfo: any[], mode: any) {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data[0];
-      console.log(" this.sumStock", this.sumStock);
 
       // const key = 'stockInstallment';
       // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
@@ -682,8 +676,6 @@ export class ShareComponentComponent implements OnInit {
         { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
       ]
     });
-
-    console.log(detailStock, 'detailStock');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -848,8 +840,6 @@ export class ShareComponentComponent implements OnInit {
     this.service.searchEmployeeLoanNew(payload).subscribe({
       next: async (res) => {
         const dataRes = res;
-        console.log(dataRes,'<-------- dataRes');
-
         if (res == null) {
           this.showWarnNull();
         }else{

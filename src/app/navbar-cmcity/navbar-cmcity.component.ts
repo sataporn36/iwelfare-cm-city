@@ -66,7 +66,6 @@ export class NavbarCmcityComponent implements OnInit {
     const hours = formatDate.getHours();
     const minutes = formatDate.getMinutes();
     const seconds = formatDate.getSeconds();
-    console.log(day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds);
     this.currentDateTime = month + '/' + day + '/' + year + ' ' + hours + ':' + (minutes + 5) + ':' + seconds;
     if (this.localStorageService.retrieve('countDatetime') === 0) {
       this.localStorageService.store('currentDateTime', new Date().getTime() + 3600000);
@@ -100,7 +99,6 @@ export class NavbarCmcityComponent implements OnInit {
   })
 
   ngOnInit() {
-    console.log(window.location.href, '<------------ window.location.href');
     this.checkURLClick(window.location.href.toString());
     this.items = [
       {
@@ -139,7 +137,6 @@ export class NavbarCmcityComponent implements OnInit {
   checkURLClick(textUrl: any) {
     const baseUrl = 'http://localhost:4200/main/';
     const url = textUrl.replace(baseUrl, '');
-    console.log(url, '<--- url text');
 
     if (url.toLowerCase().includes('main')) {
       this.checkActive('main')

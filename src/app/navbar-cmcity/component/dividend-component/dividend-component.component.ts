@@ -80,8 +80,7 @@ export class DividendComponentComponent implements OnInit {
           interestDevidend: Number(res[2].value)
         });
         const publish = res[5].value;
-        console.log(publish,'<----------- publish');
-        
+       
         if(publish === 'N'){
            this.blockedPanel = true;
            this.dataDividendDetail = null;

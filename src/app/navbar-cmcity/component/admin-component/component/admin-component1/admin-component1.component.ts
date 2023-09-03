@@ -397,7 +397,6 @@ export class AdminComponent1Component {
         this.profileImgId = main.profileImgId;
         this.getImagePro(main.profileImgId);
       }
-      console.log(main, 'main');
   
     });
   }
@@ -456,14 +455,12 @@ export class AdminComponent1Component {
 
     this.service.uploadImage(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.getEmployeeOfMain(this.infoId);
         this.clickInfo(this.infoId);
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );
@@ -478,7 +475,6 @@ export class AdminComponent1Component {
 
     this.service.uploadImageAddress(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.getEmployeeOfMain(this.infoId);
         this.clickInfo(this.infoId);
@@ -503,7 +499,6 @@ export class AdminComponent1Component {
 
     this.service.uploadImageIdCard(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.getEmployeeOfMain(this.infoId);
         this.clickInfo(this.infoId);
@@ -650,13 +645,11 @@ export class AdminComponent1Component {
 
     this.service.uploadImageConfig(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );

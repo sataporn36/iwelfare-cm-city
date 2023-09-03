@@ -73,8 +73,6 @@ export class BeneficiaryComponentComponent implements OnInit {
     this.service.searchBeneficiary(id).subscribe(data => {
       this.filteredData = data.filter((item) => item.active === false);
       this.beneficiaryInfo = data;
-      console.log(this.beneficiaryInfo, '<---------- this.beneficiaryInfo');
-
     });
   }
 

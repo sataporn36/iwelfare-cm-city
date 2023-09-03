@@ -324,13 +324,11 @@ export class AdminSettingComponentComponent {
 
     this.service.uploadImageConfig(formData).subscribe(
       () => {
-        console.log('Image uploaded successfully.');
         this.ngOnInit();
         this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
-        console.log('Error uploading image:', error);
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
       }
     );
