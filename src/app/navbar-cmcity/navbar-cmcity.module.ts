@@ -63,6 +63,8 @@ import { SlideMenuModule } from 'primeng/slidemenu';
 import { ResetPasswordPageComponent } from './page/reset-password-page/reset-password-page.component';
 import { ResetPasswordComponentComponent } from './component/reset-password-component/reset-password-component.component';
 import { RippleModule } from 'primeng/ripple';
+// import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -131,7 +133,8 @@ import { RippleModule } from 'primeng/ripple';
     GalleriaModule,
     PickListModule,
     SlideMenuModule,
-    RippleModule
+    RippleModule,
+    NgApexchartsModule
   ]
 })
 export class NavbarCmcityModule { }

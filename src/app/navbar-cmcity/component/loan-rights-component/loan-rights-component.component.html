@@ -1,11 +1,24 @@
-<div style="display: flex; justify-content: space-between;">
-    <div class="card flex justify-content-center" style="width: 40%; border-radius: 15px; font-size: 20px;">
+<div class="row">
+    <div class="col-3 card" style="margin-right: 0.6rem;">
         <p-chip label="แผนภูมิวงกลม" styleClass="mr-2"></p-chip>
-        <div style="padding-top: 1rem;"></div>
-        <p-chart type="pie" [data]="data" [options]="options"></p-chart>
+        <div style="display: flex; justify-content: center; padding-top: 1rem;">
+            <div id="chart">
+                <apx-chart [series]="chartPie.series" [chart]="chartPie.chart" [labels]="chartPie.labels"
+                    [responsive]="chartPie.responsive" [colors]="chartPie.colors" [legend]="chartPie.legend"></apx-chart>
+            </div>
+        </div>
     </div>
-    <div style="padding-left: 1rem;"></div>
-    <div class="card" style="padding-bottom: 40px;">
+    <div class="col-8 card">
+        <p-chip label="แผนภูมิคอลัมน์" styleClass="mr-2"></p-chip>
+        <div style="padding-top: 1rem;"></div>
+        <div id="chart">
+            <apx-chart [series]="chartBar.series" [chart]="chartBar.chart" [stroke]="chartBar.stroke"
+                [dataLabels]="chartBar.dataLabels" [plotOptions]="chartBar.plotOptions"
+                [xaxis]="chartBar.xaxis" [colors]="chartBar.colors" [fill]="chartBar.fill"
+                [yaxis]="chartBar.yaxis" [legend]="chartBar.legend"></apx-chart>
+        </div>
+    </div>
+    <div class="col-12 card">
         <p-chip label="สิทธิ์การกู้เงินสามัญ" styleClass="mr-2"></p-chip>
         <div class="col-2" style="margin: 15px; color: #60646b; line-height: 30px;">
             <div style="display: flex; justify-content: space-between; width: 280px;">

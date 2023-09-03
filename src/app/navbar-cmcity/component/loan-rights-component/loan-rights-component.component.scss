@@ -3,24 +3,25 @@
   font-family: "Kanit", sans-serif;
 }
 
+.row{
+  display: flex;
+  margin: 0 auto;
+}
+
+.row .col-3{
+  width: 32.70%;
+}
+
 .card {
   border: 5px solid white;
   border-radius: 15px;
-  width: 100%;
   background-color: white;
   padding: 2rem;
   margin-top: 10px;
-  // height: 51.6rem;
   height: max-content;
+  font-size: 15px;
 }
 
-// .card1{
-//     border: 5px solid white;
-//     border-radius: 20px;
-//     // width: 100%;
-//     background-color: white;
-//     padding: 2rem;
-// }
 :host ::ng-deep .p-chart {
   margin-top: 100px;
   margin-bottom: 100px;
@@ -36,12 +37,6 @@
   padding-top: 25px;
   padding-left: 25px;
   padding-right: 40px;
-  img {
-    width: 108px;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    background: #ffeef7;
-  }
 }
 
 .btn {
@@ -58,4 +53,28 @@
 .btn-login {
   color: #fff;
   background-color: #fe6bba;
+}
+
+@media screen and (max-width: 1680px) {
+  .row .col-3{
+    width: 32.5%;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .row .col-3{
+    width: 32.4%;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .row .col-3{
+    width: 32.3%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .row .col-3{
+    width: 32.2%;
+  }
 }
