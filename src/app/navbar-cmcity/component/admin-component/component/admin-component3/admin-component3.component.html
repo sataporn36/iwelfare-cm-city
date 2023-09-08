@@ -9,7 +9,7 @@
         </div>
         <div class="btn-group" style="width: 26rem;">
             <button type="button" class="btn btn-login" style="width: max-content;"
-                (click)="searchDocumentV1All('export')">ประวัติเงินกู้เเละค่าหุ้นของสมาชิกทั้งหมด</button>
+                (click)="searchDocumentV1All('export')">ประวัติเงินกู้ของสมาชิกทั้งหมด</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">ดาวน์โหลด</button>
         </div>
@@ -48,7 +48,7 @@
         <ng-template pTemplate="body" let-editing="editing" let-dataLoan let-ri="rowIndex">
             <tr [pEditableRow]="dataLoan">
                 <td>{{ ri + 1 }}</td>
-                <td>{{ 'เลขที่สัญญา' }}</td>
+                <td>{{ dataLoan.loanNo ? dataLoan.loanNo : 'เลขที่สัญญา' }}</td>
                 <td>{{ dataLoan.employeeCode }}</td>
                 <td>{{ dataLoan.firstName }}</td>
                 <td>{{ dataLoan.lastName }}</td>

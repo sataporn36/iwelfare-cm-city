@@ -373,7 +373,7 @@ export class AdminComponent3Component implements OnInit {
   getLoanDetail(userId: any, loanId: any, empDetail: any): void {
     this.searchLoanDetail(loanId);
 
-    if (this.empDetail.adminFlag) {
+    if (empDetail.adminFlag) {
       this.admin = true;
     }
   }
@@ -383,7 +383,7 @@ export class AdminComponent3Component implements OnInit {
       loanId: id
     }
     this.service.searchLoanDetail(payload).subscribe(data => {
-      this.dataLoanDetail = data
+      this.dataLoanDetail = data;
       this.loading = false;
     });
   }
@@ -1230,13 +1230,14 @@ export class AdminComponent3Component implements OnInit {
           const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
           data.stockValue = stockValueRE;
          
-          this.service.insertLoanNew(data).subscribe((res) =>{         
+          this.service.insertLoanNew(data).subscribe(async (res) =>{         
             if(res){
               this.closeLoanOld(data);
               this.localStorageService.clear('employeeofmain');
-              this.getEmployeeOfMain(this.userId);
+               this.getEmployeeOfMain(this.userId);
               this.localStorageService.clear('loanId');
               this.localStorageService.store('loanId', res.data.id);
+              await new Promise((resolve) => setTimeout(resolve, 500)),
               this.ngOnInit();
               this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
             }else{
@@ -1248,12 +1249,18 @@ export class AdminComponent3Component implements OnInit {
         }
      }else{
       if(this.checkValidFormLoan()){
-         this.statusQuagmire = false;
-        // const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
-        // this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ ' 
-        // + this.formattedNumber2(loanBalance) + '  บาท';
-        this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
-        this.displayMessageError = true;
+        const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
+        if(loanBalance !== 0){
+          this.statusQuagmire = true;
+          this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ ' 
+          + this.formattedNumber2(loanBalance) + '  บาท';
+          //this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
+          this.displayMessageError = true;
+        }else{
+          this.statusQuagmire = false;
+          this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
+          this.displayMessageError = true;
+        }
       }
      }
     }
@@ -1287,8 +1294,8 @@ export class AdminComponent3Component implements OnInit {
     // this.formModelLoanNew.get('loanTime').disable();
     // this.formModelLoanNew.get('guarantorOne').disable();
     // this.formModelLoanNew.get('guarantorTwo').disable();
-    // this.guarantorUniqueFlag1 = 'A';
-    // this.guarantorUniqueFlag2 = 'A';
+    this.guarantorUniqueFlag1 = 'A';
+    this.guarantorUniqueFlag2 = 'A';
     //this.displayModalLoanNew = false;
   }
 
@@ -1608,7 +1615,7 @@ export class AdminComponent3Component implements OnInit {
   }
 
   onDisplay(){
-    if (this.headerName === 'ประวัติเงินกู้เเละค่าหุ้นของสมาชิกทั้งหมด') {
+    if (this.headerName === 'ประวัติเงินกู้ของสมาชิกทั้งหมด') {
       this.onSearchDocumentV1All();
       this.displayModalBill = false;
     }
