@@ -49,10 +49,10 @@
     </p-table>
 </div>
 
-<p-toast></p-toast> 
+<p-toast></p-toast>
 <!-- [breakpoints]="{ '1000px': '92vw' }" -->
-<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '81vw' }"
-     [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
+<p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '81vw' }" [draggable]="false"
+    [resizable]="false" (onHide)="clearDialog()">
     <div class="div-profile">
         <div style="display: flex; flex-direction: column; padding-right: 0.5rem;">
             <div class="div-img">
@@ -229,9 +229,6 @@
                             <label for="email" class="block">อีเมล</label>
                             <input [class]="textString" id="email" type="text" formControlName="email"
                                 (keyup)="checkEmail()" />
-                            <!-- <em *ngIf="emailValidation === true && detailModel.get('email')?.value">
-                                <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
-                            </em> -->
                         </div>
                         <div class="col-6 mb-3">
                             <label for="address" class="block">ที่อยู่</label>

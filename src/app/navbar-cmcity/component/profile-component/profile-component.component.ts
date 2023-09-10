@@ -121,11 +121,11 @@ export class ProfileComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('foo')) {
-      localStorage.setItem('foo', 'no reload');
-      history.go(0);
-    } else {
-      localStorage.removeItem('foo');
+    // if (!localStorage.getItem('foo')) {
+    //   localStorage.setItem('foo', 'no reload');
+    //   history.go(0);
+    // } else {
+      // localStorage.removeItem('foo');
       this.arrayChild = [];
       this.dadArray = [];
       this.momArray = [];
@@ -151,7 +151,7 @@ export class ProfileComponentComponent implements OnInit {
       this.getBureau();
       this.getDapartment();
       this.checkDefaultImage();
-    }
+    // }
   }
 
   checkDefaultImage(){
@@ -1308,6 +1308,7 @@ export class ProfileComponentComponent implements OnInit {
     this.service.updateResign(playloadResign).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
       this.displayModalResign = false;
+      window.location.reload();
       this.ngOnInit();
     });
   }
@@ -1333,6 +1334,7 @@ export class ProfileComponentComponent implements OnInit {
       this.service.updateStockValue(playload).subscribe((data) => {
         this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
         this.displayModalStock = false;
+        window.location.reload();
         this.ngOnInit();
       });
     }

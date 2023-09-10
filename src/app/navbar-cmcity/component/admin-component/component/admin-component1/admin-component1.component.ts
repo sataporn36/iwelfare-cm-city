@@ -1,10 +1,10 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/constans/Product';
 import { Affiliation } from 'src/app/model/affiliation';
@@ -93,20 +93,16 @@ export class AdminComponent1Component {
 
   constructor(private service: MainService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
-    private decimalPipe: DecimalPipe,
-    private renderer: Renderer2,
     protected router: Router,
     protected route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initMainForm();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
-    this.getconfigList();
     this.initMainFormInterest();
 
     this.userId = this.localStorageService.retrieve('empId');
@@ -114,22 +110,14 @@ export class AdminComponent1Component {
     this.loanId = this.localStorageService.retrieve('loanid');
 
     this.searchEmployee();
-    this.getEmpListForRoleSource();
-    this.getEmpListForRoleTarget();
-
-    this.searchLevel();
-    this.searchEmployeeType();
-    this.getPositions();
-    this.getBureau();
-    this.getDepartment();
     this.checkDefaultImage();
   }
 
-  checkDefaultImage(){
+  checkDefaultImage() {
     if (this.imageSrcAddress == null) {
       this.imageSrcAddress = 'assets/images/image-default2.png';
     }
-    
+
     if (this.imageSrcIdCard == null) {
       this.imageSrcIdCard = 'assets/images/image-default2.png';
     }
@@ -299,7 +287,7 @@ export class AdminComponent1Component {
       email: detail.email,
       address: detail.address,
       levelId: Number(detail.levelId),
-      employeeTypeId:  Number(detail.employeeTypeId),
+      employeeTypeId: Number(detail.employeeTypeId),
       positionId: Number(detail.positionId),
       departmentId: Number(detail.departmentId),
       affiliationId: Number(detail.affiliationId),
@@ -313,7 +301,7 @@ export class AdminComponent1Component {
       salaryBankAccountNumber: detail.salaryBankAccountNumber,
       bankAccountReceivingNumber: detail.bankAccountReceivingNumber
     }
-    
+
     this.service.updateInfo(playload).subscribe((res) => {
       this.detailModel.disable();
       this.initMainForm();
@@ -322,17 +310,17 @@ export class AdminComponent1Component {
       this.detail = false;
       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
     },
-    () => {
-      this.messageService.add({ severity: 'error', detail: 'แก้ไขไม่สำเร็จ เกิดข้อผิดพลาด' });
-    });
+      () => {
+        this.messageService.add({ severity: 'error', detail: 'แก้ไขไม่สำเร็จ เกิดข้อผิดพลาด' });
+      });
   }
 
-  onClear() { 
+  onClear() {
     this.mode = true;
     this.textString = 'form-control-plaintext';
   }
 
-  clearDialog(){
+  clearDialog() {
     this.mode = true;
     this.textString = 'form-control-plaintext';
     this.imageSrcIdCard = null;
@@ -344,31 +332,9 @@ export class AdminComponent1Component {
 
   myDefaultDate = new Date();
   checkBureau(id: any) {
-    if (id.target.value != null )  {
+    if (id.target.value != null) {
       this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
     }
-  }
-
-  getEmpListForRoleSource() {
-    const payload = {
-      adminFlag: false
-    };
-    this.service.getEmployeeByList(payload).subscribe((res) => {
-      if (res) {
-        this.sourceEmployeeRole = res;
-      }
-    });
-  }
-
-  getEmpListForRoleTarget() {
-    const payload = {
-      adminFlag: true
-    };
-    this.service.getEmployeeByList(payload).subscribe((res) => {
-      if (res) {
-        this.targetEmployeeRole = res;
-      }
-    });
   }
 
   profileDetailImg() {
@@ -397,7 +363,7 @@ export class AdminComponent1Component {
         this.profileImgId = main.profileImgId;
         this.getImagePro(main.profileImgId);
       }
-  
+
     });
   }
 
@@ -422,7 +388,7 @@ export class AdminComponent1Component {
         (imageBlob: Blob) => {
           this.imageSrcAddress = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
           this.imagesAddress.push({
-            itemImageSrc : this.imageSrcAddress
+            itemImageSrc: this.imageSrcAddress
           })
         },
         (error: any) => {
@@ -435,7 +401,7 @@ export class AdminComponent1Component {
         (imageBlob: Blob) => {
           this.imageSrcIdCard = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
           this.imagesIdCard.push({
-            itemImageSrc : this.imageSrcIdCard
+            itemImageSrc: this.imageSrcIdCard
           })
         },
         (error: any) => {
@@ -483,7 +449,7 @@ export class AdminComponent1Component {
       (error) => {
         if (error.error.text === 'ProfileNull') {
           this.messageService.add({ severity: 'error', detail: 'กรุณาเพิ่มรูปประจำตัวก่อน' });
-        }else{
+        } else {
           this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
         }
       }
@@ -507,7 +473,7 @@ export class AdminComponent1Component {
       (error) => {
         if (error.error.text === 'ProfileNull') {
           this.messageService.add({ severity: 'error', detail: 'กรุณาเพิ่มรูปประจำตัวก่อน' });
-        }else{
+        } else {
           this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
         }
       }
@@ -548,25 +514,6 @@ export class AdminComponent1Component {
       { value: '12', label: 'ธันวาคม' },
     ];
   }
-
-
-  getconfigList() {
-    this.service.getConfigByList().subscribe((res) => {
-      if (res) {
-        this.configAdmin = res;
-        this.fileImg1 = res[3].configId;
-        this.fileImg2 = res[4].configId;
-        this.interestId = res[0].configId;
-        this.formModelInterest.patchValue({
-          interest: res[0].value
-        });
-
-        this.getImgSig1('signature1', this.fileImg1);
-        this.getImgSig2('signature2', this.fileImg2);
-      }
-    });
-  }
-
 
   initMainFormInterest() {
     this.formModelInterest = new FormGroup({
@@ -673,7 +620,6 @@ export class AdminComponent1Component {
     format.setDate(0);
     const day = format.getDate();
     const year = format.getFullYear();
-    //this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
@@ -695,86 +641,42 @@ export class AdminComponent1Component {
       yearCurrent: this.year.toString(),
       paymentStartDate: datePayLoanNew
     }
-     this.service.editConfig(payload).subscribe((res) => {
-         if(res.data !== null || res.data){
-          this.localStorageService.clear('employeeofmain');
-          this.getEmployeeOfMains(this.userId,'');
-          this.localStorageService.clear('loanId');
-          this.localStorageService.store('loanId', res.data.id);
-          this.ngOnInit();
-          this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
-         }
-     });
+    this.service.editConfig(payload).subscribe((res) => {
+      if (res.data !== null || res.data) {
+        this.localStorageService.clear('employeeofmain');
+        this.getEmployeeOfMains(this.userId, '');
+        this.localStorageService.clear('loanId');
+        this.localStorageService.store('loanId', res.data.id);
+        this.ngOnInit();
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
+      }
+    });
   }
 
-  getEmployeeOfMains(id: any,text: any): void {
+  getEmployeeOfMains(id: any, text: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
-      if(data){
+      if (data) {
         this.localStorageService.store('employeeofmain', data);
-        if(text === 'user'){
+        if (text === 'user') {
           this.router.navigate(['/main/main-page'], {});
-        }else{
+        } else {
           setTimeout(() => {
             this.ngOnInit();
           }, 500);
-          
+
         }
       }
     });
   }
 
-  resetInterst(){
+  resetInterst() {
     this.formModelInterest.reset();
     this.ngOnInit();
   }
 
-  checkRoleToSource(event: any) {
-    const payload = {
-      empId: event.items[0].empId,
-      adminFlag: false
-    }
-    this.service.updateRoleEmp(payload).subscribe((res) => {
-      if (res) {
-        this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
-        this.blockDocument();
-        if(this.userId === event.items[0].empId){
-          this.reFreshEmpOfMain('admin');
-        }
-      }
-    });
-  }
-
-  checkRoleToTarget(event: any) {
-    const payload = {
-      empId: event.items[0].empId,
-      adminFlag: true
-    }
-    this.service.updateRoleEmp(payload).subscribe((res) => {
-      if (res) {
-        this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาทเเอดมินสำเร็จ' });
-        this.blockDocument();
-        this.reFreshEmpOfMain('admin');
-      }
-    });
-  }
-
-  reFreshEmpOfMain(text: any){
-    // if (!localStorage.getItem('foo')) {
-    //   localStorage.setItem('foo', 'no reload');
-    //   history.go(0);
-    // } else {
-    //   localStorage.removeItem('foo');
-    //     this.localStorageService.clear('employeeofmain');
-    //     if(text === 'user'){
-    //       this.getEmployeeOfMains(this.userId);
-    //       this.router.navigate(['/main/main-page'], {});
-    //     }else{
-    //       this.getEmployeeOfMains(this.userId);
-    //       this.ngOnInit();
-    //     }
-    // }
+  reFreshEmpOfMain(text: any) {
     this.localStorageService.clear('employeeofmain');
-    this.getEmployeeOfMains(this.userId,text);
+    this.getEmployeeOfMains(this.userId, text);
   }
 
   blockedDocument: boolean = false;
@@ -906,10 +808,16 @@ export class AdminComponent1Component {
       this.getEmployeeOfMain(id);
       this.profileDetailImg();
 
+      this.searchLevel();
+      this.searchEmployeeType();
+      this.getPositions();
+      this.getBureau();
+      this.getDepartment();
+
       if (data.affiliation != null) {
         this.service.searchByBureau(data.affiliation.bureau.id).subscribe(data => this.affiliation = data);
       }
-      
+
       this.detailModel.patchValue({
         ...data,
         prefix: data?.prefix ? data?.prefix : '-',
@@ -928,26 +836,26 @@ export class AdminComponent1Component {
         selectMarital: data?.marital ? this.checkMaritalV2(data?.marital) : 0,
 
         // **
-        employeeType: data.employeeType ? data.employeeType: null,
-        employeeTypeId: data.employeeType ? data.employeeType.id: 0,
+        employeeType: data.employeeType ? data.employeeType : null,
+        employeeTypeId: data.employeeType ? data.employeeType.id : 0,
 
-        level: data.level ? data.level: null,
-        levelId: data.level ? data.level.id: 0,
+        level: data.level ? data.level : null,
+        levelId: data.level ? data.level.id : 0,
 
-        position: data.position ? data.position: null,
-        positionId: data.position ? data.position.id: 0,
+        position: data.position ? data.position : null,
+        positionId: data.position ? data.position.id : 0,
 
-        affiliation: data.affiliation ? data.affiliation: null,
-        affiliationId: data.affiliation ? data.affiliation.id: 0,
+        affiliation: data.affiliation ? data.affiliation : null,
+        affiliationId: data.affiliation ? data.affiliation.id : 0,
 
-        bureau: data.affiliation?.bureau ? data.affiliation?.bureau: null,
-        bureauId: data.affiliation?.bureau ? data.affiliation?.bureau.id: 0,
-        bureauName: data.affiliation?.bureau ? data.affiliation?.bureau.name: null,
-        
-        department: data.department ? data.department: null,
-        departmentId: data.department ? data.department.id: 0,
+        bureau: data.affiliation?.bureau ? data.affiliation?.bureau : null,
+        bureauId: data.affiliation?.bureau ? data.affiliation?.bureau.id : 0,
+        bureauName: data.affiliation?.bureau ? data.affiliation?.bureau.name : null,
 
-        user: data.user ? data.user: null,
+        department: data.department ? data.department : null,
+        departmentId: data.department ? data.department.id : 0,
+
+        user: data.user ? data.user : null,
         // loan: data.loan,
         // stock: data.stock,
 
@@ -984,13 +892,12 @@ export class AdminComponent1Component {
     });
   }
 
-  checkDecimalPipeOfNull(compensation: any){
-     const decimalPipe = new DecimalPipe('en-US');
-     if(compensation === ' ' || compensation === '-'){
-        return decimalPipe.transform(0)
-     }else{
-        return decimalPipe.transform(compensation)
-     }
+  checkDecimalPipeOfNull(compensation: any) {
+    const decimalPipe = new DecimalPipe('en-US');
+    if (compensation === ' ' || compensation === '-') {
+      return decimalPipe.transform(0)
+    } else {
+      return decimalPipe.transform(compensation)
+    }
   }
-
 }

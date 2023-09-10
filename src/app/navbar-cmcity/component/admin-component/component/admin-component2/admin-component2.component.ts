@@ -72,45 +72,45 @@ export class AdminComponent2Component implements OnInit {
     @Inject(LOCALE_ID) public locale: string) { }
 
 
-    ngOnInit() {
-      this.loading = true;
-      this.initMainForm();
-      this.initMainFormStock();
+  ngOnInit() {
+    this.loading = true;
+    this.initMainForm();
+    this.initMainFormStock();
 
-      this.userId = this.localStorageService.retrieve('empId');
-      this.stockId = this.localStorageService.retrieve('stockId');
-      this.empDetail = this.localStorageService.retrieve('employeeofmain');
-      this.getStock(this.stockId);
+    this.userId = this.localStorageService.retrieve('empId');
+    this.stockId = this.localStorageService.retrieve('stockId');
+    this.empDetail = this.localStorageService.retrieve('employeeofmain');
+    this.getStock(this.stockId);
 
-      this.searchStock();
-      this.searchStockDetail(this.stockId);
-      this.initMainFormBill();
-      this.setperiodMonthDescOption();
-      this.pipeDateTH();
+    this.searchStock();
+    this.searchStockDetail(this.stockId);
+    this.initMainFormBill();
+    this.setperiodMonthDescOption();
+    this.pipeDateTH();
 
-      this.employeeStatusList = [
-        { name: 'กรุณาเลือกสถานะ', value: 0 },
-        { name: 'ลาออก', value: 3 },
-        { name: 'เสียชีวิต', value: 6 },
-        { name: 'หนีหนี้', value: 7 },
-        { name: 'เกษียณ', value: 8 },
-      ];
+    this.employeeStatusList = [
+      { name: 'กรุณาเลือกสถานะ', value: 0 },
+      { name: 'ลาออก', value: 3 },
+      { name: 'เสียชีวิต', value: 6 },
+      { name: 'หนีหนี้', value: 7 },
+      { name: 'เกษียณ', value: 8 },
+    ];
 
-      this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
-        // Perform your action here based on the latest value
-        if(Number(value) <= this.year){
-          this.formModelBill.patchValue({
-            year: value,
-          });
-        }else{
-          this.formModelBill.get('year').setValue(null);
-          this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
-        }
-        
-      });
-    }
+    this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
+      // Perform your action here based on the latest value
+      if (Number(value) <= this.year) {
+        this.formModelBill.patchValue({
+          year: value,
+        });
+      } else {
+        this.formModelBill.get('year').setValue(null);
+        this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
+      }
 
-    
+    });
+  }
+
+
   onRowEditStatusEmp(data: any) {
     this.empId = data.id;
     this.displayStatusMember = true;
@@ -288,7 +288,7 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-  onCancleModalBill(){
+  onCancleModalBill() {
     this.formModelBill.reset();
     this.formModelBill.patchValue({
       year: this.year,
@@ -949,29 +949,29 @@ export class AdminComponent2Component implements OnInit {
     //this.formModelBill.get('year')?.disable();
   }
 
-  onDisplay(){
+  onDisplay() {
     if (this.headerName === 'ใบเสร็จรับเงิน') {
       this.onupdateBill();
       this.displayModalBill = false;
-    }else if (this.headerName === 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
+    } else if (this.headerName === 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
       this.searchDocumentV1All('export');
       this.displayModalBill = false;
-    }else if(this.headerName === 'สรุปยอดรวม'){
+    } else if (this.headerName === 'สรุปยอดรวม') {
       this.totalMemLoan();
-    }else if(this.headerName ==='ข้อมูลสมาชิก'){
+    } else if (this.headerName === 'ข้อมูลสมาชิก') {
       this.docInfoAll();
     }
   }
 
-  docInfoAll(){
+  docInfoAll() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
     const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
-       monthCurrent: monthNew,
-       yearCurrent: dataMY.year
+      monthCurrent: monthNew,
+      yearCurrent: dataMY.year
     }
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
@@ -984,13 +984,13 @@ export class AdminComponent2Component implements OnInit {
     })
   }
 
-  totalMemLoan(){
+  totalMemLoan() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
     const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
     const payload = {
-       monthCurrent: monthNew,
-       yearCurrent: dataMY.year
+      monthCurrent: monthNew,
+      yearCurrent: dataMY.year
     }
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
@@ -1025,7 +1025,7 @@ export class AdminComponent2Component implements OnInit {
       },
       error: error => { },
     });
-  } 
+  }
 
   dataResLoan: any
   async onPrintReceiptMakePdf(elementLoan: any, sumElementLoan: any) {
@@ -1181,7 +1181,7 @@ export class AdminComponent2Component implements OnInit {
       //bahtText += digitText + position;
       if (position === 'สิบ' && digit === 2) {
         bahtText += 'ยี่' + position;
-      } else if(position === '' && digit === 1){
+      } else if (position === '' && digit === 1) {
         bahtText += 'เอ็ด' + position;
       } else {
         bahtText += digitText + position;
@@ -1550,7 +1550,7 @@ export class AdminComponent2Component implements OnInit {
     this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที', life: 10000 });
   }
 
-  checkSetValueBill(event: any){
+  checkSetValueBill(event: any) {
     this.inputSubject.next(event.target.value);
   }
 

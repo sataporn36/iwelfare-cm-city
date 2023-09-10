@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { LocalStorageService } from 'ngx-webstorage';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 
 @Component({
@@ -17,8 +16,6 @@ export class AdminNewsComponentComponent {
 
   constructor(private service: MainService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
   ) { }
 
@@ -27,7 +24,9 @@ export class AdminNewsComponentComponent {
     this.initMainForm();
     this.initMainFormDetail();
     this.searchNews();
-    this.getImageNews(this.imageCoverId);
+    if (this.imageCoverId != null) {
+      this.getImageNews(this.imageCoverId);
+    }
 
     if (this.imageCover == null) {
       this.imageCover = 'assets/images/image-default2.png';

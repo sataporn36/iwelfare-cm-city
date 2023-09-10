@@ -125,12 +125,12 @@ p-picklist {
   width: 100%;
 }
 
-.div-signature{
-  padding-top: 3rem; 
-  padding-left: 4rem; 
-  padding-right: 4rem; 
-  padding-bottom: 1.5rem; 
-  border: 2px solid #f0f2f2; 
+.div-signature {
+  padding-top: 3rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-bottom: 1.5rem;
+  border: 2px solid #f0f2f2;
   border-radius: 15px;
 }
 
@@ -318,7 +318,7 @@ p-picklist {
   padding: 1.5rem;
   // border-radius: 15px;
   // height: ;
-  
+
   height: 350px;
   .doc-group {
     display: flex;
@@ -430,19 +430,19 @@ p-picklist {
   .div-info {
     padding: 1.5rem;
     .row {
-      .col-2{
+      .col-2 {
         width: 206px;
         height: 65px;
       }
-      .col-4{
+      .col-4 {
         width: 412px;
         height: 65px;
       }
-      .col-6{
+      .col-6 {
         width: 618px;
         height: 65px;
       }
-      label{
+      label {
         color: #747d8c;
       }
     }
@@ -463,7 +463,7 @@ p-picklist {
       color: #495057;
     }
   }
-  
+
   .p-button.p-button-text:enabled:hover {
     background: rgba(233, 135, 220, 0.04);
     color: #fe6bba;

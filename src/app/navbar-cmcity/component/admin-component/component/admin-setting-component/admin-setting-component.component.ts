@@ -67,7 +67,7 @@ export class AdminSettingComponentComponent {
     private renderer: Renderer2,
     protected router: Router,
     protected route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.setperiodMonthDescOption();
@@ -79,7 +79,7 @@ export class AdminSettingComponentComponent {
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
     this.loanId = this.localStorageService.retrieve('loanid');
 
-    this.searchEmployee();
+    // this.searchEmployee();
     this.getEmpListForRoleSource();
     this.getEmpListForRoleTarget();
   }
@@ -106,11 +106,11 @@ export class AdminSettingComponentComponent {
     });
   }
 
-  searchEmployee(): void {
-    this.service.searchEmployee().subscribe(data => {
-      this.listEmp = data
-    });
-  }
+  // searchEmployee(): void {
+  //   this.service.searchEmployee().subscribe(data => {
+  //     this.listEmp = data
+  //   });
+  // }
 
   getImgSig1(dataImg: any, id: any) {
     if (id !== null || id) {
@@ -263,35 +263,35 @@ export class AdminSettingComponentComponent {
       yearCurrent: this.year.toString(),
       paymentStartDate: datePayLoanNew
     }
-     this.service.editConfig(payload).subscribe((res) => {
-         if(res.data !== null || res.data){
-          this.localStorageService.clear('employeeofmain');
-          this.getEmployeeOfMains(this.userId,'');
-          this.localStorageService.clear('loanId');
-          this.localStorageService.store('loanId', res.data.id);
-          this.ngOnInit();
-          this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
-         }
-     });
+    this.service.editConfig(payload).subscribe((res) => {
+      if (res.data !== null || res.data) {
+        this.localStorageService.clear('employeeofmain');
+        this.getEmployeeOfMains(this.userId, '');
+        this.localStorageService.clear('loanId');
+        this.localStorageService.store('loanId', res.data.id);
+        this.ngOnInit();
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
+      }
+    });
   }
-  
-  getEmployeeOfMains(id: any,text: any): void {
+
+  getEmployeeOfMains(id: any, text: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
-      if(data){
+      if (data) {
         this.localStorageService.store('employeeofmain', data);
-        if(text === 'user'){
+        if (text === 'user') {
           this.router.navigate(['/main/main-page'], {});
-        }else{
+        } else {
           setTimeout(() => {
             this.ngOnInit();
           }, 500);
-          
+
         }
       }
     });
   }
 
-  resetInterst(){
+  resetInterst() {
     this.formModelInterest.reset();
     this.ngOnInit();
   }
@@ -351,7 +351,7 @@ export class AdminSettingComponentComponent {
       if (res) {
         this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
         this.blockDocument();
-        if(this.userId === event.items[0].empId){
+        if (this.userId === event.items[0].empId) {
           this.reFreshEmpOfMain('admin');
         }
       }
@@ -379,8 +379,8 @@ export class AdminSettingComponentComponent {
       }
     });
   }
-  
-  reFreshEmpOfMain(text: any){
+
+  reFreshEmpOfMain(text: any) {
     // if (!localStorage.getItem('foo')) {
     //   localStorage.setItem('foo', 'no reload');
     //   history.go(0);
@@ -396,6 +396,6 @@ export class AdminSettingComponentComponent {
     //     }
     // }
     this.localStorageService.clear('employeeofmain');
-    this.getEmployeeOfMains(this.userId,text);
+    this.getEmployeeOfMains(this.userId, text);
   }
 }

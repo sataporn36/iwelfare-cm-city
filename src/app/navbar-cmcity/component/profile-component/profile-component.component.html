@@ -92,9 +92,9 @@
                     <label for="birthday" class="block">วันเกิด</label>
                     <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar"
                         *ngIf="mode" />
-                    <p-calendar class="birthday-calendar" inputId="basic" formControlName="birthday" *ngIf="!mode" (onSelect)="onCheckAge($event)"
-                        (onClearClick)="onClearAge()" [showButtonBar]="true" dateFormat="dd/mm/yy"
-                        [maxDate]="defaultDateline"></p-calendar>
+                    <p-calendar class="birthday-calendar" inputId="basic" formControlName="birthday" *ngIf="!mode"
+                        (onSelect)="onCheckAge($event)" (onClearClick)="onClearAge()" [showButtonBar]="true"
+                        dateFormat="dd/mm/yy" [maxDate]="defaultDateline"></p-calendar>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="age" class="block">อายุ</label>
@@ -791,8 +791,9 @@
 </div>
 
 <!-- popup add child -->
-<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '35vw', height: '25vw'}" [breakpoints]="{ '960px': '90vw' }"
-    [draggable]="false" [resizable]="false" styleClass="customDialog" (onHide)="clearDialog()">
+<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '35vw', height: '25vw'}"
+    [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false" styleClass="customDialog"
+    (onHide)="clearDialog()">
     <ng-template pTemplate="header">
         <div *ngIf="modeChildstatus === 'ADD'">
             <p-chip label="เพิ่มบุตร/บุตรบุญธรรม" styleClass="mr-2"></p-chip>
@@ -852,8 +853,8 @@
                 <div class="col-6">
                     <label for="basic" class="block">วันเกิด</label> <br>
                     <div class="div-calendar-child">
-                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday"
-                            dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
+                        <p-calendar inputId="basic" formControlName="beneficiaryBirthday" dateFormat="dd/mm/yy"
+                            class="custom-calendar"></p-calendar>
                     </div>
                 </div>
             </div>
