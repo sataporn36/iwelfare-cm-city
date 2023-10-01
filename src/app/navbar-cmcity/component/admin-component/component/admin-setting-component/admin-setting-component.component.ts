@@ -253,25 +253,36 @@ export class AdminSettingComponentComponent {
     return year + '-' + monthSelect.value + '-' + lastDayOfMonth;
   }
 
+
+  position: string = 'center';
   updateIntereat() {
-    const datePayLoanNew = this.pipeDateTHNewLan();
-    const data = this.formModelInterest.getRawValue();
-    const payload = {
-      configId: this.interestId,
-      value: data.interest,
-      monthCurrent: this.month,
-      yearCurrent: this.year.toString(),
-      paymentStartDate: datePayLoanNew
-    }
-    this.service.editConfig(payload).subscribe((res) => {
-      if (res.data !== null || res.data) {
-        this.localStorageService.clear('employeeofmain');
-        this.getEmployeeOfMains(this.userId, '');
-        this.localStorageService.clear('loanId');
-        this.localStorageService.store('loanId', res.data.id);
-        this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
-      }
+    this.position = 'top'
+
+    this.confirmationService.confirm({
+      message: 'ท่านต้องบันทึกการเปลี่ยนเเปลงอัตราดอกเบี้ยหรือไม่',
+      header: 'อัตราดอกเบี้ย',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const datePayLoanNew = this.pipeDateTHNewLan();
+        const data = this.formModelInterest.getRawValue();
+        const payload = {
+          configId: this.interestId,
+          value: data.interest,
+          monthCurrent: this.month,
+          yearCurrent: this.year.toString(),
+          paymentStartDate: datePayLoanNew
+        }
+        this.service.editConfig(payload).subscribe((res) => {
+          this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
+          this.localStorageService.clear('employeeofmain');
+          this.getEmployeeOfMains(this.userId, '');
+          this.localStorageService.clear('loanId');
+          this.localStorageService.store('loanId', res.data.id);
+          this.ngOnInit();
+        });
+      },
+      reject: () => { },
+      key: 'positionDialog'
     });
   }
 

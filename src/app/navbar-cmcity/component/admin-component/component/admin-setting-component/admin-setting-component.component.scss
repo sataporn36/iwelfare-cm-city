@@ -38,7 +38,7 @@
   font-weight: 500;
   font-size: 14px;
   margin-top: -5px;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .btn-edit {
@@ -478,4 +478,8 @@ p-picklist {
     width: 25px !important;
     height: 25px !important;
   }
+}
+
+::ng-deep .input-styling input {
+ border-radius: 10px;
 }

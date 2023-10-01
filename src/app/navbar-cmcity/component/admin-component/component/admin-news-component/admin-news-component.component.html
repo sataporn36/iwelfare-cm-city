@@ -75,8 +75,8 @@
                 <td>{{ listEmp.name }}</td>
                 <td><p class="news-description">{{ listEmp.description }}</p></td>
                 <td>{{ pipeDateTHD(listEmp.createDate) }}</td>
-                <td style="display: flex; justify-content: center;">
-                    <div class="news-button" style="display: flex;">
+                <td>
+                    <div class="news-button">
                         <button type="button" (click)="onEdit(listEmp.id)" class="btn btn-login"><i class="pi pi-file-edit"></i></button>
                         <button type="button" (click)="onDelete(listEmp.id)" class="btn btn-icon"><i class="pi pi-trash"></i></button>
                     </div>
@@ -90,8 +90,8 @@
         </ng-template>
     </p-table>
 </div>
-<p-dialog header="แก้ไขข่าวสาร" [(visible)]="detail" [modal]="true" [style]="{ width: '72vw' }"
-    [breakpoints]="{ '1000px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
+<p-dialog header="แก้ไขข่าวสาร" [(visible)]="detail" [modal]="true" [style]="{ width: '52vw' }"
+    [breakpoints]="{ '1680px': '60vw', '1600px': '62vw', '1366px': '72vw', '1280px': '78vw' }" [draggable]="false" [resizable]="false" (onHide)="clearDialog()">
     <div [formGroup]="detailModel">
         <div class="div-detail-news">
             <div class="div-img">

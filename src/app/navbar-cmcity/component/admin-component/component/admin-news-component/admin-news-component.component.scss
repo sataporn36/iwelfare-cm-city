@@ -376,10 +376,6 @@
     border-radius: 50%;
     color: #fe6bba;
     border-color: #fe6bba;
-    // margin-left: 10px;
-    // display: flex;
-    // justify-content: center;
-    // align-content: center;
   }
 
   .btn-login {
@@ -400,50 +396,31 @@
 }
 
 .news-description{
-  width: 550px;
+  width: 500px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: inherit;
 }
+
+// :host ::ng-deep .dialog-width {
+//   width: 80vw;
+// }
 
 @media screen and (max-width: 1680px) {
   .news-description{
-    width: 550px;
+    width: 500px;
   }
 }
 
-// @media screen and (max-width: 1600px) {
-//   .guarantee {
-//     width: 380px;
-//     height: 108px;
-//   }
+@media screen and (max-width: 1600px) {
+  .news-description{
+    width: 450px;
+  }
+}
 
-//   .info-text{
-//     width: 330px;
-//     padding: 20px;
-//   }
-// }
-
-// @media screen and (max-width: 1366px) {
-//   .guarantee {
-//     width: 320px;
-//     height: 108px;
-//   }
-
-//   .info-text{
-//     width: 280px;
-//     padding: 20px;
-//   }
-// }
-
-// @media screen and (max-width: 1280px) {
-//   .guarantee {
-//     width: 300px;
-//     height: 108px;
-//   }
-
-//   .info-text{
-//     width: 250px;
-//     padding: 20px;
-//   }
-// }
+@media screen and (max-width: 1366px) {
+  .news-description{
+    width: 400px;
+  }
+}

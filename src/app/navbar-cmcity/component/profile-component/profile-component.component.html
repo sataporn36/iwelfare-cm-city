@@ -791,9 +791,8 @@
 </div>
 
 <!-- popup add child -->
-<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '35vw', height: '25vw'}"
-    [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false" styleClass="customDialog"
-    (onHide)="clearDialog()">
+<p-dialog [(visible)]="displayModal2" [modal]="true" [style]="{width: '30vw'}" [breakpoints]="{ '1680px': '35vw', '1600px': '38vw', '1366px': '42vw', '1280px': '45vw' }"
+    [draggable]="false" [resizable]="false" styleClass="customDialog" (onHide)="clearDialog()">
     <ng-template pTemplate="header">
         <div *ngIf="modeChildstatus === 'ADD'">
             <p-chip label="เพิ่มบุตร/บุตรบุญธรรม" styleClass="mr-2"></p-chip>

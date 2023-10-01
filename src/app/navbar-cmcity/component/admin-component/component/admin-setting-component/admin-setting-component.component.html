@@ -7,14 +7,14 @@
             <div [formGroup]="formModelInterest">
                 <div class="col-12" style="padding: 1rem;">
                     <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตราดอกเบี้ย
-                        จะมีการคำนวณเงินกู้ใหม่หรืออื่นๆที่มีการเรียกใช้อัตราดอกเบี้ยทั้งหมด</label>
+                        จะมีการคำนวณเงินกู้และข้อมูลในส่วนอื่นๆ <br> ที่มีการเรียกใช้อัตราดอกเบี้ยใหม่ทั้งหมด</label>
                 </div>
                 <div style="display: grid; justify-content: center; padding-top: 2rem;">
                     <label class="block">อัตราดอกเบี้ย</label>
                     <div style="display: flex;">
                         <p-inputNumber formControlName="interest" inputId="minmaxfraction" mode="decimal"
                             [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
-                            [maxFractionDigits]="5" [min]="0"></p-inputNumber>
+                            [maxFractionDigits]="5" [min]="0" styleClass="input-styling"></p-inputNumber>
                         <label class="block" style="padding-left: 1rem; padding-top: 1rem;"> % </label>
                     </div>
                 </div>
@@ -116,3 +116,10 @@
 </div>
 
 <p-toast></p-toast>
+
+<p-confirmDialog #cd [appendTo]="'body'" key="positionDialog" [position]="position" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-regis" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+    </ng-template>
+</p-confirmDialog>
