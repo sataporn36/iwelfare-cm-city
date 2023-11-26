@@ -625,7 +625,7 @@ export class ShareComponentComponent implements OnInit {
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
-      if (this.dataStockDetail.length > 0 || this.dataStockDetail.length !== null) {
+      if (this.dataStockDetail.length < 0) {
         this.showWarnNull();
       } else {
         const listStock = this.dataStockDetail;
