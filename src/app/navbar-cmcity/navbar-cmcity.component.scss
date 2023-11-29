@@ -4,11 +4,14 @@
   font-family: "Kanit", sans-serif;
 }
 
+body {
+  min-height: 100vh;
+}
+
 .menubar {
   height: max-content;
   background: #ffffff;
   border-radius: 15px;
-  margin-left: 5px;
   padding-bottom: 20px;
 }
 
@@ -25,11 +28,21 @@
   }
 }
 
-hr {
+hr.hr-menubar {
   width: 85%;
   border-color: #a3185b;
   margin-top: -5px;
   margin-bottom: -1px;
+}
+
+.div-hr-foot {
+  display: flex;
+  justify-content: center;
+  hr.hr-foot {
+    width: 50%;
+    margin: 30px;
+    color: var(--hr1-color);
+  }
 }
 
 .logo .text span {
@@ -41,22 +54,21 @@ img {
   margin-top: 10px;
 }
 
-.nav-item .col-1 {
-  margin-top: 10px;
-  margin-left: -2px;
-}
-
-.nav-item .col-10 {
-  margin-top: 5px;
-  margin-left: -5px;
-}
-
-.nav-item {
-  // width: 250px;
-  height: 50px;
+li.nav-item {
+  display: table;
   border-radius: 15px;
-  margin: 5px;
-  margin-left: 15px;
+  margin: 5px 15px 0px 15px;
+  padding: 10px 10px 10px 25px;
+
+  i.uil {
+    font-size: var(--icon1-size);
+    color: var(--bg5-color);
+  }
+
+  a.nav-link {
+    font-size: var(--fn1-size);
+    color: var(--bg5-color);
+  }
 }
 
 path {
@@ -65,18 +77,14 @@ path {
 
 .nav-item:hover {
   background: #fff7fb;
-  width: 90%;
-  i.bi {
-    font-size: 22px;
+  i.uil {
     color: #fe6bba;
   }
   a.nav-link {
     color: #fe6bba;
-    font-size: 15px;
   }
   .nav-admin a.nav-link {
     color: #747d8c;
-    font-size: 15px;
   }
   path {
     fill: #fe6bba;
@@ -85,32 +93,17 @@ path {
 
 li.active {
   background: #fff7fb;
-  width: 90%;
-  i.bi {
-    font-size: 22px;
+  i.uil {
     color: #fe6bba;
   }
   .nav-admin a.nav-link {
     color: #747d8c;
-    font-size: 15px;
   }
   a.nav-link {
     color: #fe6bba;
-    font-size: 15px;
   }
   path {
     fill: #fe6bba;
-  }
-}
-
-li {
-  i.bi {
-    font-size: 22px;
-    color: #747d8c;
-  }
-  a.nav-link {
-    color: #747d8c;
-    font-size: 15px;
   }
 }
 
@@ -172,13 +165,6 @@ img.profile_img {
   border-radius: 10px;
 }
 
-.div-foot {
-  margin-top: 60%;
-  @media screen and (max-width: 1366px) {
-    margin-top: 85%;
-  }
-}
-
 .count {
   margin-left: 20px;
 }
@@ -188,10 +174,13 @@ img.profile_img {
     fill: #fe6bba;
   }
 }
+.nav-admin {
+  margin: 10px 0px 0px -26px;
+}
 
 .nav-admin .nav .nav-items {
   position: relative;
-  margin-left: -8px;
+  margin-top: 5px;
 }
 
 .nav-admin .nav .nav-items:after {
@@ -235,43 +224,6 @@ img.profile_img {
   opacity: 1;
 }
 
-.nav-menu {
-  margin-bottom: 40px;
-  margin-top: 10px;
-}
-
-@media screen and (max-width: 1680px) {
-  .nav-menu {
-    margin-bottom: 60px;
-  }
-
-  .nav-item:hover {
-    width: 88%;
-  }
-
-  li {
-    width: 88%;
-  }
-
-  li.active {
-    width: 88%;
-  }
-
-  .nav-admin ul li a{
-    width: 16rem;
-  }
-}
-
-@media screen and (max-width: 1600px) {
-  .nav-menu {
-    margin-bottom: 70px;
-  }
-
-  .nav-admin ul li a{
-    width: 15rem;
-  }
-}
-
 @media screen and (max-width: 1366px) {
   .menubar {
     height: fit-content;
@@ -312,11 +264,7 @@ img.profile_img {
     }
   }
 
-  .nav-menu {
-    margin-bottom: 40px;
-  }
-
-  .nav-item:hover {
+  li.nav-item:hover {
     width: 86%;
     a.nav-link {
       font-size: 14px;
@@ -328,9 +276,13 @@ img.profile_img {
     }
   }
 
-  li {
+  li.nav-item {
     width: 86%;
     a.nav-link {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+    .nav-admin a.nav-link {
       font-size: 14px;
       margin-top: 2px;
     }
@@ -338,60 +290,53 @@ img.profile_img {
 
   li.active {
     width: 86%;
-    .nav-admin a.nav-link {
+    a.nav-link {
       font-size: 14px;
       margin-top: 2px;
     }
-    a.nav-link {
+    .nav-admin a.nav-link {
       font-size: 14px;
       margin-top: 2px;
     }
   }
 
-  .nav-admin ul li a{
-    width: 13rem;
+  .nav-admin ul li a {
+    width: 11rem;
   }
 }
 
 @media screen and (max-width: 1280px) {
-  .nav-menu {
-    margin-bottom: 50px;
-  }
-
-  .nav-item:hover {
+  li.nav-item:hover {
     width: 88%;
     a.nav-link {
-      font-size: 13.5px;
+      font-size: 13px;
     }
     .nav-admin a.nav-link {
-      font-size: 13.5px;
+      font-size: 13px;
     }
   }
 
-  li {
+  li.nav-item {
     width: 88%;
     a.nav-link {
-      font-size: 13.5px;
+      font-size: 13px;
+    }
+    .nav-admin a.nav-link {
+      font-size: 13px;
     }
   }
 
   li.active {
     width: 88%;
     .nav-admin a.nav-link {
-      font-size: 13.5px;
+      font-size: 13px;
     }
     a.nav-link {
-      font-size: 13.5px;
+      font-size: 13px;
     }
   }
 
-  .nav-admin ul li a{
-    width: 12rem;
-  }
-}
-
-@media screen and (max-width: 1240px) {
-  .nav-menu {
-    margin-bottom: 60px;
+  .nav-admin ul li a {
+    width: 10rem;
   }
 }

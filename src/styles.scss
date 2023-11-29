@@ -10,3 +10,49 @@ body {
   width: 100%;
   background-color: #f0f2f2;
 }
+
+// input, p, span, h1, h2, h3, h4, h5, h6 {
+//   font-family: "Kanit", sans-serif;
+// }
+
+:root {
+  /* ------- Color ------- */
+  // background
+  --bg1-color: #ffffff;
+  --bg2-color: #f0f2f2;
+  --bg3-color: #ffe1f1;
+  --bg4-color: #cf6a87;
+  --bg5-color: #747d8c;
+
+  // text
+  --tx1-color: #ffffff;
+  --tx2-color: #8690a1;
+  --tx3-color: #4e4e4e;
+  --tx4-color: #fe6bba;
+  --tx5-color: #460728;
+  --tx6-color: #212529;
+
+  // border
+  --bd1-color: #f0f2f2;
+  --bd2-color: #fe6bba;
+  --bd3-color: #e4e7ee;
+
+  // hr
+  --hr1-color: #8690a1;
+
+  // icon
+  --icon1-color: #fe6bba;
+  --icon2-color: #3A36DB;
+  --icon3-color: #0090FF;
+  --icon4-color: #1AD598;
+
+  /* ------- Size ------- */
+  // font
+  --fn1-size: 16px;
+  --fn2-size: 15px;
+
+  // icon
+  --icon1-size: 25px;
+
+
+}

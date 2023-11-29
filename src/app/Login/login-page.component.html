@@ -1,23 +1,30 @@
-<div [formGroup]="formModel">
+<div class="container" [formGroup]="formModel">
     <div class="login">
         <div class="text">
-            <h1> ลงชื่อเข้าใช้ </h1>
-            <span>กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่</span>
-            <div class="mb-3 div-text">
-                <label class="form-label">เลขสมาชิก</label>
-                <input type="text" class="form-control" placeholder="053234" formControlName="username"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" required="true"
-                    maxlength="5">
+            <div class="text-header">
+                <h1> ลงชื่อเข้าใช้ </h1>
+                <span> กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่ </span>
             </div>
-            <div class="mb-3">
-                <label class="form-label">รหัสผ่าน</label><br>
-                <p-password class="form-control" class="password" formControlName="password" [toggleMask]="true"
-                    [hideTransitionOptions]="'true'" required="true"></p-password>
+
+            <div class="text-info">
+                <div class="mb-3">
+                    <label class="form-label">เลขสมาชิก</label>
+                    <input type="text" class="form-control" placeholder="053234" formControlName="username"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                        required="true" maxlength="5">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">รหัสผ่าน</label><br>
+                    <p-password class="form-control" class="password" formControlName="password" [toggleMask]="true"
+                        [hideTransitionOptions]="'true'" required="true"></p-password>
+                </div>
+
+                <div class="text-forgot">
+                    <a style="cursor: pointer;" (click)="clickForgetPassword()"><span>ลืมรหัสผ่าน?</span></a>
+                </div>
             </div>
-            <div class="mb-3">
-                <a style="cursor: pointer;" (click)="clickForgetPassword()"><span>ลืมรหัสผ่าน ?</span></a>
-            </div>
-            <div class="mb-3">
+
+            <div class="text-footer">
                 <button type="button" class="btn btn-login" (click)="clickLogin()">เข้าสู่ระบบ</button>
                 <button type="button" class="btn btn-regis" (click)="clickRegister()">สมัครสมาชิก</button>
             </div>
@@ -28,19 +35,19 @@
     </div>
 </div>
 
-<p-dialog header="เเจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw'}" [breakpoints]="{ '960px': '90vw' }" [draggable]="false"
-    [resizable]="false">
+<p-dialog header="เเจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw'}"
+    [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
     <p class="m-0"> กรุณาเข้าสู่ระบบ </p>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-check" (click)="displayModal=false" label="ตกลง" styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
-
+ 
 <p-confirmDialog #cd [appendTo]="'body'" position="top" [draggable]="false" [dismissableMask]="true"
-    [style]="{width: '18vw'}">
+    [breakpoints]="{'1600px': '23vw', '1440px': '25vw', '1280px': '28vw', '1024px': '35vw', '960px': '45vw', '640px': '90vw'}" [style]="{width: '20vw'}">
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
-        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+        <button type="button" class="btn dialog-login" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn dialog-regis" (click)="cd.reject()">ยกเลิก</button>
     </ng-template>
 </p-confirmDialog>
 

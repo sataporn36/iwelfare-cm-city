@@ -103,21 +103,21 @@ export class NavbarCmcityComponent implements OnInit {
     this.items = [
       {
         label: 'ข้อมูลส่วนตัว',
-        icon: 'pi pi-user',
+        icon: 'uil uil-user',
         command: () => {
           this.onProfile();
         }
       },
       {
         label: 'เปลี่ยนรหัสผ่าน',
-        icon: 'pi pi-bars',
+        icon: 'uil uil-edit',
         command: () => {
           this.onForgetPassword();
         }
       },
       {
         label: 'ออกจากระบบ',
-        icon: 'pi pi-sign-out',
+        icon: 'uil uil-signout',
         command: () => {
           this.onLogout();
         }
