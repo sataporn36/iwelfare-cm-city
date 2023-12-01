@@ -1,12 +1,14 @@
-<div [formGroup]="formModel">
+<div class="container" [formGroup]="formModel">
     <div class="register">
         <div class="text">
-            <h1> สมัครเข้าใช้งาน </h1>
-            <span> กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่</span>
+            <div class="text-header">
+                <h1> สมัครเข้าใช้งาน </h1>
+                <span> กองทุนสวัสดิการพนักงานและลูกจ้าง เทศบาลนครเชียงใหม่</span>
+            </div>
 
-            <div class="text-group">
-                <div class="row">
-                    <div class="col mb-3">
+            <div class="text-info">
+                <div class="text-group">
+                    <div>
                         <label for="prefix" class="block">คำนำหน้า <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="prefix"
                             required="true">
@@ -34,20 +36,18 @@
                             <option value="23">จ่าสิบเอกหญิง</option>
                         </select>
                     </div>
-                    <div class="col mb-3">
+                    <div>
                         <label for="firstName" class="block">ชื่อ <span style="color: red;">*</span></label>
                         <input class="form-control" id="firstName" pInputText type="text" formControlName="firstName"
                             required="true" placeholder="ชื่อจริง" />
                     </div>
-                    <div class="col mb-3">
+                    <div>
                         <label for="lastName" class="block">นามสกุล <span style="color: red;">*</span></label>
                         <input class="form-control" id="lastName" pInputText type="text" formControlName="lastName"
                             required="true" placeholder="นามสกุลจริง" />
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col mb-3">
+                    <div>
                         <div class="flex">
                             <label for="idCard" class="block">เลขประจำตัวประชาชน <span
                                     style="color: red;">*</span></label>
@@ -57,11 +57,11 @@
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
                             placeholder="15001XXXXXXXX" (keyup)="checkIdCard()" />
                         <em *ngIf="idCardValidation === true && formModel.get('idCard')?.value">
-                            <span style="color: red;">กรุณากรอก <br> เลขประจำตัวประชาชนให้ถูกต้อง</span>
+                            <span class="span-alert">กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง</span>
                         </em>
                     </div>
 
-                    <div class="col mb-3">
+                    <div>
                         <div class="flex">
                             <label for="tel" class="block">หมายเลขโทรศัพท์ <span style="color: red;">*</span></label>
                         </div>
@@ -70,10 +70,10 @@
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
                             placeholder="080XXXXXXX" (keyup)="checkPhoneNumber()" />
                         <em *ngIf="pnumberValidation === true && formModel.get('tel')?.value">
-                            <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span>
+                            <span class="span-alert">กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้อง</span>
                         </em>
                     </div>
-                    <div class="col mb-3">
+                    <div>
                         <label for="employeeTypeName" class="block">ระดับ</label>
                         <select class="form-select" aria-label="Default select example" formControlName="levelId"
                             required="true">
@@ -81,10 +81,8 @@
                             <option *ngFor="let level of level" value="{{ level.id }}">{{ level.name }}</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col mb-3">
+                    <div>
                         <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
                         <select class="form-select" aria-label="Default select example" formControlName="employeeTypeId"
                             required="true">
@@ -93,17 +91,18 @@
                                 employeeType.name }}</option>
                         </select>
                     </div>
-                    <div class="col mb-3">
+                    <div>
                         <label for="department" class="block">หน่วยงาน <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="departmentId"
                             required="true">
                             <option value="0" selected>เลือกหน่วยงาน</option>
-                            <option *ngFor="let department of department" value="{{ department.id }}">{{ department.name
+                            <option *ngFor="let department of department" value="{{ department.id }}">{{
+                                department.name
                                 }}</option>
                         </select>
                     </div>
 
-                    <div class="col mb-3">
+                    <div>
                         <label for="position" class="block">ตำแหน่ง <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="positionId"
                             required="true">
@@ -112,10 +111,8 @@
                             </option>
                         </select>
                     </div>
-                </div>
- 
-                <div class="row">
-                    <div class="col mb-3">
+
+                    <div>
                         <label for="affiliation" class="block">สำนัก <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="bureauId"
                             required="true" (click)="checkBureau($event)">
@@ -123,7 +120,7 @@
                             <option *ngFor="let bureau of bureau" value="{{ bureau.id }}">{{ bureau.name }}</option>
                         </select>
                     </div>
-                    <div class="col mb-3">
+                    <div>
                         <label for="affiliation" class="block">สังกัด <span style="color: red;">*</span></label>
                         <select class="form-select" aria-label="Default select example" formControlName="affiliationId"
                             required="true">
@@ -132,24 +129,24 @@
                                 affiliation.name }}</option>
                         </select>
                     </div>
-                    <div class="col mb-3">
+                    <div>
                         <div class="flex">
                             <label for="email" class="block">อีเมล</label>
                         </div>
                         <input class="form-control" id="email" pInputText type="email" formControlName="email"
                             placeholder="example@gmail.com" (keyup)="checkEmail()" />
                         <em *ngIf="emailValidation === true && formModel.get('email')?.value">
-                            <span style="color: red;">กรุณากรอกอีเมลให้ถูกต้อง</span>
+                            <span class="span-alert">กรุณากรอกอีเมลให้ถูกต้อง</span>
                         </em>
                     </div>
                 </div>
-            </div>
 
-            <div class="text-group">
-                <p style="font-weight: bold; font-size: 26px;">การส่งหุ้น</p>
-                <p style="margin-top: -8px;">กรุณาระบุหุ้นและการส่งหุ้นของท่าน เพื่อใช้เป็นขั้นตอนในการสมัครสมาชิก</p>
-                <div class="row">
-                    <div class="col mb-3">
+                <div class="text-stock">
+                    <div class="text-stock-header">
+                        <h4>การส่งหุ้น</h4>
+                        <p>กรุณาระบุหุ้นและการส่งหุ้นของท่าน เพื่อใช้เป็นขั้นตอนในการสมัครสมาชิก</p>
+                    </div>
+                    <div>
                         <div class="flex">
                             <label for="tel" class="block">เงินหุ้นส่งรายเดือน <span
                                     style="color: red;">*</span></label>
@@ -162,7 +159,7 @@
                 </div>
             </div>
 
-            <div class="mb-3">
+            <div class="text-footer">
                 <button type="button" class="btn btn-regis" (click)="onRegister()" [disabled]="!formModel.valid 
                 || !(idCardValidation === false && formModel.get('idCard')?.value)
                 || !(pnumberValidation === false && formModel.get('tel')?.value) 
@@ -178,8 +175,8 @@
 
 <p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '25vw'}">
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-regis" (click)="cd.accept()">ยืนยัน</button>
-        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+        <button type="button" class="btn dialog-login" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn dialog-regis" (click)="cd.reject()">ยกเลิก</button>
     </ng-template>
 </p-confirmDialog>
 

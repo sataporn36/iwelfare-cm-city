@@ -179,40 +179,11 @@
 :host ::ng-deep .p-password input {
   width: 320px;
   border-radius: 10px;
+  color: #000;
   @media only screen and (max-width: 480px) {
     width: 280px;
   }
 }
-
-// :host ::ng-deep .p-confirm-dialog .p-dialog-content {
-//   display: g;
-//   align-items: center;
-// }
-// :host ::ng-deep .p-dialog.p-confirm-dialog .p-confirm-dialog-message {
-//   margin-left: 2rem;
-// }
-
-// :host ::ng-deep {
-//   .p-dialog .p-dialog-footer {
-//     background: green !important;
-//   }
-// }
-
-// :host ::ng-deep {
-//   .p-dialog .p-dialog-footer {
-//     border-top: 0 none;
-//     background: #ffffff;
-//     color: #495057;
-//     padding: 1rem 1rem;
-//     text-align: right;
-//     border-bottom-right-radius: 6px;
-//     border-bottom-left-radius: 6px;
-//   }
-// }
-
-// ::ng-deep .p-dialog-content .p-dialog .p-dialog-footer {
-//   padding: 1rem 1rem;
-// }
 
 ::ng-deep .p-dialog .p-dialog-header {
   padding: 1rem 1rem;
@@ -346,16 +317,6 @@
   .dialog-regis {
     padding: 10px 10px;
   }
-
-  // .p-dialog .p-dialog-footer {
-  //   border-top: 0 none;
-  //   background: #ffffff;
-  //   color: #495057;
-  //   padding: 1rem 1rem;
-  //   text-align: right;
-  //   border-bottom-right-radius: 6px;
-  //   border-bottom-left-radius: 6px;
-  // }
 }
 
 @media only screen and (max-width: 480px) {

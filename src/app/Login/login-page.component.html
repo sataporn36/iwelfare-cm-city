@@ -42,9 +42,10 @@
         <p-button icon="pi pi-check" (click)="displayModal=false" label="ตกลง" styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
- 
+
 <p-confirmDialog #cd [appendTo]="'body'" position="top" [draggable]="false" [dismissableMask]="true"
-    [breakpoints]="{'1600px': '23vw', '1440px': '25vw', '1280px': '28vw', '1024px': '35vw', '960px': '45vw', '640px': '90vw'}" [style]="{width: '20vw'}">
+    [breakpoints]="{'1600px': '23vw', '1440px': '25vw', '1280px': '28vw', '1024px': '35vw', '960px': '45vw', '640px': '90vw'}"
+    [style]="{width: '20vw'}">
     <ng-template pTemplate="footer">
         <button type="button" class="btn dialog-login" (click)="cd.accept()">ยืนยัน</button>
         <button type="button" class="btn dialog-regis" (click)="cd.reject()">ยกเลิก</button>
