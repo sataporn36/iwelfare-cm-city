@@ -87,22 +87,24 @@ export class AdminComponent3Component implements OnInit {
         this.formModelLoanNew.get('guarantorTwo').enable();
         const payload = {
           empCode: value,
-          monthCurrent: this.month,
-          yearCurrent: this.year
+          monthCurrent: null,
+          yearCurrent: null
         }
         this.service.searchEmployeeLoanNew(payload).subscribe({
           next: (res) => {
             if(res !== null || res){
               this.dataNewLoan = res;
+              this.setInterestPercentOnLoan();
               this.formModelLoanNew.patchValue({
-                interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
+                //interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
                 stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)): 0,
                 fullName: res.fullName,
                 empId: res.empId,
-                loanId: res.loanId,
+                loanId: res.loanId ? res.loanId : 0,
               });
             }else{
               this.formModelLoanNew.reset();
+              this.onCancleLoan();
             }
           },
           error: error => {
@@ -263,6 +265,17 @@ export class AdminComponent3Component implements OnInit {
         this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
       }
       
+    });
+
+  }
+
+  setInterestPercentOnLoan(){
+    this.service.getConfigByList().subscribe((res) => {
+      if (res) {
+        this.formModelLoanNew.patchValue({
+          interestPercent: res[0] ? res[0].value + '%' : '5%',
+        });
+      }
     });
 
   }
@@ -1217,8 +1230,9 @@ export class AdminComponent3Component implements OnInit {
     const data = this.formModelLoanNew.getRawValue();
      if(this.dataNewLoan){
       const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
+      const loanActive = this.dataNewLoan.loanActive ? this.dataNewLoan.loanBalance: true;
       this.checkStatusQuagmire(loanBalance);
-      if(this.dataNewLoan.loanActive && loanBalance <= 0){
+      if(loanActive && loanBalance <= 0){
         if(this.checkValidFormLoan()){
           // api
           const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
@@ -1513,9 +1527,10 @@ export class AdminComponent3Component implements OnInit {
   onCalculateLoanNew(){
     const datePayLoanNew = this.pipeDateTHNewLan();
     const data = this.formModelLoanNew.getRawValue();
+    const interestRE = data.interestPercent.replace('%','');
     const payload = {
       principal: data.loanValue,
-      interestRate: this.dataNewLoan.interestPercent,
+      interestRate: data.interestPercent ? interestRE : null, //this.dataNewLoan.interestPercent
       numOfPayments: data.loanTime,
       paymentStartDate: datePayLoanNew
     }

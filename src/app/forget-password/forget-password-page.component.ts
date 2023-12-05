@@ -56,7 +56,7 @@ export class ForgetPasswordPageComponent implements OnInit{
   initMainForm() {
     this.formModel = new FormGroup({
       idCard: new FormControl(null, Validators.required),
-      email: new FormControl(null, Validators.required),
+      tel: new FormControl(null, Validators.required),
       newPassword: new FormControl(null, Validators.required),
       newPassword2: new FormControl(null, Validators.required),
       employeeCode: new FormControl(null, Validators.required),
