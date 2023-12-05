@@ -38,7 +38,7 @@
     justify-content: center;
     align-items: center;
   }
-  
+
   .btn-login {
     color: #fff;
     background-color: #fe6bba;
@@ -84,20 +84,20 @@
 }
 
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    background: none;
-    text-align: center;
-    font-weight: normal;
-    color: #8690a1;
-    font-size: 16px;
+  background: none;
+  text-align: center;
+  font-weight: normal;
+  color: #8690a1;
+  font-size: 16px;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    text-align: center;
+  text-align: center;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-header{
-    background: none;
-    border-top: none;
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: none;
+  border-top: none;
 }
 
 :host ::ng-deep .p-paginator .p-dropdown {
@@ -131,4 +131,46 @@
 :host ::ng-deep .p-tag.p-tag-success {
   background-color: #009688;
   color: #ffffff;
+}
+
+.card-header {
+  display: flex;
+  grid-gap: 10px;
+}
+
+.card-doc {
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-menu-doc {
+  display: none;
+}
+
+a.dropdown-toggle {
+  text-decoration: none;
+  font-size: 20px;
+  color: #222121;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+@media only screen and (max-width: 1050px) {
+  .card-doc {
+    display: none;
+  }
+
+  .card-menu-doc {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .card-header {
+    display: flex;
+    flex-direction: column;
+  }
 }

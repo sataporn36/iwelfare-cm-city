@@ -1,5 +1,5 @@
 import { LocationStrategy } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -25,6 +25,7 @@ export class MainComponentComponent implements OnInit {
   gender: any;
   profileImgId: any;
   imageSrc: SafeUrl;
+  listNewsIndex: number;
 
   constructor(
     protected router: Router,
@@ -51,7 +52,13 @@ export class MainComponentComponent implements OnInit {
       this.searchStockDetail(this.stockId);
       this.getBeneficiaryByEmpId(this.userId);
       this.searchNewsMain();
+      this.updateListNewsIndex(window.innerWidth);
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateListNewsIndex(event.target.innerWidth);
   }
 
   getBeneficiaryByEmpId(id: any) {
@@ -61,6 +68,25 @@ export class MainComponentComponent implements OnInit {
     });
   }
 
+  private updateListNewsIndex(windowWidth: number): void {
+    switch (true) {
+      case windowWidth <= 800:
+        this.listNewsIndex = 2;
+        break;
+      case windowWidth <= 1000:
+        this.listNewsIndex = 3;
+        break;
+      case windowWidth <= 1090:
+        this.listNewsIndex = 2;
+        break;
+      case windowWidth <= 1200:
+        this.listNewsIndex = 3;
+        break;
+      default:
+        this.listNewsIndex = 4;
+    }
+  }
+
   searchStockDetail(id: any): void {
     this.service.searchStockDetail(id, "desc").subscribe(data => {
       this.dataStockDetail.push(data[0], data[1], data[2]);
@@ -68,7 +94,7 @@ export class MainComponentComponent implements OnInit {
   }
 
   listNews: any;
-  imgNewsList: SafeUrl[] = []; 
+  imgNewsList: SafeUrl[] = [];
   searchNewsMain() {
     this.service.searchNewsMain().subscribe(data => {
       this.listNews = data;
@@ -76,12 +102,12 @@ export class MainComponentComponent implements OnInit {
       // Loop through the list of news and fetch images
       for (let i = 0; i < this.listNews.length; i++) {
         const news = this.listNews[i];
-  
+
         this.service.getImageNews(news.coverImgId).subscribe(
           (imageBlob: Blob) => {
             const imgURL = URL.createObjectURL(imageBlob);
             const sanitizedURL = this.sanitizer.bypassSecurityTrustUrl(imgURL);
-            
+
             // Store the sanitized image URL at the corresponding index
             this.imgNewsList[i] = sanitizedURL;
           },

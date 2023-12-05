@@ -4,7 +4,7 @@ import { MainService } from 'src/app/service/main.service';
 import 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js'
 import 'src/assets/fonts/Sarabun-Bold-bold.js'
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
@@ -19,6 +19,7 @@ import { log } from 'console';
   styleUrls: ['./loan-component.component.scss']
 })
 export class LoanComponentComponent implements OnInit {
+  menuItems!: MenuItem[];
   customers!: Customer[];
   info: any[] = [];
   loading!: boolean;
@@ -104,6 +105,20 @@ export class LoanComponentComponent implements OnInit {
 
     });
 
+    this.menuItems = [
+      {
+        label: 'ประวัติเงินกู้',
+        command: () => {
+          this.searchDocumentV1PDF('export');
+        }
+      },
+      {
+        label: 'ดาวน์โหลด',
+        command: () => {
+          this.searchDocumentV1PDF('download');
+        }
+      }
+    ];
 
     this.inputGuaranteeStock.pipe(debounceTime(1000)).subscribe(value => {
       if (value.length > 0) {

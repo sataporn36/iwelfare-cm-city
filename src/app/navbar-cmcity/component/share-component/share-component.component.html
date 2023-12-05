@@ -1,14 +1,14 @@
 <div class="card-table">
     <div style="display: flex; justify-content: space-between;">
-        <div>
+        <div class="card-header">
             <p-chip label="ตารางประวัติการส่งหุ้น" styleClass="mr-2"></p-chip>
-            <p-tag style="padding-left: 0.5rem;" icon="" severity="success">
-                <span> เงินหุ้นสะสม </span>  &nbsp;&nbsp;
-                <span style="color: #ffd54f;"> {{ empDetail.stockAccumulate | number }} </span>  &nbsp;&nbsp;
-                <span> บาท </span>
+            <p-tag icon="" severity="success">
+                <span style="padding: 0px 10px;"> เงินหุ้นสะสม </span>
+                <span style="color: #ffd54f;"> {{ empDetail.stockAccumulate | number }} </span>
+                <span style="padding: 0px 10px;"> บาท </span>
             </p-tag>
         </div>
-        <div style="padding-bottom: 1rem; display: flex; justify-content: space-between;">
+        <div class="card-doc">
             <div class="btn-group" style="width: max-content; gap: 0.5rem;">
                 <button type="button" class="btn btn-login"
                     (click)="ondisplayModalMonth('ใบเสร็จรับเงิน')">ใบเสร็จรับเงิน</button>
@@ -17,12 +17,18 @@
                 <button type="button" class="btn btn-login" (click)="searchDocumentV1PDF('download')">ดาวน์โหลด</button>
             </div>
         </div>
+        <div class="card-menu-doc">
+            <p-menu  #menu [popup]="true" [model]="menuItems"></p-menu>
+            <a class="dropdown-toggle" (click)="menu.toggle($event)">
+                <i class="uil uil-ellipsis-v"></i>
+            </a>
+        </div>
     </div>
     <div style="font-family: 'Kanit';">
-        <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading" [paginator]="true" [rows]="10"
+        <p-table responsiveLayout="stack" dataKey="id" [value]="dataStockDetail" [loading]="loading" [paginator]="true" [rows]="10"
             [showCurrentPageReport]="true" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
             selectionMode="single" [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]">
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th style="width:10%">ลำดับที่</th>
                     <th style="width:15%">เดือนที่ทำรายการ</th>
@@ -33,15 +39,15 @@
                     <th style="width:15%">หุ้นสะสม</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-stockDetail let-i="rowIndex">
+            <ng-template pTemplate="body" let-stockDetail let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="stockDetail">
-                    <td>{{ i+1 }}</td>
-                    <td>{{ stockDetail.stockMonth }}</td>
-                    <td>{{ stockDetail.stockYear }}</td>
-                    <td>ชำระหุ้นรายเดือน</td>
-                    <td>{{ stockDetail.installment }}</td>
-                    <td style="color: #EA3A3D;">{{ stockDetail.stockValue | number }}</td>
-                    <td style="color: #1AD598;">{{ stockDetail.stockAccumulate | number }}</td>
+                    <td><span class="p-column-title">ลำดับที่</span>{{ i+1 }}</td>
+                    <td><span class="p-column-title">เดือนที่ทำรายการ</span>{{ stockDetail.stockMonth }}</td>
+                    <td><span class="p-column-title">ปีที่ทำรายการ</span>{{ stockDetail.stockYear }}</td>
+                    <td><span class="p-column-title">ชื่อรายการ</span>ชำระหุ้นรายเดือน</td>
+                    <td><span class="p-column-title">งวดที่</span>{{ stockDetail.installment }}</td>
+                    <td style="color: #EA3A3D;"><span class="p-column-title">เงินส่งหุ้นรายเดือน</span>{{ stockDetail.stockValue | number }}</td>
+                    <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ stockDetail.stockAccumulate | number }}</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

@@ -8,7 +8,7 @@ import 'src/assets/fonts/Sarabun-Regular-normal.js';
 import 'src/assets/fonts/Sarabun-Bold-bold.js';
 import 'src/assets/fonts/Kanit-Thin-normal.js';
 import 'src/assets/fonts/Kanit-Regular-normal.js';
-import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -31,6 +31,7 @@ interface jsPDFCustom extends jsPDF {
   styleUrls: ['./share-component.component.scss']
 })
 export class ShareComponentComponent implements OnInit {
+  menuItems!: MenuItem[];
   @ViewChild('content', { static: false }) el!: ElementRef;
   customers!: Customer[];
   info: any[] = [];
@@ -114,6 +115,20 @@ export class ShareComponentComponent implements OnInit {
     // if (this.userId === 1 || this.userId === 631) {
     //   this.admin = true;
     // }
+    this.menuItems = [
+      {
+        label: 'ใบเสร็จรับเงิน',
+        command: () => {
+          this.ondisplayModalMonth('ใบเสร็จรับเงิน');
+        }
+      },
+      {
+        label: 'ประวัติการส่งหุ้น',
+        command: () => {
+          this.searchDocumentV1PDF('export');
+        }
+      }
+    ];
   }
 
  

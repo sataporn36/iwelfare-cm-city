@@ -47,7 +47,7 @@
         <div class="div-new">
             <p-chip label="ข่าวประชาสัมพันธ์" styleClass="mr-2"></p-chip>
             <div class="news-line">
-                <div class="list-news" *ngFor="let news of listNews; let i = index;">
+                <div class="list-news" *ngFor="let news of listNews.slice(0, listNewsIndex); let i = index;">
                     <div class="news-header">
                         <label class="news">{{ pipeDateTHD(news.createDate) }}</label>
                         <img [src]="imgNewsList[i]" alt="logo" />
@@ -66,28 +66,28 @@
         </div>
         <div class="div-table-stocks">
             <p-chip label="รายการหุ้น" styleClass="mr-2"></p-chip>
-            <p-table dataKey="id" [value]="dataStockDetail" [loading]="loading" [tableStyle]="{'max-width': '100%'}"
+            <p-table dataKey="id" responsiveLayout="stack" [value]="dataStockDetail" [loading]="loading" [tableStyle]="{'max-width': '100%'}"
                 styleClass="p-datatable-md">
-                <ng-template pTemplate="header">
+                <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th style="width:10%">ลำดับที่</th>
-                        <th style="width:15%">เดือนที่ทำรายการ</th>
-                        <th style="width:15%">ปีที่ทำรายการ</th>
-                        <th style="width:15%">ชื่อรายการ</th>
-                        <th style="width:10%">งวดที่</th>
-                        <th style="width:15%">ยอดทำรายการ</th>
-                        <th style="width:15%">หุ้นสะสม</th>
+                        <th class="th-s1">ลำดับที่</th>
+                        <th class="th-s2">เดือนที่ทำรายการ</th>
+                        <th class="th-s3">ปีที่ทำรายการ</th>
+                        <th class="th-s4">ชื่อรายการ</th>
+                        <th class="th-s5">งวดที่</th>
+                        <th class="th-s6">ยอดทำรายการ</th>
+                        <th class="th-s7">หุ้นสะสม</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-stockDetail let-i="rowIndex">
+                <ng-template pTemplate="body" let-stockDetail let-i="rowIndex" let-columns="columns">
                     <tr [pSelectableRow]="stockDetail" style="height: 5px;">
-                        <td>{{ i+1 }}</td>
-                        <td>{{ stockDetail.stockMonth }}</td>
-                        <td>{{ stockDetail.stockYear }}</td>
-                        <td>ชำระหนี้ประจำเดือน</td>
-                        <td>{{ stockDetail.installment }}</td>
-                        <td style="color: #EA3A3D;">{{ stockDetail.stockValue | number }}</td>
-                        <td style="color: #1AD598;">{{ stockDetail.stockAccumulate | number }}</td>
+                        <td><span class="p-column-title">ลำดับที่</span>{{ i+1 }}</td>
+                        <td><span class="p-column-title">เดือนที่ทำรายการ</span>{{ stockDetail.stockMonth }}</td>
+                        <td><span class="p-column-title">ปีที่ทำรายการ</span>{{ stockDetail.stockYear }}</td>
+                        <td><span class="p-column-title">ชื่อรายการ</span>ชำระหนี้ประจำเดือน</td>
+                        <td><span class="p-column-title">งวดที่</span>{{ stockDetail.installment }}</td>
+                        <td style="color: #EA3A3D;"><span class="p-column-title">ยอดทำรายการ</span>{{ stockDetail.stockValue | number }}</td>
+                        <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ stockDetail.stockAccumulate | number }}</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -106,58 +106,35 @@
                     <span class="tx2">เปลี่ยนรหัสผ่าน</span>
                 </div>
             </div>
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <div class="div-profile-img">
-                    <img class="profile_img" [src]="profileImg()" />
-                </div>
+            <div class="div-profile-img">
+                <img class="profile-img" [src]="profileImg()" />
             </div>
-            <div style="padding-top: 0.5rem;"></div>
-            <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
-            <div class="div-detail" style="gap: 10px;">
-                <div class="col-5">
-                    <span style="font-size: 15px; color: #8690a1;">เลขสมาชิก</span>
+            <div class="profile-name">
+                <h3>{{ userInfo.firstName }} {{ userInfo.lastName }}</h3>
+            </div>
+            <div class="div-detail">
+                <div class="detail-profile-text">
+                    <span>เลขสมาชิก</span>
                     <div class="div-text">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z"
-                                fill="#FE6BBA" />
-                        </svg>
-                        <span style="text-align: left;">{{ userInfo.employeeCode }}</span>
+                        <span class="d-inline-block text-truncate">{{ userInfo.employeeCode }}</span>
                     </div>
                 </div>
-                <div class="col-5">
-                    <span style="font-size: 15px; color: #8690a1;">ตำเเหน่ง</span>
+                <div class="detail-profile-text">
+                    <span>ตำเเหน่ง</span>
                     <div class="div-text">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M0 7V4C0 2.89543 0.390524 1.95262 1.17157 1.17157C1.95262 0.390524 2.89543 0 4 0H10C11.1046 0 12.0474 0.390524 12.8284 1.17157C13.6095 1.95262 14 2.89543 14 4V10C14 11.1046 13.6095 12.0474 12.8284 12.8284C12.0474 13.6095 11.1046 14 10 14H4C2.89543 14 1.95262 13.6095 1.17157 12.8284C0.390524 12.0474 0 11.1046 0 10V7Z"
-                                fill="#3A36DB" />
-                        </svg>
-                        <span style="text-align: left;" tooltipPosition="bottom"
-                            pTooltip="{{ userInfo.positionName }}">{{
-                            userInfo.positionName }}</span>
+                        <span class="d-inline-block text-truncate" tooltipPosition="bottom"
+                            pTooltip="{{ userInfo.positionName }}">{{ userInfo.positionName }}</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="grid col-3 grid-info">
-
-    <div style="padding-left: 1rem; padding-top: 1rem;">
         <div class="div-beneficiary">
             <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
-            <ul style="display: flex; grid-gap: 10px; flex-direction: column;">
+            <ul>
                 <li *ngFor="let beneficiary of arrayBeneficiary">
-                    <div style="display: flex; justify-content: center; align-items: center; grid-gap: 15px;">
-                        <div class="col-2">
-                            <img [src]="beneficiaryImg(beneficiary.gender)" />
-                        </div>
-                        <div class="col-9">
-                            <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName
-                                }}</span>
-                        </div>
+                    <div class="beneficiary-info">
+                        <img [src]="beneficiaryImg(beneficiary.gender)" />
+                        <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
                     </div>
                 </li>
             </ul>

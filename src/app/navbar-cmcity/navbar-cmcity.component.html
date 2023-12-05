@@ -1,11 +1,9 @@
 <div style="display: flex; padding: 0.5rem;">
     <div class="col-2">
         <div class="menubar">
-            <div class="row logo">
-                <div class="col-4">
-                    <img src="assets/images/logo.png" alt="logo" />
-                </div>
-                <div class="col-8 text">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="logo" />
+                <div class="text">
                     <h5>กองทุนสวัสดิการ</h5>
                     <hr class="hr-menubar">
                     <span>พนักงานและลูกจ้าง</span>
@@ -13,139 +11,90 @@
             </div>
             <div class="nav-menu">
                 <ul class="nav nav-bordered nav-stacked flex-md-column">
-                    <li [ngClass]="'nav-item ' + main">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-estate"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="main-page" (click)="checkActive('main')">หน้าหลัก</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + main" routerLink="main-page">
+                        <div class="nav-li" (click)="checkActive('main')">
+                            <i class="uil uil-estate"></i>
+                            <span>หน้าหลัก</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + stock">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-chart"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="share-page" (click)="checkActive('stock')">หุ้น &nbsp;
-                                    &nbsp; &nbsp;</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + stock" routerLink="share-page">
+                        <div class="nav-li" (click)="checkActive('stock')">
+                            <i class="uil uil-chart"></i>
+                            <span>หุ้น</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + loan">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-bill"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="loan-page" (click)="checkActive('loan')">เงินกู้ &nbsp;
-                                    &nbsp;</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + loan" routerLink="loan-page">
+                        <div class="nav-li" (click)="checkActive('loan')">
+                            <i class="uil uil-bill"></i>
+                            <span>เงินกู้</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + rigths">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-chart-pie"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="loan-rigths-page"
-                                    (click)="checkActive('rigths')">สิทธิ์การกู้</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + rigths" routerLink="loan-rigths-page">
+                        <div class="nav-li" (click)="checkActive('rigths')">
+                            <i class="uil uil-chart-pie"></i>
+                            <span>สิทธิ์การกู้</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + beneficiary">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-users-alt"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="beneficiary-page"
-                                    (click)="checkActive('beneficiary')">ผู้รับผลประโยชน์</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + beneficiary" routerLink="beneficiary-page">
+                        <div class="nav-li" (click)="checkActive('beneficiary')">
+                            <i class="uil uil-users-alt"></i>
+                            <span>ผู้รับผลประโยชน์</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + guarantee">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-notes"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="guarantee-obligation-page"
-                                    (click)="checkActive('guarantee')">ภาระค้ำประกัน</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + guarantee" routerLink="guarantee-obligation-page">
+                        <div class="nav-li" (click)="checkActive('guarantee')">
+                            <i class="uil uil-notes"></i>
+                            <span>ภาระค้ำประกัน</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + dividend">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-wallet"></i>
-                            </div>
-                            <div class="col-10" style="margin-left: -5px;">
-                                <a class="nav-link" routerLink="dividend-page"
-                                    (click)="checkActive('dividend')">เงินปันผล</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + dividend" routerLink="dividend-page">
+                        <div class="nav-li" (click)="checkActive('dividend')">
+                            <i class="uil uil-wallet"></i>
+                            <span>เงินปันผล</span>
                         </div>
                     </li>
-                    <li [ngClass]="'nav-item ' + deposit">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-file-download-alt"></i>
-                            </div>
-                            <div class="col-10" style="margin-left: -5px;">
-                                <a class="nav-link" routerLink="deposit-page"
-                                    (click)="checkActive('deposit')">เอกสารกองทุนฯ</a>
-                            </div>
+                    <li [ngClass]="'nav-item ' + deposit" routerLink="deposit-page">
+                        <div class="nav-li" (click)="checkActive('deposit')">
+                            <i class="uil uil-file-download-alt"></i>
+                            <span>เอกสารกองทุนฯ</span>
                         </div>
                     </li>
                     <li [ngClass]="'nav-item '+ setting" *ngIf="admin">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-user-md"></i>
-                            </div>
-                            <div class="col-10" style="margin-left: -5px;">
-                                <a class="nav-link active" href="#" (click)="toggleCollapse($event)"
-                                    [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
-                                    เจ้าหน้าที่
-                                </a>
-                            </div>
+                        <div class="nav-li" (click)="toggleCollapse($event)"
+                            [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
+                            <i class="uil uil-user-md"></i>
+                            <span>เจ้าหน้าที่</span>
                         </div>
-
                         <div class="collapse" [ngClass]="{ 'show': isCollapsed }" (click)="preventCollapse($event)"
                             id="tasksCollapse">
-                            <div class="nav-admin" style="color: #747d8c;">
+                            <div class="angle-right">
+                                <i class="uil uil-angle-right"></i>
+                            </div>
+                            <div class="nav-admin">
                                 <ul class="nav flex-column">
-                                    <li class="nav-items">
-                                        <a [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
-                                            style="display: flex; align-items: center;"
-                                            (click)="checkActive('settingEmployee')">การจัดการสมาชิก</a>
+                                    <li [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
+                                        (click)="checkActive('settingEmployee')">
+                                        <span>การจัดการสมาชิก</span>
                                     </li>
-                                    <li class="nav-items">
-                                        <a [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
-                                            style="display: flex; align-items: center;"
-                                            (click)="checkActive('settingStock')">การจัดการหุ้น</a>
+                                    <li [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
+                                        (click)="checkActive('settingStock')">
+                                        <span>การจัดการหุ้น</span>
                                     </li>
-                                    <li class="nav-items">
-                                        <a [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
-                                            style="display: flex; align-items: center;"
-                                            (click)="checkActive('settingLoan')">การจัดการเงินกู้</a>
+                                    <li [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
+                                        (click)="checkActive('settingLoan')">
+                                        <span>การจัดการเงินกู้</span>
                                     </li>
-                                    <li class="nav-items">
-                                        <a [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
-                                            style="display: flex; align-items: center;"
-                                            (click)="checkActive('settingDividend')">การจัดการเงินปันผล</a>
+                                    <li [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
+                                        (click)="checkActive('settingDividend')">
+                                        <span>การจัดการเงินปันผล</span>
                                     </li>
-                                    <li class="nav-items">
-                                        <a [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
-                                            style="display: flex; align-items: center;"
-                                            (click)="checkActive('settingNews')">การจัดการข่าวสาร</a>
+                                    <li [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
+                                        (click)="checkActive('settingNews')">
+                                        <span>การจัดการข่าวสาร</span>
                                     </li>
-                                    <li class="nav-items">
-                                        <a [ngClass]="'nav-link '+ settingSystem" routerLink="admin-setting-page"
-                                            style="display: flex; align-items: center;"
-                                            (click)="checkActive('settingSystem')">การตั้งค่าระบบ</a>
+                                    <li [ngClass]="'nav-link '+ settingSystem" routerLink="admin-setting-page"
+                                        (click)="checkActive('settingSystem')">
+                                        <span>การตั้งค่าระบบ</span>
                                     </li>
                                 </ul>
                             </div>
@@ -159,24 +108,15 @@
             <div class="div-foot">
                 <ul class="nav nav-bordered nav-stacked flex-md-column">
                     <li [ngClass]="'nav-item ' + profile">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-user"></i>
-                            </div>
-                            <div class="col-10">
-                                <a class="nav-link" routerLink="profile-page" style="margin-top: 2px;"
-                                    (click)="checkActive('profile')">ข้อมูลส่วนตัว</a>
-                            </div>
+                        <div class="nav-li"  routerLink="profile-page" (click)="checkActive('profile')">
+                            <i class="uil uil-user"></i>
+                            <span>ข้อมูลส่วนตัว</span>
                         </div>
                     </li>
                     <li [ngClass]="'nav-item'">
-                        <div class="row">
-                            <div class="col-1">
-                                <i class="uil uil-signout"></i>
-                            </div>
-                            <div class="col-10" style="cursor: pointer;">
-                                <a class="nav-link" (click)="onLogout()">ออกจากระบบ</a>
-                            </div>
+                        <div class="nav-li" (click)="onLogout()">
+                            <i class="uil uil-signout"></i>
+                            <span>ออกจากระบบ</span>
                         </div>
                     </li>
                 </ul>
@@ -184,9 +124,8 @@
         </div>
     </div>
     <div class="grid col-10" style="padding-left: 1rem;">
-        <div class="searchbar" style="display: flex; justify-content: flex-end; align-items: center;">
-            <div class="bar"
-                style="display: flex; justify-content:center; align-items: center; gap: 1.5rem; margin-right: 1%">
+        <div class="searchbar">
+            <div class="bar">
                 <div routerLink="message-page" (click)="checkActive('message')" *ngIf="messager">
                     <span *ngIf="countNotify > 0"
                         class="count position-absolute translate-middle badge rounded-pill bg-danger"
