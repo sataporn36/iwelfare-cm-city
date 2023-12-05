@@ -43,7 +43,7 @@ export class AdminComponent4Component implements OnInit {
     this.pipeDateTH();
     this.userId = this.localStorageService.retrieve('empId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
-    if (this.userId === 1 || this.userId === 631) {
+    if (this.empDetail.adminFlag) {
       this.admin = true;
     }
     this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
