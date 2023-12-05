@@ -60,6 +60,7 @@ img {
   display: flex;
   align-items: center;
   grid-gap: 10px;
+  cursor: pointer;
 }
 
 li {
@@ -216,6 +217,7 @@ img.profile_img {
 .nav-admin .nav li {
   position: relative;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 .nav-admin ul .nav-link.active {
