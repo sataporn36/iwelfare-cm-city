@@ -78,17 +78,17 @@ export class ResetPasswordComponentComponent implements OnInit {
         this.service.resetPassword(data).subscribe(async (res) => {
           if (res != null) {
             if (res.statusEmployee === 'success') {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ' });
+              this.messageService.add({ severity: 'success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ' });
               this.iconStatus = true;
               this.formModel.reset();
               await new Promise(resolve => setTimeout(resolve, 1000))
               this.onLogout();
             } else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
+              this.messageService.add({ severity: 'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
               this.iconStatus = false;
             }
           } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
+            this.messageService.add({ severity: 'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
             this.iconStatus = false;
           }
         });

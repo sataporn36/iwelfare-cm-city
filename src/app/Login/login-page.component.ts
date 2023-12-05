@@ -93,13 +93,13 @@ export class LoginPageComponent implements OnInit {
               //   });
               // }
             } else if (res.data.employeeStatus == 3) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ท่านได้ลาออกแล้ว' });
+              this.messageService.add({ severity: 'error', detail: 'ท่านได้ลาออกแล้ว' });
             } else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
+              this.messageService.add({ severity: 'error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
             }
           },
           error: error => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
+            this.messageService.add({ severity: 'error', detail: 'เลขสมาชิกเเละรหัสผ่านไม่ถูกต้อง' });
           },
           complete: () => {
             //

@@ -123,16 +123,16 @@ export class ForgetPasswordPageComponent implements OnInit{
         this.service.changePassword(data).subscribe((res) => {
              if(res != null){
                  if(res.data.statusEmployee === 'CHANGE_SUCCESS'){
-                  this.messageService.add({severity:'success', summary: 'Success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ'});  
+                  this.messageService.add({severity:'success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ'});  
                   this.iconStatus = true;
                   this.formModel.reset();
                   this.router.navigate(['/login'], {});
                  }else{
-                  this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาตรวจสอบข้อมูลให้ถูกต้อง'});
+                  this.messageService.add({severity:'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาตรวจสอบข้อมูลให้ถูกต้อง'});
                   this.iconStatus = false;
                  }
              }else{
-                this.messageService.add({severity:'error', summary: 'Error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาตรวจสอบข้อมูลให้ถูกต้อง'});
+                this.messageService.add({severity:'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาตรวจสอบข้อมูลให้ถูกต้อง'});
                 this.iconStatus = false;
              }
         });

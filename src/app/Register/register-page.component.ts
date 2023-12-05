@@ -207,7 +207,7 @@ export class RegisterPageComponent implements OnInit{
               this.service.editStatusEmployeeResign(playload).subscribe((res) => {
                    if(res != null){
                        if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
-                         this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
+                         this.messageService.add({severity:'success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
                          this.iconStatus = true;
                          setTimeout(() => {
                           this.formModel.reset();
@@ -215,7 +215,7 @@ export class RegisterPageComponent implements OnInit{
                         }, 1000);
                        }
                    }else{
-                      this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+                      this.messageService.add({severity:'error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
                       this.iconStatus = false;
                    }
               });
@@ -223,7 +223,7 @@ export class RegisterPageComponent implements OnInit{
             reject: () => { }
           });
         }else if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
-          this.messageService.add({severity:'success', summary: 'Success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
+          this.messageService.add({severity:'success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
           this.iconStatus = true;
           setTimeout(() => {
             this.formModel.reset();
@@ -231,12 +231,12 @@ export class RegisterPageComponent implements OnInit{
           }, 1000);
           
         }else if(res.data.statusEmployee === 'ERROR_EMPLOYEE'){
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+          this.messageService.add({severity:'error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
           this.iconStatus = false;
         }
       }else{
         setTimeout(() => {
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+          this.messageService.add({severity:'error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
           this.iconStatus = false;
         }, 500); 
       }
