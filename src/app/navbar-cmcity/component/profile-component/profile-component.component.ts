@@ -1321,6 +1321,7 @@ export class ProfileComponentComponent implements OnInit {
   onUpdateStockToMonth() {
     const dataStock = this.formModelStock.getRawValue();
     const data = this.formModel.getRawValue();
+    const monthlyStockMoneyReplace = data.monthlyStockMoney.replace(',','');
 
     if (dataStock.monthlyStockMoney === data.monthlyStockMoney) {
       this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
@@ -1328,7 +1329,8 @@ export class ProfileComponentComponent implements OnInit {
       // api
       const playload = {
         id: this.userId,
-        stockValue: dataStock.monthlyStockMoney
+        stockValue: dataStock.monthlyStockMoney,
+        stockOldValue: Number(monthlyStockMoneyReplace)
       }
 
       this.service.updateStockValue(playload).subscribe((data) => {

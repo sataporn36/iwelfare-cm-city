@@ -42,7 +42,7 @@ export class AdminComponent1Component {
   userId: any;
   admin!: boolean;
   listEmp: any;
-  loading!: boolean;
+  loading: boolean = false;
   displayBasic1: boolean | undefined;
   images1: any[] = [];
   displayBasic2: boolean | undefined;
@@ -100,6 +100,7 @@ export class AdminComponent1Component {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.initMainForm();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
@@ -689,7 +690,8 @@ export class AdminComponent1Component {
 
   searchEmployee(): void {
     this.service.searchEmployee().subscribe(data => {
-      this.listEmp = data
+      this.listEmp = data;
+      this.loading = false;
     });
   }
 

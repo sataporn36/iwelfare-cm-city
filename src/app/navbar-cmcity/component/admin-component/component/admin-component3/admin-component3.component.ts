@@ -11,6 +11,7 @@ import pdfFonts from 'src/assets/custom-fonts.js'
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
+import { log } from 'console';
 
 
 @Component({
@@ -1485,10 +1486,10 @@ export class AdminComponent3Component implements OnInit {
   pipeDateTHNewLan() {
     const format = new Date();
     format.setMonth(format.getMonth());
-    const month = format.getMonth();
+    const month = this.checkMonthOfLoanDate(format.getMonth());
     format.setDate(0);
     const day = format.getDate();
-    const year = format.getFullYear();
+    const year = this.checkYearOfLoanDate(format.getFullYear());
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
@@ -1498,9 +1499,43 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoanNew.get('loanYear').setValue(Number(year + 543));
     this.formModelLoanNew.get('loanMonth').setValue(monthSelect.label);
 
-    const firstDayOfNextMonth = new Date(year, month + 1, 1);
-    const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
-    return year + '-' + monthSelect.value + '-' + lastDayOfMonth;
+    //const firstDayOfNextMonth = new Date(year, month + 1, 1);
+    const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
+    //const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
+    return year + '-' + monthSelect.value + '-' + this.checkLenghtDate(firstDayOfNextMonth.getDate());
+  }
+
+  checkLenghtDate(day: any){
+      if(day <= 9){
+         return '0' + day;
+      }else{
+        return day;
+      }
+  }
+
+  checkYearOfLoanDate(year: any){
+    const format = new Date();
+     if(format.getMonth() === 11){
+        return year + 1;
+     }else{
+      return year;
+     }
+  }
+
+  checkMonthOfLoanDate(month: any){
+    if(month === 11){
+      return 0;
+    }else{
+      return month;
+    }
+  }
+
+  findFirstWeekdayOfMonth(year: number, month: number): Date {
+    const date = new Date(year, month, 1); // Creating a date object for the given year and month
+    while (date.getDay() === 0 || date.getDay() === 6) {
+      date.setDate(date.getDate() + 1); // Incrementing the date until it's not Saturday or Sunday
+    }
+    return date; // Returning the first weekday of the month
   }
 
   onCalculateLoanOld(){
@@ -1686,6 +1721,29 @@ export class AdminComponent3Component implements OnInit {
     this.displayMessageError = false;
     this.displayModalLoanNew = false;
     this.insertLoanDetail();
+  }
+
+  onDeleteLoanEmp(){
+    const data = this.formModelLoanNew.getRawValue();
+    console.log(data,'<--- onDeleteLoanEmp');
+    this.confirmationService.confirm({
+      message: 'ต้องการยกเลิกสัญญา <br/> คุณ ' + data.fullName,
+      header: 'ยกเลิกสัญญา',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if(data.loanBalance <= 0){
+          this.service.deleteLoanNew(data).subscribe((r) =>{
+            this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ' });
+            this.displayModalLoanNew = false;
+            this.ngOnInit();  
+          });
+        }else{
+          this.messageError = 'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' + this.formattedNumber2(data.loanBalance) + ' บาท ';
+          this.displayMessageError = true;
+        }
+      },
+      reject: () => { }
+    });
   }
 
 }

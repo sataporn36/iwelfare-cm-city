@@ -18,7 +18,7 @@
     <p-table #dt2 [value]="dataLoan" dataKey="id" editMode="row" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" selectionMode="single"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
-        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]"
+        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate', 'loanNo' ]"
         [tableStyle]="{'max-width': '100%'}">
         <ng-template pTemplate="caption">
             <div class="flex" style="display: flex; justify-content: space-between;">
@@ -42,7 +42,8 @@
                 <th style="width:10%">เวลากู้</th>
                 <th style="width:10%">เงินกู้สามัญ</th>
                 <th style="width:10%">เงินกู้คงเหลือ</th>
-                <th style="width:10%">แก้ไข</th>
+                <th style="width:10%">ยอดที่ต้องชำระต่อเดือน</th>
+                <th style="width:5%">แก้ไข</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-editing="editing" let-dataLoan let-ri="rowIndex">
@@ -55,6 +56,7 @@
                 <td>{{ dataLoan.loanTime }}</td>
                 <td style="color: #EA3A3D;">{{ dataLoan.loanValue | number }}</td>
                 <td style="color: #1AD598;">{{ dataLoan.loanBalance | number }}</td>
+                <td style="color: #1AD598;">{{ dataLoan.loanOrdinary | number }}</td>
                 <td>
                     <div class="flex align-items-center justify-content-center gap-2"
                         style="height: 25px; display: flex;">
@@ -144,11 +146,27 @@
                         <label class="block">ผ่อนชำระ(งวด)</label> <br>
                         <p-inputNumber formControlName="loanTime" inputId="minmaxfraction" mode="decimal" [min]="0" [max]="99" 
                         [required]="true" [maxlength]="2" (keyup)="checkLoanTime($event)"></p-inputNumber>
+                        <div *ngIf="this.dataLanTimeFlag" style="display: grid;">
+                            <div>
+                                <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
+                            </div>
+                            <div>
+                                <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
+                            </div>
+                        </div>
                     </div>
                     <div *ngIf="modeLoan === 'EDIT'" class="col-4 p-num-4">
                         <label class="block">ผ่อนชำระ(งวด)</label> <br>
                         <input class="form-control"  pInputText type="text" formControlName="loanTime" required="true" maxlength="50"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
+                        <div *ngIf="this.dataLanTimeFlag" style="display: grid;">
+                            <div>
+                                <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
+                            </div>
+                            <div>
+                                <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -231,14 +249,6 @@
                         <label class="block">ยอดที่ต้องชำระต่อเดือน</label> <br>
                         <input class="form-control" pInputText type="text" formControlName="loanOrdinary" required maxlength="11"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
-                        <div *ngIf="this.dataLanTimeFlag" style="display: grid;">
-                            <div>
-                                <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
-                            </div>
-                            <div>
-                                <label style="color: red;">* เมื่อมีการเปลี่ยนเเปลงยอดเงินกู้ หรือ ผ่อนชำระ(งวด) ต้องคำนวณใหม่ทุกครั้ง</label>
-                            </div>
-                        </div>
                         <div *ngIf="modeLoan === 'EDIT'" style="display: grid;">
                             <label style="color: red;">* กรณีอยากให้คืนค่าเดิมให้กดปุ่มยกเลิก</label>
                         </div>
@@ -255,6 +265,7 @@
             <button type="button" class="btn btn-regis2" (click)="onCancleLoan()">ยกเลิก</button>
         </div>
         <div *ngIf="modeLoan === 'EDIT'">
+            <button type="button" class="btn btn-login2" (click)="onDeleteLoanEmp()">ยกเลิกสัญญา</button>
             <button type="button" class="btn btn-login2" [disabled]="!formModelLoanNew.valid" (click)="updateLoanEmp()">ยืนยัน</button>
             <button type="button" class="btn btn-regis2" (click)="onCancleLoanEmp()">ยกเลิก</button>
         </div>

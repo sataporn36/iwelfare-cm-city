@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SearchNewResgter } from 'src/app/model/search-new-register';
 import { MainService } from 'src/app/service/main.service';
-import { formatDate } from '@angular/common';
+import { DecimalPipe, formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -28,8 +28,10 @@ export class MessageComponentComponent implements OnInit {
   mess!: MenuItem[];
   mess2!: MenuItem[];
   mess3!: MenuItem[];
+  messMonthlyStockMoney!: MenuItem[];
   displayModal!: boolean;
   displayModalUser!: boolean;
+  displayEditByMonthlyStock: boolean = false;
   formModel!: FormGroup;
   id: any;
   employeeId: any;
@@ -47,6 +49,7 @@ export class MessageComponentComponent implements OnInit {
   lastNameOld: any;
   maritalOld: any;
   profileImgId: any;
+  monthlyStockMoneyOld: any;
 
   constructor(
     private service: MainService,
@@ -82,6 +85,7 @@ export class MessageComponentComponent implements OnInit {
       firstName: new FormControl(null),
       lastName: new FormControl(null),
       marital: new FormControl(null),
+      monthlyStockMoney: new FormControl(null),
     });
   }
 
@@ -176,14 +180,14 @@ export class MessageComponentComponent implements OnInit {
         label: 'ยืนยัน',
         icon: 'pi pi-check-circle ',
         command: () => {
-          this.onClickApproveEmp(this.selectedItem)
+          this.onClickApproveEmp(this.selectedItem);
         }
       },
       {
         label: 'ปฏิเสธ',
         icon: 'pi pi-times-circle',
         command: () => {
-          this.onClickCancleApproveEmp(this.selectedItem)
+          this.onClickCancleApproveEmp(this.selectedItem);
         }
       }
     ];
@@ -249,6 +253,35 @@ export class MessageComponentComponent implements OnInit {
         }
       }
     ];
+    this.messMonthlyStockMoney = [
+      {
+        label: 'ข้อมูลสมาชิก',
+        icon: 'pi pi-eye',
+        command: (event) => {
+          this.detail = true;
+          this.detailModel.patchValue({
+            ...this.selectedItem.employee,
+            prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
+          })
+
+          this.descriptionUser = this.selectedItem.description;
+          this.idNotify = this.selectedItem.id;
+          this.profileImgId = this.selectedItem.employee.profileImgId;
+          this.gender = this.selectedItem.employee.gender;
+          this.getImage(this.profileImgId);
+        }
+      },
+      {
+        label: 'การแก้ไขเงินหุ้นส่งรายเดือน',
+        icon: 'pi pi-check-circle ',
+        command: () => {
+          this.descriptionUser = this.selectedItem.reason;
+          this.monthlyStockMoneyOld = this.formattedNumber(this.selectedItem.description);
+          this.idNotify = this.selectedItem.id;
+          this.onCheckMonthlyStockMoneyOld();
+        }
+      }
+    ];
   }
 
   clearDialog() {
@@ -260,6 +293,8 @@ export class MessageComponentComponent implements OnInit {
     this.firstNameOld = null;
     this.lastNameOld = null;
     this.maritalOld = null;
+
+    this.monthlyStockMoneyOld = null;
   }
 
   onRowEditInit(stock: any) {
@@ -284,11 +319,11 @@ export class MessageComponentComponent implements OnInit {
 
   searchNotify(): void {
     this.service.searchNotify().subscribe(data => {
-      this.dataNotify = data
-      // this.selectedItem
+      this.dataNotify = data.sort((a, b) => {
+        return new Date(b.createDate).getTime() - new Date(a.createDate).getTime();
+      });
     });
   }
-
 
   onClickApproveEmp(data: any) {
     if (data.status == 3) {
@@ -372,6 +407,7 @@ export class MessageComponentComponent implements OnInit {
 
     this.displayModalUser = false;
     this.displayModal = false;
+    this.displayEditByMonthlyStock = false;
     this.ngOnInit();
   }
 
@@ -380,6 +416,7 @@ export class MessageComponentComponent implements OnInit {
     this.displayEditByUser = false;
     this.displayModalUser = false;
     this.displayModal = false;
+    this.displayEditByMonthlyStock = false;
     this.ngOnInit();
   }
 
@@ -461,6 +498,19 @@ export class MessageComponentComponent implements OnInit {
     this.formModelInfo.patchValue({ ...this.descriptionUserInfo });
   }
 
+  onCheckMonthlyStockMoneyOld() {
+    this.descriptionUserInfo = this.descriptionUser;
+    this.displayEditByMonthlyStock = true;
+    this.formModelInfo.patchValue({ 
+      monthlyStockMoney: this.formattedNumber(this.descriptionUserInfo) 
+    });
+  }
+
+  formattedNumber(number: any): any {
+    const decimalPipe = new DecimalPipe('en-US');
+    return number !== null ? decimalPipe.transform(number) : '';
+  }
+
   approveUpdateByUser() {
     this.service.approveUpdateByUser(this.descriptionUserInfo).subscribe(data => {
       this.showSuccess();
@@ -501,6 +551,14 @@ export class MessageComponentComponent implements OnInit {
       default:
         return '#ffa726';
     }
+  }
+
+  approveUpdateByMonthlyStockMoney() {
+    this.onClickApproveEmp(this.selectedItem);
+  }
+
+  cancleMonthlyStockMoney(){
+    this.onClickCancleApproveEmp(this.selectedItem);
   }
 
 }

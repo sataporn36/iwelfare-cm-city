@@ -64,7 +64,13 @@
                 <i class="bi bi-three-dots-vertical"></i>
               </a>
             </div>
-            <div *ngIf="dataNotify.status !== 4 && dataNotify.status !== 5">
+            <div *ngIf="dataNotify.status === 2">
+              <p-menu #menu [model]="messMonthlyStockMoney" [popup]="true" [style]="{ width: '14vw', 'margin-left': '-70px' }"></p-menu>
+              <a (click)="selectedItem = dataNotify; menu.toggle($event)">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+            </div>
+            <div *ngIf="dataNotify.status !== 4 && dataNotify.status !== 5 && dataNotify.status !== 2">
               <p-menu #menu [model]="mess" [popup]="true"></p-menu>
               <a (click)="selectedItem = dataNotify; menu.toggle($event)">
                 <i class="bi bi-three-dots-vertical"></i>
@@ -256,6 +262,36 @@
     <div class="footer-button" style="margin-top: 10px;">
       <button type="button" class="btn btn-login" (click)="approveUpdateByUser()">ยืนยัน</button>
       <button type="button" class="btn btn-regis" (click)="onclikCancel()">ปฏิเสธ</button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="การแก้ไขเงินหุ้นส่งรายเดือน" [(visible)]="displayEditByMonthlyStock" [modal]="true" [style]="{width: '35vw'}"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <div style="display: flex; justify-content: space-evenly; margin-top: 10px;">
+    <div class="edit-info">
+      <p-chip label="ข้อมูลเงินส่งหุ้น" styleClass="mr-2"></p-chip>
+      <div class="text">
+        <div class="mb-3">
+          <label for="monthlyStockMoneyOld" class="block">เงินส่งหุ้นรายเดือนเดิม</label>
+          <input class="form-control-plaintext" type="text" [value]="monthlyStockMoneyOld" />
+        </div>
+      </div>
+    </div>
+    <div [formGroup]="formModelInfo" class="edit-info" style="border: 2px solid #ffeef7;">
+      <p>ข้อมูลที่ต้องการแก้ไข</p>
+      <div class="text">
+        <div class="mb-3">
+          <label for="monthlyStockMoney" class="block">เงินส่งหุ้นรายเดือนใหม่</label>
+          <input class="form-control-plaintext" type="text" formControlName="monthlyStockMoney" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="footer-button" style="margin-top: 10px;">
+      <button type="button" class="btn btn-login" (click)="approveUpdateByMonthlyStockMoney()">ยืนยัน</button>
+      <button type="button" class="btn btn-regis" (click)="cancleMonthlyStockMoney()">ปฏิเสธ</button>
     </div>
   </ng-template>
 </p-dialog>

@@ -224,6 +224,20 @@ export class AdminComponent2Component implements OnInit {
     return day + ' ' + monthSelect.label + ' ' + year;
   }
 
+  convertPipeDateTH(date: any) {
+    const format = new Date(date)
+    const day = format.getDate()
+    const month = format.getMonth()
+    const year = format.getFullYear() + 543
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    this.monthValue = monthSelect.value;
+    const time = this.addLeadingZero(format.getHours()) + ':' + this.addLeadingZero(format.getMinutes()) + ' น.';
+    this.time = time;
+    return day + ' ' + monthSelect.label + ' ' + year;
+  }
+
   addLeadingZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
   }
@@ -294,6 +308,7 @@ export class AdminComponent2Component implements OnInit {
       year: this.year,
       month: this.monthValue,
     });
+    this.displayModalBill = false;
   }
 
   onCancle() {
@@ -1284,7 +1299,7 @@ export class AdminComponent2Component implements OnInit {
             headerRows: 2,
             widths: ['*', '*'],
             body: [
-              [{ text: 'สรุปยอดรวมประจําเดือน ' + this.month + ' พ.ศ.' + this.year, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
+              [{ text: 'สรุปยอดรวมประจําเดือน ' +  this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
               // [{ text: 'Name', style: 'tableHeader' }, { text: 'Country', style: 'tableHeader' }],
               [{
                 rowSpan: 1,
@@ -1452,7 +1467,7 @@ export class AdminComponent2Component implements OnInit {
           },
           { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['วันที่เป็นสมาชิก       ', { text: element.regisDate, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
+          { text: ['วันที่เป็นสมาชิก       ', { text: element.regisDate ? this.convertPipeDateTH(element.regisDate) : element.regisDate, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['หน่วยงาน                ', { text: element.departmentName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ประเภท                   ', { text: element.employeeTypeName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
           { text: ['ตําแหน่ง                   ', { text: element.positionsName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
