@@ -45,11 +45,12 @@
                     style="display: grid; align-content: center; padding-top: 10rem; justify-items: end;">
                     <div class="col-6 div-btn" *ngIf="!mode">
                         <div>
-                            <button type="button" class="btn btn-login" (click)="accept()">บันทึก</button>
+                            <button type="button" (click)="checkEditProfileInNotify()" class="btn btn-login"
+                            >บันทึก</button>
                         </div>
                         <div>
                             <button type="button" (click)="onClickCancal()" class="btn btn-regis"
-                                (click)="reject()">ยกเลิก</button>
+                            >ยกเลิก</button>
                         </div>
                     </div>
                     <div class="col-6 btn-group" style="width: max-content; " *ngIf="mode">
@@ -65,6 +66,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div *ngIf="checkReqInfo" class="col-1" style="padding-top: 1rem; height: 3rem;">
+                 <div style="cursor: pointer; height: 2rem;">
+                     <p-chip (click)="onClickShowReqInfo()" [style]="{ 'background-color': '#ffc107' }" label="รอการอนุมัติ" [icon]="'pi pi-info-circle'"></p-chip>
+                 </div>
             </div>
         </div>
     </div>
@@ -1052,6 +1058,29 @@
         <button type="button" class="btn btn-login2" (click)="onUpdateStockToMonth()"
             [disabled]="checkStockValueFlag">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="onCancleStock()">ยกเลิก</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayShowReqInfo" [modal]="true" [style]="{width: '30vw'}" [breakpoints]="{ '960px': '90vw' }"
+    [draggable]="false" [resizable]="false" styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 18px; font-weight: bold;">รอการอนุมัติ</span>
+            <i class="pi pi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ "></i>
+        </div>
+    </ng-template>
+    <div >
+        <div style="gap: 5px; display: flex; flex-wrap: wrap;">
+            <p-chip *ngIf="checkDataInfoOfNull(1)" [style]="{ 'background-color': '#ff8cb4' }" label="ลาออก" ></p-chip>
+            <p-chip *ngIf="checkDataInfoOfNull(2)" [style]="{ 'background-color': '#a29bfe' }" label="หุ้นรายเดือน"></p-chip>
+            <p-chip *ngIf="checkDataInfoOfNull(3)" [style]="{ 'background-color': '#74b9ff' }" label="สมัครสมาชิก"></p-chip>
+            <p-chip *ngIf="checkDataInfoOfNull(4)" [style]="{ 'background-color': '#00bcd4' }" label="ผู้รับผลประโยชน์"></p-chip>
+            <p-chip *ngIf="checkDataInfoOfNull(5)" [style]="{ 'background-color': '#17cc63' }" label="แก้ไขข้อมูลส่วนตัว"></p-chip>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-regis2" (click)="displayShowReqInfo = false">ปิด</button>
     </ng-template>
 </p-dialog>
 

@@ -151,6 +151,8 @@ export class ProfileComponentComponent implements OnInit {
       this.getBureau();
       this.getDapartment();
       this.checkDefaultImage();
+
+      this.checkEditProfileInNotifyDisplay();
     // }
   }
 
@@ -1091,7 +1093,59 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
-  accept() {
+  checkReqInfo:boolean = false;
+  daiaInfoUser: any[] = [];
+  checkEditProfileInNotifyDisplay(){
+    this.daiaInfoUser = [];
+    const userInfo = this.localStorageService.retrieve('employeeofmain');
+    this.service.getNotifyByEmpId({ 'employeeId': userInfo.id }).subscribe((res) =>{
+        if(res != null && res.length > 0){
+          this.daiaInfoUser = res;
+          this.checkReqInfo = true;
+        }else{
+          this.checkReqInfo = false;
+        }
+    });
+  }
+
+  checkDataInfoOfNull(value: any){
+    const dataInfo = this.daiaInfoUser.filter((item: any) =>
+    item.status === value
+    );
+    if(dataInfo.length > 0){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
+  checkEditProfileInNotify(){
+      const data = this.daiaInfoUser;
+      if(data.length > 0){
+          const dataInfo = data.filter((item: any) =>
+            item.status === 5
+          );
+          this.checkUserInfoList(dataInfo);
+      }else {
+          this.acceptUserInfo();
+      }
+  }
+
+  checkUserInfoList(dataInfo: any[]){
+    if(dataInfo.length > 0){
+      this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'คุณได้ร้องขอการเเก้ไขข้อมูลส่วนตัวเเล้ว โปรดรอการอนุมัติจากเจ้าหน้าที่', life: 10000 });
+    }else {
+      this.acceptUserInfo();
+    }
+  }
+
+  displayShowReqInfo: boolean = false;
+  onClickShowReqInfo() {
+     this.displayShowReqInfo = true;
+  }
+
+  acceptUserInfo() {
     const emp = this.formModel.getRawValue();
     const playload = {
       id: this.userId,

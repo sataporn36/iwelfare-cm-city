@@ -1318,6 +1318,8 @@ export class AdminComponent3Component implements OnInit {
   guarantorTwoValue: any;
   isInputDisabled: boolean = true
   async editLoanEmp(data: any){
+    console.log(data,'<---- editLoanEmp');
+    
      this.modeLoan = 'EDIT';
      this.initMainFormLoanNew();
      this.dataLanTimeFlag = false;

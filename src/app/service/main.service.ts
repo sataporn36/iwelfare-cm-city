@@ -496,4 +496,10 @@ export class MainService {
     );
   }
 
+  getNotifyByEmpId(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/v1/notify/getNotifyByEmpId', playload
+    );
+  }
+
 }
