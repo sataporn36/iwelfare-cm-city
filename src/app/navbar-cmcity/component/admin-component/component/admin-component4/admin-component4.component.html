@@ -10,9 +10,20 @@
         </div>
     </div>
     <div style="font-family: 'Kanit';">
-        <p-table dataKey="id" [value]="dataDividendDetailAll" [loading]="loadingAll" [paginator]="true" [rows]="10"
+        <p-table #dt2 dataKey="id" [value]="dataDividendDetailAll" [loading]="loadingAll" [paginator]="true" [rows]="10"
             [showCurrentPageReport]="true" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+            [globalFilterFields]="['employeeCode', 'fullName', 'departmentName', 'bankAccountReceivingNumber']"
             selectionMode="single" [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]">
+            <ng-template pTemplate="caption">
+                <div class="flex" style="display: flex; justify-content: space-between;">
+                    <span style="margin-top: 10px; font-weight: normal; font-size: 18px;"> ตารางเงินปันผล </span>
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="bi bi-search" style="color: #979797; display: flex;"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                            placeholder="ค้นหา" style="width: 20rem; border-radius: 10px; height: 45px; font-size: 15px;" />
+                    </span>
+                </div>
+            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width:6%">ลำดับที่</th>

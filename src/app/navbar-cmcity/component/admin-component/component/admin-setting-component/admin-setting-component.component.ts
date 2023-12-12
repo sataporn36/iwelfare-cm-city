@@ -354,19 +354,25 @@ export class AdminSettingComponentComponent {
   }
 
   checkRoleToSource(event: any) {
-    const payload = {
-      empId: event.items[0].empId,
-      adminFlag: false
-    }
-    this.service.updateRoleEmp(payload).subscribe((res) => {
-      if (res) {
-        this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
-        this.blockDocument();
-        if (this.userId === event.items[0].empId) {
-          this.reFreshEmpOfMain('admin');
-        }
+    if(event.items[0].empId === 0){
+      this.messageService.add({ severity: 'warn', detail: 'ไม่สามารถเปลี่ยนบทบาทของ admin กลางได้' });
+      this.ngOnInit();
+    }else{
+      const payload = {
+        empId: event.items[0].empId,
+        adminFlag: false
       }
-    });
+      this.service.updateRoleEmp(payload).subscribe((res) => {
+        if (res) {
+          this.messageService.add({ severity: 'success', detail: 'เปลี่ยนเเปลงบทบาททั่วไปสำเร็จ' });
+          this.blockDocument();
+          if (this.userId === event.items[0].empId) {
+            this.reFreshEmpOfMain('admin');
+          }
+        }
+      });
+    }
+    
   }
 
   blockedDocument: boolean = false;

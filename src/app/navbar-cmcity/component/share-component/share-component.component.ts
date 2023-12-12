@@ -138,6 +138,10 @@ export class ShareComponentComponent implements OnInit {
         this.configAdmin = res;
         this.fileImg1 = res[3].configId;
         this.fileImg2 = res[4].configId;
+
+        this.getImgSig1('signature1',this.fileImg1);
+        this.getImgSig2('signature2',this.fileImg2);
+
       }
     });
   }
