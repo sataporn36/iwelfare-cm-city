@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 import { Beneficiary } from 'src/app/model/beneficiary';
 import { Observable } from 'rxjs';
@@ -30,7 +30,7 @@ export class ProfileComponentComponent implements OnInit {
   formModelChild!: FormGroup;
   responsiveOptions: any;
   defaultDateline: Date = new Date("12/31/2003");
-
+  menuItems!: MenuItem[];
   periodMonthDescOption: any = [];
   date: Date | any;
   selected!: Date;
@@ -125,43 +125,64 @@ export class ProfileComponentComponent implements OnInit {
     //   localStorage.setItem('foo', 'no reload');
     //   history.go(0);
     // } else {
-      // localStorage.removeItem('foo');
-      this.arrayChild = [];
-      this.dadArray = [];
-      this.momArray = [];
-      this.gmArray = [];
-      this.gfArray = [];
+    // localStorage.removeItem('foo');
+    this.arrayChild = [];
+    this.dadArray = [];
+    this.momArray = [];
+    this.gmArray = [];
+    this.gfArray = [];
 
-      this.userId = this.localStorageService.retrieve('empId');
-      this.profileImgId = this.localStorageService.retrieve('profileImgId');
-      this.getEmployee(this.userId);
-      this.getImage(this.profileImgId);
+    this.userId = this.localStorageService.retrieve('empId');
+    this.profileImgId = this.localStorageService.retrieve('profileImgId');
+    this.getEmployee(this.userId);
+    this.getImage(this.profileImgId);
 
-      this.initMainForm();
-      this.formModel.disable();
-      this.formModelGf.disable();
-      this.formModelGm.disable();
-      this.formModelDad.disable();
-      this.formModelMom.disable();
-      this.setperiodMonthDescOption();
+    this.initMainForm();
+    this.formModel.disable();
+    this.formModelGf.disable();
+    this.formModelGm.disable();
+    this.formModelDad.disable();
+    this.formModelMom.disable();
+    this.setperiodMonthDescOption();
 
-      this.searchLevel();
-      this.searchEmployeeType();
-      this.getPositions();
-      this.getBureau();
-      this.getDapartment();
-      this.checkDefaultImage();
+    this.searchLevel();
+    this.searchEmployeeType();
+    this.getPositions();
+    this.getBureau();
+    this.getDapartment();
+    this.checkDefaultImage();
 
-      this.checkEditProfileInNotifyDisplay();
+    this.checkEditProfileInNotifyDisplay();
     // }
+
+    this.menuItems = [
+      {
+        label: 'ขอลาออก',
+        command: () => {
+          this.displayResign();
+        }
+      },
+      {
+        label: 'ขอเปลี่ยนเงินส่งหุ้นรายเดือน',
+        command: () => {
+          this.displayChangeStockToMonth();
+        }
+      },
+      {
+        label: 'แก้ไข',
+        command: () => {
+          this.onClickEdit();
+        }
+      }
+    ];
   }
 
-  checkDefaultImage(){
+  checkDefaultImage() {
     if (this.imageSrcAddress == null) {
       this.imageSrcAddress = 'assets/images/image-default2.png';
     }
 
-    
+
     if (this.imageSrcIdCard == null) {
       this.imageSrcIdCard = 'assets/images/image-default2.png';
     }
@@ -498,7 +519,7 @@ export class ProfileComponentComponent implements OnInit {
         tel: (data.contact?.tel != "NULL" && data.contact?.tel) ? data.contact?.tel : '-',
         officePhone: data.contact?.officePhone ? data.contact?.officePhone : '-',
         email: (data.contact?.email != "NULL" && data.contact?.email) ? data.contact?.email : '-',
-        fax: (data.contact?.fax != "NULL" && data.contact?.fax ) ? data.contact?.fax : '-',
+        fax: (data.contact?.fax != "NULL" && data.contact?.fax) ? data.contact?.fax : '-',
         lineId: (data.contact?.lineId != "NULL" && data.contact?.lineId) ? data.contact?.lineId : '-',
         facebook: (data.contact?.facebook != "NULL" && data.contact?.facebook) ? data.contact?.facebook : '-',
         address: data.contact?.address ? data.contact?.address : '-',
@@ -1093,56 +1114,56 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
 
-  checkReqInfo:boolean = false;
+  checkReqInfo: boolean = false;
   daiaInfoUser: any[] = [];
-  checkEditProfileInNotifyDisplay(){
+  checkEditProfileInNotifyDisplay() {
     this.daiaInfoUser = [];
     const userInfo = this.localStorageService.retrieve('employeeofmain');
-    this.service.getNotifyByEmpId({ 'employeeId': userInfo.id }).subscribe((res) =>{
-        if(res != null && res.length > 0){
-          this.daiaInfoUser = res;
-          this.checkReqInfo = true;
-        }else{
-          this.checkReqInfo = false;
-        }
+    this.service.getNotifyByEmpId({ 'employeeId': userInfo.id }).subscribe((res) => {
+      if (res != null && res.length > 0) {
+        this.daiaInfoUser = res;
+        this.checkReqInfo = true;
+      } else {
+        this.checkReqInfo = false;
+      }
     });
   }
 
-  checkDataInfoOfNull(value: any){
+  checkDataInfoOfNull(value: any) {
     const dataInfo = this.daiaInfoUser.filter((item: any) =>
-    item.status === value
+      item.status === value
     );
-    if(dataInfo.length > 0){
+    if (dataInfo.length > 0) {
       return true;
-    }else{
+    } else {
       return false;
     }
 
   }
 
-  checkEditProfileInNotify(){
-      const data = this.daiaInfoUser;
-      if(data.length > 0){
-          const dataInfo = data.filter((item: any) =>
-            item.status === 5
-          );
-          this.checkUserInfoList(dataInfo);
-      }else {
-          this.acceptUserInfo();
-      }
+  checkEditProfileInNotify() {
+    const data = this.daiaInfoUser;
+    if (data.length > 0) {
+      const dataInfo = data.filter((item: any) =>
+        item.status === 5
+      );
+      this.checkUserInfoList(dataInfo);
+    } else {
+      this.acceptUserInfo();
+    }
   }
 
-  checkUserInfoList(dataInfo: any[]){
-    if(dataInfo.length > 0){
+  checkUserInfoList(dataInfo: any[]) {
+    if (dataInfo.length > 0) {
       this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'คุณได้ร้องขอการเเก้ไขข้อมูลส่วนตัวเเล้ว โปรดรอการอนุมัติจากเจ้าหน้าที่', life: 10000 });
-    }else {
+    } else {
       this.acceptUserInfo();
     }
   }
 
   displayShowReqInfo: boolean = false;
   onClickShowReqInfo() {
-     this.displayShowReqInfo = true;
+    this.displayShowReqInfo = true;
   }
 
   acceptUserInfo() {
@@ -1173,9 +1194,9 @@ export class ProfileComponentComponent implements OnInit {
       this.mode = true;
 
       if (res.data === "UPDATE") {
-          this.messageService.add({ severity: 'success', detail: 'บันทึกสำเร็จ' });
-      }else{
-          this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+        this.messageService.add({ severity: 'success', detail: 'บันทึกสำเร็จ' });
+      } else {
+        this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
       }
 
       setTimeout(() => {
@@ -1375,7 +1396,7 @@ export class ProfileComponentComponent implements OnInit {
   onUpdateStockToMonth() {
     const dataStock = this.formModelStock.getRawValue();
     const data = this.formModel.getRawValue();
-    const monthlyStockMoneyReplace = data.monthlyStockMoney.replace(',','');
+    const monthlyStockMoneyReplace = data.monthlyStockMoney.replace(',', '');
 
     if (dataStock.monthlyStockMoney === data.monthlyStockMoney) {
       this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
@@ -1449,7 +1470,7 @@ export class ProfileComponentComponent implements OnInit {
         (imageBlob: Blob) => {
           this.imageSrcAddress = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
           this.imagesAddress.push({
-            itemImageSrc : this.imageSrcAddress
+            itemImageSrc: this.imageSrcAddress
           })
         },
         (error: any) => {
@@ -1461,7 +1482,7 @@ export class ProfileComponentComponent implements OnInit {
         (imageBlob: Blob) => {
           this.imageSrcIdCard = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
           this.imagesIdCard.push({
-            itemImageSrc : this.imageSrcIdCard
+            itemImageSrc: this.imageSrcIdCard
           })
         },
         (error: any) => {
@@ -1528,32 +1549,32 @@ export class ProfileComponentComponent implements OnInit {
     );
   }
 
-  childFlag:boolean = true;
-  onSelectValue(event: any){
+  childFlag: boolean = true;
+  onSelectValue(event: any) {
     const value = event.target.value;
-    if(value === '0'){
+    if (value === '0') {
       this.childFlag = true;
-    }else{
+    } else {
       this.childFlag = false;
     }
   }
 
-  childFlag1:boolean = true;
-  onSelectValue2(event: any){
+  childFlag1: boolean = true;
+  onSelectValue2(event: any) {
     const value = event.target.value;
-    if(value === '0'){
+    if (value === '0') {
       this.childFlag1 = true;
-    }else{
+    } else {
       this.childFlag1 = false;
     }
   }
 
-  childFlag2:boolean = true;
-  onSelectValue3(event: any){
+  childFlag2: boolean = true;
+  onSelectValue3(event: any) {
     const value = event.target.value;
-    if(value === '0'){
+    if (value === '0') {
       this.childFlag2 = true;
-    }else{
+    } else {
       this.childFlag2 = false;
     }
   }

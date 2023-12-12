@@ -1,40 +1,42 @@
-<div class="card">
-    <div style="display: flex; justify-content: space-between;">
-        <div>
-            <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
-        </div>
-        <div>
-            <button type="button" (click)="displayDialog()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
-        </div>
+<div class="container">
+    <div class="div-header">
+        <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
+        <button type="button" (click)="displayDialog()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
     </div>
 
-    <p style="color: #60646b; margin-top: 20px; margin-left: 10px;">ท่านสามารถแก้ไข หรือเลือกผู้รับผลประโยชน์ใหม่ได้</p>
-    
-    <div [ngClass]="'row row-cols-' + colScreen">
-        <div *ngFor="let beneficiary of arrayBeneficiary" style="margin-top: 20px;">
+    <p>ท่านสามารถแก้ไข หรือเลือกผู้รับผลประโยชน์ใหม่ได้</p>
+
+    <div class="div-group">
+        <div *ngFor="let beneficiary of beneficiaryInfo">
             <div class="guarantee">
                 <div>
                     <img src="{{ checkImgProfile(beneficiary?.gender)}}" />
                 </div>
                 <div class="info-text">
-                    <label>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</label>
-                    <label style="color: #60646b;">ความสัมพันธ์: {{ beneficiary?.relationship || ''}}</label>
+                    <div class="text">
+                        <label class="name">ชื่อ-สกุล:</label>
+                        <span>{{ beneficiary.prefix }}{{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
+                    </div>
+                    <div class="text">
+                        <label class="name">ความสัมพันธ์:</label>
+                        <span>{{ beneficiary?.relationship || ''}}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false"
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '60vw' }"
+    [breakpoints]="{ '1200px': '70vw', '1000px': '80vw', '430px': '90vw', '390px': '95vw', '360px': '99vw' }" [draggable]="false" [resizable]="false"
     styleClass="customDialog">
     <ng-template pTemplate="header">
         <p-chip label="แก้ไขผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
     </ng-template>
 
-    <!-- <div class="card"> -->
-    <p-table [value]="beneficiaryInfo" [(selection)]="selectedProducts" dataKey="id"
+    <p-table responsiveLayout="stack" [value]="beneficiaryInfo" [(selection)]="selectedProducts" dataKey="id"
         [tableStyle]="{'min-width': '20rem'}">
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
@@ -45,18 +47,32 @@
                 <th>สถานะผู้รับผลประโยชน์</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-beneficiaryInfo>
+        <ng-template pTemplate="body" let-beneficiaryInfo let-columns="columns">
             <tr>
                 <td>
+                    <span class="p-column-title">เลือก</span>
                     <p-tableCheckbox [value]="beneficiaryInfo"></p-tableCheckbox>
                 </td>
-                <td>{{beneficiaryInfo.prefix}}{{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}</td>
-                <td>{{beneficiaryInfo.gender}}</td>
-                <td>{{beneficiaryInfo.relationship}}</td>
                 <td>
+                    <span class="p-column-title">ชื่อ-สกุล</span>
+                    {{beneficiaryInfo.prefix}}{{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}
+                </td>
+                <td>
+                    <span class="p-column-title">เพศ</span>
+                    {{beneficiaryInfo.gender}}
+                </td>
+                <td>
+                    <span class="p-column-title">ความสัมพันธ์</span>
+                    {{beneficiaryInfo.relationship}}
+                </td>
+                <td>
+                    <span class="p-column-title">สถานะผู้รับผลประโยชน์</span>
                     <div style="display: flex; justify-content: center;">
-                        <i *ngIf="beneficiaryInfo.active" class="pi pi-check-circle" style="color: #009688; font-size: 1.5rem;"></i>
-                        <i *ngIf="!beneficiaryInfo.active" class="pi pi-times-circle" style="color: #e51c23; font-size: 1.5rem;"></i>
+                        <i *ngIf="beneficiaryInfo.active" class="uil uil-check-circle"
+                            style="color: #009688; font-size: 1.5rem;"></i>
+
+                        <i *ngIf="!beneficiaryInfo.active" class="uil uil-minus-circle"
+                            style="color: #e51c23; font-size: 1.5rem;"></i>
                     </div>
                 </td>
             </tr>

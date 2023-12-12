@@ -1,85 +1,117 @@
-.btn-group {
-    display: flex;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 5px;
-    background-color: #dee2e6;
-    width: 18rem;
-    height: 45px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-  
-    .btn {
-      width: max-content;
-      height: 34px;
-      font-weight: 500;
-      font-size: 15px;
-      border-radius: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .btn-login {
-      color: #fff;
-      background-color: #fe6bba;
-    }
-  }
+// .btn-group {
+//   display: flex;
+//   // padding-left: 5px;
+//   // padding-right: 5px;
+//   // padding-top: 5px;
+//   background-color: #dee2e6;
+//   width: 20px;
+//   height: 45px;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 20px;
 
-  .card-table {
-    border: 5px solid white;
-    border-radius: 15px;
-    width: 100%;
-    background-color: white;
-    padding: 2rem;
-    margin-top: 10px;
-  }
+//   .btn {
+//     width: max-content;
+//     height: 34px;
+//     font-weight: 500;
+//     font-size: 15px;
+//     border-radius: 18px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
 
-:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    background: none;
-    text-align: center;
-    font-weight: normal;
-    color: #8690a1;
-    font-size: 16px;
+//   .btn-login {
+//     color: #fff;
+//     background-color: #fe6bba;
+//   }
+// }
+
+// .btn-group {
+//   background-color: #dee2e6;
+//   width: 200px;
+//   padding: 10px 10px;
+//   border-radius: 20px;
+// }
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    text-align: center;
+.card-table {
+  border-radius: 15px;
+  width: 100%;
+  background-color: white;
+  padding: 2rem;
+  margin-top: 1rem;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-header{
-    background: none;
-    border-top: none;
+.div-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .btn {
-  width: 60px;
-  height: 34px;
-  font-weight: 500;
-  font-size: 14px;
-  margin-top: -5px;
-  border-radius: 18px;
-}
-
-.btn-login2 {
-  width: 140px;
+  width: 190px;
+  height: 35px;
   font-weight: 500;
   font-size: 15px;
-  height: 40px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-login {
   color: #fff;
   background-color: #fe6bba;
 }
 
-.btn-regis2 {
-  width: 140px;
-  font-weight: 500;
-  font-size: 15px;
-  height: 40px;
-  color: #fe6bba;
-  border-color: #fe6bba;
-  margin-left: 40px;
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: none;
+  text-align: center;
+  font-weight: normal;
+  color: #8690a1;
+  font-size: 16px;
 }
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: none;
+  border-top: none;
+}
+
+// .btn {
+//   width: 60px;
+//   height: 34px;
+//   font-weight: 500;
+//   font-size: 14px;
+//   margin-top: -5px;
+//   border-radius: 18px;
+// }
+
+// .btn-login2 {
+//   width: 140px;
+//   font-weight: 500;
+//   font-size: 15px;
+//   height: 40px;
+//   color: #fff;
+//   background-color: #fe6bba;
+// }
+
+// .btn-regis2 {
+//   width: 140px;
+//   font-weight: 500;
+//   font-size: 15px;
+//   height: 40px;
+//   color: #fe6bba;
+//   border-color: #fe6bba;
+//   margin-left: 40px;
+// }
 
 :host ::ng-deep p-paginator div {
   display: flex;
@@ -92,20 +124,38 @@
 }
 
 :host ::ng-deep .p-panel .p-panel-content {
-   padding: 0rem !important;
-   border: 0px solid #dee2e6 !important;
-   background: #ffffff;
-   color: #495057;
-   border-bottom-right-radius: 0px !important;
-   border-bottom-left-radius: 0px !important;
-   border-top: 0 none !important;
+  padding: 0rem !important;
+  border: 0px solid #dee2e6 !important;
+  background: #ffffff;
+  color: #495057;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top: 0 none !important;
 }
 
 :host ::ng-deep .p-panel .p-panel-header {
-   border: 0px #ffffff !important;
-   padding: 0rem !important;
-   background: #f8f9fa;
-   color: #343a40;
-   border-top-right-radius: 0px !important;
-   border-top-left-radius: 0px !important;
+  border: 0px #ffffff !important;
+  padding: 0rem !important;
+  background: #f8f9fa;
+  color: #343a40;
+  border-top-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+}
+
+@media only screen and (max-width: 1200px) {
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    font-size: 15px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .div-header {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+  }
 }

@@ -14,6 +14,8 @@ import {
   ApexLegend,
   ApexPlotOptions
 } from "ng-apexcharts";
+import * as ApexCharts from 'apexcharts';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-loan-rights-component',
@@ -28,8 +30,8 @@ export class LoanRightsComponentComponent implements OnInit {
   loanValueNull: any;
   data: any;
   options: any;
-  chartPie: ChartPie;
-  chartBar: ChartBar;
+  chartPie: Chart;
+  chartBar: Chart;
   widthPie: any;
   widthBar: any;
   heightBar: any;
@@ -49,47 +51,403 @@ export class LoanRightsComponentComponent implements OnInit {
       this.loanValueNull = true;
     }
 
-    if (window.innerWidth > 1680) {
-      this.widthPie = 429;
-      this.widthBar = 940;
-      this.heightBar = 310;
-    } else if (window.innerWidth > 1600){
-      this.widthPie = 429;
-      this.widthBar = 810;
-      this.heightBar = 310;
-    } else if (window.innerWidth >= 1529){
-      this.widthPie = 429;
-      this.widthBar = 750;
-      this.heightBar = 310;
-    } else if (window.innerWidth > 1366){
-      this.widthPie = 400;
-      this.widthBar = 780;
-      this.heightBar = 286;
-    } else if (window.innerWidth > 1280){
-      this.widthPie = 380;
-      this.widthBar = 648;
-      this.heightBar = 268;
-    } else if (window.innerWidth > 1240){
-      this.widthPie = 360;
-      this.widthBar = 600;
-      this.heightBar = 253;
-    } else {
-      this.widthPie = 350;
-      this.widthBar = 580;
-      this.heightBar = 245;
-    }
-
     const documentStyle = getComputedStyle(document.documentElement);
 
-    this.chartPie = {
+    const chartPie = {
       series: [this.sumLoan, this.userInfo.loanBalance],
       chart: {
-        width: this.widthPie,
+        width: "200%",
+        height: 320,
         type: "pie",
         fontFamily: 'Kanit, sans-serif'
       },
       labels: ['เงินกู้สามัญสูงสุด', 'หนี้เงินกู้คงเหลือ'],
-      responsive: [],
+      responsive: [
+        {
+          breakpoint: 1367,
+          options: {
+            chart: {
+              width: "150%"
+            }
+          }
+        },
+        {
+          breakpoint: 1101,
+          options: {
+            chart: {
+              width: "280%"
+            }
+          }
+        },
+        {
+          breakpoint: 1001,
+          options: {
+            chart: {
+              width: "260%"
+            }
+          }
+        },
+        {
+          breakpoint: 991,
+          options: {
+            chart: {
+              width: "255%"
+            }
+          }
+        },
+        {
+          breakpoint: 971,
+          options: {
+            chart: {
+              width: "250%"
+            }
+          }
+        },
+        {
+          breakpoint: 951,
+          options: {
+            chart: {
+              width: "245%"
+            }
+          }
+        },
+        {
+          breakpoint: 931,
+          options: {
+            chart: {
+              width: "240%"
+            }
+          }
+        },
+        {
+          breakpoint: 911,
+          options: {
+            chart: {
+              width: "235%"
+            }
+          }
+        },
+        {
+          breakpoint: 891,
+          options: {
+            chart: {
+              width: "230%"
+            }
+          }
+        },
+        {
+          breakpoint: 871,
+          options: {
+            chart: {
+              width: "225%"
+            }
+          }
+        },
+        {
+          breakpoint: 861,
+          options: {
+            chart: {
+              width: "220%"
+            }
+          }
+        },
+        {
+          breakpoint: 851,
+          options: {
+            chart: {
+              width: "215%"
+            }
+          }
+        },
+        {
+          breakpoint: 841,
+          options: {
+            chart: {
+              width: "210%"
+            }
+          }
+        },
+        {
+          breakpoint: 831,
+          options: {
+            chart: {
+              width: "208%"
+            }
+          }
+        },
+        {
+          breakpoint: 821,
+          options: {
+            chart: {
+              width: "206%"
+            }
+          }
+        },
+        {
+          breakpoint: 811,
+          options: {
+            chart: {
+              width: "204%"
+            }
+          }
+        },
+        {
+          breakpoint: 801,
+          options: {
+            chart: {
+              width: "202%"
+            }
+          }
+        },
+        {
+          breakpoint: 791,
+          options: {
+            chart: {
+              width: "200%"
+            }
+          }
+        },
+        {
+          breakpoint: 781,
+          options: {
+            chart: {
+              width: "195%"
+            }
+          }
+        },
+        {
+          breakpoint: 771,
+          options: {
+            chart: {
+              width: "190%"
+            }
+          }
+        },
+        {
+          breakpoint: 761,
+          options: {
+            chart: {
+              width: "188%"
+            }
+          }
+        },
+        {
+          breakpoint: 751,
+          options: {
+            chart: {
+              width: "186%"
+            }
+          }
+        },
+        {
+          breakpoint: 741,
+          options: {
+            chart: {
+              width: "184%"
+            }
+          }
+        },
+        {
+          breakpoint: 731,
+          options: {
+            chart: {
+              width: "182%"
+            }
+          }
+        },
+        {
+          breakpoint: 721,
+          options: {
+            chart: {
+              width: "180%"
+            }
+          }
+        },
+        {
+          breakpoint: 711,
+          options: {
+            chart: {
+              width: "178%"
+            }
+          }
+        },
+        {
+          breakpoint: 701,
+          options: {
+            chart: {
+              width: "176%"
+            }
+          }
+        },
+        {
+          breakpoint: 691,
+          options: {
+            chart: {
+              width: "174%"
+            }
+          }
+        },
+        {
+          breakpoint: 681,
+          options: {
+            chart: {
+              width: "172%"
+            }
+          }
+        },
+        {
+          breakpoint: 671,
+          options: {
+            chart: {
+              width: "170%"
+            }
+          }
+        },
+        {
+          breakpoint: 661,
+          options: {
+            chart: {
+              width: "168%"
+            }
+          }
+        },
+        {
+          breakpoint: 651,
+          options: {
+            chart: {
+              width: "166%"
+            }
+          }
+        },
+        {
+          breakpoint: 641,
+          options: {
+            chart: {
+              width: "164%"
+            }
+          }
+        },
+        {
+          breakpoint: 631,
+          options: {
+            chart: {
+              width: "160%"
+            }
+          }
+        },
+        {
+          breakpoint: 621,
+          options: {
+            chart: {
+              width: "156%"
+            }
+          }
+        },
+        {
+          breakpoint: 611,
+          options: {
+            chart: {
+              width: "152%"
+            }
+          }
+        },
+        {
+          breakpoint: 601,
+          options: {
+            chart: {
+              width: "148%"
+            }
+          }
+        },
+        {
+          breakpoint: 591,
+          options: {
+            chart: {
+              width: "144%"
+            }
+          }
+        },
+        {
+          breakpoint: 581,
+          options: {
+            chart: {
+              width: "140%"
+            }
+          }
+        },
+        {
+          breakpoint: 571,
+          options: {
+            chart: {
+              width: "136%"
+            }
+          }
+        },
+        {
+          breakpoint: 561,
+          options: {
+            chart: {
+              width: "132%"
+            }
+          }
+        },
+        {
+          breakpoint: 551,
+          options: {
+            chart: {
+              width: "128%"
+            }
+          }
+        },
+        {
+          breakpoint: 531,
+          options: {
+            chart: {
+              width: "124%"
+            }
+          }
+        },
+        {
+          breakpoint: 511,
+          options: {
+            chart: {
+              width: "120%"
+            }
+          }
+        },
+        {
+          breakpoint: 491,
+          options: {
+            chart: {
+              width: "116%"
+            }
+          }
+        },
+        {
+          breakpoint: 471,
+          options: {
+            chart: {
+              width: "112%"
+            }
+          }
+        },
+        {
+          breakpoint: 451,
+          options: {
+            chart: {
+              width: "108%"
+            }
+          }
+        },
+        {
+          breakpoint: 431,
+          options: {
+            chart: {
+              width: "100%"
+            }
+          }
+        },
+      ],
       colors: [
         documentStyle.getPropertyValue('--pink-800'),
         documentStyle.getPropertyValue('--pink-600'),
@@ -97,44 +455,45 @@ export class LoanRightsComponentComponent implements OnInit {
       legend: {
         position: 'bottom',
         fontSize: '14px',
-      }
+      },
     };
 
-    this.chartBar = {
-      series: [
-        {
-          name: "จำนวนเงิน",
-          data: [900000, this.sumLoan, this.userInfo.loanBalance, this.totalLoan]
-        }
-      ],
+    const chart1 = new ApexCharts(document.querySelector('#chartPie'), chartPie);
+    chart1.render();
+
+    const chartBar = {
+      series: [{
+        name: "จำนวนเงิน",
+        data: [900000, this.sumLoan, this.userInfo.loanBalance, this.totalLoan]
+      }],
       chart: {
         type: "bar",
-        width: this.widthBar,
-        height: this.heightBar,
+        width: "100%",
+        height: 320,
         stacked: true,
-        fontFamily: 'Kanit, sans-serif'
-      },
-      stroke: {
-        width: 1,
-        colors: ["#fff"]
-      },
-      dataLabels: {
-        formatter: (val) => {
-          return Number(val) / 1000 + "K";
-        }
+        fontFamily: 'Kanit, sans-serif',
+        redrawOnWindowResize: true,
       },
       plotOptions: {
         bar: {
           columnWidth: "30%",
-          distributed: true
-        }
+          distributed: true,
+          horizontal: true,
+        },
+      },
+      dataLabels: {
+        formatter: (val) => Number(val) / 1000 + "K",
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
       },
       xaxis: {
         categories: [
           "กู้ได้ไม่เกิน",
           "เงินกู้สามัญสูงสุด",
           "หนี้เงินกู้คงเหลือ",
-          "ประมาณการรับเงินสุทธิ"
+          "ประมาณการรับเงินสุทธิ",
         ],
         labels: {
           style: {
@@ -142,53 +501,43 @@ export class LoanRightsComponentComponent implements OnInit {
               documentStyle.getPropertyValue('--pink-800'),
               documentStyle.getPropertyValue('--pink-600'),
             ],
-            fontSize: "14px"
-          }
+            fontSize: "14px",
+          },
+        },
+      },
+      legend: {
+        position: "right",
+        verticalAlign: "top",
+        containerMargin: {
+          left: 35,
+          right: 60
         }
       },
       fill: {
-        opacity: 1
+        opacity: 1,
       },
+      responsive: [{
+        breakpoint: 1501,
+        options: {
+          plotOptions: {
+            bar: {
+              horizontal: false,
+            },
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      }],
       colors: [
         documentStyle.getPropertyValue('--pink-800'),
         documentStyle.getPropertyValue('--pink-600'),
         documentStyle.getPropertyValue('--purple-800'),
         documentStyle.getPropertyValue('--purple-600'),
-      ],
-      yaxis: {
-        labels: {
-          formatter: (val) => {
-            return val / 1000 + "K";
-          }
-        }
-      },
-      legend: {
-        position: "top",
-        horizontalAlign: "left",
-        fontSize: "14px"
-      }
+      ]
     };
+
+    const chart = new ApexCharts(document.querySelector('#chartBar'), chartBar);
+    chart.render();
   }
-}
-
-interface ChartPie {
-  series: ApexNonAxisChartSeries;
-  chart: ApexChart;
-  responsive: ApexResponsive[];
-  labels: string[];
-  colors?: string[];
-  legend: ApexLegend;
-}
-
-interface ChartBar {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  stroke: ApexStroke;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  colors: string[];
-  fill: ApexFill;
-  legend: ApexLegend;
 }

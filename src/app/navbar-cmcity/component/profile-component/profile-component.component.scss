@@ -1,88 +1,374 @@
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+}
+
 .div-background {
-  height: 310px;
+  height: 200px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   width: 100%;
   background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
-  margin-top: 10px;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  padding-top: 12rem;
+  padding-left: 4.5rem;
+  padding-right: 3rem;
+  grid-gap: 50px;
 }
 
-.div-profile .text .row {
-  .col-2 {
-    width: 210px;
+.profile {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: #f8f2f2;
+}
+
+.pic-holder {
+  text-align: center;
+  position: relative;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 6px solid #fff;
+}
+
+.pic-holder .pic {
+  height: 100%;
+  width: 100%;
+}
+
+.pic-holder .upload-file-block,
+.pic-holder .upload-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(90, 92, 105, 0.7);
+  color: #f8f9fc;
+  font-size: 14px;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+
+.pic-holder:hover .upload-file-block,
+.uploadProfileInput:focus ~ .upload-file-block {
+  opacity: 1;
+}
+
+.pic-holder input.uploadProfileInput:focus {
+  display: none;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-name {
+  margin-top: 1%;
+}
+
+.header-name input.name {
+  font-size: 28px;
+  text-transform: uppercase;
+}
+
+.header-name .div-text {
+  background: #dee2e6;
+  height: 40px;
+  border-radius: 15px;
+  width: 100px;
+  padding: 5px;
+  color: #000;
+  font-size: 18px;
+  display: flex;
+}
+
+.header-name .div-text input {
+  text-align: center;
+}
+
+.div-profile-button {
+  margin-top: 6%;
+}
+
+.div-btn {
+  display: flex;
+  padding-top: 5px;
+  background-color: #dee2e6;
+  width: 9.5rem;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-left: 13rem;
+
+  .btn {
+    width: fit-content;
+    height: 35px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-regis {
+    color: #fe6bba;
+    border-color: #fe6bba;
+    background-color: #f1f2f6;
   }
 }
 
-.div-profile .text .row .col-4 {
-  width: 20%;
-}
+.btn-group {
+  display: flex;
+  padding-top: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #dee2e6;
+  width: fit-content;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  grid-gap: 5px;
 
-.div-profile .text .row .col-12 {
-  width: 36%;
-}
+  .btn {
+    width: max-content;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-:host ::ng-deep .p-calendar-w-btn .p-inputtext {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  width: 270px;
-  height: 3rem;
-}
+  .btn-login1 {
+    color: #fff;
+    background-color: #fe6bba;
+  }
 
-:host ::ng-deep .p-button.p-button-icon-only {
-  width: 3rem;
-  padding: 0.75rem 0;
-  height: 3rem;
+  .btn-login2 {
+    color: #fff;
+    background-color: #fe6bba;
+  }
+
+  .btn-edit {
+    color: #fe6bba;
+    border-color: #fe6bba;
+    background-color: #ffffff81;
+  }
 }
 
 .div-profile {
   width: 100%;
+  max-width: 100%;
   height: fit-content;
   background: #fff;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  margin-top: -120px;
-  z-index: 1;
-  padding-top: 120px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  padding: 7rem 3rem 3rem 3rem;
 }
 
-.div-background .div-text {
-  background: #f0f2f2;
-  height: 35px;
+.div-profile label {
+  font-size: 15px;
+  color: #747d8c;
+}
+
+.div-profile input {
+  font-size: 16px;
+  height: 40px;
+}
+
+.family-body select {
+  font-size: 16px;
+  height: 40px;
+}
+
+.div-calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep .birthday-calendar .p-inputtext {
+  height: 40px;
+  font-size: 16px;
+  width: 280px;
+  font-family: "Kanit", sans-serif;
+}
+
+.div-profile-body {
+  display: flex;
+  grid-gap: 1rem;
+  margin-top: 1rem;
+}
+
+.div-profile-body-text {
+  width: 75%;
+  background: #fff;
+  border-radius: 15px;
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.div-profile-body-text label {
+  font-size: 15px;
+  color: #747d8c;
+}
+
+.div-profile-body-text input {
+  font-size: 16px;
+  height: 40px;
+}
+
+.div-profile-body-text select {
+  font-size: 16px;
+  height: 40px;
+}
+
+:host ::ng-deep {
+  .p-calendar input {
+    height: 40px;
+    width: 340px;
+    font-family: "Kanit", sans-serif;
+  }
+}
+
+.div-profile-doc {
+  width: 25%;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+}
+
+.doc-group {
+  display: flex;
+  flex-direction: column;
+}
+
+p {
+  color: #5d6066;
+  margin-top: 20px;
+}
+
+.pic-holder-doc {
+  text-align: center;
+  position: relative;
   border-radius: 10px;
-  width: 130px;
-  padding-top: 3px;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border: 4px solid #f0f2f2;
 }
 
-.name {
-  font-size: 23px;
+.pic-holder-doc .pic-doc {
+  width: 100%;
+  height: 100%;
 }
 
-.number {
-  font-size: 18px;
-  width: 80px;
+.pic-holder-doc .upload-file-block,
+.pic-holder-doc .upload-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(90, 92, 105, 0.7);
+  color: #f8f9fc;
+  font-size: 14px;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  grid-gap: 20px;
 }
 
-.text {
-  font-size: 18px;
-  .row {
-    margin-left: 5px;
-  }
-  label {
-    font-size: 15px;
-    color: #747d8c;
-  }
-  .col-2 {
-    width: 250px;
-  }
+.pic-holder-doc .uploadProfileInput {
+  margin-top: -50px;
 }
 
-.test-child {
-  label {
-    color: #747d8c;
-  }
+.pic-holder-doc:hover .upload-file-block,
+.uploadProfileInput:focus ~ .upload-file-block {
+  opacity: 1;
+}
+
+.pic-holder-doc input.uploadProfileInput:focus {
+  display: none;
+}
+
+.galleria-img {
+  width: 120%;
+  display: block;
+}
+
+.div-profile-button {
+  margin-left: 20%;
+}
+
+.div-profile-family {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+}
+
+.card-family {
+  width: 100%;
+  background: #fff;
+  border-radius: 15px;
+  margin-top: 1rem;
+  padding: 2rem;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 15px;
+}
+
+.family-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.family-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  width: 100%;
+}
+
+.family-body input {
+  width: 100%;
+  font-size: 16px;
+  height: 40px;
+}
+
+.family-body label {
+  font-size: 15px;
+  color: #747d8c;
+}
+
+:host ::ng-deep .beneficiary-calendar .p-inputtext {
+  height: 40px;
+  font-size: 16px;
+  width: fit-content;
+  font-family: "Kanit", sans-serif;
 }
 
 :host ::ng-deep .p-button:enabled:hover {
@@ -102,139 +388,80 @@
   visibility: hidden;
 }
 
-.product-item {
-  .product-item-content {
-    border: 1px solid var(--surface-d);
-    border-radius: 3px;
-    margin: 0.3rem;
-    text-align: center;
-    padding: 2rem 0;
-  }
-
-  .product-image {
-    width: 50%;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
-}
-
-.div-profile-two {
+.div-profile-child {
   width: 100%;
   background: #fff;
   border-radius: 15px;
-  margin-top: 20px;
-  z-index: 1;
-  padding-top: 50px;
-  padding-bottom: 30px;
-  padding-left: 40px;
-  .col-2 {
-    width: 250px;
-    margin-top: 25px;
-  }
-  .text .row {
-    margin-bottom: 10px;
-  }
+  margin-top: 1rem;
+  padding: 30px;
 }
 
-.div-profile-three {
-  width: 75%;
-  background: #fff;
-  border-radius: 15px;
-  margin-top: 20px;
-  z-index: 1;
-  padding: 35px;
-  justify-content: center;
-  .text {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    .col-2 {
-      margin-left: 0.5rem;
-    }
-  }
+.div-child {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-.div-doc {
-  width: 24%;
-  background-color: #fff;
-  margin-top: 1.2rem;
-  padding: 2rem;
-  border-radius: 15px;
-  .doc-group {
-    margin-top: -10px;
-    margin-left: 30%;
-  }
-  p {
-    color: #5d6066;
-    margin-top: 20px;
-  }
-}
-
-.div-profile-four {
-  width: 520px;
-  background: #fff;
-  border-radius: 15px;
-  margin-top: 20px;
-  padding: 2rem;
-
-  .col-12 {
-    padding: 0.5rem;
-  }
-
-  label {
-    font-size: 15px;
-    color: #747d8c;
-  }
-}
-
-.div-profile-six-child {
+.div-profile-plus-child {
   border: 2px solid #f0f2f2;
-  height: 22.3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 350px;
   background: #fff;
   border-radius: 15px;
-  margin-top: 20px;
   padding: 2rem;
-
-  .col-12 {
-    padding: 0.5rem;
-  }
-
-  label {
-    font-size: 15px;
-    color: #747d8c;
-  }
 }
 
-.div-profile-six {
-  width: 350px;
+.div-child-body {
   background: #fff;
   border-radius: 15px;
-  margin-top: 20px;
   padding: 2rem;
-
-  .col-12 {
-    padding: 0.5rem;
-  }
-
-  label {
-    font-size: 15px;
-    color: #747d8c;
-  }
+  height: fit-content;
+  border: 2px solid #f0f2f2;
 }
 
-.div-profile-five {
+.div-child-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.div-child-text {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
   width: 100%;
-  background: #fff;
-  border-radius: 15px;
-  margin-top: 20px;
-  z-index: 1;
-  padding: 30px;
-  .col {
-    width: 370px;
-  }
+}
+
+.div-child-text label {
+  font-size: 15px;
+  color: #747d8c;
+}
+
+.add-child {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.add-child input {
+  font-size: 16px;
+  height: 40px;
+}
+
+.add-child select {
+  font-size: 16px;
+  height: 40px;
+}
+
+.add-child label {
+  font-size: 15px;
+  color: #747d8c;
 }
 
 :host ::ng-deep .p-datepicker table td {
@@ -259,7 +486,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  margin-left: 13rem;
+  // margin-left: 13rem;
 
   .btn {
     width: fit-content;
@@ -308,64 +535,9 @@
   }
 }
 
-.btn-group {
-  display: flex;
-  padding-top: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  background-color: #dee2e6;
-  width: 18rem;
-  height: 45px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-
-  .btn {
-    width: max-content;
-    height: 34px;
-    font-weight: 500;
-    font-size: 15px;
-    border-radius: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .btn-login1 {
-    color: #fff;
-    background-color: #fe6bba;
-  }
-
-  .btn-login2 {
-    color: #fff;
-    background-color: #fe6bba;
-    // width: 230px;
-  }
-
-  .btn-edit {
-    color: #fe6bba;
-    border-color: #fe6bba;
-    background-color: #ffffff81;
-  }
-}
-
 .btn-edit {
   color: #fe6bba;
   border-color: #fe6bba;
-}
-
-:host ::ng-deep {
-  .p-calendar input {
-    height: 37px;
-    width: 310px;
-    font-family: "Kanit", sans-serif;
-  }
-
-  @media screen and (max-width: 1366px) {
-    .birthday-calendar input {
-      width: 178px;
-    }
-  }
 }
 
 :host ::ng-deep .custom-calendar input {
@@ -374,88 +546,24 @@
   font-family: "Kanit", sans-serif;
 }
 
-:host .div-calendar-child ::ng-deep .p-datepicker {
-  transform: translate(-17.5rem, -10rem);
-  td > span {
-    width: 25px !important;
-    height: 26px !important;
-  }
-
-  .p-highlight {
-    color: #fe6bba;
-    background: #ffeffd;
-  }
-}
-
-.div-btn {
-  display: flex;
-  padding-top: 5px;
-  background-color: #dee2e6;
-  width: 9.5rem;
-  height: 46px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  margin-left: 13rem;
-
-  .btn {
-    width: fit-content;
-    height: fit-content;
-    font-weight: 500;
-    font-size: 15px;
-    border-radius: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .btn-regis {
-    color: #fe6bba;
-    border-color: #fe6bba;
-    background-color: #f1f2f6;
-  }
-}
-
-:host ::ng-deep .birthday-calendar .p-inputtext {
-  height: 37px;
-  width: 185px;
-  font-family: "Kanit", sans-serif;
-}
-
-.btn-login {
-  color: #fff;
-  background-color: #fe6bba;
-}
-
-.btn-regis {
-  color: #fe6bba;
-  border-color: #fe6bba;
-  margin-left: 10px;
-}
-
-:host ::ng-deep .p-inputswitch {
-  height: 20px;
-  width: 40px;
-}
-
-:host ::ng-deep .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider,
-:host
-  ::ng-deep
-  .p-inputswitch.p-inputswitch-checked:hover
-  .p-inputswitch-slider {
-  background: #fe6bba;
-}
-
-:host ::ng-deep .p-inputswitch .p-inputswitch-slider::before {
-  height: 13px;
-  width: 13px;
-  margin-top: -6.6px;
-}
-
 ::ng-deep .p-dialog {
   .p-dialog-header {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    .header-name {
+      display: flex;
+      align-items: center;
+      grid-gap: 5px;
+      span {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      i {
+        font-size: 18px;
+        font-weight: normal;
+        color: #5d6066;
+      }
+    }
   }
 
   .p-dialog-footer {
@@ -483,571 +591,691 @@
   }
 }
 
-.profile-pic-wrapper {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  z-index: 0;
-  margin-left: 50px;
-  margin-top: 70px;
-  background: #f8f2f2;
-}
-
-.pic-holder {
-  text-align: center;
-  position: relative;
-  border-radius: 50%;
-  width: 220px;
-  height: 220px;
-  overflow: hidden;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  border: 8px solid #fff;
-}
-
-.pic-holder .pic {
-  height: 100%;
-  width: 100%;
-}
-
-.pic-holder .upload-file-block,
-.pic-holder .upload-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(90, 92, 105, 0.7);
-  color: #f8f9fc;
-  font-size: 14px;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.pic-holder .upload-file-block {
-  cursor: pointer;
-}
-
-.pic-holder:hover .upload-file-block,
-.uploadProfileInput:focus ~ .upload-file-block {
-  opacity: 1;
-}
-
-.pic-holder.uploadInProgress .upload-file-block {
-  display: none;
-}
-
-.pic-holder.uploadInProgress .upload-loader {
-  opacity: 1;
-}
-
-.snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  background-color: #333;
+.btn-login {
   color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 14px;
-  transform: translateX(-50%);
+  background-color: #fe6bba;
 }
 
-.snackbar.show {
-  visibility: visible;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+.btn-regis {
+  color: #fe6bba;
+  border-color: #fe6bba;
+  margin-left: 10px;
 }
 
-@keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-
-@keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
-}
-
-.div-col-10 {
-  .col-10 {
-    flex: 0 0 auto;
-    width: 87%;
-  }
-}
-
-.div-col-5 {
-  .col-5 {
-    flex: 0 0 auto;
-    width: 43%;
-  }
-}
-
-// doc
-.pic-holder-doc {
-  display: flex;
-  position: relative;
-  border-radius: 5px;
-  width: 60%;
-  overflow: hidden;
-  border: 2px solid #f0f2f2;
-}
-
-.pic-holder-doc .pic-doc {
-  width: 100%;
-}
-
-.pic-holder-doc .upload-file-block,
-.pic-holder-doc .upload-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(90, 92, 105, 0.7);
-  color: #f8f9fc;
-  font-size: 14px;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.pic-holder-doc .upload-file-block {
-  cursor: pointer;
-}
-
-.pic-holder-doc:hover .upload-file-block,
-.uploadProfileInput:focus ~ .upload-file-block {
-  opacity: 1;
-}
-
-.pic-holder-doc .uploadInProgress .upload-file-block {
+.div-profile-button-menu {
   display: none;
 }
 
-.pic-holder-doc .uploadInProgress .upload-loader {
-  opacity: 1;
+a.dropdown-toggle {
+  text-decoration: none;
+  font-size: 20px;
+  color: #222121;
 }
 
-.galleria-img {
-  width: 120%;
-  display: block;
+.dropdown-toggle::after {
+  display: none;
 }
 
-.div-profile-button {
-  margin-left: 20%;
+:host ::ng-deep .p-inputnumber input { 
+  width: 100%;
+} 
+
+@media only screen and (max-width: 1712px) {
+  .div-profile-button {
+    margin-top: 7%;
+  }
+
+  .div-child {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-@media screen and (max-width: 1680px) {
-  .div-background {
-    width: 100%;
-  }
-
-  .div-profile .text .row .col-2 {
-    width: 210px;
-  }
-
-  .div-profile .text .row .col-4 {
-    width: 32%;
-  }
-  
-  .div-profile .text .row .col-12 {
-    width: 96%;
+@media only screen and (max-width: 1600px) {
+  .div-profile-button {
+    margin-top: 7.5%;
   }
 
   :host ::ng-deep .birthday-calendar .p-inputtext {
-    height: 37px;
-    width: 195px;
-    font-family: "Kanit", sans-serif;
-  }
-
-  .div-profile-button {
-    margin-left: 10%;
-  }
-
-  .div-profile-three {
-    .text {
-      width: 100%;
-      .col-2 {
-        width: 24%;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1600px) {
-  .div-background {
-    width: 100%;
-  }
-
-  .div-profile .text .row .col-2 {
-    width: 205px;
-  }
-
-  .div-profile .text .row .col-4 {
-    width: 33%;
-  }
-  
-  .div-profile .text .row .col-12 {
-    width: 99%;
-  }
-
-  .div-profile-button {
-    margin-left: 6%;
-  }
-
-  :host ::ng-deep .birthday-calendar .p-inputtext {
-    height: 37px;
-    width: 178px;
-    font-family: "Kanit", sans-serif;
-  }
-
-  .div-profile-three {
-    width: 75%;
-    height: 36.5rem;
-    .text {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      .col-2 {
-        width: 32%;
-      }
-    }
-  }
-
-  .pic-holder-doc {
-    display: flex;
-    position: relative;
-    border-radius: 5px;
-    width: 80%;
-    overflow: hidden;
-    border: 2px solid #f0f2f2;
-    margin-left: -10px;
-  }
-
-  .pic-holder-doc .pic-doc {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1366px) {
-  .div-background {
-    width: 100%;
-  }
-
-  .div-profile .text .row {
-    margin-left: -10px;
-    .col-2 {
-      width: 205px;
-    }
-  }
-
-  .div-profile .text .row .col-4 {
-    width: 45%;
-    margin-left: -90px;
-    input {
-      width: 385px;
-    }
-  }
-
-  .div-profile .text .row .col-12 {
-    width: 50%;
-    margin-left: -65px;
-    input {
-      width: 590px;
-    }
-  }
-
-  :host ::ng-deep .birthday-calendar .p-inputtext {
-    height: 37px;
-    width: 180px;
-    font-family: "Kanit", sans-serif;
-  }
-
-  .div-profile-button {
-    margin-left: -8%;
-  }
-
-  .div-profile-three {
-    width: 75%;
-    height: 36.5rem;
-    .text {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      .col-2 {
-        width: 32%;
-      }
-    }
-  }
-
-  .div-doc {
-    .doc-group {
-      display: flex;
-      margin-left: 5px;
-      flex-direction: column;
-    }
-    .pic-holder-doc {
-      width: 100%;
-    }
-    .pic-holder-doc .pic-doc {
-      width: 100%;
-    }
-  }
-
-  .galleria-img {
-    width: 100%;
-    display: block;
-  }
-
-  .div-profile-six-child {
-    border: 2px solid #f0f2f2;
-    height: 22.3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // width: 350px;
-    width: 330px;
-    // height: 380px;
-    background: #fff;
-    border-radius: 15px;
-    margin-top: 20px;
-    padding: 2rem;
-
-    .col-12 {
-      padding: 0.5rem;
-    }
-
-    label {
-      font-size: 15px;
-      color: #747d8c;
-    }
-  }
-
-  .div-profile-six {
-    width: 330px;
-    background: #fff;
-    border-radius: 15px;
-    margin-top: 20px;
-    padding: 2rem;
-
-    .col-12 {
-      padding: 0.5rem;
-    }
-
-    label {
-      font-size: 15px;
-      color: #747d8c;
-    }
-  }
-
-  .div-profile-five {
-    width: 100%;
-    background: #fff;
-    border-radius: 15px;
-    margin-top: 20px;
-    z-index: 1;
-    padding: 30px;
-    .col {
-      width: 350px;
-    }
-  }
-
-  .btn-child {
-    width: 6.8rem;
-    .btn {
-      width: fit-content;
-    }
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .div-background {
-    width: 100%;
-  }
-
-  .div-profile .text .row {
-    margin-left: -10px;
-    .col-2 {
-      width: 190px;
-    }
-  }
-
-  .div-profile .text .row .col-4 {
-    width: 45%;
-    margin-left: -80px;
-    input {
-      width: 358px;
-    }
-  }
-
-  .div-profile .text .row .col-12 {
-    width: 50%;
-    margin-left: -65px;
-    input {
-      width: 550px;
-    }
+    font-size: 16px;
+    width: fit-content;
   }
 
   :host ::ng-deep {
     .p-calendar input {
-      height: 37px;
-      width: 220px;
-      font-family: "Kanit", sans-serif;
+      width: 280px;
     }
-    .birthday-calendar .p-inputtext {
-      height: 37px;
-      width: 170px;
-      font-family: "Kanit", sans-serif;
-    }
-  }
-
-  .div-profile-button {
-    margin-left: -13%;
   }
 }
 
-@media screen and (max-width: 1240px) {
+@media only screen and (max-width: 1500px) {
+  .div-profile-button {
+    margin-top: 8%;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 260px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1366px) {
   .div-background {
+    padding-left: 3rem;
+    grid-gap: 30px;
+  }
+
+  .profile {
+    width: 200px;
+    height: 200px;
+  }
+
+  .header-name {
+    margin-top: 2%;
+  }
+
+  .header-name input.name {
+    font-size: 24px;
+  }
+
+  .div-profile-button {
+    margin-top: 9.5%;
+  }
+
+  .header-name .div-text {
+    font-size: 16px;
+  }
+
+  // div-profile
+  .div-profile label {
+    font-size: 14px;
+    color: #747d8c;
+  }
+
+  .div-profile input {
+    font-size: 15px;
+    height: 40px;
+  }
+
+  // div-profile-body-text
+  .div-profile-body-text label {
+    font-size: 14px;
+    color: #747d8c;
+  }
+
+  .div-profile-body-text input {
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .div-profile-body-text select {
+    font-size: 15px;
+    height: 40px;
+  }
+
+  // family
+  .family-body input {
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .family-body label {
+    font-size: 14px;
+    color: #747d8c;
+  }
+
+  // add-child
+  .add-child input {
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .add-child select {
+    font-size: 15px;
+    height: 40px;
+  }
+
+  .add-child label {
+    font-size: 14px;
+    color: #747d8c;
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    font-size: 15px;
+    width: 190px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      font-size: 15px;
+      width: 230px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .div-profile-button {
+    margin-top: 10%;
+  }
+
+  .div-child {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .div-background {
+    padding-left: 2.5rem;
+    grid-gap: 28px;
+  }
+
+  .profile {
+    width: 180px;
+    height: 180px;
+  }
+
+  .header-name {
+    margin-top: 3%;
+  }
+
+  .header-name input.name {
+    font-size: 20px;
+  }
+
+  .btn-group {
+    display: none;
+  }
+
+  .div-profile-button-menu {
+    display: block;
+  }
+
+  .div-btn {
+    margin-top: 3%;
+  }
+
+  .div-profile {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .div-calendar {
+    margin-top: 1%;
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 220px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 254px;
+    }
+  }
+
+  .div-profile-body-text {
+    width: 65%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .div-profile-doc {
+    width: 35%;
+  }
+
+  .div-btn {
+    .btn {
+      font-size: 14px;
+    }
+  }
+
+  .btn-group {
+    .btn {
+      font-size: 14px;
+    }
+  }
+
+  .div-profile-family {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 0rem;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 200px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 230px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .header-name {
+    margin-top: 3%;
+  }
+
+  .div-btn {
+    margin-top: 5%;
+    margin-left: 5%;
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 229px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 229px;
+    }
+  }
+
+  .div-btn {
+    margin-top: 10%;
+  }
+
+  .div-profile {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .div-profile-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .div-profile-body-text {
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .div-profile-doc {
     width: 100%;
   }
 
-  .div-profile .text .row {
-    margin-left: -10px;
-    .col-2 {
+  .pic-holder-doc {
+    width: 100%;
+    height: 500px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 200px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 200px;
+    }
+  }
+
+  .div-btn {
+    margin-top: 15%;
+  }
+
+  .header-name {
+    margin-top: 4%;
+  }
+
+  .div-child {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .div-background {
+    padding-left: 2rem;
+    grid-gap: 25px;
+  }
+
+  .profile {
+    width: 160px;
+    height: 160px;
+  }
+
+  .div-btn {
+    margin-top: 22%;
+  }
+
+  .header-name {
+    margin-top: 6%;
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 180px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
       width: 180px;
     }
   }
 
-  .div-profile .text .row .col-4 {
-    width: 45%;
-    margin-left: -65px;
-    input {
-      width: 340px;
-    }
+  .pic-holder-doc {
+    width: 100%;
+    height: 400px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .div-background {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    grid-gap: 20px;
   }
 
-  .div-profile .text .row .col-12 {
-    width: 50%;
-    margin-left: -65px;
-    input {
-      width: 515px;
-    }
+  .profile {
+    width: 140px;
+    height: 140px;
+  }
+
+  .div-btn {
+    margin-top: 24%;
+  }
+
+  .header-name {
+    margin-top: 6%;
+  }
+
+  .header-name input.name {
+    font-size: 18px;
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 150px;
   }
 
   :host ::ng-deep {
     .p-calendar input {
-      height: 37px;
-      width: 212px;
-      font-family: "Kanit", sans-serif;
+      width: 150px;
     }
-    .birthday-calendar .p-inputtext {
-      height: 37px;
-      width: 160px;
-      font-family: "Kanit", sans-serif;
+  }
+
+  .header-name .div-text {
+    font-size: 15px;
+  }
+
+  // div-profile
+  .div-profile label {
+    font-size: 13px;
+    color: #747d8c;
+  }
+
+  .div-profile input {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  // div-profile-body-text
+  .div-profile-body-text label {
+    font-size: 13px;
+    color: #747d8c;
+  }
+
+  .div-profile-body-text input {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .div-profile-body-text select {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  // family
+  .family-body input {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .family-body label {
+    font-size: 13px;
+    color: #747d8c;
+  }
+
+  // add-child
+  .add-child input {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .add-child select {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .add-child label {
+    font-size: 13px;
+    color: #747d8c;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .div-background {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    grid-gap: 18px;
+  }
+
+  .profile {
+    width: 120px;
+    height: 120px;
+  }
+
+  .div-btn {
+    margin-top: 26%;
+  }
+
+  .header-name {
+    margin-top: 8%;
+  }
+
+  .header-name input.name {
+    font-size: 17px;
+  }
+
+  .header-name .div-text {
+    font-size: 14px;
+  }
+
+  .div-profile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .div-profile-body-text {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 180px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 180px;
     }
+  }
+
+  .pic-holder-doc {
+    width: 100%;
+    height: 300px;
+  }
+
+  .div-btn {
+    width: 8.5rem;
+    height: 45px;
+    .btn {
+      font-size: 12px;
+    }
+  }
+
+  .btn-group {
+    .btn {
+      font-size: 12px;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .div-background {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    grid-gap: 18px;
+  }
+
+  .profile {
+    width: 120px;
+    height: 120px;
+  }
+
+  .div-btn {
+    margin-top: 26%;
+  }
+
+  .header-name {
+    margin-top: 8%;
+  }
+
+  .header-name input.name {
+    font-size: 17px;
+  }
+
+  .header-name .div-text {
+    font-size: 14px;
+  }
+
+  .div-profile {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .div-profile-body-text {
+    width: 100%;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 290px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 290px;
+    }
+  }
+
+  .pic-holder-doc {
+    width: 100%;
+    height: 300px;
+  }
+
+  .div-btn {
+    width: 8.5rem;
+    height: 45px;
+    .btn {
+      font-size: 12px;
+    }
+  }
+
+  .btn-group {
+    .btn {
+      font-size: 12px;
+    }
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 55px;
+  }
+
+  .div-profile-button-menu {
+    margin-left: 120px;
+  }
+
+  .div-btn {
+    margin-top: -15px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .displayModalStock {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .displayModalStock .col-6 {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .profile {
+    width: 110px;
+    height: 110px;
+  }
+
+  .header-name {
+    margin-bottom: 5%;
   }
 
   .div-profile-button {
-    margin-left: -16%;
+    margin-left: 10px;
   }
 
-  .triangle {
-    position: absolute;
-    z-index: 2;
-    width: 142px;
-    margin: -1.5% 0% 0% 12%;
-    border-top-right-radius: 15px;
-    border-left: 142px solid transparent;
-    border-top: 142px solid #fe6bba;
-  
-    .tx1 {
-      margin-left: -50px;
-      margin-top: -130px;
-      font-size: 16px;
-      display: block;
-      filter: flipv fliph;
-      -webkit-transform: rotate(-90deg);
-      -moz-transform: rotate(-90deg);
-      transform: rotate(45deg);
-      position: relative;
-      width: 20px;
-      white-space: nowrap;
-      color: var(--tx1-color);
-    }
-  
-    .tx2 {
-      margin-left: -90px;
-      margin-top: -20px;
-      font-size: 16px;
-      display: block;
-      filter: flipv fliph;
-      -webkit-transform: rotate(-90deg);
-      -moz-transform: rotate(-90deg);
-      transform: rotate(45deg);
-      position: relative;
-      width: 20px;
-      white-space: nowrap;
-      color: var(--tx1-color);
+  :host ::ng-deep .birthday-calendar .p-inputtext {
+    width: 235px;
+  }
+
+  :host ::ng-deep {
+    .p-calendar input {
+      width: 235px;
     }
   }
 
-  :host ::ng-deep .p-chip {
-     color: #495057 !important;
-     border-radius: 10px !important;
+  .pic-holder-doc {
+    width: 100%;
+    height: 200px;
   }
 
-  // .p-1 {
-  //   background-color: red !important;
-  //   color: #495057;
-  //   border-radius: 16px;
-  //   padding: 0rem !important;
-  // }
-  // .p-2 {
-  //   background-color: #dee2e6;
-  //   color: #495057;
-  //   border-radius: 16px;
-  //   padding: 0rem !important;
-  // }
-  // .p-3 {
-  //   background-color: #dee2e6;
-  //   color: #495057;
-  //   border-radius: 16px;
-  //   padding: 0rem !important;
-  // }
-  // .p-4 {
-  //   background-color: #dee2e6;
-  //   color: #495057;
-  //   border-radius: 16px;
-  //   padding: 0rem !important;
-  // }
-  // .p-5 {
-  //   background-color: #dee2e6;
-  //   color: #495057;
-  //   border-radius: 16px;
-  //   padding: 0rem !important;
-  // }
+  .div-profile-family {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+  }
 
-  
+  .family-body {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+  }
+
+  .div-child-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .div-child-body {
+    padding: 2rem;
+  }
+
+  .div-child-text {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .div-profile-button {
+    margin-left: -20px;
+  }
+
+  .div-profile {
+    padding: 7rem 2rem 3rem 2rem;
+  }
+
+  .div-profile-body-text {
+    padding: 2rem;
+  }
 }

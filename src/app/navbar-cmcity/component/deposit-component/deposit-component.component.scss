@@ -18,7 +18,7 @@
   margin-top: 20px;
 }
 
-a{
+a {
   margin-left: 10px;
   color: #fe6bba;
 }
@@ -35,4 +35,16 @@ a{
 .btn-login {
   color: #fff;
   background-color: #fe6bba;
+}
+
+@media only screen and (max-width: 450px) {
+  .doc {
+    padding: 1.5rem;
+  }
+  .div-doc-pdf {
+    margin: 0px;
+  }
+  img {
+    display: none;
+  }
 }

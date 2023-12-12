@@ -30,13 +30,12 @@ export class BeneficiaryComponentComponent implements OnInit {
     private messageService: MessageService,
     protected router: Router,
     protected route: ActivatedRoute,
-    private locationStrategy: LocationStrategy,
     private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
     this.userId = this.localStorageService.retrieve('empId');
-    this.getBeneficiaryByEmpId(this.userId);
+    // this.getBeneficiaryByEmpId(this.userId);
     this.searchBeneficiary(this.userId);
     this.checkColScreen();
   }
@@ -63,11 +62,11 @@ export class BeneficiaryComponentComponent implements OnInit {
     }
   }
 
-  getBeneficiaryByEmpId(id: any) {
-    this.service.getBeneficiaryByEmpId(id).subscribe(data => {
-      this.arrayBeneficiary = data;
-    });
-  }
+  // getBeneficiaryByEmpId(id: any) {
+  //   this.service.getBeneficiaryByEmpId(id).subscribe(data => {
+  //     this.arrayBeneficiary = data;
+  //   });
+  // }
 
   searchBeneficiary(id: any) {
     this.service.searchBeneficiary(id).subscribe(data => {

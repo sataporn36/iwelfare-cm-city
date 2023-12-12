@@ -1,62 +1,59 @@
-<div class="row">
-    <div class="col-3 card" style="margin-right: 0.6rem;">
-        <p-chip label="แผนภูมิวงกลม" styleClass="mr-2"></p-chip>
-        <div style="display: flex; justify-content: center; padding-top: 1rem;">
-            <div id="chart">
-                <apx-chart [series]="chartPie.series" [chart]="chartPie.chart" [labels]="chartPie.labels"
-                    [responsive]="chartPie.responsive" [colors]="chartPie.colors" [legend]="chartPie.legend"></apx-chart>
-            </div>
+<div class="container">
+    <div class="div-one">
+        <div class="div-chart-pie">
+            <p-chip label="แผนภูมิวงกลม" styleClass="mr-2"></p-chip>
+            <div id="chartPie"></div>
+        </div>
+        <div id="chart" class="div-chart-bar">
+            <p-chip label="แผนภูมิคอลัมน์" styleClass="mr-2"></p-chip>
+            <div id="chartBar"></div>
         </div>
     </div>
-    <div class="col-8 card">
-        <p-chip label="แผนภูมิคอลัมน์" styleClass="mr-2"></p-chip>
-        <div style="padding-top: 1rem;"></div>
-        <div id="chart">
-            <apx-chart [series]="chartBar.series" [chart]="chartBar.chart" [stroke]="chartBar.stroke"
-                [dataLabels]="chartBar.dataLabels" [plotOptions]="chartBar.plotOptions"
-                [xaxis]="chartBar.xaxis" [colors]="chartBar.colors" [fill]="chartBar.fill"
-                [yaxis]="chartBar.yaxis" [legend]="chartBar.legend"></apx-chart>
-        </div>
-    </div>
-    <div class="col-12 card">
+    <div class="div-two">
         <p-chip label="สิทธิ์การกู้เงินสามัญ" styleClass="mr-2"></p-chip>
-        <div class="col-2" style="margin: 15px; color: #60646b; line-height: 30px;">
-            <div style="display: flex; justify-content: space-between; width: 280px;">
+        <div class="div-two-harder">
+            <div class="div-two-text">
                 <label>สิทธิ์กู้เงินสามัญสูงสุด:</label>
-                <span style="color: black;">{{ sumLoan | number }} <span style="margin-left: 10px;">บาท</span></span>
+                <span>{{ sumLoan | number }}</span>
+                <span>บาท</span>
             </div>
-            <div style="display: flex; justify-content: space-between; width: 280px;">
+            <div class="div-two-text">
                 <label>กู้ได้ไม่เกิน:</label>
-                <span style="color: black;">{{ 900000 | number }} <span style="margin-left: 10px;">บาท</span></span>
+                <span>{{ 900000 | number }}</span>
+                <span>บาท</span>
             </div>
         </div>
 
-        <div class="col-10" style="margin-left: 15px; ">
-            <div class="guarantee" *ngIf="!loanValueNull">
-                <p style="color: #FE6BBA; background: #ffeef7; border-radius: 15px; width: 120px; text-align: center;">
-                    หักลบเงินกู้เดิม</p>
-                <div style="padding-left: 30px; padding-top: 5px;">
-                    <div style="display: flex; justify-content: space-between; color: #60646b; margin-top: -15px;">
-                        <label class="col-6">เลขที่สัญญา:</label>
-                        <span class="col-6" style="color: black; text-align: right;">-<span
-                                style="margin-left: 30px;">บาท</span></span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; color: #60646b;">
-                        <label class="col-6">หนี้เงินกู้คงเหลือ:</label>
-                        <span class="col-6" style="color: black; text-align: right;">{{ userInfo.loanBalance | number
-                            }}<span style="margin-left: 30px;">บาท</span></span>
+        <div class="div-two-body">
+            <div class="div-two-body-text" *ngIf="!loanValueNull">
+                <p>การหักลบเงินกู้เดิม</p>
+                <div class="div-two-text">
+                    <label>เลขที่สัญญา:</label>
+                    <div>
+                        <span>-</span>
+                        <span>บาท</span>
                     </div>
                 </div>
-                <div style="display: flex; justify-content: space-between; color: #60646b; padding-left: 10px;">
-                    <label class="col-6" style="color: #000;">ประมาณการรับเงินสุทธิ:</label>
-                    <span class="col-6" style="color: #FE6BBA; text-align: right;">{{totalLoan | number}}<span
-                            style="margin-left: 30px; color: #000;">บาท</span></span>
+                <div class="div-two-text">
+                    <label>หนี้เงินกู้คงเหลือ:</label>
+                    <div>
+                        <span>{{ userInfo.loanBalance | number }}</span>
+                        <span>บาท</span>
+                    </div>
+                </div>
+                <div class="div-two-text">
+                    <label>ประมาณการรับเงินสุทธิ:</label>
+                    <div>
+                        <span style="color: #FE6BBA;">{{totalLoan | number}}</span>
+                        <span>บาท</span>
+                    </div>
                 </div>
             </div>
 
-            <div style="padding-top: 2rem;"></div>
-            <p style="color: #c0392b;">* หมายเหตุ สิทธิ์การกู้เงินสามัญ เป็นเพียงการวงเงินประมาณการเท่านั้น
-                แต่สิทธิ์กู้เงินที่ได้จริง จะต้องคิด จากเงินเดือนคงเหลือ หากมีข้อสงสัยกรุณาติดต่อกองทุนสวัสดิการฯ</p>
+            <p style="color: #c0392b; margin-top: 20px;">* หมายเหตุ
+                สิทธิ์การกู้เงินสามัญเป็นเพียงการวงเงินประมาณการเท่านั้น
+                แต่สิทธิ์กู้เงินที่ได้จริงจะต้องคิดจากเงินเดือนคงเหลือ หากมีข้อสงสัยกรุณาติดต่อกองทุนสวัสดิการฯ
+            </p>
         </div>
     </div>
 </div>

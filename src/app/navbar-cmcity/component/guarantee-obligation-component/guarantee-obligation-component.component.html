@@ -1,85 +1,100 @@
-<div [formGroup]="formModel">
-    <div class="card">
-        <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
-        <p style="color: #60646b; margin-top: 20px; margin-left: 10px;">ท่านสามารถเป็นผู้ค้ำประกันให้บุคคลอื่นได้สูงสุด
-            2 คน และตอนนี้ท่านเป็นผู้ค้ำประกันเงินกู้ให้กับ</p>
-        <div style="padding-top: 1rem;"></div>
-        <div class="col-5" style="display: flex; justify-content: space-between; margin-left: 10px;">
-            <div *ngIf="guaranteeIf">
-                <div class="guarantee" style="text-align: center; padding: 11%;">
-                    <p>ยังไม่มีภาระค้ำประกัน</p>
+<div class="card">
+    <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
+    <p style="margin-bottom: 30px;">ท่านสามารถเป็นผู้ค้ำประกันให้บุคคลอื่นได้สูงสุด 2 คน
+        และตอนนี้ท่านเป็นผู้ค้ำประกันเงินกู้ให้กับ</p>
+    <div class="div-body">
+        <div *ngIf="guaranteeIf">
+            <div class="guarantee" style="display: flex; justify-content: center; align-items: center;">
+                <p>ยังไม่มีภาระค้ำประกัน</p>
+            </div>
+        </div>
+        <div *ngIf="guarantee?.codeGuaranteeOne != null">
+            <div class="guarantee">
+                <div>
+                    <img src="{{ checkImgProfile(guarantee?.genderOne)}}" />
+                </div>
+                <div class="info-text">
+                    <div class="text">
+                        <label class="name">ชื่อ-สกุล :</label>
+                        <span>{{guarantee?.fullNameGuaranteeOne || ''}}</span>
+                    </div>
+                    <div class="text">
+                        <label class="name">เลขสมาชิก :</label>
+                        <span>{{guarantee?.codeGuaranteeOne || ''}}</span>
+                    </div>
                 </div>
             </div>
-            <div *ngIf="guarantee?.codeGuaranteeOne != null">
-                <div class="guarantee" style="display: flex; justify-content: space-between;">
-                    <div>
-                        <img src="{{ checkImgProfile(guarantee?.genderOne)}}" />
-                    </div>
-                    <div style="margin-right: 10px; margin-top: 20px; width: 200px;">
-                        <label>{{ guarantee?.fullNameGuaranteeOne || '' }}</label><br>
-                        <label style="color: #60646b;">เลขสมาชิก: </label><span> {{ guarantee?.codeGuaranteeOne || ''
-                            }}</span>
-                    </div>
+        </div>
+        <div *ngIf="guarantee?.codeGuaranteeTwo != null">
+            <div class="guarantee">
+                <div>
+                    <img src="{{ checkImgProfile(guarantee?.genderTwo)}}" />
                 </div>
-            </div>
-            <div style="padding-right: 0.5rem;"></div>
-            <div *ngIf="guarantee?.codeGuaranteeTwo != null">
-                <div class="guarantee" style="display: flex; justify-content: space-between;">
-                    <div>
-                        <img src="{{ checkImgProfile(guarantee?.genderTwo)}}" />
+                <div class="info-text">
+                    <div class="text">
+                        <label class="name">ชื่อ-สกุล :</label>
+                        <span>{{guarantee?.fullNameGuaranteeTwo || ''}}</span>
                     </div>
-                    <div style="margin-right: 10px; margin-top: 20px; width: 200px;">
-                        <label>{{ guarantee?.fullNameGuaranteeTwo || ''}}</label>
-                        <label style="color: #60646b;">เลขสมาชิก: </label><span> {{ guarantee?.codeGuaranteeTwo ||
-                            ''}}</span>
+                    <div class="text">
+                        <label class="name">เลขสมาชิก :</label>
+                        <span>{{guarantee?.codeGuaranteeTwo || ''}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card">
-        <p-chip label="ผู้ค้ำประกันเงินกู้ของท่าน" styleClass="mr-2"></p-chip>
-        <div class="col-3" style="margin: 15px; color: #60646b; line-height: 30px;">
-            <div>
-                <label class="col-5">เลขที่สัญญา :</label>
-                <span class="col-7" style="color: black;">-</span>
-            </div>
-            <div>
-                <label class="col-5">วงเงินกู้ :</label>
-                <span class="col-7" style="color: black;">{{userInfo.loanValue | number}}</span>
+</div>
+<div class="card">
+    <p-chip label="ผู้ค้ำประกันเงินกู้ของท่าน" styleClass="mr-2"></p-chip>
+    <div class="div-header">
+        <div class="div-text-header">
+            <label>เลขที่สัญญา :</label>
+            <span>-</span>
+        </div>
+        <div class="div-text-header">
+            <label>วงเงินกู้ :</label>
+            <span>{{userInfo.loanValue | number}}</span>
+        </div>
+    </div>
+
+    <div class="div-body">
+        <div *ngIf="guarantorIf">
+            <div class="guarantee"  style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+                <p>ยังไม่มีผู้ค้ำประกันเงินกู้</p>
             </div>
         </div>
-
-        <div class="col-5" style="display: flex; justify-content: space-between; margin-left: 10px;">
-            <div *ngIf="guarantorIf">
-                <div class="guarantee" style="text-align: center; padding: 11%;">
-                    <p>ยังไม่มีผู้ค้ำประกันเงินกู้</p>
+        <div *ngIf="guarantor?.codeGuarantorOne != null">
+            <p class="guarantee-header">ผู้ค้ำคนที่หนึ่ง</p>
+            <div class="guarantee">
+                <div>
+                    <img src="{{ checkImgProfile(guarantor?.genderOne)}}" />
                 </div>
-            </div>
-            <div *ngIf="guarantor?.codeGuarantorOne != null">
-                <p style="color: #60646b; font-size: 14px; margin-top: 5px;">ผู้ค้ำคนที่หนึ่ง</p>
-                <div class="guarantee" style="display: flex; justify-content: space-between;">
-                    <div>
-                        <img src="{{ checkImgProfile(guarantor?.genderOne)}}" />
+                <div class="info-text">
+                    <div class="text">
+                        <label class="name">ชื่อ-สกุล :</label>
+                        <span>{{guarantor?.fullNameGuarantorOne || ''}}</span>
                     </div>
-                    <div style="margin-right: 10px; margin-top: 20px; width: 200px;">
-                        <label>{{ guarantor?.fullNameGuarantorOne || ''}}</label>
-                        <label style="color: #60646b;">เลขสมาชิก: </label><span> {{ guarantor?.codeGuarantorOne ||
-                            ''}}</span>
+                    <div class="text">
+                        <label class="name">เลขสมาชิก :</label>
+                        <span>{{guarantor?.codeGuarantorOne || ''}}</span>
                     </div>
                 </div>
             </div>
-            <div style="padding-right: 0.5rem;"></div>
-            <div *ngIf="guarantor?.codeGuarantorTwo != null">
-                <p style="color: #60646b; font-size: 14px; margin-top: 5px;">ผู้ค้ำคนที่สอง</p>
-                <div class="guarantee" style="display: flex; justify-content: space-between;">
-                    <div>
-                        <img src="{{ checkImgProfile(guarantor?.genderTwo)}}" />
+        </div>
+        <div *ngIf="guarantor?.codeGuarantorTwo != null">
+            <p class="guarantee-header">ผู้ค้ำคนที่สอง</p>
+            <div class="guarantee">
+                <div>
+                    <img src="{{ checkImgProfile(guarantor?.genderTwo)}}" />
+                </div>
+                <div class="info-text">
+                    <div class="text">
+                        <label class="name">ชื่อ-สกุล :</label>
+                        <span>{{guarantor?.fullNameGuarantorTwo || ''}}</span>
                     </div>
-                    <div style="margin-right: 10px; margin-top: 20px;  width: 200px;">
-                        <label>{{ guarantor?.fullNameGuarantorTwo || ''}}</label>
-                        <label style="color: #60646b;">เลขสมาชิก: </label><span> {{ guarantor?.codeGuarantorTwo ||
-                            ''}}</span>
+                    <div class="text">
+                        <label class="name">เลขสมาชิก :</label>
+                        <span>{{guarantor?.codeGuarantorTwo || ''}}</span>
                     </div>
                 </div>
             </div>
