@@ -276,19 +276,41 @@ export class ShareComponentComponent implements OnInit {
   // }
 
   getStock(id: any): void {
-    this.service.getStock(id).subscribe(data => {
-      this.stockInfo = data;
-      this.loading = false;
+    this.service.getStock(id).subscribe({
+      next: (data) => {
+        if(data){
+          this.stockInfo = data;
+          this.loading = false;
+        }else{
+          this.dataStockDetail = [];
+          this.loading = false;
+        }
+      },
+      error: (error) => {
+        this.dataStockDetail = [];
+        this.loading = false;
+      },
     });
   }
 
   searchStockDetail(id: any): void {
-    this.service.searchStockDetail(id, "desc").subscribe(data => {
-      // const key = 'installment';
-      // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      // this.dataStockDetail = arrayUniqueByKey.sort((a, b) => a.installment - b.installment);
-      this.dataStockDetail = data;
-      // this.stockAccumulate = data.stock.stockAccumulate
+    this.service.searchStockDetail(id, "desc").subscribe({
+      next: (data) => {
+        // const key = 'installment';
+        // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+        // this.dataStockDetail = arrayUniqueByKey.sort((a, b) => a.installment - b.installment);
+        if(data){
+          this.dataStockDetail = data;
+        }else{
+          this.dataStockDetail = [];
+          this.loading = false;
+        }
+        // this.stockAccumulate = data.stock.stockAccumulate
+      },
+      error: (error) => {
+        this.dataStockDetail = [];
+        this.loading = false;
+      },
     });
   }
 

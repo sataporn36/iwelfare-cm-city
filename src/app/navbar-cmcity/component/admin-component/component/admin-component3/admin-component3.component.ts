@@ -175,6 +175,7 @@ export class AdminComponent3Component implements OnInit {
                   const data = this.formModelLoanNew.getRawValue();
                   if(value === data.employeeCode){
                     this.guarantorUniqueFlag1 = 'C';
+                    this.formModelLoanNew.get('guarantorOne').setValue(null);
                   }else if(value !== data.guarantorTwo){
                     this.guarantorUniqueFlag1 = 'Y';
                     const playload1 = {
@@ -223,6 +224,7 @@ export class AdminComponent3Component implements OnInit {
                       const data = this.formModelLoanNew.getRawValue();
                       if(value === data.employeeCode){
                         this.guarantorUniqueFlag2 = 'C';
+                        this.formModelLoanNew.get('guarantorTwo').setValue(null);
                       }else if(value !== data.guarantorOne){
                         this.guarantorUniqueFlag2 = 'Y';
                         const playload2 = {
@@ -1318,8 +1320,6 @@ export class AdminComponent3Component implements OnInit {
   guarantorTwoValue: any;
   isInputDisabled: boolean = true
   async editLoanEmp(data: any){
-    console.log(data,'<---- editLoanEmp');
-    
      this.modeLoan = 'EDIT';
      this.initMainFormLoanNew();
      this.dataLanTimeFlag = false;
@@ -1727,17 +1727,22 @@ export class AdminComponent3Component implements OnInit {
 
   onDeleteLoanEmp(){
     const data = this.formModelLoanNew.getRawValue();
-    console.log(data,'<--- onDeleteLoanEmp');
     this.confirmationService.confirm({
       message: 'ต้องการยกเลิกสัญญา <br/> คุณ ' + data.fullName,
       header: 'ยกเลิกสัญญา',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         if(data.loanBalance <= 0){
-          this.service.deleteLoanNew(data).subscribe((r) =>{
-            this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ' });
-            this.displayModalLoanNew = false;
-            this.ngOnInit();  
+          this.service.deleteLoanNew(data).subscribe({
+            next: (res) => {
+              this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ' ,life: 5000});
+              this.displayModalLoanNew = false;
+              this.ngOnInit();  
+            },
+            error: error => { 
+              this.messageService.add({ severity: 'error', detail: 'ลบข้อมูลไม่สำเร็จ' , life: 5000});
+            },
+            
           });
         }else{
           this.messageError = 'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' + this.formattedNumber2(data.loanBalance) + ' บาท ';

@@ -690,7 +690,8 @@ export class AdminComponent1Component {
 
   searchEmployee(): void {
     this.service.searchEmployee().subscribe(data => {
-      this.listEmp = data;
+      const value = data;
+      this.listEmp = value.filter(item => item.employeeCode !== '00000');
       this.loading = false;
     });
   }
