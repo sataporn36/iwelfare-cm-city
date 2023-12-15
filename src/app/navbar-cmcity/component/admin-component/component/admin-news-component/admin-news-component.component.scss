@@ -5,155 +5,134 @@
   font-family: "Kanit", sans-serif;
 }
 
+.div-news {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1rem;
+  margin-top: 1rem;
+}
+
 .add-news {
   background: #fff;
-  margin-top: 0.5rem;
   border-radius: 15px;
   padding: 2rem;
-
-  .div-text {
-    padding: 1rem;
-    border-radius: 15px;
-    border: 2px solid #f0f2f2;
-    margin-top: 15px;
-    height: fit-content;
-
-    .row {
-      padding-top: 1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-  }
-
-  .div-img {
-    border: 2px solid #f0f2f2;
-    border-radius: 15px;
-    padding: 1rem;
-    height: fit-content;
-    margin-top: 1rem;
-
-    .img-css {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .profile-pic-wrapper {
-    width: 220px;
-    height: 220px;
-    border-radius: 15px;
-    z-index: 0;
-    background: #fff;
-  }
-
-  .pic-holder {
-    text-align: center;
-    position: relative;
-    border-radius: 15px;
-    width: 220px;
-    height: 220px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 4px solid #f0f2f2;
-  }
-
-  .pic-holder .pic {
-    height: 100%;
-    width: 100%;
-  }
-
-  .pic-holder .upload-file-block,
-  .pic-holder .upload-loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(90, 92, 105, 0.7);
-    color: #f8f9fc;
-    font-size: 14px;
-    opacity: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-
-  .pic-holder .upload-file-block {
-    cursor: pointer;
-  }
-
-  .pic-holder:hover .upload-file-block,
-  .uploadProfileInput:focus~.upload-file-block {
-    opacity: 1;
-  }
-
-  .pic-holder.uploadInProgress .upload-file-block {
-    display: none;
-  }
-
-  .pic-holder.uploadInProgress .upload-loader {
-    opacity: 1;
-  }
-
-  .snackbar {
-    visibility: hidden;
-    min-width: 220px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 14px;
-    transform: translateX(-50%);
-  }
-
-  .snackbar.show {
-    visibility: visible;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  }
 }
 
-.edit-news {
+.div-news-img {
+  display: flex;
+  grid-gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.div-img {
+  border: 2px solid #f0f2f2;
+  border-radius: 15px;
+  padding: 1.5rem;
+  height: fit-content;
+}
+
+.profile-pic-wrapper {
+  width: 230px;
+  height: 230px;
+  border-radius: 15px;
   background: #fff;
-  margin-top: 0.5rem;
-  border-radius: 15px;
-  padding: 2rem;
-  width: 50%;
-
-  .div-text {
-    padding: 1rem;
-  }
+  margin: 1.5rem;
 }
 
-.card {
-  border: 5px solid white;
+.pic-holder {
+  text-align: center;
+  position: relative;
   border-radius: 15px;
   width: 100%;
-  background-color: white;
-  padding: 1rem;
-  margin-top: 10px;
+  height: 100%;
+  overflow: hidden;
+  border: 4px solid #f0f2f2;
 }
 
-::ng-deep .p-picklist-buttons>button:nth-child(2),
-::ng-deep .p-picklist-buttons>button:nth-child(4) {
+.pic-holder .pic {
+  height: 100%;
+  width: 100%;
+}
+
+.pic-holder .upload-file-block,
+.pic-holder .upload-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(90, 92, 105, 0.7);
+  color: #f8f9fc;
+  font-size: 14px;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+
+.pic-holder:hover .upload-file-block,
+.uploadProfileInput:focus ~ .upload-file-block {
+  opacity: 1;
+}
+
+.pic-holder input.uploadProfileInput:focus {
   display: none;
 }
 
-:host ::ng-deep .p-picklist .p-picklist-list .p-picklist-item {
-  padding: 0.5rem 0.5rem !important;
+.div-text {
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 2px solid #f0f2f2;
+  height: fit-content;
+  width: 100%;
+  display: grid;
+  grid-gap: 1rem;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+.text-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-body {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.text-body label {
+  font-size: 15px;
+}
+
+.text-body input {
+  border: 1px solid var(--bd3-color);
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.text-body textarea {
+  border: 1px solid var(--bd3-color);
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.card {
+  border: 0px solid white;
+  background-color: white;
+  border-radius: 15px;
+  width: 100%;
+  padding: 2rem;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   background: none;
   text-align: center;
   font-weight: normal;
@@ -161,8 +140,9 @@
   font-size: 16px;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   text-align: center;
+  font-size: 16px;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-header {
@@ -211,12 +191,21 @@
   }
 }
 
+.topic {
+  font-size: 16px;
+  max-width: 400px;
+}
+
+.description {
+  font-size: 16px;
+  max-width: 400px;
+}
+
 .btn {
   width: 60px;
   height: 34px;
   font-weight: 500;
   font-size: 14px;
-  margin-top: -5px;
   border-radius: 18px;
 }
 
@@ -225,224 +214,128 @@
   background-color: #fe6bba;
 }
 
-.div-img {
-  border: 2px solid #f0f2f2;
-  border-radius: 15px;
-  padding: 1.5rem;
-  height: 350px;
-  margin-bottom: 0.5rem;
-
-  .img-css {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.profile-pic-wrapper {
-  width: 250px;
-  height: 250px;
-  border-radius: 15px;
-  z-index: 0;
-  background: #f8f2f2;
-}
-
-.pic-holder {
-  text-align: center;
-  position: relative;
-  border-radius: 15px;
-  width: 250px;
-  height: 250px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 8px solid #f0f2f2;
-}
-
-.pic-holder .pic {
-  height: 100%;
-  width: 100%;
-}
-
-.pic-holder .upload-file-block,
-.pic-holder .upload-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(90, 92, 105, 0.7);
-  color: #f8f9fc;
-  font-size: 14px;
-  // font-weight: 600;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.pic-holder .upload-file-block {
-  cursor: pointer;
-}
-
-.pic-holder:hover .upload-file-block,
-.uploadProfileInput:focus~.upload-file-block {
-  opacity: 1;
-}
-
-.pic-holder.uploadInProgress .upload-file-block {
-  display: none;
-}
-
-.pic-holder.uploadInProgress .upload-loader {
-  opacity: 1;
-}
-
-.snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 14px;
-  transform: translateX(-50%);
-}
-
-.snackbar.show {
-  visibility: visible;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-.div-text {
-  border: 2px solid #f0f2f2;
-  border-radius: 15px;
-  padding: 1.5rem;
-  height: fit-content;
-
-  .div-info-bt {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .btn {
-      width: max-content;
-      height: 34px;
-      font-weight: 500;
-      font-size: 15px;
-      border-radius: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .btn-edit {
-      color: #fe6bba;
-      border-color: #fe6bba;
-      background-color: #ffffff81;
-    }
-  }
-
-  .div-info {
-    padding-top: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-bottom: 0.5rem;
-
-    .row {
-      label {
-        color: #747d8c;
-      }
-    }
-  }
-}
-
-.div-detail-news {
-  display: flex;
-}
-
 .btn-regis {
   color: #fe6bba;
   border-color: #fe6bba;
-  margin-left: 10px;
 }
 
-.news-button {
-  .btn {
-    width: 40px;
-    height: 40px;
-    font-weight: 500;
-    font-size: 14px;
-    margin-top: 0px;
-    border-radius: 50%;
-    color: #fe6bba;
-    border-color: #fe6bba;
-  }
-
-  .btn-login {
-    color: #fff;
-    background-color: #fe6bba;
-  }
-
-  .btn-icon {
-    color: #fe6bba;
-    border-color: #fe6bba;
-    margin-left: 10px;
-  }
-
-  i {
-    margin-left: -1px;
-    margin-top: 5px;
-  }
+// edit
+.div-detail-news {
+  display: flex;
+  grid-gap: 1rem;
+  width: 100%;
 }
 
-.news-description {
-  width: 500px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: inherit;
-}
+.edit-news {
+  background: #fff;
+  margin-top: 0.5rem;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 50%;
 
-// :host ::ng-deep .dialog-width {
-//   width: 80vw;
-// }
-
-@media screen and (max-width: 1680px) {
-  .news-description {
-    width: 500px;
-  }
-}
-
-@media screen and (max-width: 1600px) {
-  .news-description {
-    width: 450px;
+  .div-text {
+    padding: 1rem;
   }
 }
 
 @media screen and (max-width: 1366px) {
-  .news-description {
-    width: 400px;
+  .text-body label {
+    font-size: 14px;
+  }
+
+  .text-body input {
+    font-size: 15px;
+  }
+
+  .text-body textarea {
+    font-size: 15px;
+  }
+
+  .topic {
+    font-size: 15px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    font-size: 15px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    font-size: 15px;
   }
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1000px) {
   .div-news-img {
     flex-direction: column;
   }
-  .add-news .pic-holder {
+
+  .div-detail-news {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .div-news-img {
+    margin-top: 1rem;
+  }
+
+  .topic {
+    max-width: 200px;
+  }
+
+  .description {
+    max-width: 200px;
+  }
+
+  :host ::ng-deep p-paginator div {
+    font-size: 14px;
+  }
+
+  :host ::ng-deep p-paginator div span button {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .flex {
+    flex-direction: column;
+    grid-gap: 10px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .profile-pic-wrapper {
+    width: 200px;
+    height: 200px;
+    margin: 1rem;
+  }
+
+  .topic {
+    max-width: 100px;
+  }
+
+  .description {
+    max-width: 100px;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .add-news {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .profile-pic-wrapper {
     width: 180px;
     height: 180px;
-  }
-  .div-img{
-    width: 100%;
   }
 }
