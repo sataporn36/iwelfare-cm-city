@@ -1502,7 +1502,6 @@ export class ProfileComponentComponent implements OnInit {
     this.service.uploadImage(formData).subscribe(
       () => {
         this.ngOnInit();
-        this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
       },
       (error) => {
@@ -1521,8 +1520,8 @@ export class ProfileComponentComponent implements OnInit {
     this.service.uploadImageAddress(formData).subscribe(
       () => {
         this.ngOnInit();
-        this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ' });
+        window.location.reload();
       },
       (error) => {
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
@@ -1540,8 +1539,8 @@ export class ProfileComponentComponent implements OnInit {
     this.service.uploadImageIdCard(formData).subscribe(
       () => {
         this.ngOnInit();
-        this.ngOnInit();
         this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ' });
+        window.location.reload();
       },
       (error) => {
         this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });

@@ -22,14 +22,13 @@
   padding-left: 5px;
   padding-right: 5px;
   background-color: #dee2e6;
-  width: 18rem;
   height: 45px;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+  grid-gap: 5px;
 
   .btn {
-    width: 130px;
     height: 34px;
     font-weight: 500;
     font-size: 15px;
@@ -69,6 +68,7 @@
   border-color: #fe6bba;
   margin-left: 40px;
 }
+
 :host ::ng-deep p-celleditor p-inputNumber span input {
   width: 120px;
 }
@@ -83,7 +83,7 @@
   }
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
   background: none;
   text-align: center;
   font-weight: normal;
@@ -91,8 +91,11 @@
   font-size: 16px;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
   text-align: center;
+  border: 1px solid #dee2e6;
+  border-width: 0 0 1px 0;
+  padding: 0.5rem 0.5rem;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-header {
@@ -116,7 +119,95 @@
 
 :host ::ng-deep .p-dropdown .p-dropdown-trigger {
   width: 2.5rem;
+
   span {
     margin-top: 3px;
+  }
+}
+
+.div-button-btn {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.div-button-edit {
+  display: flex;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-name {
+  margin-top: 10px;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.card-menu-doc {
+  display: none;
+}
+
+a.dropdown-toggle {
+  text-decoration: none;
+  font-size: 20px;
+  color: #222121;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+@media only screen and (max-width: 1366px) {
+  :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    font-size: 15px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    font-size: 14px;
+  }
+
+  .btn-group {
+    .btn {
+      font-size: 14px;
+    }
+  }
+
+  .flex-name {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .btn-group {
+    display: none;
+  }
+
+  .card-menu-doc {
+    display: block;
+  }
+
+  .div-button-btn {
+    justify-content: flex-end;
+    margin-top: -50px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .flex {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+  }
+
+  :host ::ng-deep p-paginator div {
+    font-size: 14px;
+  }
+
+  :host ::ng-deep p-paginator div span button {
+    font-size: 14px;
   }
 }

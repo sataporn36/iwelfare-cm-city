@@ -36,7 +36,7 @@
   margin-top: 10px;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
   background: none;
   text-align: center;
   font-weight: normal;
@@ -44,7 +44,7 @@
   font-size: 16px;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
   text-align: center;
 }
 
@@ -80,3 +80,119 @@
   border-color: #fe6bba;
   margin-left: 40px;
 }
+
+// .div-button-btn {
+//   padding-top: 1rem;
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-name {
+  margin-top: 10px;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.card-menu-doc {
+  display: none;
+}
+
+a.dropdown-toggle {
+  text-decoration: none;
+  font-size: 20px;
+  color: #222121;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.test-child {
+  display: grid;
+  justify-content: center;
+}
+
+.test-child {
+  label {
+    color: #747d8c;
+    font-size: 14px;
+  }
+
+  input {
+    width: 250px;
+    height: 40px;
+    font-size: 16px;
+    border: 1px solid var(--bd3-color);
+    border-radius: 8px;
+  }
+}
+
+:host ::ng-deep .p-inputnumber { 
+  width: 250px;
+  height: 40px;
+  font-size: 16px;
+  // border: 1px solid var(--bd3-color);
+  // border-radius: 8px;
+} 
+
+@media only screen and (max-width: 1366px) {
+  :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    font-size: 15px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    font-size: 14px;
+  }
+
+  .btn-group {
+    .btn {
+      font-size: 14px;
+    }
+  }
+
+  .flex-name {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .btn-group {
+    display: none;
+  }
+
+  .card-menu-doc {
+    display: block;
+  }
+
+  .div-button-btn {
+    justify-content: flex-end;
+    margin-top: -50px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .flex {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+  }
+
+  :host ::ng-deep p-paginator div {
+    font-size: 14px;
+  }
+
+  :host ::ng-deep p-paginator div span button {
+    font-size: 14px;
+  }
+}
+
+// @media only screen and (max-width: 600px) {
+//   .card-table {
+//     padding: 1rem;
+//   }
+// }

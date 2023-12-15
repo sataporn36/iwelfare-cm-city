@@ -17,6 +17,7 @@
     border: 2px solid #f0f2f2;
     margin-top: 15px;
     height: fit-content;
+
     .row {
       padding-top: 1rem;
       padding-left: 1rem;
@@ -30,6 +31,7 @@
     padding: 1rem;
     height: fit-content;
     margin-top: 1rem;
+
     .img-css {
       margin-top: 1rem;
       display: flex;
@@ -87,7 +89,7 @@
   }
 
   .pic-holder:hover .upload-file-block,
-  .uploadProfileInput:focus ~ .upload-file-block {
+  .uploadProfileInput:focus~.upload-file-block {
     opacity: 1;
   }
 
@@ -142,8 +144,8 @@
   margin-top: 10px;
 }
 
-::ng-deep .p-picklist-buttons > button:nth-child(2),
-::ng-deep .p-picklist-buttons > button:nth-child(4) {
+::ng-deep .p-picklist-buttons>button:nth-child(2),
+::ng-deep .p-picklist-buttons>button:nth-child(4) {
   display: none;
 }
 
@@ -151,7 +153,7 @@
   padding: 0.5rem 0.5rem !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
   background: none;
   text-align: center;
   font-weight: normal;
@@ -159,7 +161,7 @@
   font-size: 16px;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
   text-align: center;
 }
 
@@ -180,6 +182,7 @@
 
 :host ::ng-deep .p-dropdown .p-dropdown-trigger {
   width: 2.5rem;
+
   span {
     margin-top: 3px;
   }
@@ -228,6 +231,7 @@
   padding: 1.5rem;
   height: 350px;
   margin-bottom: 0.5rem;
+
   .img-css {
     margin-top: 1rem;
     display: flex;
@@ -285,7 +289,7 @@
 }
 
 .pic-holder:hover .upload-file-block,
-.uploadProfileInput:focus ~ .upload-file-block {
+.uploadProfileInput:focus~.upload-file-block {
   opacity: 1;
 }
 
@@ -323,10 +327,12 @@
   border-radius: 15px;
   padding: 1.5rem;
   height: fit-content;
+
   .div-info-bt {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .btn {
       width: max-content;
       height: 34px;
@@ -337,17 +343,20 @@
       justify-content: center;
       align-items: center;
     }
+
     .btn-edit {
       color: #fe6bba;
       border-color: #fe6bba;
       background-color: #ffffff81;
     }
   }
+
   .div-info {
     padding-top: 1.5rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     padding-bottom: 0.5rem;
+
     .row {
       label {
         color: #747d8c;
@@ -389,13 +398,13 @@
     margin-left: 10px;
   }
 
-  i{
+  i {
     margin-left: -1px;
     margin-top: 5px;
   }
 }
 
-.news-description{
+.news-description {
   width: 500px;
   white-space: nowrap;
   overflow: hidden;
@@ -408,19 +417,32 @@
 // }
 
 @media screen and (max-width: 1680px) {
-  .news-description{
+  .news-description {
     width: 500px;
   }
 }
 
 @media screen and (max-width: 1600px) {
-  .news-description{
+  .news-description {
     width: 450px;
   }
 }
 
 @media screen and (max-width: 1366px) {
-  .news-description{
+  .news-description {
     width: 400px;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .div-news-img {
+    flex-direction: column;
+  }
+  .add-news .pic-holder {
+    width: 180px;
+    height: 180px;
+  }
+  .div-img{
+    width: 100%;
   }
 }

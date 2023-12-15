@@ -1,6 +1,6 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
@@ -14,6 +14,7 @@ import { Subject, debounceTime } from 'rxjs';
   styleUrls: ['./admin-component4.component.scss']
 })
 export class AdminComponent4Component implements OnInit {
+  menuItems!: MenuItem[];
   loading!: boolean;
   loadingAll!: boolean;
   periodMonthDescOption: any = [];
@@ -55,6 +56,26 @@ export class AdminComponent4Component implements OnInit {
       }
     });
 
+    this.menuItems = [
+      {
+        label: 'กำหนดอัตราปันผลหุ้น',
+        command: () => {
+          this.setDividend();
+        }
+      },
+      {
+        label: 'รายงาน(ประกาศรวม)',
+        command: () => {
+          this.chackReportMergeAnnouncement('export');
+        }
+      },
+      {
+        label: 'รายงาน(ประกาศแยก)',
+        command: () => {
+          this.chackReportSplitAnnouncement('export');
+        }
+      }
+    ];
   }
 
   checkSetDividend(res: any){

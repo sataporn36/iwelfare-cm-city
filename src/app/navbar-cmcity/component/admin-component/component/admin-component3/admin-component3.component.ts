@@ -4,7 +4,7 @@ import { MainService } from 'src/app/service/main.service';
 import 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js'
 import 'src/assets/fonts/Sarabun-Bold-bold.js'
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
@@ -20,6 +20,7 @@ import { log } from 'console';
   styleUrls: ['./admin-component3.component.scss']
 })
 export class AdminComponent3Component implements OnInit {
+  menuItems!: MenuItem[];
   customers!: Customer[];
   info: any[] = [];
   loading!: boolean;
@@ -270,6 +271,32 @@ export class AdminComponent3Component implements OnInit {
       
     });
 
+    this.menuItems = [
+      {
+        label: 'เรียกเก็บชำระเงินกู้รายเดือน',
+        command: () => {
+          this.updateLoantoMonth();
+        }
+      },
+      {
+        label: 'สร้างสัญญาเงินกู้ใหม่',
+        command: () => {
+          this.onShowLoanAddNew();
+        }
+      },
+      {
+        label: 'ประวัติเงินกู้ของสมาชิกทั้งหมด',
+        command: () => {
+          this.searchDocumentV1All('export');
+        }
+      },
+      {
+        label: 'ดาวน์โหลด',
+        command: () => {
+          this.searchDocumentV1All('download');
+        }
+      }
+    ];
   }
 
   setInterestPercentOnLoan(){
@@ -1313,6 +1340,7 @@ export class AdminComponent3Component implements OnInit {
     // this.formModelLoanNew.get('guarantorTwo').disable();
     this.guarantorUniqueFlag1 = 'A';
     this.guarantorUniqueFlag2 = 'A';
+    // this.displayModalLoanNew = false;
     //this.displayModalLoanNew = false;
   }
 
@@ -1679,6 +1707,7 @@ export class AdminComponent3Component implements OnInit {
       year: this.year,
       month: this.monthValue,
     });
+    this.displayModalBill = false;
   }
 
   monthSelectNew: any;

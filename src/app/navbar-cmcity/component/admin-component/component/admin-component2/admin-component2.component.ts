@@ -8,7 +8,7 @@ import 'src/assets/fonts/Sarabun-Regular-normal.js';
 import 'src/assets/fonts/Sarabun-Bold-bold.js';
 import 'src/assets/fonts/Kanit-Thin-normal.js';
 import 'src/assets/fonts/Kanit-Regular-normal.js';
-import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -29,7 +29,7 @@ interface jsPDFCustom extends jsPDF {
   styleUrls: ['./admin-component2.component.scss']
 })
 export class AdminComponent2Component implements OnInit {
-
+  menuItems!: MenuItem[];
   @ViewChild('content', { static: false }) el!: ElementRef;
   customers!: Customer[];
   info: any[] = [];
@@ -108,6 +108,39 @@ export class AdminComponent2Component implements OnInit {
       }
 
     });
+
+    this.menuItems = [
+      {
+        label: 'เรียกเก็บหุ้นรายเดือน',
+        command: () => {
+          this.updateStocktoMonth();
+        }
+      },
+      {
+        label: 'สรุปยอดรวม',
+        command: () => {
+          this.getGrandTotal('สรุปยอดรวม');
+        }
+      },
+      {
+        label: 'ข้อมูลสมาชิก',
+        command: () => {
+          this.documentInfoAll('ข้อมูลสมาชิก');
+        }
+      },
+      {
+        label: 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด',
+        command: () => {
+          this.ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด');
+        }
+      },
+      {
+        label: 'ดาวน์โหลด',
+        command: () => {
+          this.searchDocumentV1All('download');
+        }
+      }
+    ];
   }
 
 
