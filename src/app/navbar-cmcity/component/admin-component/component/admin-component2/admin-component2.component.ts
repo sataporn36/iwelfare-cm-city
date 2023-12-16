@@ -323,7 +323,12 @@ export class AdminComponent2Component implements OnInit {
     this.checkInsertStockDetailAll();
   }
 
+  showWarnAddStock() {
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที' , life:10000});
+  }
+
   onupdateStockToMonth() {
+    this.showWarnAddStock();
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.newYear,

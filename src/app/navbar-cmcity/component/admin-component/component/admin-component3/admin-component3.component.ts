@@ -1701,8 +1701,13 @@ export class AdminComponent3Component implements OnInit {
     
   }
 
+  showWarnAddLoan() {
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที' , life:10000});
+  }
+
   onupdateLoanToMonth() {
     // api update stock to everyone 
+    this.showWarn();
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.newYear,
