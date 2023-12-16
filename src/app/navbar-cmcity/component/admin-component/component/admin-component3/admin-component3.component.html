@@ -196,7 +196,7 @@
                     required="true" maxlength="50" />
             </div>
         </div>
-        <!-- <div>
+        <div [ngStyle]="{'display': this.dataNewLoanFlag ? 'flex': 'none','align-items': 'center'}" >
             <div *ngIf="this.dataNewLoanFlag && modeLoan === 'ADD'">
                 <p-checkbox formControlName="guaranteeStockFlag" (onChange)="checkStockFlag($event)" [binary]="true"
                     inputId="binary" label="ใช้หุ้นค้ำประกัน"></p-checkbox>
@@ -205,7 +205,7 @@
                 <p-checkbox formControlName="guaranteeStockFlag" (onChange)="checkStockFlag($event)" [binary]="true"
                     inputId="binary" label="ใช้หุ้นค้ำประกัน"></p-checkbox>
             </div>
-        </div> -->
+        </div>
         <div>
             <label class="block">รหัสพนักงานค้ำ1</label>
             <input class="form-control" pInputText type="text" formControlName="guarantorOne"
