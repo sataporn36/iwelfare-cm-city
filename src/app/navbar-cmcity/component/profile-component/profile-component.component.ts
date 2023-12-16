@@ -31,6 +31,7 @@ export class ProfileComponentComponent implements OnInit {
   responsiveOptions: any;
   defaultDateline: Date = new Date("12/31/2003");
   menuItems!: MenuItem[];
+  menuItemsNotify!: MenuItem[];
   periodMonthDescOption: any = [];
   date: Date | any;
   selected!: Date;
@@ -156,6 +157,33 @@ export class ProfileComponentComponent implements OnInit {
     // }
 
     this.menuItems = [
+      {
+        label: 'ขอลาออก',
+        command: () => {
+          this.displayResign();
+        }
+      },
+      {
+        label: 'ขอเปลี่ยนเงินส่งหุ้นรายเดือน',
+        command: () => {
+          this.displayChangeStockToMonth();
+        }
+      },
+      {
+        label: 'แก้ไข',
+        command: () => {
+          this.onClickEdit();
+        }
+      }
+    ];
+
+    this.menuItemsNotify = [
+      {
+        label: 'รอการอนุมัติ',
+        command: () => {
+          this.onClickShowReqInfo();
+        }
+      },
       {
         label: 'ขอลาออก',
         command: () => {

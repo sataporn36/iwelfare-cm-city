@@ -20,7 +20,7 @@
             </div>
             <div class="div-profile-button">
                 <div class="div-btn" *ngIf="!mode">
-                    <button type="button" class="btn btn-login" (click)="acceptUserInfo()">บันทึก</button>
+                    <button type="button" class="btn btn-login" (click)="checkEditProfileInNotify()">บันทึก</button>
                     <button type="button" (click)="onClickCancal()" class="btn btn-regis"
                         (click)="reject()">ยกเลิก</button>
                 </div>
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="div-profile-button-menu" *ngIf="mode">
-                    <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="checkReqInfo ? menuItemsNotify : menuItems"></p-menu>
                     <a class="dropdown-toggle" (click)="menu.toggle($event)">
                         <i class="uil uil-ellipsis-v"></i>
                     </a>
@@ -864,8 +864,8 @@
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">รอการอนุมัติ</span>
-            <i class="pi pi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
-                pTooltip="รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ "></i>
+            <i class="uil uil-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
+            pTooltip="รอเจ้าหน้าที่ตรวจสอบเเละอนุมัติ "></i>
         </div>
     </ng-template>
     <div >
