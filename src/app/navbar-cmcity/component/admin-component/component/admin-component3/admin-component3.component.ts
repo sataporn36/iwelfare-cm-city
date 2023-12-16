@@ -1187,6 +1187,13 @@ export class AdminComponent3Component implements OnInit {
     this.displayModal = false;
   }
 
+  onCheckToAddBeforeAddLoan(){
+    this.modeLoan = 'ADD';
+    this.onShowLoanAddNew();
+    this.guarantorUniqueFlag1 = 'A';
+    this.guarantorUniqueFlag2 = 'A';
+  }
+
   onShowLoanAddNew(){
     this.initMainFormLoanNew();
     this.displayModalLoanNew = true;
@@ -1340,6 +1347,7 @@ export class AdminComponent3Component implements OnInit {
     // this.formModelLoanNew.get('guarantorTwo').disable();
     this.guarantorUniqueFlag1 = 'A';
     this.guarantorUniqueFlag2 = 'A';
+    this.displayModalLoanNew = false;
     // this.displayModalLoanNew = false;
     //this.displayModalLoanNew = false;
   }

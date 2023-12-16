@@ -5,7 +5,7 @@
         <div class="btn-group">
             <button type="button" class="btn btn-login"
                 (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
-            <button type="button" class="btn btn-login" (click)="onShowLoanAddNew()">สร้างสัญญาเงินกู้ใหม่</button>
+            <button type="button" class="btn btn-login" (click)="onCheckToAddBeforeAddLoan()">สร้างสัญญาเงินกู้ใหม่</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-login"
@@ -268,13 +268,13 @@
                 <div *ngIf="modeLoan === 'ADD'">
                     <button type="button" class="btn btn-login2" (click)="insertLoanDetail()"
                         [disabled]="!formModelLoanNew.valid">ยืนยัน</button>
-                    <button type="button" class="btn btn-regis2" (click)="onCancleLoanEmp()">ยกเลิก</button>
+                    <button type="button" class="btn btn-regis2" (click)="onCancleLoan()">ยกเลิก</button>
                 </div>
                 <div *ngIf="modeLoan === 'EDIT'">
                     <button type="button" class="btn btn-login2" (click)="onDeleteLoanEmp()">ยกเลิกสัญญา</button>
                     <button type="button" class="btn btn-login2" [disabled]="!formModelLoanNew.valid"
                         (click)="updateLoanEmp()">ยืนยัน</button>
-                    <button type="button" class="btn btn-regis2" (click)="onCancleLoan()">ยกเลิก</button>
+                    <button type="button" class="btn btn-regis2" (click)="onCancleLoanEmp()">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -282,13 +282,13 @@
             <div *ngIf="modeLoan === 'ADD'">
                 <button type="button" class="btn btn-login2" (click)="insertLoanDetail()"
                     [disabled]="!formModelLoanNew.valid">ยืนยัน</button>
-                <button type="button" class="btn btn-regis2" (click)="onCancleLoanEmp()">ยกเลิก</button>
+                <button type="button" class="btn btn-regis2" (click)="onCancleLoan()">ยกเลิก</button>
             </div>
             <div *ngIf="modeLoan === 'EDIT'">
                 <button type="button" class="btn btn-login2" (click)="onDeleteLoanEmp()">ยกเลิกสัญญา</button>
                 <button type="button" class="btn btn-login2" [disabled]="!formModelLoanNew.valid"
                     (click)="updateLoanEmp()">ยืนยัน</button>
-                <button type="button" class="btn btn-regis2" (click)="onCancleLoan()">ยกเลิก</button>
+                <button type="button" class="btn btn-regis2" (click)="onCancleLoanEmp()">ยกเลิก</button>
             </div>
         </div>
     </ng-template>
