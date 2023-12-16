@@ -138,6 +138,10 @@ export class MainService {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/stock-detail/search-by-stock/' + id + '/' + value, null);
   }
 
+  getStockDetail(payload: any): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/stock-detail/getStockDetail', payload);
+  }
+
   searchStock(): Observable<any[]> {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/stock/search', null);
   }
@@ -166,6 +170,10 @@ export class MainService {
 
   searchLoanDetail(playload: any): Observable<any[]> {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/search-by-loan',playload);
+  }
+
+  getLoanDetail(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/getLoanDetail',playload);
   }
 
   searchLoan(): Observable<any[]> {

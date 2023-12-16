@@ -81,6 +81,7 @@ export class AdminComponent3Component implements OnInit {
     this.searchLoan();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
+    this.getLoanDetailListOfLastValue();
 
     this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
       // Perform your action here based on the latest value
@@ -1669,18 +1670,35 @@ export class AdminComponent3Component implements OnInit {
     this.checkInsertLoanDetailAll();
   }
 
+  loanDetail: any;
+  getLoanDetailListOfLastValue(){
+    const payload = {
+      monthCurrent: this.month,
+      yearCurrent: this.year
+    }
+    this.service.getLoanDetail(payload).subscribe(data => {
+      this.loanDetail = data;
+      this.loading = false;
+    });
+  }
+
   checkInsertLoanDetailAll() {
 
-    const loanDetail = this.dataLoanDetail
-    const formatDate = new Date()
-    const month = formatDate.getMonth()
+    const loanDetail = this.loanDetail;
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
     const monthSelect = this.periodMonthDescOption[month];
 
-    if (loanDetail[loanDetail.length - 1].loanMonth === monthSelect.label) {
-      this.checkNull = true;
-    } else {
+    if(loanDetail != null){
+      if (loanDetail.loanMonth === monthSelect.label) {
+        this.checkNull = true;
+      } else {
+        this.checkNull = false;
+      }
+    }else{
       this.checkNull = false;
     }
+    
   }
 
   onupdateLoanToMonth() {

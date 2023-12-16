@@ -87,6 +87,7 @@ export class AdminComponent2Component implements OnInit {
     this.initMainFormBill();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
+    this.getStockDetail();
 
     this.employeeStatusList = [
       { name: 'กรุณาเลือกสถานะ', value: 0 },
@@ -224,6 +225,7 @@ export class AdminComponent2Component implements OnInit {
   searchStockDetail(id: any): void {
     this.service.searchStockDetail(id, "asc").subscribe(data => {
       this.dataStockDetail = data;
+      console.log(this.dataStockDetail,'<--- this.dataStockDetail');
     });
   }
 
@@ -358,18 +360,35 @@ export class AdminComponent2Component implements OnInit {
     }
   }
 
+  stockDetail: any;
+  getStockDetail(): void {
+    const payload = {
+      stockMonth: this.month,
+      stockYear: this.year
+    }
+    this.service.getStockDetail(payload).subscribe(data => {
+      this.stockDetail = data;
+      console.log(this.stockDetail,'<--- this.dataStockDetail');
+    });
+  }
+
   checkInsertStockDetailAll() {
 
-    const stockDetail = this.dataStockDetail
-    const formatDate = new Date()
-    const month = formatDate.getMonth()
+    const stockDetail = this.stockDetail;
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
     const monthSelect = this.periodMonthDescOption[month];
 
-    if (stockDetail[stockDetail.length - 1].stockMonth === monthSelect.label) {
-      this.checkNull = true;
-    } else {
+    if(stockDetail != null){
+      if (stockDetail.stockMonth === monthSelect.label) {
+        this.checkNull = true;
+      } else {
+        this.checkNull = false;
+      }
+    }else{
       this.checkNull = false;
     }
+   
   }
 
   clear(table: Table) {
