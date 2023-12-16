@@ -144,7 +144,6 @@ export class AdminComponent2Component implements OnInit {
     ];
   }
 
-
   onRowEditStatusEmp(data: any) {
     this.empId = data.id;
     this.displayStatusMember = true;
@@ -225,7 +224,7 @@ export class AdminComponent2Component implements OnInit {
   searchStockDetail(id: any): void {
     this.service.searchStockDetail(id, "asc").subscribe(data => {
       this.dataStockDetail = data;
-      console.log(this.dataStockDetail,'<--- this.dataStockDetail');
+      console.log(this.dataStockDetail, '<--- this.dataStockDetail');
     });
   }
 
@@ -324,7 +323,7 @@ export class AdminComponent2Component implements OnInit {
   }
 
   showWarnAddStock() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที' , life:10000});
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที', life: 10000 });
   }
 
   onupdateStockToMonth() {
@@ -373,7 +372,7 @@ export class AdminComponent2Component implements OnInit {
     }
     this.service.getStockDetail(payload).subscribe(data => {
       this.stockDetail = data;
-      console.log(this.stockDetail,'<--- this.dataStockDetail');
+      console.log(this.stockDetail, '<--- this.dataStockDetail');
     });
   }
 
@@ -384,16 +383,16 @@ export class AdminComponent2Component implements OnInit {
     const month = formatDate.getMonth();
     const monthSelect = this.periodMonthDescOption[month];
 
-    if(stockDetail != null){
+    if (stockDetail != null) {
       if (stockDetail.stockMonth === monthSelect.label) {
         this.checkNull = true;
       } else {
         this.checkNull = false;
       }
-    }else{
+    } else {
       this.checkNull = false;
     }
-   
+
   }
 
   clear(table: Table) {
@@ -1356,7 +1355,7 @@ export class AdminComponent2Component implements OnInit {
             headerRows: 2,
             widths: ['*', '*'],
             body: [
-              [{ text: 'สรุปยอดรวมประจําเดือน ' +  this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
+              [{ text: 'สรุปยอดรวมประจําเดือน ' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
               // [{ text: 'Name', style: 'tableHeader' }, { text: 'Country', style: 'tableHeader' }],
               [{
                 rowSpan: 1,

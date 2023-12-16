@@ -107,24 +107,6 @@
   font-family: "Kanit", sans-serif;
 }
 
-:host ::ng-deep .p-paginator .p-dropdown {
-  height: 2.8rem;
-  width: 5rem;
-  border-radius: 10px;
-}
-
-:host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label {
-  margin-top: -2px;
-}
-
-:host ::ng-deep .p-dropdown .p-dropdown-trigger {
-  width: 2.5rem;
-
-  span {
-    margin-top: 3px;
-  }
-}
-
 .div-button-btn {
   padding-top: 1rem;
   display: flex;
