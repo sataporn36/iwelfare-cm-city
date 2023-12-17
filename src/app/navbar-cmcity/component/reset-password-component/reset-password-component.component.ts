@@ -68,33 +68,48 @@ export class ResetPasswordComponentComponent implements OnInit {
   }
 
   clickChangePassword() {
-    const data = this.formModel.getRawValue();
-    data.id = this.userId
-    this.confirmationService.confirm({
-      message: 'ท่านต้องการเปลี่ยนรหัสผ่านใหม่หรือไม่',
-      header: 'เปลี่ยนรหัสผ่าน',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.service.resetPassword(data).subscribe(async (res) => {
-          if (res != null) {
-            if (res.statusEmployee === 'success') {
-              this.messageService.add({ severity: 'success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ' });
-              this.iconStatus = true;
-              this.formModel.reset();
-              await new Promise(resolve => setTimeout(resolve, 1000))
-              this.onLogout();
-            } else {
-              this.messageService.add({ severity: 'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
-              this.iconStatus = false;
-            }
-          } else {
-            this.messageService.add({ severity: 'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
-            this.iconStatus = false;
-          }
-        });
-      },
-      reject: () => { }
-    });
+    this.formModel.markAllAsTouched();
+    this.formModel.get('id').setValue(this.userId);
+    if(this.formModel.valid && !this.newPassValidation && !this.newPass2Validation){
+      const data = this.formModel.getRawValue();
+      //data.id = this.userId;
+      if(data.newPassword === data.confirmPassword){
+        if(data.newPassword === data.oldPassword){
+          this.messageService.add({ severity: 'warn', detail: 'กรุณาเปลี่ยนรหัสผ่านใหม่' });
+        }else{
+          this.confirmationService.confirm({
+            message: 'ท่านต้องการเปลี่ยนรหัสผ่านใหม่หรือไม่',
+            header: 'เปลี่ยนรหัสผ่าน',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              this.service.resetPassword(data).subscribe(async (res) => {
+                if (res != null) {
+                  if (res.statusEmployee === 'success') {
+                    this.messageService.add({ severity: 'success', detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ' });
+                    this.iconStatus = true;
+                    this.formModel.reset();
+                    await new Promise(resolve => setTimeout(resolve, 1000))
+                    this.onLogout();
+                  } else {
+                    this.messageService.add({ severity: 'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
+                    this.iconStatus = false;
+                  }
+                } else {
+                  this.messageService.add({ severity: 'error', detail: 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ' });
+                  this.iconStatus = false;
+                }
+              });
+            },
+            reject: () => { }
+          });
+        }
+      }else{
+        this.messageService.add({ severity: 'warn', detail: 'รหัสผ่านใหม่ไม่ตรงกัน' });
+        this.iconStatus = false;
+      }
+    }else{
+      this.messageService.add({ severity: 'warn', detail: 'กรุณากรอกข้อมูลให้ครบถ้วนเเละถูกต้อง' });
+    }
   }
 
   onLogout() {

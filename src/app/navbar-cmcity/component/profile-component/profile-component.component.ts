@@ -487,7 +487,7 @@ export class ProfileComponentComponent implements OnInit {
       beneficiaryFirstName: new FormControl(null, Validators.required),
       beneficiaryLastName: new FormControl(null, Validators.required),
       beneficiaryGender: new FormControl(null),
-      beneficiaryBirthday: new FormControl(null, Validators.required),
+      beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl(0),
       beneficiaryMarital: new FormControl(0),
       beneficiaryLifeStatus: new FormControl(0),
