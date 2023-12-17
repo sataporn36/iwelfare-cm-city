@@ -501,7 +501,7 @@ export class ProfileComponentComponent implements OnInit {
     });
 
     this.formModelStock = new FormGroup({
-      monthlyStockMoney: new FormControl(null, Validators.required),
+      monthlyStockMoneyNew: new FormControl(null, Validators.required),
     });
 
   }
@@ -1424,25 +1424,31 @@ export class ProfileComponentComponent implements OnInit {
   onUpdateStockToMonth() {
     const dataStock = this.formModelStock.getRawValue();
     const data = this.formModel.getRawValue();
-    const monthlyStockMoneyReplace = data.monthlyStockMoney.replace(',', '');
-
-    if (dataStock.monthlyStockMoney === data.monthlyStockMoney) {
-      this.messageService.add({ severity: 'error', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
-    } else {
-      // api
-      const playload = {
-        id: this.userId,
-        stockValue: dataStock.monthlyStockMoney,
-        stockOldValue: Number(monthlyStockMoneyReplace)
+   
+    if(this.formModelStock.valid){
+      const monthlyStockMoneyReplaceOld = data.monthlyStockMoney ? data.monthlyStockMoney.replace(',', '') : 0;
+      const monthlyStockMoneyReplaceNew = dataStock.monthlyStockMoneyNew ? dataStock.monthlyStockMoneyNew : 0;
+      if (Number(monthlyStockMoneyReplaceOld) === Number(monthlyStockMoneyReplaceNew)) {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
+      } else {
+        // api
+        const playload = {
+          id: this.userId,
+          stockValue: Number(monthlyStockMoneyReplaceNew),
+          stockOldValue: Number(monthlyStockMoneyReplaceOld)
+        }
+  
+        this.service.updateStockValue(playload).subscribe((data) => {
+          this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+          this.displayModalStock = false;
+          window.location.reload();
+          this.ngOnInit();
+        });
       }
-
-      this.service.updateStockValue(playload).subscribe((data) => {
-        this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
-        this.displayModalStock = false;
-        window.location.reload();
-        this.ngOnInit();
-      });
+    }else{
+      this.messageService.add({ severity: 'warn', summary: '', detail: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
     }
+    
   }
 
   onCancleStock() {

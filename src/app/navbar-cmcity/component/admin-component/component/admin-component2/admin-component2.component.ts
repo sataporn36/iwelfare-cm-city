@@ -224,7 +224,6 @@ export class AdminComponent2Component implements OnInit {
   searchStockDetail(id: any): void {
     this.service.searchStockDetail(id, "asc").subscribe(data => {
       this.dataStockDetail = data;
-      console.log(this.dataStockDetail, '<--- this.dataStockDetail');
     });
   }
 
@@ -372,7 +371,6 @@ export class AdminComponent2Component implements OnInit {
     }
     this.service.getStockDetail(payload).subscribe(data => {
       this.stockDetail = data;
-      console.log(this.stockDetail, '<--- this.dataStockDetail');
     });
   }
 
