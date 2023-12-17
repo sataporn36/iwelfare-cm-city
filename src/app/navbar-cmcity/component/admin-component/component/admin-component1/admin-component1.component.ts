@@ -252,7 +252,8 @@ export class AdminComponent1Component {
   }
 
   changeToNumber(value: any) {
-    return parseInt(value.replace(/,/g, ''), 10);
+    const valueParse = value.replace(',','');
+    return Number(valueParse);
   }
 
   checkMaritalV2_text(data: any): any {
@@ -295,7 +296,7 @@ export class AdminComponent1Component {
       marital: this.checkMaritalV2_text(detail.selectMarital),
       salary: detail.salary ? this.changeToNumber(detail.salary) : null,
       compensation: detail.compensation ? this.changeToNumber(detail.compensation) : null,
-      monthlyStockMoney: detail.monthlyStockMone ? this.changeToNumber(detail.monthlyStockMoney) : null,
+      monthlyStockMoney: detail.monthlyStockMoney ? this.changeToNumber(detail.monthlyStockMoney) : null,
       contractStartDate: detail.contractStartDate,
       civilServiceDate: detail.civilServiceDate,
       billingStartDate: detail.billingStartDate,
