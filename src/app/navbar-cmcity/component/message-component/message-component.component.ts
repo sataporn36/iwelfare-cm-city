@@ -243,9 +243,13 @@ export class MessageComponentComponent implements OnInit {
         icon: 'pi pi-check-circle ',
         command: () => {
 
-          this.firstNameOld = this.selectedItem.employee.firstName;
-          this.lastNameOld = this.selectedItem.employee.lastName;
-          this.maritalOld = this.selectedItem.employee.marital;
+          this.formModelInfo.get('firstName').disable();
+          this.formModelInfo.get('lastName').disable();
+          this.formModelInfo.get('marital').disable();
+
+          this.firstNameOld = this.selectedItem.employee.firstName ? this.selectedItem.employee.firstName : null;
+          this.lastNameOld = this.selectedItem.employee.lastName ? this.selectedItem.employee.lastName : null;
+          this.maritalOld = this.selectedItem.employee.marital ? this.selectedItem.employee.marital : null;
 
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;

@@ -226,15 +226,15 @@
       <div class="text">
         <div class="mb-3">
           <label for="firstName" class="block">ชื่อ</label>
-          <input class="form-control-plaintext" type="text" [value]="firstNameOld" />
+          <input class="form-control-plaintext" type="text" [value]="firstNameOld" disabled/>
         </div>
         <div class="mb-3">
           <label for="lastName" class="block">นามสกุล</label>
-          <input class="form-control-plaintext" type="text" [value]="lastNameOld" />
+          <input class="form-control-plaintext" type="text" [value]="lastNameOld" disabled/>
         </div>
         <div class="mb-3">
           <label for="marital" class="block">สถานภาพสมรส</label>
-          <input class="form-control-plaintext" type="text" [value]="maritalOld" />
+          <input class="form-control-plaintext" type="text" [value]="maritalOld" disabled/>
         </div>
       </div>
     </div>
@@ -247,11 +247,11 @@
         </div>
         <div class="mb-3">
           <label for="lastName" class="block">นามสกุล</label>
-          <input class="form-control-plaintext" type="text" formControlName="lastName" />
+          <input class="form-control-plaintext" type="text" formControlName="lastName" [disabled]="true"/>
         </div>
         <div class="mb-3">
           <label for="marital" class="block">สถานภาพสมรส</label>
-          <input class="form-control-plaintext" type="text" formControlName="marital" />
+          <input class="form-control-plaintext" type="text" formControlName="marital" [disabled]="true"/>
         </div>
       </div>
     </div>
