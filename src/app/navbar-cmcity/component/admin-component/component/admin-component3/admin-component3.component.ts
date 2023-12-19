@@ -1282,22 +1282,24 @@ export class AdminComponent3Component implements OnInit {
           const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
           data.stockValue = stockValueRE;
          
-          this.service.insertLoanNew(data).subscribe(async (res) =>{         
-            if(res){
-              this.closeLoanOld(data);
-              this.localStorageService.clear('employeeofmain');
-               this.getEmployeeOfMain(this.userId);
-              this.localStorageService.clear('loanId');
-              this.localStorageService.store('loanId', res.data.id);
-              await new Promise((resolve) => setTimeout(resolve, 500)),
-              this.ngOnInit();
-              this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
-            }else{
-              this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
-            }
-            this.displayModalLoanNew = false;
-            this.displayMessageError = false;
-          });
+          console.log(data,'<--- insertLoanNew');
+          
+          // this.service.insertLoanNew(data).subscribe(async (res) =>{         
+          //   if(res){
+          //     this.closeLoanOld(data);
+          //     this.localStorageService.clear('employeeofmain');
+          //      this.getEmployeeOfMain(this.userId);
+          //     this.localStorageService.clear('loanId');
+          //     this.localStorageService.store('loanId', res.data.id);
+          //     await new Promise((resolve) => setTimeout(resolve, 500)),
+          //     this.ngOnInit();
+          //     this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
+          //   }else{
+          //     this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
+          //   }
+          //   this.displayModalLoanNew = false;
+          //   this.displayMessageError = false;
+          // });
         }
      }else{
       if(this.checkValidFormLoan()){
@@ -1387,7 +1389,7 @@ export class AdminComponent3Component implements OnInit {
      
       this.formModelLoanNew.patchValue({
        ...data,
-       startDateLoan: data.startDateLoan ? data.startDateLoan : '-',
+       startDateLoan: data.startLoanDate ? data.startLoanDate : '-',
        fullName: data.prefix + data.firstName + ' ' + data.lastName,
        stockValue: this.empDetail.stockAccumulate ? this.formattedNumber2(Number(this.empDetail.stockAccumulate)) : 0,
        loanValue: data.loanValue ? this.formattedNumber2(Number(data.loanValue)) : 0,
@@ -1524,6 +1526,7 @@ export class AdminComponent3Component implements OnInit {
   timeNew: any;
   pipeDateTHNewLan() {
     const format = new Date();
+    const monthSelectCurrent = this.periodMonthDescOption[format.getMonth()];
     format.setMonth(format.getMonth());
     const month = this.checkMonthOfLoanDate(format.getMonth());
     format.setDate(0);
@@ -1536,7 +1539,7 @@ export class AdminComponent3Component implements OnInit {
     this.time = time;
 
     this.formModelLoanNew.get('loanYear').setValue(Number(year + 543));
-    this.formModelLoanNew.get('loanMonth').setValue(monthSelect.label);
+    this.formModelLoanNew.get('loanMonth').setValue(monthSelectCurrent.label);  //monthSelect
 
     //const firstDayOfNextMonth = new Date(year, month + 1, 1);
     const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
