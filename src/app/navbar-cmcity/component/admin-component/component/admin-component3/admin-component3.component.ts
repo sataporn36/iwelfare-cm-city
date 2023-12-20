@@ -1822,7 +1822,6 @@ export class AdminComponent3Component implements OnInit {
       const key = 'employeeCode';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
       const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) > 0 );
-      console.log(reCheckData,'<--- arrayUniqueByKey');
       this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
     });
   }
