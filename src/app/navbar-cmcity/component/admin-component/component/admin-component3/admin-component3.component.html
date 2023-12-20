@@ -144,6 +144,11 @@
             <input class="form-control" pInputText type="text" formControlName="loanValue" required="true"
                 maxlength="50" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
         </div>
+        <div *ngIf="modeLoan === 'EDIT'" class="p-num-4">
+            <label class="block">ยอดเงินกู้คงเหลือ</label>
+            <input class="form-control" pInputText type="text" formControlName="loanBalance" required="true"
+                maxlength="50" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+        </div>
         <div>
             <label class="block">อัตราดอกเบี้ยต่อปี</label>
             <input class="form-control" pInputText type="text" formControlName="interestPercent" required="true"

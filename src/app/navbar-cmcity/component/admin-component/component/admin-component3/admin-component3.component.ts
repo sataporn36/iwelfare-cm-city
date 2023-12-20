@@ -799,7 +799,7 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  checkListSumAllByDepartment(listSum: any[], nameDepartment: any, listGroup: any[]) {
+  checkListSumAllByDepartment(listSum: any[], nameDepartment: string, listGroup: any[]) {
     if (listSum.length > 0) {
       const dataSum = this.checkTotalListGroup(listGroup);
       let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
@@ -816,23 +816,35 @@ export class AdminComponent3Component implements OnInit {
           { text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' },
           { text: this.formattedNumber2(dataSum.outStandPrincipleSum), alignment: 'right' },
           ];
-        }else{
-          sumDepartment = [{ text: '' + ' Total', alignment: 'left', bold: true }, ' ', ' ',
-          { text: 0, alignment: 'right' }, ' ', ' ', ' ', ' ',
-          { text: 0, alignment: 'right' },
-          { text: 0, alignment: 'right' },
-          { text: 0, alignment: 'right' },
-          { text: 0, alignment: 'right' }, ' ',
-          { text: 0, alignment: 'right' },
-          { text: 0, alignment: 'right' },
-          { text: 0, alignment: 'right' },
-          { text: 0, alignment: 'right' },
-          ];
         }
+        // else{
+        //   sumDepartment = [{ text: '' + ' Total', alignment: 'left', bold: true }, ' ', ' ',
+        //   { text: 0, alignment: 'right' }, ' ', ' ', ' ', ' ',
+        //   { text: 0, alignment: 'right' },
+        //   { text: 0, alignment: 'right' },
+        //   { text: 0, alignment: 'right' },
+        //   { text: 0, alignment: 'right' }, ' ',
+        //   { text: 0, alignment: 'right' },
+        //   { text: 0, alignment: 'right' },
+        //   { text: 0, alignment: 'right' },
+        //   { text: 0, alignment: 'right' },
+        //   ];
+        //   // sumDepartment = [{ text: '' + ' ', alignment: 'left', bold: true }, ' ', ' ',
+        //   // { text: '', alignment: 'right' }, ' ', ' ', ' ', ' ',
+        //   // { text: '', alignment: 'right' },
+        //   // { text: '', alignment: 'right' },
+        //   // { text: '', alignment: 'right' },
+        //   // { text: '', alignment: 'right' }, ' ',
+        //   // { text: '', alignment: 'right' },
+        //   // { text: '', alignment: 'right' },
+        //   // { text: '', alignment: 'right' },
+        //   // { text: '', alignment: 'right' },
+        //   // ];
+        // }
       })
       return sumDepartment;
     } else {
-      return '';
+      return [];
     }
   }
 
@@ -946,7 +958,6 @@ export class AdminComponent3Component implements OnInit {
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
-     
       this.sumLoan = data;
       this.checkDepartment(listdata);
       this.exportMakePDFAll(mode, data)
@@ -955,76 +966,122 @@ export class AdminComponent3Component implements OnInit {
 
   exportMakePDFAll(mode: any, listSum: any[]) {
 
-    let data1 = this.checkListDataPDF(this.infogroup1);
-    let dataSum1 = this.checkListSumAllByDepartment(listSum, 'แขวงเม็งราย', this.infogroup1);
-    let data2 = this.checkListDataPDF(this.infogroup2);
-    let dataSum2 = this.checkListSumAllByDepartment(listSum, 'แขวงกาวิละ', this.infogroup2);
-    let data3 = this.checkListDataPDF(this.infogroup3);
-    let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป', this.infogroup3);
-    let data4 = this.checkListDataPDF(this.infogroup4);
-    let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4);
-    let data5 = this.checkListDataPDF(this.infogroup5);
-    let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล', this.infogroup5);
+    const sections = [];
+    
+    // Helper function to check if an array contains values
+    const hasValues = (arr: any[]): boolean => {
+      return arr.some(item => item !== null && item !== undefined && item !== '');
+    };
 
-    let data6 = this.checkListDataPDF(this.infogroup6);
-    let dataSum6 = this.checkListSumAllByDepartment(listSum, 'งานก่อสร้าง', this.infogroup6);
-    let data7 = this.checkListDataPDF(this.infogroup7)
-    let dataSum7 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง', this.infogroup7);
-    let data8 = this.checkListDataPDF(this.infogroup8);
-    let dataSum8 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง ฝ่ายประจำ', this.infogroup8);
-    let data9 = this.checkListDataPDF(this.infogroup9);
-    let dataSum9 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานทั่วไป', this.infogroup9);
-    let data10 = this.checkListDataPDF(this.infogroup10);
-    let dataSum10 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป', this.infogroup10);
+    // Push data sections with corresponding summary data if available
+    const pushDataSection = (data: any[], sumData: any[]) => {
+      if (data.length > 0) {
+        sections.push(...data, sumData);
+      }
+    };
 
-    let data11 = this.checkListDataPDF(this.infogroup11);
-    let dataSum11 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป ฝ่ายประจำ', this.infogroup11);
-    let data12 = this.checkListDataPDF(this.infogroup12)
-    let dataSum12 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน', this.infogroup12);
-    let data13 = this.checkListDataPDF(this.infogroup13);
-    let dataSum13 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับการศึกษา', this.infogroup13);
-    let data14 = this.checkListDataPDF(this.infogroup14);
-    let dataSum14 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์', this.infogroup14);
-    let data15 = this.checkListDataPDF(this.infogroup15);
-    let dataSum15 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข', this.infogroup15);
+    let data1 = this.checkListDataPDF(this.infogroup1) || [];
+    let dataSum1 = this.checkListSumAllByDepartment(listSum, 'แขวงเม็งราย', this.infogroup1) || [];
+    let data2 = this.checkListDataPDF(this.infogroup2) || [];
+    let dataSum2 = this.checkListSumAllByDepartment(listSum, 'แขวงกาวิละ', this.infogroup2) || [];
+    let data3 = this.checkListDataPDF(this.infogroup3) || [];
+    let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป', this.infogroup3) || [];
+    let data4 = this.checkListDataPDF(this.infogroup4) || [];
+    let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4) || [];
+    let data5 = this.checkListDataPDF(this.infogroup5)|| [];
+    let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล', this.infogroup5) || [];
 
-    let data16 = this.checkListDataPDF(this.infogroup16);
-    let dataSum16 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา', this.infogroup16);
-    let data17 = this.checkListDataPDF(this.infogroup17);
-    let dataSum17 = this.checkListSumAllByDepartment(listSum, 'งานป้องกันและบรรเทาสาธารณภัย', this.infogroup17);
-    let data18 = this.checkListDataPDF(this.infogroup18)
-    let dataSum18 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน', this.infogroup18);
-    let data19 = this.checkListDataPDF(this.infogroup19);
-    let dataSum19 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน', this.infogroup19);
-    let data20 = this.checkListDataPDF(this.infogroup20);
-    let dataSum20 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ', this.infogroup20);
+    let data6 = this.checkListDataPDF(this.infogroup6) || [];
+    let dataSum6 = this.checkListSumAllByDepartment(listSum, 'งานก่อสร้าง', this.infogroup6) || [];
+    let data7 = this.checkListDataPDF(this.infogroup7) || [];
+    let dataSum7 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง', this.infogroup7) || [];
+    let data8 = this.checkListDataPDF(this.infogroup8) || [];
+    let dataSum8 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง ฝ่ายประจำ', this.infogroup8) || [];
+    let data9 = this.checkListDataPDF(this.infogroup9) || [];
+    let dataSum9 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานทั่วไป', this.infogroup9) || [];
+    let data10 = this.checkListDataPDF(this.infogroup10) || [];
+    let dataSum10 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป', this.infogroup10) || [];
 
-    let data21 = this.checkListDataPDF(this.infogroup21);
-    let dataSum21 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย', this.infogroup21);
-    let data22 = this.checkListDataPDF(this.infogroup22)
-    let dataSum22 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง', this.infogroup22);
-    let data23 = this.checkListDataPDF(this.infogroup23);
-    let dataSum23 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง', this.infogroup23);
-    let data24 = this.checkListDataPDF(this.infogroup24);
-    let dataSum24 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ', this.infogroup24);
-    let data25 = this.checkListDataPDF(this.infogroup25);
-    let dataSum25 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง', this.infogroup25);
+    let data11 = this.checkListDataPDF(this.infogroup11) || [];
+    let dataSum11 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป ฝ่ายประจำ', this.infogroup11) || [];
+    let data12 = this.checkListDataPDF(this.infogroup12) || [];
+    let dataSum12 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน', this.infogroup12) || [];
+    let data13 = this.checkListDataPDF(this.infogroup13) || [];
+    let dataSum13 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับการศึกษา', this.infogroup13) || [];
+    let data14 = this.checkListDataPDF(this.infogroup14) || [];
+    let dataSum14 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์', this.infogroup14) || [];
+    let data15 = this.checkListDataPDF(this.infogroup15) || [];
+    let dataSum15 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข', this.infogroup15) || [];
 
-    let data26 = this.checkListDataPDF(this.infogroup26);
-    let dataSum26 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย', this.infogroup26);
-    let data27 = this.checkListDataPDF(this.infogroup27)
-    let dataSum27 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ', this.infogroup27);
-    let data28 = this.checkListDataPDF(this.infogroup28);
-    let dataSum28 = this.checkListSumAllByDepartment(listSum, 'งานวางแผนสถิติและวิชาการ', this.infogroup28);
-    let data29 = this.checkListDataPDF(this.infogroup29);
-    let dataSum29 = this.checkListSumAllByDepartment(listSum, 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว', this.infogroup29);
-    let data30 = this.checkListDataPDF(this.infogroup30);
-    let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล', this.infogroup30);
-    let data31 = this.checkListDataPDF(this.infogroup31);
-    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'ระดับก่อนวัยเรียนและประถมศึกษา', this.infogroup31);
+    let data16 = this.checkListDataPDF(this.infogroup16) || [];
+    let dataSum16 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา', this.infogroup16) || [];
+    let data17 = this.checkListDataPDF(this.infogroup17) || [];
+    let dataSum17 = this.checkListSumAllByDepartment(listSum, 'งานป้องกันและบรรเทาสาธารณภัย', this.infogroup17) || [];
+    let data18 = this.checkListDataPDF(this.infogroup18) || [];
+    let dataSum18 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน', this.infogroup18) || [];
+    let data19 = this.checkListDataPDF(this.infogroup19) || [];
+    let dataSum19 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน', this.infogroup19) || [];
+    let data20 = this.checkListDataPDF(this.infogroup20) || [];
+    let dataSum20 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ', this.infogroup20) || [];
+
+    let data21 = this.checkListDataPDF(this.infogroup21) || [];
+    let dataSum21 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย', this.infogroup21) || [];
+    let data22 = this.checkListDataPDF(this.infogroup22) || [];
+    let dataSum22 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง', this.infogroup22) || [];
+    let data23 = this.checkListDataPDF(this.infogroup23) || [];
+    let dataSum23 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง', this.infogroup23) || [];
+    let data24 = this.checkListDataPDF(this.infogroup24) || [];
+    let dataSum24 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ', this.infogroup24) || [];
+    let data25 = this.checkListDataPDF(this.infogroup25) || [];
+    let dataSum25 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง', this.infogroup25) || [];
+
+    let data26 = this.checkListDataPDF(this.infogroup26) || [];
+    let dataSum26 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย', this.infogroup26) || [];
+    let data27 = this.checkListDataPDF(this.infogroup27) || [];
+    let dataSum27 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ', this.infogroup27) || [];
+    let data28 = this.checkListDataPDF(this.infogroup28) || [];
+    let dataSum28 = this.checkListSumAllByDepartment(listSum, 'งานวางแผนสถิติและวิชาการ', this.infogroup28) || [];
+    let data29 = this.checkListDataPDF(this.infogroup29) || [];
+    let dataSum29 = this.checkListSumAllByDepartment(listSum, 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว', this.infogroup29) || [];
+    let data30 = this.checkListDataPDF(this.infogroup30) || [];
+    let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล', this.infogroup30) || [];
+    let data31 = this.checkListDataPDF(this.infogroup31) || [];
+    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'ระดับก่อนวัยเรียนและประถมศึกษา', this.infogroup31) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
+    // Push data sections along with their summaries if they have values
+    pushDataSection(data1, dataSum1);
+    pushDataSection(data2, dataSum2);
+    pushDataSection(data3, dataSum3);
+    pushDataSection(data4, dataSum4);
+    pushDataSection(data5, dataSum5);
+    pushDataSection(data6, dataSum6);
+    pushDataSection(data7, dataSum7);
+    pushDataSection(data8, dataSum8);
+    pushDataSection(data9, dataSum9);
+    pushDataSection(data10, dataSum10);
+    pushDataSection(data11, dataSum11);
+    pushDataSection(data12, dataSum12);
+    pushDataSection(data13, dataSum13);
+    pushDataSection(data14, dataSum14);
+    pushDataSection(data15, dataSum15);
+    pushDataSection(data16, dataSum16);
+    pushDataSection(data17, dataSum17);
+    pushDataSection(data18, dataSum18);
+    pushDataSection(data19, dataSum19);
+    pushDataSection(data20, dataSum20);
+    pushDataSection(data21, dataSum21);
+    pushDataSection(data22, dataSum22);
+    pushDataSection(data23, dataSum23);
+    pushDataSection(data24, dataSum24);
+    pushDataSection(data25, dataSum25);
+    pushDataSection(data26, dataSum26);
+    pushDataSection(data27, dataSum27);
+    pushDataSection(data28, dataSum28);
+    pushDataSection(data29, dataSum29);
+    pushDataSection(data30, dataSum30);
+    pushDataSection(data31, dataSum31);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -1076,72 +1133,73 @@ export class AdminComponent3Component implements OnInit {
               { text: 'คงค้าง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
               ],
               // group 1
-              ...data1,
-              dataSum1,
-              ...data2,
-              dataSum2,
-              ...data3,
-              dataSum3,
-              ...data4,
-              dataSum4,
-              ...data5,
-              dataSum5,
-              ...data6,
-              dataSum6,
-              ...data7,
-              dataSum7,
-              ...data8,
-              dataSum8,
-              ...data9,
-              dataSum9,
-              ...data10,
-              dataSum10,
+              ...sections,
+              // ...data1,
+              // dataSum1,
+              // ...data2,
+              // dataSum2,
+              // ...data3,
+              // dataSum3,
+              // ...data4,
+              // dataSum4,
+              // ...data5,
+              // dataSum5,
+              // ...data6,
+              // dataSum6,
+              // ...data7,
+              // dataSum7,
+              // ...data8,
+              // dataSum8,
+              // ...data9,
+              // dataSum9,
+              // ...data10,
+              // dataSum10,
 
               // group 2
-              ...data11,
-              dataSum11,
-              ...data12,
-              dataSum12,
-              ...data13,
-              dataSum13,
-              ...data14,
-              dataSum14,
-              ...data15,
-              dataSum15,
-              ...data16,
-              dataSum16,
-              ...data17,
-              dataSum17,
-              ...data18,
-              dataSum18,
-              ...data19,
-              dataSum19,
-              ...data20,
-              dataSum20,
+              // ...data11,
+              // dataSum11,
+              // ...data12,
+              // dataSum12,
+              // ...data13,
+              // dataSum13,
+              // ...data14,
+              // dataSum14,
+              // ...data15,
+              // dataSum15,
+              // ...data16,
+              // dataSum16,
+              // ...data17,
+              // dataSum17,
+              // ...data18,
+              // dataSum18,
+              // ...data19,
+              // dataSum19,
+              // ...data20,
+              // dataSum20,
 
-              // group 1
-              ...data21,
-              dataSum21,
-              ...data22,
-              dataSum22,
-              ...data23,
-              dataSum23,
-              ...data24,
-              dataSum24,
-              ...data25,
-              dataSum25,
-              ...data26,
-              dataSum26,
-              ...data27,
-              dataSum27,
-              ...data28,
-              dataSum28,
-              ...data29,
-              dataSum29,
-              ...data30,
-              dataSum30,
-              ...data31,
-              dataSum31,
+              // group 3
+              // ...data21,
+              // dataSum21,
+              // ...data22,
+              // dataSum22,
+              // ...data23,
+              // dataSum23,
+              // ...data24,
+              // dataSum24,
+              // ...data25,
+              // dataSum25,
+              // ...data26,
+              // dataSum26,
+              // ...data27,
+              // dataSum27,
+              // ...data28,
+              // dataSum28,
+              // ...data29,
+              // dataSum29,
+              // ...data30,
+              // dataSum30,
+              // ...data31,
+              // dataSum31,
               sunGrandTotal,
             ]
           },
@@ -1281,25 +1339,22 @@ export class AdminComponent3Component implements OnInit {
           data.loanOrdinary = loanOrdinaryRE;
           const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
           data.stockValue = stockValueRE;
-         
-          console.log(data,'<--- insertLoanNew');
-          
-          // this.service.insertLoanNew(data).subscribe(async (res) =>{         
-          //   if(res){
-          //     this.closeLoanOld(data);
-          //     this.localStorageService.clear('employeeofmain');
-          //      this.getEmployeeOfMain(this.userId);
-          //     this.localStorageService.clear('loanId');
-          //     this.localStorageService.store('loanId', res.data.id);
-          //     await new Promise((resolve) => setTimeout(resolve, 500)),
-          //     this.ngOnInit();
-          //     this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
-          //   }else{
-          //     this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
-          //   }
-          //   this.displayModalLoanNew = false;
-          //   this.displayMessageError = false;
-          // });
+          this.service.insertLoanNew(data).subscribe(async (res) =>{         
+            if(res){
+              this.closeLoanOld(data);
+              this.localStorageService.clear('employeeofmain');
+               this.getEmployeeOfMain(this.userId);
+              this.localStorageService.clear('loanId');
+              this.localStorageService.store('loanId', res.data.id);
+              await new Promise((resolve) => setTimeout(resolve, 500)),
+              this.ngOnInit();
+              this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
+            }else{
+              this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
+            }
+            this.displayModalLoanNew = false;
+            this.displayMessageError = false;
+          });
         }
      }else{
       if(this.checkValidFormLoan()){
@@ -1374,8 +1429,9 @@ export class AdminComponent3Component implements OnInit {
      this.formModelLoanNew.get('fullName').disable();
      this.formModelLoanNew.get('loanValue').disable();
      this.formModelLoanNew.get('loanTime').disable();
+     this.formModelLoanNew.get('loanBalance').disable();
      const dataStockAccumulate = this.empDetail ? this.empDetail.stockAccumulate : null;
-     if(data !== null && (Number(data.loanValue) <= Number(dataStockAccumulate))){
+     if(data !== null && (Number(data.loanBalance) <= Number(data.stockAccumulate))){
        this.formModelLoanNew.patchValue({
          guaranteeStock: 'ได้'
        });
@@ -1391,10 +1447,11 @@ export class AdminComponent3Component implements OnInit {
        ...data,
        startDateLoan: data.startLoanDate ? data.startLoanDate : '-',
        fullName: data.prefix + data.firstName + ' ' + data.lastName,
-       stockValue: this.empDetail.stockAccumulate ? this.formattedNumber2(Number(this.empDetail.stockAccumulate)) : 0,
+       stockValue: data.stockAccumulate ? this.formattedNumber2(Number(data.stockAccumulate)) : 0,
        loanValue: data.loanValue ? this.formattedNumber2(Number(data.loanValue)) : 0,
        loanId: data.id,
-       guaranteeStockFlag: data.stockFlag ? data.stockFlag : false
+       guaranteeStockFlag: data.stockFlag ? data.stockFlag : false,
+       loanBalance: data.loanBalance ? this.formattedNumber2(Number(data.loanBalance)) : 0,
       //  guarantorOne: data.guarantorOne ? data.guarantorOne : null,
       //  guarantorTwo: data.guarantorOne ? data.guarantorOne : null
       });
@@ -1541,10 +1598,10 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoanNew.get('loanYear').setValue(Number(year + 543));
     this.formModelLoanNew.get('loanMonth').setValue(monthSelectCurrent.label);  //monthSelect
 
-    //const firstDayOfNextMonth = new Date(year, month + 1, 1);
-    const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
+    const firstDayOfNextMonth = new Date(year, month + 1, 1);
+    //const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
     //const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
-    return year + '-' + monthSelect.value + '-' + this.checkLenghtDate(firstDayOfNextMonth.getDate());
+    return year + '-' + monthSelect.value + '-' + this.checkLenghtDate(firstDayOfNextMonth.getDate()) //this.checkLenghtDate(firstDayOfNextMonth.getDate());
   }
 
   checkLenghtDate(day: any){
@@ -1795,7 +1852,8 @@ export class AdminComponent3Component implements OnInit {
       header: 'ยกเลิกสัญญา',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if(data.loanBalance <= 0){
+        const loanBalanceNum = data.loanBalance.replace(',','');
+        if(Number(loanBalanceNum) <= 0){
           this.service.deleteLoanNew(data).subscribe({
             next: (res) => {
               this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ' ,life: 5000});
@@ -1808,7 +1866,7 @@ export class AdminComponent3Component implements OnInit {
             
           });
         }else{
-          this.messageError = 'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' + this.formattedNumber2(data.loanBalance) + ' บาท ';
+          this.messageError = 'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' + data.loanBalance + ' บาท ';
           this.displayMessageError = true;
         }
       },

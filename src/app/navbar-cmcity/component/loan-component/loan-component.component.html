@@ -3,8 +3,8 @@
         <div class="card-header">
             <p-chip label="ตารางประวัติการส่งเงินกู้รายเดือน" styleClass="mr-2"></p-chip>
             <p-tag icon="" severity="success">
-                <span style="padding: 0px 10px;"> ยอดเงินกู้คงเหลือ </span>  &nbsp;&nbsp;
-                <span style="color: #ffd54f;"> {{ empDetail.loanBalance | number }} </span>  &nbsp;&nbsp;
+                <span style="padding: 0px 10px;"> เงินกู้สามัญ  </span>  &nbsp;&nbsp;
+                <span style="color: #ffd54f;"> {{ empDetail.loanValue | number }} </span>  &nbsp;&nbsp;
                 <span style="padding: 0px 10px;"> บาท </span>
             </p-tag>
         </div>
@@ -36,7 +36,7 @@
                     <th style="width:10%">เลขที่สัญญา</th>
                     <th style="width:10%">งวดที่</th>
                     <th style="width:10%">ดอกเบี้ย</th>
-                    <th style="width:10%">เงินกู้สามัญ</th>
+                    <th style="width:10%">ยอดเงินกู้คงเหลือ</th>
                     <!-- <th style="width:10%">เงินกู้คงเหลือ</th> -->
                     <th style="width:10%">ดอกเบี้ย (%)</th>
                 </tr>
@@ -49,7 +49,7 @@
                     <td><span class="p-column-title">เลขที่สัญญา</span>เลขที่สัญญา</td>
                     <td style="color: #EA3A3D;"><span class="p-column-title">งวดที่</span>{{ loanDetail.installment | number }}</td>
                     <td style="color: #1AD598;"><span class="p-column-title">ดอกเบี้ย</span>{{ loanDetail.interest | number }}</td>
-                    <td style="color: #EA3A3D;"><span class="p-column-title">เงินกู้สามัญ</span>{{ loanDetail.loanValue | number }}</td>
+                    <td style="color: #EA3A3D;"><span class="p-column-title">เงินกู้สามัญ</span>{{ loanDetail.loanBalance | number }}</td>
                     <!-- <td style="color: #1AD598;">{{ loanDetail.loanBalance | number }}</td> -->
                     <td><span class="p-column-title">ดอกเบี้ย (%)</span>{{ loanDetail.interestPercent }}%</td>
                 </tr>
