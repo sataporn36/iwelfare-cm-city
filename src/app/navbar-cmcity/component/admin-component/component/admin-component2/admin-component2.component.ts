@@ -993,7 +993,7 @@ export class AdminComponent2Component implements OnInit {
         if (element.installment === res.installment) {
           this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
           this.elementLoan = element;
-          this.onPrintReceiptMakePdf(element, this.sumElementLoan)
+          this.onPrintReceiptMakePdf(element, this.sumElementLoan);
         }
       })
     });
@@ -1027,8 +1027,10 @@ export class AdminComponent2Component implements OnInit {
       this.displayModalBill = false;
     } else if (this.headerName === 'สรุปยอดรวม') {
       this.totalMemLoan();
+      this.displayModalBill = false;
     } else if (this.headerName === 'ข้อมูลสมาชิก') {
       this.docInfoAll();
+      this.displayModalBill = false;
     }
   }
 
@@ -1049,7 +1051,8 @@ export class AdminComponent2Component implements OnInit {
       // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
       //   this.onPrintInfoMember(element)
       // })
-      this.onPrintInfoMember(dataList)
+      const recheckList = dataList.filter(item => item.employeeCode !== '00000');
+      this.onPrintInfoMember(recheckList)
     })
   }
 
@@ -1160,7 +1163,7 @@ export class AdminComponent2Component implements OnInit {
             // keepWithHeaderRows: 1, , alignment: 'right'
             body: [
               [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', { text: this.formattedNumber2(installment), alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
+              ['ค่าหุ้น', { text: elementLoan ? this.formattedNumber2(elementLoan.stockDetailInstallment) : '', alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
               ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.totalDeduction) : '', alignment: 'right' }
                 , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
               ['ดอก', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
