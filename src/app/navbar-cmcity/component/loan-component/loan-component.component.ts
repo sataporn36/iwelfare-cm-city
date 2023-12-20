@@ -67,7 +67,7 @@ export class LoanComponentComponent implements OnInit {
     this.loanId = this.localStorageService.retrieve('loanid');
     this.getLoanDetail(this.userId, this.loanId);
 
-    this.searchLoan();
+    // this.searchLoan();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
 
@@ -351,12 +351,12 @@ export class LoanComponentComponent implements OnInit {
     });
   }
 
-  searchLoan(): void {
-    this.service.searchLoan().subscribe(data => {
-      this.dataLoan = data;
-      this.loading = false;
-    });
-  }
+  // searchLoan(): void {
+  //   this.service.searchLoan().subscribe(data => {
+  //     this.dataLoan = data;
+  //     this.loading = false;
+  //   });
+  // }
 
   // exportPDF(){
   //   this.customers?.forEach((element,index,array) =>{

@@ -1,19 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import {
-  ApexNonAxisChartSeries,
-  ApexResponsive,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexStroke,
-  ApexYAxis,
-  ApexFill,
-  ApexLegend,
-  ApexPlotOptions
-} from "ng-apexcharts";
 import * as ApexCharts from 'apexcharts';
 import { Chart } from 'chart.js';
 
@@ -464,7 +451,7 @@ export class LoanRightsComponentComponent implements OnInit {
     const chartBar = {
       series: [{
         name: "จำนวนเงิน",
-        data: [900000, this.sumLoan, this.userInfo.loanBalance, this.totalLoan]
+        data: [900000, this.sumLoan, this.userInfo.loanBalance]
       }],
       chart: {
         type: "bar",
@@ -493,7 +480,6 @@ export class LoanRightsComponentComponent implements OnInit {
           "กู้ได้ไม่เกิน",
           "เงินกู้สามัญสูงสุด",
           "หนี้เงินกู้คงเหลือ",
-          "ประมาณการรับเงินสุทธิ",
         ],
         labels: {
           style: {
@@ -533,7 +519,6 @@ export class LoanRightsComponentComponent implements OnInit {
         documentStyle.getPropertyValue('--pink-800'),
         documentStyle.getPropertyValue('--pink-600'),
         documentStyle.getPropertyValue('--purple-800'),
-        documentStyle.getPropertyValue('--purple-600'),
       ]
     };
 

@@ -90,6 +90,9 @@ export class AdminComponent1Component {
   public department: Observable<Department[]> | any;
   public level: Observable<Level[]> | any;
   public employeeType: Observable<EmployeeType[]> | any;
+  
+  guarantor: any;
+  guarantee: any;
 
   constructor(private service: MainService,
     private messageService: MessageService,
@@ -112,6 +115,18 @@ export class AdminComponent1Component {
 
     this.searchEmployee();
     this.checkDefaultImage();
+  }
+
+  getGuarantor(id: any) {
+    this.service.getGuarantor(id).subscribe(data => {
+      this.guarantor = data;
+    });
+  }
+
+  getGuarantee(id: any) {
+    this.service.getGuarantee(id).subscribe(data => {
+      this.guarantee = data;
+    });
   }
 
   checkDefaultImage() {
@@ -211,6 +226,9 @@ export class AdminComponent1Component {
 
       department: new FormControl(null),
       departmentName: new FormControl(null),
+
+      stockAccumulate: new FormControl('0'),
+      loanBalance: new FormControl('0'),
     });
   }
 
@@ -249,6 +267,8 @@ export class AdminComponent1Component {
     this.textString = 'form-control';
     this.mode = false;
     this.detailModel.enable();
+    this.detailModel.get('stockAccumulate')?.disable();
+    this.detailModel.get('loanBalance')?.disable();
   }
 
   changeToNumber(value: any) {
@@ -817,6 +837,8 @@ export class AdminComponent1Component {
       this.getPositions();
       this.getBureau();
       this.getDepartment();
+      this.getGuarantor(id);
+      this.getGuarantee(id);
 
       if (data.affiliation != null) {
         this.service.searchByBureau(data.affiliation.bureau.id).subscribe(data => this.affiliation = data);
@@ -890,8 +912,9 @@ export class AdminComponent1Component {
         textHidden: '-',
 
         beneficiarySize: data.beneficiaries.length > 0 ? true : false,
-        departmentName: data.departmentName ? data.departmentName : '-'
-
+        departmentName: data.departmentName ? data.departmentName : '-',
+        stockAccumulate: data.stockAccumulate,
+        loanBalance: data.loanBalance
       })
     });
   }

@@ -376,9 +376,58 @@
                         <label for="lastName" class="block">วันที่เกษียณอายุราชการ</label>
                         <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
                     </div>
+                    <div>
+                        <label for="lastName" class="block">หุ้นสะสม</label>
+                        <input [class]="textString" id="retirementDate" type="text" formControlName="stockAccumulate" />
+                    </div>
+                    <div>
+                        <label for="lastName" class="block">เงินกู้คงเหลือ</label>
+                        <input [class]="textString" id="retirementDate" type="text" formControlName="loanBalance" />
+                    </div>
                     <!-- </div> -->
                 </div>
+                <div class="div-guarante" style="margin-top: 0.5rem;">
+                    <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
+                    <div class="div-guarante-info">
+                        <div>
+                            <label for="lastName" class="block">ค้ำคนที่ 1</label>
+                            <div style="display: flex; grid-gap: 5px;">
+                                <span>{{guarantee?.codeGuaranteeOne || ''}}</span>
+                                <span>{{guarantee?.fullNameGuaranteeOne || ''}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="lastName" class="block">ค้ำคนที่ 2</label>
+                            <div style="display: flex; grid-gap: 5px;">
+                                <span>{{guarantee?.codeGuaranteeTwo || ''}}</span>
+                                <span>{{guarantee?.fullNameGuaranteeTwo || ''}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-guarante" style="margin-top: 0.5rem;">
+                    <p-chip label="ผู้ค้ำประกันเงินกู้ของท่าน" styleClass="mr-2"></p-chip>
+                    <div class="div-guarante-info">
+                        <div>
+                            <label for="lastName" class="block">ค้ำคนที่ 1</label>
+                            <div style="display: flex; grid-gap: 5px;">
+                                <span>{{guarantor?.codeGuarantorOne || ''}}</span>
+                                <span>{{guarantor?.fullNameGuarantorOne || ''}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="lastName" class="block">ค้ำคนที่ 2</label>
+                            <div style="display: flex; grid-gap: 5px;">
+                                <span>{{guarantor?.codeGuarantorTwo || ''}}</span>
+                                <span>{{guarantor?.fullNameGuarantorTwo || ''}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
+
+
     </div>
 </p-dialog>
