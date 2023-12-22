@@ -176,8 +176,8 @@ export class MainService {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/v1/loan-detail/getLoanDetail',playload);
   }
 
-  searchLoan(): Observable<any[]> {
-    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/loan/search', null);
+  searchLoan(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/loan/search', playload);
   }
 
   updateResignAdmin(playload: any): Observable<any> {

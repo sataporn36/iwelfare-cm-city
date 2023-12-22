@@ -77,10 +77,9 @@ export class AdminComponent3Component implements OnInit {
     this.initMainFormLoanNew();
     this.initMainFormBill();
     this.getLoanDetail(this.userId, this.loanId, this.empDetail);
-
-    this.searchLoan();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
+    this.searchLoan();
     this.getLoanDetailListOfLastValue();
 
     this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
@@ -433,7 +432,11 @@ export class AdminComponent3Component implements OnInit {
   }
 
   searchLoan() {
-    this.service.searchLoan().subscribe((data) => {
+    const payload = {
+      newMonth: this.month,
+      newYear: this.year
+    }
+    this.service.searchLoan(payload).subscribe((data) => {
       if(data){
         this.dataLoan = data;
         setTimeout(() => {

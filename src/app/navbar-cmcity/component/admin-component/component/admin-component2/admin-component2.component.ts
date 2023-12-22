@@ -580,8 +580,8 @@ export class AdminComponent2Component implements OnInit {
           totalMonth += Number(element.totalMonth);
           stockAccumulateTotal += Number(element.stockAccumulateTotal);
           sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(stockValueTotal), alignment: 'right' }, ' ',
-          { text: this.formattedNumber2(loanDetailOrdinaryTotal), alignment: 'right' }, { text: this.formattedNumber2(loanDetailInterestTotal), alignment: 'right' }
-            , { text: this.formattedNumber2(totalMonth), alignment: 'right' }, { text: this.formattedNumber2(stockAccumulateTotal), alignment: 'right' }
+          { text: loanDetailOrdinaryTotal <= 0 ? this.formattedNumber2(loanDetailOrdinaryTotal) : ' ', alignment: 'right' }, { text: loanDetailInterestTotal <= 0 ? this.formattedNumber2(loanDetailInterestTotal) : ' ', alignment: 'right' }
+            , { text: loanDetailOrdinaryTotal <= 0 ? this.formattedNumber2(totalMonth) : ' ', alignment: 'right' }, { text: loanDetailOrdinaryTotal <= 0 ? this.formattedNumber2(stockAccumulateTotal) : ' ', alignment: 'right' }
           ];
         }
       })
