@@ -554,14 +554,14 @@ export class LoanComponentComponent implements OnInit {
               [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ',
               //{ text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ', ' ', ' ', ' ',
               { text: ' ', alignment: 'right' }, ' ', ' ', ' ', ' ',
-              { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' },
+              { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' }, 
               { text: decimalPipe.transform(dataSum.monthPrincipleSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.lastMonthInterestSum), alignment: 'right' },
+              { text: ' ', alignment: 'right' }, //decimalPipe.transform(dataSum.lastMonthInterestSum)
               { text: decimalPipe.transform(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
-              { text: decimalPipe.transform(dataSum.totalValueInterestSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.outStandInterestSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.totalValuePrincipleSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.outStandPrincipleSum), alignment: 'right' },
+              { text: ' ', alignment: 'right' }, //decimalPipe.transform(dataSum.totalValueInterestSum)
+              { text: ' ', alignment: 'right' }, //decimalPipe.transform(dataSum.outStandInterestSum)
+              { text: ' ', alignment: 'right' }, //decimalPipe.transform(dataSum.totalValuePrincipleSum)
+              { text: ' ', alignment: 'right' },  //decimalPipe.transform(dataSum.outStandPrincipleSum)
               ],
             ],
           },
