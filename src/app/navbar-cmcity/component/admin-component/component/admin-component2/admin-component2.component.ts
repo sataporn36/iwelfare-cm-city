@@ -769,76 +769,117 @@ export class AdminComponent2Component implements OnInit {
   }
 
   exportMakePDFALL(mode: any, listSum: any[]) {
+    const sections = [];
 
-    let data1 = this.checkListDataPDF(this.infogroup1);
-    let dataSum1 = this.checkListSumAllByDepartment(listSum, 'แขวงเม็งราย');
-    let data2 = this.checkListDataPDF(this.infogroup2);
-    let dataSum2 = this.checkListSumAllByDepartment(listSum, 'แขวงกาวิละ');
-    let data3 = this.checkListDataPDF(this.infogroup3);
-    let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป');
-    let data4 = this.checkListDataPDF(this.infogroup4);
-    let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ');
-    let data5 = this.checkListDataPDF(this.infogroup5);
-    let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล');
+    // Push data sections with corresponding summary data if available
+    const pushDataSection = (data: any[], sumData: any[]) => {
+      if (data.length > 0) {
+        sections.push(...data, sumData);
+      }
+    };
 
-    let data6 = this.checkListDataPDF(this.infogroup6);
-    let dataSum6 = this.checkListSumAllByDepartment(listSum, 'งานก่อสร้าง');
-    let data7 = this.checkListDataPDF(this.infogroup7)
-    let dataSum7 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง');
-    let data8 = this.checkListDataPDF(this.infogroup8);
-    let dataSum8 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง ฝ่ายประจำ');
-    let data9 = this.checkListDataPDF(this.infogroup9);
-    let dataSum9 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานทั่วไป');
-    let data10 = this.checkListDataPDF(this.infogroup10);
-    let dataSum10 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป');
+    let data1 = this.checkListDataPDF(this.infogroup1) || [];
+    let dataSum1 = this.checkListSumAllByDepartment(listSum, 'แขวงเม็งราย') || [];
+    let data2 = this.checkListDataPDF(this.infogroup2) || [];
+    let dataSum2 = this.checkListSumAllByDepartment(listSum, 'แขวงกาวิละ') || [];
+    let data3 = this.checkListDataPDF(this.infogroup3) || [];
+    let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป') || [];
+    let data4 = this.checkListDataPDF(this.infogroup4) || [];
+    let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ') || [];
+    let data5 = this.checkListDataPDF(this.infogroup5) || [];
+    let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล') || [];
 
-    let data11 = this.checkListDataPDF(this.infogroup11);
-    let dataSum11 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป ฝ่ายประจำ');
-    let data12 = this.checkListDataPDF(this.infogroup12)
-    let dataSum12 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน');
-    let data13 = this.checkListDataPDF(this.infogroup13);
-    let dataSum13 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับการศึกษา');
-    let data14 = this.checkListDataPDF(this.infogroup14);
-    let dataSum14 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์');
-    let data15 = this.checkListDataPDF(this.infogroup15);
-    let dataSum15 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข');
+    let data6 = this.checkListDataPDF(this.infogroup6) || [];
+    let dataSum6 = this.checkListSumAllByDepartment(listSum, 'งานก่อสร้าง') || [];
+    let data7 = this.checkListDataPDF(this.infogroup7) || [];
+    let dataSum7 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง') || [];
+    let data8 = this.checkListDataPDF(this.infogroup8) || [];
+    let dataSum8 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง ฝ่ายประจำ') || [];
+    let data9 = this.checkListDataPDF(this.infogroup9) || [];
+    let dataSum9 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานทั่วไป') || [];
+    let data10 = this.checkListDataPDF(this.infogroup10) || [];
+    let dataSum10 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป') || [];
 
-    let data16 = this.checkListDataPDF(this.infogroup16);
-    let dataSum16 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา');
-    let data17 = this.checkListDataPDF(this.infogroup17);
-    let dataSum17 = this.checkListSumAllByDepartment(listSum, 'งานป้องกันและบรรเทาสาธารณภัย');
-    let data18 = this.checkListDataPDF(this.infogroup18)
-    let dataSum18 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน');
-    let data19 = this.checkListDataPDF(this.infogroup19);
-    let dataSum19 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน');
-    let data20 = this.checkListDataPDF(this.infogroup20);
-    let dataSum20 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ');
+    let data11 = this.checkListDataPDF(this.infogroup11) || [];
+    let dataSum11 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป ฝ่ายประจำ') || [];
+    let data12 = this.checkListDataPDF(this.infogroup12) || [];
+    let dataSum12 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน') || [];
+    let data13 = this.checkListDataPDF(this.infogroup13) || [];
+    let dataSum13 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับการศึกษา') || [];
+    let data14 = this.checkListDataPDF(this.infogroup14) || [];
+    let dataSum14 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์') || [];
+    let data15 = this.checkListDataPDF(this.infogroup15) || [];
+    let dataSum15 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข') || [];
 
-    let data21 = this.checkListDataPDF(this.infogroup21);
-    let dataSum21 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย');
-    let data22 = this.checkListDataPDF(this.infogroup22)
-    let dataSum22 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง');
-    let data23 = this.checkListDataPDF(this.infogroup23);
-    let dataSum23 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง');
-    let data24 = this.checkListDataPDF(this.infogroup24);
-    let dataSum24 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ');
-    let data25 = this.checkListDataPDF(this.infogroup25);
-    let dataSum25 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง');
+    let data16 = this.checkListDataPDF(this.infogroup16) || [];
+    let dataSum16 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา') || [];
+    let data17 = this.checkListDataPDF(this.infogroup17) || [];
+    let dataSum17 = this.checkListSumAllByDepartment(listSum, 'งานป้องกันและบรรเทาสาธารณภัย') || [];
+    let data18 = this.checkListDataPDF(this.infogroup18) || [];
+    let dataSum18 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน') || [];
+    let data19 = this.checkListDataPDF(this.infogroup19) || [];
+    let dataSum19 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน') || [];
+    let data20 = this.checkListDataPDF(this.infogroup20) || [];
+    let dataSum20 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ') || [];
 
-    let data26 = this.checkListDataPDF(this.infogroup26);
-    let dataSum26 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย');
-    let data27 = this.checkListDataPDF(this.infogroup27)
-    let dataSum27 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ');
-    let data28 = this.checkListDataPDF(this.infogroup28);
-    let dataSum28 = this.checkListSumAllByDepartment(listSum, 'งานวางแผนสถิติและวิชาการ');
-    let data29 = this.checkListDataPDF(this.infogroup29);
-    let dataSum29 = this.checkListSumAllByDepartment(listSum, 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว');
-    let data30 = this.checkListDataPDF(this.infogroup30);
-    let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล');
-    let data31 = this.checkListDataPDF(this.infogroup31);
-    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'ระดับก่อนวัยเรียนและประถมศึกษา');
+    let data21 = this.checkListDataPDF(this.infogroup21) || [];
+    let dataSum21 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย') || [];
+    let data22 = this.checkListDataPDF(this.infogroup22) || [];
+    let dataSum22 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง') || [];
+    let data23 = this.checkListDataPDF(this.infogroup23) || [];
+    let dataSum23 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง') || [];
+    let data24 = this.checkListDataPDF(this.infogroup24) || [];
+    let dataSum24 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ') || [];
+    let data25 = this.checkListDataPDF(this.infogroup25) || [];
+    let dataSum25 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง') || [];
+
+    let data26 = this.checkListDataPDF(this.infogroup26) || [];
+    let dataSum26 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย') || [];
+    let data27 = this.checkListDataPDF(this.infogroup27) || [];
+    let dataSum27 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ') || [];
+    let data28 = this.checkListDataPDF(this.infogroup28) || [];
+    let dataSum28 = this.checkListSumAllByDepartment(listSum, 'งานวางแผนสถิติและวิชาการ') || [];
+    let data29 = this.checkListDataPDF(this.infogroup29) || [];
+    let dataSum29 = this.checkListSumAllByDepartment(listSum, 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว') || [];
+    let data30 = this.checkListDataPDF(this.infogroup30) || [];
+    let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล') || [];
+    let data31 = this.checkListDataPDF(this.infogroup31) || [];
+    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'ระดับก่อนวัยเรียนและประถมศึกษา') || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
+
+     // Push data sections along with their summaries if they have values
+     pushDataSection(data1, dataSum1);
+     pushDataSection(data2, dataSum2);
+     pushDataSection(data3, dataSum3);
+     pushDataSection(data4, dataSum4);
+     pushDataSection(data5, dataSum5);
+     pushDataSection(data6, dataSum6);
+     pushDataSection(data7, dataSum7);
+     pushDataSection(data8, dataSum8);
+     pushDataSection(data9, dataSum9);
+     pushDataSection(data10, dataSum10);
+     pushDataSection(data11, dataSum11);
+     pushDataSection(data12, dataSum12);
+     pushDataSection(data13, dataSum13);
+     pushDataSection(data14, dataSum14);
+     pushDataSection(data15, dataSum15);
+     pushDataSection(data16, dataSum16);
+     pushDataSection(data17, dataSum17);
+     pushDataSection(data18, dataSum18);
+     pushDataSection(data19, dataSum19);
+     pushDataSection(data20, dataSum20);
+     pushDataSection(data21, dataSum21);
+     pushDataSection(data22, dataSum22);
+     pushDataSection(data23, dataSum23);
+     pushDataSection(data24, dataSum24);
+     pushDataSection(data25, dataSum25);
+     pushDataSection(data26, dataSum26);
+     pushDataSection(data27, dataSum27);
+     pushDataSection(data28, dataSum28);
+     pushDataSection(data29, dataSum29);
+     pushDataSection(data30, dataSum30);
+     pushDataSection(data31, dataSum31);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -875,7 +916,7 @@ export class AdminComponent2Component implements OnInit {
           style: 'tableExample',
           table: {
             headerRows: 1,
-            widths: [220, 65, 150, 70, 90, 85, 90, 80, 85, 85],
+            widths: [225, 65, 150, 70, 90, 80, 90, 80, 85, 85],
             body: [
               [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
               { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
@@ -885,72 +926,73 @@ export class AdminComponent2Component implements OnInit {
               ],
 
               // group 1
-              ...data1,
-              dataSum1,
-              ...data2,
-              dataSum2,
-              ...data3,
-              dataSum3,
-              ...data4,
-              dataSum4,
-              ...data5,
-              dataSum5,
-              ...data6,
-              dataSum6,
-              ...data7,
-              dataSum7,
-              ...data8,
-              dataSum8,
-              ...data9,
-              dataSum9,
-              ...data10,
-              dataSum10,
+              ...sections,
+              // ...data1,
+              // dataSum1,
+              // ...data2,
+              // dataSum2,
+              // ...data3,
+              // dataSum3,
+              // ...data4,
+              // dataSum4,
+              // ...data5,
+              // dataSum5,
+              // ...data6,
+              // dataSum6,
+              // ...data7,
+              // dataSum7,
+              // ...data8,
+              // dataSum8,
+              // ...data9,
+              // dataSum9,
+              // ...data10,
+              // dataSum10,
 
-              // group 2
-              ...data11,
-              dataSum11,
-              ...data12,
-              dataSum12,
-              ...data13,
-              dataSum13,
-              ...data14,
-              dataSum14,
-              ...data15,
-              dataSum15,
-              ...data16,
-              dataSum16,
-              ...data17,
-              dataSum17,
-              ...data18,
-              dataSum18,
-              ...data19,
-              dataSum19,
-              ...data20,
-              dataSum20,
+              // // group 2
+              // ...data11,
+              // dataSum11,
+              // ...data12,
+              // dataSum12,
+              // ...data13,
+              // dataSum13,
+              // ...data14,
+              // dataSum14,
+              // ...data15,
+              // dataSum15,
+              // ...data16,
+              // dataSum16,
+              // ...data17,
+              // dataSum17,
+              // ...data18,
+              // dataSum18,
+              // ...data19,
+              // dataSum19,
+              // ...data20,
+              // dataSum20,
 
-              // group 1
-              ...data21,
-              dataSum21,
-              ...data22,
-              dataSum22,
-              ...data23,
-              dataSum23,
-              ...data24,
-              dataSum24,
-              ...data25,
-              dataSum25,
-              ...data26,
-              dataSum26,
-              ...data27,
-              dataSum27,
-              ...data28,
-              dataSum28,
-              ...data29,
-              dataSum29,
-              ...data30,
-              dataSum30,
-              ...data31,
-              dataSum31,
+              // // group 1
+              // ...data21,
+              // dataSum21,
+              // ...data22,
+              // dataSum22,
+              // ...data23,
+              // dataSum23,
+              // ...data24,
+              // dataSum24,
+              // ...data25,
+              // dataSum25,
+              // ...data26,
+              // dataSum26,
+              // ...data27,
+              // dataSum27,
+              // ...data28,
+              // dataSum28,
+              // ...data29,
+              // dataSum29,
+              // ...data30,
+              // dataSum30,
+              // ...data31,
+              // dataSum31,
               sunGrandTotal,
             ]
           },
