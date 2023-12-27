@@ -8,7 +8,7 @@
     <p-table responsiveLayout="stack" #dt2 [value]="listEmp" dataKey="id" editMode="row" [rows]="10"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
         selectionMode="single" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
-        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate' ]"
+        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate', 'idCard' ]"
         [tableStyle]="{'max-width': '100%'}">
         <ng-template pTemplate="caption">
             <div class="flex" style="display: flex; justify-content: space-between;">

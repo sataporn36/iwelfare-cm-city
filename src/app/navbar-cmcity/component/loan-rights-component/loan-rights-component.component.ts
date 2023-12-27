@@ -22,6 +22,7 @@ export class LoanRightsComponentComponent implements OnInit {
   widthPie: any;
   widthBar: any;
   heightBar: any;
+  sumMaxLoan: number = 0;
 
   constructor(
     protected router: Router,
@@ -29,9 +30,33 @@ export class LoanRightsComponentComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) { }
 
+  onCalculateYearsOfWorking(data: any){
+    const startDate = new Date(data.billingStartDate); // Replace with your start date
+    const currentDate = new Date(); // Current date
+
+    // Calculate the difference in milliseconds between the two dates
+    const differenceMs = currentDate.getTime() - startDate.getTime();
+
+    // Convert milliseconds to years
+    const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25; // Approximation of milliseconds in a year
+    const yearsOfWork = differenceMs / millisecondsPerYear;
+   
+    if( Number(yearsOfWork.toFixed(0)) >= 3 ){
+      this.sumLoan = data.salary * 30;
+    }else if( Number(yearsOfWork.toFixed(0)) >= 2 ){
+      this.sumLoan = data.salary * 20;
+    }else if( Number(yearsOfWork.toFixed(0)) >= 1 ){
+      this.sumLoan = data.salary * 10;
+    }else{
+      this.sumLoan = data.salary * 10;
+    }
+    //console.log('Years of working time:', yearsOfWork.toFixed(0));
+  }
+
   ngOnInit(): void {
     this.userInfo = this.localStorageService.retrieve('employeeofmain');
-    this.sumLoan = this.userInfo?.salary * 10;
+    this.onCalculateYearsOfWorking(this.userInfo);
+    this.sumMaxLoan = 900000;
     this.totalLoan = this.sumLoan - this.userInfo?.loanBalance;
 
     if (this.userInfo?.loanValue == 0.0) {
