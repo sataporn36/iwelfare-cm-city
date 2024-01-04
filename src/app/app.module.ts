@@ -31,6 +31,7 @@ import { BnNgIdleService } from 'bn-ng-idle';
 import { ChipModule } from 'primeng/chip';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { PageCloseComponentComponent } from './PageClosedForMaintenance/page-close-component.component';
 
 @NgModule({
     declarations: [	
@@ -41,6 +42,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
         PageNotFoundComponent,
         ForgetPasswordPageComponent,
         LandingPageComponent,
+        PageCloseComponentComponent,
    ],
     providers: [ConfirmationService,MessageService,AuthGuardService,BnNgIdleService],
     bootstrap: [AppComponent],

@@ -1553,6 +1553,7 @@ export class AdminComponent3Component implements OnInit {
 
 
   checkNull: boolean = true;
+  checkNullAddLoan: boolean = true;
   checkValueOfNull(event: any) {
     if (!event.value) {
       this.checkNull = true;
@@ -1586,13 +1587,13 @@ export class AdminComponent3Component implements OnInit {
   timeNew: any;
   pipeDateTHNewLan() {
     const format = new Date();
+    const year = this.checkYearOfLoanDate(format.getFullYear());
+    this.year = year;
     const monthSelectCurrent = this.periodMonthDescOption[format.getMonth()];
     format.setMonth(format.getMonth());
     const month = this.checkMonthOfLoanDate(format.getMonth());
     format.setDate(0);
     const day = format.getDate();
-    const year = this.checkYearOfLoanDate(format.getFullYear());
-    this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
@@ -1710,18 +1711,25 @@ export class AdminComponent3Component implements OnInit {
   }
 
   oldMonth: any;
+  oldYear:any;
   newMonth: any;
   newYear: any;
   updateLoantoMonth() {
     this.displayModal = true;
 
-    const formatDate = new Date()
-    const month = formatDate.getMonth()
-    this.newYear = formatDate.getFullYear() + 543
-
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
     this.newMonth = this.periodMonthDescOption[month];
-    this.oldMonth = this.periodMonthDescOption[month - 1];
 
+    if(month <= 0){
+      this.oldMonth = this.periodMonthDescOption[11];
+      this.oldYear = this.newYear - 1;
+    }else{
+      this.oldMonth = this.periodMonthDescOption[month - 1];
+      this.oldYear = this.newYear;
+    }
+    
     this.formModelLoan.patchValue({
       loanYear: this.newYear,
       loanMonth: this.newMonth.label,
@@ -1742,6 +1750,7 @@ export class AdminComponent3Component implements OnInit {
     this.service.getLoanDetail(payload).subscribe(data => {
       this.loanDetail = data;
       this.loading = false;
+      this.checkInsertLoanDetailAll();
     });
   }
 
@@ -1755,8 +1764,10 @@ export class AdminComponent3Component implements OnInit {
     if(loanDetail != null){
       if (loanDetail.loanMonth === monthSelect.label) {
         this.checkNull = true;
+        this.checkNullAddLoan = false;
       } else {
         this.checkNull = false;
+        this.checkNullAddLoan = true;
       }
     }else{
       this.checkNull = false;
@@ -1773,7 +1784,7 @@ export class AdminComponent3Component implements OnInit {
     this.showWarn();
     const payload = {
       oldMonth: this.oldMonth.label,
-      oldYear: this.newYear,
+      oldYear: this.oldYear,
       newMonth: this.newMonth.label,
       newYear: this.newYear
     }

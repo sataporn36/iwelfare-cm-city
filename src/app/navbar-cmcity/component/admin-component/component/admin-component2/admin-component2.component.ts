@@ -298,17 +298,24 @@ export class AdminComponent2Component implements OnInit {
   }
 
   oldMonth: any;
+  oldYear:any;
   newMonth: any;
   newYear: any;
   updateStocktoMonth() {
     this.displayModal = true;
 
-    const formatDate = new Date()
-    const month = formatDate.getMonth()
-    this.newYear = formatDate.getFullYear() + 543
-
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
     this.newMonth = this.periodMonthDescOption[month];
-    this.oldMonth = this.periodMonthDescOption[month - 1];
+
+    if(month <= 0){
+      this.oldMonth = this.periodMonthDescOption[11];
+      this.oldYear = this.newYear - 1;
+    }else{
+      this.oldMonth = this.periodMonthDescOption[month - 1];
+      this.oldYear = this.newYear;
+    }
 
     this.formModelStock.patchValue({
       stockYear: this.newYear,
@@ -329,7 +336,7 @@ export class AdminComponent2Component implements OnInit {
     this.showWarnAddStock();
     const payload = {
       oldMonth: this.oldMonth.label,
-      oldYear: this.newYear,
+      oldYear: this.oldYear,
       newMonth: this.newMonth.label,
       newYear: this.newYear
     }

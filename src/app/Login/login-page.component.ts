@@ -59,6 +59,11 @@ export class LoginPageComponent implements OnInit {
       state: { data: '' }
     });
   }
+
+  clickPageCloseForMaintenance(){
+     // redirect to close for maintenance page
+     this.router.navigate(['close-maintenance'], {});
+  }
  
   clickLogin() {
     if (this.formModel.valid) {
@@ -81,6 +86,7 @@ export class LoginPageComponent implements OnInit {
                     this.localStorageService.store('stockId', res.data.stockId);
                     this.localStorageService.store('loanId', res.data.loanId);
                     this.localStorageService.store('countDatetime', 0);
+                    // redirect to main page
                     this.router.navigate(['/main/main-page'], {
                       //state: { data: this.userId }
                     });

@@ -50,12 +50,13 @@ export class RegisterPageComponent implements OnInit{
       this.userId = history.state.data;
     }
     this.initMainForm();
+    this.setperiodMonthDescOption();
+    this.pipeDateTH();
     this.getPositions();
     this.getBureau();
     this.getDapartment();
     this.searchLevel();
     this.searchEmployeeType();
-    this.setperiodMonthDescOption();
   }
 
   getPositions(): void {
@@ -102,10 +103,10 @@ export class RegisterPageComponent implements OnInit{
   year: any;
   time: any;
   pipeDateTH() {
-    const format = new Date()
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
+    const format = new Date();
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;

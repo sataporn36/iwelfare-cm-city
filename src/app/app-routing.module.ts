@@ -24,6 +24,7 @@ import { AdminPage4Component } from './navbar-cmcity/component/admin-component/p
 import { ResetPasswordPageComponent } from './navbar-cmcity/page/reset-password-page/reset-password-page.component';
 import { AdminNewsPageComponent } from './navbar-cmcity/component/admin-component/page/admin-news-page/admin-news-page.component';
 import { AdminSettingPageComponent } from './navbar-cmcity/component/admin-component/page/admin-setting-page/admin-setting-page.component';
+import { PageCloseComponentComponent } from './PageClosedForMaintenance/page-close-component.component';
 const routes: Routes = [
   {
     path: '',
@@ -129,6 +130,10 @@ const routes: Routes = [
         component: AdminSettingPageComponent,
       },
     ]
+  },
+  {
+    path: 'close-maintenance',
+    component: PageCloseComponentComponent,
   },
   {
     path: '**',
