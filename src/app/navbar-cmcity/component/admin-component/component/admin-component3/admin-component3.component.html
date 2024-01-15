@@ -156,8 +156,8 @@
         </div>
         <div *ngIf="modeLoan === 'ADD'" class="p-num-4">
             <label class="block">ผ่อนชำระ(งวด)</label> <br>
-            <p-inputNumber formControlName="loanTime" inputId="minmaxfraction" mode="decimal" [min]="0" [max]="99"
-                [required]="true" [maxlength]="2" (keyup)="checkLoanTime($event)"></p-inputNumber>
+            <p-inputNumber formControlName="loanTime" inputId="minmaxfraction" mode="decimal" [min]="0" [max]="999"
+                [required]="true" [maxlength]="3" (keyup)="checkLoanTime($event)"></p-inputNumber>
             <!-- <div *ngIf="this.dataLanTimeFlag" style="display: grid;">
                 <div>
                     <button type="button" class="btn btn-regis-loan" (click)="onCalculateLoanNew()">คำนวณ</button>
