@@ -1421,7 +1421,7 @@ export class AdminComponent2Component implements OnInit {
               },
               {
                 rowSpan: 1,
-                text: this.formattedNumber(grandTotal.sumStockValue) + '   บาท \n\n' + this.formattedNumber(grandTotal.sumLoanInterest) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumLoanOrdinary) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumTotal) + '    บาท \n\n', alignment: 'right'
+                text: this.formattedNumber(grandTotal.sumStockValue) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumLoanInterest) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumLoanOrdinary) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumTotal) + '    บาท \n\n', alignment: 'right'
               }],
               //[{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
 

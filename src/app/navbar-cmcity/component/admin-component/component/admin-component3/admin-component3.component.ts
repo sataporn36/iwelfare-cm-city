@@ -1344,7 +1344,7 @@ export class AdminComponent3Component implements OnInit {
           data.stockValue = stockValueRE;
           this.service.insertLoanNew(data).subscribe(async (res) =>{         
             if(res){
-              this.closeLoanOld(data);
+              //this.closeLoanOld(data);
               this.localStorageService.clear('employeeofmain');
                this.getEmployeeOfMain(this.userId);
               this.localStorageService.clear('loanId');
