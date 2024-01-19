@@ -124,7 +124,7 @@ export class AdminComponent3Component implements OnInit {
     this.inputGuaranteeStock.pipe(debounceTime(1000)).subscribe(value => {
         if(value.length > 0){
           const data = this.dataNewLoan ? this.dataNewLoan.stockAccumulate : null;
-          const valueParse = value.replace(',','');
+          const valueParse = value.replace(/,/g,'');
           if(data !== null && ( Number(valueParse) <= data) ){
             this.formModelLoanNew.patchValue({
               guaranteeStock: 'ได้'
@@ -1338,9 +1338,9 @@ export class AdminComponent3Component implements OnInit {
           data.guaranteeStock = flagStock;
           const interestRE = data.interestPercent.replace('%','');
           data.interestPercent = interestRE;
-          const loanOrdinaryRE = data.loanOrdinary ? data.loanOrdinary.replace(',',''): 0;
+          const loanOrdinaryRE = data.loanOrdinary ? data.loanOrdinary.replace(/,/g,''): 0;
           data.loanOrdinary = loanOrdinaryRE;
-          const stockValueRE = data.stockValue ? data.stockValue.replace(',',''): 0 ;
+          const stockValueRE = data.stockValue ? data.stockValue.replace(/,/g,''): 0 ;
           data.stockValue = stockValueRE;
           this.service.insertLoanNew(data).subscribe(async (res) =>{         
             if(res){
@@ -1867,7 +1867,7 @@ export class AdminComponent3Component implements OnInit {
       header: 'ยกเลิกสัญญา',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        const loanBalanceNum = data.loanBalance.replace(',','');
+        const loanBalanceNum = data.loanBalance.replace(/,/g,'');
         if(Number(loanBalanceNum) <= 0){
           this.service.deleteLoanNew(data).subscribe({
             next: (res) => {

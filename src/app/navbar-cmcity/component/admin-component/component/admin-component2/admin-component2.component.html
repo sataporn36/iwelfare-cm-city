@@ -10,7 +10,8 @@
         <div class="btn-group">
             <button type="button" class="btn btn-login"
                 (click)="ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด')">ประวัติการส่งหุ้นของสมาชิกทั้งหมด</button>
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">ดาวน์โหลด</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadPdf')">ดาวน์โหลด PDF</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadExcel')">ดาวน์โหลด EXCEL</button>
         </div>
         <div class="card-menu-doc">
             <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>

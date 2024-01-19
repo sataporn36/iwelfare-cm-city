@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-deposit-component',
@@ -29,4 +30,13 @@ export class DepositComponentComponent implements OnInit {
     this.downloadLinkRef.nativeElement.href = documentPath;
     this.downloadLinkRef.nativeElement.click();
   }
+
+  downloadPdf(index: number) {
+    const documentPath = this.documents[index];
+    const pdfPath = documentPath.path;
+    const pdfName = documentPath.label;
+    saveAs(pdfPath, pdfName);
+  }
+
 }
+

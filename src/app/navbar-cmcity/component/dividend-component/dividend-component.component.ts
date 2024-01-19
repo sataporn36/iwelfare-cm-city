@@ -756,7 +756,7 @@ export class DividendComponentComponent implements OnInit {
 
   calculateDividend(){
      const data = this.formModelDividend.getRawValue();
-     const valueParse = data.allotmentAmount.replace(',','');
+     const valueParse = data.allotmentAmount.replace(/,/g,'');
      const sumPaymentDividend = data.amountRequired - Number(valueParse);
      this.formModelDividend.get('balance').setValue(this.formattedNumber2(sumPaymentDividend));
   }

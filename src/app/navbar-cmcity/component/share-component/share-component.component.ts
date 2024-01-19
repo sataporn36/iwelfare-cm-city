@@ -76,6 +76,7 @@ export class ShareComponentComponent implements OnInit {
   fileImg2: any;
   imageSrc1Blob: any;
   imageSrc2Blob: any;
+  yearCurrent: any;
 
   constructor(private service: MainService, private messageService:
     MessageService, private localStorageService: LocalStorageService,
@@ -331,6 +332,8 @@ export class ShareComponentComponent implements OnInit {
   time: any;
   pipeDateTH() {
     const format = new Date()
+    const yearNew = format.getFullYear();
+    this.yearCurrent = yearNew;
     const day = format.getDate()
     const month = format.getMonth()
     const year = format.getFullYear() + 543
@@ -821,9 +824,28 @@ export class ShareComponentComponent implements OnInit {
       principal: res.loanValue,
       interestRate: Number(res.interestPercent),
       numOfPayments: res.loanTime,
-      paymentStartDate: "2023-01-31"
+      paymentStartDate: this.yearCurrent.toString() + "-01-01"
     }
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
+      const data = resL;
+      data.forEach((element, index, array) => {
+        if (element.installment === res.installment) {
+          this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
+          this.elementLoan = element;
+          this.onPrintReceiptMakePdf(element, this.sumElementLoan, res);
+        }
+      })
+    });
+  }
+
+  onSearchCalculateLoanNew(res: any, stockValue: any) {
+    const payloadOld = {
+      principal: res.loanValue,
+      interestRate: Number(res.interestPercent),
+      numOfPayments: res.loanTime,
+      paymentStartDate: res.startDateLoan,
+    }
+    this.service.onCalculateLoanNew(payloadOld).subscribe((resL) => {
       const data = resL;
       data.forEach((element, index, array) => {
         if (element.installment === res.installment) {
@@ -887,11 +909,35 @@ export class ShareComponentComponent implements OnInit {
           this.dataResLoan = res;
           this.getImgSig1('signature1',this.fileImg1);
           this.getImgSig2('signature2',this.fileImg2);
-          await this.onSearchCalculateLoanOld(res, stockValue);
+          if(res.loanId){
+            if(res.newLoan){
+              await this.onSearchCalculateLoanNew(res, stockValue);
+            }else{
+              await this.onSearchCalculateLoanOld(res, stockValue);
+            }
+          }else{
+            await this.onSearchCalculateLoanOld(res, stockValue);
+            this.sumElementLoan = (Number(stockValue) + 0 + 0); //  stockValue + totalDeduction + interest
+            //this.elementLoan = null; 
+            this.onPrintReceiptMakePdf(null, this.sumElementLoan, res);
+          }
         }
       },
       error: error => { },
     });
+  }
+
+  checkCalculatePrincipalBalanceBefore(elementLoan: any){
+    const yearSub = elementLoan.deductionDate.substring(0,4);
+    if(Number(yearSub) >= this.yearCurrent){
+      if(elementLoan.principalBalance > 0 && elementLoan.installment > 0){
+         return this.formattedNumber2(elementLoan.principalBalance + Math.round(elementLoan.totalDeduction - elementLoan.interest));
+      }else{
+        return this.formattedNumber2(elementLoan.principalBalance);
+      }
+    }else{
+      return this.formattedNumber2(elementLoan.principalBalance);
+    }
   }
 
   dataResLoan: any
@@ -954,9 +1000,9 @@ export class ShareComponentComponent implements OnInit {
             headerRows: 4,
             body: [
               [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', { text: elementLoan ? this.formattedNumber2(resStock.stockDetailInstallment) : '', alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
+              ['ค่าหุ้น', { text: resStock ? this.formattedNumber2(resStock.stockDetailInstallment) : '', alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
               ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.totalDeduction) : '', alignment: 'right' }
-                , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
+                , { text: elementLoan ? this.checkCalculatePrincipalBalanceBefore(elementLoan) : '', alignment: 'right' }],
               ['ดอกเบี้ย', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
               [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber2(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
             ]

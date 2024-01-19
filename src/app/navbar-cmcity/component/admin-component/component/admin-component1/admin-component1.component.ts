@@ -272,7 +272,7 @@ export class AdminComponent1Component {
   }
 
   changeToNumber(value: any) {
-    const valueParse = value.replace(',','');
+    const valueParse = value.replace(/,/g,'');
     return Number(valueParse);
   }
 

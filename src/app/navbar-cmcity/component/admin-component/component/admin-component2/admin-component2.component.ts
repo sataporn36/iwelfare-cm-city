@@ -18,6 +18,8 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'src/assets/custom-fonts.js'
 import { Department } from 'src/app/model/department';
 import { Observable, Subject, debounceTime } from 'rxjs';
+import * as XLSX from 'xlsx';
+import { log } from 'console';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -750,10 +752,15 @@ export class AdminComponent2Component implements OnInit {
 
   searchDocumentV1All(mode: any) {
     // this.displayLoadingPdf = true;
-    this.showWarn();
+    if('excel'){
+       this.showWarnExcel();
+    }else{
+      this.showWarn();
+    }
 
     const bill = this.formModelBill.getRawValue();
-    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+    const subMonth = bill.month.length > 1 ? bill.month : bill.month.substring(1,2);
+    this.billMonth = this.periodMonthDescOption[Number(subMonth) - 1].label
 
     const playload = {
       monthCurrent: this.billMonth,
@@ -887,6 +894,8 @@ export class AdminComponent2Component implements OnInit {
      pushDataSection(data29, dataSum29);
      pushDataSection(data30, dataSum30);
      pushDataSection(data31, dataSum31);
+     
+     console.log(sections,'<----- sections');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -1024,9 +1033,75 @@ export class AdminComponent2Component implements OnInit {
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
-    } else {
+    }else if(mode === 'pdf'){
       pdf.download('ประวัติการส่งหุ้น.pdf');
+    }else if(mode === 'excel'){
+      this.exportDataToExcel(sections,sunGrandTotal);
     }
+  }
+
+  replaceTextInExcel(text: any){
+      const textRe = text ? text.replace(/,/g,'') : 0;
+      return textRe ? Number(textRe) : 0;
+  }
+
+  exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
+    const textTitle = 'เทศบาลนครเชียงใหม่';
+    const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
+    let columnHeaders = [
+      [textTitle, '', ''],
+      [textHeader, '', ''],
+      ['', '', ''],
+      ['หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'ค่าหุ้น(งวดที่)', 'ค่าหุ้น(จำานวนเงิน)', 'เงินกู้(งวดที่)', 'เงินกู้สามัญเงินต้น', 'ดอกเบี้ย', 'รวมส่ง(เดือน)', 'หุ้นสะสม'],
+      
+    ];
+
+    for (let i = 0; i < listDataStock.length; i++) {
+      columnHeaders.push([
+        listDataStock[i][0].text,
+        listDataStock[i][1].text,
+        listDataStock[i][2].text,
+        this.replaceTextInExcel(listDataStock[i][3].text),
+        this.replaceTextInExcel(listDataStock[i][4].text),
+        this.replaceTextInExcel(listDataStock[i][5].text),
+        this.replaceTextInExcel(listDataStock[i][6].text),
+        this.replaceTextInExcel(listDataStock[i][7].text),
+        this.replaceTextInExcel(listDataStock[i][8].text),
+        this.replaceTextInExcel(listDataStock[i][9].text),
+      ]);
+    }
+
+    // last row sumTotal
+    columnHeaders.push([
+      sunGrandTotal[0].text,
+      '',
+      '',
+      '',
+      this.replaceTextInExcel(sunGrandTotal[4].text),
+      '',
+      this.replaceTextInExcel(sunGrandTotal[6].text),
+      this.replaceTextInExcel(sunGrandTotal[7].text),
+      this.replaceTextInExcel(sunGrandTotal[8].text),
+      this.replaceTextInExcel(sunGrandTotal[9].text),
+    ]);
+  
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
+    ws['!cols'] = [
+      { width: 50,},
+      { width: 15 },
+      { width: 30 },
+      { width: 15 },
+      { width: 20 },
+      { width: 15 },
+      { width: 20 },
+      { width: 15 },
+      { width: 20 },
+      { width: 20 },
+    ];
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'ประวัติการส่งหุ้น.xlsx');
   }
 
   onSearchCalculateLoanOld(res: any, stockValue: any) {
@@ -1079,6 +1154,12 @@ export class AdminComponent2Component implements OnInit {
       this.displayModalBill = false;
     } else if (this.headerName === 'ข้อมูลสมาชิก') {
       this.docInfoAll();
+      this.displayModalBill = false;
+    } else if (this.headerName === 'downloadPdf') {
+      this.searchDocumentV1All('pdf');
+      this.displayModalBill = false;
+    } else if (this.headerName === 'downloadExcel') {
+      this.searchDocumentV1All('excel');
       this.displayModalBill = false;
     }
   }
@@ -1669,6 +1750,10 @@ export class AdminComponent2Component implements OnInit {
 
   showWarn() {
     this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที', life: 10000 });
+  }
+
+  showWarnExcel() {
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ Excel อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที', life: 10000 });
   }
 
   checkSetValueBill(event: any) {

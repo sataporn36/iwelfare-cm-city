@@ -35,6 +35,21 @@ a {
 .btn-login {
   color: #fff;
   background-color: #fe6bba;
+  text-decoration: underline;
+}
+
+.pdf-text{
+  color: #fe6bba;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.img-web{
+  display: unset;
+}
+
+.img-phone{
+  display: none;
 }
 
 @media only screen and (max-width: 450px) {
@@ -44,7 +59,15 @@ a {
   .div-doc-pdf {
     margin: 0px;
   }
-  img {
+  // img {
+  //   display: none;
+  // }
+
+  .img-web{
     display: none;
+  }
+  
+  .img-phone{
+    display: unset;
   }
 }

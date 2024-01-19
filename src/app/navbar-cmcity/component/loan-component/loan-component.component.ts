@@ -1207,7 +1207,7 @@ export class LoanComponentComponent implements OnInit {
           // data.guaranteeStock = flagStock;
           // const interestRE = data.interestPercent.replace('%','');
           // data.interestPercent = interestRE;
-          // const loanOrdinaryRE = data.loanOrdinary.replace(',','');
+          // const loanOrdinaryRE = data.loanOrdinary.replace(/,/g,'');
           // data.loanOrdinary = loanOrdinaryRE;
           const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
           this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ '
