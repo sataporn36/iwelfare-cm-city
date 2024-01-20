@@ -11,7 +11,8 @@
         <div class="btn-group">
             <button type="button" class="btn btn-login"
                 (click)="searchDocumentV1All('export')">ประวัติเงินกู้ของสมาชิกทั้งหมด</button>
-            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('download')">ดาวน์โหลด</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('pdf')">ดาวน์โหลด PDF</button>
+            <button type="button" class="btn btn-login" (click)="searchDocumentV1All('excel')">ดาวน์โหลด EXCEL</button>
         </div>
         <div class="card-menu-doc">
             <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>

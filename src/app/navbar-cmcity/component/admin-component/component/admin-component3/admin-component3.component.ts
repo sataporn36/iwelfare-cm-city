@@ -12,7 +12,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
 import { log } from 'console';
-
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin-component3',
@@ -1223,13 +1223,106 @@ export class AdminComponent3Component implements OnInit {
         font: 'Sarabun',
       }
     }
+    
+    console.log(sections,'<---- listDataStock');
+    console.log(sunGrandTotal,'<---- sunGrandTotal');
+
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
-    } else {
+    }else if(mode === 'pdf'){
       pdf.download('ประวัติการส่งเงินกู้รายเดือน.pdf');
+    }else if(mode === 'excel'){
+      this.exportDataToExcel(sections,sunGrandTotal);
     }
   }
+
+  replaceTextInExcel(text: any){
+    const textRe = text ? text.replace(/,/g,'') : 0;
+    return textRe ? Number(textRe) : '';
+  }
+
+exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
+  const textTitle = 'เทศบาลนครเชียงใหม่';
+  const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
+  let columnHeaders = [
+    [textTitle, '', ''],
+    [textHeader, '', ''],
+    ['', '', ''],
+    [
+      'หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'เงินกู้', 'เวลากู้', 'ดอกเบี้ย', 'ผู้ค้ำ 1', 'ผู้ค้ำ 2', 'เดือนนี้ (ดอก)', 'เดือนนี้ (ต้น)', 'สุดท้าย (ดอก)','สุดท้าย (ต้น)',
+      'ส่งงวดที่', 'รวมส่ง (ดอก)', 'คงค้าง (ดอก)', 'รวมส่ง (ต้น)', 'คงค้าง (ต้น)'
+    ],
+  ];
+
+  for (let i = 0; i < listDataStock.length; i++) {
+    columnHeaders.push([
+      listDataStock[i][0].text,
+      listDataStock[i][1].text,
+      listDataStock[i][2].text,
+      this.replaceTextInExcel(listDataStock[i][3].text),
+      this.replaceTextInExcel(listDataStock[i][4].text),
+      this.replaceTextInExcel(listDataStock[i][5].text),
+      listDataStock[i][6].text,
+      listDataStock[i][7].text,
+      this.replaceTextInExcel(listDataStock[i][8].text),
+      this.replaceTextInExcel(listDataStock[i][9].text),
+      this.replaceTextInExcel(listDataStock[i][10].text),
+      this.replaceTextInExcel(listDataStock[i][11].text),
+      this.replaceTextInExcel(listDataStock[i][12].text),
+      this.replaceTextInExcel(listDataStock[i][13].text),
+      this.replaceTextInExcel(listDataStock[i][14].text),
+      this.replaceTextInExcel(listDataStock[i][15].text),
+      this.replaceTextInExcel(listDataStock[i][16].text),
+    ]);
+  }
+
+  // last row sumTotal
+  columnHeaders.push([
+    sunGrandTotal[0].text,
+    '',
+    '',
+    this.replaceTextInExcel(sunGrandTotal[3].text),
+    '',
+    '',
+    '',
+    '',
+    this.replaceTextInExcel(sunGrandTotal[8].text),
+    this.replaceTextInExcel(sunGrandTotal[9].text),
+    this.replaceTextInExcel(sunGrandTotal[10].text),
+    this.replaceTextInExcel(sunGrandTotal[11].text),
+    '',
+    this.replaceTextInExcel(sunGrandTotal[13].text),
+    this.replaceTextInExcel(sunGrandTotal[14].text),
+    this.replaceTextInExcel(sunGrandTotal[15].text),
+    this.replaceTextInExcel(sunGrandTotal[16].text),
+  ]);
+
+  const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
+  ws['!cols'] = [
+    { width: 50,},
+    { width: 15 },
+    { width: 30 },
+    { width: 20 },
+    { width: 10 },
+    { width: 10 },
+    { width: 15 },
+    { width: 15 },
+    { width: 20 },
+    { width: 20 },
+    { width: 20 },
+    { width: 20 },
+    { width: 10 },
+    { width: 20 },
+    { width: 20 },
+    { width: 20 },
+    { width: 20 },
+  ];
+
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, 'ประวัติการส่งเงินกู้รายเดือน.xlsx');
+}
 
   onEditLoan(data: any) {
     /// api
@@ -1800,6 +1893,10 @@ export class AdminComponent3Component implements OnInit {
     if (this.headerName === 'ประวัติเงินกู้ของสมาชิกทั้งหมด') {
       this.onSearchDocumentV1All();
       this.displayModalBill = false;
+    }else if(this.headerName === ''){
+
+    }else if(this.headerName === ''){
+
     }
   }
 
