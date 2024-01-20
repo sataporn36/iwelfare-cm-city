@@ -5,7 +5,8 @@
         <div class="btn-group">
             <button type="button" class="btn btn-login"
                 (click)="updateLoantoMonth()">เรียกเก็บชำระเงินกู้รายเดือน</button>
-            <button type="button" class="btn btn-login" [disabled]="checkNullAddLoan" (click)="onCheckToAddBeforeAddLoan()">สร้างสัญญาเงินกู้ใหม่</button>
+            <button type="button" class="btn btn-login" [disabled]="checkNullAddLoan"
+                (click)="onCheckToAddBeforeAddLoan()">สร้างสัญญาเงินกู้ใหม่</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-login"
@@ -85,10 +86,9 @@
         </ng-template>
     </p-table>
 </div>
-<!-- <div style="padding-top: 2rem;"></div> -->
 
 <p-confirmDialog #cd [appendTo]="'body'" position="center" [draggable]="false" [dismissableMask]="true"
-    [style]="{width: '18vw'}">
+    [style]="{width: '20vw'}" [breakpoints]="{ '1500px': '25vw','1200px': '30vw','900px': '40vw','700px': '50vw','550px': '60vw','450px': '70vw','400px': '90vw' }">
     <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login2" (click)="cd.accept()">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="cd.reject()">ยกเลิก</button>
@@ -201,7 +201,7 @@
                     required="true" maxlength="50" />
             </div>
         </div>
-        <div [ngStyle]="{'display': this.dataNewLoanFlag ? 'flex': 'none','align-items': 'center'}" >
+        <div [ngStyle]="{'display': this.dataNewLoanFlag ? 'flex': 'none','align-items': 'center'}">
             <div *ngIf="this.dataNewLoanFlag && modeLoan === 'ADD'">
                 <p-checkbox formControlName="guaranteeStockFlag" (onChange)="checkStockFlag($event)" [binary]="true"
                     inputId="binary" label="ใช้หุ้นค้ำประกัน"></p-checkbox>
@@ -308,17 +308,14 @@
         </div>
     </ng-template>
     <div [formGroup]="formModelLoan">
-        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
-            <div class="col-12 " style="display: flex; justify-content: center;">
-                <div class="col-6">
-                    <label class="block">เดือนที่ชำระเงินกู้</label>
-                    <input class="form-control" type="text" formControlName="loanMonth" [disabled]="true" />
-                </div>
-                <div style="padding-right: 0.5rem;"></div>
-                <div class="col-6">
-                    <label class="block">ปีที่ชำระเงินกู้</label>
-                    <input class="form-control" type="text" formControlName="loanYear" [disabled]="true" />
-                </div>
+        <div class="displayModal">
+            <div>
+                <label class="block">เดือนที่ชำระเงินกู้</label>
+                <input class="form-control" type="text" formControlName="loanMonth" [disabled]="true" />
+            </div>
+            <div>
+                <label class="block">ปีที่ชำระเงินกู้</label>
+                <input class="form-control" type="text" formControlName="loanYear" [disabled]="true" />
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import 'jspdf-autotable';
@@ -62,10 +62,9 @@ export class AdminComponent3Component implements OnInit {
   messageQuagmire: any;
   modeLoan: any = 'ADD';
 
-  constructor(private service: MainService, private messageService: MessageService, 
-    private confirmationService: ConfirmationService, 
-    private localStorageService: LocalStorageService,) 
-    { }
+  constructor(private service: MainService, private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private localStorageService: LocalStorageService,) { }
 
   ngOnInit() {
     this.loading = true;
@@ -84,7 +83,7 @@ export class AdminComponent3Component implements OnInit {
 
     this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
       // Perform your action here based on the latest value
-      if(value.length >= 5){
+      if (value.length >= 5) {
         this.formModelLoanNew.get('guarantorOne').enable();
         this.formModelLoanNew.get('guarantorTwo').enable();
         const payload = {
@@ -94,17 +93,17 @@ export class AdminComponent3Component implements OnInit {
         }
         this.service.searchEmployeeLoanNew(payload).subscribe({
           next: (res) => {
-            if(res !== null || res){
+            if (res !== null || res) {
               this.dataNewLoan = res;
               this.setInterestPercentOnLoan();
               this.formModelLoanNew.patchValue({
                 //interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
-                stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)): 0,
+                stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)) : 0,
                 fullName: res.fullName,
                 empId: res.empId,
                 loanId: res.loanId ? res.loanId : 0,
               });
-            }else{
+            } else {
               this.formModelLoanNew.reset();
               this.onCancleLoan();
             }
@@ -114,145 +113,145 @@ export class AdminComponent3Component implements OnInit {
             // this.formModelLoanNew.get('employeeCode').setValue(null);
           },
         });
-      }else{
+      } else {
         this.formModelLoanNew.reset();
       }
-      
+
     });
 
-    
+
     this.inputGuaranteeStock.pipe(debounceTime(1000)).subscribe(value => {
-        if(value.length > 0){
-          const data = this.dataNewLoan ? this.dataNewLoan.stockAccumulate : null;
-          const valueParse = value.replace(/,/g,'');
-          if(data !== null && ( Number(valueParse) <= data) ){
-            this.formModelLoanNew.patchValue({
-              guaranteeStock: 'ได้'
-            });
-            this.dataNewLoanFlag = true;
-            this.formModelLoanNew.get('loanTime').enable();
-            // this.formModelLoanNew.get('guarantorOne').disable();
-            // this.formModelLoanNew.get('guarantorTwo').disable();
-          }else{
-            this.formModelLoanNew.patchValue({
-              guaranteeStock: 'ไม่ได้'
-            });
-            this.dataNewLoanFlag = false;
-            this.formModelLoanNew.get('loanTime').enable();
-            this.formModelLoanNew.get('guarantorOne').enable();
-            this.formModelLoanNew.get('guarantorTwo').enable();
-          }
-        }else{
-          this.formModelLoanNew.get('guaranteeStock').setValue(null);
-          this.formModelLoanNew.get('loanTime').disable();
+      if (value.length > 0) {
+        const data = this.dataNewLoan ? this.dataNewLoan.stockAccumulate : null;
+        const valueParse = value.replace(/,/g, '');
+        if (data !== null && (Number(valueParse) <= data)) {
+          this.formModelLoanNew.patchValue({
+            guaranteeStock: 'ได้'
+          });
+          this.dataNewLoanFlag = true;
+          this.formModelLoanNew.get('loanTime').enable();
+          // this.formModelLoanNew.get('guarantorOne').disable();
+          // this.formModelLoanNew.get('guarantorTwo').disable();
+        } else {
+          this.formModelLoanNew.patchValue({
+            guaranteeStock: 'ไม่ได้'
+          });
+          this.dataNewLoanFlag = false;
+          this.formModelLoanNew.get('loanTime').enable();
           this.formModelLoanNew.get('guarantorOne').enable();
           this.formModelLoanNew.get('guarantorTwo').enable();
-          this.dataNewLoanFlag = false;
         }
+      } else {
+        this.formModelLoanNew.get('guaranteeStock').setValue(null);
+        this.formModelLoanNew.get('loanTime').disable();
+        this.formModelLoanNew.get('guarantorOne').enable();
+        this.formModelLoanNew.get('guarantorTwo').enable();
+        this.dataNewLoanFlag = false;
+      }
     });
 
     this.inputLoanTime.pipe(debounceTime(1000)).subscribe(value => {
-      if(value.length > 0){
+      if (value.length > 0) {
         this.dataLanTimeFlag = true;
-      }else{
+      } else {
         this.dataLanTimeFlag = false;
         this.formModelLoanNew.get('loanTime').setValue(null);
       }
     });
 
     this.inputGuarantorUnique1.pipe(debounceTime(1000)).subscribe(value => {
-      if(value.length > 0){
-         const playload = {
+      if (value.length > 0) {
+        const playload = {
           empCode: value
-         }
-         this.service.searchGuarantorUnique(playload).subscribe({
+        }
+        this.service.searchGuarantorUnique(playload).subscribe({
           next: (res) => {
-            if(res !== null){
-              if(res.length >= 2){
+            if (res !== null) {
+              if (res.length >= 2) {
                 this.guarantorUniqueFlag1 = 'N';
-                setTimeout(() => {}, 800);
+                setTimeout(() => { }, 800);
                 this.formModelLoanNew.get('guarantorOne').setValue(null);
-              }else{
-                  const data = this.formModelLoanNew.getRawValue();
-                  if(value === data.employeeCode){
-                    this.guarantorUniqueFlag1 = 'C';
-                    this.formModelLoanNew.get('guarantorOne').setValue(null);
-                  }else if(value !== data.guarantorTwo){
-                    this.guarantorUniqueFlag1 = 'Y';
-                    const playload1 = {
-                      empCode: data.guarantorOne
-                    }
-                    this.service.searchEmpCodeOfId(playload1).subscribe((resG1)=>{
-                      this.guarantorUniqueName1 = resG1 ? resG1.fullName : 'ใช้ได้';
-                    });
-                  }else{
-                    this.guarantorUniqueFlag1 = 'Q';
-                    setTimeout(() => {}, 800);
-                    this.formModelLoanNew.get('guarantorOne').setValue(null);
+              } else {
+                const data = this.formModelLoanNew.getRawValue();
+                if (value === data.employeeCode) {
+                  this.guarantorUniqueFlag1 = 'C';
+                  this.formModelLoanNew.get('guarantorOne').setValue(null);
+                } else if (value !== data.guarantorTwo) {
+                  this.guarantorUniqueFlag1 = 'Y';
+                  const playload1 = {
+                    empCode: data.guarantorOne
                   }
+                  this.service.searchEmpCodeOfId(playload1).subscribe((resG1) => {
+                    this.guarantorUniqueName1 = resG1 ? resG1.fullName : 'ใช้ได้';
+                  });
+                } else {
+                  this.guarantorUniqueFlag1 = 'Q';
+                  setTimeout(() => { }, 800);
+                  this.formModelLoanNew.get('guarantorOne').setValue(null);
+                }
               }
-            }else{
+            } else {
               this.guarantorUniqueFlag1 = 'N';
-              setTimeout(() => {}, 800);
+              setTimeout(() => { }, 800);
               this.formModelLoanNew.get('guarantorOne').setValue(null);
             }
           },
           error: error => {
-              this.guarantorUniqueFlag1 = 'N';
-              setTimeout(() => {}, 800);
-              this.formModelLoanNew.get('guarantorOne').setValue(null);
-          } 
-         });
-      }else{
+            this.guarantorUniqueFlag1 = 'N';
+            setTimeout(() => { }, 800);
+            this.formModelLoanNew.get('guarantorOne').setValue(null);
+          }
+        });
+      } else {
         this.guarantorUniqueFlag1 = 'A';
         this.formModelLoanNew.get('guarantorOne').setValue(null);
       }
     });
 
     this.inputGuarantorUnique2.pipe(debounceTime(1000)).subscribe(value => {
-      if(value.length > 0){
+      if (value.length > 0) {
         const playload = {
           empCode: value
-         }
+        }
         this.service.searchGuarantorUnique(playload).subscribe({
           next: (res) => {
-            if(res !== null){
-              if(res.length >= 2){
+            if (res !== null) {
+              if (res.length >= 2) {
                 this.guarantorUniqueFlag2 = 'N';
-                setTimeout(() => {}, 800);
+                setTimeout(() => { }, 800);
                 this.formModelLoanNew.get('guarantorTwo').setValue(null);
-              }else{
-                      const data = this.formModelLoanNew.getRawValue();
-                      if(value === data.employeeCode){
-                        this.guarantorUniqueFlag2 = 'C';
-                        this.formModelLoanNew.get('guarantorTwo').setValue(null);
-                      }else if(value !== data.guarantorOne){
-                        this.guarantorUniqueFlag2 = 'Y';
-                        const playload2 = {
-                          empCode: data.guarantorTwo
-                        }
-                        this.service.searchEmpCodeOfId(playload2).subscribe((resG2)=>{
-                          this.guarantorUniqueName2 = resG2 ? resG2.fullName : 'ใช้ได้';
-                        });
-                      }else{
-                        this.guarantorUniqueFlag2 = 'Q';
-                        setTimeout(() => {}, 800);
-                        this.formModelLoanNew.get('guarantorTwo').setValue(null);
-                      }
+              } else {
+                const data = this.formModelLoanNew.getRawValue();
+                if (value === data.employeeCode) {
+                  this.guarantorUniqueFlag2 = 'C';
+                  this.formModelLoanNew.get('guarantorTwo').setValue(null);
+                } else if (value !== data.guarantorOne) {
+                  this.guarantorUniqueFlag2 = 'Y';
+                  const playload2 = {
+                    empCode: data.guarantorTwo
+                  }
+                  this.service.searchEmpCodeOfId(playload2).subscribe((resG2) => {
+                    this.guarantorUniqueName2 = resG2 ? resG2.fullName : 'ใช้ได้';
+                  });
+                } else {
+                  this.guarantorUniqueFlag2 = 'Q';
+                  setTimeout(() => { }, 800);
+                  this.formModelLoanNew.get('guarantorTwo').setValue(null);
+                }
               }
-            }else{
+            } else {
               this.guarantorUniqueFlag2 = 'N';
-              setTimeout(() => {}, 800);
+              setTimeout(() => { }, 800);
               this.formModelLoanNew.get('guarantorTwo').setValue(null);
             }
           },
           error: error => {
-              this.guarantorUniqueFlag2 = 'N';
-              setTimeout(() => {}, 800);
-              this.formModelLoanNew.get('guarantorTwo').setValue(null);
+            this.guarantorUniqueFlag2 = 'N';
+            setTimeout(() => { }, 800);
+            this.formModelLoanNew.get('guarantorTwo').setValue(null);
           }
         });
-      }else{
+      } else {
         this.guarantorUniqueFlag2 = 'A';
         this.formModelLoanNew.get('guarantorTwo').setValue(null);
       }
@@ -260,15 +259,15 @@ export class AdminComponent3Component implements OnInit {
 
     this.inputSubjectBill.pipe(debounceTime(1000)).subscribe(value => {
       // Perform your action here based on the latest value
-      if(Number(value) <= this.year){
+      if (Number(value) <= this.year) {
         this.formModelBill.patchValue({
           year: value,
         });
-      }else{
+      } else {
         this.formModelBill.get('year').setValue(null);
         this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
       }
-      
+
     });
 
     this.menuItems = [
@@ -299,7 +298,7 @@ export class AdminComponent3Component implements OnInit {
     ];
   }
 
-  setInterestPercentOnLoan(){
+  setInterestPercentOnLoan() {
     this.service.getConfigByList().subscribe((res) => {
       if (res) {
         this.formModelLoanNew.patchValue({
@@ -392,8 +391,8 @@ export class AdminComponent3Component implements OnInit {
   }
 
   stcokFlag: boolean = false;
-  checkStockFlag(event: any){
-    if(event.checked){
+  checkStockFlag(event: any) {
+    if (event.checked) {
       this.stcokFlag = event.checked;
       this.formModelLoanNew.get('guarantorOne').disable();
       this.formModelLoanNew.get('guarantorTwo').disable();
@@ -401,7 +400,7 @@ export class AdminComponent3Component implements OnInit {
       this.formModelLoanNew.get('guarantorTwo').setValue(null);
       this.guarantorUniqueFlag1 = 'A';
       this.guarantorUniqueFlag2 = 'A';
-    }else{
+    } else {
       this.stcokFlag = event.checked;
       this.formModelLoanNew.get('guarantorOne').enable();
       this.formModelLoanNew.get('guarantorTwo').enable();
@@ -437,7 +436,7 @@ export class AdminComponent3Component implements OnInit {
       newYear: this.year
     }
     this.service.searchLoan(payload).subscribe((data) => {
-      if(data){
+      if (data) {
         this.dataLoan = data;
         setTimeout(() => {
           this.loading = false;
@@ -523,7 +522,7 @@ export class AdminComponent3Component implements OnInit {
 
   exportMakePDF(mode: any, loanInfo: any[], sum: any, sumLoanObj: any) {
     const decimalPipe = new DecimalPipe('en-US');
-   
+
     let detailLoan = loanInfo.map(function (item) {
       return [
         { text: item.departmentName, alignment: 'left' },
@@ -598,11 +597,11 @@ export class AdminComponent3Component implements OnInit {
               { text: 'คงค้าง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailLoan,
-              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', 
-              { text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ',' ', ' ',' ',
-              { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' }, 
+              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ',
+              { text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ', ' ', ' ', ' ',
+              { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' },
               { text: decimalPipe.transform(dataSum.monthPrincipleSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.lastMonthInterestSum), alignment: 'right' }, 
+              { text: decimalPipe.transform(dataSum.lastMonthInterestSum), alignment: 'right' },
               { text: decimalPipe.transform(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
               { text: decimalPipe.transform(dataSum.totalValueInterestSum), alignment: 'right' },
               { text: decimalPipe.transform(dataSum.outStandInterestSum), alignment: 'right' },
@@ -970,7 +969,7 @@ export class AdminComponent3Component implements OnInit {
   exportMakePDFAll(mode: any, listSum: any[]) {
 
     const sections = [];
-    
+
     // Helper function to check if an array contains values
     const hasValues = (arr: any[]): boolean => {
       return arr.some(item => item !== null && item !== undefined && item !== '');
@@ -991,7 +990,7 @@ export class AdminComponent3Component implements OnInit {
     let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป', this.infogroup3) || [];
     let data4 = this.checkListDataPDF(this.infogroup4) || [];
     let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4) || [];
-    let data5 = this.checkListDataPDF(this.infogroup5)|| [];
+    let data5 = this.checkListDataPDF(this.infogroup5) || [];
     let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล', this.infogroup5) || [];
 
     let data6 = this.checkListDataPDF(this.infogroup6) || [];
@@ -1249,14 +1248,14 @@ export class AdminComponent3Component implements OnInit {
     this.displayModal = false;
   }
 
-  onCheckToAddBeforeAddLoan(){
+  onCheckToAddBeforeAddLoan() {
     this.modeLoan = 'ADD';
     this.onShowLoanAddNew();
     this.guarantorUniqueFlag1 = 'A';
     this.guarantorUniqueFlag2 = 'A';
   }
 
-  onShowLoanAddNew(){
+  onShowLoanAddNew() {
     this.initMainFormLoanNew();
     this.displayModalLoanNew = true;
     this.dataNewLoanFlag = false;
@@ -1270,54 +1269,54 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoanNew.get('guarantorTwo').disable();
   }
 
-  checkValidFormLoan(){
+  checkValidFormLoan() {
     const data = this.formModelLoanNew.getRawValue();
-    const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
-    if(flagStock === 'Y'){
-      if(!this.stcokFlag){
-        if(data.guarantorTwo !== null && data.guarantorOne !== null){
-          if(data.loanOrdinary === null || !data.loanOrdinary){
+    const flagStock = data.guaranteeStock === 'ได้' ? 'Y' : 'N';
+    if (flagStock === 'Y') {
+      if (!this.stcokFlag) {
+        if (data.guarantorTwo !== null && data.guarantorOne !== null) {
+          if (data.loanOrdinary === null || !data.loanOrdinary) {
             this.messageError = 'กรุณาคำนวนยอดที่ต้องชำระต่อเดือน';
             this.statusQuagmire = false;
             this.displayMessageError = true;
             return false;
-          }else{
+          } else {
             return true;
           }
-        }else{
+        } else {
           this.messageError = 'กรุณาระบุพนักงานค้ำ'
           this.statusQuagmire = false;
           this.displayMessageError = true;
           return false;
         }
-      }else{
-        if(data.loanOrdinary === null || !data.loanOrdinary){
+      } else {
+        if (data.loanOrdinary === null || !data.loanOrdinary) {
           this.messageError = 'กรุณาคำนวนยอดที่ต้องชำระต่อเดือน';
           this.statusQuagmire = false;
           this.displayMessageError = true;
           return false;
-        }else{
+        } else {
           return true;
         }
       }
-    }else{
-      if(this.guarantorUniqueFlag1 !== 'Y' || this.guarantorUniqueFlag2 !== 'Y'){
+    } else {
+      if (this.guarantorUniqueFlag1 !== 'Y' || this.guarantorUniqueFlag2 !== 'Y') {
         this.messageError = 'ตรวจสอบรหัสพนักงานค้ำให้ถูกต้อง';
         this.statusQuagmire = false;
         this.displayMessageError = true;
         return false;
-      }else if(data.loanOrdinary === null || !data.loanOrdinary){
+      } else if (data.loanOrdinary === null || !data.loanOrdinary) {
         this.messageError = 'กรุณาคำนวนยอดที่ต้องชำระต่อเดือน';
         this.statusQuagmire = false;
         this.displayMessageError = true;
         return false;
-      }else{
+      } else {
         return true;
       }
     }
- }
+  }
 
-  closeLoanOld(data: { loanId: number; }){
+  closeLoanOld(data: { loanId: number; }) {
     this.service.closeLoan(data.loanId).subscribe((res) => {
       // this.messageService.add({ severity: 'success', detail: 'ปิดหนี้สำเร็จ' });
       // this.ngOnInit();
@@ -1327,70 +1326,70 @@ export class AdminComponent3Component implements OnInit {
   statusQuagmire: boolean = false;
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
-     if(this.dataNewLoan){
-      const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
-      const loanActive = this.dataNewLoan.loanActive ? this.dataNewLoan.loanBalance: true;
+    if (this.dataNewLoan) {
+      const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
+      const loanActive = this.dataNewLoan.loanActive ? this.dataNewLoan.loanBalance : true;
       this.checkStatusQuagmire(loanBalance);
-      if(loanActive && loanBalance <= 0){
-        if(this.checkValidFormLoan()){
+      if (loanActive && loanBalance <= 0) {
+        if (this.checkValidFormLoan()) {
           // api
-          const flagStock = data.guaranteeStock === 'ได้' ? 'Y': 'N';
+          const flagStock = data.guaranteeStock === 'ได้' ? 'Y' : 'N';
           data.guaranteeStock = flagStock;
-          const interestRE = data.interestPercent.replace('%','');
+          const interestRE = data.interestPercent.replace('%', '');
           data.interestPercent = interestRE;
-          const loanOrdinaryRE = data.loanOrdinary ? data.loanOrdinary.replace(/,/g,''): 0;
+          const loanOrdinaryRE = data.loanOrdinary ? data.loanOrdinary.replace(/,/g, '') : 0;
           data.loanOrdinary = loanOrdinaryRE;
-          const stockValueRE = data.stockValue ? data.stockValue.replace(/,/g,''): 0 ;
+          const stockValueRE = data.stockValue ? data.stockValue.replace(/,/g, '') : 0;
           data.stockValue = stockValueRE;
-          this.service.insertLoanNew(data).subscribe(async (res) =>{         
-            if(res){
+          this.service.insertLoanNew(data).subscribe(async (res) => {
+            if (res) {
               //this.closeLoanOld(data);
               this.localStorageService.clear('employeeofmain');
-               this.getEmployeeOfMain(this.userId);
+              this.getEmployeeOfMain(this.userId);
               this.localStorageService.clear('loanId');
               this.localStorageService.store('loanId', res.data.id);
               await new Promise((resolve) => setTimeout(resolve, 500)),
-              this.ngOnInit();
+                this.ngOnInit();
               this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
-            }else{
+            } else {
               this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
             }
             this.displayModalLoanNew = false;
             this.displayMessageError = false;
           });
         }
-     }else{
-      if(this.checkValidFormLoan()){
-        const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
-        if(loanBalance !== 0){
-          this.statusQuagmire = true;
-          this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ ' 
-          + this.formattedNumber2(loanBalance) + '  บาท';
-          //this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
-          this.displayMessageError = true;
-        }else{
-          this.statusQuagmire = false;
-          this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
-          this.displayMessageError = true;
+      } else {
+        if (this.checkValidFormLoan()) {
+          const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
+          if (loanBalance !== 0) {
+            this.statusQuagmire = true;
+            this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ '
+              + this.formattedNumber2(loanBalance) + '  บาท';
+            //this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
+            this.displayMessageError = true;
+          } else {
+            this.statusQuagmire = false;
+            this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
+            this.displayMessageError = true;
+          }
         }
       }
-     }
     }
-     
+
   }
 
-  checkStatusQuagmire(loanBalance: any){
-    if(loanBalance > 0){
+  checkStatusQuagmire(loanBalance: any) {
+    if (loanBalance > 0) {
       this.statusQuagmire = true;
-    }else{
+    } else {
       this.statusQuagmire = false;
     }
-    
+
   }
 
   getEmployeeOfMain(id: any): void {
     this.service.getEmployeeOfMain(id).subscribe(data => {
-      if(data){
+      if (data) {
         this.localStorageService.store('employeeofmain', data);
         //this.localStorageService.store('profileImgId', data.profileImgId);
       }
@@ -1416,75 +1415,75 @@ export class AdminComponent3Component implements OnInit {
   guarantorOneValue: any;
   guarantorTwoValue: any;
   isInputDisabled: boolean = true
-  async editLoanEmp(data: any){
-     this.modeLoan = 'EDIT';
-     this.initMainFormLoanNew();
-     this.dataLanTimeFlag = false;
-     this.dataNewLoanFlag = false;
-     this.formModelLoanNew.get('interestPercent').disable();
-     this.formModelLoanNew.get('startDateLoan').disable();
-     this.formModelLoanNew.get('loanOrdinary').disable();
-     this.formModelLoanNew.get('guaranteeStock').disable();
-     this.formModelLoanNew.get('stockValue').disable();
+  async editLoanEmp(data: any) {
+    this.modeLoan = 'EDIT';
+    this.initMainFormLoanNew();
+    this.dataLanTimeFlag = false;
+    this.dataNewLoanFlag = false;
+    this.formModelLoanNew.get('interestPercent').disable();
+    this.formModelLoanNew.get('startDateLoan').disable();
+    this.formModelLoanNew.get('loanOrdinary').disable();
+    this.formModelLoanNew.get('guaranteeStock').disable();
+    this.formModelLoanNew.get('stockValue').disable();
     //  this.formModelLoanNew.get('guarantorOne').disable();
     //  this.formModelLoanNew.get('guarantorTwo').disable();
-     this.formModelLoanNew.get('employeeCode').disable();
-     this.formModelLoanNew.get('fullName').disable();
-     this.formModelLoanNew.get('loanValue').disable();
-     this.formModelLoanNew.get('loanTime').disable();
-     this.formModelLoanNew.get('loanBalance').disable();
-     const dataStockAccumulate = this.empDetail ? this.empDetail.stockAccumulate : null;
-     if(data !== null && (Number(data.loanBalance) <= Number(data.stockAccumulate))){
-       this.formModelLoanNew.patchValue({
-         guaranteeStock: 'ได้'
-       });
-       this.dataNewLoanFlag = true;
-      }else{
-        this.formModelLoanNew.patchValue({
-          guaranteeStock: 'ไม่ได้'
-        });
-        this.dataNewLoanFlag = false;
-      }
-     
+    this.formModelLoanNew.get('employeeCode').disable();
+    this.formModelLoanNew.get('fullName').disable();
+    this.formModelLoanNew.get('loanValue').disable();
+    this.formModelLoanNew.get('loanTime').disable();
+    this.formModelLoanNew.get('loanBalance').disable();
+    const dataStockAccumulate = this.empDetail ? this.empDetail.stockAccumulate : null;
+    if (data !== null && (Number(data.loanBalance) <= Number(data.stockAccumulate))) {
       this.formModelLoanNew.patchValue({
-       ...data,
-       startDateLoan: data.startLoanDate ? data.startLoanDate : '-',
-       fullName: data.prefix + data.firstName + ' ' + data.lastName,
-       stockValue: data.stockAccumulate ? this.formattedNumber2(Number(data.stockAccumulate)) : 0,
-       loanValue: data.loanValue ? this.formattedNumber2(Number(data.loanValue)) : 0,
-       loanId: data.id,
-       guaranteeStockFlag: data.stockFlag ? data.stockFlag : false,
-       loanBalance: data.loanBalance ? this.formattedNumber2(Number(data.loanBalance)) : 0,
+        guaranteeStock: 'ได้'
+      });
+      this.dataNewLoanFlag = true;
+    } else {
+      this.formModelLoanNew.patchValue({
+        guaranteeStock: 'ไม่ได้'
+      });
+      this.dataNewLoanFlag = false;
+    }
+
+    this.formModelLoanNew.patchValue({
+      ...data,
+      startDateLoan: data.startLoanDate ? data.startLoanDate : '-',
+      fullName: data.prefix + data.firstName + ' ' + data.lastName,
+      stockValue: data.stockAccumulate ? this.formattedNumber2(Number(data.stockAccumulate)) : 0,
+      loanValue: data.loanValue ? this.formattedNumber2(Number(data.loanValue)) : 0,
+      loanId: data.id,
+      guaranteeStockFlag: data.stockFlag ? data.stockFlag : false,
+      loanBalance: data.loanBalance ? this.formattedNumber2(Number(data.loanBalance)) : 0,
       //  guarantorOne: data.guarantorOne ? data.guarantorOne : null,
       //  guarantorTwo: data.guarantorOne ? data.guarantorOne : null
-      });
-      if(data.stockFlag){
-        this.formModelLoanNew.get('guarantorOne').disable();
-        this.formModelLoanNew.get('guarantorTwo').disable();
-        await this.checkGuarantorValue1(null);
-        await this.checkGuarantorValue2(null);
-       }else{
-        await this.checkGuarantorValue1(data.guarantorOne);
-        await this.checkGuarantorValue2(data.guarantorTwo);
-       }
-      // if(data.guarantorOneValue){
-      //   this.inputGuarantorUnique1.next(data.guarantorOneValue);
-      // }else{
-      //   this.guarantorUniqueFlag1 = 'A';
-      // }
-      // if(data.guarantorTwoValue){
-      //   this.inputGuarantorUnique2.next(data.guarantorTwoValue);
-      // }else{
-      //   this.guarantorUniqueFlag2 = 'A';
-      // }
-      this.displayModalLoanNew = true;
-      
+    });
+    if (data.stockFlag) {
+      this.formModelLoanNew.get('guarantorOne').disable();
+      this.formModelLoanNew.get('guarantorTwo').disable();
+      await this.checkGuarantorValue1(null);
+      await this.checkGuarantorValue2(null);
+    } else {
+      await this.checkGuarantorValue1(data.guarantorOne);
+      await this.checkGuarantorValue2(data.guarantorTwo);
+    }
+    // if(data.guarantorOneValue){
+    //   this.inputGuarantorUnique1.next(data.guarantorOneValue);
+    // }else{
+    //   this.guarantorUniqueFlag1 = 'A';
+    // }
+    // if(data.guarantorTwoValue){
+    //   this.inputGuarantorUnique2.next(data.guarantorTwoValue);
+    // }else{
+    //   this.guarantorUniqueFlag2 = 'A';
+    // }
+    this.displayModalLoanNew = true;
+
   }
 
-  checkGuarantorValue1(guarantorOneValue: any){
-    if(guarantorOneValue){
+  checkGuarantorValue1(guarantorOneValue: any) {
+    if (guarantorOneValue) {
       this.searchIdOfEmpCodeValue1(guarantorOneValue);
-    }else{
+    } else {
       this.guarantorUniqueFlag1 = 'A';
       this.formModelLoanNew.patchValue({
         guarantorOne: '-'
@@ -1493,10 +1492,10 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  checkGuarantorValue2(guarantorTwovalue: any){
-    if(guarantorTwovalue){
+  checkGuarantorValue2(guarantorTwovalue: any) {
+    if (guarantorTwovalue) {
       this.searchIdOfEmpCodeValue2(guarantorTwovalue);
-    }else{
+    } else {
       this.guarantorUniqueFlag2 = 'A';
       this.formModelLoanNew.patchValue({
         guarantorTwo: '-'
@@ -1505,49 +1504,49 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  searchIdOfEmpCodeValue1(id: any){
+  searchIdOfEmpCodeValue1(id: any) {
     const payload = {
       empId: id
     }
     this.service.searchIdOfEmpCode(payload).subscribe((res) => {
-        this.guarantorOneValue = res;
-        this.guarantorUniqueFlag1 = 'Y';
-        this.guarantorUniqueName1 = res.fullName;
-        this.formModelLoanNew.patchValue({
-          guarantorOne: res ? res.empCode : '-'
-        });
+      this.guarantorOneValue = res;
+      this.guarantorUniqueFlag1 = 'Y';
+      this.guarantorUniqueName1 = res.fullName;
+      this.formModelLoanNew.patchValue({
+        guarantorOne: res ? res.empCode : '-'
+      });
     });
   }
 
-  searchIdOfEmpCodeValue2(id: any){
+  searchIdOfEmpCodeValue2(id: any) {
     const payload = {
       empId: id
     }
-     this.service.searchIdOfEmpCode(payload).subscribe((res) => {
-        this.guarantorTwoValue = res;
-        this.guarantorUniqueFlag2 = 'Y';
-        this.guarantorUniqueName2 = res.fullName;
-        this.formModelLoanNew.patchValue({
-          guarantorTwo: res ? res.empCode : '-'
-        });
+    this.service.searchIdOfEmpCode(payload).subscribe((res) => {
+      this.guarantorTwoValue = res;
+      this.guarantorUniqueFlag2 = 'Y';
+      this.guarantorUniqueName2 = res.fullName;
+      this.formModelLoanNew.patchValue({
+        guarantorTwo: res ? res.empCode : '-'
+      });
     });
   }
 
 
-  updateLoanEmp(){
+  updateLoanEmp() {
     const data = this.formModelLoanNew.getRawValue();
-    
+
     this.service.updateLoanEmpOfGuarantor(data).subscribe((res) => {
-        if(res){
-          this.displayModalLoanNew = false;
-          this.messageService.add({ severity: 'success', detail: 'เเก้ไขสัญญาเงินกู้สำเร็จ' });
-          this.ngOnInit();
-        }
+      if (res) {
+        this.displayModalLoanNew = false;
+        this.messageService.add({ severity: 'success', detail: 'เเก้ไขสัญญาเงินกู้สำเร็จ' });
+        this.ngOnInit();
+      }
     })
-    
+
   }
 
-  onCancleLoanEmp(){
+  onCancleLoanEmp() {
     this.displayModalLoanNew = false;
   }
 
@@ -1562,23 +1561,23 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  checkSetValueEmp(event: any){
+  checkSetValueEmp(event: any) {
     this.inputSubject.next(event.target.value);
   }
 
-  checkGuaranteeStock(event: any){
+  checkGuaranteeStock(event: any) {
     this.inputGuaranteeStock.next(event.target.value);
   }
 
-  checkLoanTime(event: any){
+  checkLoanTime(event: any) {
     this.inputLoanTime.next(event.target.value);
   }
 
-  checkGuarantorUnique1(event: any){
+  checkGuarantorUnique1(event: any) {
     this.inputGuarantorUnique1.next(event.target.value);
   }
 
-  checkGuarantorUnique2(event: any){
+  checkGuarantorUnique2(event: any) {
     this.inputGuarantorUnique2.next(event.target.value);
   }
 
@@ -1608,27 +1607,27 @@ export class AdminComponent3Component implements OnInit {
     return year + '-' + monthSelect.value + '-' + this.checkLenghtDate(firstDayOfNextMonth.getDate()) //this.checkLenghtDate(firstDayOfNextMonth.getDate());
   }
 
-  checkLenghtDate(day: any){
-      if(day <= 9){
-         return '0' + day;
-      }else{
-        return day;
-      }
+  checkLenghtDate(day: any) {
+    if (day <= 9) {
+      return '0' + day;
+    } else {
+      return day;
+    }
   }
 
-  checkYearOfLoanDate(year: any){
+  checkYearOfLoanDate(year: any) {
     const format = new Date();
-     if(format.getMonth() === 11){
-        return year + 1;
-     }else{
+    if (format.getMonth() === 11) {
+      return year + 1;
+    } else {
       return year;
-     }
+    }
   }
 
-  checkMonthOfLoanDate(month: any){
-    if(month === 11){
+  checkMonthOfLoanDate(month: any) {
+    if (month === 11) {
       return 0;
-    }else{
+    } else {
       return month;
     }
   }
@@ -1641,31 +1640,31 @@ export class AdminComponent3Component implements OnInit {
     return date; // Returning the first weekday of the month
   }
 
-  onCalculateLoanOld(){
-      const datePayLoanNew = this.pipeDateTHNewLan();
-      const data = this.formModelLoanNew.getRawValue();
-      const payload = {
-        principal: data.loanValue,
-        interestRate: this.dataNewLoan.interestPercent,
-        numOfPayments: data.loanTime,
-        paymentStartDate: datePayLoanNew
-      }
-      this.service.onCalculateLoanOld(payload).subscribe((res) => {
-        const data = res[0];
-        this.formModelLoanNew.patchValue({
-          loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
-          startDateLoan: datePayLoanNew,
-          interestLoan: 0, //interest
-          loanBalance: 0, //principalBalance
-          interestLoanLastMonth: 0 // interestLastMonth
-        });
-      });
-  }
-
-  onCalculateLoanNew(){
+  onCalculateLoanOld() {
     const datePayLoanNew = this.pipeDateTHNewLan();
     const data = this.formModelLoanNew.getRawValue();
-    const interestRE = data.interestPercent.replace('%','');
+    const payload = {
+      principal: data.loanValue,
+      interestRate: this.dataNewLoan.interestPercent,
+      numOfPayments: data.loanTime,
+      paymentStartDate: datePayLoanNew
+    }
+    this.service.onCalculateLoanOld(payload).subscribe((res) => {
+      const data = res[0];
+      this.formModelLoanNew.patchValue({
+        loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
+        startDateLoan: datePayLoanNew,
+        interestLoan: 0, //interest
+        loanBalance: 0, //principalBalance
+        interestLoanLastMonth: 0 // interestLastMonth
+      });
+    });
+  }
+
+  onCalculateLoanNew() {
+    const datePayLoanNew = this.pipeDateTHNewLan();
+    const data = this.formModelLoanNew.getRawValue();
+    const interestRE = data.interestPercent.replace('%', '');
     const payload = {
       principal: data.loanValue,
       interestRate: data.interestPercent ? interestRE : null, //this.dataNewLoan.interestPercent
@@ -1682,17 +1681,15 @@ export class AdminComponent3Component implements OnInit {
         interestLoanLastMonth: 0 // interestLastMonth
       });
     });
-}
+  }
 
   onCloseLoan(data: any) {
-    
     this.confirmationService.confirm({
       message: 'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
       header: 'ปิดหนี้สมาชิก',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //api
-        
         this.service.closeLoan(data.id).subscribe((res) => {
           this.messageService.add({ severity: 'success', detail: 'ปิดหนี้สำเร็จ' });
           this.ngOnInit();
@@ -1711,7 +1708,7 @@ export class AdminComponent3Component implements OnInit {
   }
 
   oldMonth: any;
-  oldYear:any;
+  oldYear: any;
   newMonth: any;
   newYear: any;
   updateLoantoMonth() {
@@ -1722,14 +1719,14 @@ export class AdminComponent3Component implements OnInit {
     this.newYear = formatDate.getFullYear() + 543;
     this.newMonth = this.periodMonthDescOption[month];
 
-    if(month <= 0){
+    if (month <= 0) {
       this.oldMonth = this.periodMonthDescOption[11];
       this.oldYear = this.newYear - 1;
-    }else{
+    } else {
       this.oldMonth = this.periodMonthDescOption[month - 1];
       this.oldYear = this.newYear;
     }
-    
+
     this.formModelLoan.patchValue({
       loanYear: this.newYear,
       loanMonth: this.newMonth.label,
@@ -1742,7 +1739,7 @@ export class AdminComponent3Component implements OnInit {
   }
 
   loanDetail: any;
-  getLoanDetailListOfLastValue(){
+  getLoanDetailListOfLastValue() {
     const payload = {
       monthCurrent: this.month,
       yearCurrent: this.year
@@ -1761,7 +1758,7 @@ export class AdminComponent3Component implements OnInit {
     const month = formatDate.getMonth();
     const monthSelect = this.periodMonthDescOption[month];
 
-    if(loanDetail != null){
+    if (loanDetail != null) {
       if (loanDetail.loanMonth === monthSelect.label) {
         this.checkNull = true;
         this.checkNullAddLoan = false;
@@ -1769,14 +1766,14 @@ export class AdminComponent3Component implements OnInit {
         this.checkNull = false;
         this.checkNullAddLoan = true;
       }
-    }else{
+    } else {
       this.checkNull = false;
     }
-    
+
   }
 
   showWarnAddLoan() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที' , life:10000});
+    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที', life: 10000 });
   }
 
   onupdateLoanToMonth() {
@@ -1795,18 +1792,18 @@ export class AdminComponent3Component implements OnInit {
     });
   }
 
-  checkSetValueBill(event: any){
+  checkSetValueBill(event: any) {
     this.inputSubjectBill.next(event.target.value);
   }
 
-  onDisplay(){
+  onDisplay() {
     if (this.headerName === 'ประวัติเงินกู้ของสมาชิกทั้งหมด') {
       this.onSearchDocumentV1All();
       this.displayModalBill = false;
     }
   }
 
-  onCancleModalBill(){
+  onCancleModalBill() {
     this.formModelBill.reset();
     this.formModelBill.patchValue({
       year: this.year,
@@ -1817,17 +1814,17 @@ export class AdminComponent3Component implements OnInit {
 
   monthSelectNew: any;
   yearSelectNew: any;
-  onSearchDocumentV1All(){
+  onSearchDocumentV1All() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
     const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
-       admin: true,
-       loanId: null,
-       monthCurrent: monthNew,
-       yearCurrent: dataMY.year
+      admin: true,
+      loanId: null,
+      monthCurrent: monthNew,
+      yearCurrent: dataMY.year
     }
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
@@ -1835,24 +1832,24 @@ export class AdminComponent3Component implements OnInit {
       this.list = data;
       const key = 'employeeCode';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) > 0 );
+      const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) > 0);
       this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
     });
   }
 
-  displayInsetLoanNew(){
+  displayInsetLoanNew() {
     this.displayLoanNewQuagmire = true;
     this.formModelLoanNew.get('loanValueQuagmire').disable();
     const data = this.formModelLoanNew.getRawValue();
-    if(this.dataNewLoan){
-     const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance: 0;
-     const sum = data.loanValue - loanBalance;
-     this.formModelLoanNew.get('loanValueQuagmire').setValue(sum);
+    if (this.dataNewLoan) {
+      const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
+      const sum = data.loanValue - loanBalance;
+      this.formModelLoanNew.get('loanValueQuagmire').setValue(sum);
     }
     this.messageQuagmire = 'กู้หล่มจะทำการปิดหนี้คงค้างทั้งหมดและสร้างสัญญาใหม่';
   }
 
-  checkInsetLoanNewQuagmire(){
+  checkInsetLoanNewQuagmire() {
     this.dataNewLoan.loanBalance = 0;
     this.displayLoanNewQuagmire = false;
     this.displayMessageError = false;
@@ -1860,27 +1857,27 @@ export class AdminComponent3Component implements OnInit {
     this.insertLoanDetail();
   }
 
-  onDeleteLoanEmp(){
+  onDeleteLoanEmp() {
     const data = this.formModelLoanNew.getRawValue();
     this.confirmationService.confirm({
       message: 'ต้องการยกเลิกสัญญา <br/> คุณ ' + data.fullName,
       header: 'ยกเลิกสัญญา',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        const loanBalanceNum = data.loanBalance.replace(/,/g,'');
-        if(Number(loanBalanceNum) <= 0){
+        const loanBalanceNum = data.loanBalance.replace(/,/g, '');
+        if (Number(loanBalanceNum) <= 0) {
           this.service.deleteLoanNew(data).subscribe({
             next: (res) => {
-              this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ' ,life: 5000});
+              this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ', life: 5000 });
               this.displayModalLoanNew = false;
-              this.ngOnInit();  
+              this.ngOnInit();
             },
-            error: error => { 
-              this.messageService.add({ severity: 'error', detail: 'ลบข้อมูลไม่สำเร็จ' , life: 5000});
+            error: error => {
+              this.messageService.add({ severity: 'error', detail: 'ลบข้อมูลไม่สำเร็จ', life: 5000 });
             },
-            
+
           });
-        }else{
+        } else {
           this.messageError = 'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' + data.loanBalance + ' บาท ';
           this.displayMessageError = true;
         }

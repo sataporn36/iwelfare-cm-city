@@ -69,10 +69,12 @@ export class AdminComponent2Component implements OnInit {
   monthSelectNew: any;
   yearSelectNew: any;
 
-  constructor(private service: MainService, private messageService:
-    MessageService, private localStorageService: LocalStorageService,
-    @Inject(LOCALE_ID) public locale: string) { }
-
+  constructor(
+    private service: MainService,
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService,
+    @Inject(LOCALE_ID) public locale: string
+  ) { }
 
   ngOnInit() {
     this.loading = true;
@@ -82,10 +84,10 @@ export class AdminComponent2Component implements OnInit {
     this.userId = this.localStorageService.retrieve('empId');
     this.stockId = this.localStorageService.retrieve('stockId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
-    this.getStock(this.stockId);
+    // this.getStock(this.stockId);
 
     this.searchStock();
-    this.searchStockDetail(this.stockId);
+    // this.searchStockDetail(this.stockId);
     this.initMainFormBill();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
@@ -216,18 +218,18 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-  getStock(id: any): void {
-    this.service.getStock(id).subscribe(data => {
-      this.stockInfo = data;
-      this.loading = false;
-    });
-  }
+  // getStock(id: any): void {
+  //   this.service.getStock(id).subscribe(data => {
+  //     this.stockInfo = data;
+  //     this.loading = false;
+  //   });
+  // }
 
-  searchStockDetail(id: any): void {
-    this.service.searchStockDetail(id, "asc").subscribe(data => {
-      this.dataStockDetail = data;
-    });
-  }
+  // searchStockDetail(id: any): void {
+  //   this.service.searchStockDetail(id, "asc").subscribe(data => {
+  //     this.dataStockDetail = data;
+  //   });
+  // }
 
   onRowEditInit(stock: any) {
     this.clonedProducts[stock.id!] = { ...stock };
@@ -300,7 +302,7 @@ export class AdminComponent2Component implements OnInit {
   }
 
   oldMonth: any;
-  oldYear:any;
+  oldYear: any;
   newMonth: any;
   newYear: any;
   updateStocktoMonth() {
@@ -311,10 +313,10 @@ export class AdminComponent2Component implements OnInit {
     this.newYear = formatDate.getFullYear() + 543;
     this.newMonth = this.periodMonthDescOption[month];
 
-    if(month <= 0){
+    if (month <= 0) {
       this.oldMonth = this.periodMonthDescOption[11];
       this.oldYear = this.newYear - 1;
-    }else{
+    } else {
       this.oldMonth = this.periodMonthDescOption[month - 1];
       this.oldYear = this.newYear;
     }
@@ -752,14 +754,14 @@ export class AdminComponent2Component implements OnInit {
 
   searchDocumentV1All(mode: any) {
     // this.displayLoadingPdf = true;
-    if('excel'){
-       this.showWarnExcel();
-    }else{
+    if ('excel') {
+      this.showWarnExcel();
+    } else {
       this.showWarn();
     }
 
     const bill = this.formModelBill.getRawValue();
-    const subMonth = bill.month.length > 1 ? bill.month : bill.month.substring(1,2);
+    const subMonth = bill.month.length > 1 ? bill.month : bill.month.substring(1, 2);
     this.billMonth = this.periodMonthDescOption[Number(subMonth) - 1].label
 
     const playload = {
@@ -862,40 +864,40 @@ export class AdminComponent2Component implements OnInit {
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
-     // Push data sections along with their summaries if they have values
-     pushDataSection(data1, dataSum1);
-     pushDataSection(data2, dataSum2);
-     pushDataSection(data3, dataSum3);
-     pushDataSection(data4, dataSum4);
-     pushDataSection(data5, dataSum5);
-     pushDataSection(data6, dataSum6);
-     pushDataSection(data7, dataSum7);
-     pushDataSection(data8, dataSum8);
-     pushDataSection(data9, dataSum9);
-     pushDataSection(data10, dataSum10);
-     pushDataSection(data11, dataSum11);
-     pushDataSection(data12, dataSum12);
-     pushDataSection(data13, dataSum13);
-     pushDataSection(data14, dataSum14);
-     pushDataSection(data15, dataSum15);
-     pushDataSection(data16, dataSum16);
-     pushDataSection(data17, dataSum17);
-     pushDataSection(data18, dataSum18);
-     pushDataSection(data19, dataSum19);
-     pushDataSection(data20, dataSum20);
-     pushDataSection(data21, dataSum21);
-     pushDataSection(data22, dataSum22);
-     pushDataSection(data23, dataSum23);
-     pushDataSection(data24, dataSum24);
-     pushDataSection(data25, dataSum25);
-     pushDataSection(data26, dataSum26);
-     pushDataSection(data27, dataSum27);
-     pushDataSection(data28, dataSum28);
-     pushDataSection(data29, dataSum29);
-     pushDataSection(data30, dataSum30);
-     pushDataSection(data31, dataSum31);
-     
-     console.log(sections,'<----- sections');
+    // Push data sections along with their summaries if they have values
+    pushDataSection(data1, dataSum1);
+    pushDataSection(data2, dataSum2);
+    pushDataSection(data3, dataSum3);
+    pushDataSection(data4, dataSum4);
+    pushDataSection(data5, dataSum5);
+    pushDataSection(data6, dataSum6);
+    pushDataSection(data7, dataSum7);
+    pushDataSection(data8, dataSum8);
+    pushDataSection(data9, dataSum9);
+    pushDataSection(data10, dataSum10);
+    pushDataSection(data11, dataSum11);
+    pushDataSection(data12, dataSum12);
+    pushDataSection(data13, dataSum13);
+    pushDataSection(data14, dataSum14);
+    pushDataSection(data15, dataSum15);
+    pushDataSection(data16, dataSum16);
+    pushDataSection(data17, dataSum17);
+    pushDataSection(data18, dataSum18);
+    pushDataSection(data19, dataSum19);
+    pushDataSection(data20, dataSum20);
+    pushDataSection(data21, dataSum21);
+    pushDataSection(data22, dataSum22);
+    pushDataSection(data23, dataSum23);
+    pushDataSection(data24, dataSum24);
+    pushDataSection(data25, dataSum25);
+    pushDataSection(data26, dataSum26);
+    pushDataSection(data27, dataSum27);
+    pushDataSection(data28, dataSum28);
+    pushDataSection(data29, dataSum29);
+    pushDataSection(data30, dataSum30);
+    pushDataSection(data31, dataSum31);
+
+    console.log(sections, '<----- sections');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -1033,19 +1035,19 @@ export class AdminComponent2Component implements OnInit {
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
-    }else if(mode === 'pdf'){
+    } else if (mode === 'pdf') {
       pdf.download('ประวัติการส่งหุ้น.pdf');
-    }else if(mode === 'excel'){
-      this.exportDataToExcel(sections,sunGrandTotal);
+    } else if (mode === 'excel') {
+      this.exportDataToExcel(sections, sunGrandTotal);
     }
   }
 
-  replaceTextInExcel(text: any){
-      const textRe = text ? text.replace(/,/g,'') : 0;
-      return textRe ? Number(textRe) : 0;
+  replaceTextInExcel(text: any) {
+    const textRe = text ? text.replace(/,/g, '') : 0;
+    return textRe ? Number(textRe) : 0;
   }
 
-  exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
+  exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]) {
     const textTitle = 'เทศบาลนครเชียงใหม่';
     const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
     let columnHeaders = [
@@ -1053,7 +1055,7 @@ export class AdminComponent2Component implements OnInit {
       [textHeader, '', ''],
       ['', '', ''],
       ['หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'ค่าหุ้น(งวดที่)', 'ค่าหุ้น(จำานวนเงิน)', 'เงินกู้(งวดที่)', 'เงินกู้สามัญเงินต้น', 'ดอกเบี้ย', 'รวมส่ง(เดือน)', 'หุ้นสะสม'],
-      
+
     ];
 
     for (let i = 0; i < listDataStock.length; i++) {
@@ -1084,10 +1086,10 @@ export class AdminComponent2Component implements OnInit {
       this.replaceTextInExcel(sunGrandTotal[8].text),
       this.replaceTextInExcel(sunGrandTotal[9].text),
     ]);
-  
+
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
     ws['!cols'] = [
-      { width: 50,},
+      { width: 50, },
       { width: 15 },
       { width: 30 },
       { width: 15 },
