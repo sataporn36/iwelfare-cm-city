@@ -566,7 +566,8 @@ export class AdminComponent2Component implements OnInit {
           { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
           { text: decimalPipe.transform(item.interest), alignment: 'right' },
           { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
-          { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
+          //{ text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
+          { text: decimalPipe.transform(Number(item.stockAccumulate) - Number(item.stockValue)), alignment: 'right' },
         ]
       });
       return datalListGroup;

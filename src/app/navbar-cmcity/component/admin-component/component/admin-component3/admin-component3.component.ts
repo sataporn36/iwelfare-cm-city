@@ -789,7 +789,7 @@ export class AdminComponent3Component implements OnInit {
           { text: decimalPipe.transform(item.monthPrinciple), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
-          { text: decimalPipe.transform(item.installment), alignment: 'center' },
+          { text: decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment), alignment: 'center' },
           { text: decimalPipe.transform(item.totalValueInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.outStandInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.totalValuePrinciple), alignment: 'right' },
@@ -1896,9 +1896,9 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
       this.onSearchDocumentV1All();
       this.displayModalBill = false;
     }else if(this.headerName === ''){
-
+       //
     }else if(this.headerName === ''){
-
+       //
     }
   }
 
@@ -1931,8 +1931,8 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
       this.list = data;
       const key = 'employeeCode';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) > 0);
-      this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
+      const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
+      this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData); 
     });
   }
 
