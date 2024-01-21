@@ -246,6 +246,12 @@ export class MainService {
     );
   }
 
+  rejectRegister(id: number, empId: number): Observable<any> {
+    return this.http.delete<any>(
+      AppPath.APP_API_SERVICE + '/v1/notify/reject-register/' + id + '/' + empId,
+    );
+  }
+
   searchEmployeeLoanNew(playload: any): Observable<any> {
     return this.http.post<any>(
       AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-add-new', playload

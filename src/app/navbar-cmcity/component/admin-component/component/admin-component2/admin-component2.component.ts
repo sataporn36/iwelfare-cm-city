@@ -1496,7 +1496,7 @@ export class AdminComponent2Component implements OnInit {
               },
               {
                 rowSpan: 1,
-                text: grandTotal.sumEmp + '     ราย \n\n' + grandTotal.sumLoan + '     ราย \n\n' + this.formattedNumber(grandTotal.sumLoanBalance) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumStockAccumulate) + '    บาท\n\n', alignment: 'right'
+                text: grandTotal.sumEmp + '     ราย \n\n' + grandTotal.sumLoan + '     ราย \n\n' + this.formattedNumber(grandTotal.sumLoanBalance) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumStockAccumulate - grandTotal.sumStockValue) + '    บาท\n\n', alignment: 'right'
               }],
               [{
                 rowSpan: 1,

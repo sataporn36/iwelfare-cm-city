@@ -402,10 +402,12 @@ export class MessageComponentComponent implements OnInit {
     //   this.service.cancelNotification(this.id, this.employeeId).subscribe();
     //   this.ngOnInit();
     // }
-    
+
     if (this.statusNotifys == 2) {
       this.service.cancelNotification(this.id, this.employeeId).subscribe();
-    }else{
+    } else if (this.statusNotifys == 3) {
+      this.service.rejectRegister(this.id, this.employeeId).subscribe();
+    } else {
       this.service.deleteNotify(this.id).subscribe();
     }
 
@@ -505,8 +507,8 @@ export class MessageComponentComponent implements OnInit {
   onCheckMonthlyStockMoneyOld() {
     this.descriptionUserInfo = this.descriptionUser;
     this.displayEditByMonthlyStock = true;
-    this.formModelInfo.patchValue({ 
-      monthlyStockMoney: this.formattedNumber(this.descriptionUserInfo) 
+    this.formModelInfo.patchValue({
+      monthlyStockMoney: this.formattedNumber(this.descriptionUserInfo)
     });
   }
 
@@ -561,7 +563,7 @@ export class MessageComponentComponent implements OnInit {
     this.onClickApproveEmp(this.selectedItem);
   }
 
-  cancleMonthlyStockMoney(){
+  cancleMonthlyStockMoney() {
     this.onClickCancleApproveEmp(this.selectedItem);
   }
 

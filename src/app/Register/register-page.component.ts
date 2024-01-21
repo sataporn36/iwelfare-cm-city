@@ -14,7 +14,7 @@ import { MainService } from '../service/main.service';
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.scss']
 })
-export class RegisterPageComponent implements OnInit{
+export class RegisterPageComponent implements OnInit {
 
   formModel!: FormGroup;
   userId: any;
@@ -31,22 +31,22 @@ export class RegisterPageComponent implements OnInit{
   periodMonthDescOption: any = [];
 
 
-  public position: Observable<Positions[]> | any 
-  public affiliation: Observable<Affiliation[]> | any 
-  public bureau: Observable<Bureau[]> | any 
+  public position: Observable<Positions[]> | any
+  public affiliation: Observable<Affiliation[]> | any
+  public bureau: Observable<Bureau[]> | any
   public department: Observable<Department[]> | any;
 
   constructor(
-    protected route: ActivatedRoute, 
-    private fb: FormBuilder, 
-    private service : MainService,
+    protected route: ActivatedRoute,
+    private fb: FormBuilder,
+    private service: MainService,
     protected router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if(history.state.data){
+    if (history.state.data) {
       this.userId = history.state.data;
     }
     this.initMainForm();
@@ -57,6 +57,7 @@ export class RegisterPageComponent implements OnInit{
     this.getDapartment();
     this.searchLevel();
     this.searchEmployeeType();
+    this.getStockDetail();
   }
 
   getPositions(): void {
@@ -79,23 +80,24 @@ export class RegisterPageComponent implements OnInit{
     this.service.searchEmployeeType().subscribe(data => this.employeeType = data);
   }
 
-  initMainForm(){
+  initMainForm() {
     this.formModel = new FormGroup({
-      prefix: new FormControl('0',Validators.required),
-      firstName: new FormControl(null,Validators.required),
-      lastName: new FormControl(null,Validators.required),
-      idCard: new FormControl(null,Validators.required),
-      tel: new FormControl(null,Validators.required),
-      positionId: new FormControl('0',Validators.required),
-      bureauId: new FormControl('0',Validators.required),
-      affiliationId: new FormControl('0',Validators.required),
+      prefix: new FormControl('0', Validators.required),
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
+      idCard: new FormControl(null, Validators.required),
+      tel: new FormControl(null, Validators.required),
+      positionId: new FormControl('0', Validators.required),
+      bureauId: new FormControl('0', Validators.required),
+      affiliationId: new FormControl('0', Validators.required),
       email: new FormControl(null),
-      departmentId: new FormControl('0',Validators.required),
-      levelId: new FormControl('0',Validators.required),
-      employeeTypeId: new FormControl('0',Validators.required),
-      stockValue: new FormControl(null,Validators.required),
+      departmentId: new FormControl('0', Validators.required),
+      levelId: new FormControl('0', Validators.required),
+      employeeTypeId: new FormControl('0', Validators.required),
+      stockValue: new FormControl(null, Validators.required),
       stockMonth: new FormControl(null),
       stockYear: new FormControl(null),
+      installment: new FormControl(null),
     });
   }
 
@@ -135,7 +137,7 @@ export class RegisterPageComponent implements OnInit{
   checkNullOfValue() {
     const data = this.formModel.getRawValue();
     if (data.prefix === '0' || data.positionId === '0' || data.affiliationId === '0') {
-     return false;
+      return false;
     } else {
       return true;
     }
@@ -168,34 +170,72 @@ export class RegisterPageComponent implements OnInit{
     }
   }
 
-  onRegister(){
+  stockDetail: any;
+  getStockDetail(): void {
+    const payload = {
+      stockMonth: this.month,
+      stockYear: this.year
+    }
+    this.service.getStockDetail(payload).subscribe(data => {
+      this.stockDetail = data;
+
+      console.log("stockDetail --> ", data);
+      this.checkInsertStockDetailAll(data);
+
+    });
+  }
+
+  checkNull: any;
+  checkInsertStockDetailAll(data) {
+    const stockDetail = data;
+
+    if (stockDetail != null) {
+      if (stockDetail.stockMonth === this.month) {
+        this.checkNull = true;
+      } else {
+        this.checkNull = false;
+      }
+    } else {
+      this.checkNull = false;
+    }
+  }
+
+  onRegister() {
     const playload = this.formModel.getRawValue();
     playload.stockMonth = this.month;
     playload.stockYear = this.year;
+
+    console.log("checkNull --> ", this.checkNull);
+
+    if (this.checkNull) {
+      playload.installment = 1;
+    } else {
+      playload.installment = 0;
+    }
+
     const email = playload.email
-    
+
     if (!email) {
       playload.email = null;
     }
-    
 
     this.service.register(playload).subscribe((res) => {
-      if(res !== null){
-        if(res.data.statusEmployee === 'NORMAL_EMPLOYEE'){
+      if (res !== null) {
+        if (res.data.statusEmployee === 'NORMAL_EMPLOYEE') {
           this.confirmationService.confirm({
             message: 'ท่านเป็นสมาชิกปัจจุบัน ไม่สามารถสมัครสมาชิกได้',
             header: 'สมัครสมาชิก',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-              setTimeout(() => {}, 500);
-              this.router.navigate(['/login'],{
-                state: {data: ''}
+              setTimeout(() => { }, 500);
+              this.router.navigate(['/login'], {
+                state: { data: '' }
               });
               this.formModel.reset();
             },
-            reject: () => {}
+            reject: () => { }
           });
-        }else if(res.data.statusEmployee === 'RESIGN_EMPLOYEE'){
+        } else if (res.data.statusEmployee === 'RESIGN_EMPLOYEE') {
           this.confirmationService.confirm({
             message: 'ท่านเป็นสมาชิกที่ลาออก กดยืนยันเพื่อกลับมาเป็นสมาชิกปัจุบัน',
             header: 'สมัครสมาชิก',
@@ -206,45 +246,45 @@ export class RegisterPageComponent implements OnInit{
               // }
               playload.id = res.data.id
               this.service.editStatusEmployeeResign(playload).subscribe((res) => {
-                   if(res != null){
-                       if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
-                         this.messageService.add({severity:'success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
-                         this.iconStatus = true;
-                         setTimeout(() => {
-                          this.formModel.reset();
-                          this.router.navigate(['/login'], {});
-                        }, 1000);
-                       }
-                   }else{
-                      this.messageService.add({severity:'error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
-                      this.iconStatus = false;
-                   }
+                if (res != null) {
+                  if (res.data.statusEmployee === 'NEW_EMPLOYEE') {
+                    this.messageService.add({ severity: 'success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ' });
+                    this.iconStatus = true;
+                    setTimeout(() => {
+                      this.formModel.reset();
+                      this.router.navigate(['/login'], {});
+                    }, 1000);
+                  }
+                } else {
+                  this.messageService.add({ severity: 'error', detail: 'สมัครสมาชิกไม่สำเร็จ' });
+                  this.iconStatus = false;
+                }
               });
             },
             reject: () => { }
           });
-        }else if(res.data.statusEmployee === 'NEW_EMPLOYEE'){
-          this.messageService.add({severity:'success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ'});  
+        } else if (res.data.statusEmployee === 'NEW_EMPLOYEE') {
+          this.messageService.add({ severity: 'success', detail: 'สมัครสมาชิกสำเร็จเเละรอการอนุมัติ' });
           this.iconStatus = true;
           setTimeout(() => {
             this.formModel.reset();
             this.router.navigate(['/login'], {});
           }, 1000);
-          
-        }else if(res.data.statusEmployee === 'ERROR_EMPLOYEE'){
-          this.messageService.add({severity:'error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+
+        } else if (res.data.statusEmployee === 'ERROR_EMPLOYEE') {
+          this.messageService.add({ severity: 'error', detail: 'สมัครสมาชิกไม่สำเร็จ' });
           this.iconStatus = false;
         }
-      }else{
+      } else {
         setTimeout(() => {
-          this.messageService.add({severity:'error', detail: 'สมัครสมาชิกไม่สำเร็จ'});
+          this.messageService.add({ severity: 'error', detail: 'สมัครสมาชิกไม่สำเร็จ' });
           this.iconStatus = false;
-        }, 500); 
+        }, 500);
       }
     })
   }
 
-  checkBureau(id: any){
+  checkBureau(id: any) {
     this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
   }
 }
