@@ -178,10 +178,7 @@ export class RegisterPageComponent implements OnInit {
     }
     this.service.getStockDetail(payload).subscribe(data => {
       this.stockDetail = data;
-
-      console.log("stockDetail --> ", data);
       this.checkInsertStockDetailAll(data);
-
     });
   }
 
@@ -204,8 +201,6 @@ export class RegisterPageComponent implements OnInit {
     const playload = this.formModel.getRawValue();
     playload.stockMonth = this.month;
     playload.stockYear = this.year;
-
-    console.log("checkNull --> ", this.checkNull);
 
     if (this.checkNull) {
       playload.installment = 1;

@@ -787,18 +787,11 @@ export class AdminComponent2Component implements OnInit {
 
   exportMakePDFALL(mode: any, listSum: any[]) {
     const sections = [];
-    const sections01 = [];
 
     // Push data sections with corresponding summary data if available
     const pushDataSection = (data: any[], sumData: any[]) => {
       if (data.length > 0) {
         sections.push(...data, sumData);
-      }
-    };
-
-    const pushDataSection01 = (data: any[]) => {
-      if (data.length > 0) {
-        sections01.push(...data);
       }
     };
 
@@ -904,41 +897,6 @@ export class AdminComponent2Component implements OnInit {
     pushDataSection(data29, dataSum29);
     pushDataSection(data30, dataSum30);
     pushDataSection(data31, dataSum31);
-
-    pushDataSection01(data1);
-    pushDataSection01(data2);
-    pushDataSection01(data3);
-    pushDataSection01(data4);
-    pushDataSection01(data5);
-    pushDataSection01(data6);
-    pushDataSection01(data7);
-    pushDataSection01(data8);
-    pushDataSection01(data9);
-    pushDataSection01(data10);
-    pushDataSection01(data11);
-    pushDataSection01(data12);
-    pushDataSection01(data13);
-    pushDataSection01(data14);
-    pushDataSection01(data15);
-    pushDataSection01(data16);
-    pushDataSection01(data17);
-    pushDataSection01(data18);
-    pushDataSection01(data19);
-    pushDataSection01(data20);
-    pushDataSection01(data21);
-    pushDataSection01(data22);
-    pushDataSection01(data23);
-    pushDataSection01(data24);
-    pushDataSection01(data25);
-    pushDataSection01(data26);
-    pushDataSection01(data27);
-    pushDataSection01(data28);
-    pushDataSection01(data29);
-    pushDataSection01(data30);
-    pushDataSection01(data31);
-
-    console.log(sections, '<----- sections');
-    console.log(sections, '<----- sections');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {

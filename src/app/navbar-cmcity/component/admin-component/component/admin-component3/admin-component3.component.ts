@@ -1239,9 +1239,6 @@ export class AdminComponent3Component implements OnInit {
       }
     }
     
-    console.log(sections,'<---- listDataStock');
-    console.log(sunGrandTotal,'<---- sunGrandTotal');
-
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
