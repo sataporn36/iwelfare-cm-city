@@ -387,6 +387,7 @@ export class AdminComponent3Component implements OnInit {
       loanValueQuagmire: new FormControl(0),
       loanId: new FormControl(null),
       guaranteeStockFlag: new FormControl(false),
+      installment: new FormControl(0),
     });
   }
 
@@ -1419,6 +1420,7 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
   statusQuagmire: boolean = false;
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
+    data.installment = this.checkNull ? 1 : 0;
     if (this.dataNewLoan) {
       const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
       const loanActive = this.dataNewLoan.loanActive ? this.dataNewLoan.loanBalance : true;
@@ -1747,8 +1749,8 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
       this.formModelLoanNew.patchValue({
         loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
         startDateLoan: datePayLoanNew,
-        interestLoan: 0, //interest
-        loanBalance: 0, //principalBalance
+        interestLoan: data.interest, //interest
+        loanBalance: data.principalBalance, //principalBalance
         interestLoanLastMonth: 0 // interestLastMonth
       });
     });
@@ -1769,8 +1771,8 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
       this.formModelLoanNew.patchValue({
         loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
         startDateLoan: datePayLoanNew,
-        interestLoan: 0, //interest
-        loanBalance: 0, //principalBalance
+        interestLoan: data.interest, //interest
+        loanBalance: data.principalBalance, //principalBalance
         interestLoanLastMonth: 0 // interestLastMonth
       });
     });
