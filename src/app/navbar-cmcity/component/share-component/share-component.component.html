@@ -45,7 +45,7 @@
                     <td><span class="p-column-title">เดือนที่ทำรายการ</span>{{ stockDetail.stockMonth }}</td>
                     <td><span class="p-column-title">ปีที่ทำรายการ</span>{{ stockDetail.stockYear }}</td>
                     <td><span class="p-column-title">ชื่อรายการ</span>ชำระหุ้นรายเดือน</td>
-                    <td><span class="p-column-title">งวดที่</span>{{ stockDetail.installment }}</td>
+                    <td><span class="p-column-title">งวดที่</span>{{ stockDetail.installment <= 0 ? 1 : stockDetail.installment }}</td>
                     <td style="color: #EA3A3D;"><span class="p-column-title">เงินส่งหุ้นรายเดือน</span>{{ stockDetail.stockValue | number }}</td>
                     <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ stockDetail.stockAccumulate | number }}</td>
                 </tr>

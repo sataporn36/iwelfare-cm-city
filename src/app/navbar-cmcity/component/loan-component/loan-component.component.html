@@ -46,7 +46,7 @@
                     <td><span class="p-column-title">เดือนที่ทำรายการ</span>{{ loanDetail.loanMonth }}</td>
                     <td><span class="p-column-title">ปีที่ทำรายการ</span>{{ loanDetail.loanYear }}</td>
                     <td><span class="p-column-title">เลขที่สัญญา</span>{{ loanDetail.loanNo }}</td>
-                    <td style="color: #EA3A3D;"><span class="p-column-title">งวดที่</span>{{ loanDetail.installment === 0 ? 1 : loanDetail.installment | number }}</td>
+                    <td style="color: #EA3A3D;"><span class="p-column-title">งวดที่</span>{{ loanDetail.installment <= 0 ? 1 : loanDetail.installment | number }}</td>
                     <td style="color: #1AD598;"><span class="p-column-title">ดอกเบี้ย</span>{{ loanDetail.interest | number }}</td>
                     <td style="color: #3A36DB;"><span class="p-column-title">เงินกู้คงเหลือ</span>{{ loanDetail.loanBalance | number }}</td>
                     <td><span class="p-column-title">ดอกเบี้ย (%)</span>{{ loanDetail.interestPercent }}%</td>

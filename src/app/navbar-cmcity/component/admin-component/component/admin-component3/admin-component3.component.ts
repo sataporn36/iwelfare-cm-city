@@ -62,6 +62,15 @@ export class AdminComponent3Component implements OnInit {
   messageQuagmire: any;
   modeLoan: any = 'ADD';
 
+  sumGrandTotal1: number = 0;
+  sumGrandTotal2: number = 0;
+  sumGrandTotal3: number = 0;
+  sumGrandTotal4: number = 0;
+  sumGrandTotal5: number = 0;
+  sumGrandTotal6: number = 0;
+  sumGrandTotal7: number = 0;
+  sumGrandTotal8: number = 0;
+
   constructor(private service: MainService, private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private localStorageService: LocalStorageService,) { }
@@ -786,14 +795,15 @@ export class AdminComponent3Component implements OnInit {
           { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
           { text: item.guarantorCode2 ? item.guarantorCode2 : ' ', alignment: 'center' },
           { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
-          { text: decimalPipe.transform(item.monthPrinciple), alignment: 'right' },
+          { text: decimalPipe.transform(Number(item.outStandPrinciple) > 0 ? Number(item.monthPrinciple) - Number(item.monthInterest) : Number(item.monthPrinciple)) , alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
-          { text: decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment), alignment: 'center' },
-          { text: decimalPipe.transform(item.totalValueInterest), alignment: 'right' },
-          { text: decimalPipe.transform(item.outStandInterest), alignment: 'right' },
-          { text: decimalPipe.transform(item.totalValuePrinciple), alignment: 'right' },
-          { text: decimalPipe.transform(item.outStandPrinciple), alignment: 'right' },
+          { text: '-', alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
+          { text: '-', alignment: 'right' }, //decimalPipe.transform(item.totalValueInterest)
+          { text: decimalPipe.transform(Number(item.outStandInterest) + Number(item.monthInterest)), alignment: 'right' },
+          { text: '-', alignment: 'right' },  // decimalPipe.transform(item.totalValuePrinciple)
+          { text: decimalPipe.transform( Number(item.outStandPrinciple) > 0 ? Number(item.outStandPrinciple) + (Number(item.monthPrinciple) - Number(item.monthInterest))
+            : Number(item.lastMonthPrinciple)), alignment: 'right' },
         ]
       });
       return datalListGroup;
@@ -814,9 +824,9 @@ export class AdminComponent3Component implements OnInit {
           { text: this.formattedNumber2(dataSum.monthPrincipleSum), alignment: 'right' },
           { text: this.formattedNumber2(dataSum.lastMonthInterestSum), alignment: 'right' },
           { text: this.formattedNumber2(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
-          { text: this.formattedNumber2(dataSum.totalValueInterestSum), alignment: 'right' },
+          {text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(dataSum.totalValueInterestSum), alignment: 'right' }
           { text: this.formattedNumber2(dataSum.outStandInterestSum), alignment: 'right' },
-          { text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' },
+          {text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' }
           { text: this.formattedNumber2(dataSum.outStandPrincipleSum), alignment: 'right' },
           ];
         }
@@ -851,41 +861,37 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  sumGrandTotal1: any = 0;
-  sumGrandTotal2: any = 0;
-  sumGrandTotal3: any = 0;
-  sumGrandTotal4: any = 0;
-  sumGrandTotal5: any = 0;
-  sumGrandTotal6: any = 0;
-  sumGrandTotal7: any = 0;
-  sumGrandTotal8: any = 0;
   checkTotalListGroup(listGroup: any[]) {
-    let monthInterestSum = 0
-    let monthPrincipleSum = 0
-    let lastMonthInterestSum = 0
-    let lastMonthPrincipleSum = 0
-    let totalValueInterestSum = 0
-    let outStandInterestSum = 0
-    let totalValuePrincipleSum = 0
-    let outStandPrincipleSum = 0
+    let monthInterestSum = 0;
+    let monthPrincipleSum = 0;
+    let lastMonthInterestSum = 0;
+    let lastMonthPrincipleSum = 0;
+    let totalValueInterestSum = 0;
+    let outStandInterestSum = 0;
+    let totalValuePrincipleSum = 0;
+    let outStandPrincipleSum = 0;
+    
     listGroup?.forEach((element, _index, _array) => {
       monthInterestSum = monthInterestSum + Number(element.monthInterest ? element.monthInterest : 0);
-      monthPrincipleSum = monthPrincipleSum + Number(element.monthPrinciple ? element.monthPrinciple : 0);
+      monthPrincipleSum = monthPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
+      Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) : Number(element.monthPrinciple ? element.monthPrinciple : 0));
       lastMonthInterestSum = lastMonthInterestSum + Number(element.lastMonthInterest ? element.lastMonthInterest : 0);
       lastMonthPrincipleSum = lastMonthPrincipleSum + Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0);
       totalValueInterestSum = totalValueInterestSum + Number(element.totalValueInterest ? element.totalValueInterest : 0);
-      outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0);
+      outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0) + Number(element.monthInterest);
       totalValuePrincipleSum = totalValuePrincipleSum + Number(element.totalValuePrinciple ? element.totalValuePrinciple : 0);
-      outStandPrincipleSum = outStandPrincipleSum + Number(element.outStandPrinciple ? element.outStandPrinciple : 0);
+      outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
+      Number(element.outStandPrinciple ? element.outStandPrinciple : 0) + Number(element.monthPrinciple - element.monthInterest) 
+      : Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0));
     });
-    this.sumGrandTotal1 = Number(this.sumGrandTotal1) + monthInterestSum;
-    this.sumGrandTotal2 = Number(this.sumGrandTotal2) + monthPrincipleSum;
-    this.sumGrandTotal3 = Number(this.sumGrandTotal3) + lastMonthInterestSum;
-    this.sumGrandTotal4 = Number(this.sumGrandTotal4) + lastMonthPrincipleSum;
-    this.sumGrandTotal5 = Number(this.sumGrandTotal5) + totalValueInterestSum;
-    this.sumGrandTotal6 = Number(this.sumGrandTotal6) + outStandInterestSum;
-    this.sumGrandTotal7 = Number(this.sumGrandTotal7) + totalValuePrincipleSum;
-    this.sumGrandTotal8 = Number(this.sumGrandTotal8) + outStandPrincipleSum;
+    this.sumGrandTotal1 = this.sumGrandTotal1 + monthInterestSum;
+    this.sumGrandTotal2 = this.sumGrandTotal2 + monthPrincipleSum;
+    this.sumGrandTotal3 = this.sumGrandTotal3 + lastMonthInterestSum;
+    this.sumGrandTotal4 = this.sumGrandTotal4 + lastMonthPrincipleSum;
+    this.sumGrandTotal5 = this.sumGrandTotal5 + totalValueInterestSum;
+    this.sumGrandTotal6 = this.sumGrandTotal6 + outStandInterestSum;
+    this.sumGrandTotal7 = this.sumGrandTotal7 + totalValuePrincipleSum;
+    this.sumGrandTotal8 = this.sumGrandTotal8 + outStandPrincipleSum;
     const playload = {
       monthInterestSum: monthInterestSum,
       monthPrincipleSum: monthPrincipleSum,
@@ -931,9 +937,9 @@ export class AdminComponent3Component implements OnInit {
     { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' },
     { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' },
     { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' }, ' ',
-    { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' },
+    { text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' }
     { text: this.formattedNumber2(this.sumGrandTotal6), alignment: 'right' },
-    { text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' },
+    { text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' }
     { text: this.formattedNumber2(this.sumGrandTotal8), alignment: 'right' },
     ];
 
@@ -948,6 +954,14 @@ export class AdminComponent3Component implements OnInit {
 
   mode: any
   searchDocumentV1All(mode: any) {
+    this.sumGrandTotal1 = 0;
+    this.sumGrandTotal2 = 0;
+    this.sumGrandTotal3 = 0;
+    this.sumGrandTotal4 = 0;
+    this.sumGrandTotal5 = 0;
+    this.sumGrandTotal6 = 0;
+    this.sumGrandTotal7 = 0;
+    this.sumGrandTotal8 = 0;
     // this.displayLoadingPdf = true;
     this.headerName = 'ประวัติเงินกู้ของสมาชิกทั้งหมด';
     this.mode = mode;
@@ -1270,10 +1284,10 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
       this.replaceTextInExcel(listDataStock[i][9].text),
       this.replaceTextInExcel(listDataStock[i][10].text),
       this.replaceTextInExcel(listDataStock[i][11].text),
-      this.replaceTextInExcel(listDataStock[i][12].text),
-      this.replaceTextInExcel(listDataStock[i][13].text),
+      this.replaceTextInExcel(''), //listDataStock[i][12].text
+      this.replaceTextInExcel(''), //listDataStock[i][13].text
       this.replaceTextInExcel(listDataStock[i][14].text),
-      this.replaceTextInExcel(listDataStock[i][15].text),
+      this.replaceTextInExcel(''), //listDataStock[i][15].text
       this.replaceTextInExcel(listDataStock[i][16].text),
     ]);
   }
@@ -1293,9 +1307,9 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
     this.replaceTextInExcel(sunGrandTotal[10].text),
     this.replaceTextInExcel(sunGrandTotal[11].text),
     '',
-    this.replaceTextInExcel(sunGrandTotal[13].text),
+    '', //this.replaceTextInExcel(sunGrandTotal[13].text)
     this.replaceTextInExcel(sunGrandTotal[14].text),
-    this.replaceTextInExcel(sunGrandTotal[15].text),
+    '', //this.replaceTextInExcel(sunGrandTotal[15].text)
     this.replaceTextInExcel(sunGrandTotal[16].text),
   ]);
 
