@@ -849,7 +849,7 @@ export class ShareComponentComponent implements OnInit {
       const data = resL;
       data.forEach((element, index, array) => {
         if (element.installment === res.installment) {
-          this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
+          this.sumElementLoan = (Number(stockValue) + element.principal + element.interest);
           this.elementLoan = element;
           this.onPrintReceiptMakePdf(element, this.sumElementLoan, res);
         }
@@ -1001,8 +1001,8 @@ export class ShareComponentComponent implements OnInit {
             body: [
               [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
               ['ค่าหุ้น', { text: resStock ? this.formattedNumber2(resStock.stockDetailInstallment) : '', alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
-              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.totalDeduction) : '', alignment: 'right' }
-                , { text: elementLoan ? this.checkCalculatePrincipalBalanceBefore(elementLoan) : '', alignment: 'right' }],
+              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.principal) : '', alignment: 'right' }
+                , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
               ['ดอกเบี้ย', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
               [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber2(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
             ]

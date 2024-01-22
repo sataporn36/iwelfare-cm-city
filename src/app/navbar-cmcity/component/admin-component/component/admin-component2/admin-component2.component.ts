@@ -553,9 +553,12 @@ export class AdminComponent2Component implements OnInit {
   }
 
   checkListDataPDF(list: any[]) {
+   
     const decimalPipe = new DecimalPipe('en-US');
     if (list.length > 0) {
       let datalListGroup = list.map(function (item) {
+        let sum = 0;
+        // sum = (item.stockValue + (item.loanOrdinary - item.interest)) + item.interest;
         return [
           { text: item.departmentName, alignment: 'left' },
           { text: item.employeeCode, alignment: 'center' },
@@ -563,9 +566,9 @@ export class AdminComponent2Component implements OnInit {
           { text: item.stockInstallment, alignment: 'center' },
           { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
           { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
-          { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+          { text: decimalPipe.transform(item.loanOrdinary - item.interest), alignment: 'right' },
           { text: decimalPipe.transform(item.interest), alignment: 'right' },
-          { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
+          { text: decimalPipe.transform(item.sumMonth), alignment: 'right' }, //
           //{ text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
           { text: Number(item.stockInstallment) <= 1 ? item.stockAccumulate : decimalPipe.transform(Number(item.stockAccumulate) - Number(item.stockValue)), alignment: 'right' },
         ]
@@ -755,7 +758,7 @@ export class AdminComponent2Component implements OnInit {
 
   searchDocumentV1All(mode: any) {
     // this.displayLoadingPdf = true;
-    if ('excel') {
+    if (mode === 'excel') {
       this.showWarnExcel();
     } else {
       this.showWarn();
