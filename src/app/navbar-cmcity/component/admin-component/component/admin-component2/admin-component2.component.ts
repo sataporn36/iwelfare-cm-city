@@ -1600,6 +1600,19 @@ export class AdminComponent2Component implements OnInit {
     }
   }
 
+  textToDateFullThai(textDate: string){
+    const dateString = textDate;
+    const dateObject = new Date(dateString);
+    const day = dateObject.getDate()
+    const month = dateObject.getMonth()
+    const year = dateObject.getFullYear() + 543
+    this.year = year;
+    const monthSelect = this.periodMonthDescOption[month];
+    const time = this.addLeadingZero(dateObject.getHours()) + ':' + this.addLeadingZero(dateObject.getMinutes()) + ' น.';
+    this.time = time;
+    return day + ' ' + monthSelect.label + ' ' + year;
+  }
+
   onPrintInfoMember(dataList: any[]) {
     // this.service.documentInfoAll().subscribe((dataList) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
@@ -1704,18 +1717,18 @@ export class AdminComponent2Component implements OnInit {
             table: {
               widths: [90, 150, 80, 150],
               body: [
-                [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: ' - ', color: 'gray' }],
+                [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ' , color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: this.textToDateFullThai(element.startLoanDate) , color: 'gray' }],
                 [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: element.codeGuarantorOne ? this.checkNullOfGuarantor(element, 1) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: element.codeGuarantorTwo ? this.checkNullOfGuarantor(element, 2) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: this.formattedNumber2(element.interestMonth) + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.earlyMonth) + '          บาท', color: 'gray' }],
+                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.earlyMonth - element.interestMonth) + '          บาท', color: 'gray' }],
                 [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: this.formattedNumber2(element.interestMonthLast) + '          บาท', color: 'gray', fillColor: '#fff' },
                 { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: this.formattedNumber2(element.earlyMonthLast) + '          บาท', color: 'gray' }],
                 [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: this.formattedNumber2(element.installmentLoan), color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
-                [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(element.totalValueInterest) + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.outStandInterest) + '          บาท', color: 'gray' }],
-                [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(element.totalValuePrinciple) + '          บาท', color: 'gray', fillColor: '#fff' },
+                [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(0) + '          บาท', color: 'gray', fillColor: '#fff' },  //element.totalValueInterest
+                { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.outStandInterest) + '          บาท', color: 'gray' }], 
+                [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(0) + '          บาท', color: 'gray', fillColor: '#fff' },//element.totalValuePrinciple
                 { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: this.formattedNumber2(element.outStandPrinciple) + '          บาท', color: 'gray' }],
               ]
             },

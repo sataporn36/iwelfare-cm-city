@@ -442,6 +442,33 @@ export class LoanComponentComponent implements OnInit {
     });
   }
 
+  searchDocumentV1PDFById(mode: any) {
+    // let loanInfo: any[] = [];
+    const playload = {
+      loanId: this.loanId,
+      monthCurrent: null,  //this.month
+      admin: true,
+      empId: this.userId
+    }
+    this.service.searchLoanById(playload).subscribe((data) => {
+      this.list = data;
+      if (data.length <= 0) {
+        this.showWarnNull();
+      } else {
+        this.showWarn();
+
+        const key = 'installment';
+        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+        let sumLoan = 0;
+        // arrayUniqueByKey.forEach((element, index, array) => {
+        //   sumLoan = sumLoan + Number(element.loanValue);
+        // });
+        sumLoan = arrayUniqueByKey[0].loanValue;
+        this.exportMakePDFById(mode, arrayUniqueByKey);
+      }
+    });
+  }
+
  async searchIdOfEmpCodeValue1(id) {
     const payload = {
       empId: id
@@ -563,6 +590,116 @@ export class LoanComponentComponent implements OnInit {
               { text: ' ', alignment: 'right' }, //decimalPipe.transform(dataSum.totalValuePrincipleSum)
               { text: ' ', alignment: 'right' },  //decimalPipe.transform(dataSum.outStandPrincipleSum)
               ],
+            ],
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return (rowIndex === 0) ? '#CCCCCC' : null;
+            }
+          }
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 13,
+          bold: true,
+          alignment: 'center'
+        },
+      },
+      defaultStyle: { // 4. default style 'KANIT' font to test
+        font: 'Sarabun',
+      }
+    }
+    const pdf = pdfMake.createPdf(docDefinition);
+    if (mode === 'export') {
+      pdf.open();
+    } else {
+      pdf.download('ประวัติการส่งเงินกู้รายเดือน.pdf');
+    }
+  }
+
+  exportMakePDFById(mode: any, loanInfo: any[]) {
+    const decimalPipe = new DecimalPipe('en-US');
+    // let guarantor1Id = await this.searchIdOfEmpCodeValue1(item.guarantor1);
+    // let guarantor2Id = await this.searchIdOfEmpCodeValue2(item.guarantor2);
+
+    let detailLoan = loanInfo.map(function (item) {
+      return [
+        { text: item.departmentName, alignment: 'left' },
+        { text: item.employeeCode, alignment: 'center' },
+        { text: item.fullName, alignment: 'left' },
+        { text: item.loanMonth, alignment: 'center' },
+        { text: item.loanYear, alignment: 'center' },
+        { text: item.loanNo, alignment: 'center' },
+        { text: decimalPipe.transform(item.interestPercent), alignment: 'center' },
+        { text: decimalPipe.transform(item.installment), alignment: 'center' },
+        { text: decimalPipe.transform(item.interest), alignment: 'right' },
+        { text: decimalPipe.transform(item.loanOrdinary - item.interest), alignment: 'right' },
+        { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+        { text: decimalPipe.transform(item.loanBalance), alignment: 'right' },
+        // { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
+        // { text: item.guarantorCode2 ? item.guarantorCode2 : ' ' , alignment: 'center' },
+      ]
+    });
+
+    const dataSum = this.checkTotalListGroup(loanInfo);
+
+    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.fonts = {
+      // download default Roboto font from cdnjs.com
+      Roboto: {
+        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+      },
+      // Kanit Font
+      Sarabun: { // 3. set Kanit font
+        normal: 'Sarabun-Regular.ttf',
+        bold: 'Sarabun-Medium.ttf',
+        italics: 'Sarabun-Italic.ttf ',
+        bolditalics: 'Sarabun-MediumItalic.ttf '
+      }
+    }
+    const docDefinition = {
+      pageSize: 'A3',
+      pageOrientation: 'landscape',
+      pageMargins: [20, 20, 20, 20],
+      info: {
+        title: 'ประวัติการส่งเงินกู้รายเดือน',
+        // author: 'john doe',
+        // subject: 'subject of document',
+        // keywords: 'keywords for document',
+      },
+      content: [
+        { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'รายงานเงินกู้', style: 'header' },
+        // { text: 'รายงานเงินกู้ เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
+        //{ text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
+        '\n',
+        {
+          style: 'tableExample',
+          table: {
+            alignment: "center",
+            headerRows: 1,
+            widths: [160, 70, 150, 70, 70, 100, 70, 70, 70, 70, 70, 70],
+            body: [
+              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
+              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' },
+              { text: 'เดือนที่ทำ\nรายการ', style: 'tableHeader', alignment: 'center' },
+              { text: 'ปีที่ทำ\nรายการ', style: 'tableHeader', alignment: 'center' },
+              { text: 'เลขที่สัญญา', style: 'tableHeader', alignment: 'center' },
+              { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+              { text: 'ส่งงวดที่', style: 'tableHeader', alignment: 'center' },
+              // { text: 'ผู้คํ้า 1', style: 'tableHeader', alignment: 'center' }, 
+              // { text: 'ผู้คํ้า 2', style: 'tableHeader', alignment: 'center' },
+              { text: 'เดือนนี้ (ดอก)', style: 'tableHeader', alignment: 'center' }, 
+              { text: 'เดือนนี้ (ต้น)', style: 'tableHeader', alignment: 'center' },
+              { text: 'รวมส่ง (ต้น)', style: 'tableHeader', alignment: 'center' },
+              { text: 'คงค้าง (ต้น)', style: 'tableHeader', alignment: 'center' },
+              ],
+              ...detailLoan,
             ],
           },
           layout: {

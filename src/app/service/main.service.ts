@@ -206,6 +206,10 @@ export class MainService {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan', playload);
   }
 
+  searchLoanById(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoanById', playload);
+  }
+
   searchDocumentV2SumLoan(playload: any): Observable<any[]> {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v2/document/searchLoan', playload);
   }
