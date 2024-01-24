@@ -578,7 +578,7 @@ export class ShareComponentComponent implements OnInit {
         this.infogroup29.push(element);
       } else if (element.departmentName === 'งานสุขาภิบาล') {
         this.infogroup30.push(element);
-      } else if (element.departmentName === 'ระดับก่อนวัยเรียนและประถมศึกษา') {
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา') {
         this.infogroup31.push(element);
       } else {
         console.log("else error !!!");

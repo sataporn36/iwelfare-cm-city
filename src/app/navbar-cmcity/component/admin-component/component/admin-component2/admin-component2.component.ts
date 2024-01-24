@@ -544,7 +544,7 @@ export class AdminComponent2Component implements OnInit {
         this.infogroup29.push(element);
       } else if (element.departmentName === 'งานสุขาภิบาล') {
         this.infogroup30.push(element);
-      } else if (element.departmentName === 'ระดับก่อนวัยเรียนและประถมศึกษา') {
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา') {
         this.infogroup31.push(element);
       } else {
         console.log("else error !!!");
@@ -864,7 +864,7 @@ export class AdminComponent2Component implements OnInit {
     let data30 = this.checkListDataPDF(this.infogroup30) || [];
     let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล') || [];
     let data31 = this.checkListDataPDF(this.infogroup31) || [];
-    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'ระดับก่อนวัยเรียนและประถมศึกษา') || [];
+    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา') || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
