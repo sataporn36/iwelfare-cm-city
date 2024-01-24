@@ -457,14 +457,14 @@ export class LoanComponentComponent implements OnInit {
       } else {
         this.showWarn();
 
-        const key = 'installment';
+        const key = 'installment';  
         const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
         let sumLoan = 0;
         // arrayUniqueByKey.forEach((element, index, array) => {
         //   sumLoan = sumLoan + Number(element.loanValue);
         // });
         sumLoan = arrayUniqueByKey[0].loanValue;
-        this.exportMakePDFById(mode, arrayUniqueByKey);
+        this.exportMakePDFById(mode, data); // arrayUniqueByKey
       }
     });
   }
@@ -630,12 +630,12 @@ export class LoanComponentComponent implements OnInit {
         { text: item.fullName, alignment: 'left' },
         { text: item.loanMonth, alignment: 'center' },
         { text: item.loanYear, alignment: 'center' },
-        { text: item.loanNo, alignment: 'center' },
+        { text: item.loanYear >= 2567 ? item.loanNo : ' ', alignment: 'center' },
         { text: decimalPipe.transform(item.interestPercent), alignment: 'center' },
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.interest), alignment: 'right' },
-        { text: decimalPipe.transform(item.loanOrdinary - item.interest), alignment: 'right' },
-        { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+        { text: decimalPipe.transform( item.loanYear >= 2567 ? (item.loanOrdinary - item.interest) : item.loanOrdinary), alignment: 'right' },
+        { text: decimalPipe.transform(item.sumOrdinary), alignment: 'right' },
         { text: decimalPipe.transform(item.loanBalance), alignment: 'right' },
         // { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
         // { text: item.guarantorCode2 ? item.guarantorCode2 : ' ' , alignment: 'center' },

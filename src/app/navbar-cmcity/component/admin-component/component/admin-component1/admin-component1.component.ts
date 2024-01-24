@@ -269,6 +269,7 @@ export class AdminComponent1Component {
     this.detailModel.enable();
     this.detailModel.get('stockAccumulate')?.disable();
     this.detailModel.get('loanBalance')?.disable();
+    this.detailModel.get('monthlyStockMoney')?.disable();
   }
 
   changeToNumber(value: any) {
