@@ -570,7 +570,7 @@ export class AdminComponent2Component implements OnInit {
           { text: decimalPipe.transform(item.interest), alignment: 'right' },
           { text: decimalPipe.transform(item.sumMonth), alignment: 'right' }, //
           //{ text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
-          { text: Number(item.stockInstallment) <= 1 ? item.stockAccumulate : decimalPipe.transform(Number(item.stockAccumulate) - Number(item.stockValue)), alignment: 'right' },
+          { text: Number(item.stockInstallment) <= 1 ? (Number(item.stockAccumulate) - Number(item.stockValue)) : decimalPipe.transform((Number(item.stockAccumulate) - Number(item.stockValue))), alignment: 'right' },
         ]
       });
       return datalListGroup;

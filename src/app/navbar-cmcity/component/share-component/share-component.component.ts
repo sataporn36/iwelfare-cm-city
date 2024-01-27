@@ -717,7 +717,7 @@ export class ShareComponentComponent implements OnInit {
         { text: item.stockYear, alignment: 'center' },
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
-        { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
+        { text: decimalPipe.transform(item.stockAccumulate - item.stockValue), alignment: 'right' },
       ]
     });
 
