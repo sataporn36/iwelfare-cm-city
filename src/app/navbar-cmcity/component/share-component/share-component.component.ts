@@ -911,13 +911,13 @@ export class ShareComponentComponent implements OnInit {
           this.getImgSig2('signature2',this.fileImg2);
           if(res.loanId){
             if(res.newLoan){
-              await this.onSearchCalculateLoanNew(res, stockValue);
+              await this.onSearchCalculateLoanNew(res, res.stockValue);
             }else{
-              await this.onSearchCalculateLoanOld(res, stockValue);
+              await this.onSearchCalculateLoanOld(res,  res.stockValue);
             }
           }else{
-            await this.onSearchCalculateLoanOld(res, stockValue);
-            this.sumElementLoan = (Number(stockValue) + 0 + 0); //  stockValue + totalDeduction + interest
+            await this.onSearchCalculateLoanOld(res,  res.stockValue);
+            this.sumElementLoan = (Number( res.stockValue) + 0 + 0); //  stockValue + totalDeduction + interest
             //this.elementLoan = null; 
             this.onPrintReceiptMakePdf(null, this.sumElementLoan, res);
           }
@@ -1000,7 +1000,7 @@ export class ShareComponentComponent implements OnInit {
             headerRows: 4,
             body: [
               [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', { text: resStock ? this.formattedNumber2(resStock.stockDetailInstallment) : '', alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
+              ['ค่าหุ้น', { text: resStock ? this.formattedNumber2(resStock.stockDetailInstallment) : '', alignment: 'right' }, { text: resStock ? this.formattedNumber2(resStock.stockValue) : '', alignment: 'right' }, ' '],
               ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.principal) : '', alignment: 'right' }
                 , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
               ['ดอกเบี้ย', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
