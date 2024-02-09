@@ -677,6 +677,9 @@ export class AdminComponent3Component implements OnInit {
   infogroup29: any[] = [];
   infogroup30: any[] = [];
   infogroup31: any[] = [];
+  infogroup32: any[] = [];
+  infogroup33: any[] = [];
+  infogroup34: any[] = [];
 
   checkDepartment(listData: any[]) {
 
@@ -711,6 +714,10 @@ export class AdminComponent3Component implements OnInit {
     this.infogroup29 = [];
     this.infogroup30 = [];
     this.infogroup31 = [];
+    this.infogroup32 = [];
+    this.infogroup33 = [];
+    this.infogroup34 = [];
+
     listData.forEach((element, index, array) => {
 
       if (element.departmentName === 'แขวงเม็งราย') {
@@ -775,6 +782,12 @@ export class AdminComponent3Component implements OnInit {
         this.infogroup30.push(element);
       } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา') {
         this.infogroup31.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง') {
+        this.infogroup32.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม') {
+        this.infogroup33.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่') {
+        this.infogroup34.push(element);
       } else {
         console.log("else error !!!");
       }
@@ -795,15 +808,17 @@ export class AdminComponent3Component implements OnInit {
           { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
           { text: item.guarantorCode2 ? item.guarantorCode2 : ' ', alignment: 'center' },
           { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
-          { text: decimalPipe.transform(Number(item.outStandPrinciple) > 0 ? Number(item.monthPrinciple) - Number(item.monthInterest) : Number(item.monthPrinciple)) , alignment: 'right' },
+          { text: decimalPipe.transform((Number(item.outStandPrinciple) <= Number(item.monthPrinciple)) ? Number(item.monthPrinciple) : Number(item.monthPrinciple) - Number(item.monthInterest)) , alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
-          { text: '-', alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
-          { text: '-', alignment: 'right' }, //decimalPipe.transform(item.totalValueInterest)
-          { text: decimalPipe.transform(Number(item.outStandInterest) + Number(item.monthInterest)), alignment: 'right' },
-          { text: '-', alignment: 'right' },  // decimalPipe.transform(item.totalValuePrinciple)
-          { text: decimalPipe.transform( Number(item.outStandPrinciple) > 0 ? Number(item.outStandPrinciple) + (Number(item.monthPrinciple) - Number(item.monthInterest))
-            : Number(item.lastMonthPrinciple)), alignment: 'right' },
+          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : (item.installment - 1), alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
+          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(item.totalValueInterest), alignment: 'right' }, //decimalPipe.transform(item.totalValueInterest)
+          { text: decimalPipe.transform(Number(item.outStandInterest)), alignment: 'right' },
+          //{ text: decimalPipe.transform(Number(item.outStandInterest) + Number(item.monthInterest)), alignment: 'right' },
+          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(item.totalValuePrinciple), alignment: 'right' },  // decimalPipe.transform(item.totalValuePrinciple)
+          { text: decimalPipe.transform( Number(item.outStandPrinciple)), alignment: 'right' },
+          // { text: decimalPipe.transform( Number(item.outStandPrinciple) > 0 ? Number(item.outStandPrinciple) + (Number(item.monthPrinciple) - Number(item.monthInterest))
+          //   : Number(item.lastMonthPrinciple)), alignment: 'right' },
         ]
       });
       return datalListGroup;
@@ -824,9 +839,9 @@ export class AdminComponent3Component implements OnInit {
           { text: this.formattedNumber2(dataSum.monthPrincipleSum), alignment: 'right' },
           { text: this.formattedNumber2(dataSum.lastMonthInterestSum), alignment: 'right' },
           { text: this.formattedNumber2(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
-          {text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(dataSum.totalValueInterestSum), alignment: 'right' }
+          { text: this.formattedNumber2(dataSum.totalValueInterestSum), alignment: 'right' }, //{text:'-' , alignment: 'right'}, 
           { text: this.formattedNumber2(dataSum.outStandInterestSum), alignment: 'right' },
-          {text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' }
+          { text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' }, //{text:'-' , alignment: 'right'}, 
           { text: this.formattedNumber2(dataSum.outStandPrincipleSum), alignment: 'right' },
           ];
         }
@@ -873,16 +888,22 @@ export class AdminComponent3Component implements OnInit {
     
     listGroup?.forEach((element, _index, _array) => {
       monthInterestSum = monthInterestSum + Number(element.monthInterest ? element.monthInterest : 0);
-      monthPrincipleSum = monthPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
-      Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) : Number(element.monthPrinciple ? element.monthPrinciple : 0));
+      // monthPrincipleSum = monthPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
+      // Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) : Number(element.monthPrinciple ? element.monthPrinciple : 0));
+      monthPrincipleSum = monthPrincipleSum + ((Number(element.outStandPrinciple) <= Number(element.monthPrinciple)) ? 
+      Number(element.monthPrinciple ? element.monthPrinciple : 0) : Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) );
       lastMonthInterestSum = lastMonthInterestSum + Number(element.lastMonthInterest ? element.lastMonthInterest : 0);
       lastMonthPrincipleSum = lastMonthPrincipleSum + Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0);
-      totalValueInterestSum = totalValueInterestSum + Number(element.totalValueInterest ? element.totalValueInterest : 0);
-      outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0) + Number(element.monthInterest);
-      totalValuePrincipleSum = totalValuePrincipleSum + Number(element.totalValuePrinciple ? element.totalValuePrinciple : 0);
-      outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
-      Number(element.outStandPrinciple ? element.outStandPrinciple : 0) + Number(element.monthPrinciple - element.monthInterest) 
-      : Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0));
+      totalValueInterestSum = totalValueInterestSum +  
+      (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValueInterest ? element.totalValueInterest : 0));
+      // outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0) + Number(element.monthInterest);
+      outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0);
+      totalValuePrincipleSum = totalValuePrincipleSum + 
+      (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValuePrinciple ? element.totalValuePrinciple : 0));
+      // outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
+      // Number(element.outStandPrinciple ? element.outStandPrinciple : 0) + Number(element.monthPrinciple - element.monthInterest) 
+      // : Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0));
+      outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple));
     });
     this.sumGrandTotal1 = this.sumGrandTotal1 + monthInterestSum;
     this.sumGrandTotal2 = this.sumGrandTotal2 + monthPrincipleSum;
@@ -937,9 +958,9 @@ export class AdminComponent3Component implements OnInit {
     { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' },
     { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' },
     { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' }, ' ',
-    { text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' }
+    { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' },  //{ text:'-' , alignment: 'right'}, //
     { text: this.formattedNumber2(this.sumGrandTotal6), alignment: 'right' },
-    { text:'-' , alignment: 'right'}, //{ text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' }
+    { text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' }, // { text:'-' , alignment: 'right'}, 
     { text: this.formattedNumber2(this.sumGrandTotal8), alignment: 'right' },
     ];
 
@@ -1064,6 +1085,12 @@ export class AdminComponent3Component implements OnInit {
     let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล', this.infogroup30) || [];
     let data31 = this.checkListDataPDF(this.infogroup31) || [];
     let dataSum31 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา', this.infogroup31) || [];
+    let data32 = this.checkListDataPDF(this.infogroup32) || [];
+    let dataSum32 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง',this.infogroup32) || [];
+    let data33 = this.checkListDataPDF(this.infogroup33) || [];
+    let dataSum33 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม',this.infogroup33) || [];
+    let data34 = this.checkListDataPDF(this.infogroup34) || [];
+    let dataSum34 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',this.infogroup34) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1099,6 +1126,9 @@ export class AdminComponent3Component implements OnInit {
     pushDataSection(data29, dataSum29);
     pushDataSection(data30, dataSum30);
     pushDataSection(data31, dataSum31);
+    pushDataSection(data32, dataSum32);
+    pushDataSection(data33, dataSum33);
+    pushDataSection(data34, dataSum34);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
