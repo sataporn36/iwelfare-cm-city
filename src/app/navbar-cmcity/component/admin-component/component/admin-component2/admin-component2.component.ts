@@ -1259,17 +1259,41 @@ export class AdminComponent2Component implements OnInit {
   totalMemLoan() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
-    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
-    const payload = {
-      monthCurrent: monthNew,
-      yearCurrent: dataMY.year
-    }
-    this.monthSelectNew = monthNew;
+    const dataMonth = this.periodMonthDescOption[Number(dataMY.month) - 1].label
+
+    this.monthSelectNew = dataMonth;
     this.yearSelectNew = dataMY.year;
-    this.service.getGrandTotal(payload).subscribe(data => {
-      this.grandTotal = data;
-      this.onPrintTotal(this.grandTotal);
-    });
+
+    const format = new Date()
+    const month = format.getMonth()
+    const monthSelect = this.periodMonthDescOption[Number(month)].label;
+
+    console.log("this.monthSelectNew ---> ", this.monthSelectNew);
+    console.log("this.yearSelectNew ---> ", this.yearSelectNew);
+    console.log("dataMY.month monthSelect ---> ", monthSelect);
+    
+
+    if (this.monthSelectNew != monthSelect) {
+      const payload = {
+        monthCurrent: this.monthSelectNew,
+        yearCurrent: dataMY.year
+      }
+
+      this.service.getSummary(payload).subscribe(data => {
+        this.grandTotal = data;
+        this.onPrintTotal(this.grandTotal, true);
+      });
+    } else {
+      const payload = {
+        monthCurrent: this.monthSelectNew,
+        yearCurrent: dataMY.year
+      }
+
+      this.service.getGrandTotal(payload).subscribe(data => {
+        this.grandTotal = data;
+        this.onPrintTotal(this.grandTotal, false);
+      });
+    }
   }
 
   billMonth: any;
@@ -1509,7 +1533,7 @@ export class AdminComponent2Component implements OnInit {
     this.displayModalBill = true;
   }
 
-  onPrintTotal(grandTotal: any) {
+  onPrintTotal(grandTotal: any, hasSummary) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -1527,6 +1551,16 @@ export class AdminComponent2Component implements OnInit {
         bolditalics: 'Sarabun-MediumItalic.ttf '
       }
     }
+
+    let sumStockAccumulate: 0
+
+    if (hasSummary) {
+      sumStockAccumulate = this.formattedNumber(grandTotal.sumStockAccumulate)
+    } else {
+      sumStockAccumulate = this.formattedNumber(grandTotal.sumStockAccumulate - grandTotal.sumStockValue)
+    }
+
+
     const docDefinition = {
       info: {
         title: 'สรุปยอดรวมต่างๆ',
@@ -1540,12 +1574,12 @@ export class AdminComponent2Component implements OnInit {
         { text: 'สรุปยอดรวมต่างๆ', style: 'header' },
         '\n',
         {
-          text: ['วันที่ปริ้นเอกสารฉบับนี้: ', { text: '                ' + this.pipeDateTH() + '                                                          ', bold: false },
+          text: ['วันที่ปริ้นเอกสารฉบับนี้: ', { text: '                ' + this.pipeDateTH() + '                                                     ', bold: false },
             { text: 'เดือน: ', bold: true }, { text: ' ' + this.monthSelectNew + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
         },
         {
-          text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             ' + this.time + '                                                                             ', bold: false },
-            { text: '   ปี: ', bold: true }, { text: ' ' + this.yearSelectNew + '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+          text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             ' + this.time + '                                                                       ', bold: false },
+            { text: 'ปี: ', bold: true }, { text: ' ' + this.yearSelectNew + '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
         },
         '\n',
         '\n',
@@ -1564,7 +1598,7 @@ export class AdminComponent2Component implements OnInit {
               },
               {
                 rowSpan: 1,
-                text: grandTotal.sumEmp + '     ราย \n\n' + grandTotal.sumLoan + '     ราย \n\n' + this.formattedNumber(grandTotal.sumLoanBalance) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumStockAccumulate - grandTotal.sumStockValue) + '    บาท\n\n', alignment: 'right'
+                text: grandTotal.sumEmp + '     ราย \n\n' + grandTotal.sumLoan + '     ราย \n\n' + this.formattedNumber(grandTotal.sumLoanBalance) + '    บาท \n\n' + sumStockAccumulate + '    บาท\n\n', alignment: 'right'
               }],
               [{
                 rowSpan: 1,

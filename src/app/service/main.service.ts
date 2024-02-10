@@ -190,6 +190,10 @@ export class MainService {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/grand-total', payload);
   }
 
+  getSummary(payload: any): Observable<any> {
+    return this.http.post<any>(AppPath.APP_API_SERVICE + '/v1/summary/get-summary', payload);
+  }
+
   searchDocumentV1(playload: any): Observable<any[]> {
     return this.http.post<any[]>(AppPath.APP_API_SERVICE + '/logic/v1/document/search', playload);
   }
