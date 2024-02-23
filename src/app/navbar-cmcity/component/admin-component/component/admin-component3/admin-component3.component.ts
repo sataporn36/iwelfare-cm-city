@@ -95,10 +95,16 @@ export class AdminComponent3Component implements OnInit {
       if (value.length >= 5) {
         this.formModelLoanNew.get('guarantorOne').enable();
         this.formModelLoanNew.get('guarantorTwo').enable();
+
+        const format = new Date()
+        const month = format.getMonth();
+        const monthSelect = this.periodMonthDescOption[month];
+        const year = format.getFullYear() + 543;
+
         const payload = {
           empCode: value,
-          monthCurrent: null,
-          yearCurrent: null
+          monthCurrent: monthSelect.label,
+          yearCurrent: year
         }
         this.service.searchEmployeeLoanNew(payload).subscribe({
           next: (res) => {
@@ -808,7 +814,7 @@ export class AdminComponent3Component implements OnInit {
           { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
           { text: item.guarantorCode2 ? item.guarantorCode2 : ' ', alignment: 'center' },
           { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
-          { text: decimalPipe.transform((Number(item.outStandPrinciple) <= Number(item.monthPrinciple)) ? Number(item.monthPrinciple) : Number(item.monthPrinciple) - Number(item.monthInterest)) , alignment: 'right' },
+          { text: decimalPipe.transform((Number(item.outStandPrinciple) <= Number(item.monthPrinciple)) ? Number(item.monthPrinciple) : Number(item.monthPrinciple) - Number(item.monthInterest)), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
           { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : (item.installment - 1), alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
@@ -816,7 +822,7 @@ export class AdminComponent3Component implements OnInit {
           { text: decimalPipe.transform(Number(item.outStandInterest)), alignment: 'right' },
           //{ text: decimalPipe.transform(Number(item.outStandInterest) + Number(item.monthInterest)), alignment: 'right' },
           { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(item.totalValuePrinciple), alignment: 'right' },  // decimalPipe.transform(item.totalValuePrinciple)
-          { text: decimalPipe.transform( Number(item.outStandPrinciple)), alignment: 'right' },
+          { text: decimalPipe.transform(Number(item.outStandPrinciple)), alignment: 'right' },
           // { text: decimalPipe.transform( Number(item.outStandPrinciple) > 0 ? Number(item.outStandPrinciple) + (Number(item.monthPrinciple) - Number(item.monthInterest))
           //   : Number(item.lastMonthPrinciple)), alignment: 'right' },
         ]
@@ -885,21 +891,21 @@ export class AdminComponent3Component implements OnInit {
     let outStandInterestSum = 0;
     let totalValuePrincipleSum = 0;
     let outStandPrincipleSum = 0;
-    
+
     listGroup?.forEach((element, _index, _array) => {
       monthInterestSum = monthInterestSum + Number(element.monthInterest ? element.monthInterest : 0);
       // monthPrincipleSum = monthPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
       // Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) : Number(element.monthPrinciple ? element.monthPrinciple : 0));
-      monthPrincipleSum = monthPrincipleSum + ((Number(element.outStandPrinciple) <= Number(element.monthPrinciple)) ? 
-      Number(element.monthPrinciple ? element.monthPrinciple : 0) : Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) );
+      monthPrincipleSum = monthPrincipleSum + ((Number(element.outStandPrinciple) <= Number(element.monthPrinciple)) ?
+        Number(element.monthPrinciple ? element.monthPrinciple : 0) : Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest));
       lastMonthInterestSum = lastMonthInterestSum + Number(element.lastMonthInterest ? element.lastMonthInterest : 0);
       lastMonthPrincipleSum = lastMonthPrincipleSum + Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0);
-      totalValueInterestSum = totalValueInterestSum +  
-      (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValueInterest ? element.totalValueInterest : 0));
+      totalValueInterestSum = totalValueInterestSum +
+        (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValueInterest ? element.totalValueInterest : 0));
       // outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0) + Number(element.monthInterest);
       outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0);
-      totalValuePrincipleSum = totalValuePrincipleSum + 
-      (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValuePrinciple ? element.totalValuePrinciple : 0));
+      totalValuePrincipleSum = totalValuePrincipleSum +
+        (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValuePrinciple ? element.totalValuePrinciple : 0));
       // outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
       // Number(element.outStandPrinciple ? element.outStandPrinciple : 0) + Number(element.monthPrinciple - element.monthInterest) 
       // : Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0));
@@ -1086,11 +1092,11 @@ export class AdminComponent3Component implements OnInit {
     let data31 = this.checkListDataPDF(this.infogroup31) || [];
     let dataSum31 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา', this.infogroup31) || [];
     let data32 = this.checkListDataPDF(this.infogroup32) || [];
-    let dataSum32 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง',this.infogroup32) || [];
+    let dataSum32 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง', this.infogroup32) || [];
     let data33 = this.checkListDataPDF(this.infogroup33) || [];
-    let dataSum33 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม',this.infogroup33) || [];
+    let dataSum33 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม', this.infogroup33) || [];
     let data34 = this.checkListDataPDF(this.infogroup34) || [];
-    let dataSum34 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',this.infogroup34) || [];
+    let dataSum34 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่', this.infogroup34) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1268,103 +1274,103 @@ export class AdminComponent3Component implements OnInit {
         font: 'Sarabun',
       }
     }
-    
+
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
-    }else if(mode === 'pdf'){
+    } else if (mode === 'pdf') {
       pdf.download('ประวัติการส่งเงินกู้รายเดือน.pdf');
-    }else if(mode === 'excel'){
-      this.exportDataToExcel(sections,sunGrandTotal);
+    } else if (mode === 'excel') {
+      this.exportDataToExcel(sections, sunGrandTotal);
     }
   }
 
-  replaceTextInExcel(text: any){
-    const textRe = text ? text.replace(/,/g,'') : 0;
+  replaceTextInExcel(text: any) {
+    const textRe = text ? text.replace(/,/g, '') : 0;
     return textRe ? Number(textRe) : '';
   }
 
-exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
-  const textTitle = 'เทศบาลนครเชียงใหม่';
-  const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
-  let columnHeaders = [
-    [textTitle, '', ''],
-    [textHeader, '', ''],
-    ['', '', ''],
-    [
-      'หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'เงินกู้', 'เวลากู้', 'ดอกเบี้ย', 'ผู้ค้ำ 1', 'ผู้ค้ำ 2', 'เดือนนี้ (ดอก)', 'เดือนนี้ (ต้น)', 'สุดท้าย (ดอก)','สุดท้าย (ต้น)',
-      'ส่งงวดที่', 'รวมส่ง (ดอก)', 'คงค้าง (ดอก)', 'รวมส่ง (ต้น)', 'คงค้าง (ต้น)'
-    ],
-  ];
+  exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]) {
+    const textTitle = 'เทศบาลนครเชียงใหม่';
+    const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
+    let columnHeaders = [
+      [textTitle, '', ''],
+      [textHeader, '', ''],
+      ['', '', ''],
+      [
+        'หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'เงินกู้', 'เวลากู้', 'ดอกเบี้ย', 'ผู้ค้ำ 1', 'ผู้ค้ำ 2', 'เดือนนี้ (ดอก)', 'เดือนนี้ (ต้น)', 'สุดท้าย (ดอก)', 'สุดท้าย (ต้น)',
+        'ส่งงวดที่', 'รวมส่ง (ดอก)', 'คงค้าง (ดอก)', 'รวมส่ง (ต้น)', 'คงค้าง (ต้น)'
+      ],
+    ];
 
-  for (let i = 0; i < listDataStock.length; i++) {
+    for (let i = 0; i < listDataStock.length; i++) {
+      columnHeaders.push([
+        listDataStock[i][0].text,
+        listDataStock[i][1].text,
+        listDataStock[i][2].text,
+        this.replaceTextInExcel(listDataStock[i][3].text),
+        this.replaceTextInExcel(listDataStock[i][4].text),
+        this.replaceTextInExcel(listDataStock[i][5].text),
+        listDataStock[i][6].text,
+        listDataStock[i][7].text,
+        this.replaceTextInExcel(listDataStock[i][8].text),
+        this.replaceTextInExcel(listDataStock[i][9].text),
+        this.replaceTextInExcel(listDataStock[i][10].text),
+        this.replaceTextInExcel(listDataStock[i][11].text),
+        this.replaceTextInExcel(''), //listDataStock[i][12].text
+        this.replaceTextInExcel(''), //listDataStock[i][13].text
+        this.replaceTextInExcel(listDataStock[i][14].text),
+        this.replaceTextInExcel(''), //listDataStock[i][15].text
+        this.replaceTextInExcel(listDataStock[i][16].text),
+      ]);
+    }
+
+    // last row sumTotal
     columnHeaders.push([
-      listDataStock[i][0].text,
-      listDataStock[i][1].text,
-      listDataStock[i][2].text,
-      this.replaceTextInExcel(listDataStock[i][3].text),
-      this.replaceTextInExcel(listDataStock[i][4].text),
-      this.replaceTextInExcel(listDataStock[i][5].text),
-      listDataStock[i][6].text,
-      listDataStock[i][7].text,
-      this.replaceTextInExcel(listDataStock[i][8].text),
-      this.replaceTextInExcel(listDataStock[i][9].text),
-      this.replaceTextInExcel(listDataStock[i][10].text),
-      this.replaceTextInExcel(listDataStock[i][11].text),
-      this.replaceTextInExcel(''), //listDataStock[i][12].text
-      this.replaceTextInExcel(''), //listDataStock[i][13].text
-      this.replaceTextInExcel(listDataStock[i][14].text),
-      this.replaceTextInExcel(''), //listDataStock[i][15].text
-      this.replaceTextInExcel(listDataStock[i][16].text),
+      sunGrandTotal[0].text,
+      '',
+      '',
+      this.replaceTextInExcel(sunGrandTotal[3].text),
+      '',
+      '',
+      '',
+      '',
+      this.replaceTextInExcel(sunGrandTotal[8].text),
+      this.replaceTextInExcel(sunGrandTotal[9].text),
+      this.replaceTextInExcel(sunGrandTotal[10].text),
+      this.replaceTextInExcel(sunGrandTotal[11].text),
+      '',
+      '', //this.replaceTextInExcel(sunGrandTotal[13].text)
+      this.replaceTextInExcel(sunGrandTotal[14].text),
+      '', //this.replaceTextInExcel(sunGrandTotal[15].text)
+      this.replaceTextInExcel(sunGrandTotal[16].text),
     ]);
+
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
+    ws['!cols'] = [
+      { width: 50, },
+      { width: 15 },
+      { width: 30 },
+      { width: 20 },
+      { width: 10 },
+      { width: 10 },
+      { width: 15 },
+      { width: 15 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 10 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+    ];
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'ประวัติการส่งเงินกู้รายเดือน.xlsx');
   }
-
-  // last row sumTotal
-  columnHeaders.push([
-    sunGrandTotal[0].text,
-    '',
-    '',
-    this.replaceTextInExcel(sunGrandTotal[3].text),
-    '',
-    '',
-    '',
-    '',
-    this.replaceTextInExcel(sunGrandTotal[8].text),
-    this.replaceTextInExcel(sunGrandTotal[9].text),
-    this.replaceTextInExcel(sunGrandTotal[10].text),
-    this.replaceTextInExcel(sunGrandTotal[11].text),
-    '',
-    '', //this.replaceTextInExcel(sunGrandTotal[13].text)
-    this.replaceTextInExcel(sunGrandTotal[14].text),
-    '', //this.replaceTextInExcel(sunGrandTotal[15].text)
-    this.replaceTextInExcel(sunGrandTotal[16].text),
-  ]);
-
-  const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
-  ws['!cols'] = [
-    { width: 50,},
-    { width: 15 },
-    { width: 30 },
-    { width: 20 },
-    { width: 10 },
-    { width: 10 },
-    { width: 15 },
-    { width: 15 },
-    { width: 20 },
-    { width: 20 },
-    { width: 20 },
-    { width: 20 },
-    { width: 10 },
-    { width: 20 },
-    { width: 20 },
-    { width: 20 },
-    { width: 20 },
-  ];
-
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  XLSX.writeFile(wb, 'ประวัติการส่งเงินกู้รายเดือน.xlsx');
-}
 
   onEditLoan(data: any) {
     /// api
@@ -1936,10 +1942,10 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
     if (this.headerName === 'ประวัติเงินกู้ของสมาชิกทั้งหมด') {
       this.onSearchDocumentV1All();
       this.displayModalBill = false;
-    }else if(this.headerName === ''){
-       //
-    }else if(this.headerName === ''){
-       //
+    } else if (this.headerName === '') {
+      //
+    } else if (this.headerName === '') {
+      //
     }
   }
 
@@ -1973,7 +1979,7 @@ exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]){
       const key = 'employeeCode';
       const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
       const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
-      this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData); 
+      this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
     });
   }
 
