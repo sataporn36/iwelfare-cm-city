@@ -1268,11 +1268,6 @@ export class AdminComponent2Component implements OnInit {
     const month = format.getMonth()
     const monthSelect = this.periodMonthDescOption[Number(month)].label;
 
-    console.log("this.monthSelectNew ---> ", this.monthSelectNew);
-    console.log("this.yearSelectNew ---> ", this.yearSelectNew);
-    console.log("dataMY.month monthSelect ---> ", monthSelect);
-    
-
     if (this.monthSelectNew != monthSelect) {
       const payload = {
         monthCurrent: this.monthSelectNew,
