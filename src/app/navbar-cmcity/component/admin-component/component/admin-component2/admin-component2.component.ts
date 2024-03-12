@@ -610,8 +610,8 @@ export class AdminComponent2Component implements OnInit {
           totalMonth += Number(element.totalMonth);
           stockAccumulateTotal += Number(element.stockAccumulateTotal);
           sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(dataSum.stockValueTotal), alignment: 'right' }, ' ',
-          { text: dataSum.loanDetailOrdinaryTotal <= 0 ? this.formattedNumber2(dataSum.loanDetailOrdinaryTotal) : ' ', alignment: 'right' }, { text: dataSum.loanDetailInterestTotal <= 0 ? this.formattedNumber2(dataSum.loanDetailInterestTotal) : ' ', alignment: 'right' }
-            , { text: dataSum.totalMonth <= 0 ? this.formattedNumber2(dataSum.totalMonth) : ' ', alignment: 'right' }, { text: dataSum.stockAccumulateTotal <= 0 ? this.formattedNumber2(dataSum.stockAccumulateTotal) : ' ', alignment: 'right' }
+          { text: dataSum.loanDetailOrdinaryTotal >= 0 ? this.formattedNumber2(dataSum.loanDetailOrdinaryTotal) : ' ', alignment: 'right' }, { text: dataSum.loanDetailInterestTotal >= 0 ? this.formattedNumber2(dataSum.loanDetailInterestTotal) : ' ', alignment: 'right' }
+            , { text: dataSum.totalMonth >= 0 ? this.formattedNumber2(dataSum.totalMonth) : ' ', alignment: 'right' }, { text: dataSum.stockAccumulateTotal >= 0 ? this.formattedNumber2(dataSum.stockAccumulateTotal) : ' ', alignment: 'right' }
           ];
         }
       })
@@ -1813,7 +1813,7 @@ export class AdminComponent2Component implements OnInit {
             table: {
               widths: [90, 150, 80, 150],
               body: [
-                [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ' , color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: this.textToDateFullThai(element.startLoanDate) , color: 'gray' }],
+                [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ' , color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: element.startLoanDate ? this.textToDateFullThai(element.startLoanDate) : ' - ' , color: 'gray' }],
                 [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: element.codeGuarantorOne ? this.checkNullOfGuarantor(element, 1) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
                 [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: element.codeGuarantorTwo ? this.checkNullOfGuarantor(element, 2) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
