@@ -963,7 +963,7 @@ export class ShareComponentComponent implements OnInit {
     const data = this.empDetail;
     const fullName = data.prefix + data.firstName + ' ' + data.lastName;
     const empCode = data.employeeCode;
-    const stockAccumulate = data.stockAccumulate ? data.stockAccumulate : ' ';
+    const stockAccumulate = resStock.stockAccumulate ? resStock.stockAccumulate : ' ';
     const departMentName = data.departmentName ? data.departmentName : ' ';
 
     const stock = this.stockInfo;
@@ -1086,13 +1086,16 @@ export class ShareComponentComponent implements OnInit {
       // Append the digit and position to the Thai Baht text
       //bahtText += digitText + position;
 
-      if (position === 'สิบ' && digit === 2) {
+      if (position === 'สิบ' && digit === 1) {
+        bahtText += '' + position;
+      } else if(position === 'สิบ' && digit === 2){
         bahtText += 'ยี่' + position;
       } else if(position === '' && digit === 1){
         bahtText += 'เอ็ด' + position;
       } else {
         bahtText += digitText + position;
       }
+
     }
 
     return bahtText + 'บาทถ้วน';
