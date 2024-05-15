@@ -635,7 +635,7 @@ export class LoanComponentComponent implements OnInit {
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.interest), alignment: 'right' },
         { text: decimalPipe.transform( item.loanYear >= 2567 ? (item.loanOrdinary - item.interest) : item.loanOrdinary), alignment: 'right' },
-        { text: decimalPipe.transform(item.sumOrdinary), alignment: 'right' },
+        { text: decimalPipe.transform((item.sumOrdinary == item.loanValue) ? item.loanOrdinary : item.sumOrdinary), alignment: 'right' },
         { text: decimalPipe.transform(item.loanBalance), alignment: 'right' },
         // { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
         // { text: item.guarantorCode2 ? item.guarantorCode2 : ' ' , alignment: 'center' },
