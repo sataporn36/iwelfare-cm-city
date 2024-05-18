@@ -839,21 +839,58 @@ export class ShareComponentComponent implements OnInit {
   }
 
   onSearchCalculateLoanNew(res: any, stockValue: any) {
-    const payloadOld = {
-      principal: res.loanValue,
-      interestRate: Number(res.interestPercent),
-      numOfPayments: res.loanTime,
-      paymentStartDate: res.startDateLoan,
+    if(res.installment >= 1000){
+      this.searchDocumentV1PDFById(res,stockValue);
+    }else{
+      const payloadOld = {
+        principal: res.loanValue,
+        interestRate: Number(res.interestPercent),
+        numOfPayments: res.loanTime,
+        paymentStartDate: res.startDateLoan,
+      }
+      this.service.onCalculateLoanNew(payloadOld).subscribe((resL) => {
+        const data = resL;
+        data.forEach((element, index, array) => {
+          if (element.installment === res.installment) {
+            this.sumElementLoan = (Number(stockValue) + element.principal + element.interest);
+            this.elementLoan = element;
+            this.onPrintReceiptMakePdf(element, this.sumElementLoan, res);
+          }
+        })
+      });
     }
-    this.service.onCalculateLoanNew(payloadOld).subscribe((resL) => {
-      const data = resL;
-      data.forEach((element, index, array) => {
-        if (element.installment === res.installment) {
-          this.sumElementLoan = (Number(stockValue) + element.principal + element.interest);
-          this.elementLoan = element;
-          this.onPrintReceiptMakePdf(element, this.sumElementLoan, res);
-        }
-      })
+  }
+
+  searchDocumentV1PDFById(res: any, stockValue: any) {
+    // let loanInfo: any[] = [];
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+    const playload = {
+      loanId: res.loanId,
+      monthCurrent: null,  //this.month
+      admin: true,
+      empId: res.empId
+    }
+    this.service.searchLoanById(playload).subscribe((data) => {
+      const loanListData = data;
+      loanListData.forEach((element, index, array) => {
+         if(element.loanMonth == this.billMonth && element.loanYear == bill.year){
+            const loanData = {
+              "installment": element.installment,
+              "balanceLoan": element.loanValue,
+              "deductionDate": element.startLoanDate,
+              "amountDay": "01",
+              "interest": element.interest,
+              "principal": Number(element.loanOrdinary - element.interest),
+              "principalBalance": element.loanBalance,
+              "totalDeduction": element.loanOrdinary
+            }
+            this.sumElementLoan = (Number(stockValue) + loanData.principal + loanData.interest);
+            this.elementLoan = loanData;
+            this.onPrintReceiptMakePdf(loanData, this.sumElementLoan, res);
+         }
+      });
+     
     });
   }
 
