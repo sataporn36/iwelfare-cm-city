@@ -1,7 +1,14 @@
-import { Component, ElementRef, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  LOCALE_ID,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
-import { jsPDF } from "jspdf";
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js';
@@ -14,8 +21,8 @@ import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Table } from 'primeng/table';
 
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from 'src/assets/custom-fonts.js'
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'src/assets/custom-fonts.js';
 import { Department } from 'src/app/model/department';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -28,7 +35,7 @@ interface jsPDFCustom extends jsPDF {
 @Component({
   selector: 'app-share-component',
   templateUrl: './share-component.component.html',
-  styleUrls: ['./share-component.component.scss']
+  styleUrls: ['./share-component.component.scss'],
 })
 export class ShareComponentComponent implements OnInit {
   menuItems!: MenuItem[];
@@ -60,7 +67,7 @@ export class ShareComponentComponent implements OnInit {
   displayStatusMember: boolean = false;
   employeeStatus: any;
   employeeStatusList: any[];
-  empId: any
+  empId: any;
   elementLoan: any;
   sumElementLoan: any;
   displayModalBill: boolean = false;
@@ -78,9 +85,13 @@ export class ShareComponentComponent implements OnInit {
   imageSrc2Blob: any;
   yearCurrent: any;
 
-  constructor(private service: MainService, private messageService:
-    MessageService, private localStorageService: LocalStorageService,
-    @Inject(LOCALE_ID) public locale: string,private sanitizer: DomSanitizer) { }
+  constructor(
+    private service: MainService,
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService,
+    @Inject(LOCALE_ID) public locale: string,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit() {
     // this.service.getCustomers().subscribe((res) => {
@@ -121,44 +132,42 @@ export class ShareComponentComponent implements OnInit {
         label: 'ใบเสร็จรับเงิน',
         command: () => {
           this.ondisplayModalMonth('ใบเสร็จรับเงิน');
-        }
+        },
       },
       {
         label: 'ประวัติการส่งหุ้น',
         command: () => {
           this.searchDocumentV1PDF('export');
-        }
-      }
+        },
+      },
     ];
   }
 
- 
-  getconfigList(){
-    this.service.getConfigByList().subscribe((res) =>{
-      if(res){
+  getconfigList() {
+    this.service.getConfigByList().subscribe((res) => {
+      if (res) {
         this.configAdmin = res;
         this.fileImg1 = res[3].configId;
         this.fileImg2 = res[4].configId;
 
-        this.getImgSig1('signature1',this.fileImg1);
-        this.getImgSig2('signature2',this.fileImg2);
-
+        this.getImgSig1('signature1', this.fileImg1);
+        this.getImgSig2('signature2', this.fileImg2);
       }
     });
   }
 
-  getImgSig1(dataImg: any, id: any){
-    if(id !== null || id){
-      this.getImage(id,1,dataImg);
-    }else{
+  getImgSig1(dataImg: any, id: any) {
+    if (id !== null || id) {
+      this.getImage(id, 1, dataImg);
+    } else {
       this.imageSrc1Blob = this.profileImg(dataImg);
     }
   }
 
-  getImgSig2(dataImg: any, id: any){
-    if(id !== null || id){
-      this.getImage(id,2,dataImg);
-    }else{
+  getImgSig2(dataImg: any, id: any) {
+    if (id !== null || id) {
+      this.getImage(id, 2, dataImg);
+    } else {
       this.imageSrc2Blob = this.profileImg(dataImg);
     }
   }
@@ -166,33 +175,33 @@ export class ShareComponentComponent implements OnInit {
   profileImg(dataImg: any) {
     let textImg = '';
     switch (dataImg) {
-        case 'signature1':
-          textImg = "../../assets/images/text1.png";
-          break;
-        case 'signature2':
-          textImg = "../../assets/images/text2.png";
-          break;
-        default:
-          break;
+      case 'signature1':
+        textImg = '../../assets/images/text1.png';
+        break;
+      case 'signature2':
+        textImg = '../../assets/images/text2.png';
+        break;
+      default:
+        break;
     }
     return textImg;
   }
 
-  getImage(id: any,imageSrc: any,dataImg: any) {
+  getImage(id: any, imageSrc: any, dataImg: any) {
     if (id != 0 || id != null) {
       this.service.getImageConfig(id).subscribe(
         (imageBlob: Blob) => {
-          if(imageSrc === 1){
+          if (imageSrc === 1) {
             this.imageSrc1Blob = URL.createObjectURL(imageBlob);
-          }else{
+          } else {
             this.imageSrc2Blob = URL.createObjectURL(imageBlob);
           }
         },
         (error: any) => {
-          if(imageSrc === 1){
-            this.imageSrc1Blob =  this.profileImg(dataImg);
-          }else{
-            this.imageSrc2Blob =  this.profileImg(dataImg);
+          if (imageSrc === 1) {
+            this.imageSrc1Blob = this.profileImg(dataImg);
+          } else {
+            this.imageSrc2Blob = this.profileImg(dataImg);
           }
           console.error('Failed to fetch image:', error);
         }
@@ -208,9 +217,9 @@ export class ShareComponentComponent implements OnInit {
   onChangeStatusEmp() {
     const payload = {
       id: this.empId,
-      employeeStatus: this.employeeStatus.value
-    }
-    this.service.updateEmployeeStatus(payload).subscribe(data => {
+      employeeStatus: this.employeeStatus.value,
+    };
+    this.service.updateEmployeeStatus(payload).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
       this.displayStatusMember = false;
       this.ngOnInit();
@@ -222,7 +231,9 @@ export class ShareComponentComponent implements OnInit {
   }
 
   getDapartment(): void {
-    this.service.searchDepartment().subscribe(data => this.dapartment = data)
+    this.service
+      .searchDepartment()
+      .subscribe((data) => (this.dapartment = data));
   }
 
   initMainForm() {
@@ -242,7 +253,7 @@ export class ShareComponentComponent implements OnInit {
     this.formModelStock = new FormGroup({
       stockMonth: new FormControl(0),
       stockYear: new FormControl(null),
-    });;
+    });
   }
 
   onSearchMember() {
@@ -254,16 +265,16 @@ export class ShareComponentComponent implements OnInit {
     this.loading = true;
 
     setTimeout(() => {
-      this.service.searchStockDetail(this.stockId, "asc").subscribe((res) => {
+      this.service.searchStockDetail(this.stockId, 'asc').subscribe((res) => {
         //this.customers = res.customers;
         this.totalRecords = res.length;
         this.loading = false;
-      })
+      });
     }, 1000);
   }
 
   getEmployeeByStock(id: any): void {
-    this.service.getEmployee(id).subscribe(data => {
+    this.service.getEmployee(id).subscribe((data) => {
       this.employeeByStock = data;
       this.loading = false;
     });
@@ -279,10 +290,10 @@ export class ShareComponentComponent implements OnInit {
   getStock(id: any): void {
     this.service.getStock(id).subscribe({
       next: (data) => {
-        if(data){
+        if (data) {
           this.stockInfo = data;
           this.loading = false;
-        }else{
+        } else {
           this.dataStockDetail = [];
           this.loading = false;
         }
@@ -295,14 +306,14 @@ export class ShareComponentComponent implements OnInit {
   }
 
   searchStockDetail(id: any): void {
-    this.service.searchStockDetail(id, "desc").subscribe({
+    this.service.searchStockDetail(id, 'desc').subscribe({
       next: (data) => {
         // const key = 'installment';
         // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
         // this.dataStockDetail = arrayUniqueByKey.sort((a, b) => a.installment - b.installment);
-        if(data){
+        if (data) {
           this.dataStockDetail = data;
-        }else{
+        } else {
           this.dataStockDetail = [];
           this.loading = false;
         }
@@ -331,18 +342,18 @@ export class ShareComponentComponent implements OnInit {
   year: any;
   time: any;
   pipeDateTH() {
-    const format = new Date()
+    const format = new Date();
     const yearNew = format.getFullYear();
     this.yearCurrent = yearNew;
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
-    return day + ' ' + monthSelect.label + ' ' + year
+    return day + ' ' + monthSelect.label + ' ' + year;
   }
 
   setperiodMonthDescOption() {
@@ -367,16 +378,15 @@ export class ShareComponentComponent implements OnInit {
     delete this.clonedProducts[product.id!];
   }
 
-
   oldMonth: any;
   newMonth: any;
   newYear: any;
   updateStocktoMonth() {
     this.displayModal = true;
 
-    const formatDate = new Date()
-    const month = formatDate.getMonth()
-    this.newYear = formatDate.getFullYear() + 543
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
 
     this.newMonth = this.periodMonthDescOption[month];
     this.oldMonth = this.periodMonthDescOption[month - 1];
@@ -384,7 +394,7 @@ export class ShareComponentComponent implements OnInit {
     this.formModelStock.patchValue({
       stockYear: this.newYear,
       stockMonth: this.newMonth.label,
-    })
+    });
 
     this.formModelStock.get('stockMonth')?.disable();
     this.formModelStock.get('stockYear')?.disable();
@@ -393,14 +403,14 @@ export class ShareComponentComponent implements OnInit {
   }
 
   onupdateStockToMonth() {
-    // api update stock to everyone 
+    // api update stock to everyone
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.newYear,
       newMonth: this.newMonth.label,
-      newYear: this.newYear
-    }
-    this.service.insertStockDetail(payload).subscribe(data => {
+      newYear: this.newYear,
+    };
+    this.service.insertStockDetail(payload).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'เพิ่มสำเร็จ' });
       this.displayModal = false;
       this.ngOnInit();
@@ -422,10 +432,9 @@ export class ShareComponentComponent implements OnInit {
   }
 
   checkInsertStockDetailAll() {
-
-    const stockDetail = this.dataStockDetail
-    const formatDate = new Date()
-    const month = formatDate.getMonth()
+    const stockDetail = this.dataStockDetail;
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
     const monthSelect = this.periodMonthDescOption[month];
 
     if (stockDetail[stockDetail.length - 1].stockMonth === monthSelect.label) {
@@ -448,7 +457,6 @@ export class ShareComponentComponent implements OnInit {
       // ชื่อ department ที่ใช้า ใน pdf
       this.departmentNames.push([name]);
     }
-
   }
 
   infogroup1: any[] = [];
@@ -484,7 +492,6 @@ export class ShareComponentComponent implements OnInit {
   infogroup31: any[] = [];
 
   checkDepartment(listData: any[]) {
-
     this.infogroup1 = [];
     this.infogroup2 = [];
     this.infogroup3 = [];
@@ -517,7 +524,6 @@ export class ShareComponentComponent implements OnInit {
     this.infogroup30 = [];
     this.infogroup31 = [];
     listData.forEach((element, index, array) => {
-
       if (element.departmentName === 'แขวงเม็งราย') {
         this.infogroup1.push(element);
       } else if (element.departmentName === 'แขวงกาวิละ') {
@@ -540,50 +546,95 @@ export class ShareComponentComponent implements OnInit {
         this.infogroup10.push(element);
       } else if (element.departmentName === 'งานบริหารทั่วไป ฝ่ายประจำ') {
         this.infogroup11.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน'
+      ) {
         this.infogroup12.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา'
+      ) {
         this.infogroup13.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์'
+      ) {
         this.infogroup14.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข'
+      ) {
         this.infogroup15.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา') {
+      } else if (
+        element.departmentName ===
+        'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา'
+      ) {
         this.infogroup16.push(element);
       } else if (element.departmentName === 'งานป้องกันและบรรเทาสาธารณภัย') {
         this.infogroup17.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน'
+      ) {
         this.infogroup18.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน'
+      ) {
         this.infogroup19.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ'
+      ) {
         this.infogroup20.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย'
+      ) {
         this.infogroup21.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง'
+      ) {
         this.infogroup22.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง'
+      ) {
         this.infogroup23.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ'
+      ) {
         this.infogroup24.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง'
+      ) {
         this.infogroup25.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย'
+      ) {
         this.infogroup26.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ'
+      ) {
         this.infogroup27.push(element);
       } else if (element.departmentName === 'งานวางแผนสถิติและวิชาการ') {
         this.infogroup28.push(element);
-      } else if (element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว') {
+      } else if (
+        element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว'
+      ) {
         this.infogroup29.push(element);
       } else if (element.departmentName === 'งานสุขาภิบาล') {
         this.infogroup30.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา') {
+      } else if (
+        element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา'
+      ) {
         this.infogroup31.push(element);
       } else {
-        console.log("else error !!!");
+        console.log('else error !!!');
       }
-    })
+    });
   }
 
   checkListDataPDF(list: any[]) {
@@ -596,12 +647,21 @@ export class ShareComponentComponent implements OnInit {
           { text: item.fullName, alignment: 'left' },
           { text: item.stockInstallment, alignment: 'center' },
           { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
-          { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
-          { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
+          {
+            text: decimalPipe.transform(item.loanInstallment),
+            alignment: 'center',
+          },
+          {
+            text: decimalPipe.transform(item.loanOrdinary),
+            alignment: 'right',
+          },
           { text: decimalPipe.transform(item.interest), alignment: 'right' },
           { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
-          { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
-        ]
+          {
+            text: decimalPipe.transform(item.stockAccumulate),
+            alignment: 'right',
+          },
+        ];
       });
       return datalListGroup;
     } else {
@@ -614,12 +674,39 @@ export class ShareComponentComponent implements OnInit {
       let sumDepartment;
       listSum?.forEach((element, _index, _array) => {
         if (element.departmentName === nameDepartment) {
-          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(element.stockValueTotal), alignment: 'right' }, ' ',
-          { text: this.formattedNumber2(element.loanDetailOrdinaryTotal), alignment: 'right' }, { text: this.formattedNumber2(element.loanDetailInterestTotal), alignment: 'right' }
-            , { text: this.formattedNumber2(element.totalMonth), alignment: 'right' }, { text: this.formattedNumber2(element.stockAccumulateTotal), alignment: 'right' }
+          sumDepartment = [
+            {
+              text: element.departmentName + ' Total',
+              alignment: 'left',
+              bold: true,
+            },
+            ' ',
+            ' ',
+            ' ',
+            {
+              text: this.formattedNumber2(element.stockValueTotal),
+              alignment: 'right',
+            },
+            ' ',
+            {
+              text: this.formattedNumber2(element.loanDetailOrdinaryTotal),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(element.loanDetailInterestTotal),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(element.totalMonth),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(element.stockAccumulateTotal),
+              alignment: 'right',
+            },
           ];
         }
-      })
+      });
       return sumDepartment;
     } else {
       return '';
@@ -627,7 +714,6 @@ export class ShareComponentComponent implements OnInit {
   }
 
   checkListSumGrandTotal(listSum: any[]) {
-
     let sum1 = 0;
     let sum2 = 0;
     let sum3 = 0;
@@ -637,35 +723,57 @@ export class ShareComponentComponent implements OnInit {
     let sumDepartment;
 
     listSum?.forEach((element, _index, _array) => {
-      sum1 = sum1 + Number(element.stockValueTotal ? element.stockValueTotal : 0);
-      sum2 = sum2 + Number(element.loanDetailOrdinaryTotal ? element.loanDetailOrdinaryTotal : 0);
-      sum3 = sum3 + Number(element.loanDetailInterestTotal ? element.loanDetailInterestTotal : 0);
+      sum1 =
+        sum1 + Number(element.stockValueTotal ? element.stockValueTotal : 0);
+      sum2 =
+        sum2 +
+        Number(
+          element.loanDetailOrdinaryTotal ? element.loanDetailOrdinaryTotal : 0
+        );
+      sum3 =
+        sum3 +
+        Number(
+          element.loanDetailInterestTotal ? element.loanDetailInterestTotal : 0
+        );
       sum4 = sum4 + Number(element.totalMonth ? element.totalMonth : 0);
-      sum5 = sum5 + Number(element.stockAccumulateTotal ? element.stockAccumulateTotal : 0);
-    })
+      sum5 =
+        sum5 +
+        Number(element.stockAccumulateTotal ? element.stockAccumulateTotal : 0);
+    });
 
-    sumDepartment = [{ text: 'Grand Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(sum1), alignment: 'right' }, ' ',
-    { text: this.formattedNumber2(sum2), alignment: 'right' }, { text: this.formattedNumber2(sum3), alignment: 'right' }
-      , { text: this.formattedNumber2(sum4), alignment: 'right' }, { text: this.formattedNumber2(sum5), alignment: 'right' }
+    sumDepartment = [
+      { text: 'Grand Total', alignment: 'left', bold: true },
+      ' ',
+      ' ',
+      ' ',
+      { text: this.formattedNumber2(sum1), alignment: 'right' },
+      ' ',
+      { text: this.formattedNumber2(sum2), alignment: 'right' },
+      { text: this.formattedNumber2(sum3), alignment: 'right' },
+      { text: this.formattedNumber2(sum4), alignment: 'right' },
+      { text: this.formattedNumber2(sum5), alignment: 'right' },
     ];
 
     return sumDepartment;
   }
 
   showWarnNull() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'ไม่พบข้อมูลหุ้น' });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'ไม่พบข้อมูลหุ้น',
+    });
   }
 
   list!: any[];
   sumStock: any;
   searchDocumentV1PDF(mode: any) {
-
     let stockInfo: any[] = [];
     const playload = {
       empId: this.userId,
       monthCurrent: null, //this.month
-      yearCurrent: null
-    }
+      yearCurrent: null,
+    };
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
@@ -688,13 +796,17 @@ export class ShareComponentComponent implements OnInit {
       // const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
       // console.log(arrayUniqueByKey, '<---------- this.arrayUniqueByKey');
 
-      this.exportMakePDF(mode, stockInfo, this.sumStock)
+      this.exportMakePDF(mode, stockInfo, this.sumStock);
     });
   }
 
   exportMakePDF(mode: any, stockInfo: any[], sum: any) {
     const decimalPipe = new DecimalPipe('en-US');
-    const fullName = this.empDetail.prefix + this.empDetail.firstName + ' ' + this.empDetail.lastName;
+    const fullName =
+      this.empDetail.prefix +
+      this.empDetail.firstName +
+      ' ' +
+      this.empDetail.lastName;
     const departmentName = this.empDetail.departmentName;
     const employeeCode = this.empDetail.employeeCode;
     let detailStock = stockInfo.map(function (item) {
@@ -717,27 +829,34 @@ export class ShareComponentComponent implements OnInit {
         { text: item.stockYear, alignment: 'center' },
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
-        { text: decimalPipe.transform(item.stockAccumulate - item.stockValue), alignment: 'right' },
-      ]
+        {
+          text: decimalPipe.transform(item.stockAccumulate - item.stockValue),
+          alignment: 'right',
+        },
+      ];
     });
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     const docDefinition = {
       pageSize: 'A4',
       pageOrientation: 'landscape',
@@ -762,18 +881,35 @@ export class ShareComponentComponent implements OnInit {
             // widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
             widths: ['*', 65, '*', 70, 70, 85, 90, 85],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, 
-              { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
-              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, 
-              { text: 'เดือน', style: 'tableHeader', alignment: 'center' }, 
-              { text: 'ปี', style: 'tableHeader', alignment: 'center' }, 
-              { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, 
-              // { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              // { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, 
-              // { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              // { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, 
-              { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
+              [
+                { text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รหัสพนักงาน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ชื่อ-สกุล',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เดือน', style: 'tableHeader', alignment: 'center' },
+                { text: 'ปี', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'ค่าหุ้น(งวดที่)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ค่าหุ้น(จํานวนเงิน)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                // { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
+                // { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' },
+                // { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                // { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' },
+                { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailStock,
               // [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ',
@@ -784,32 +920,33 @@ export class ShareComponentComponent implements OnInit {
               // { text: decimalPipe.transform(sum.stockAccumulateTotal), alignment: 'right' },
               // ],
 
-              // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' }, 
-              // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' }, 
-              // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' }, 
+              // [...stockInfo[0], empCode, fullName, { text: installment, alignment: 'center' },
+              // { text: stockValue, alignment: 'right' }, { text: loanInstallment, alignment: 'center' },
+              // { text: loanOrdinary, alignment: 'right' }, { text: interest, alignment: 'center' },
               // { text: Number(stockValue?? 0 + loanOrdinary ?? 0 + interest ?? 0), alignment: 'right' }, { text: stockAccumulate, alignment: 'right' },],
-              // [sum.departmentName + ' Total', ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' }, 
+              // [sum.departmentName + ' Total', ' ', ' ', ' ', { text: sum.stockValueTotal, alignment: 'right' }, ' ', { text: sum.stockAccumulateTotal, alignment: 'right' },
               // { text: sum.totalMonth, alignment: 'right' }, { text: sum.loanDetailOrdinaryTotal , alignment: 'right' } , { text: sum.loanDetailInterestTotal, alignment: 'right' }],
-            ]
+            ],
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 13,
           bold: 200,
-          alignment: 'center'
+          alignment: 'center',
         },
       },
-      defaultStyle: { // 4. default style 'KANIT' font to test
+      defaultStyle: {
+        // 4. default style 'KANIT' font to test
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
@@ -818,45 +955,46 @@ export class ShareComponentComponent implements OnInit {
     }
   }
 
-
   onSearchCalculateLoanOld(res: any, stockValue: any) {
     const payloadOld = {
       principal: res.loanValue,
       interestRate: Number(res.interestPercent),
       numOfPayments: res.loanTime,
-      paymentStartDate: this.yearCurrent.toString() + "-01-01"
-    }
+      paymentStartDate: this.yearCurrent.toString() + '-01-01',
+    };
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
       const data = resL;
       data.forEach((element, index, array) => {
         if (element.installment === res.installment) {
-          this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
+          this.sumElementLoan =
+            Number(stockValue) + element.totalDeduction + element.interest;
           this.elementLoan = element;
           this.onPrintReceiptMakePdf(element, this.sumElementLoan, res);
         }
-      })
+      });
     });
   }
 
   onSearchCalculateLoanNew(res: any, stockValue: any) {
-    if(res.installment >= 1000){
-      this.searchDocumentV1PDFById(res,stockValue);
-    }else{
+    if (res.installment < 1000) {
+      this.searchDocumentV1PDFById(res, stockValue);
+    } else {
       const payloadOld = {
         principal: res.loanValue,
         interestRate: Number(res.interestPercent),
         numOfPayments: res.loanTime,
         paymentStartDate: res.startDateLoan,
-      }
+      };
       this.service.onCalculateLoanNew(payloadOld).subscribe((resL) => {
         const data = resL;
         data.forEach((element, index, array) => {
           if (element.installment === res.installment) {
-            this.sumElementLoan = (Number(stockValue) + element.principal + element.interest);
+            this.sumElementLoan =
+              Number(stockValue) + element.principal + element.interest;
             this.elementLoan = element;
             this.onPrintReceiptMakePdf(element, this.sumElementLoan, res);
           }
-        })
+        });
       });
     }
   }
@@ -864,37 +1002,40 @@ export class ShareComponentComponent implements OnInit {
   searchDocumentV1PDFById(res: any, stockValue: any) {
     // let loanInfo: any[] = [];
     const bill = this.formModelBill.getRawValue();
-    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
     const playload = {
       loanId: res.loanId,
-      monthCurrent: null,  //this.month
+      monthCurrent: null, //this.month
       admin: true,
-      empId: res.empId
-    }
+      empId: res.empId,
+    };
     this.service.searchLoanById(playload).subscribe((data) => {
       const loanListData = data;
       loanListData.forEach((element, index, array) => {
-         if(element.loanMonth == this.billMonth && element.loanYear == bill.year){
-            const loanData = {
-              "installment": element.installment,
-              "balanceLoan": element.loanValue,
-              "deductionDate": element.startLoanDate,
-              "amountDay": "01",
-              "interest": element.interest,
-              "principal": Number(element.loanOrdinary - element.interest),
-              "principalBalance": element.loanBalance,
-              "totalDeduction": element.loanOrdinary
-            }
-            this.sumElementLoan = (Number(stockValue) + loanData.principal + loanData.interest);
-            this.elementLoan = loanData;
-            this.onPrintReceiptMakePdf(loanData, this.sumElementLoan, res);
-         }
+        if (
+          element.loanMonth == this.billMonth &&
+          element.loanYear == bill.year
+        ) {
+          const loanData = {
+            installment: element.installment,
+            balanceLoan: element.loanValue,
+            deductionDate: element.startLoanDate,
+            amountDay: '01',
+            interest: element.interest,
+            principal: Number(element.loanOrdinary - element.interest),
+            principalBalance: element.loanBalance,
+            totalDeduction: element.loanOrdinary,
+          };
+          this.sumElementLoan =
+            Number(stockValue) + loanData.principal + loanData.interest;
+          this.elementLoan = loanData;
+          this.onPrintReceiptMakePdf(loanData, this.sumElementLoan, res);
+        }
       });
-     
     });
   }
 
-  headerName: string
+  headerName: string;
   ondisplayModalMonth(headerName: string) {
     this.displayModalBill = true;
     this.headerName = headerName;
@@ -928,13 +1069,13 @@ export class ShareComponentComponent implements OnInit {
     const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
 
     const bill = this.formModelBill.getRawValue();
-    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
 
     const payload = {
       empCode: this.empDetail.employeeCode,
       monthCurrent: this.billMonth,
-      yearCurrent: bill.year
-    }
+      yearCurrent: bill.year,
+    };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
     this.service.searchEmployeeLoanNew(payload).subscribe({
@@ -942,65 +1083,78 @@ export class ShareComponentComponent implements OnInit {
         const dataRes = res;
         if (res == null) {
           this.showWarnNull();
-        }else{
+        } else {
           this.dataResLoan = res;
-          this.getImgSig1('signature1',this.fileImg1);
-          this.getImgSig2('signature2',this.fileImg2);
-          if(res.loanId){
-            if(res.newLoan){
+          this.getImgSig1('signature1', this.fileImg1);
+          this.getImgSig2('signature2', this.fileImg2);
+          if (res.loanId) {
+            if (res.newLoan) {
               await this.onSearchCalculateLoanNew(res, res.stockValue);
-            }else{
-              await this.onSearchCalculateLoanOld(res,  res.stockValue);
+            } else {
+              await this.onSearchCalculateLoanOld(res, res.stockValue);
             }
-          }else{
-            await this.onSearchCalculateLoanOld(res,  res.stockValue);
-            this.sumElementLoan = (Number( res.stockValue) + 0 + 0); //  stockValue + totalDeduction + interest
-            //this.elementLoan = null; 
+          } else {
+            await this.onSearchCalculateLoanOld(res, res.stockValue);
+            this.sumElementLoan = Number(res.stockValue) + 0 + 0; //  stockValue + totalDeduction + interest
+            //this.elementLoan = null;
             this.onPrintReceiptMakePdf(null, this.sumElementLoan, res);
           }
         }
       },
-      error: error => { },
+      error: (error) => {},
     });
   }
 
-  checkCalculatePrincipalBalanceBefore(elementLoan: any){
-    const yearSub = elementLoan.deductionDate.substring(0,4);
-    if(Number(yearSub) >= this.yearCurrent){
-      if(elementLoan.principalBalance > 0 && elementLoan.installment > 0){
-         return this.formattedNumber2(elementLoan.principalBalance + Math.round(elementLoan.totalDeduction - elementLoan.interest));
-      }else{
+  checkCalculatePrincipalBalanceBefore(elementLoan: any) {
+    const yearSub = elementLoan.deductionDate.substring(0, 4);
+    if (Number(yearSub) >= this.yearCurrent) {
+      if (elementLoan.principalBalance > 0 && elementLoan.installment > 0) {
+        return this.formattedNumber2(
+          elementLoan.principalBalance +
+            Math.round(elementLoan.totalDeduction - elementLoan.interest)
+        );
+      } else {
         return this.formattedNumber2(elementLoan.principalBalance);
       }
-    }else{
+    } else {
       return this.formattedNumber2(elementLoan.principalBalance);
     }
   }
 
-  dataResLoan: any
-  async onPrintReceiptMakePdf(elementLoan: any, sumElementLoan: any, resStock: any) {
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+  dataResLoan: any;
+  async onPrintReceiptMakePdf(
+    elementLoan: any,
+    sumElementLoan: any,
+    resStock: any
+  ) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     this.pipeDateTH();
     const data = this.empDetail;
     const fullName = data.prefix + data.firstName + ' ' + data.lastName;
     const empCode = data.employeeCode;
-    const stockAccumulate = resStock.stockAccumulate ? resStock.stockAccumulate : ' ';
+    const stockAccumulate = resStock.stockAccumulate
+      ? resStock.stockAccumulate
+      : ' ';
     const departMentName = data.departmentName ? data.departmentName : ' ';
 
     const stock = this.stockInfo;
@@ -1013,22 +1167,59 @@ export class ShareComponentComponent implements OnInit {
       },
       content: [
         {
-          image: await this.getBase64ImageFromURL("../../assets/images/logo.png"),
+          image: await this.getBase64ImageFromURL(
+            '../../assets/images/logo.png'
+          ),
           width: 100,
           height: 100,
           margin: [0, 0, 0, 0],
           alignment: 'center',
-
         },
         { text: 'กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่', style: 'header' },
         { text: 'ใบเสร็จรับเงิน', style: 'header' },
         '\n',
         '\n',
-        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.yearSelectNew + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'ประจําเดือน ',
+            {
+              text:
+                ' ' +
+                this.billMonth +
+                ' ' +
+                this.yearSelectNew +
+                '               ',
+              bold: true,
+            },
+            { text: 'เลขที่สมาชิก ' },
+            { text: empCode, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['สังกัด ', { text: ' ' + departMentName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
         // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['หุ้นสะสม ', { text: ' ' + this.formattedNumber2(stockAccumulate) + ' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'หุ้นสะสม ',
+            {
+              text: ' ' + this.formattedNumber2(stockAccumulate) + ' ',
+              bold: true,
+            },
+            { text: '  บาท' },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
         '\n',
         {
           color: '#000',
@@ -1036,22 +1227,91 @@ export class ShareComponentComponent implements OnInit {
             widths: ['*', '*', '*', '*'],
             headerRows: 4,
             body: [
-              [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', { text: resStock ? this.formattedNumber2(resStock.stockDetailInstallment) : '', alignment: 'right' }, { text: resStock ? this.formattedNumber2(resStock.stockValue) : '', alignment: 'right' }, ' '],
-              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.principal) : '', alignment: 'right' }
-                , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
-              ['ดอกเบี้ย', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
-              [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber2(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
-            ]
+              [
+                { text: 'รายการ', style: 'tableHeader' },
+                { text: 'งวด', style: 'tableHeader' },
+                { text: 'เป็นเงิน', style: 'tableHeader' },
+                { text: 'เงินต้นเหลือ', style: 'tableHeader' },
+              ],
+              [
+                'ค่าหุ้น',
+                {
+                  text: resStock
+                    ? this.formattedNumber2(resStock.stockDetailInstallment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: resStock
+                    ? this.formattedNumber2(resStock.stockValue)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                'เงินต้น',
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.installment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.principal)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.principalBalance)
+                    : '',
+                  alignment: 'right',
+                },
+              ],
+              [
+                'ดอกเบี้ย',
+                ' ',
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.interest)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                {
+                  text: 'รวมเงิน',
+                  style: 'tableHeader',
+                  colSpan: 2,
+                  alignment: 'center',
+                },
+                {},
+                {
+                  text: sumElementLoan
+                    ? this.formattedNumber2(sumElementLoan)
+                    : '',
+                  style: 'tableHeader',
+                  alignment: 'right',
+                },
+                {},
+              ],
+            ],
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
         '\n',
-        { text: "(" + this.transformPipeThai(sumElementLoan) + ")", style: 'header2', margin: [20, 0, 0, 0] },
+        {
+          text: '(' + this.transformPipeThai(sumElementLoan) + ')',
+          style: 'header2',
+          margin: [20, 0, 0, 0],
+        },
         '\n',
         {
           style: 'tableExample',
@@ -1059,29 +1319,40 @@ export class ShareComponentComponent implements OnInit {
             widths: ['*', '*'],
             headerRows: 2,
             body: [
-              [{
-                image: await this.getBase64ImageFromURL(this.imageSrc1Blob), style: 'tableHeader',
-                width: 150,
-                height: 80,
-                alignment: 'center'
-              },
-              {
-                image: await this.getBase64ImageFromURL(this.imageSrc2Blob), style: 'tableHeader',
-                width: 150,
-                height: 80,
-                alignment: 'center'
-              }],
-              [{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
-            ]
+              [
+                {
+                  image: await this.getBase64ImageFromURL(this.imageSrc1Blob),
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+                {
+                  image: await this.getBase64ImageFromURL(this.imageSrc2Blob),
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+              ],
+              [
+                {
+                  text: 'ประธานกองทุน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' },
+              ],
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
       ],
       styles: {
         header: {
           fontSize: 18,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
         header2: {
           fontSize: 18,
@@ -1095,14 +1366,25 @@ export class ShareComponentComponent implements OnInit {
       defaultStyle: {
         fontSize: 16,
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
   }
 
   transformPipeThai(value: number): string {
-    const digits = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+    const digits = [
+      'ศูนย์',
+      'หนึ่ง',
+      'สอง',
+      'สาม',
+      'สี่',
+      'ห้า',
+      'หก',
+      'เจ็ด',
+      'แปด',
+      'เก้า',
+    ];
     const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
 
     let bahtText = '';
@@ -1125,14 +1407,13 @@ export class ShareComponentComponent implements OnInit {
 
       if (position === 'สิบ' && digit === 1) {
         bahtText += '' + position;
-      } else if(position === 'สิบ' && digit === 2){
+      } else if (position === 'สิบ' && digit === 2) {
         bahtText += 'ยี่' + position;
-      } else if(position === '' && digit === 1){
+      } else if (position === '' && digit === 1) {
         bahtText += 'เอ็ด' + position;
       } else {
         bahtText += digitText + position;
       }
-
     }
 
     return bahtText + 'บาทถ้วน';
@@ -1141,22 +1422,22 @@ export class ShareComponentComponent implements OnInit {
   getBase64ImageFromURL(url) {
     return new Promise((resolve, reject) => {
       var img = new Image();
-      img.setAttribute("crossOrigin", "anonymous");
+      img.setAttribute('crossOrigin', 'anonymous');
 
       img.onload = () => {
-        var canvas = document.createElement("canvas");
+        var canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
 
-        var ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
 
-        var dataURL = canvas.toDataURL("image/png");
+        var dataURL = canvas.toDataURL('image/png');
 
         resolve(dataURL);
       };
 
-      img.onerror = error => {
+      img.onerror = (error) => {
         reject(error);
       };
 
@@ -1171,7 +1452,12 @@ export class ShareComponentComponent implements OnInit {
 
   formattedNumber2(number: any): any {
     const decimalPipe = new DecimalPipe('en-US');
-    return number !== null ? decimalPipe.transform(number) : '';
+
+    if (number > 0) {
+      return number !== null ? decimalPipe.transform(number) : '';
+    } else {
+      return '-';
+    }
   }
 
   // getGrandTotal() {
@@ -1183,10 +1469,10 @@ export class ShareComponentComponent implements OnInit {
   // }
 
   showWarn() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+    });
   }
-
- 
-
 }
-
