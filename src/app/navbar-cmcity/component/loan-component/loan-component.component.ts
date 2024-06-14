@@ -789,22 +789,22 @@ export class LoanComponentComponent implements OnInit {
         {
           text: decimalPipe.transform(
             item.loanYear >= 2567
-              ? item.loanOrdinary - item.interest
+              ? ( item.installment == item.loanTime ? item.loanOrdinary : item.loanOrdinary - item.interest )
               : item.loanOrdinary
           ),
           alignment: 'right',
         },
         {
-          text: decimalPipe.transform(
+          text: item.sumOrdinary <= 0 ? '-' : decimalPipe.transform(
             item.sumOrdinary == item.loanValue
               ? item.loanOrdinary
               : item.sumOrdinary <= 0
-              ? item.loanOrdinary
+              ? 0
               : item.sumOrdinary
           ),
           alignment: 'right',
         },
-        { text: decimalPipe.transform(item.loanBalance), alignment: 'right' },
+        { text: item.installment == item.loanTime ? decimalPipe.transform(item.loanOrdinary) : decimalPipe.transform(item.loanBalance), alignment: 'right' },
         // { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
         // { text: item.guarantorCode2 ? item.guarantorCode2 : ' ' , alignment: 'center' },
       ];
