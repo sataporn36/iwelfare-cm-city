@@ -1,7 +1,14 @@
-import { Component, ElementRef, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  LOCALE_ID,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
-import { jsPDF } from "jspdf";
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import 'src/assets/fonts/Sarabun-Regular-normal.js';
@@ -14,8 +21,8 @@ import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Table } from 'primeng/table';
 
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from 'src/assets/custom-fonts.js'
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'src/assets/custom-fonts.js';
 import { Department } from 'src/app/model/department';
 import { Observable, Subject, debounceTime } from 'rxjs';
 import * as XLSX from 'xlsx';
@@ -28,7 +35,7 @@ interface jsPDFCustom extends jsPDF {
 @Component({
   selector: 'app-admin-component2',
   templateUrl: './admin-component2.component.html',
-  styleUrls: ['./admin-component2.component.scss']
+  styleUrls: ['./admin-component2.component.scss'],
 })
 export class AdminComponent2Component implements OnInit {
   menuItems!: MenuItem[];
@@ -60,7 +67,7 @@ export class AdminComponent2Component implements OnInit {
   displayStatusMember: boolean = false;
   employeeStatus: any;
   employeeStatusList: any[];
-  empId: any
+  empId: any;
   elementLoan: any;
   sumElementLoan: any;
   displayModalBill: boolean = false;
@@ -74,7 +81,7 @@ export class AdminComponent2Component implements OnInit {
     private messageService: MessageService,
     private localStorageService: LocalStorageService,
     @Inject(LOCALE_ID) public locale: string
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -101,7 +108,7 @@ export class AdminComponent2Component implements OnInit {
       { name: 'เกษียณ', value: 8 },
     ];
 
-    this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputSubject.pipe(debounceTime(1000)).subscribe((value) => {
       // Perform your action here based on the latest value
       if (Number(value) <= this.year) {
         this.formModelBill.patchValue({
@@ -109,9 +116,13 @@ export class AdminComponent2Component implements OnInit {
         });
       } else {
         this.formModelBill.get('year').setValue(null);
-        this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'เเจ้งเตือน',
+          detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน',
+          life: 10000,
+        });
       }
-
     });
 
     this.menuItems = [
@@ -119,46 +130,46 @@ export class AdminComponent2Component implements OnInit {
         label: 'เรียกเก็บหุ้นรายเดือน',
         command: () => {
           this.updateStocktoMonth();
-        }
+        },
       },
       {
         label: 'สรุปยอดรวม',
         command: () => {
           this.getGrandTotal('สรุปยอดรวม');
-        }
+        },
       },
       {
         label: 'ข้อมูลสมาชิก',
         command: () => {
           this.documentInfoAll('ข้อมูลสมาชิก');
-        }
+        },
       },
       {
         label: 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด',
         command: () => {
           this.ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด');
-        }
+        },
       },
       {
         label: 'ดาวน์โหลด',
         command: () => {
           this.searchDocumentV1All('download');
-        }
-      }
+        },
+      },
     ];
   }
 
   onRowEditStatusEmp(data: any) {
-    this.empId = data.id;
+    this.empId = data.employeeId;
     this.displayStatusMember = true;
   }
 
   onChangeStatusEmp() {
     const payload = {
       id: this.empId,
-      type: this.employeeStatus.value
-    }
-    this.service.updateEmployeeStatus(payload).subscribe(data => {
+      type: this.employeeStatus.value,
+    };
+    this.service.updateEmployeeStatus(payload).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
       this.displayStatusMember = false;
       this.ngOnInit();
@@ -170,7 +181,9 @@ export class AdminComponent2Component implements OnInit {
   }
 
   getDapartment(): void {
-    this.service.searchDepartment().subscribe(data => this.dapartment = data)
+    this.service
+      .searchDepartment()
+      .subscribe((data) => (this.dapartment = data));
   }
 
   initMainForm() {
@@ -197,22 +210,22 @@ export class AdminComponent2Component implements OnInit {
     this.loading = true;
 
     setTimeout(() => {
-      this.service.searchStockDetail(this.stockId, "asc").subscribe((res) => {
+      this.service.searchStockDetail(this.stockId, 'asc').subscribe((res) => {
         this.totalRecords = res.length;
         this.loading = false;
-      })
+      });
     }, 1000);
   }
 
   getEmployeeByStock(id: any): void {
-    this.service.getEmployee(id).subscribe(data => {
+    this.service.getEmployee(id).subscribe((data) => {
       this.employeeByStock = data;
       this.loading = false;
     });
   }
 
   searchStock(): void {
-    this.service.searchStock().subscribe(data => {
+    this.service.searchStock().subscribe((data) => {
       this.dataStock = data;
       this.loading = false;
     });
@@ -248,29 +261,37 @@ export class AdminComponent2Component implements OnInit {
   time: any;
   monthValue: any;
   pipeDateTH() {
-    const format = new Date()
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
+    const format = new Date();
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     this.monthValue = monthSelect.value;
-    const time = this.addLeadingZero(format.getHours()) + ':' + this.addLeadingZero(format.getMinutes()) + ' น.';
+    const time =
+      this.addLeadingZero(format.getHours()) +
+      ':' +
+      this.addLeadingZero(format.getMinutes()) +
+      ' น.';
     this.time = time;
     return day + ' ' + monthSelect.label + ' ' + year;
   }
 
   convertPipeDateTH(date: any) {
-    const format = new Date(date)
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
+    const format = new Date(date);
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     this.monthValue = monthSelect.value;
-    const time = this.addLeadingZero(format.getHours()) + ':' + this.addLeadingZero(format.getMinutes()) + ' น.';
+    const time =
+      this.addLeadingZero(format.getHours()) +
+      ':' +
+      this.addLeadingZero(format.getMinutes()) +
+      ' น.';
     this.time = time;
     return day + ' ' + monthSelect.label + ' ' + year;
   }
@@ -324,7 +345,7 @@ export class AdminComponent2Component implements OnInit {
     this.formModelStock.patchValue({
       stockYear: this.newYear,
       stockMonth: this.newMonth.label,
-    })
+    });
 
     this.formModelStock.get('stockMonth')?.disable();
     this.formModelStock.get('stockYear')?.disable();
@@ -333,7 +354,12 @@ export class AdminComponent2Component implements OnInit {
   }
 
   showWarnAddStock() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที', life: 10000 });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที',
+      life: 10000,
+    });
   }
 
   onupdateStockToMonth() {
@@ -342,9 +368,9 @@ export class AdminComponent2Component implements OnInit {
       oldMonth: this.oldMonth.label,
       oldYear: this.oldYear,
       newMonth: this.newMonth.label,
-      newYear: this.newYear
-    }
-    this.service.insertStockDetail(payload).subscribe(data => {
+      newYear: this.newYear,
+    };
+    this.service.insertStockDetail(payload).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'เพิ่มสำเร็จ' });
       this.displayModal = false;
       this.ngOnInit();
@@ -378,15 +404,14 @@ export class AdminComponent2Component implements OnInit {
   getStockDetail(): void {
     const payload = {
       stockMonth: this.month,
-      stockYear: this.year
-    }
-    this.service.getStockDetail(payload).subscribe(data => {
+      stockYear: this.year,
+    };
+    this.service.getStockDetail(payload).subscribe((data) => {
       this.stockDetail = data;
     });
   }
 
   checkInsertStockDetailAll() {
-
     const stockDetail = this.stockDetail;
     const formatDate = new Date();
     const month = formatDate.getMonth();
@@ -401,7 +426,6 @@ export class AdminComponent2Component implements OnInit {
     } else {
       this.checkNull = false;
     }
-
   }
 
   clear(table: Table) {
@@ -414,7 +438,6 @@ export class AdminComponent2Component implements OnInit {
     if (name) {
       this.departmentNames.push([name]);
     }
-
   }
 
   infogroup1: any[] = [];
@@ -453,7 +476,6 @@ export class AdminComponent2Component implements OnInit {
   infogroup34: any[] = [];
 
   checkDepartment(listData: any[]) {
-
     this.infogroup1 = [];
     this.infogroup2 = [];
     this.infogroup3 = [];
@@ -490,7 +512,6 @@ export class AdminComponent2Component implements OnInit {
     this.infogroup34 = [];
 
     listData.forEach((element, index, array) => {
-
       if (element.departmentName === 'แขวงเม็งราย') {
         this.infogroup1.push(element);
       } else if (element.departmentName === 'แขวงกาวิละ') {
@@ -513,60 +534,113 @@ export class AdminComponent2Component implements OnInit {
         this.infogroup10.push(element);
       } else if (element.departmentName === 'งานบริหารทั่วไป ฝ่ายประจำ') {
         this.infogroup11.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน'
+      ) {
         this.infogroup12.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา'
+      ) {
         this.infogroup13.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์'
+      ) {
         this.infogroup14.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข'
+      ) {
         this.infogroup15.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา') {
+      } else if (
+        element.departmentName ===
+        'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา'
+      ) {
         this.infogroup16.push(element);
       } else if (element.departmentName === 'งานป้องกันและบรรเทาสาธารณภัย') {
         this.infogroup17.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน'
+      ) {
         this.infogroup18.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน'
+      ) {
         this.infogroup19.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ'
+      ) {
         this.infogroup20.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย'
+      ) {
         this.infogroup21.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง'
+      ) {
         this.infogroup22.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง'
+      ) {
         this.infogroup23.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ'
+      ) {
         this.infogroup24.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง'
+      ) {
         this.infogroup25.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย'
+      ) {
         this.infogroup26.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ'
+      ) {
         this.infogroup27.push(element);
       } else if (element.departmentName === 'งานวางแผนสถิติและวิชาการ') {
         this.infogroup28.push(element);
-      } else if (element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว') {
+      } else if (
+        element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว'
+      ) {
         this.infogroup29.push(element);
       } else if (element.departmentName === 'งานสุขาภิบาล') {
         this.infogroup30.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา') {
+      } else if (
+        element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา'
+      ) {
         this.infogroup31.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง'
+      ) {
         this.infogroup32.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม'
+      ) {
         this.infogroup33.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
+      ) {
         this.infogroup34.push(element);
       } else {
-        console.log("else error !!!");
+        console.log('else error !!!');
       }
-    })
+    });
   }
 
   checkListDataPDF(list: any[]) {
-   
     const decimalPipe = new DecimalPipe('en-US');
     if (list.length > 0) {
       let datalListGroup = list.map(function (item) {
@@ -578,14 +652,30 @@ export class AdminComponent2Component implements OnInit {
           { text: item.fullName, alignment: 'left' },
           { text: item.stockInstallment, alignment: 'center' },
           { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
-          { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
-          { text: (Number(item.loanInstallment) === Number(item.loanTime)) ? decimalPipe.transform(item.loanOrdinary) 
-            : decimalPipe.transform(item.loanOrdinary - item.interest), alignment: 'right' },
+          {
+            text: decimalPipe.transform(item.loanInstallment),
+            alignment: 'center',
+          },
+          {
+            text:
+              Number(item.loanInstallment) === Number(item.loanTime)
+                ? decimalPipe.transform(item.loanOrdinary)
+                : decimalPipe.transform(item.loanOrdinary - item.interest),
+            alignment: 'right',
+          },
           { text: decimalPipe.transform(item.interest), alignment: 'right' },
           { text: decimalPipe.transform(item.sumMonth), alignment: 'right' }, //
           //{ text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
-          { text: Number(item.stockInstallment) <= 1 ? (Number(item.stockAccumulate) - Number(item.stockValue)) : decimalPipe.transform((Number(item.stockAccumulate) - Number(item.stockValue))), alignment: 'right' },
-        ]
+          {
+            text:
+              Number(item.stockInstallment) <= 1
+                ? Number(item.stockAccumulate) - Number(item.stockValue)
+                : decimalPipe.transform(
+                    Number(item.stockAccumulate) - Number(item.stockValue)
+                  ),
+            alignment: 'right',
+          },
+        ];
       });
       return datalListGroup;
     } else {
@@ -593,7 +683,11 @@ export class AdminComponent2Component implements OnInit {
     }
   }
 
-  checkListSumAllByDepartment(listSum: any[], nameDepartment: any, infogroup: any[]) {
+  checkListSumAllByDepartment(
+    listSum: any[],
+    nameDepartment: any,
+    infogroup: any[]
+  ) {
     if (listSum.length > 0) {
       const dataSum = this.checkTotalListGroup(infogroup);
       let sumDepartment;
@@ -609,12 +703,51 @@ export class AdminComponent2Component implements OnInit {
           loanDetailInterestTotal += Number(element.loanDetailInterestTotal);
           totalMonth += Number(element.totalMonth);
           stockAccumulateTotal += Number(element.stockAccumulateTotal);
-          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(dataSum.stockValueTotal), alignment: 'right' }, ' ',
-          { text: dataSum.loanDetailOrdinaryTotal >= 0 ? this.formattedNumber2(dataSum.loanDetailOrdinaryTotal) : ' ', alignment: 'right' }, { text: dataSum.loanDetailInterestTotal >= 0 ? this.formattedNumber2(dataSum.loanDetailInterestTotal) : ' ', alignment: 'right' }
-            , { text: dataSum.totalMonth >= 0 ? this.formattedNumber2(dataSum.totalMonth) : ' ', alignment: 'right' }, { text: dataSum.stockAccumulateTotal >= 0 ? this.formattedNumber2(dataSum.stockAccumulateTotal) : ' ', alignment: 'right' }
+          sumDepartment = [
+            {
+              text: element.departmentName + ' Total',
+              alignment: 'left',
+              bold: true,
+            },
+            ' ',
+            ' ',
+            ' ',
+            {
+              text: this.formattedNumber2(dataSum.stockValueTotal),
+              alignment: 'right',
+            },
+            ' ',
+            {
+              text:
+                dataSum.loanDetailOrdinaryTotal >= 0
+                  ? this.formattedNumber2(dataSum.loanDetailOrdinaryTotal)
+                  : ' ',
+              alignment: 'right',
+            },
+            {
+              text:
+                dataSum.loanDetailInterestTotal >= 0
+                  ? this.formattedNumber2(dataSum.loanDetailInterestTotal)
+                  : ' ',
+              alignment: 'right',
+            },
+            {
+              text:
+                dataSum.totalMonth >= 0
+                  ? this.formattedNumber2(dataSum.totalMonth)
+                  : ' ',
+              alignment: 'right',
+            },
+            {
+              text:
+                dataSum.stockAccumulateTotal >= 0
+                  ? this.formattedNumber2(dataSum.stockAccumulateTotal)
+                  : ' ',
+              alignment: 'right',
+            },
           ];
         }
-      })
+      });
       return sumDepartment;
     } else {
       return '';
@@ -627,22 +760,33 @@ export class AdminComponent2Component implements OnInit {
   sumGrandTotal4: number = 0;
   sumGrandTotal5: number = 0;
 
-   checkTotalListGroup(listGroup: any[]) {
+  checkTotalListGroup(listGroup: any[]) {
     let stockValueTotal = 0;
     let loanDetailOrdinaryTotal = 0;
     let loanDetailInterestTotal = 0;
     let totalMonth = 0;
     let stockAccumulateTotal = 0;
-    
+
     listGroup?.forEach((element, _index, _array) => {
-      stockValueTotal = stockValueTotal + Number(element.stockValue ? element.stockValue : 0);
-      loanDetailOrdinaryTotal = loanDetailOrdinaryTotal + ((Number(element.loanInstallment) === Number(element.loanTime)) ? 
-      Number(element.loanOrdinary ? element.loanOrdinary : 0) : (Number(element.loanOrdinary ? element.loanOrdinary : 0) - Number(element.interest ? element.interest : 0)));
-      loanDetailInterestTotal = loanDetailInterestTotal + Number(element.interest ? element.interest : 0);
+      stockValueTotal =
+        stockValueTotal + Number(element.stockValue ? element.stockValue : 0);
+      loanDetailOrdinaryTotal =
+        loanDetailOrdinaryTotal +
+        (Number(element.loanInstallment) === Number(element.loanTime)
+          ? Number(element.loanOrdinary ? element.loanOrdinary : 0)
+          : Number(element.loanOrdinary ? element.loanOrdinary : 0) -
+            Number(element.interest ? element.interest : 0));
+      loanDetailInterestTotal =
+        loanDetailInterestTotal +
+        Number(element.interest ? element.interest : 0);
       totalMonth = totalMonth + Number(element.sumMonth ? element.sumMonth : 0);
-      stockAccumulateTotal = stockAccumulateTotal + (Number(element.stockInstallment) <= 1 ?
-      (Number(element.stockAccumulate ? element.stockAccumulate : 0) - Number(element.stockValue ? element.stockValue : 0)) 
-      : (Number(element.stockAccumulate ? element.stockAccumulate : 0) - Number(element.stockValue ? element.stockValue : 0)));
+      stockAccumulateTotal =
+        stockAccumulateTotal +
+        (Number(element.stockInstallment) <= 1
+          ? Number(element.stockAccumulate ? element.stockAccumulate : 0) -
+            Number(element.stockValue ? element.stockValue : 0)
+          : Number(element.stockAccumulate ? element.stockAccumulate : 0) -
+            Number(element.stockValue ? element.stockValue : 0));
     });
     this.sumGrandTotal1 = this.sumGrandTotal1 + stockValueTotal;
     this.sumGrandTotal2 = this.sumGrandTotal2 + loanDetailOrdinaryTotal;
@@ -655,12 +799,11 @@ export class AdminComponent2Component implements OnInit {
       loanDetailInterestTotal: loanDetailInterestTotal,
       totalMonth: totalMonth,
       stockAccumulateTotal: stockAccumulateTotal,
-    }
+    };
     return playload;
   }
 
   checkListSumGrandTotal(listSum: any[]) {
-
     let sum1 = 0;
     let sum2 = 0;
     let sum3 = 0;
@@ -670,16 +813,40 @@ export class AdminComponent2Component implements OnInit {
     let sumDepartment;
 
     listSum?.forEach((element, _index, _array) => {
-      sum1 = sum1 + (Number(element.stockValueTotal) ? Number(element.stockValueTotal) : 0);
-      sum2 = sum2 + (Number(element.loanDetailOrdinaryTotal) ? Number(element.loanDetailOrdinaryTotal) : 0);
-      sum3 = sum3 + (Number(element.loanDetailInterestTotal) ? Number(element.loanDetailInterestTotal) : 0);
-      sum4 = sum4 + (Number(element.totalMonth) ? Number(element.totalMonth) : 0);
-      sum5 = sum5 + (Number(element.stockAccumulateTotal) ? Number(element.stockAccumulateTotal) - Number(element.stockValueTotal) : 0);
-    })
+      sum1 =
+        sum1 +
+        (Number(element.stockValueTotal) ? Number(element.stockValueTotal) : 0);
+      sum2 =
+        sum2 +
+        (Number(element.loanDetailOrdinaryTotal)
+          ? Number(element.loanDetailOrdinaryTotal)
+          : 0);
+      sum3 =
+        sum3 +
+        (Number(element.loanDetailInterestTotal)
+          ? Number(element.loanDetailInterestTotal)
+          : 0);
+      sum4 =
+        sum4 + (Number(element.totalMonth) ? Number(element.totalMonth) : 0);
+      sum5 =
+        sum5 +
+        (Number(element.stockAccumulateTotal)
+          ? Number(element.stockAccumulateTotal) -
+            Number(element.stockValueTotal)
+          : 0);
+    });
 
-    sumDepartment = [{ text: 'Grand Total', alignment: 'left', bold: true }, ' ', ' ', ' ', { text: this.formattedNumber2(this.sumGrandTotal1), alignment: 'right' }, ' ',
-    { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' }, { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' }
-    , { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' }, { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' }
+    sumDepartment = [
+      { text: 'Grand Total', alignment: 'left', bold: true },
+      ' ',
+      ' ',
+      ' ',
+      { text: this.formattedNumber2(this.sumGrandTotal1), alignment: 'right' },
+      ' ',
+      { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' },
     ];
 
     return sumDepartment;
@@ -688,16 +855,17 @@ export class AdminComponent2Component implements OnInit {
   list!: any[];
   sumStock: any;
   searchDocumentV1PDF(mode: any) {
-
     let stockInfo: any[] = [];
     const playload = {
-      empId: this.userId
-    }
+      empId: this.userId,
+    };
 
     this.service.searchDocumentV1(playload).subscribe((data) => {
       this.list = data;
       const key = 'stockInstallment';
-      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      const arrayUniqueByKey = [
+        ...new Map(data.map((item) => [item[key], item])).values(),
+      ];
       this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode);
     });
   }
@@ -705,7 +873,7 @@ export class AdminComponent2Component implements OnInit {
   getSearchDocumentV2Sum(playload: any, stockInfo: any[], mode: any) {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data[0];
-      this.exportMakePDF(mode, stockInfo, this.sumStock)
+      this.exportMakePDF(mode, stockInfo, this.sumStock);
     });
   }
 
@@ -716,33 +884,46 @@ export class AdminComponent2Component implements OnInit {
         { text: item.departmentName, alignment: 'left' },
         { text: item.employeeCode, alignment: 'center' },
         { text: item.fullName, alignment: 'left' },
-        { text: decimalPipe.transform(item.stockInstallment), alignment: 'center' },
+        {
+          text: decimalPipe.transform(item.stockInstallment),
+          alignment: 'center',
+        },
         { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
-        { text: decimalPipe.transform(item.loanInstallment), alignment: 'center' },
+        {
+          text: decimalPipe.transform(item.loanInstallment),
+          alignment: 'center',
+        },
         { text: decimalPipe.transform(item.loanOrdinary), alignment: 'right' },
         { text: decimalPipe.transform(item.interest), alignment: 'right' },
         { text: decimalPipe.transform(item.sumMonth), alignment: 'right' },
-        { text: decimalPipe.transform(item.stockAccumulate), alignment: 'right' },
-      ]
+        {
+          text: decimalPipe.transform(item.stockAccumulate),
+          alignment: 'right',
+        },
+      ];
     });
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     const docDefinition = {
       pageSize: 'A3',
       pageOrientation: 'landscape',
@@ -766,40 +947,99 @@ export class AdminComponent2Component implements OnInit {
             headerRows: 1,
             widths: ['*', 65, '*', 70, 90, 85, 90, 85, 85, 85],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
-              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
+              [
+                { text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รหัสพนักงาน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ชื่อ-สกุล',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ค่าหุ้น(งวดที่)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ค่าหุ้น(จํานวนเงิน)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เงินกู้(งวดที่)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เงินกู้สามัญเงินต้น',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รวมส่ง(เดือน)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
               ...detailStock,
-              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ', ' ',
-              { text: decimalPipe.transform(sum.stockValueTotal), alignment: 'right' }, ' ',
-              { text: decimalPipe.transform(sum.loanDetailOrdinaryTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.loanDetailInterestTotal), alignment: 'right' },
-              { text: decimalPipe.transform(sum.totalMonth), alignment: 'right' },
-              { text: decimalPipe.transform(sum.stockAccumulateTotal), alignment: 'right' },
+              [
+                {
+                  text: sum.departmentName + ' Total',
+                  alignment: 'left',
+                  bold: true,
+                },
+                ' ',
+                ' ',
+                ' ',
+                {
+                  text: decimalPipe.transform(sum.stockValueTotal),
+                  alignment: 'right',
+                },
+                ' ',
+                {
+                  text: decimalPipe.transform(sum.loanDetailOrdinaryTotal),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(sum.loanDetailInterestTotal),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(sum.totalMonth),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(sum.stockAccumulateTotal),
+                  alignment: 'right',
+                },
               ],
-            ]
+            ],
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 13,
           bold: 200,
-          alignment: 'center'
+          alignment: 'center',
         },
       },
-      defaultStyle: { // 4. default style 'KANIT' font to test
+      defaultStyle: {
+        // 4. default style 'KANIT' font to test
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
@@ -807,7 +1047,6 @@ export class AdminComponent2Component implements OnInit {
       pdf.download('ประวัติการส่งหุ้น.pdf');
     }
   }
-
 
   searchDocumentV1All(mode: any) {
     // this.displayLoadingPdf = true;
@@ -823,13 +1062,14 @@ export class AdminComponent2Component implements OnInit {
     this.sumGrandTotal5 = 0;
 
     const bill = this.formModelBill.getRawValue();
-    const subMonth = bill.month.length > 1 ? bill.month : bill.month.substring(1, 2);
-    this.billMonth = this.periodMonthDescOption[Number(subMonth) - 1].label
+    const subMonth =
+      bill.month.length > 1 ? bill.month : bill.month.substring(1, 2);
+    this.billMonth = this.periodMonthDescOption[Number(subMonth) - 1].label;
 
     const playload = {
       monthCurrent: this.billMonth,
-      yearCurrent: bill.year
-    }
+      yearCurrent: bill.year,
+    };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
     this.service.searchDocumentV1(playload).subscribe((data) => {
@@ -842,7 +1082,7 @@ export class AdminComponent2Component implements OnInit {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
       this.sumStock = data;
       this.checkDepartment(listdata);
-      this.exportMakePDFALL(mode, data)
+      this.exportMakePDFALL(mode, data);
     });
   }
 
@@ -857,78 +1097,245 @@ export class AdminComponent2Component implements OnInit {
     };
 
     let data1 = this.checkListDataPDF(this.infogroup1) || [];
-    let dataSum1 = this.checkListSumAllByDepartment(listSum, 'แขวงเม็งราย', this.infogroup1) || [];
+    let dataSum1 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'แขวงเม็งราย',
+        this.infogroup1
+      ) || [];
     let data2 = this.checkListDataPDF(this.infogroup2) || [];
-    let dataSum2 = this.checkListSumAllByDepartment(listSum, 'แขวงกาวิละ', this.infogroup2) || [];
+    let dataSum2 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'แขวงกาวิละ',
+        this.infogroup2
+      ) || [];
     let data3 = this.checkListDataPDF(this.infogroup3) || [];
-    let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป', this.infogroup3) || [];
+    let dataSum3 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'แผนงานบริหารทั่วไป',
+        this.infogroup3
+      ) || [];
     let data4 = this.checkListDataPDF(this.infogroup4) || [];
-    let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4) || [];
+    let dataSum4 =
+      this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4) ||
+      [];
     let data5 = this.checkListDataPDF(this.infogroup5) || [];
-    let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล', this.infogroup5) || [];
+    let dataSum5 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานโรงพยาบาล',
+        this.infogroup5
+      ) || [];
 
     let data6 = this.checkListDataPDF(this.infogroup6) || [];
-    let dataSum6 = this.checkListSumAllByDepartment(listSum, 'งานก่อสร้าง', this.infogroup6) || [];
+    let dataSum6 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานก่อสร้าง',
+        this.infogroup6
+      ) || [];
     let data7 = this.checkListDataPDF(this.infogroup7) || [];
-    let dataSum7 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง', this.infogroup7) || [];
+    let dataSum7 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารงานคลัง',
+        this.infogroup7
+      ) || [];
     let data8 = this.checkListDataPDF(this.infogroup8) || [];
-    let dataSum8 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง ฝ่ายประจำ', this.infogroup8) || [];
+    let dataSum8 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารงานคลัง ฝ่ายประจำ',
+        this.infogroup8
+      ) || [];
     let data9 = this.checkListDataPDF(this.infogroup9) || [];
-    let dataSum9 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานทั่วไป', this.infogroup9) || [];
+    let dataSum9 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารงานทั่วไป',
+        this.infogroup9
+      ) || [];
     let data10 = this.checkListDataPDF(this.infogroup10) || [];
-    let dataSum10 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป', this.infogroup10) || [];
+    let dataSum10 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไป',
+        this.infogroup10
+      ) || [];
 
     let data11 = this.checkListDataPDF(this.infogroup11) || [];
-    let dataSum11 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป ฝ่ายประจำ', this.infogroup11) || [];
+    let dataSum11 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไป ฝ่ายประจำ',
+        this.infogroup11
+      ) || [];
     let data12 = this.checkListDataPDF(this.infogroup12) || [];
-    let dataSum12 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน',this.infogroup12) || [];
+    let dataSum12 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน',
+        this.infogroup12
+      ) || [];
     let data13 = this.checkListDataPDF(this.infogroup13) || [];
-    let dataSum13 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับการศึกษา',this.infogroup13) || [];
+    let dataSum13 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับการศึกษา',
+        this.infogroup13
+      ) || [];
     let data14 = this.checkListDataPDF(this.infogroup14) || [];
-    let dataSum14 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์',this.infogroup14) || [];
+    let dataSum14 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์',
+        this.infogroup14
+      ) || [];
     let data15 = this.checkListDataPDF(this.infogroup15) || [];
-    let dataSum15 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข',this.infogroup15) || [];
+    let dataSum15 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข',
+        this.infogroup15
+      ) || [];
 
     let data16 = this.checkListDataPDF(this.infogroup16) || [];
-    let dataSum16 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา',this.infogroup16) || [];
+    let dataSum16 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา',
+        this.infogroup16
+      ) || [];
     let data17 = this.checkListDataPDF(this.infogroup17) || [];
-    let dataSum17 = this.checkListSumAllByDepartment(listSum, 'งานป้องกันและบรรเทาสาธารณภัย',this.infogroup17) || [];
+    let dataSum17 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานป้องกันและบรรเทาสาธารณภัย',
+        this.infogroup17
+      ) || [];
     let data18 = this.checkListDataPDF(this.infogroup18) || [];
-    let dataSum18 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน',this.infogroup18) || [];
+    let dataSum18 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน',
+        this.infogroup18
+      ) || [];
     let data19 = this.checkListDataPDF(this.infogroup19) || [];
-    let dataSum19 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน',this.infogroup19) || [];
+    let dataSum19 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน',
+        this.infogroup19
+      ) || [];
     let data20 = this.checkListDataPDF(this.infogroup20) || [];
-    let dataSum20 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ',this.infogroup20) || [];
+    let dataSum20 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ',
+        this.infogroup20
+      ) || [];
 
     let data21 = this.checkListDataPDF(this.infogroup21) || [];
-    let dataSum21 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย',this.infogroup21) || [];
+    let dataSum21 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย',
+        this.infogroup21
+      ) || [];
     let data22 = this.checkListDataPDF(this.infogroup22) || [];
-    let dataSum22 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง',this.infogroup22) || [];
+    let dataSum22 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง',
+        this.infogroup22
+      ) || [];
     let data23 = this.checkListDataPDF(this.infogroup23) || [];
-    let dataSum23 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง',this.infogroup23) || [];
+    let dataSum23 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง',
+        this.infogroup23
+      ) || [];
     let data24 = this.checkListDataPDF(this.infogroup24) || [];
-    let dataSum24 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ',this.infogroup24) || [];
+    let dataSum24 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ',
+        this.infogroup24
+      ) || [];
     let data25 = this.checkListDataPDF(this.infogroup25) || [];
-    let dataSum25 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง',this.infogroup25) || [];
+    let dataSum25 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง',
+        this.infogroup25
+      ) || [];
 
     let data26 = this.checkListDataPDF(this.infogroup26) || [];
-    let dataSum26 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย',this.infogroup26) || [];
+    let dataSum26 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย',
+        this.infogroup26
+      ) || [];
     let data27 = this.checkListDataPDF(this.infogroup27) || [];
-    let dataSum27 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ',this.infogroup27) || [];
+    let dataSum27 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ',
+        this.infogroup27
+      ) || [];
     let data28 = this.checkListDataPDF(this.infogroup28) || [];
-    let dataSum28 = this.checkListSumAllByDepartment(listSum, 'งานวางแผนสถิติและวิชาการ',this.infogroup28) || [];
+    let dataSum28 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานวางแผนสถิติและวิชาการ',
+        this.infogroup28
+      ) || [];
     let data29 = this.checkListDataPDF(this.infogroup29) || [];
-    let dataSum29 = this.checkListSumAllByDepartment(listSum, 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว',this.infogroup29) || [];
+    let dataSum29 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว',
+        this.infogroup29
+      ) || [];
     let data30 = this.checkListDataPDF(this.infogroup30) || [];
-    let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล',this.infogroup30) || [];
+    let dataSum30 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานสุขาภิบาล',
+        this.infogroup30
+      ) || [];
     let data31 = this.checkListDataPDF(this.infogroup31) || [];
-    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา',this.infogroup31) || [];
+    let dataSum31 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา',
+        this.infogroup31
+      ) || [];
     let data32 = this.checkListDataPDF(this.infogroup32) || [];
-    let dataSum32 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง',this.infogroup32) || [];
+    let dataSum32 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง',
+        this.infogroup32
+      ) || [];
     let data33 = this.checkListDataPDF(this.infogroup33) || [];
-    let dataSum33 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม',this.infogroup33) || [];
+    let dataSum33 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม',
+        this.infogroup33
+      ) || [];
     let data34 = this.checkListDataPDF(this.infogroup34) || [];
-    let dataSum34 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',this.infogroup34) || [];
+    let dataSum34 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',
+        this.infogroup34
+      ) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -968,23 +1375,27 @@ export class AdminComponent2Component implements OnInit {
     pushDataSection(data33, dataSum33);
     pushDataSection(data34, dataSum34);
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     const docDefinition = {
       pageSize: 'A3',
       pageOrientation: 'landscape',
@@ -997,7 +1408,14 @@ export class AdminComponent2Component implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'header' },
+        {
+          text:
+            'รายงานเงินกู้และค่าหุ้น เดือน' +
+            this.monthSelectNew +
+            ' พ.ศ.' +
+            this.yearSelectNew,
+          style: 'header',
+        },
         '\n',
         {
           style: 'tableExample',
@@ -1005,11 +1423,45 @@ export class AdminComponent2Component implements OnInit {
             headerRows: 1,
             widths: [225, 65, 150, 70, 90, 80, 90, 80, 85, 85],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
-              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'ค่าหุ้น(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ค่าหุ้น(จํานวนเงิน)', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้(งวดที่)', style: 'tableHeader', alignment: 'center' },
-              { text: 'เงินกู้สามัญเงินต้น', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              { text: 'รวมส่ง(เดือน)', style: 'tableHeader', alignment: 'center' }, { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
+              [
+                { text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รหัสพนักงาน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ชื่อ-สกุล',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ค่าหุ้น(งวดที่)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ค่าหุ้น(จํานวนเงิน)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เงินกู้(งวดที่)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เงินกู้สามัญเงินต้น',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รวมส่ง(เดือน)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'หุ้นสะสม', style: 'tableHeader', alignment: 'center' },
               ],
 
               // group 1
@@ -1081,26 +1533,27 @@ export class AdminComponent2Component implements OnInit {
               // ...data31,
               // dataSum31,
               sunGrandTotal,
-            ]
+            ],
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 13,
           bold: 200,
-          alignment: 'center'
+          alignment: 'center',
         },
       },
-      defaultStyle: { // 4. default style 'KANIT' font to test
+      defaultStyle: {
+        // 4. default style 'KANIT' font to test
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
@@ -1118,12 +1571,27 @@ export class AdminComponent2Component implements OnInit {
 
   exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]) {
     const textTitle = 'เทศบาลนครเชียงใหม่';
-    const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
+    const textHeader =
+      'รายงานเงินกู้และค่าหุ้น เดือน' +
+      this.monthSelectNew +
+      ' พ.ศ.' +
+      this.yearSelectNew;
     let columnHeaders = [
       [textTitle, '', ''],
       [textHeader, '', ''],
       ['', '', ''],
-      ['หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'ค่าหุ้น(งวดที่)', 'ค่าหุ้น(จำนวนเงิน)', 'เงินกู้(งวดที่)', 'เงินกู้สามัญเงินต้น', 'ดอกเบี้ย', 'รวมส่ง(เดือน)', 'หุ้นสะสม'],
+      [
+        'หน่วยงาน',
+        'รหัสพนักงาน',
+        'ชื่อ-สกุล',
+        'ค่าหุ้น(งวดที่)',
+        'ค่าหุ้น(จำนวนเงิน)',
+        'เงินกู้(งวดที่)',
+        'เงินกู้สามัญเงินต้น',
+        'ดอกเบี้ย',
+        'รวมส่ง(เดือน)',
+        'หุ้นสะสม',
+      ],
     ];
 
     for (let i = 0; i < listDataStock.length; i++) {
@@ -1157,7 +1625,7 @@ export class AdminComponent2Component implements OnInit {
 
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
     ws['!cols'] = [
-      { width: 50, },
+      { width: 50 },
       { width: 15 },
       { width: 30 },
       { width: 15 },
@@ -1179,21 +1647,22 @@ export class AdminComponent2Component implements OnInit {
       principal: res.loanValue,
       interestRate: Number(res.interestPercent),
       numOfPayments: res.loanTime,
-      paymentStartDate: "2023-01-31"
-    }
+      paymentStartDate: '2023-01-31',
+    };
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
       const data = resL;
       data.forEach((element, index, array) => {
         if (element.installment === res.installment) {
-          this.sumElementLoan = (Number(stockValue) + element.totalDeduction + element.interest);
+          this.sumElementLoan =
+            Number(stockValue) + element.totalDeduction + element.interest;
           this.elementLoan = element;
           this.onPrintReceiptMakePdf(element, this.sumElementLoan);
         }
-      })
+      });
     });
   }
 
-  headerName: string
+  headerName: string;
   ondisplayModalMonth(headerName: string) {
     this.displayModalBill = true;
     this.headerName = headerName;
@@ -1237,13 +1706,13 @@ export class AdminComponent2Component implements OnInit {
   docInfoAll() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
-    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
+    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label;
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
       monthCurrent: monthNew,
-      yearCurrent: dataMY.year
-    }
+      yearCurrent: dataMY.year,
+    };
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
     this.service.documentInfoAll(payload).subscribe((dataList) => {
@@ -1251,40 +1720,43 @@ export class AdminComponent2Component implements OnInit {
       // //   listInfo.push([element.departmentName, element.employeeCode, element.fullName,]);
       //   this.onPrintInfoMember(element)
       // })
-      const recheckList = dataList.filter(item => item.employeeCode !== '00000');
-      this.onPrintInfoMember(recheckList)
-    })
+      const recheckList = dataList.filter(
+        (item) => item.employeeCode !== '00000'
+      );
+      this.onPrintInfoMember(recheckList);
+    });
   }
 
   totalMemLoan() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
-    const dataMonth = this.periodMonthDescOption[Number(dataMY.month) - 1].label
+    const dataMonth =
+      this.periodMonthDescOption[Number(dataMY.month) - 1].label;
 
     this.monthSelectNew = dataMonth;
     this.yearSelectNew = dataMY.year;
 
-    const format = new Date()
-    const month = format.getMonth()
+    const format = new Date();
+    const month = format.getMonth();
     const monthSelect = this.periodMonthDescOption[Number(month)].label;
 
     if (this.monthSelectNew != monthSelect) {
       const payload = {
         monthCurrent: this.monthSelectNew,
-        yearCurrent: dataMY.year
-      }
+        yearCurrent: dataMY.year,
+      };
 
-      this.service.getSummary(payload).subscribe(data => {
+      this.service.getSummary(payload).subscribe((data) => {
         this.grandTotal = data;
         this.onPrintTotal(this.grandTotal, true);
       });
     } else {
       const payload = {
         monthCurrent: this.monthSelectNew,
-        yearCurrent: dataMY.year
-      }
+        yearCurrent: dataMY.year,
+      };
 
-      this.service.getGrandTotal(payload).subscribe(data => {
+      this.service.getGrandTotal(payload).subscribe((data) => {
         this.grandTotal = data;
         this.onPrintTotal(this.grandTotal, false);
       });
@@ -1298,13 +1770,13 @@ export class AdminComponent2Component implements OnInit {
     const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
 
     const bill = this.formModelBill.getRawValue();
-    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
 
     const payload = {
       empCode: this.empDetail.employeeCode,
       monthCurrent: this.billMonth,
-      yearCurrent: bill.year
-    }
+      yearCurrent: bill.year,
+    };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
     this.service.searchEmployeeLoanNew(payload).subscribe({
@@ -1314,29 +1786,33 @@ export class AdminComponent2Component implements OnInit {
         this.onSearchCalculateLoanOld(res, stockValue);
         // this.stockAccumulateBill = res.stockAccumulate;
       },
-      error: error => { },
+      error: (error) => {},
     });
   }
 
-  dataResLoan: any
+  dataResLoan: any;
   async onPrintReceiptMakePdf(elementLoan: any, sumElementLoan: any) {
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     this.pipeDateTH();
     const data = this.empDetail;
     const fullName = data.prefix + data.firstName + ' ' + data.lastName;
@@ -1357,22 +1833,59 @@ export class AdminComponent2Component implements OnInit {
       },
       content: [
         {
-          image: await this.getBase64ImageFromURL("../../assets/images/logo.png"),
+          image: await this.getBase64ImageFromURL(
+            '../../assets/images/logo.png'
+          ),
           width: 100,
           height: 100,
           margin: [0, 0, 0, 0],
           alignment: 'center',
-
         },
         { text: 'กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่', style: 'header' },
         { text: 'ใบเสร็จรับเงิน', style: 'header' },
         '\n',
         '\n',
-        { text: ['ประจําเดือน ', { text: ' ' + this.billMonth + ' ' + this.yearSelectNew + '               ', bold: true }, { text: 'เลขที่สมาชิก ' }, { text: empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['สังกัด ', { text: ' ' + departMentName, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'ประจําเดือน ',
+            {
+              text:
+                ' ' +
+                this.billMonth +
+                ' ' +
+                this.yearSelectNew +
+                '               ',
+              bold: true,
+            },
+            { text: 'เลขที่สมาชิก ' },
+            { text: empCode, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['สังกัด ', { text: ' ' + departMentName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
         // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-        { text: ['หุ้นสะสม ', { text: ' ' + this.formattedNumber2(stockAccumulate) + ' ', bold: true }, { text: '  บาท' }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'หุ้นสะสม ',
+            {
+              text: ' ' + this.formattedNumber2(stockAccumulate) + ' ',
+              bold: true,
+            },
+            { text: '  บาท' },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
         '\n',
         {
           color: '#000',
@@ -1381,24 +1894,88 @@ export class AdminComponent2Component implements OnInit {
             headerRows: 4,
             // keepWithHeaderRows: 1, , alignment: 'right'
             body: [
-              [{ text: 'รายการ', style: 'tableHeader' }, { text: 'งวด', style: 'tableHeader' }, { text: 'เป็นเงิน', style: 'tableHeader' }, { text: 'เงินต้นเหลือ', style: 'tableHeader' }],
-              ['ค่าหุ้น', { text: elementLoan ? this.formattedNumber2(elementLoan.stockDetailInstallment) : '', alignment: 'right' }, { text: this.formattedNumber2(stockValue), alignment: 'right' }, ' '],
-              ['เงินต้น', { text: elementLoan ? this.formattedNumber2(elementLoan.installment) : '', alignment: 'right' }, { text: elementLoan ? this.formattedNumber2(elementLoan.totalDeduction) : '', alignment: 'right' }
-                , { text: elementLoan ? this.formattedNumber2(elementLoan.principalBalance) : '', alignment: 'right' }],
-              ['ดอก', ' ', { text: elementLoan ? this.formattedNumber2(elementLoan.interest) : '', alignment: 'right' }, ' '],
+              [
+                { text: 'รายการ', style: 'tableHeader' },
+                { text: 'งวด', style: 'tableHeader' },
+                { text: 'เป็นเงิน', style: 'tableHeader' },
+                { text: 'เงินต้นเหลือ', style: 'tableHeader' },
+              ],
+              [
+                'ค่าหุ้น',
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.stockDetailInstallment)
+                    : '',
+                  alignment: 'right',
+                },
+                { text: this.formattedNumber2(stockValue), alignment: 'right' },
+                ' ',
+              ],
+              [
+                'เงินต้น',
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.installment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.totalDeduction)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.principalBalance)
+                    : '',
+                  alignment: 'right',
+                },
+              ],
+              [
+                'ดอก',
+                ' ',
+                {
+                  text: elementLoan
+                    ? this.formattedNumber2(elementLoan.interest)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
               //['รวมเงิน', {colSpan: 2, rowSpan: 2, text: '1000'}, ' '],
               //[{colSpan: 2, rowSpan: 2, text: 'รวมเงิน'}, '1000', '', ''],
-              [{ text: 'รวมเงิน', style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}, { text: sumElementLoan ? this.formattedNumber2(sumElementLoan) : '', style: 'tableHeader', alignment: 'right' }, {}],
-            ]
+              [
+                {
+                  text: 'รวมเงิน',
+                  style: 'tableHeader',
+                  colSpan: 2,
+                  alignment: 'center',
+                },
+                {},
+                {
+                  text: sumElementLoan
+                    ? this.formattedNumber2(sumElementLoan)
+                    : '',
+                  style: 'tableHeader',
+                  alignment: 'right',
+                },
+                {},
+              ],
+            ],
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
         '\n',
-        { text: "(" + this.transformPipeThai(sumElementLoan) + ")", style: 'header2', margin: [20, 0, 0, 0] },
+        {
+          text: '(' + this.transformPipeThai(sumElementLoan) + ')',
+          style: 'header2',
+          margin: [20, 0, 0, 0],
+        },
         '\n',
         {
           style: 'tableExample',
@@ -1406,29 +1983,44 @@ export class AdminComponent2Component implements OnInit {
             widths: ['*', '*'],
             headerRows: 2,
             body: [
-              [{
-                image: await this.getBase64ImageFromURL("../../assets/images/text1.png"), style: 'tableHeader',
-                width: 150,
-                height: 80,
-                alignment: 'center'
-              },
-              {
-                image: await this.getBase64ImageFromURL("../../assets/images/text2.png"), style: 'tableHeader',
-                width: 150,
-                height: 80,
-                alignment: 'center'
-              }],
-              [{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
-            ]
+              [
+                {
+                  image: await this.getBase64ImageFromURL(
+                    '../../assets/images/text1.png'
+                  ),
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+                {
+                  image: await this.getBase64ImageFromURL(
+                    '../../assets/images/text2.png'
+                  ),
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+              ],
+              [
+                {
+                  text: 'ประธานกองทุน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' },
+              ],
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
       ],
       styles: {
         header: {
           fontSize: 18,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
         header2: {
           fontSize: 18,
@@ -1442,15 +2034,26 @@ export class AdminComponent2Component implements OnInit {
       defaultStyle: {
         fontSize: 16,
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
     //pdf.download('ประวัติการส่งหุ้น.pdf');
   }
 
   transformPipeThai(value: number): string {
-    const digits = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+    const digits = [
+      'ศูนย์',
+      'หนึ่ง',
+      'สอง',
+      'สาม',
+      'สี่',
+      'ห้า',
+      'หก',
+      'เจ็ด',
+      'แปด',
+      'เก้า',
+    ];
     const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
 
     let bahtText = '';
@@ -1485,22 +2088,22 @@ export class AdminComponent2Component implements OnInit {
   getBase64ImageFromURL(url) {
     return new Promise((resolve, reject) => {
       var img = new Image();
-      img.setAttribute("crossOrigin", "anonymous");
+      img.setAttribute('crossOrigin', 'anonymous');
 
       img.onload = () => {
-        var canvas = document.createElement("canvas");
+        var canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
 
-        var ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
 
-        var dataURL = canvas.toDataURL("image/png");
+        var dataURL = canvas.toDataURL('image/png');
 
         resolve(dataURL);
       };
 
-      img.onerror = error => {
+      img.onerror = (error) => {
         reject(error);
       };
 
@@ -1529,32 +2132,37 @@ export class AdminComponent2Component implements OnInit {
   }
 
   onPrintTotal(grandTotal: any, hasSummary) {
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
 
-    let sumStockAccumulate: 0
+    let sumStockAccumulate: 0;
 
     if (hasSummary) {
-      sumStockAccumulate = this.formattedNumber(grandTotal.sumStockAccumulate)
+      sumStockAccumulate = this.formattedNumber(grandTotal.sumStockAccumulate);
     } else {
-      sumStockAccumulate = this.formattedNumber(grandTotal.sumStockAccumulate - grandTotal.sumStockValue)
+      sumStockAccumulate = this.formattedNumber(
+        grandTotal.sumStockAccumulate - grandTotal.sumStockValue
+      );
     }
-
 
     const docDefinition = {
       info: {
@@ -1569,12 +2177,38 @@ export class AdminComponent2Component implements OnInit {
         { text: 'สรุปยอดรวมต่างๆ', style: 'header' },
         '\n',
         {
-          text: ['วันที่ปริ้นเอกสารฉบับนี้: ', { text: '                ' + this.pipeDateTH() + '                                                     ', bold: false },
-            { text: 'เดือน: ', bold: true }, { text: ' ' + this.monthSelectNew + ' ', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+          text: [
+            'วันที่ปริ้นเอกสารฉบับนี้: ',
+            {
+              text:
+                '                ' +
+                this.pipeDateTH() +
+                '                                                     ',
+              bold: false,
+            },
+            { text: 'เดือน: ', bold: true },
+            { text: ' ' + this.monthSelectNew + ' ', bold: false },
+          ],
+          bold: true,
+          margin: [0, 6, 0, 0],
+          style: 'texts',
         },
         {
-          text: ['เวลาที่ปริ้นเอกสารฉบับนี้: ', { text: '             ' + this.time + '                                                                       ', bold: false },
-            { text: 'ปี: ', bold: true }, { text: ' ' + this.yearSelectNew + '', bold: false }], bold: true, margin: [0, 6, 0, 0], style: 'texts'
+          text: [
+            'เวลาที่ปริ้นเอกสารฉบับนี้: ',
+            {
+              text:
+                '             ' +
+                this.time +
+                '                                                                       ',
+              bold: false,
+            },
+            { text: 'ปี: ', bold: true },
+            { text: ' ' + this.yearSelectNew + '', bold: false },
+          ],
+          bold: true,
+          margin: [0, 6, 0, 0],
+          style: 'texts',
         },
         '\n',
         '\n',
@@ -1585,40 +2219,73 @@ export class AdminComponent2Component implements OnInit {
             headerRows: 2,
             widths: ['*', '*'],
             body: [
-              [{ text: 'สรุปยอดรวมประจําเดือน ' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'tableHeader', colSpan: 2, alignment: 'center' }, {}],
+              [
+                {
+                  text:
+                    'สรุปยอดรวมประจําเดือน ' +
+                    this.monthSelectNew +
+                    ' พ.ศ.' +
+                    this.yearSelectNew,
+                  style: 'tableHeader',
+                  colSpan: 2,
+                  alignment: 'center',
+                },
+                {},
+              ],
               // [{ text: 'Name', style: 'tableHeader' }, { text: 'Country', style: 'tableHeader' }],
-              [{
-                rowSpan: 1,
-                text: ' จํานวนสมาชิกทั้งหมด \n\nจํานวนสมาชิกกู้เงินสามัญ \n\nยอดเงินกู้สามัญคงค้าง \n\nค่าหุ้นสะสมรวม\n\n'
-              },
-              {
-                rowSpan: 1,
-                text: grandTotal.sumEmp + '     ราย \n\n' + grandTotal.sumLoan + '     ราย \n\n' + this.formattedNumber(grandTotal.sumLoanBalance) + '    บาท \n\n' + sumStockAccumulate + '    บาท\n\n', alignment: 'right'
-              }],
-              [{
-                rowSpan: 1,
-                text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมยอดเงินที่ได้รับทั้งหมด\n\n'
-              },
-              {
-                rowSpan: 1,
-                text: this.formattedNumber(grandTotal.sumStockValue) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumLoanInterest) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumLoanOrdinary) + '    บาท \n\n' + this.formattedNumber(grandTotal.sumTotal) + '    บาท \n\n', alignment: 'right'
-              }],
+              [
+                {
+                  rowSpan: 1,
+                  text: ' จํานวนสมาชิกทั้งหมด \n\nจํานวนสมาชิกกู้เงินสามัญ \n\nยอดเงินกู้สามัญคงค้าง \n\nค่าหุ้นสะสมรวม\n\n',
+                },
+                {
+                  rowSpan: 1,
+                  text:
+                    grandTotal.sumEmp +
+                    '     ราย \n\n' +
+                    grandTotal.sumLoan +
+                    '     ราย \n\n' +
+                    this.formattedNumber(grandTotal.sumLoanBalance) +
+                    '    บาท \n\n' +
+                    sumStockAccumulate +
+                    '    บาท\n\n',
+                  alignment: 'right',
+                },
+              ],
+              [
+                {
+                  rowSpan: 1,
+                  text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมยอดเงินที่ได้รับทั้งหมด\n\n',
+                },
+                {
+                  rowSpan: 1,
+                  text:
+                    this.formattedNumber(grandTotal.sumStockValue) +
+                    '    บาท \n\n' +
+                    this.formattedNumber(grandTotal.sumLoanInterest) +
+                    '    บาท \n\n' +
+                    this.formattedNumber(grandTotal.sumLoanOrdinary) +
+                    '    บาท \n\n' +
+                    this.formattedNumber(grandTotal.sumTotal) +
+                    '    บาท \n\n',
+                  alignment: 'right',
+                },
+              ],
               //[{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
-
-            ]
+            ],
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 12,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
         header2: {
           fontSize: 12,
@@ -1629,14 +2296,14 @@ export class AdminComponent2Component implements OnInit {
           bold: false,
         },
       },
-      defaultStyle: { // 4. default style 'KANIT' font to test
+      defaultStyle: {
+        // 4. default style 'KANIT' font to test
         fontSize: 12,
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
-
   }
 
   // list!: any[];
@@ -1677,57 +2344,81 @@ export class AdminComponent2Component implements OnInit {
   }
 
   checkNullOfGuarantee(data: any, num: any) {
-    if (data.codeGuaranteeOne != null && data.fullNameGuaranteeOne != null && num == 1) {
-      return data.codeGuaranteeOne + ' ' + data.fullNameGuaranteeOne
-    } else if (data.codeGuaranteeTwo != null && data.fullNameGuaranteeTwo && num == 2) {
-      return data.codeGuaranteeTwo + ' ' + data.fullNameGuaranteeTwo
+    if (
+      data.codeGuaranteeOne != null &&
+      data.fullNameGuaranteeOne != null &&
+      num == 1
+    ) {
+      return data.codeGuaranteeOne + ' ' + data.fullNameGuaranteeOne;
+    } else if (
+      data.codeGuaranteeTwo != null &&
+      data.fullNameGuaranteeTwo &&
+      num == 2
+    ) {
+      return data.codeGuaranteeTwo + ' ' + data.fullNameGuaranteeTwo;
     } else {
-      return ''
+      return '';
     }
   }
 
   checkNullOfGuarantor(data: any, num: any) {
-    if (data.codeGuarantorOne != null && data.fullNameGuarantorOne != null && num == 1) {
-      return data.codeGuarantorOne + ' ' + data.fullNameGuarantorOne
-    } else if (data.codeGuarantorTwo != null && data.fullNameGuarantorTwo && num == 2) {
-      return data.codeGuarantorTwo + ' ' + data.fullNameGuarantorTwo
+    if (
+      data.codeGuarantorOne != null &&
+      data.fullNameGuarantorOne != null &&
+      num == 1
+    ) {
+      return data.codeGuarantorOne + ' ' + data.fullNameGuarantorOne;
+    } else if (
+      data.codeGuarantorTwo != null &&
+      data.fullNameGuarantorTwo &&
+      num == 2
+    ) {
+      return data.codeGuarantorTwo + ' ' + data.fullNameGuarantorTwo;
     } else {
-      return ' ไม่มี '
+      return ' ไม่มี ';
     }
   }
 
-  textToDateFullThai(textDate: string){
+  textToDateFullThai(textDate: string) {
     const dateString = textDate;
     const dateObject = new Date(dateString);
-    const day = dateObject.getDate()
-    const month = dateObject.getMonth()
-    const year = dateObject.getFullYear() + 543
+    const day = dateObject.getDate();
+    const month = dateObject.getMonth();
+    const year = dateObject.getFullYear() + 543;
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
-    const time = this.addLeadingZero(dateObject.getHours()) + ':' + this.addLeadingZero(dateObject.getMinutes()) + ' น.';
+    const time =
+      this.addLeadingZero(dateObject.getHours()) +
+      ':' +
+      this.addLeadingZero(dateObject.getMinutes()) +
+      ' น.';
     this.time = time;
     return day + ' ' + monthSelect.label + ' ' + year;
   }
 
   onPrintInfoMember(dataList: any[]) {
     // this.service.documentInfoAll().subscribe((dataList) => {
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
 
     let listInfo: any[] = [];
 
@@ -1745,94 +2436,358 @@ export class AdminComponent2Component implements OnInit {
               { type: 'line', x1: 570, y1: 25, x2: 570, y2: 780, lineWidth: 1 }, //Rigth line
               {
                 type: 'line',
-                x1: 25, y1: 360,
-                x2: 570, y2: 360,
-                lineWidth: 1
+                x1: 25,
+                y1: 360,
+                x2: 570,
+                y2: 360,
+                lineWidth: 1,
               }, //center
-            ]
-          }
-        ]
+            ],
+          },
+        ];
       },
-      content: dataList.map((element, index, array) =>
-        [
-          { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-          { text: 'ข้อมูลสมาชิก', style: 'header' },
-          '\n',
-          {
-            text: ['หน้า 1                                                                                                    ',
-              { text: '      เดือน ', bold: true, },
-              { text: this.monthSelectNew + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
-              { text: this.yearSelectNew, style: 'texts' }], margin: [0, 6, 0, 0]
-          },
-          { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['วันที่เป็นสมาชิก       ', { text: element.regisDate ? this.convertPipeDateTH(element.regisDate) : element.regisDate, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['หน่วยงาน                ', { text: element.departmentName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['ประเภท                   ', { text: element.employeeTypeName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['ตําแหน่ง                   ', { text: element.positionsName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['อัตราเงินเดือน         ', { text: this.formattedNumber2(element.salary), bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['คํ้าประกันให้            ', { text: element.codeGuaranteeOne ? this.checkNullOfGuarantee(element, 1) : '1. ไม่มี', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: [' ', { text: element.codeGuaranteeTwo ? this.checkNullOfGuarantee(element, 2) : '2. ไม่มี', bold: false, style: 'texts' }], margin: [95, 6, 0, 0], bold: false },
-          {
-            text: ['ส่งค่าหุ้น\t\t\t\t  ', { text: this.formattedNumber2(element.stockValue) + '\tบาท', bold: false, style: 'texts' },
-              { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ', bold: false }, { text: '\t\t' + element.installment, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-          },
-          {
-            text: ['หุ้นสะสม\t\t\t\t ', { text: this.formattedNumber2(element.stockAccumulate) + '\tบาท', bold: false, style: 'texts' },
-              { text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ', bold: false }, { text: '\t - ' + '    บาท', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-          },
-          //<--------------------------------- center ---------------------------------> 
-          '\n', '\n',
-          { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-          { text: 'ข้อมูลสมาชิก', style: 'header' },
-          '\n',
-          {
-            text: ['หน้า 2                                                                                                    ',
-              { text: '      เดือน ', bold: true, },
-              { text: this.monthSelectNew + '     ', style: 'texts' }, { text: ' ปี ', bold: true },
-              { text: this.yearSelectNew, style: 'texts' }], margin: [0, 6, 0, 0]
-          },
-          { text: ['รหัสพนักงาน           ', { text: element.employeeCode, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: ['ชื่อ-สกุล                   ', { text: element.fullName, bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false },
-          { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
-          {
-            text: ['กู้เงินจํานวน             ', { text: this.formattedNumber2(element.loanValue), bold: false, style: 'texts' },
-              { text: '                     บาท ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-          },
-          {
-            text: ['ระยะเวลากู้              ', { text: element.loanTime, bold: false, style: 'texts' },
-              { text: '                     เดือน ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-          },
-          {
-            text: ['อัตราดอกเบี้ย          ', { text: element.interestPercent, bold: false, style: 'texts' },
-              { text: '                     เปอร์เซ็นต์ต่อปี ', bold: false, style: 'texts' }], margin: [0, 6, 0, 0], bold: false
-          },
-          '\n',
-          {
-            style: 'tableExample',
-            table: {
-              widths: [90, 150, 80, 150],
-              body: [
-                [{ text: ' วันที่เริ่มกู้ ', color: 'black', }, { text: ' - ' , color: 'gray', fillColor: '#fff' }, { text: ' วันที่ทําสัญญา ', color: 'black' }, { text: element.startLoanDate ? this.textToDateFullThai(element.startLoanDate) : ' - ' , color: 'gray' }],
-                [{ text: ' เหตุผลการกู้ ', color: 'black', }, { text: ' - ', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-                [{ text: ' ผู้คํ้าประกัน 1 ', color: 'black', }, { text: element.codeGuarantorOne ? this.checkNullOfGuarantor(element, 1) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-                [{ text: ' ผู้คํ้าประกัน 2 ', color: 'black', }, { text: element.codeGuarantorTwo ? this.checkNullOfGuarantor(element, 2) : ' ไม่มี', color: 'gray', fillColor: '#fff' }, { text: ' ', color: 'black' }, { text: ' ', color: 'gray' }],
-                [{ text: ' ดอกเดือนนี้ ', color: 'black', }, { text: this.formattedNumber2(element.interestMonth) + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.earlyMonth - element.interestMonth) + '          บาท', color: 'gray' }],
-                [{ text: ' เดือนสุดท้าย ', color: 'black', }, { text: this.formattedNumber2(element.interestMonthLast) + '          บาท', color: 'gray', fillColor: '#fff' },
-                { text: ' เดือนสุดท้าย ', color: 'black', width: 150, }, { text: this.formattedNumber2(element.earlyMonthLast) + '          บาท', color: 'gray' }],
-                [{ text: ' ส่งงวดที่ ', color: 'black', }, { text: this.formattedNumber2(element.installmentLoan), color: 'gray', fillColor: '#fff' }, { text: '  ', color: 'black' }, { text: '  ', color: 'gray' }],
-                [{ text: ' ดอกรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(0) + '          บาท', color: 'gray', fillColor: '#fff' },  //element.totalValueInterest
-                { text: ' ดอกคงค้าง ', color: 'black', width: 150 }, { text: this.formattedNumber2(element.outStandInterest) + '          บาท', color: 'gray' }], 
-                [{ text: ' ต้นรวมส่ง ', color: 'black', }, { text: this.formattedNumber2(0) + '          บาท', color: 'gray', fillColor: '#fff' },//element.totalValuePrinciple
-                { text: ' ต้นคงค้าง ', color: 'black', width: 150, }, { text: this.formattedNumber2(element.outStandPrinciple) + '          บาท', color: 'gray' }],
-              ]
+      content: dataList.map((element, index, array) => [
+        { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'ข้อมูลสมาชิก', style: 'header' },
+        '\n',
+        {
+          text: [
+            'หน้า 1                                                                                                    ',
+            { text: '      เดือน ', bold: true },
+            { text: this.monthSelectNew + '     ', style: 'texts' },
+            { text: ' ปี ', bold: true },
+            { text: this.yearSelectNew, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+        },
+        {
+          text: [
+            'รหัสพนักงาน           ',
+            { text: element.employeeCode, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'ชื่อ-สกุล                   ',
+            { text: element.fullName, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'วันที่เป็นสมาชิก       ',
+            {
+              text: element.regisDate
+                ? this.convertPipeDateTH(element.regisDate)
+                : element.regisDate,
+              bold: false,
+              style: 'texts',
             },
-            layout: 'noBorders',
-            pageBreak: 'after'
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'หน่วยงาน                ',
+            { text: element.departmentName, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'ประเภท                   ',
+            { text: element.employeeTypeName, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'ตําแหน่ง                   ',
+            { text: element.positionsName, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'อัตราเงินเดือน         ',
+            {
+              text: this.formattedNumber2(element.salary),
+              bold: false,
+              style: 'texts',
+            },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'คํ้าประกันให้            ',
+            {
+              text: element.codeGuaranteeOne
+                ? this.checkNullOfGuarantee(element, 1)
+                : '1. ไม่มี',
+              bold: false,
+              style: 'texts',
+            },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            ' ',
+            {
+              text: element.codeGuaranteeTwo
+                ? this.checkNullOfGuarantee(element, 2)
+                : '2. ไม่มี',
+              bold: false,
+              style: 'texts',
+            },
+          ],
+          margin: [95, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'ส่งค่าหุ้น\t\t\t\t  ',
+            {
+              text: this.formattedNumber2(element.stockValue) + '\tบาท',
+              bold: false,
+              style: 'texts',
+            },
+            {
+              text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ',
+              bold: false,
+            },
+            { text: '\t\t' + element.installment, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'หุ้นสะสม\t\t\t\t ',
+            {
+              text: this.formattedNumber2(element.stockAccumulate) + '\tบาท',
+              bold: false,
+              style: 'texts',
+            },
+            {
+              text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ',
+              bold: false,
+            },
+            { text: '\t - ' + '    บาท', bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        //<--------------------------------- center --------------------------------->
+        '\n',
+        '\n',
+        { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'ข้อมูลสมาชิก', style: 'header' },
+        '\n',
+        {
+          text: [
+            'หน้า 2                                                                                                    ',
+            { text: '      เดือน ', bold: true },
+            { text: this.monthSelectNew + '     ', style: 'texts' },
+            { text: ' ปี ', bold: true },
+            { text: this.yearSelectNew, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+        },
+        {
+          text: [
+            'รหัสพนักงาน           ',
+            { text: element.employeeCode, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'ชื่อ-สกุล                   ',
+            { text: element.fullName, bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
+        {
+          text: [
+            'กู้เงินจํานวน             ',
+            {
+              text: this.formattedNumber2(element.loanValue),
+              bold: false,
+              style: 'texts',
+            },
+            { text: '                     บาท ', bold: false, style: 'texts' },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'ระยะเวลากู้              ',
+            { text: element.loanTime, bold: false, style: 'texts' },
+            {
+              text: '                     เดือน ',
+              bold: false,
+              style: 'texts',
+            },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        {
+          text: [
+            'อัตราดอกเบี้ย          ',
+            { text: element.interestPercent, bold: false, style: 'texts' },
+            {
+              text: '                     เปอร์เซ็นต์ต่อปี ',
+              bold: false,
+              style: 'texts',
+            },
+          ],
+          margin: [0, 6, 0, 0],
+          bold: false,
+        },
+        '\n',
+        {
+          style: 'tableExample',
+          table: {
+            widths: [90, 150, 80, 150],
+            body: [
+              [
+                { text: ' วันที่เริ่มกู้ ', color: 'black' },
+                { text: ' - ', color: 'gray', fillColor: '#fff' },
+                { text: ' วันที่ทําสัญญา ', color: 'black' },
+                {
+                  text: element.startLoanDate
+                    ? this.textToDateFullThai(element.startLoanDate)
+                    : ' - ',
+                  color: 'gray',
+                },
+              ],
+              [
+                { text: ' เหตุผลการกู้ ', color: 'black' },
+                { text: ' - ', color: 'gray', fillColor: '#fff' },
+                { text: ' ', color: 'black' },
+                { text: ' ', color: 'gray' },
+              ],
+              [
+                { text: ' ผู้คํ้าประกัน 1 ', color: 'black' },
+                {
+                  text: element.codeGuarantorOne
+                    ? this.checkNullOfGuarantor(element, 1)
+                    : ' ไม่มี',
+                  color: 'gray',
+                  fillColor: '#fff',
+                },
+                { text: ' ', color: 'black' },
+                { text: ' ', color: 'gray' },
+              ],
+              [
+                { text: ' ผู้คํ้าประกัน 2 ', color: 'black' },
+                {
+                  text: element.codeGuarantorTwo
+                    ? this.checkNullOfGuarantor(element, 2)
+                    : ' ไม่มี',
+                  color: 'gray',
+                  fillColor: '#fff',
+                },
+                { text: ' ', color: 'black' },
+                { text: ' ', color: 'gray' },
+              ],
+              [
+                { text: ' ดอกเดือนนี้ ', color: 'black' },
+                {
+                  text:
+                    this.formattedNumber2(element.interestMonth) +
+                    '          บาท',
+                  color: 'gray',
+                  fillColor: '#fff',
+                },
+                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 },
+                {
+                  text:
+                    this.formattedNumber2(
+                      element.earlyMonth - element.interestMonth
+                    ) + '          บาท',
+                  color: 'gray',
+                },
+              ],
+              [
+                { text: ' เดือนสุดท้าย ', color: 'black' },
+                {
+                  text:
+                    this.formattedNumber2(element.interestMonthLast) +
+                    '          บาท',
+                  color: 'gray',
+                  fillColor: '#fff',
+                },
+                { text: ' เดือนสุดท้าย ', color: 'black', width: 150 },
+                {
+                  text:
+                    this.formattedNumber2(element.earlyMonthLast) +
+                    '          บาท',
+                  color: 'gray',
+                },
+              ],
+              [
+                { text: ' ส่งงวดที่ ', color: 'black' },
+                {
+                  text: this.formattedNumber2(element.installmentLoan),
+                  color: 'gray',
+                  fillColor: '#fff',
+                },
+                { text: '  ', color: 'black' },
+                { text: '  ', color: 'gray' },
+              ],
+              [
+                { text: ' ดอกรวมส่ง ', color: 'black' },
+                {
+                  text: this.formattedNumber2(0) + '          บาท',
+                  color: 'gray',
+                  fillColor: '#fff',
+                }, //element.totalValueInterest
+                { text: ' ดอกคงค้าง ', color: 'black', width: 150 },
+                {
+                  text:
+                    this.formattedNumber2(element.outStandInterest) +
+                    '          บาท',
+                  color: 'gray',
+                },
+              ],
+              [
+                { text: ' ต้นรวมส่ง ', color: 'black' },
+                {
+                  text: this.formattedNumber2(0) + '          บาท',
+                  color: 'gray',
+                  fillColor: '#fff',
+                }, //element.totalValuePrinciple
+                { text: ' ต้นคงค้าง ', color: 'black', width: 150 },
+                {
+                  text:
+                    this.formattedNumber2(element.outStandPrinciple) +
+                    '          บาท',
+                  color: 'gray',
+                },
+              ],
+            ],
           },
-        ],
-      ),
+          layout: 'noBorders',
+          pageBreak: 'after',
+        },
+      ]),
 
       defaultStyle: {
         font: 'Sarabun',
@@ -1853,23 +2808,31 @@ export class AdminComponent2Component implements OnInit {
           color: '#555',
         },
       },
-    }
+    };
 
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
-
   }
 
   showWarn() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที', life: 10000 });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+      life: 10000,
+    });
   }
 
   showWarnExcel() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ Excel อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที', life: 10000 });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ Excel อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+      life: 10000,
+    });
   }
 
   checkSetValueBill(event: any) {
     this.inputSubject.next(event.target.value);
   }
-
 }
