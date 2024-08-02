@@ -1022,7 +1022,7 @@ export class ShareComponentComponent implements OnInit {
             deductionDate: element.startLoanDate,
             amountDay: '01',
             interest: element.interest,
-            principal: Number(element.loanOrdinary - element.interest),
+            principal: element.installment == element.loanTime ? Number(element.loanOrdinary) : Number(element.loanOrdinary - element.interest),
             principalBalance: element.loanBalance,
             totalDeduction: element.loanOrdinary,
           };
@@ -1127,6 +1127,8 @@ export class ShareComponentComponent implements OnInit {
     sumElementLoan: any,
     resStock: any
   ) {
+    console.log('<---- elementLoan',elementLoan);
+    
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -1259,7 +1261,7 @@ export class ShareComponentComponent implements OnInit {
                 },
                 {
                   text: elementLoan
-                    ? this.formattedNumber2(elementLoan.principal)
+                    ? resStock.installment == resStock.loanTime ? this.formattedNumber2(elementLoan.totalDeduction) : this.formattedNumber2(elementLoan.principal)
                     : '',
                   alignment: 'right',
                 },
