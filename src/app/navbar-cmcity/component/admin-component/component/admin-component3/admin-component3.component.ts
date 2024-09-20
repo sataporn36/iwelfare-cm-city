@@ -1502,7 +1502,8 @@ export class AdminComponent3Component implements OnInit {
         }
       } else {
         if (this.checkValidFormLoan()) {
-          const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
+          const loanOrdinaryNotinterest = this.dataNewLoan.loanBalance ? Number(this.dataNewLoan.loanOrdinary - this.dataNewLoan.interestLoanLastMonth) : 0; 
+          const loanBalance = this.dataNewLoan.loanBalance ? Number(this.dataNewLoan.loanBalance) + loanOrdinaryNotinterest : 0;
           if (loanBalance !== 0) {
             this.statusQuagmire = true;
             this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ '
