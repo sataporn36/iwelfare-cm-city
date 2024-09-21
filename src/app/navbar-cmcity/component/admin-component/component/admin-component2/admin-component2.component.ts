@@ -75,6 +75,7 @@ export class AdminComponent2Component implements OnInit {
   inputSubject = new Subject<string>();
   monthSelectNew: any;
   yearSelectNew: any;
+  filePdfFlag: boolean = false;
 
   constructor(
     private service: MainService,
@@ -260,6 +261,8 @@ export class AdminComponent2Component implements OnInit {
   year: any;
   time: any;
   monthValue: any;
+  monthBefore: any;
+  monthValueBefore: any;
   pipeDateTH() {
     const format = new Date();
     const day = format.getDate();
@@ -269,6 +272,10 @@ export class AdminComponent2Component implements OnInit {
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
     this.monthValue = monthSelect.value;
+
+    const monthSelectBefore = this.periodMonthDescOption[month - 1];
+    this.monthBefore = monthSelectBefore.label;
+    this.monthValueBefore = monthSelectBefore.value;
     const time =
       this.addLeadingZero(format.getHours()) +
       ':' +
@@ -364,6 +371,7 @@ export class AdminComponent2Component implements OnInit {
 
   onupdateStockToMonth() {
     this.showWarnAddStock();
+    this.addFilePdfInfoAll();
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.oldYear,
@@ -375,6 +383,15 @@ export class AdminComponent2Component implements OnInit {
       this.displayModal = false;
       this.ngOnInit();
     });
+  }
+
+  addFilePdfInfoAll(){
+    this.formModelBill.patchValue({
+      year: this.year,
+      month: this.monthValueBefore,
+    });
+    this.filePdfFlag = true;
+    this.docInfoAll();
   }
 
   onCancleModalBill() {
@@ -690,7 +707,7 @@ export class AdminComponent2Component implements OnInit {
   ) {
     if (listSum.length > 0) {
       const dataSum = this.checkTotalListGroup(infogroup);
-      let sumDepartment;
+      let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
       let stockValueTotal = 0;
       let loanDetailOrdinaryTotal = 0;
       let loanDetailInterestTotal = 0;
@@ -810,7 +827,7 @@ export class AdminComponent2Component implements OnInit {
     let sum4 = 0;
     let sum5 = 0;
 
-    let sumDepartment;
+    let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
 
     listSum?.forEach((element, _index, _array) => {
       sum1 =
@@ -1022,7 +1039,7 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
+            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -1536,7 +1553,7 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
+            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -1651,7 +1668,7 @@ export class AdminComponent2Component implements OnInit {
     };
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
       const data = resL;
-      data.forEach((element, index, array) => {
+      data.forEach((element: { installment: any; totalDeduction: number; interest: any; }, index: any, array: any) => {
         if (element.installment === res.installment) {
           this.sumElementLoan =
             Number(stockValue) + element.totalDeduction + element.interest;
@@ -1704,7 +1721,9 @@ export class AdminComponent2Component implements OnInit {
   }
 
   docInfoAll() {
-    this.showWarn();
+    if(!this.filePdfFlag){
+      this.showWarn();
+    }
     const dataMY = this.formModelBill.getRawValue();
     const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label;
     const payload = {
@@ -1723,8 +1742,36 @@ export class AdminComponent2Component implements OnInit {
       const recheckList = dataList.filter(
         (item) => item.employeeCode !== '00000'
       );
-      this.onPrintInfoMember(recheckList);
+      if(this.filePdfFlag){
+        this.onPrintInfoMember(recheckList);
+      }else{
+        this.checkMonthOfYearCurrentToOpenPdf(payload, recheckList);
+      }
+     
     });
+  }
+
+  checkMonthOfYearCurrentToOpenPdf(payload: any, recheckList: any){
+     if(payload.monthCurrent == this.month && payload.yearCurrent == this.year){
+        this.onPrintInfoMember(recheckList);
+     }else{
+      const payloadFile = {
+        month: payload.monthCurrent,
+        year: payload.yearCurrent
+      }
+      this.service.getFile(payloadFile).subscribe((response: Blob) => {
+        // 'ข้อมูลสมาชิก-' + payload.monthCurrent + '-' + payload.monthCurrent
+        
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+  
+        // Open the PDF in a new tab
+        window.open(url);
+  
+        // Clean up URL after use (optional, for memory management)
+        window.URL.revokeObjectURL(url);
+      });
+     }
   }
 
   totalMemLoan() {
@@ -1965,7 +2012,7 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
+            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -2085,7 +2132,7 @@ export class AdminComponent2Component implements OnInit {
     return bahtText + 'บาทถ้วน';
   }
 
-  getBase64ImageFromURL(url) {
+  getBase64ImageFromURL(url: string) {
     return new Promise((resolve, reject) => {
       var img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
@@ -2131,7 +2178,7 @@ export class AdminComponent2Component implements OnInit {
     this.displayModalBill = true;
   }
 
-  onPrintTotal(grandTotal: any, hasSummary) {
+  onPrintTotal(grandTotal: any, hasSummary: boolean) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -2275,7 +2322,7 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
+            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -2302,8 +2349,10 @@ export class AdminComponent2Component implements OnInit {
         font: 'Sarabun',
       },
     };
+
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
+   
   }
 
   // list!: any[];
@@ -2426,7 +2475,7 @@ export class AdminComponent2Component implements OnInit {
       info: {
         title: 'ข้อมูลสมาชิก',
       },
-      background: function (currentPage, pageSize) {
+      background: function (currentPage: any, pageSize: any) {
         return [
           {
             canvas: [
@@ -2811,7 +2860,25 @@ export class AdminComponent2Component implements OnInit {
     };
 
     const pdf = pdfMake.createPdf(docDefinition);
-    pdf.open();
+    if(this.filePdfFlag){
+      pdf.getBlob((blob: Blob) => {
+        const formData = new FormData();
+        const pdfName = ' ข้อมูลสมาชิก (' + this.monthBefore + ' ' + this.year + ')';
+        formData.append('file', blob, pdfName + '.pdf');
+        formData.append('month', this.monthBefore);
+        formData.append('year', this.year);
+
+        this.service.addFile(formData).subscribe((data) => {
+          this.filePdfFlag = false;
+          console.log(data);
+          
+          console.log(' massge-add-file : ', data);
+        });
+      });
+    }else{
+      pdf.open();
+    }
+
   }
 
   showWarn() {

@@ -524,4 +524,13 @@ export class MainService {
     );
   }
 
+  addFile(payload: any): Observable<any> {
+    return this.http.post<any>(AppPath.APP_API_SERVICE + '/documents/add-file', payload);
+  }
+
+  getFile(payload: any): Observable<Blob> {
+    return this.http.post(AppPath.APP_API_SERVICE + '/documents/get-file', payload, { responseType: 'blob' });
+  }
+  
+
 }
