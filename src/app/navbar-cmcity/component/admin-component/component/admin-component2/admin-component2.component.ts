@@ -2632,7 +2632,7 @@ export class AdminComponent2Component implements OnInit {
               text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ',
               bold: false,
             },
-            { text: '\t\t' + element.installment, bold: false, style: 'texts' },
+            { text: '\t\t' + (element.installment <= 1 ? element.installment : Number(element.installment - 1)), bold: false, style: 'texts' },
           ],
           margin: [0, 6, 0, 0],
           bold: false,
@@ -2641,7 +2641,7 @@ export class AdminComponent2Component implements OnInit {
           text: [
             'หุ้นสะสม\t\t\t\t ',
             {
-              text: this.formattedNumber2(element.stockAccumulate) + '\tบาท',
+              text: this.formattedNumber2(element.stockAccumulate - element.stockValue) + '\tบาท',
               bold: false,
               style: 'texts',
             },
