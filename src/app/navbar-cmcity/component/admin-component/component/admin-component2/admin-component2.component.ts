@@ -1089,14 +1089,31 @@ export class AdminComponent2Component implements OnInit {
     };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
-    this.service.searchDocumentV1(playload).subscribe((data) => {
-      this.list = data;
-      this.getSearchDocumentV2SumAll(playload, mode, data);
-    });
+
+    if(this.year == bill.year && this.monthValue == Number(bill.month).toString()){
+      this.service.searchDocumentV1(playload).subscribe((data) => {
+        this.list = data;
+        this.getSearchDocumentV2SumAll(playload, mode, data);
+      });
+    }else{
+      this.service.searchDocumentV1DetailHistory(playload).subscribe((data) => {
+        this.list = data;
+        this.getSearchDocumentV2SumAllDetailHistory(playload, mode, data);
+      });
+    }
+    
   }
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
     this.service.searchDocumentV2Sum(playload).subscribe((data) => {
+      this.sumStock = data;
+      this.checkDepartment(listdata);
+      this.exportMakePDFALL(mode, data);
+    });
+  }
+
+  getSearchDocumentV2SumAllDetailHistory(playload: any, mode: any, listdata: any[]) {
+    this.service.searchDocumentV2SumDetailHistory(playload).subscribe((data) => {
       this.sumStock = data;
       this.checkDepartment(listdata);
       this.exportMakePDFALL(mode, data);

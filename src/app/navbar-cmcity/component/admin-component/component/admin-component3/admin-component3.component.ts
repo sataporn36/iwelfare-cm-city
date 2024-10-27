@@ -1975,12 +1975,32 @@ export class AdminComponent3Component implements OnInit {
     }
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
-    this.service.searchDocumentV1Loan(payload).subscribe((data) => {
-      this.list = data;
-      const key = 'employeeCode';
-      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-      const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
-      this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
+
+    if(this.year == dataMY.year && this.monthValue == Number(dataMY.month).toString()){
+      this.service.searchDocumentV1Loan(payload).subscribe((data) => {
+        this.list = data;
+        const key = 'employeeCode';
+        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+        const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
+        this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
+      });
+    }else{
+      this.service.searchDocumentV1LoanDetailHistory(payload).subscribe((data) => {
+        this.list = data;
+        const key = 'employeeCode';
+        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+        const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
+        this.getSearchDocumentV2SumAllDetailHistory(payload, this.mode, reCheckData);
+      });
+    }
+    
+  }
+
+  getSearchDocumentV2SumAllDetailHistory(playload: any, mode: any, listdata: any[]) {
+    this.service.searchDocumentV2SumLoanDetailHistory(playload).subscribe((data) => {
+      this.sumLoan = data;
+      this.checkDepartment(listdata);
+      this.exportMakePDFAll(mode, data)
     });
   }
 

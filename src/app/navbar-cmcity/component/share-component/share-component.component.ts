@@ -341,6 +341,7 @@ export class ShareComponentComponent implements OnInit {
   month: any;
   year: any;
   time: any;
+  monthValue: any;
   pipeDateTH() {
     const format = new Date();
     const yearNew = format.getFullYear();
@@ -351,6 +352,7 @@ export class ShareComponentComponent implements OnInit {
     this.year = year;
     const monthSelect = this.periodMonthDescOption[month];
     this.month = monthSelect.label;
+    this.monthValue = monthSelect.value;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
     return day + ' ' + monthSelect.label + ' ' + year;
@@ -1078,31 +1080,62 @@ export class ShareComponentComponent implements OnInit {
     };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
-    this.service.searchEmployeeLoanNew(payload).subscribe({
-      next: async (res) => {
-        const dataRes = res;
-        if (res == null) {
-          this.showWarnNull();
-        } else {
-          this.dataResLoan = res;
-          this.getImgSig1('signature1', this.fileImg1);
-          this.getImgSig2('signature2', this.fileImg2);
-          if (res.loanId) {
-            if (res.newLoan) {
-              await this.onSearchCalculateLoanNew(res, res.stockValue);
+
+    if(this.year == bill.year && this.monthValue == Number(bill.month).toString()){
+      this.service.searchEmployeeLoanNew(payload).subscribe({
+        next: async (res) => {
+          const dataRes = res;
+          if (res == null) {
+            this.showWarnNull();
+          } else {
+            this.dataResLoan = res;
+            this.getImgSig1('signature1', this.fileImg1);
+            this.getImgSig2('signature2', this.fileImg2);
+            if (res.loanId) {
+              if (res.newLoan) {
+                await this.onSearchCalculateLoanNew(res, res.stockValue);
+              } else {
+                await this.onSearchCalculateLoanOld(res, res.stockValue);
+              }
             } else {
               await this.onSearchCalculateLoanOld(res, res.stockValue);
+              this.sumElementLoan = Number(res.stockValue) + 0 + 0; //  stockValue + totalDeduction + interest
+              //this.elementLoan = null;
+              this.onPrintReceiptMakePdf(null, this.sumElementLoan, res);
             }
-          } else {
-            await this.onSearchCalculateLoanOld(res, res.stockValue);
-            this.sumElementLoan = Number(res.stockValue) + 0 + 0; //  stockValue + totalDeduction + interest
-            //this.elementLoan = null;
-            this.onPrintReceiptMakePdf(null, this.sumElementLoan, res);
           }
-        }
-      },
-      error: (error) => {},
-    });
+        },
+        error: (error) => {},
+      });
+    }else{
+      this.service.searchEmployeeLoanNewDetailHistory(payload).subscribe({
+        next: async (res) => {
+          const dataRes = res;
+          if (res == null) {
+            this.showWarnNull();
+          } else {
+            this.dataResLoan = res;
+            this.getImgSig1('signature1', this.fileImg1);
+            this.getImgSig2('signature2', this.fileImg2);
+            if (res.loanId) {
+              if (res.newLoan) {
+                await this.onSearchCalculateLoanNew(res, res.stockValue);
+              } else {
+                await this.onSearchCalculateLoanOld(res, res.stockValue);
+              }
+            } else {
+              await this.onSearchCalculateLoanOld(res, res.stockValue);
+              this.sumElementLoan = Number(res.stockValue) + 0 + 0; //  stockValue + totalDeduction + interest
+              //this.elementLoan = null;
+              this.onPrintReceiptMakePdf(null, this.sumElementLoan, res);
+            }
+          }
+        },
+        error: (error) => {},
+      });
+    }
+
+   
   }
 
   checkCalculatePrincipalBalanceBefore(elementLoan: any) {
@@ -1127,8 +1160,6 @@ export class ShareComponentComponent implements OnInit {
     sumElementLoan: any,
     resStock: any
   ) {
-    console.log('<---- elementLoan',elementLoan);
-    
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
