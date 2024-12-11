@@ -1741,9 +1741,6 @@ export class AdminComponent3Component implements OnInit {
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
 
-    console.log(Number(format.getFullYear() + 543),'<------------------------- format.getFullYear()');
-    
-
     this.formModelLoanNew.get('loanYear').setValue(Number(format.getFullYear() + 543));
     this.formModelLoanNew.get('loanMonth').setValue(monthSelectCurrent.label);  //monthSelect
 
