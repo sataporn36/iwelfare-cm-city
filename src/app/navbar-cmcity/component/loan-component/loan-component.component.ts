@@ -762,8 +762,8 @@ export class LoanComponentComponent implements OnInit {
     const decimalPipe = new DecimalPipe('en-US');
     // let guarantor1Id = await this.searchIdOfEmpCodeValue1(item.guarantor1);
     // let guarantor2Id = await this.searchIdOfEmpCodeValue2(item.guarantor2);
-    let info = loanInfo.sort((a, b) => b.installment - a.installment);
-    let detailLoan = info.map(function (item) {
+    // let info = loanInfo.sort((a, b) => b.installment - a.installment);
+    let detailLoan = loanInfo.map(function (item) {
       return [
         { text: item.departmentName, alignment: 'left' },
         { text: item.employeeCode, alignment: 'center' },

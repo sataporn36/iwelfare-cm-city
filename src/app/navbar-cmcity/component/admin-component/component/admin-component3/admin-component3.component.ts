@@ -817,7 +817,7 @@ export class AdminComponent3Component implements OnInit {
           { text: decimalPipe.transform((Number(item.outStandPrinciple) <= Number(item.monthPrinciple)) ? Number(item.monthPrinciple) : Number(item.monthPrinciple) - Number(item.monthInterest)), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
           { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
-          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : (item.installment - 1), alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
+          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(Number(item.installment - 1)), alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
           { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(item.totalValueInterest), alignment: 'right' }, //decimalPipe.transform(item.totalValueInterest)
           { text: decimalPipe.transform(Number(item.outStandInterest)), alignment: 'right' },
           //{ text: decimalPipe.transform(Number(item.outStandInterest) + Number(item.monthInterest)), alignment: 'right' },
