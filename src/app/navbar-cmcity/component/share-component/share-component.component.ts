@@ -1298,7 +1298,8 @@ export class ShareComponentComponent implements OnInit {
                 },
                 {
                   text: elementLoan
-                    ? this.formattedNumber2(Math.round(elementLoan.principalBalance - elementLoan.principal))
+                    ? ( resStock ? this.formattedNumber2(Math.round(elementLoan.principalBalance)) 
+                    : this.formattedNumber2(Math.round(elementLoan.principalBalance - elementLoan.principal)) ) 
                     : '',
                   alignment: 'right',
                 },
