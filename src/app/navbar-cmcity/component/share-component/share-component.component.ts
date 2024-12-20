@@ -832,7 +832,7 @@ export class ShareComponentComponent implements OnInit {
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
         {
-          text: decimalPipe.transform(item.stockAccumulate - item.stockValue),
+          text: decimalPipe.transform(item.stockAccumulate),
           alignment: 'right',
         },
       ];
@@ -1024,7 +1024,10 @@ export class ShareComponentComponent implements OnInit {
             deductionDate: element.startLoanDate,
             amountDay: '01',
             interest: element.interest,
-            principal: element.installment == element.loanTime ? Number(element.loanOrdinary) : Number(element.loanOrdinary - element.interest),
+            principal:
+              element.installment == element.loanTime
+                ? Number(element.loanOrdinary)
+                : Number(element.loanOrdinary - element.interest),
             principalBalance: element.loanBalance,
             totalDeduction: element.loanOrdinary,
           };
@@ -1081,7 +1084,10 @@ export class ShareComponentComponent implements OnInit {
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
 
-    if(this.year == bill.year && this.monthValue == Number(bill.month).toString()){
+    if (
+      this.year == bill.year &&
+      this.monthValue == Number(bill.month).toString()
+    ) {
       this.service.searchEmployeeLoanNew(payload).subscribe({
         next: async (res) => {
           const dataRes = res;
@@ -1107,7 +1113,7 @@ export class ShareComponentComponent implements OnInit {
         },
         error: (error) => {},
       });
-    }else{
+    } else {
       this.service.searchEmployeeLoanNewDetailHistory(payload).subscribe({
         next: async (res) => {
           const dataRes = res;
@@ -1134,8 +1140,6 @@ export class ShareComponentComponent implements OnInit {
         error: (error) => {},
       });
     }
-
-   
   }
 
   checkCalculatePrincipalBalanceBefore(elementLoan: any) {
@@ -1292,14 +1296,23 @@ export class ShareComponentComponent implements OnInit {
                 },
                 {
                   text: elementLoan
-                    ? resStock.installment == resStock.loanTime ? this.formattedNumber2(elementLoan.totalDeduction) : this.formattedNumber2(elementLoan.principal)
+                    ? resStock.installment == resStock.loanTime
+                      ? this.formattedNumber2(elementLoan.totalDeduction)
+                      : this.formattedNumber2(elementLoan.principal)
                     : '',
                   alignment: 'right',
                 },
                 {
                   text: elementLoan
-                    ? ( resStock ? this.formattedNumber2(Math.round(elementLoan.principalBalance)) 
-                    : this.formattedNumber2(Math.round(elementLoan.principalBalance - elementLoan.principal)) ) 
+                    ? resStock
+                      ? this.formattedNumber2(
+                          Math.round(elementLoan.principalBalance)
+                        )
+                      : this.formattedNumber2(
+                          Math.round(
+                            elementLoan.principalBalance - elementLoan.principal
+                          )
+                        )
                     : '',
                   alignment: 'right',
                 },
