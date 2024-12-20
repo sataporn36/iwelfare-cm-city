@@ -838,7 +838,7 @@ export class ShareComponentComponent implements OnInit {
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
         { text: decimalPipe.transform(item.stockValue), alignment: 'right' },
         {
-          text: decimalPipe.transform(item.stockAccumulate - item.stockValue),
+          text: decimalPipe.transform(item.stockAccumulate),
           alignment: 'right',
         },
       ];
