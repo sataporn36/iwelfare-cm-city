@@ -1286,7 +1286,7 @@ export class AdminComponent3Component implements OnInit {
                 ? '-'
                 : item.installment - 1 <= 0
                 ? '-'
-                : item.installment - 1,
+                : decimalPipe.transform(Number(item.installment - 1)),
             alignment: 'center',
           }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
           {
@@ -2650,7 +2650,9 @@ export class AdminComponent3Component implements OnInit {
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
 
-    this.formModelLoanNew.get('loanYear').setValue(Number(year + 543));
+    this.formModelLoanNew
+      .get('loanYear')
+      .setValue(Number(format.getFullYear() + 543));
     this.formModelLoanNew.get('loanMonth').setValue(monthSelectCurrent.label); //monthSelect
 
     const firstDayOfNextMonth = new Date(year, month + 1, 1);
@@ -2901,17 +2903,55 @@ export class AdminComponent3Component implements OnInit {
     };
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
-    this.service.searchDocumentV1Loan(payload).subscribe((data) => {
-      this.list = data;
-      const key = 'employeeCode';
-      const arrayUniqueByKey = [
-        ...new Map(data.map((item) => [item[key], item])).values(),
-      ];
-      const reCheckData = arrayUniqueByKey.filter(
-        (item) => Number(item.installment) >= 0
-      ); // > 0
-      this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
-    });
+
+    if (
+      this.year == dataMY.year &&
+      this.monthValue == Number(dataMY.month).toString()
+    ) {
+      this.service.searchDocumentV1Loan(payload).subscribe((data) => {
+        this.list = data;
+        const key = 'employeeCode';
+        const arrayUniqueByKey = [
+          ...new Map(data.map((item) => [item[key], item])).values(),
+        ];
+        const reCheckData = arrayUniqueByKey.filter(
+          (item) => Number(item.installment) >= 0
+        ); // > 0
+        this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
+      });
+    } else {
+      this.service
+        .searchDocumentV1LoanDetailHistory(payload)
+        .subscribe((data) => {
+          this.list = data;
+          const key = 'employeeCode';
+          const arrayUniqueByKey = [
+            ...new Map(data.map((item) => [item[key], item])).values(),
+          ];
+          const reCheckData = arrayUniqueByKey.filter(
+            (item) => Number(item.installment) >= 0
+          ); // > 0
+          this.getSearchDocumentV2SumAllDetailHistory(
+            payload,
+            this.mode,
+            reCheckData
+          );
+        });
+    }
+  }
+
+  getSearchDocumentV2SumAllDetailHistory(
+    playload: any,
+    mode: any,
+    listdata: any[]
+  ) {
+    this.service
+      .searchDocumentV2SumLoanDetailHistory(playload)
+      .subscribe((data) => {
+        this.sumLoan = data;
+        this.checkDepartment(listdata);
+        this.exportMakePDFAll(mode, data);
+      });
   }
 
   displayInsetLoanNew() {

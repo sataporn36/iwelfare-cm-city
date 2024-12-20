@@ -742,4 +742,56 @@ export class MainService {
   deletedDoc(id: number): Observable<any> {
     return this.http.delete<any>(AppPath.APP_API_SERVICE + '/documents/' + id);
   }
+
+  addFile(payload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/documents/add-file',
+      payload
+    );
+  }
+
+  getFile(payload: any): Observable<Blob> {
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/documents/get-file',
+      payload,
+      { responseType: 'blob' }
+    );
+  }
+
+  // loan-history api //
+
+  searchDocumentV1LoanDetailHistory(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      AppPath.APP_API_SERVICE + '/v1/loan-detail-histories/v1/all',
+      playload
+    );
+  }
+  searchDocumentV2SumLoanDetailHistory(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      AppPath.APP_API_SERVICE + '/v1/loan-detail-histories/v2/all',
+      playload
+    );
+  }
+
+  searchDocumentV1DetailHistory(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/old/search',
+      playload
+    );
+  }
+  searchDocumentV2SumDetailHistory(playload: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      AppPath.APP_API_SERVICE + '/logic/v2/document/old/search',
+      playload
+    );
+  }
+
+  searchEmployeeLoanNewDetailHistory(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/searchLoan-old',
+      playload
+    );
+  }
+
+  // loan-history api //
 }
