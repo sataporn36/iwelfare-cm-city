@@ -1,18 +1,17 @@
 <div class="card">
     <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
-    <p style="margin-bottom: 30px;">ท่านสามารถเป็นผู้ค้ำประกันให้บุคคลอื่นได้สูงสุด 2 คน
+    <p>ท่านสามารถเป็นผู้ค้ำประกันให้บุคคลอื่นได้สูงสุด 2 คน
         และตอนนี้ท่านเป็นผู้ค้ำประกันเงินกู้ให้กับ</p>
     <div class="div-body">
         <div *ngIf="guaranteeIf">
-            <div class="guarantee" style="display: flex; justify-content: center; align-items: center;">
+            <div class="guarantee" style="display: flex; justify-content: center; align-items: center; height: 8rem;">
                 <p>ยังไม่มีภาระค้ำประกัน</p>
             </div>
         </div>
+        <!-- <div class="div-group"> -->
         <div *ngIf="guarantee?.codeGuaranteeOne != null">
             <div class="guarantee">
-                <div>
-                    <img src="{{ checkImgProfile(guarantee?.genderOne)}}" />
-                </div>
+                <img src="{{ checkImgProfile(guarantee?.genderOne)}}" />
                 <div class="info-text">
                     <div class="text">
                         <label class="name">ชื่อ-สกุล :</label>
@@ -42,6 +41,7 @@
                 </div>
             </div>
         </div>
+        <!-- </div> -->
     </div>
 </div>
 <div class="card">
@@ -59,11 +59,12 @@
 
     <div class="div-body">
         <div *ngIf="guarantorIf">
-            <div class="guarantee"  style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+            <div class="guarantee"
+                style="display: flex; justify-content: center; align-items: center; margin-top: 5px; height: 8rem;">
                 <p>ยังไม่มีผู้ค้ำประกันเงินกู้</p>
             </div>
         </div>
-        <div *ngIf="guarantor?.codeGuarantorOne != null">
+        <div class="div-guarantee" *ngIf="guarantor?.codeGuarantorOne != null">
             <p class="guarantee-header">ผู้ค้ำคนที่หนึ่ง</p>
             <div class="guarantee">
                 <div>
@@ -81,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="guarantor?.codeGuarantorTwo != null">
+        <div class="div-guarantee" *ngIf="guarantor?.codeGuarantorTwo != null">
             <p class="guarantee-header">ผู้ค้ำคนที่สอง</p>
             <div class="guarantee">
                 <div>

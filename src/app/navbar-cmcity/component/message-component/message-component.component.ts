@@ -4,7 +4,12 @@ import { SearchNewResgter } from 'src/app/model/search-new-register';
 import { MainService } from 'src/app/service/main.service';
 import { DecimalPipe, formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Representative } from 'src/app/model/ccustomerTest';
@@ -14,14 +19,13 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-message-component',
   templateUrl: './message-component.component.html',
-  styleUrls: ['./message-component.component.scss']
+  styleUrls: ['./message-component.component.scss'],
 })
 export class MessageComponentComponent implements OnInit {
-
   public data: Observable<SearchNewResgter[]> | any;
   loading!: boolean;
   dataNotify!: any[];
-  // birthday = new Date(1988, 3, 15); 
+  // birthday = new Date(1988, 3, 15);
   periodMonthDescOption: any = [];
   clonedProducts: { [s: number]: any } = {};
   representatives!: Representative[];
@@ -58,11 +62,11 @@ export class MessageComponentComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   initMainForm() {
     this.formModel = new FormGroup({
-      remark: new FormControl(null, Validators.required)
+      remark: new FormControl(null, Validators.required),
     });
 
     this.detailModel = new FormGroup({
@@ -78,7 +82,7 @@ export class MessageComponentComponent implements OnInit {
       departmentName: new FormControl(null),
       stockAccumulate: new FormControl(null),
       loanBalance: new FormControl(null),
-      marital: new FormControl(null),
+      marital: new FormControl('-'),
     });
 
     this.formModelInfo = new FormGroup({
@@ -107,51 +111,51 @@ export class MessageComponentComponent implements OnInit {
   checkPrefix(data: any): any {
     switch (data) {
       case 'นาย':
-        return '1'
+        return '1';
       case 'นางสาว':
-        return '2'
+        return '2';
       case 'นาง':
-        return '3'
+        return '3';
       case 'ด.ช':
-        return '4'
+        return '4';
       case 'ด.ญ':
-        return '5'
+        return '5';
       case 'ว่าที่ร้อยตรี':
-        return '6'
+        return '6';
       case 'ว่าที่ร้อยตรีหญิง':
-        return '7'
+        return '7';
       case 'ว่าที่ร้อยโท':
-        return '8'
+        return '8';
       case 'ว่าที่ร้อยโทหญิง':
-        return '9'
+        return '9';
       case 'ว่าที่ร้อยเอก':
-        return '10'
+        return '10';
       case 'ว่าที่ร้อยเอกหญิง':
-        return '11'
+        return '11';
       case 'สิบตรี':
-        return '12'
+        return '12';
       case 'สิบตรีหญิง':
-        return '13'
+        return '13';
       case 'สิบโท':
-        return '14'
+        return '14';
       case 'สิบโทหญิง':
-        return '15'
+        return '15';
       case 'สิบเอก':
-        return '16'
+        return '16';
       case 'สิบเอกหญิง':
-        return '17'
+        return '17';
       case 'จ่าสิบตรี':
-        return '18'
+        return '18';
       case 'จ่าสิบตรีหญิง':
-        return '19'
+        return '19';
       case 'จ่าสิบโท':
-        return '20'
+        return '20';
       case 'จ่าสิบโทหญิง':
-        return '21'
+        return '21';
       case 'จ่าสิบเอก':
-        return '22'
+        return '22';
       case 'จ่าสิบเอกหญิง':
-        return '23'
+        return '23';
       default:
         break;
     }
@@ -167,29 +171,27 @@ export class MessageComponentComponent implements OnInit {
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-          })
+          });
 
           this.descriptionUser = null;
           this.idNotify = this.selectedItem.id;
-          this.profileImgId = this.selectedItem.employee.profileImgId ? this.selectedItem.employee.profileImgId : 0;
-          this.gender = this.selectedItem.employee.gender;
-          this.getImage(this.profileImgId);
-        }
+          this.funCheckImagePro(this.selectedItem.employee);
+        },
       },
       {
         label: 'ยืนยัน',
         icon: 'pi pi-check-circle ',
         command: () => {
           this.onClickApproveEmp(this.selectedItem);
-        }
+        },
       },
       {
         label: 'ปฏิเสธ',
         icon: 'pi pi-times-circle',
         command: () => {
           this.onClickCancleApproveEmp(this.selectedItem);
-        }
-      }
+        },
+      },
     ];
     this.mess2 = [
       {
@@ -200,25 +202,21 @@ export class MessageComponentComponent implements OnInit {
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-          })
+          });
 
           this.idNotify = this.selectedItem.id;
-          this.idNotify = this.selectedItem.id;
-          this.profileImgId = this.selectedItem.employee.profileImgId;
-          this.gender = this.selectedItem.employee.gender;
-          this.getImage(this.profileImgId);
-        }
+          this.funCheckImagePro(this.selectedItem.employee);
+        },
       },
       {
         label: 'ข้อมูลการเปลี่ยนผู้รับผลประโยชน์',
         icon: 'pi pi-check-circle ',
         command: () => {
-
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
           this.onCheckBeneficiary();
-        }
-      }
+        },
+      },
     ];
     this.mess3 = [
       {
@@ -229,33 +227,36 @@ export class MessageComponentComponent implements OnInit {
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-          })
+          });
 
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
-          this.profileImgId = this.selectedItem.employee.profileImgId;
-          this.gender = this.selectedItem.employee.gender;
-          this.getImage(this.profileImgId);
-        }
+          this.funCheckImagePro(this.selectedItem.employee);
+        },
       },
       {
         label: 'การแก้ไขข้อมูลส่วนตัว',
         icon: 'pi pi-check-circle ',
         command: () => {
-
           this.formModelInfo.get('firstName').disable();
           this.formModelInfo.get('lastName').disable();
           this.formModelInfo.get('marital').disable();
 
-          this.firstNameOld = this.selectedItem.employee.firstName ? this.selectedItem.employee.firstName : null;
-          this.lastNameOld = this.selectedItem.employee.lastName ? this.selectedItem.employee.lastName : null;
-          this.maritalOld = this.selectedItem.employee.marital ? this.selectedItem.employee.marital : null;
+          this.firstNameOld = this.selectedItem.employee.firstName
+            ? this.selectedItem.employee.firstName
+            : null;
+          this.lastNameOld = this.selectedItem.employee.lastName
+            ? this.selectedItem.employee.lastName
+            : null;
+          this.maritalOld = this.selectedItem.employee.marital
+            ? this.selectedItem.employee.marital
+            : '-';
 
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
           this.onCheckInfo();
-        }
-      }
+        },
+      },
     ];
     this.messMonthlyStockMoney = [
       {
@@ -266,26 +267,37 @@ export class MessageComponentComponent implements OnInit {
           this.detailModel.patchValue({
             ...this.selectedItem.employee,
             prefix: this.checkPrefix(this.selectedItem.employee?.prefix),
-          })
+          });
 
           this.descriptionUser = this.selectedItem.description;
           this.idNotify = this.selectedItem.id;
-          this.profileImgId = this.selectedItem.employee.profileImgId;
-          this.gender = this.selectedItem.employee.gender;
-          this.getImage(this.profileImgId);
-        }
+          this.funCheckImagePro(this.selectedItem.employee);
+        },
       },
       {
         label: 'การแก้ไขเงินหุ้นส่งรายเดือน',
         icon: 'pi pi-check-circle ',
         command: () => {
           this.descriptionUser = this.selectedItem.reason;
-          this.monthlyStockMoneyOld = this.formattedNumber(this.selectedItem.description);
+          this.monthlyStockMoneyOld = this.formattedNumber(
+            this.selectedItem.description
+          );
           this.idNotify = this.selectedItem.id;
           this.onCheckMonthlyStockMoneyOld();
-        }
-      }
+        },
+      },
     ];
+  }
+
+  funCheckImagePro(data: any) {
+    this.profileImgId = data.profileImgId != null ? data.profileImgId : null;
+    this.gender = data.gender;
+
+    if (this.profileImgId == null) {
+      this.checkImgProfile();
+    } else {
+      this.getImage(this.profileImgId);
+    }
   }
 
   clearDialog() {
@@ -317,14 +329,16 @@ export class MessageComponentComponent implements OnInit {
       { label: 'หุ้นรายเดือน', value: '2' },
       { label: 'สมัครสมาชิก', value: '3' },
       { label: 'ผู้รับผลประโยชน์', value: '4' },
-      { label: 'แก้ไขข้อมูลส่วนตัว', value: '5' }
+      { label: 'ข้อมูลส่วนตัว', value: '5' },
     ];
   }
 
   searchNotify(): void {
-    this.service.searchNotify().subscribe(data => {
+    this.service.searchNotify().subscribe((data) => {
       this.dataNotify = data.sort((a, b) => {
-        return new Date(b.createDate).getTime() - new Date(a.createDate).getTime();
+        return (
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+        );
       });
     });
   }
@@ -334,33 +348,54 @@ export class MessageComponentComponent implements OnInit {
       const approve = {
         id: data.employee.id,
         approveFlag: true,
-        noId: data.id
-      }
+        noId: data.id,
+      };
       this.confirmationService.confirm({
-        message: 'ต้องการยืนยันการสมัครของ ' + data.employee.prefix + data.employee.firstName + ' ' + data.employee.lastName + ' ใช่หรือไม่',
+        message:
+          'ต้องการยืนยันการสมัครของ ' +
+          data.employee.prefix +
+          data.employee.firstName +
+          ' ' +
+          data.employee.lastName +
+          ' ใช่หรือไม่',
         header: 'ยืนยันการสมัครเข้าใช้งานระบบ',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.service.approveRegister(approve).subscribe(data => {
-            this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-            this.data = data
+          this.service.approveRegister(approve).subscribe((data) => {
+            this.messageService.add({
+              severity: 'success',
+              detail: 'แก้ไขสำเร็จ',
+            });
+            this.data = data;
             this.ngOnInit();
           });
         },
-        reject: () => { }
+        reject: () => {},
       });
     } else {
       const approve = {
         id: data.employee.id,
         value: data.reason,
         type: data.status,
-        noId: data.id
-      }
+        noId: data.id,
+      };
       let message = '';
       if (data.status == 1) {
-        message = 'ต้องการยืนยันการลาออกของ ' + data.employee.prefix + data.employee.firstName + ' ' + data.employee.lastName + ' ใช่หรือไม่';
+        message =
+          'ต้องการยืนยันการลาออกของ ' +
+          data.employee.prefix +
+          data.employee.firstName +
+          ' ' +
+          data.employee.lastName +
+          ' ใช่หรือไม่';
       } else {
-        message = 'ต้องการยืนยันเปลี่ยนหุ้นรายเดือนของ ' + data.employee.prefix + data.employee.firstName + ' ' + data.employee.lastName + ' ใช่หรือไม่';
+        message =
+          'ต้องการยืนยันเปลี่ยนหุ้นรายเดือนของ ' +
+          data.employee.prefix +
+          data.employee.firstName +
+          ' ' +
+          data.employee.lastName +
+          ' ใช่หรือไม่';
       }
 
       this.confirmationService.confirm({
@@ -368,13 +403,16 @@ export class MessageComponentComponent implements OnInit {
         header: 'ยืนยันการแก้ไข',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.service.updateResignAdmin(approve).subscribe(data => {
-            this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-            this.data = data
+          this.service.updateResignAdmin(approve).subscribe((data) => {
+            this.messageService.add({
+              severity: 'success',
+              detail: 'แก้ไขสำเร็จ',
+            });
+            this.data = data;
             this.ngOnInit();
           });
         },
-        reject: () => { }
+        reject: () => {},
       });
     }
   }
@@ -427,14 +465,22 @@ export class MessageComponentComponent implements OnInit {
   }
 
   pipeDateTH(date: any) {
-    const format = new Date(date)
-    const day = format.getDate()
-    const month = format.getMonth()
-    const year = format.getFullYear() + 543
+    const format = new Date(date);
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
 
     const monthSelect = this.periodMonthDescOption[month];
 
-    return day + ' ' + monthSelect.label + ' ' + year
+    return day + ' ' + monthSelect.label + ' ' + year;
+  }
+
+  onTime(date: any) {
+    const format = new Date(date);
+    const hours = format.getHours().toString().padStart(2, '0');
+    const minutes = format.getMinutes().toString().padStart(2, '0');
+
+    return hours + ':' + minutes + ' น.';
   }
 
   setperiodMonthDescOption() {
@@ -457,30 +503,32 @@ export class MessageComponentComponent implements OnInit {
   imageSrc: SafeUrl;
   gender: any;
   checkImgProfile() {
-    let textGender = ''
-    if (this.profileImgId != 0) {
-      return this.imageSrc
+    let textGender = '';
+    if (this.profileImgId != null) {
+      return this.imageSrc;
     } else {
       switch (this.gender) {
         case 'ชาย':
-          textGender = 'assets/images/boy.png'
+          textGender = 'assets/images/boy.png';
           break;
         case 'หญิง':
-          textGender = 'assets/images/girl.png'
+          textGender = 'assets/images/girl.png';
           break;
         default:
           break;
       }
     }
 
-    return textGender
+    return textGender;
   }
 
   getImage(id: any) {
     if (id != 0) {
       this.service.getImage(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(
+            URL.createObjectURL(imageBlob)
+          );
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -493,7 +541,9 @@ export class MessageComponentComponent implements OnInit {
   onCheckBeneficiary() {
     this.arrayListDescriptionUser = JSON.parse(this.descriptionUser);
     this.displayModalUser = true;
-    this.filteredData = this.arrayListDescriptionUser.filter((item) => item.active === true);
+    this.filteredData = this.arrayListDescriptionUser.filter(
+      (item) => item.active === true
+    );
   }
 
   descriptionUserInfo: any;
@@ -508,7 +558,7 @@ export class MessageComponentComponent implements OnInit {
     this.descriptionUserInfo = this.descriptionUser;
     this.displayEditByMonthlyStock = true;
     this.formModelInfo.patchValue({
-      monthlyStockMoney: this.formattedNumber(this.descriptionUserInfo)
+      monthlyStockMoney: this.formattedNumber(this.descriptionUserInfo),
     });
   }
 
@@ -518,26 +568,33 @@ export class MessageComponentComponent implements OnInit {
   }
 
   approveUpdateByUser() {
-    this.service.approveUpdateByUser(this.descriptionUserInfo).subscribe(data => {
-      this.showSuccess();
-      this.displayEditByUser = false;
-      this.service.deleteNotify(this.idNotify).subscribe();
-      this.ngOnInit();
-    });
+    this.service
+      .approveUpdateByUser(this.descriptionUserInfo)
+      .subscribe((data) => {
+        this.showSuccess();
+        this.displayEditByUser = false;
+        this.service.deleteNotify(this.idNotify).subscribe();
+        this.ngOnInit();
+      });
   }
 
   updateBeneficairyList(arrayListDescriptionUser: any[]) {
-    this.service.updateBeneficiaryLogic(arrayListDescriptionUser).subscribe(data => {
-      this.showSuccess();
-      this.displayModalUser = false;
-      this.detail = false;
-      this.service.deleteNotify(this.idNotify).subscribe();
-      this.ngOnInit();
-    });
+    this.service
+      .updateBeneficiaryLogic(arrayListDescriptionUser)
+      .subscribe((data) => {
+        this.showSuccess();
+        this.displayModalUser = false;
+        this.detail = false;
+        this.service.deleteNotify(this.idNotify).subscribe();
+        this.ngOnInit();
+      });
   }
 
   showSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'แก้ไขผู้รับผลประโยชน์' });
+    this.messageService.add({
+      severity: 'success',
+      summary: 'แก้ไขผู้รับผลประโยชน์',
+    });
   }
 
   checkRelationshipColor(relationship: any) {
@@ -567,4 +624,20 @@ export class MessageComponentComponent implements OnInit {
     this.onClickCancleApproveEmp(this.selectedItem);
   }
 
+  // profileImgById(gender: any) {
+  //   console.log(gender);
+
+  //   let textGender = '';
+  //   switch (gender) {
+  //     case 'ชาย':
+  //       textGender = 'assets/images/boy.png';
+  //       break;
+  //     case 'หญิง':
+  //       textGender = 'assets/images/girl.png';
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   return textGender;
+  // }
 }

@@ -1,132 +1,1300 @@
-<div style="display: flex; padding: 0.5rem;">
-    <div class="col-2">
+<div style="display: flex; gap: 1rem;">
+    <div class="burger-full-screen" *ngIf="!isSidenavOpen">
         <div class="menubar">
             <div class="logo">
+                <div class="nav-burger" (click)="toggleSidenav()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 7H21" stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" />
+                        <path d="M3 12H21" stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" />
+                        <path d="M3 17H21" stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </div>
                 <img src="assets/images/logo.png" alt="logo" />
                 <div class="text">
                     <h5>กองทุนสวัสดิการ</h5>
-                    <hr class="hr-menubar">
                     <span>พนักงานและลูกจ้าง</span>
                 </div>
             </div>
-            <div class="nav-menu">
-                <ul class="nav nav-bordered nav-stacked flex-md-column">
-                    <li [ngClass]="'nav-item ' + main" routerLink="main-page">
-                        <div class="nav-li" (click)="checkActive('main')">
-                            <i class="uil uil-estate"></i>
-                            <span>หน้าหลัก</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + stock" routerLink="share-page">
-                        <div class="nav-li" (click)="checkActive('stock')">
-                            <i class="uil uil-chart"></i>
-                            <span>หุ้น</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + loan" routerLink="loan-page">
-                        <div class="nav-li" (click)="checkActive('loan')">
-                            <i class="uil uil-bill"></i>
-                            <span>เงินกู้</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + rigths" routerLink="loan-rigths-page">
-                        <div class="nav-li" (click)="checkActive('rigths')">
-                            <i class="uil uil-chart-pie"></i>
-                            <span>สิทธิ์การกู้</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + beneficiary" routerLink="beneficiary-page">
-                        <div class="nav-li" (click)="checkActive('beneficiary')">
-                            <i class="uil uil-users-alt"></i>
-                            <span>ผู้รับผลประโยชน์</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + guarantee" routerLink="guarantee-obligation-page">
-                        <div class="nav-li" (click)="checkActive('guarantee')">
-                            <i class="uil uil-notes"></i>
-                            <span>ภาระค้ำประกัน</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + dividend" routerLink="dividend-page">
-                        <div class="nav-li" (click)="checkActive('dividend')">
-                            <i class="uil uil-wallet"></i>
-                            <span>เงินปันผล</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item ' + deposit" routerLink="deposit-page">
-                        <div class="nav-li" (click)="checkActive('deposit')">
-                            <i class="uil uil-file-download-alt"></i>
-                            <span>เอกสารกองทุนฯ</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item '+ setting" *ngIf="admin">
-                        <div class="nav-li" (click)="toggleCollapse($event)"
-                            [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
-                            <i class="uil uil-user-md"></i>
-                            <span>เจ้าหน้าที่</span>
-                        </div>
-                        <div class="collapse" [ngClass]="{ 'show': isCollapsed }" (click)="preventCollapse($event)"
-                            id="tasksCollapse">
-                            <div class="angle-right">
-                                <i class="uil uil-angle-right"></i>
+            <div class="nav-menubar">
+                <div class="nav-menu">
+                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                        <li [ngClass]="'nav-item ' + main" routerLink="main-page">
+                            <div class="nav-li" (click)="checkActive('main')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.5 10.9384C2.5 9.71422 3.06058 8.55744 4.02142 7.79888L9.52142 3.45677C10.9747 2.30948 13.0253 2.30948 14.4786 3.45677L19.9786 7.79888C20.9394 8.55744 21.5 9.71422 21.5 10.9384V17.5C21.5 19.7091 19.7091 21.5 17.5 21.5H16C15.4477 21.5 15 21.0523 15 20.5V17.5C15 16.3954 14.1046 15.5 13 15.5H11C9.89543 15.5 9 16.3954 9 17.5V20.5C9 21.0523 8.55228 21.5 8 21.5H6.5C4.29086 21.5 2.5 19.7091 2.5 17.5L2.5 10.9384Z"
+                                        stroke="black" stroke-width="2" />
+                                </svg>
+                                <span>หน้าหลัก</span>
                             </div>
-                            <div class="nav-admin">
-                                <ul class="nav flex-column">
-                                    <li [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
-                                        (click)="checkActive('settingEmployee')">
-                                        <span>การจัดการสมาชิก</span>
-                                    </li>
-                                    <li [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
-                                        (click)="checkActive('settingStock')">
-                                        <span>การจัดการหุ้น</span>
-                                    </li>
-                                    <li [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
-                                        (click)="checkActive('settingLoan')">
-                                        <span>การจัดการเงินกู้</span>
-                                    </li>
-                                    <li [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
-                                        (click)="checkActive('settingDividend')">
-                                        <span>การจัดการเงินปันผล</span>
-                                    </li>
-                                    <li [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
-                                        (click)="checkActive('settingNews')">
-                                        <span>การจัดการข่าวสาร</span>
-                                    </li>
-                                    <li [ngClass]="'nav-link '+ settingSystem" routerLink="admin-setting-page"
-                                        (click)="checkActive('settingSystem')">
-                                        <span>การตั้งค่าระบบ</span>
-                                    </li>
-                                </ul>
+                        </li>
+                        <li [ngClass]="'nav-item ' + stock" routerLink="share-page">
+                            <div class="nav-li" (click)="checkActive('stock')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M7.33008 14.49L9.71008 11.4C10.0501 10.96 10.6801 10.88 11.1201 11.22L12.9501 12.66C13.3901 13 14.0201 12.92 14.3601 12.49L16.6701 9.51001"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>หุ้น</span>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="div-hr-foot">
-                <hr class="hr-foot">
-            </div>
-            <div class="div-foot">
-                <ul class="nav nav-bordered nav-stacked flex-md-column">
-                    <li [ngClass]="'nav-item ' + profile">
-                        <div class="nav-li"  routerLink="profile-page" (click)="checkActive('profile')">
-                            <i class="uil uil-user"></i>
-                            <span>ข้อมูลส่วนตัว</span>
-                        </div>
-                    </li>
-                    <li [ngClass]="'nav-item'">
-                        <div class="nav-li" (click)="onLogout()">
-                            <i class="uil uil-signout"></i>
-                            <span>ออกจากระบบ</span>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                        <li [ngClass]="'nav-item ' + loan" routerLink="loan-page">
+                            <div class="nav-li" (click)="checkActive('loan')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8.67188 14.3298C8.67188 15.6198 9.66188 16.6598 10.8919 16.6598H13.4019C14.4719 16.6598 15.3419 15.7498 15.3419 14.6298C15.3419 13.4098 14.8119 12.9798 14.0219 12.6998L9.99187 11.2998C9.20187 11.0198 8.67188 10.5898 8.67188 9.36984C8.67188 8.24984 9.54187 7.33984 10.6119 7.33984H13.1219C14.3519 7.33984 15.3419 8.37984 15.3419 9.66984"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 6V18" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>เงินกู้</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + rigths" routerLink="loan-rigths-page">
+                            <div class="nav-li" (click)="checkActive('rigths')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20.5 11.3V7.04001C20.5 3.01001 19.56 2 15.78 2H8.22C4.44 2 3.5 3.01001 3.5 7.04001V18.3C3.5 20.96 4.96001 21.59 6.73001 19.69L6.73999 19.68C7.55999 18.81 8.80999 18.88 9.51999 19.83L10.53 21.18"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M18.2 21.4C19.9673 21.4 21.4 19.9673 21.4 18.2C21.4 16.4327 19.9673 15 18.2 15C16.4327 15 15 16.4327 15 18.2C15 19.9673 16.4327 21.4 18.2 21.4Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M22 22L21 21" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M8 7H16" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M9 11H15" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>สิทธิ์การกู้</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + beneficiary" routerLink="beneficiary-page">
+                            <div class="nav-li" (click)="checkActive('beneficiary')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.16006 10.87C9.06006 10.86 8.94006 10.86 8.83006 10.87C6.45006 10.79 4.56006 8.84 4.56006 6.44C4.56006 3.99 6.54006 2 9.00006 2C11.4501 2 13.4401 3.99 13.4401 6.44C13.4301 8.84 11.5401 10.79 9.16006 10.87Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M16.41 4C18.35 4 19.91 5.57 19.91 7.5C19.91 9.39 18.41 10.93 16.54 11C16.46 10.99 16.37 10.99 16.28 11"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M4.15997 14.56C1.73997 16.18 1.73997 18.82 4.15997 20.43C6.90997 22.27 11.42 22.27 14.17 20.43C16.59 18.81 16.59 16.17 14.17 14.56C11.43 12.73 6.91997 12.73 4.15997 14.56Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M18.3401 20C19.0601 19.85 19.7401 19.56 20.3001 19.13C21.8601 17.96 21.8601 16.03 20.3001 14.86C19.7501 14.44 19.0801 14.16 18.3701 14"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+
+                                <span>ผู้รับผลประโยชน์</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + guarantee" routerLink="guarantee-obligation-page">
+                            <div class="nav-li" (click)="checkActive('guarantee')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.6601 10.44L20.6801 14.62C19.8401 18.23 18.1801 19.69 15.0601 19.39C14.5601 19.35 14.0201 19.26 13.4401 19.12L11.7601 18.72C7.59006 17.73 6.30006 15.67 7.28006 11.49L8.26006 7.3C8.46006 6.45 8.70006 5.71 9.00006 5.1C10.1701 2.68 12.1601 2.03 15.5001 2.82L17.1701 3.21C21.3601 4.19 22.6401 6.26 21.6601 10.44Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M15.06 19.39C14.44 19.81 13.66 20.16 12.71 20.47L11.13 20.99C7.15998 22.27 5.06997 21.2 3.77997 17.23L2.49997 13.28C1.21997 9.31 2.27997 7.21 6.24997 5.93L7.82997 5.41C8.23997 5.28 8.62997 5.17 8.99997 5.1C8.69997 5.71 8.45997 6.45 8.25997 7.3L7.27997 11.49C6.29997 15.67 7.58998 17.73 11.76 18.72L13.44 19.12C14.02 19.26 14.56 19.35 15.06 19.39Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12.64 8.53L17.49 9.76" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.66 12.4L14.56 13.14" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                                <span>ภาระค้ำประกัน</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + dividend" routerLink="dividend-page">
+                            <div class="nav-li" (click)="checkActive('dividend')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.7516 16.8604V18.8904C10.7516 20.6104 9.15158 22.0004 7.18158 22.0004C5.21158 22.0004 3.60156 20.6104 3.60156 18.8904V16.8604C3.60156 18.5804 5.20158 19.8004 7.18158 19.8004C9.15158 19.8004 10.7516 18.5704 10.7516 16.8604Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10.7501 14.11C10.7501 14.61 10.6101 15.07 10.3701 15.47C9.78006 16.44 8.57004 17.05 7.17004 17.05C5.77004 17.05 4.56003 16.43 3.97003 15.47C3.73003 15.07 3.59009 14.61 3.59009 14.11C3.59009 13.25 3.99007 12.48 4.63007 11.92C5.28007 11.35 6.17003 11.01 7.16003 11.01C8.15003 11.01 9.04006 11.36 9.69006 11.92C10.3501 12.47 10.7501 13.25 10.7501 14.11Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10.7516 14.11V16.86C10.7516 18.58 9.15158 19.8 7.18158 19.8C5.21158 19.8 3.60156 18.57 3.60156 16.86V14.11C3.60156 12.39 5.20158 11 7.18158 11C8.17158 11 9.06161 11.35 9.71161 11.91C10.3516 12.47 10.7516 13.25 10.7516 14.11Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M22 10.9699V13.03C22 13.58 21.56 14.0299 21 14.0499H19.0399C17.9599 14.0499 16.97 13.2599 16.88 12.1799C16.82 11.5499 17.0599 10.9599 17.4799 10.5499C17.8499 10.1699 18.36 9.94995 18.92 9.94995H21C21.56 9.96995 22 10.4199 22 10.9699Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>เงินปันผล</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + deposit" routerLink="deposit-page">
+                            <div class="nav-li" (click)="checkActive('deposit')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.37 8.88H17.62" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M6.38 8.88L7.13 9.63L9.38 7.38" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M12.37 15.88H17.62" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M6.38 15.88L7.13 16.63L9.38 14.38" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>เอกสารกองทุนฯ</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item '+ setting" *ngIf="admin">
+                            <div class="nav-li" (click)="toggleCollapse($event)"
+                                [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
+                                <div class="nav-li-info">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <i class="uil uil-user-md"></i>
+                                        <span>เจ้าหน้าที่</span>
+                                    </div>
+                                    <div class="nav-li-info-svg" [ngClass]="{'collapsed': isCollapsed}">
+                                        <svg *ngIf="!isCollapsed" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.92 8.95001L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.07996 8.95001"
+                                                stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <svg *ngIf="isCollapsed" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.9201 15.05L13.4001 8.53001C12.6301 7.76001 11.3701 7.76001 10.6001 8.53001L4.08008 15.05"
+                                                stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapse" [ngClass]="{ 'show': isCollapsed }" (click)="preventCollapse($event)"
+                                id="tasksCollapse">
+                                <div class="nav-admin">
+                                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                                        <li [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
+                                            (click)="checkActive('settingEmployee')">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 14.573L1.49912 18.1131C1.35912 18.2531 1.22913 18.513 1.19913 18.703L1.00913 20.053C0.939132 20.543 1.27914 20.883 1.76914 20.813L3.11912 20.623C3.30912 20.593 3.57914 20.463 3.70914 20.323L7.24912 16.783C7.85912 16.173 8.14912 15.463 7.24912 14.563C6.35912 13.673 5.64916 13.963 5.03916 14.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.52905 15.083C4.82905 16.163 5.66902 17.003 6.74902 17.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M10 14C13 13 14.4194 14.1032 14.9999 14.5C17.4039 16.1435 17.023 18.8475 14.9999 20.5C12.9768 22.1525 9.99958 22 7.49967 21.5"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M10.1601 10.87C10.0601 10.86 9.94006 10.86 9.83006 10.87C7.45006 10.79 5.56006 8.84 5.56006 6.44C5.56006 3.99 7.54006 2 10.0001 2C12.4501 2 14.4401 3.99 14.4401 6.44C14.4301 8.84 12.5401 10.79 10.1601 10.87Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M17.41 4C19.35 4 20.91 5.57 20.91 7.5C20.91 9.39 19.41 10.93 17.54 11C17.46 10.99 17.37 10.99 17.28 11"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M19.3401 20C20.0601 19.85 20.7401 19.56 21.3001 19.13C22.8601 17.96 22.8601 16.03 21.3001 14.86C20.7501 14.44 20.0801 14.16 19.3701 14"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการสมาชิก</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
+                                            (click)="checkActive('settingStock')">
+                                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 17.573L1.49912 21.1131C1.35912 21.2531 1.22913 21.513 1.19913 21.703L1.00913 23.053C0.939132 23.543 1.27914 23.883 1.76914 23.813L3.11912 23.623C3.30912 23.593 3.57914 23.463 3.70914 23.323L7.24912 19.783C7.85912 19.173 8.14912 18.463 7.24912 17.563C6.35912 16.673 5.64916 16.963 5.03916 17.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.5293 18.083C4.8293 19.163 5.66927 20.003 6.74927 20.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M8 14.98L10.38 11.89C10.72 11.45 11.35 11.37 11.79 11.71L13.62 13.15C14.06 13.49 14.69 13.41 15.03 12.98L17.34 10"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M12.0124 22.0689L16.0123 22.0942C21.0122 22.1257 23.0248 20.1383 23.0564 15.1384L23.0942 9.13856C23.1257 4.13866 21.1384 2.12609 16.1385 2.09455L10.1386 2.05671C5.13871 2.02517 3.12614 4.01252 3.0946 9.01242L3.06306 14.0123"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+
+                                            <span>การจัดการหุ้น</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
+                                            (click)="checkActive('settingLoan')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.04844 16.5825L1.5084 20.1225C1.3684 20.2625 1.23841 20.5225 1.20841 20.7125L1.01841 22.0625C0.948409 22.5525 1.28842 22.8925 1.77842 22.8225L3.12839 22.6325C3.31839 22.6025 3.58842 22.4725 3.71842 22.3325L7.2584 18.7925C7.8684 18.1825 8.1584 17.4725 7.2584 16.5725C6.3684 15.6825 5.65844 15.9725 5.04844 16.5825Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M4.53857 17.0925C4.83857 18.1725 5.67854 19.0124 6.75854 19.3124"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M14.5081 10.2575C14.5073 9.28752 13.7567 8.50812 12.8367 8.50884L10.9567 8.51032C10.1567 8.51095 9.50722 9.19146 9.50789 10.0415C9.50861 10.9515 9.90886 11.2811 10.499 11.4907L13.5099 12.5383C14.1 12.7478 14.5003 13.0675 14.501 13.9875C14.5017 14.8275 13.8522 15.518 13.0522 15.5187L11.1722 15.5201C10.2522 15.5209 9.50158 14.7415 9.50082 13.7715"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12.0129 16.5095L12.0058 7.50946" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M2.00946 12.0174C2.00511 6.49735 6.48158 2.01382 12.0016 2.00947C17.5216 2.00512 22.0051 6.48159 22.0095 12.0016C22.0138 17.5216 17.5373 22.0051 12.0173 22.0095"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการเงินกู้</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
+                                            (click)="checkActive('settingDividend')">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6.03916 14.573L2.49912 18.1131C2.35912 18.2531 2.22913 18.513 2.19913 18.703L2.00913 20.053C1.93913 20.543 2.27914 20.883 2.76914 20.813L4.11912 20.623C4.30912 20.593 4.57914 20.463 4.70914 20.323L8.24912 16.783C8.85912 16.173 9.14912 15.463 8.24912 14.563C7.35912 13.673 6.64916 13.963 6.03916 14.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M5.5293 15.083C5.8293 16.163 6.66927 17.003 7.74927 17.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M22 10.97V13.03C22 13.58 21.56 14.03 21 14.05H19.0399C17.9599 14.05 16.97 13.26 16.88 12.18C16.82 11.55 17.0599 10.96 17.4799 10.55C17.8499 10.17 18.36 9.95001 18.92 9.95001H21C21.56 9.97001 22 10.42 22 10.97Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการเงินปันผล</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
+                                            (click)="checkActive('settingNews')">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 12.573L1.49912 16.1131C1.35912 16.2531 1.22913 16.513 1.19913 16.703L1.00913 18.053C0.939132 18.543 1.27914 18.883 1.76914 18.813L3.11912 18.623C3.30912 18.593 3.57914 18.463 3.70914 18.323L7.24912 14.783C7.85912 14.173 8.14912 13.463 7.24912 12.563C6.35912 11.673 5.64916 11.963 5.03916 12.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.5293 13.083C4.8293 14.163 5.66927 15.003 6.74927 15.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M3 8.5C3 5 5 3.5 8 3.5H18C21 3.5 23 5 23 8.5V15.5C23 19 21 20.5 18 20.5H8"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M11 14H17" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-miterlimit="10" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M11 10H14" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-miterlimit="10" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการข่าวสาร</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingDocs" routerLink="admin-doc-page"
+                                            (click)="checkActive('settingDocs')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M7.03916 15.573L3.49912 19.1131C3.35912 19.2531 3.22913 19.513 3.19913 19.703L3.00913 21.053C2.93913 21.543 3.27914 21.883 3.76914 21.813L5.11912 21.623C5.30912 21.593 5.57914 21.463 5.70914 21.323L9.24912 17.783C9.85912 17.173 10.1491 16.463 9.24912 15.563C8.35912 14.673 7.64916 14.963 7.03916 15.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M6.5293 16.083C6.8293 17.163 7.66927 18.003 8.74927 18.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M11.0124 22.0689L15.0123 22.0942C20.0122 22.1257 22.0248 20.1383 22.0564 15.1384L22.0942 9.13856C22.1257 4.13866 20.1384 2.12609 15.1385 2.09455L9.13861 2.05671C4.13871 2.02517 2.12614 4.01252 2.0946 9.01242L2.06306 14.0123"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12.3293 9.5H17.0001" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M7 9.5L7.66725 10.25L9.66898 8" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12.3293 16.5H17.0001" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการเอกสารกองทุนฯ</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingSystem" routerLink="admin-setting-page"
+                                            (click)="checkActive('settingSystem')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.0565 13.5902L4.51646 17.1302C4.37646 17.2702 4.24647 17.5302 4.21647 17.7202L4.02647 19.0702C3.95647 19.5602 4.29648 19.9002 4.78648 19.8302L6.13645 19.6402C6.32645 19.6102 6.59648 19.4802 6.72648 19.3402L10.2665 15.8002C10.8765 15.1902 11.1665 14.4802 10.2665 13.5802C9.37646 12.6902 8.6665 12.9802 8.0565 13.5902Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M7.54639 14.1002C7.84639 15.1802 8.68636 16.0201 9.76636 16.3201"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M14.4059 20.0206C18.4059 20.0263 20.0082 18.4286 20.0139 14.4286L20.0208 9.62862C20.0265 5.62862 18.4288 4.02633 14.4288 4.02061L9.62882 4.01374C5.62882 4.00801 4.02653 5.60572 4.02081 9.60571"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M16.011 16.3729C16.7118 15.8239 17.0131 14.9043 17.0151 13.5243L17.0194 10.5243C17.023 8.02435 16.0244 7.02292 13.5244 7.01934L10.5244 7.01505C9.14442 7.01307 8.22399 7.31175 7.67301 8.00097"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M20.023 8.03864L22.0229 8.0415" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M20.0173 12.0286L22.0173 12.0315" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M20.0115 16.0286L22.0115 16.0315" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0059 20.0229L16.003 22.0229" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.02295 8.01575L2.02295 8.01288" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0315 2.02289L16.0286 4.02289" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12.0315 2.01715L12.0286 4.01715" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M8.03149 2.01147L8.02863 4.01147" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การตั้งค่าระบบ</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-menu-footer">
+                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                        <li [ngClass]="'nav-item ' + profile">
+                            <div class="nav-li" routerLink="profile-page" (click)="checkActive('profile')">
+                                <!-- <i class="uil uil-user"></i> -->
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>ข้อมูลส่วนตัว</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item'">
+                            <div class="nav-li" (click)="onLogout()">
+                                <!-- <i class="uil uil-signout"></i> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+                                        <path stroke-linejoin="round" d="M15 12H2m0 0l3.5-3M2 12l3.5 3" />
+                                        <path
+                                            d="M9.002 7c.012-2.175.109-3.353.877-4.121C10.758 2 12.172 2 15 2h1c2.829 0 4.243 0 5.122.879C22 3.757 22 5.172 22 8v8c0 2.828 0 4.243-.878 5.121c-.769.769-1.947.865-4.122.877M9.002 17c.012 2.175.109 3.353.877 4.121c.641.642 1.568.815 3.121.862" />
+                                    </g>
+                                </svg>
+                                <span>ออกจากระบบ</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div class="grid col-10" style="padding-left: 1rem;">
+    <div class="burger-full" *ngIf="isSidenavOpenFull">
+        <div class="menubar">
+            <div class="logo">
+                <div class="nav-burger" (click)="toggleSidenav()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 7H21" stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" />
+                        <path d="M3 12H21" stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" />
+                        <path d="M3 17H21" stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <img src="assets/images/logo.png" alt="logo" />
+                <div class="text">
+                    <h5>กองทุนสวัสดิการ</h5>
+                    <span>พนักงานและลูกจ้าง</span>
+                </div>
+            </div>
+            <div class="nav-menubar">
+                <div class="nav-menu">
+                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                        <li [ngClass]="'nav-item ' + main" routerLink="main-page">
+                            <div class="nav-li" (click)="checkActive('main')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.5 10.9384C2.5 9.71422 3.06058 8.55744 4.02142 7.79888L9.52142 3.45677C10.9747 2.30948 13.0253 2.30948 14.4786 3.45677L19.9786 7.79888C20.9394 8.55744 21.5 9.71422 21.5 10.9384V17.5C21.5 19.7091 19.7091 21.5 17.5 21.5H16C15.4477 21.5 15 21.0523 15 20.5V17.5C15 16.3954 14.1046 15.5 13 15.5H11C9.89543 15.5 9 16.3954 9 17.5V20.5C9 21.0523 8.55228 21.5 8 21.5H6.5C4.29086 21.5 2.5 19.7091 2.5 17.5L2.5 10.9384Z"
+                                        stroke="black" stroke-width="2" />
+                                </svg>
+                                <span>หน้าหลัก</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + stock" routerLink="share-page">
+                            <div class="nav-li" (click)="checkActive('stock')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M7.33008 14.49L9.71008 11.4C10.0501 10.96 10.6801 10.88 11.1201 11.22L12.9501 12.66C13.3901 13 14.0201 12.92 14.3601 12.49L16.6701 9.51001"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>หุ้น</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + loan" routerLink="loan-page">
+                            <div class="nav-li" (click)="checkActive('loan')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8.67188 14.3298C8.67188 15.6198 9.66188 16.6598 10.8919 16.6598H13.4019C14.4719 16.6598 15.3419 15.7498 15.3419 14.6298C15.3419 13.4098 14.8119 12.9798 14.0219 12.6998L9.99187 11.2998C9.20187 11.0198 8.67188 10.5898 8.67188 9.36984C8.67188 8.24984 9.54187 7.33984 10.6119 7.33984H13.1219C14.3519 7.33984 15.3419 8.37984 15.3419 9.66984"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 6V18" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>เงินกู้</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + rigths" routerLink="loan-rigths-page">
+                            <div class="nav-li" (click)="checkActive('rigths')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20.5 11.3V7.04001C20.5 3.01001 19.56 2 15.78 2H8.22C4.44 2 3.5 3.01001 3.5 7.04001V18.3C3.5 20.96 4.96001 21.59 6.73001 19.69L6.73999 19.68C7.55999 18.81 8.80999 18.88 9.51999 19.83L10.53 21.18"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M18.2 21.4C19.9673 21.4 21.4 19.9673 21.4 18.2C21.4 16.4327 19.9673 15 18.2 15C16.4327 15 15 16.4327 15 18.2C15 19.9673 16.4327 21.4 18.2 21.4Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M22 22L21 21" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M8 7H16" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M9 11H15" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>สิทธิ์การกู้</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + beneficiary" routerLink="beneficiary-page">
+                            <div class="nav-li" (click)="checkActive('beneficiary')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.16006 10.87C9.06006 10.86 8.94006 10.86 8.83006 10.87C6.45006 10.79 4.56006 8.84 4.56006 6.44C4.56006 3.99 6.54006 2 9.00006 2C11.4501 2 13.4401 3.99 13.4401 6.44C13.4301 8.84 11.5401 10.79 9.16006 10.87Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M16.41 4C18.35 4 19.91 5.57 19.91 7.5C19.91 9.39 18.41 10.93 16.54 11C16.46 10.99 16.37 10.99 16.28 11"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M4.15997 14.56C1.73997 16.18 1.73997 18.82 4.15997 20.43C6.90997 22.27 11.42 22.27 14.17 20.43C16.59 18.81 16.59 16.17 14.17 14.56C11.43 12.73 6.91997 12.73 4.15997 14.56Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M18.3401 20C19.0601 19.85 19.7401 19.56 20.3001 19.13C21.8601 17.96 21.8601 16.03 20.3001 14.86C19.7501 14.44 19.0801 14.16 18.3701 14"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>ผู้รับผลประโยชน์</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + guarantee" routerLink="guarantee-obligation-page">
+                            <div class="nav-li" (click)="checkActive('guarantee')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.6601 10.44L20.6801 14.62C19.8401 18.23 18.1801 19.69 15.0601 19.39C14.5601 19.35 14.0201 19.26 13.4401 19.12L11.7601 18.72C7.59006 17.73 6.30006 15.67 7.28006 11.49L8.26006 7.3C8.46006 6.45 8.70006 5.71 9.00006 5.1C10.1701 2.68 12.1601 2.03 15.5001 2.82L17.1701 3.21C21.3601 4.19 22.6401 6.26 21.6601 10.44Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M15.06 19.39C14.44 19.81 13.66 20.16 12.71 20.47L11.13 20.99C7.15998 22.27 5.06997 21.2 3.77997 17.23L2.49997 13.28C1.21997 9.31 2.27997 7.21 6.24997 5.93L7.82997 5.41C8.23997 5.28 8.62997 5.17 8.99997 5.1C8.69997 5.71 8.45997 6.45 8.25997 7.3L7.27997 11.49C6.29997 15.67 7.58998 17.73 11.76 18.72L13.44 19.12C14.02 19.26 14.56 19.35 15.06 19.39Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12.64 8.53L17.49 9.76" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.66 12.4L14.56 13.14" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span>ภาระค้ำประกัน</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + dividend" routerLink="dividend-page">
+                            <div class="nav-li" (click)="checkActive('dividend')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.7516 16.8604V18.8904C10.7516 20.6104 9.15158 22.0004 7.18158 22.0004C5.21158 22.0004 3.60156 20.6104 3.60156 18.8904V16.8604C3.60156 18.5804 5.20158 19.8004 7.18158 19.8004C9.15158 19.8004 10.7516 18.5704 10.7516 16.8604Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10.7501 14.11C10.7501 14.61 10.6101 15.07 10.3701 15.47C9.78006 16.44 8.57004 17.05 7.17004 17.05C5.77004 17.05 4.56003 16.43 3.97003 15.47C3.73003 15.07 3.59009 14.61 3.59009 14.11C3.59009 13.25 3.99007 12.48 4.63007 11.92C5.28007 11.35 6.17003 11.01 7.16003 11.01C8.15003 11.01 9.04006 11.36 9.69006 11.92C10.3501 12.47 10.7501 13.25 10.7501 14.11Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10.7516 14.11V16.86C10.7516 18.58 9.15158 19.8 7.18158 19.8C5.21158 19.8 3.60156 18.57 3.60156 16.86V14.11C3.60156 12.39 5.20158 11 7.18158 11C8.17158 11 9.06161 11.35 9.71161 11.91C10.3516 12.47 10.7516 13.25 10.7516 14.11Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M22 10.9699V13.03C22 13.58 21.56 14.0299 21 14.0499H19.0399C17.9599 14.0499 16.97 13.2599 16.88 12.1799C16.82 11.5499 17.0599 10.9599 17.4799 10.5499C17.8499 10.1699 18.36 9.94995 18.92 9.94995H21C21.56 9.96995 22 10.4199 22 10.9699Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>เงินปันผล</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + deposit" routerLink="deposit-page">
+                            <div class="nav-li" (click)="checkActive('deposit')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.37 8.88H17.62" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M6.38 8.88L7.13 9.63L9.38 7.38" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M12.37 15.88H17.62" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M6.38 15.88L7.13 16.63L9.38 14.38" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>เอกสารกองทุนฯ</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item '+ setting" *ngIf="admin">
+                            <div class="nav-li" (click)="toggleCollapse($event)"
+                                [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
+                                <div class="nav-li-info">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <i class="uil uil-user-md"></i>
+                                        <span>เจ้าหน้าที่</span>
+                                    </div>
+                                    <!-- <div> -->
+                                    <div class="nav-li-info-svg" [ngClass]="{'collapsed': isCollapsed}">
+                                        <svg *ngIf="!isCollapsed" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.92 8.95001L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.07996 8.95001"
+                                                stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <svg *ngIf="isCollapsed" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.9201 15.05L13.4001 8.53001C12.6301 7.76001 11.3701 7.76001 10.6001 8.53001L4.08008 15.05"
+                                                stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                            <div class="collapse" [ngClass]="{ 'show': isCollapsed }" (click)="preventCollapse($event)"
+                                id="tasksCollapse">
+                                <div class="nav-admin">
+                                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                                        <li [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
+                                            (click)="checkActive('settingEmployee')">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 14.573L1.49912 18.1131C1.35912 18.2531 1.22913 18.513 1.19913 18.703L1.00913 20.053C0.939132 20.543 1.27914 20.883 1.76914 20.813L3.11912 20.623C3.30912 20.593 3.57914 20.463 3.70914 20.323L7.24912 16.783C7.85912 16.173 8.14912 15.463 7.24912 14.563C6.35912 13.673 5.64916 13.963 5.03916 14.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.52905 15.083C4.82905 16.163 5.66902 17.003 6.74902 17.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M10 14C13 13 14.4194 14.1032 14.9999 14.5C17.4039 16.1435 17.023 18.8475 14.9999 20.5C12.9768 22.1525 9.99958 22 7.49967 21.5"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M10.1601 10.87C10.0601 10.86 9.94006 10.86 9.83006 10.87C7.45006 10.79 5.56006 8.84 5.56006 6.44C5.56006 3.99 7.54006 2 10.0001 2C12.4501 2 14.4401 3.99 14.4401 6.44C14.4301 8.84 12.5401 10.79 10.1601 10.87Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M17.41 4C19.35 4 20.91 5.57 20.91 7.5C20.91 9.39 19.41 10.93 17.54 11C17.46 10.99 17.37 10.99 17.28 11"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M19.3401 20C20.0601 19.85 20.7401 19.56 21.3001 19.13C22.8601 17.96 22.8601 16.03 21.3001 14.86C20.7501 14.44 20.0801 14.16 19.3701 14"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการสมาชิก</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
+                                            (click)="checkActive('settingStock')">
+                                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 17.573L1.49912 21.1131C1.35912 21.2531 1.22913 21.513 1.19913 21.703L1.00913 23.053C0.939132 23.543 1.27914 23.883 1.76914 23.813L3.11912 23.623C3.30912 23.593 3.57914 23.463 3.70914 23.323L7.24912 19.783C7.85912 19.173 8.14912 18.463 7.24912 17.563C6.35912 16.673 5.64916 16.963 5.03916 17.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.5293 18.083C4.8293 19.163 5.66927 20.003 6.74927 20.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M8 14.98L10.38 11.89C10.72 11.45 11.35 11.37 11.79 11.71L13.62 13.15C14.06 13.49 14.69 13.41 15.03 12.98L17.34 10"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M12.0124 22.0689L16.0123 22.0942C21.0122 22.1257 23.0248 20.1383 23.0564 15.1384L23.0942 9.13856C23.1257 4.13866 21.1384 2.12609 16.1385 2.09455L10.1386 2.05671C5.13871 2.02517 3.12614 4.01252 3.0946 9.01242L3.06306 14.0123"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+
+                                            <span>การจัดการหุ้น</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
+                                            (click)="checkActive('settingLoan')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.04844 16.5825L1.5084 20.1225C1.3684 20.2625 1.23841 20.5225 1.20841 20.7125L1.01841 22.0625C0.948409 22.5525 1.28842 22.8925 1.77842 22.8225L3.12839 22.6325C3.31839 22.6025 3.58842 22.4725 3.71842 22.3325L7.2584 18.7925C7.8684 18.1825 8.1584 17.4725 7.2584 16.5725C6.3684 15.6825 5.65844 15.9725 5.04844 16.5825Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M4.53857 17.0925C4.83857 18.1725 5.67854 19.0124 6.75854 19.3124"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M14.5081 10.2575C14.5073 9.28752 13.7567 8.50812 12.8367 8.50884L10.9567 8.51032C10.1567 8.51095 9.50722 9.19146 9.50789 10.0415C9.50861 10.9515 9.90886 11.2811 10.499 11.4907L13.5099 12.5383C14.1 12.7478 14.5003 13.0675 14.501 13.9875C14.5017 14.8275 13.8522 15.518 13.0522 15.5187L11.1722 15.5201C10.2522 15.5209 9.50158 14.7415 9.50082 13.7715"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12.0129 16.5095L12.0058 7.50946" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M2.00946 12.0174C2.00511 6.49735 6.48158 2.01382 12.0016 2.00947C17.5216 2.00512 22.0051 6.48159 22.0095 12.0016C22.0138 17.5216 17.5373 22.0051 12.0173 22.0095"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการเงินกู้</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
+                                            (click)="checkActive('settingDividend')">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6.03916 14.573L2.49912 18.1131C2.35912 18.2531 2.22913 18.513 2.19913 18.703L2.00913 20.053C1.93913 20.543 2.27914 20.883 2.76914 20.813L4.11912 20.623C4.30912 20.593 4.57914 20.463 4.70914 20.323L8.24912 16.783C8.85912 16.173 9.14912 15.463 8.24912 14.563C7.35912 13.673 6.64916 13.963 6.03916 14.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M5.5293 15.083C5.8293 16.163 6.66927 17.003 7.74927 17.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M22 10.97V13.03C22 13.58 21.56 14.03 21 14.05H19.0399C17.9599 14.05 16.97 13.26 16.88 12.18C16.82 11.55 17.0599 10.96 17.4799 10.55C17.8499 10.17 18.36 9.95001 18.92 9.95001H21C21.56 9.97001 22 10.42 22 10.97Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการเงินปันผล</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
+                                            (click)="checkActive('settingNews')">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 12.573L1.49912 16.1131C1.35912 16.2531 1.22913 16.513 1.19913 16.703L1.00913 18.053C0.939132 18.543 1.27914 18.883 1.76914 18.813L3.11912 18.623C3.30912 18.593 3.57914 18.463 3.70914 18.323L7.24912 14.783C7.85912 14.173 8.14912 13.463 7.24912 12.563C6.35912 11.673 5.64916 11.963 5.03916 12.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.5293 13.083C4.8293 14.163 5.66927 15.003 6.74927 15.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M3 8.5C3 5 5 3.5 8 3.5H18C21 3.5 23 5 23 8.5V15.5C23 19 21 20.5 18 20.5H8"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M11 14H17" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-miterlimit="10" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M11 10H14" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-miterlimit="10" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการข่าวสาร</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingDocs" routerLink="admin-doc-page"
+                                            (click)="checkActive('settingDocs')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M7.03916 15.573L3.49912 19.1131C3.35912 19.2531 3.22913 19.513 3.19913 19.703L3.00913 21.053C2.93913 21.543 3.27914 21.883 3.76914 21.813L5.11912 21.623C5.30912 21.593 5.57914 21.463 5.70914 21.323L9.24912 17.783C9.85912 17.173 10.1491 16.463 9.24912 15.563C8.35912 14.673 7.64916 14.963 7.03916 15.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M6.5293 16.083C6.8293 17.163 7.66927 18.003 8.74927 18.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M11.0124 22.0689L15.0123 22.0942C20.0122 22.1257 22.0248 20.1383 22.0564 15.1384L22.0942 9.13856C22.1257 4.13866 20.1384 2.12609 15.1385 2.09455L9.13861 2.05671C4.13871 2.02517 2.12614 4.01252 2.0946 9.01242L2.06306 14.0123"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12.3293 9.5H17.0001" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M7 9.5L7.66725 10.25L9.66898 8" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12.3293 16.5H17.0001" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การจัดการเอกสารกองทุนฯ</span>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingSystem" routerLink="admin-setting-page"
+                                            (click)="checkActive('settingSystem')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.0565 13.5902L4.51646 17.1302C4.37646 17.2702 4.24647 17.5302 4.21647 17.7202L4.02647 19.0702C3.95647 19.5602 4.29648 19.9002 4.78648 19.8302L6.13645 19.6402C6.32645 19.6102 6.59648 19.4802 6.72648 19.3402L10.2665 15.8002C10.8765 15.1902 11.1665 14.4802 10.2665 13.5802C9.37646 12.6902 8.6665 12.9802 8.0565 13.5902Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M7.54639 14.1002C7.84639 15.1802 8.68636 16.0201 9.76636 16.3201"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M14.4059 20.0206C18.4059 20.0263 20.0082 18.4286 20.0139 14.4286L20.0208 9.62862C20.0265 5.62862 18.4288 4.02633 14.4288 4.02061L9.62882 4.01374C5.62882 4.00801 4.02653 5.60572 4.02081 9.60571"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M16.011 16.3729C16.7118 15.8239 17.0131 14.9043 17.0151 13.5243L17.0194 10.5243C17.023 8.02435 16.0244 7.02292 13.5244 7.01934L10.5244 7.01505C9.14442 7.01307 8.22399 7.31175 7.67301 8.00097"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M20.023 8.03864L22.0229 8.0415" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M20.0173 12.0286L22.0173 12.0315" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M20.0115 16.0286L22.0115 16.0315" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0059 20.0229L16.003 22.0229" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.02295 8.01575L2.02295 8.01288" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0315 2.02289L16.0286 4.02289" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12.0315 2.01715L12.0286 4.01715" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M8.03149 2.01147L8.02863 4.01147" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span>การตั้งค่าระบบ</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-menu-footer">
+                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                        <li [ngClass]="'nav-item ' + profile">
+                            <div class="nav-li" routerLink="profile-page" (click)="checkActive('profile')">
+                                <!-- <i class="uil uil-user"></i> -->
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <span>ข้อมูลส่วนตัว</span>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item'">
+                            <div class="nav-li" (click)="onLogout()">
+                                <!-- <i class="uil uil-signout"></i> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+                                        <path stroke-linejoin="round" d="M15 12H2m0 0l3.5-3M2 12l3.5 3" />
+                                        <path
+                                            d="M9.002 7c.012-2.175.109-3.353.877-4.121C10.758 2 12.172 2 15 2h1c2.829 0 4.243 0 5.122.879C22 3.757 22 5.172 22 8v8c0 2.828 0 4.243-.878 5.121c-.769.769-1.947.865-4.122.877M9.002 17c.012 2.175.109 3.353.877 4.121c.641.642 1.568.815 3.121.862" />
+                                    </g>
+                                </svg>
+                                <span>ออกจากระบบ</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="burger" *ngIf="!isSidenavOpen">
+        <div class="menubar">
+            <div class="logo" (click)="toggleSidenav()">
+                <img src="assets/images/logo.png" alt="logo" />
+            </div>
+            <div class="nav-menubar">
+                <div class="nav-menu">
+                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                        <li [ngClass]="'nav-item ' + main" routerLink="main-page">
+                            <div class="nav-li" (click)="checkActive('main')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.5 10.9384C2.5 9.71422 3.06058 8.55744 4.02142 7.79888L9.52142 3.45677C10.9747 2.30948 13.0253 2.30948 14.4786 3.45677L19.9786 7.79888C20.9394 8.55744 21.5 9.71422 21.5 10.9384V17.5C21.5 19.7091 19.7091 21.5 17.5 21.5H16C15.4477 21.5 15 21.0523 15 20.5V17.5C15 16.3954 14.1046 15.5 13 15.5H11C9.89543 15.5 9 16.3954 9 17.5V20.5C9 21.0523 8.55228 21.5 8 21.5H6.5C4.29086 21.5 2.5 19.7091 2.5 17.5L2.5 10.9384Z"
+                                        stroke="black" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + stock" routerLink="share-page">
+                            <div class="nav-li" (click)="checkActive('stock')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M7.33008 14.49L9.71008 11.4C10.0501 10.96 10.6801 10.88 11.1201 11.22L12.9501 12.66C13.3901 13 14.0201 12.92 14.3601 12.49L16.6701 9.51001"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + loan" routerLink="loan-page">
+                            <div class="nav-li" (click)="checkActive('loan')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8.67188 14.3298C8.67188 15.6198 9.66188 16.6598 10.8919 16.6598H13.4019C14.4719 16.6598 15.3419 15.7498 15.3419 14.6298C15.3419 13.4098 14.8119 12.9798 14.0219 12.6998L9.99187 11.2998C9.20187 11.0198 8.67188 10.5898 8.67188 9.36984C8.67188 8.24984 9.54187 7.33984 10.6119 7.33984H13.1219C14.3519 7.33984 15.3419 8.37984 15.3419 9.66984"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 6V18" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + rigths" routerLink="loan-rigths-page">
+                            <div class="nav-li" (click)="checkActive('rigths')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20.5 11.3V7.04001C20.5 3.01001 19.56 2 15.78 2H8.22C4.44 2 3.5 3.01001 3.5 7.04001V18.3C3.5 20.96 4.96001 21.59 6.73001 19.69L6.73999 19.68C7.55999 18.81 8.80999 18.88 9.51999 19.83L10.53 21.18"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M18.2 21.4C19.9673 21.4 21.4 19.9673 21.4 18.2C21.4 16.4327 19.9673 15 18.2 15C16.4327 15 15 16.4327 15 18.2C15 19.9673 16.4327 21.4 18.2 21.4Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M22 22L21 21" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M8 7H16" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M9 11H15" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + beneficiary" routerLink="beneficiary-page">
+                            <div class="nav-li" (click)="checkActive('beneficiary')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.16006 10.87C9.06006 10.86 8.94006 10.86 8.83006 10.87C6.45006 10.79 4.56006 8.84 4.56006 6.44C4.56006 3.99 6.54006 2 9.00006 2C11.4501 2 13.4401 3.99 13.4401 6.44C13.4301 8.84 11.5401 10.79 9.16006 10.87Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M16.41 4C18.35 4 19.91 5.57 19.91 7.5C19.91 9.39 18.41 10.93 16.54 11C16.46 10.99 16.37 10.99 16.28 11"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M4.15997 14.56C1.73997 16.18 1.73997 18.82 4.15997 20.43C6.90997 22.27 11.42 22.27 14.17 20.43C16.59 18.81 16.59 16.17 14.17 14.56C11.43 12.73 6.91997 12.73 4.15997 14.56Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M18.3401 20C19.0601 19.85 19.7401 19.56 20.3001 19.13C21.8601 17.96 21.8601 16.03 20.3001 14.86C19.7501 14.44 19.0801 14.16 18.3701 14"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + guarantee" routerLink="guarantee-obligation-page">
+                            <div class="nav-li" (click)="checkActive('guarantee')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.6601 10.44L20.6801 14.62C19.8401 18.23 18.1801 19.69 15.0601 19.39C14.5601 19.35 14.0201 19.26 13.4401 19.12L11.7601 18.72C7.59006 17.73 6.30006 15.67 7.28006 11.49L8.26006 7.3C8.46006 6.45 8.70006 5.71 9.00006 5.1C10.1701 2.68 12.1601 2.03 15.5001 2.82L17.1701 3.21C21.3601 4.19 22.6401 6.26 21.6601 10.44Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M15.06 19.39C14.44 19.81 13.66 20.16 12.71 20.47L11.13 20.99C7.15998 22.27 5.06997 21.2 3.77997 17.23L2.49997 13.28C1.21997 9.31 2.27997 7.21 6.24997 5.93L7.82997 5.41C8.23997 5.28 8.62997 5.17 8.99997 5.1C8.69997 5.71 8.45997 6.45 8.25997 7.3L7.27997 11.49C6.29997 15.67 7.58998 17.73 11.76 18.72L13.44 19.12C14.02 19.26 14.56 19.35 15.06 19.39Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12.64 8.53L17.49 9.76" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.66 12.4L14.56 13.14" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + dividend" routerLink="dividend-page">
+                            <div class="nav-li" (click)="checkActive('dividend')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.7516 16.8604V18.8904C10.7516 20.6104 9.15158 22.0004 7.18158 22.0004C5.21158 22.0004 3.60156 20.6104 3.60156 18.8904V16.8604C3.60156 18.5804 5.20158 19.8004 7.18158 19.8004C9.15158 19.8004 10.7516 18.5704 10.7516 16.8604Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10.7501 14.11C10.7501 14.61 10.6101 15.07 10.3701 15.47C9.78006 16.44 8.57004 17.05 7.17004 17.05C5.77004 17.05 4.56003 16.43 3.97003 15.47C3.73003 15.07 3.59009 14.61 3.59009 14.11C3.59009 13.25 3.99007 12.48 4.63007 11.92C5.28007 11.35 6.17003 11.01 7.16003 11.01C8.15003 11.01 9.04006 11.36 9.69006 11.92C10.3501 12.47 10.7501 13.25 10.7501 14.11Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10.7516 14.11V16.86C10.7516 18.58 9.15158 19.8 7.18158 19.8C5.21158 19.8 3.60156 18.57 3.60156 16.86V14.11C3.60156 12.39 5.20158 11 7.18158 11C8.17158 11 9.06161 11.35 9.71161 11.91C10.3516 12.47 10.7516 13.25 10.7516 14.11Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M22 10.9699V13.03C22 13.58 21.56 14.0299 21 14.0499H19.0399C17.9599 14.0499 16.97 13.2599 16.88 12.1799C16.82 11.5499 17.0599 10.9599 17.4799 10.5499C17.8499 10.1699 18.36 9.94995 18.92 9.94995H21C21.56 9.96995 22 10.4199 22 10.9699Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item ' + deposit" routerLink="deposit-page">
+                            <div class="nav-li" (click)="checkActive('deposit')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M22 10H18C15 10 14 9 14 6V2L22 10Z" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M7 13H13" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M7 17H11" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item '+ setting" *ngIf="admin">
+                            <div class="nav-li" (click)="toggleCollapse($event)"
+                                [attr.aria-expanded]="isCollapsed ? 'true' : 'false'">
+                                <div class="nav-li-info">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <i class="uil uil-user-md"></i>
+                                    </div>
+                                    <div>
+                                        <div class="nav-li-info-svg-down">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M19.92 8.95001L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.07996 8.95001"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="nav-li-info-svg-up">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M19.9201 15.05L13.4001 8.53001C12.6301 7.76001 11.3701 7.76001 10.6001 8.53001L4.08008 15.05"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapse" [ngClass]="{ 'show': isCollapsed }" (click)="preventCollapse($event)"
+                                id="tasksCollapse">
+                                <div class="nav-admin">
+                                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                                        <li [ngClass]="'nav-link '+ settingEmployee" routerLink="admin-page1"
+                                            (click)="checkActive('settingEmployee')">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 14.573L1.49912 18.1131C1.35912 18.2531 1.22913 18.513 1.19913 18.703L1.00913 20.053C0.939132 20.543 1.27914 20.883 1.76914 20.813L3.11912 20.623C3.30912 20.593 3.57914 20.463 3.70914 20.323L7.24912 16.783C7.85912 16.173 8.14912 15.463 7.24912 14.563C6.35912 13.673 5.64916 13.963 5.03916 14.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.52905 15.083C4.82905 16.163 5.66902 17.003 6.74902 17.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M10 14C13 13 14.4194 14.1032 14.9999 14.5C17.4039 16.1435 17.023 18.8475 14.9999 20.5C12.9768 22.1525 9.99958 22 7.49967 21.5"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M10.1601 10.87C10.0601 10.86 9.94006 10.86 9.83006 10.87C7.45006 10.79 5.56006 8.84 5.56006 6.44C5.56006 3.99 7.54006 2 10.0001 2C12.4501 2 14.4401 3.99 14.4401 6.44C14.4301 8.84 12.5401 10.79 10.1601 10.87Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M17.41 4C19.35 4 20.91 5.57 20.91 7.5C20.91 9.39 19.41 10.93 17.54 11C17.46 10.99 17.37 10.99 17.28 11"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M19.3401 20C20.0601 19.85 20.7401 19.56 21.3001 19.13C22.8601 17.96 22.8601 16.03 21.3001 14.86C20.7501 14.44 20.0801 14.16 19.3701 14"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingStock" routerLink="admin-page2"
+                                            (click)="checkActive('settingStock')">
+                                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 17.573L1.49912 21.1131C1.35912 21.2531 1.22913 21.513 1.19913 21.703L1.00913 23.053C0.939132 23.543 1.27914 23.883 1.76914 23.813L3.11912 23.623C3.30912 23.593 3.57914 23.463 3.70914 23.323L7.24912 19.783C7.85912 19.173 8.14912 18.463 7.24912 17.563C6.35912 16.673 5.64916 16.963 5.03916 17.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.5293 18.083C4.8293 19.163 5.66927 20.003 6.74927 20.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M8 14.98L10.38 11.89C10.72 11.45 11.35 11.37 11.79 11.71L13.62 13.15C14.06 13.49 14.69 13.41 15.03 12.98L17.34 10"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M12.0124 22.0689L16.0123 22.0942C21.0122 22.1257 23.0248 20.1383 23.0564 15.1384L23.0942 9.13856C23.1257 4.13866 21.1384 2.12609 16.1385 2.09455L10.1386 2.05671C5.13871 2.02517 3.12614 4.01252 3.0946 9.01242L3.06306 14.0123"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingLoan" routerLink="admin-page3"
+                                            (click)="checkActive('settingLoan')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.04844 16.5825L1.5084 20.1225C1.3684 20.2625 1.23841 20.5225 1.20841 20.7125L1.01841 22.0625C0.948409 22.5525 1.28842 22.8925 1.77842 22.8225L3.12839 22.6325C3.31839 22.6025 3.58842 22.4725 3.71842 22.3325L7.2584 18.7925C7.8684 18.1825 8.1584 17.4725 7.2584 16.5725C6.3684 15.6825 5.65844 15.9725 5.04844 16.5825Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M4.53857 17.0925C4.83857 18.1725 5.67854 19.0124 6.75854 19.3124"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M14.5081 10.2575C14.5073 9.28752 13.7567 8.50812 12.8367 8.50884L10.9567 8.51032C10.1567 8.51095 9.50722 9.19146 9.50789 10.0415C9.50861 10.9515 9.90886 11.2811 10.499 11.4907L13.5099 12.5383C14.1 12.7478 14.5003 13.0675 14.501 13.9875C14.5017 14.8275 13.8522 15.518 13.0522 15.5187L11.1722 15.5201C10.2522 15.5209 9.50158 14.7415 9.50082 13.7715"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12.0129 16.5095L12.0058 7.50946" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M2.00946 12.0174C2.00511 6.49735 6.48158 2.01382 12.0016 2.00947C17.5216 2.00512 22.0051 6.48159 22.0095 12.0016C22.0138 17.5216 17.5373 22.0051 12.0173 22.0095"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingDividend" routerLink="admin-page4"
+                                            (click)="checkActive('settingDividend')">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6.03916 14.573L2.49912 18.1131C2.35912 18.2531 2.22913 18.513 2.19913 18.703L2.00913 20.053C1.93913 20.543 2.27914 20.883 2.76914 20.813L4.11912 20.623C4.30912 20.593 4.57914 20.463 4.70914 20.323L8.24912 16.783C8.85912 16.173 9.14912 15.463 8.24912 14.563C7.35912 13.673 6.64916 13.963 6.03916 14.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M5.5293 15.083C5.8293 16.163 6.66927 17.003 7.74927 17.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M22 10.97V13.03C22 13.58 21.56 14.03 21 14.05H19.0399C17.9599 14.05 16.97 13.26 16.88 12.18C16.82 11.55 17.0599 10.96 17.4799 10.55C17.8499 10.17 18.36 9.95001 18.92 9.95001H21C21.56 9.97001 22 10.42 22 10.97Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingNews" routerLink="admin-news-page"
+                                            (click)="checkActive('settingNews')">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M5.03916 12.573L1.49912 16.1131C1.35912 16.2531 1.22913 16.513 1.19913 16.703L1.00913 18.053C0.939132 18.543 1.27914 18.883 1.76914 18.813L3.11912 18.623C3.30912 18.593 3.57914 18.463 3.70914 18.323L7.24912 14.783C7.85912 14.173 8.14912 13.463 7.24912 12.563C6.35912 11.673 5.64916 11.963 5.03916 12.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.5293 13.083C4.8293 14.163 5.66927 15.003 6.74927 15.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M3 8.5C3 5 5 3.5 8 3.5H18C21 3.5 23 5 23 8.5V15.5C23 19 21 20.5 18 20.5H8"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M11 14H17" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-miterlimit="10" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M11 10H14" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-miterlimit="10" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingDocs" routerLink="admin-doc-page"
+                                            (click)="checkActive('settingDocs')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M7.03916 15.573L3.49912 19.1131C3.35912 19.2531 3.22913 19.513 3.19913 19.703L3.00913 21.053C2.93913 21.543 3.27914 21.883 3.76914 21.813L5.11912 21.623C5.30912 21.593 5.57914 21.463 5.70914 21.323L9.24912 17.783C9.85912 17.173 10.1491 16.463 9.24912 15.563C8.35912 14.673 7.64916 14.963 7.03916 15.573Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M6.5293 16.083C6.8293 17.163 7.66927 18.003 8.74927 18.303"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M11.0124 22.0689L15.0123 22.0942C20.0122 22.1257 22.0248 20.1383 22.0564 15.1384L22.0942 9.13856C22.1257 4.13866 20.1384 2.12609 15.1385 2.09455L9.13861 2.05671C4.13871 2.02517 2.12614 4.01252 2.0946 9.01242L2.06306 14.0123"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12.3293 9.5H17.0001" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M7 9.5L7.66725 10.25L9.66898 8" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12.3293 16.5H17.0001" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                        <li [ngClass]="'nav-link '+ settingSystem" routerLink="admin-setting-page"
+                                            (click)="checkActive('settingSystem')">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.0565 13.5902L4.51646 17.1302C4.37646 17.2702 4.24647 17.5302 4.21647 17.7202L4.02647 19.0702C3.95647 19.5602 4.29648 19.9002 4.78648 19.8302L6.13645 19.6402C6.32645 19.6102 6.59648 19.4802 6.72648 19.3402L10.2665 15.8002C10.8765 15.1902 11.1665 14.4802 10.2665 13.5802C9.37646 12.6902 8.6665 12.9802 8.0565 13.5902Z"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M7.54639 14.1002C7.84639 15.1802 8.68636 16.0201 9.76636 16.3201"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M14.4059 20.0206C18.4059 20.0263 20.0082 18.4286 20.0139 14.4286L20.0208 9.62862C20.0265 5.62862 18.4288 4.02633 14.4288 4.02061L9.62882 4.01374C5.62882 4.00801 4.02653 5.60572 4.02081 9.60571"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M16.011 16.3729C16.7118 15.8239 17.0131 14.9043 17.0151 13.5243L17.0194 10.5243C17.023 8.02435 16.0244 7.02292 13.5244 7.01934L10.5244 7.01505C9.14442 7.01307 8.22399 7.31175 7.67301 8.00097"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M20.023 8.03864L22.0229 8.0415" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M20.0173 12.0286L22.0173 12.0315" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M20.0115 16.0286L22.0115 16.0315" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0059 20.0229L16.003 22.0229" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4.02295 8.01575L2.02295 8.01288" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0315 2.02289L16.0286 4.02289" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12.0315 2.01715L12.0286 4.01715" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M8.03149 2.01147L8.02863 4.01147" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-menu-footer">
+                    <ul class="nav nav-bordered nav-stacked flex-md-column">
+                        <li [ngClass]="'nav-item ' + profile">
+                            <div class="nav-li" routerLink="profile-page" (click)="checkActive('profile')">
+                                <!-- <i class="uil uil-user"></i> -->
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li [ngClass]="'nav-item'">
+                            <div class="nav-li" (click)="onLogout()">
+                                <!-- <i class="uil uil-signout"></i> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+                                        <path stroke-linejoin="round" d="M15 12H2m0 0l3.5-3M2 12l3.5 3" />
+                                        <path
+                                            d="M9.002 7c.012-2.175.109-3.353.877-4.121C10.758 2 12.172 2 15 2h1c2.829 0 4.243 0 5.122.879C22 3.757 22 5.172 22 8v8c0 2.828 0 4.243-.878 5.121c-.769.769-1.947.865-4.122.877M9.002 17c.012 2.175.109 3.353.877 4.121c.641.642 1.568.815 3.121.862" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-tab">
         <div class="searchbar">
             <div class="bar">
-                <div routerLink="message-page" (click)="checkActive('message')" *ngIf="messager">
+                <div routerLink="message-page" (click)="checkActive('message')" *ngIf="messager"
+                    style="cursor: pointer;">
                     <span *ngIf="countNotify > 0"
                         class="count position-absolute translate-middle badge rounded-pill bg-danger"
                         style="margin-top: 5px;">
@@ -139,9 +1307,10 @@
                             fill="#979797" />
                     </svg>
                 </div>
-                <div>
+                <div style="cursor: pointer;">
                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true"
-                        [model]="items"></p-menu>
+                        [model]="items">
+                    </p-menu>
                     <a class="dropdown-toggle" (click)="menu.toggle($event)">
                         <img class="profile_img" [src]="profileImg()" alt="logo"
                             style="background: #f8f2f2; margin-top: 0px;" />
@@ -154,3 +1323,105 @@
         </div>
     </div>
 </div>
+
+<p-dialog [(visible)]="displayReset" [modal]="true" [style]="{width: '30vw'}"
+    [breakpoints]="{ '1680px': '35vw', '1600px': '38vw', '1366px': '42vw', '1280px': '45vw', '1000px': '50vw', '800px': '60vw', '600px': '70vw', '500px': '80vw', '430px': '90vw' }"
+    [draggable]="false" [resizable]="false" styleClass="customDialog">
+    <ng-template pTemplate="header">
+        <div class="header-body-dialog">
+            <span style="font-size: 18px; font-weight: 500; color: #343a40;">เปลี่ยนรหัสผ่านการเข้าสู้ระบบ</span>
+            <p style="font-size: 14px; margin: 0;">กองทุนสวัสดิการพนักงานและลูกจ้าง
+                เทศบาลนครเชียงใหม่
+            </p>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <div [formGroup]="formModelReset">
+            <div class="reset-data">
+                <div>
+                    <label for="oldPassword" class="block">รหัสผ่านเก่า <span style="color: red;">*</span></label>
+                    <p-password class="form-control" class="password" maxlength="30" [toggleMask]="true"
+                        weakLabel="ความปลอดภัยระดับ ต่ำ" mediumLabel="ความปลอดภัยระดับ ปานกลาง"
+                        strongLabel="ความปลอดภัยระดับ สูง" formControlName="oldPassword" required="true"
+                        [style]="{width: '100%'}" (keyup)="checkNewPass()">
+                        <ng-template pTemplate="header">
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <p class="mt-2">ข้อบังคับความปลอดภัย</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>มีอักษรตัวเล็กอย่างน้อย 1 ตัว</li>
+                                <li>มีอักษรตัวใหญ่อย่างน้อย 1 ตัว</li>
+                                <li>มีตัวเลขอย่างน้อย 1 ตัว </li>
+                                <li>มีความยาวอักษรอย่างน้อย 8 ถึง 30 ตัว</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                    <!-- <em *ngIf="newPassValidation === true && formModel.get('oldPassword')?.value">
+                        <span style="color: red;">
+                            กรุณากรอกรหัสผ่านใหม่ให้ถูกต้อง
+                        </span>
+                    </em> -->
+                </div>
+                <div>
+                    <label for="newPassword" class="block">รหัสผ่านใหม่ <span style="color: red;">*</span></label>
+                    <p-password class="form-control" class="password" maxlength="30" [toggleMask]="true"
+                        weakLabel="ความปลอดภัยระดับ ต่ำ" mediumLabel="ความปลอดภัยระดับ ปานกลาง"
+                        strongLabel="ความปลอดภัยระดับ สูง" formControlName="newPassword" required="true"
+                        [style]="{width: '100%'}" (keyup)="checkNewPass()">
+                        <ng-template pTemplate="header">
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <p class="mt-2">ข้อบังคับความปลอดภัย</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>มีอักษรตัวเล็กอย่างน้อย 1 ตัว</li>
+                                <li>มีอักษรตัวใหญ่อย่างน้อย 1 ตัว</li>
+                                <li>มีตัวเลขอย่างน้อย 1 ตัว </li>
+                                <li>มีความยาวอักษรอย่างน้อย 8 ถึง 30 ตัว</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                    <br>
+                    <em *ngIf="newPassValidation === true && formModel.get('newPassword')?.value">
+                        <span style="color: red;">
+                            กรุณากรอกรหัสผ่านใหม่ให้ถูกต้อง
+                        </span>
+                    </em>
+                </div>
+                <div>
+                    <label for="confirmPassword" class="block">ยืนยันรหัสผ่านใหม่ <span
+                            style="color: red;">*</span></label>
+                    <p-password class="form-control" class="password" maxlength="30" [toggleMask]="true"
+                        weakLabel="ความปลอดภัยระดับ ต่ำ" mediumLabel="ความปลอดภัยระดับ ปานกลาง"
+                        strongLabel="ความปลอดภัยระดับ สูง" formControlName="confirmPassword" required="true"
+                        [style]="{width: '100%'}" (keyup)="checkNewPass2()">
+                        <ng-template pTemplate="header">
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <p class="mt-2">ข้อบังคับความปลอดภัย</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>มีอักษรตัวเล็กอย่างน้อย 1 ตัว</li>
+                                <li>มีอักษรตัวใหญ่อย่างน้อย 1 ตัว</li>
+                                <li>มีตัวเลขอย่างน้อย 1 ตัว </li>
+                                <li>มีความยาวอักษรอย่างน้อย 8 ถึง 30 ตัว</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                    <br>
+                    <em *ngIf="newPass2Validation === true && formModel.get('confirmPassword')?.value">
+                        <span style="color: red;">
+                            กรุณากรอกยืนยันรหัสผ่านใหม่ให้ถูกต้องเเละรหัสผ่านต้องตรงกัน
+                        </span>
+                    </em>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-button">
+            <button type="button" class="btn btn-login2" (click)="clickChangePassword()">
+                ยืนยัน
+            </button>
+            <button type="button" class="btn btn-regis2" (click)="onCancleReset()">ยกเลิก</button>
+        </div>
+    </ng-template>
+</p-dialog>

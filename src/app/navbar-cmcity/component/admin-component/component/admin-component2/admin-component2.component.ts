@@ -27,6 +27,12 @@ import { Department } from 'src/app/model/department';
 import { Observable, Subject, debounceTime } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { log } from 'console';
+import { ListAdminStock } from './models/admin-stock-res';
+import {
+  AdminStockCriteria,
+  AdminStockOrder,
+  AdminStockReq,
+} from './models/admin-stock-req';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -39,6 +45,7 @@ interface jsPDFCustom extends jsPDF {
 })
 export class AdminComponent2Component implements OnInit {
   menuItems!: MenuItem[];
+  menuItemsAll!: MenuItem[];
   @ViewChild('content', { static: false }) el!: ElementRef;
   customers!: Customer[];
   info: any[] = [];
@@ -93,15 +100,16 @@ export class AdminComponent2Component implements OnInit {
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
     // this.getStock(this.stockId);
 
-    this.searchStock();
+    // this.searchStock();
     // this.searchStockDetail(this.stockId);
     this.initMainFormBill();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
     this.getStockDetail();
+    this.searchStockV2();
+    this.initSearchForm();
 
     this.employeeStatusList = [
-      { name: 'กรุณาเลือกสถานะ', value: 0 },
       { name: 'ลาออก', value: 3 },
       { name: 'เสียชีวิต', value: 6 },
       { name: 'หนีหนี้', value: 7 },
@@ -144,16 +152,43 @@ export class AdminComponent2Component implements OnInit {
           this.documentInfoAll('ข้อมูลสมาชิก');
         },
       },
+    ];
+
+    this.menuItemsAll = [
       {
-        label: 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด',
+        label: 'เรียกเก็บหุ้นรายเดือน',
+        command: () => {
+          this.updateStocktoMonth();
+        },
+      },
+      {
+        label: 'สรุปยอดรวม',
+        command: () => {
+          this.getGrandTotal('สรุปยอดรวม');
+        },
+      },
+      {
+        label: 'ข้อมูลสมาชิก',
+        command: () => {
+          this.documentInfoAll('ข้อมูลสมาชิก');
+        },
+      },
+      {
+        label: 'ประวัติการส่งหุ้นของสมาชิก',
         command: () => {
           this.ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด');
         },
       },
       {
-        label: 'ดาวน์โหลด',
+        label: 'ดาวน์โหลด PDF',
         command: () => {
-          this.searchDocumentV1All('download');
+          this.ondisplayModalMonth('downloadPdf');
+        },
+      },
+      {
+        label: 'ดาวน์โหลด EXCEL',
+        command: () => {
+          this.ondisplayModalMonth('downloadExcel');
         },
       },
     ];
@@ -231,6 +266,157 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
+  // function table full code.
+  listEmp!: ListAdminStock[];
+  selected!: ListAdminStock[];
+  selectAll: boolean = false;
+  select: boolean = false;
+  selectLength!: number;
+
+  page: number = 1;
+  pageSize: number = 10;
+  body!: AdminStockReq;
+
+  criteria: AdminStockCriteria | undefined = {
+    employeeCode: undefined,
+    firstName: undefined,
+    lastName: undefined,
+    idCard: undefined,
+  };
+
+  order: AdminStockOrder | undefined = {
+    id: 'ASC',
+    createDate: undefined,
+  };
+
+  searchStockV2(): void {
+    this.loading = true;
+
+    const { page, pageSize, criteria, order } = this;
+    this.body = {
+      criteria: criteria,
+      order: JSON.stringify(order) === '{}' ? undefined : order,
+      pageReq: {
+        page: page,
+        pageSize: pageSize,
+      },
+    };
+
+    this.service.searchStockV2(this.body).subscribe((res) => {
+      this.dataStock = res.data?.contents!.filter(
+        (content) => content.employeeCode !== '00000'
+      );
+      this.totalRecords = res.data?.totalElements!;
+      this.loading = false;
+    });
+  }
+
+  searchForm: FormGroup;
+  initSearchForm() {
+    this.searchForm = new FormGroup({
+      firstName: new FormControl(null),
+      lastName: new FormControl(null),
+      idCard: new FormControl(null),
+      employeeCode: new FormControl(null),
+    });
+  }
+
+  onAcceptSearch() {
+    const searchAdmin: AdminStockCriteria = {};
+    const firstName = this.searchForm.get('firstName')?.value;
+    const lastName = this.searchForm.get('lastName')?.value;
+    const idCard = this.searchForm.get('idCard')?.value;
+    const employeeCode = this.searchForm.get('employeeCode')?.value;
+
+    if (firstName) {
+      searchAdmin.firstName = firstName;
+    }
+    if (lastName) {
+      searchAdmin.lastName = lastName;
+    }
+    if (idCard) {
+      searchAdmin.idCard = idCard;
+    }
+    if (employeeCode) {
+      searchAdmin.employeeCode = employeeCode;
+    }
+
+    this.criteria = searchAdmin;
+    this.searchStockV2();
+  }
+
+  onClearSearch(): void {
+    this.searchForm.reset();
+    this.criteria = {
+      employeeCode: undefined,
+      firstName: undefined,
+      lastName: undefined,
+      idCard: undefined,
+    };
+    this.searchStockV2();
+  }
+
+  onPage(event: any) {
+    this.pageSize = event.rows;
+    this.clearSelectedAll();
+  }
+
+  loadingAdminStock(e: any) {
+    this.pageSize = e.rows!;
+    this.page = e.first == 0 ? 1 : e.first! / e.rows! + 1;
+    this.searchStockV2();
+  }
+
+  onSort(column: keyof AdminStockOrder) {
+    if (this.order) {
+      (Object.keys(this.order) as (keyof AdminStockOrder)[]).forEach((key) => {
+        if (this.order && key !== column) {
+          this.order[key] = undefined;
+        }
+      });
+
+      this.order[column] = this.order[column] === 'ASC' ? 'DESC' : 'ASC';
+      this.searchStockV2();
+    }
+  }
+
+  onSelectionChange(value = []) {
+    this.selectAll = value.length === this.totalRecords;
+    this.selected = value;
+    this.selectLength = value.length;
+
+    if (this.selectLength === 0) {
+      this.select = false;
+    } else {
+      this.select = true;
+    }
+  }
+
+  onSelectAllChange(event: any) {
+    const checked = event.checked;
+
+    if (checked) {
+      this.selected = this.listEmp.filter(
+        (content) => content.employeeCode !== '00000'
+      );
+      this.selectAll = true;
+      this.selectLength = this.selected.length;
+      this.select = true;
+    } else {
+      this.selected = [];
+      this.selectAll = false;
+      this.select = false;
+    }
+  }
+
+  clearSelectedAll() {
+    this.selected = [];
+    this.selectAll = false;
+    this.select = false;
+  }
+
+  // ============================================= //
+
   // getStock(id: any): void {
   //   this.service.getStock(id).subscribe(data => {
   //     this.stockInfo = data;
@@ -244,8 +430,40 @@ export class AdminComponent2Component implements OnInit {
   //   });
   // }
 
+  checkStatusEmpColor(status: any): { [key: string]: string } {
+    let color: string;
+
+    switch (status) {
+      case 'สมาชิกแรกเข้า':
+        color = '#DE3163';
+        break;
+      case 'ใช้งานปกติ':
+        color = '#6FAF00';
+        break;
+      case 'ลาออก':
+        color = '#D92C2C';
+        break;
+      case 'รออนุมัติลาออก':
+        color = '#DD9D0A';
+        break;
+      case 'เสียชีวิต':
+        color = '#A17EEB';
+        break;
+      case 'หนีหนี้':
+        color = '#FF6B00';
+        break;
+      case 'เกษียณ':
+        color = '#0094FF';
+        break;
+      default:
+        break;
+    }
+
+    return { color: color };
+  }
+
   onRowEditInit(stock: any) {
-    this.clonedProducts[stock.id!] = { ...stock };
+    this.clonedProducts[stock.id] = { ...stock };
   }
 
   onRowEditSave(playload: any) {
@@ -1694,10 +1912,10 @@ export class AdminComponent2Component implements OnInit {
     } else if (this.headerName === 'ข้อมูลสมาชิก') {
       this.docInfoAll();
       this.displayModalBill = false;
-    } else if (this.headerName === 'downloadPdf') {
+    } else if (this.headerName === 'ดาวน์โหลด PDF') {
       this.searchDocumentV1All('pdf');
       this.displayModalBill = false;
-    } else if (this.headerName === 'downloadExcel') {
+    } else if (this.headerName === 'ดาวน์โหลด EXCEL') {
       this.searchDocumentV1All('excel');
       this.displayModalBill = false;
     }

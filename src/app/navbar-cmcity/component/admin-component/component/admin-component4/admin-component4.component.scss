@@ -1,51 +1,107 @@
-.btn-group {
+// .btn-group {
+//   display: flex;
+//   padding-left: 5px;
+//   padding-right: 5px;
+//   padding-top: 5px;
+//   background-color: #dee2e6;
+//   width: 18rem;
+//   height: 45px;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 20px;
+
+//   .btn {
+//     width: max-content;
+//     height: 34px;
+//     font-weight: 500;
+//     font-size: 14px;
+//     border-radius: 18px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
+
+//   .btn-login {
+//     color: #fff;
+//     background-color: #fe6bba;
+//   }
+// }
+* {
+  box-sizing: border-box;
+  font-family:
+    Kanit,
+    Noto Sans,
+    Noto Sans Thai,
+    sans-serif;
+}
+
+.card-table {
+  border: 5px solid white;
+  border-radius: 10px;
+  width: 100%;
+  background-color: white;
+  padding: 1.5rem;
+  margin-top: 1rem;
   display: flex;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 5px;
-  background-color: #dee2e6;
-  width: 18rem;
-  height: 45px;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-table-h {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-group-doc {
+  display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
-
+  gap: 10px;
   .btn {
-    width: max-content;
-    height: 34px;
-    font-weight: 500;
-    font-size: 15px;
-    border-radius: 18px;
+    width: fit-content;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .btn-login {
+  .btn-login2 {
     color: #fff;
     background-color: #fe6bba;
+    display: flex;
+    gap: 5px;
+  }
+
+  .btn-login {
+    color: #652d47;
+    border: 1px solid #652d47;
+    display: flex;
+    gap: 5px;
   }
 }
 
-.card-table {
-  border: 5px solid white;
-  border-radius: 15px;
-  width: 100%;
-  background-color: white;
-  padding: 2rem;
-  margin-top: 1rem;
+:host ::ng-deep p-paginator div {
+  font-size: 14px;
+  justify-content: flex-end;
+
+  p-dropdown div .p-dropdown-trigger {
+    display: flex;
+    justify-content: center;
+  }
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   background: none;
-  text-align: center;
-  font-weight: normal;
-  color: #8690a1;
-  font-size: 16px;
+  font-weight: 300;
+  color: #6b7280;
+  font-size: 14px;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
-  text-align: center;
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  font-size: 14px;
+  padding: 0.8rem 1rem;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-header {
@@ -53,38 +109,83 @@
   border-top: none;
 }
 
-.btn {
-  width: 60px;
-  height: 34px;
-  font-weight: 500;
+:host ::ng-deep .p-datatable .p-paginator-bottom,
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
   font-size: 14px;
-  margin-top: -5px;
-  border-radius: 18px;
+  color: #495057;
+  border-width: 0;
+  font-weight: 300;
 }
 
-.btn-login2 {
-  width: 140px;
-  font-weight: 500;
-  font-size: 15px;
-  height: 40px;
-  color: #fff;
-  background-color: #fe6bba;
+:host ::ng-deep .p-paginator .p-dropdown {
+  height: 2.8rem;
+  width: 5rem;
 }
 
-.btn-regis2 {
-  width: 140px;
-  font-weight: 500;
-  font-size: 15px;
-  height: 40px;
-  color: #fe6bba;
-  border-color: #fe6bba;
-  margin-left: 40px;
+:host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label {
+  font-size: 14px;
+  font-family:
+    Kanit,
+    Noto Sans,
+    Noto Sans Thai,
+    sans-serif;
 }
 
-// .div-button-btn {
-//   padding-top: 1rem;
-//   display: flex;
-//   justify-content: space-between;
+:host ::ng-deep .p-dropdown .p-dropdown-trigger {
+  width: 2.5rem;
+  span {
+    margin-top: 3px;
+  }
+}
+
+// :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+//   background: none;
+//   text-align: center;
+//   font-weight: normal;
+//   color: #8690a1;
+//   font-size: 16px;
+// }
+
+// :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+//   text-align: center;
+// }
+
+// :host ::ng-deep .p-datatable .p-datatable-header {
+//   background: none;
+//   border-top: none;
+// }
+
+.div-flex-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+// .btn {
+//   width: 60px;
+//   height: 34px;
+//   font-weight: 500;
+//   font-size: 14px;
+//   margin-top: -5px;
+//   border-radius: 18px;
+// }
+
+// .btn-login2 {
+//   width: 140px;
+//   font-weight: 500;
+//   font-size: 14px;
+//   height: 40px;
+//   color: #fff;
+//   background-color: #fe6bba;
+// }
+
+// .btn-regis2 {
+//   width: 140px;
+//   font-weight: 500;
+//   font-size: 14px;
+//   height: 40px;
+//   color: #fe6bba;
+//   border-color: #fe6bba;
+//   margin-left: 40px;
 // }
 
 .flex {
@@ -112,84 +213,207 @@ a.dropdown-toggle {
   display: none;
 }
 
-.test-child {
-  display: grid;
-  justify-content: center;
+// .test-child {
+//   display: grid;
+//   justify-content: center;
+// }
+
+// .test-child {
+//   label {
+//     color: #747d8c;
+//     font-size: 14px;
+//   }
+
+//   input {
+//     width: 250px;
+//     height: 40px;
+//     font-size: 16px;
+//     border: 1px solid var(--bd3-color);
+//     border-radius: 8px;
+//   }
+// }
+
+label {
+  font-size: 14px;
 }
 
-.test-child {
-  label {
-    color: #747d8c;
-    font-size: 14px;
-  }
-
-  input {
-    width: 250px;
-    height: 40px;
-    font-size: 16px;
-    border: 1px solid var(--bd3-color);
-    border-radius: 8px;
-  }
-}
-
-:host ::ng-deep .p-inputnumber { 
-  width: 250px;
+input,
+select {
+  font-size: 14px;
   height: 40px;
-  font-size: 16px;
-  // border: 1px solid var(--bd3-color);
-  // border-radius: 8px;
-} 
+}
 
-@media only screen and (max-width: 1366px) {
-  :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
-    font-size: 15px;
-  }
+// :host ::ng-deep .p-inputnumber {
+//   width: 250px;
+//   height: 40px;
+//   font-size: 16px;
+//   // border: 1px solid var(--bd3-color);
+//   // border-radius: 8px;
+// }
 
-  :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+::ng-deep p-inputnumber,
+::ng-deep .p-inputnumber,
+::ng-deep .p-input-number-input {
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-input {
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family:
+    Kanit,
+    Noto Sans,
+    Noto Sans Thai,
+    sans-serif;
+  // border-radius: 4px;
+}
+
+.div-full {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.dialog-body-f {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.dialog-body-t {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+::ng-deep .p-dialog {
+  .btn {
+    // width: 140px;
+    width: -webkit-fill-available;
+    height: 40px;
+    font-weight: 500;
     font-size: 14px;
+    border-radius: 6px;
   }
 
-  .btn-group {
-    .btn {
-      font-size: 14px;
-    }
+  .btn-login {
+    color: #fff;
+    background-color: #fe6bba;
   }
 
-  .flex-name {
-    font-size: 16px;
+  .btn-login2 {
+    color: #652d47;
+    border: 1px solid #652d47;
+    // display: flex;
+    // gap: 5px;
   }
 }
 
-@media only screen and (max-width: 900px) {
-  .btn-group {
+.footer-button {
+  display: flex;
+  .btn {
+    height: 40px;
+    font-size: 14px;
+    border-radius: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .btn-login2 {
+    font-weight: 500;
+    font-size: 14px;
+    height: 45px;
+    color: #fff;
+    background-color: #fe6bba;
+    border: 1px solid #fe6bba;
+    border-bottom-left-radius: 6px;
+  }
+
+  .btn-regis2 {
+    font-weight: 500;
+    font-size: 14px;
+    height: 45px;
+    color: #fe6bba;
+    background-color: #f3f2ed;
+    border: 1px solid #f3f2ed;
+    border-bottom-right-radius: 6px;
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .btn-group-doc {
     display: none;
   }
 
   .card-menu-doc {
     display: block;
   }
-
-  .div-button-btn {
-    justify-content: flex-end;
-    margin-top: -50px;
-  }
 }
 
-@media only screen and (max-width: 600px) {
-  .flex {
-    display: flex;
+@media only screen and (max-width: 500px) {
+  .dialog-body-f {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .div-flex-header {
     flex-direction: column;
-    grid-gap: 10px;
-  }
-
-  :host ::ng-deep p-paginator div {
-    font-size: 14px;
-  }
-
-  :host ::ng-deep p-paginator div span button {
-    font-size: 14px;
+    gap: 1rem;
   }
 }
+
+// @media only screen and (max-width: 1366px) {
+//   :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+//     font-size: 14px;
+//   }
+
+//   :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+//     font-size: 14px;
+//   }
+
+//   .btn-group {
+//     .btn {
+//       font-size: 14px;
+//     }
+//   }
+
+//   .flex-name {
+//     font-size: 16px;
+//   }
+// }
+
+// @media only screen and (max-width: 900px) {
+//   .btn-group {
+//     display: none;
+//   }
+
+//   .card-menu-doc {
+//     display: block;
+//   }
+
+//   .div-button-btn {
+//     justify-content: flex-end;
+//     margin-top: -50px;
+//   }
+// }
+
+// @media only screen and (max-width: 600px) {
+//   .flex {
+//     display: flex;
+//     flex-direction: column;
+//     grid-gap: 10px;
+//   }
+
+//   :host ::ng-deep p-paginator div {
+//     font-size: 14px;
+//   }
+
+//   :host ::ng-deep p-paginator div span button {
+//     font-size: 14px;
+//   }
+// }
 
 // @media only screen and (max-width: 600px) {
 //   .card-table {

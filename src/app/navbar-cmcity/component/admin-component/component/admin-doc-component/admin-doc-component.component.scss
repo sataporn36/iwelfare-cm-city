@@ -1,0 +1,245 @@
+@import "primeicons/primeicons.css";
+* {
+    box-sizing: border-box;
+    font-family:
+        Kanit,
+        Noto Sans,
+        Noto Sans Thai,
+        sans-serif;
+}
+
+.div-docs {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 1rem;
+    margin-top: 1rem;
+}
+
+.card {
+    border: 0px solid white;
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+label {
+    font-size: 14px;
+}
+
+input,
+select {
+    font-size: 14px;
+    height: 40px;
+}
+
+:host ::ng-deep p-paginator div {
+    font-size: 14px;
+    justify-content: flex-end;
+
+    p-dropdown div .p-dropdown-trigger {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    background: none;
+    font-weight: 300;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    font-size: 14px;
+    padding: 0.8rem 1rem;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    background: none;
+    border-top: none;
+}
+
+:host ::ng-deep .p-datatable .p-paginator-bottom,
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    font-size: 14px;
+    color: #495057;
+    border-width: 0;
+    font-weight: 300;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown {
+    height: 2.8rem;
+    width: 5rem;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label {
+    font-size: 14px;
+    font-family:
+        Kanit,
+        Noto Sans,
+        Noto Sans Thai,
+        sans-serif;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-trigger {
+    width: 2.5rem;
+    span {
+        margin-top: 3px;
+    }
+}
+
+.div-flex-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    width: fit-content;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.btn-login {
+    color: #fff;
+    background-color: #fe6bba;
+    display: flex;
+    gap: 5px;
+}
+
+.btn-deleted {
+    color: #fff;
+    background-color: #fe6bba;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.div-flex-header svg {
+    width: 18px;
+    path {
+        stroke: #fff;
+        stroke-width: 2px;
+    }
+    rect {
+        stroke: #fff;
+    }
+}
+
+::placeholder {
+    font-size: 14px;
+    font-weight: 300;
+    color: #747d8c;
+}
+
+.footer-button {
+    display: flex;
+    .btn {
+        height: 40px;
+        font-size: 14px;
+        border-radius: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .btn-login2 {
+        font-weight: 500;
+        font-size: 14px;
+        height: 45px;
+        color: #fff;
+        background-color: #fe6bba;
+        border: 1px solid #fe6bba;
+        border-bottom-left-radius: 6px;
+    }
+
+    .btn-regis2 {
+        font-weight: 500;
+        font-size: 14px;
+        height: 45px;
+        color: #fe6bba;
+        background-color: #f3f2ed;
+        border: 1px solid #f3f2ed;
+        border-bottom-right-radius: 6px;
+    }
+}
+
+.div-add {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.div-full-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1px solid #e3e6e6;
+    border-radius: 8px;
+}
+
+input[type="file"] {
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.upload-btn {
+    padding: 10px 20px;
+    background-color: #fe6bba;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+}
+
+.upload-btn:hover {
+    background-color: #ffcee8;
+    color: #fe6bba;
+}
+
+span {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+:host ::ng-deep .dialog-add-doc .p-dialog .p-dialog-header-icons {
+    display: none;
+}
+
+.div-flex-header-body {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+@media only screen and (max-width: 700px) {
+    .div-flex-header {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .div-flex-header-body {
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

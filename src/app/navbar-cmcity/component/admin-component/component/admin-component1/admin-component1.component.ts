@@ -14,14 +14,19 @@ import { EmployeeType } from 'src/app/model/employee-type';
 import { Level } from 'src/app/model/level';
 import { Positions } from 'src/app/model/position';
 import { MainService } from 'src/app/service/main.service';
+import {
+  AdminEmployeeCriteria,
+  AdminEmployeeOrder,
+  AdminEmployeeReq,
+} from './models/admin-employee-req';
+import { ListAdminEmployee } from './models/admin-employee-res';
 
 @Component({
   selector: 'app-admin-component1',
   templateUrl: './admin-component1.component.html',
-  styleUrls: ['./admin-component1.component.scss']
+  styleUrls: ['./admin-component1.component.scss'],
 })
 export class AdminComponent1Component {
-
   detailModel!: FormGroup;
   formModelInterest!: FormGroup;
   formModelSignature!: FormGroup;
@@ -41,7 +46,6 @@ export class AdminComponent1Component {
   loanId: any;
   userId: any;
   admin!: boolean;
-  listEmp: any;
   loading: boolean = false;
   displayBasic1: boolean | undefined;
   images1: any[] = [];
@@ -59,25 +63,25 @@ export class AdminComponent1Component {
   textStringDad: string = 'form-control-plaintext';
   textStringChild: string = 'form-control-plaintext';
   mode: boolean = true;
-  defaultDateline: Date = new Date("12/31/2003");
+  defaultDateline: Date = new Date('12/31/2003');
 
   responsiveOptions: any[] = [
     {
       breakpoint: '1500px',
-      numVisible: 5
+      numVisible: 5,
     },
     {
       breakpoint: '1024px',
-      numVisible: 3
+      numVisible: 3,
     },
     {
       breakpoint: '768px',
-      numVisible: 2
+      numVisible: 2,
     },
     {
       breakpoint: '560px',
-      numVisible: 1
-    }
+      numVisible: 1,
+    },
   ];
 
   sourceProducts: Product[];
@@ -90,17 +94,18 @@ export class AdminComponent1Component {
   public department: Observable<Department[]> | any;
   public level: Observable<Level[]> | any;
   public employeeType: Observable<EmployeeType[]> | any;
-  
+
   guarantor: any;
   guarantee: any;
 
-  constructor(private service: MainService,
+  constructor(
+    private service: MainService,
     private messageService: MessageService,
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     protected router: Router,
-    protected route: ActivatedRoute,
-  ) { }
+    protected route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -113,18 +118,19 @@ export class AdminComponent1Component {
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
     this.loanId = this.localStorageService.retrieve('loanid');
 
-    this.searchEmployee();
+    this.searchEmployeeV2();
+    this.initSearchForm();
     this.checkDefaultImage();
   }
 
   getGuarantor(id: any) {
-    this.service.getGuarantor(id).subscribe(data => {
+    this.service.getGuarantor(id).subscribe((data) => {
       this.guarantor = data;
     });
   }
 
   getGuarantee(id: any) {
-    this.service.getGuarantee(id).subscribe(data => {
+    this.service.getGuarantee(id).subscribe((data) => {
       this.guarantee = data;
     });
   }
@@ -140,23 +146,27 @@ export class AdminComponent1Component {
   }
 
   getPositions(): void {
-    this.service.searchPosition().subscribe(data => this.position = data);
+    this.service.searchPosition().subscribe((data) => (this.position = data));
   }
 
   getBureau(): void {
-    this.service.searchBureau().subscribe(data => this.bureau = data);
+    this.service.searchBureau().subscribe((data) => (this.bureau = data));
   }
 
   getDepartment(): void {
-    this.service.searchDepartment().subscribe(data => this.department = data);
+    this.service
+      .searchDepartment()
+      .subscribe((data) => (this.department = data));
   }
 
   searchLevel(): void {
-    this.service.searchLevel().subscribe(data => this.level = data);
+    this.service.searchLevel().subscribe((data) => (this.level = data));
   }
 
   searchEmployeeType(): void {
-    this.service.searchEmployeeType().subscribe(data => this.employeeType = data);
+    this.service
+      .searchEmployeeType()
+      .subscribe((data) => (this.employeeType = data));
   }
 
   initMainForm() {
@@ -234,7 +244,9 @@ export class AdminComponent1Component {
 
   onCheckAge(event: any) {
     const data = event;
-    this.detailModel.get('age')?.setValue(this.transformAge(data) > 0 ? this.transformAge(data) : 0);
+    this.detailModel
+      .get('age')
+      ?.setValue(this.transformAge(data) > 0 ? this.transformAge(data) : 0);
   }
 
   onClearAge() {
@@ -245,7 +257,7 @@ export class AdminComponent1Component {
   pnumberValidation: boolean = false;
   checkPhoneNumber() {
     this.pnumberCheck = this.detailModel.get('tel')?.value;
-    if (this.pnumberCheck?.match("^[0-9]{10}$")) {
+    if (this.pnumberCheck?.match('^[0-9]{10}$')) {
       this.pnumberValidation = false;
     } else {
       this.pnumberValidation = true;
@@ -256,7 +268,7 @@ export class AdminComponent1Component {
   emailValidation: boolean = false;
   checkEmail() {
     this.emailCheck = this.detailModel.get('email')?.value;
-    if (this.emailCheck?.match("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) {
+    if (this.emailCheck?.match('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')) {
       this.emailValidation = false;
     } else {
       this.emailValidation = true;
@@ -270,25 +282,26 @@ export class AdminComponent1Component {
     this.detailModel.get('stockAccumulate')?.disable();
     this.detailModel.get('loanBalance')?.disable();
     this.detailModel.get('monthlyStockMoney')?.disable();
+    this.detailModel.get('age')?.disable();
   }
 
   changeToNumber(value: any) {
-    const valueParse = value.replace(/,/g,'');
+    const valueParse = value.replace(/,/g, '');
     return Number(valueParse);
   }
 
   checkMaritalV2_text(data: any): any {
     switch (data) {
       case '1':
-        return 'โสด'
+        return 'โสด';
       case '2':
-        return 'อยู่ร่วมกัน'
+        return 'อยู่ร่วมกัน';
       case '3':
-        return 'เป็นหม้าย'
+        return 'เป็นหม้าย';
       case '4':
-        return 'หย่าร้าง'
+        return 'หย่าร้าง';
       case '5':
-        return 'แยกกันอยู่'
+        return 'แยกกันอยู่';
       default:
         break;
     }
@@ -310,32 +323,49 @@ export class AdminComponent1Component {
       email: detail.email,
       address: detail.address,
       levelId: Number(detail.levelId) !== 0 ? Number(detail.levelId) : null,
-      employeeTypeId: Number(detail.employeeTypeId) !== 0 ? Number(detail.employeeTypeId) : null,
-      positionId: Number(detail.positionId) !== 0 ? Number(detail.positionId) : null,
-      departmentId: Number(detail.departmentId) !== 0 ? Number(detail.departmentId) : null,
-      affiliationId: Number(detail.affiliationId) !== 0 ? Number(detail.affiliationId) : null,
+      employeeTypeId:
+        Number(detail.employeeTypeId) !== 0
+          ? Number(detail.employeeTypeId)
+          : null,
+      positionId:
+        Number(detail.positionId) !== 0 ? Number(detail.positionId) : null,
+      departmentId:
+        Number(detail.departmentId) !== 0 ? Number(detail.departmentId) : null,
+      affiliationId:
+        Number(detail.affiliationId) !== 0
+          ? Number(detail.affiliationId)
+          : null,
       marital: this.checkMaritalV2_text(detail.selectMarital),
       salary: detail.salary ? this.changeToNumber(detail.salary) : null,
-      compensation: detail.compensation ? this.changeToNumber(detail.compensation) : null,
-      monthlyStockMoney: detail.monthlyStockMoney ? this.changeToNumber(detail.monthlyStockMoney) : null,
+      compensation: detail.compensation
+        ? this.changeToNumber(detail.compensation)
+        : null,
+      monthlyStockMoney: detail.monthlyStockMoney
+        ? this.changeToNumber(detail.monthlyStockMoney)
+        : null,
       contractStartDate: detail.contractStartDate,
       civilServiceDate: detail.civilServiceDate,
       billingStartDate: detail.billingStartDate,
       salaryBankAccountNumber: detail.salaryBankAccountNumber,
-      bankAccountReceivingNumber: detail.bankAccountReceivingNumber
-    }
+      bankAccountReceivingNumber: detail.bankAccountReceivingNumber,
+    };
 
-    this.service.updateInfo(playload).subscribe((res) => {
-      this.detailModel.disable();
-      this.initMainForm();
-      this.textString = 'form-control-plaintext';
-      this.mode = true;
-      this.detail = false;
-      this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-    },
+    this.service.updateInfo(playload).subscribe(
+      (res) => {
+        this.detailModel.disable();
+        this.initMainForm();
+        this.textString = 'form-control-plaintext';
+        this.mode = true;
+        this.detail = false;
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      },
       () => {
-        this.messageService.add({ severity: 'error', detail: 'แก้ไขไม่สำเร็จ เกิดข้อผิดพลาด' });
-      });
+        this.messageService.add({
+          severity: 'error',
+          detail: 'แก้ไขไม่สำเร็จ เกิดข้อผิดพลาด',
+        });
+      }
+    );
   }
 
   onClear() {
@@ -356,7 +386,53 @@ export class AdminComponent1Component {
   myDefaultDate = new Date();
   checkBureau(id: any) {
     if (id.target.value != null) {
-      this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
+      this.service
+        .searchByBureau(id.target.value)
+        .subscribe((data) => (this.affiliation = data));
+    }
+  }
+
+  // profileImgById(emp: any) {
+  //   let textGender = '';
+  //   if (emp.image != null) {
+  //     const byteArray: Uint8Array = new Uint8Array(emp.image);
+  //     const blob = new Blob([byteArray], { type: 'image/jpeg' });
+  //     const objectUrl = URL.createObjectURL(blob);
+
+  //     return this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+  //   } else {
+  //     switch (emp.gender) {
+  //       case 'ชาย':
+  //         textGender = 'assets/images/boy.png';
+  //         break;
+  //       case 'หญิง':
+  //         textGender = 'assets/images/girl.png';
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return textGender;
+  //   }
+  // }
+
+  profileImgById(emp: any) {
+    if (emp.image) {
+      return this.sanitizer.bypassSecurityTrustUrl(
+        `data:image/jpeg;base64,${emp.image}`
+      );
+    } else {
+      let textGender = '';
+      switch (emp.gender) {
+        case 'ชาย':
+          textGender = 'assets/images/boy.png';
+          break;
+        case 'หญิง':
+          textGender = 'assets/images/girl.png';
+          break;
+        default:
+          break;
+      }
+      return textGender;
     }
   }
 
@@ -381,12 +457,11 @@ export class AdminComponent1Component {
   }
 
   getEmployeeOfMain(id: any) {
-    this.service.getEmployeeOfMain(id).subscribe(main => {
+    this.service.getEmployeeOfMain(id).subscribe((main) => {
       if (main) {
         this.profileImgId = main.profileImgId;
         this.getImagePro(main.profileImgId);
       }
-
     });
   }
 
@@ -400,7 +475,10 @@ export class AdminComponent1Component {
     if (id != 0) {
       this.service.getImage(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrcPro = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          console.log('imageBlob Pro -> ', imageBlob);
+          this.imageSrcPro = this.sanitizer.bypassSecurityTrustUrl(
+            URL.createObjectURL(imageBlob)
+          );
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -409,10 +487,19 @@ export class AdminComponent1Component {
 
       this.service.getImageAddress(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrcAddress = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          console.log('imageBlob -> ', imageBlob);
+
+          this.imageSrcAddress =
+            imageBlob.size != 0
+              ? this.sanitizer.bypassSecurityTrustUrl(
+                  URL.createObjectURL(imageBlob)
+                )
+              : null;
+
+          this.checkDefaultImage();
           this.imagesAddress.push({
-            itemImageSrc: this.imageSrcAddress
-          })
+            itemImageSrc: this.imageSrcAddress,
+          });
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -422,10 +509,17 @@ export class AdminComponent1Component {
 
       this.service.getImageIdCard(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrcIdCard = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imageSrcIdCard =
+            imageBlob.size != 0
+              ? this.sanitizer.bypassSecurityTrustUrl(
+                  URL.createObjectURL(imageBlob)
+                )
+              : null;
+
+          this.checkDefaultImage();
           this.imagesIdCard.push({
-            itemImageSrc: this.imageSrcIdCard
-          })
+            itemImageSrc: this.imageSrcIdCard,
+          });
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -447,10 +541,16 @@ export class AdminComponent1Component {
         this.ngOnInit();
         this.getEmployeeOfMain(this.infoId);
         this.clickInfo(this.infoId);
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปสำเร็จ',
+        });
       },
       (error) => {
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        this.messageService.add({
+          severity: 'error',
+          detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+        });
       }
     );
   }
@@ -467,13 +567,22 @@ export class AdminComponent1Component {
         this.ngOnInit();
         this.getEmployeeOfMain(this.infoId);
         this.clickInfo(this.infoId);
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ',
+        });
       },
       (error) => {
         if (error.error.text === 'ProfileNull') {
-          this.messageService.add({ severity: 'error', detail: 'กรุณาเพิ่มรูปประจำตัวก่อน' });
+          this.messageService.add({
+            severity: 'error',
+            detail: 'กรุณาเพิ่มรูปประจำตัวก่อน',
+          });
         } else {
-          this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+          this.messageService.add({
+            severity: 'error',
+            detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+          });
         }
       }
     );
@@ -491,13 +600,22 @@ export class AdminComponent1Component {
         this.ngOnInit();
         this.getEmployeeOfMain(this.infoId);
         this.clickInfo(this.infoId);
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ',
+        });
       },
       (error) => {
         if (error.error.text === 'ProfileNull') {
-          this.messageService.add({ severity: 'error', detail: 'กรุณาเพิ่มรูปประจำตัวก่อน' });
+          this.messageService.add({
+            severity: 'error',
+            detail: 'กรุณาเพิ่มรูปประจำตัวก่อน',
+          });
         } else {
-          this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+          this.messageService.add({
+            severity: 'error',
+            detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+          });
         }
       }
     );
@@ -508,7 +626,7 @@ export class AdminComponent1Component {
   time: any;
   monthValue: any;
   pipeDateTH() {
-    const format = new Date()
+    const format = new Date();
     const day = format.getDate();
     const month = format.getMonth();
     const year = format.getFullYear() + 543;
@@ -518,7 +636,7 @@ export class AdminComponent1Component {
     this.monthValue = monthSelect.value;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
-    return day + ' ' + monthSelect.label + ' ' + year
+    return day + ' ' + monthSelect.label + ' ' + year;
   }
 
   setperiodMonthDescOption() {
@@ -581,13 +699,17 @@ export class AdminComponent1Component {
       this.service.getImageConfig(id).subscribe(
         (imageBlob: Blob) => {
           if (imageSrc === 1) {
-            this.imageSrc1 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+            this.imageSrc1 = this.sanitizer.bypassSecurityTrustUrl(
+              URL.createObjectURL(imageBlob)
+            );
             this.images1.push({
               itemImageSrc: this.imageSrc1,
               thumbnailImageSrc: this.imageSrc1,
             });
           } else {
-            this.imageSrc2 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+            this.imageSrc2 = this.sanitizer.bypassSecurityTrustUrl(
+              URL.createObjectURL(imageBlob)
+            );
             this.images2.push({
               itemImageSrc: this.imageSrc2,
               thumbnailImageSrc: this.imageSrc2,
@@ -617,10 +739,16 @@ export class AdminComponent1Component {
       () => {
         this.ngOnInit();
         this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปสำเร็จ',
+        });
       },
       (error) => {
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        this.messageService.add({
+          severity: 'error',
+          detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+        });
       }
     );
   }
@@ -649,10 +777,11 @@ export class AdminComponent1Component {
     this.time = time;
 
     const firstDayOfNextMonth = new Date(year, month + 1, 1);
-    const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
+    const lastDayOfMonth = new Date(
+      firstDayOfNextMonth.getTime() - 1
+    ).getDate();
     return year + '-' + monthSelect.value + '-' + lastDayOfMonth;
   }
-
 
   updateIntereat() {
     const datePayLoanNew = this.pipeDateTHNewLan();
@@ -662,8 +791,8 @@ export class AdminComponent1Component {
       value: data.interest,
       monthCurrent: this.month,
       yearCurrent: this.year.toString(),
-      paymentStartDate: datePayLoanNew
-    }
+      paymentStartDate: datePayLoanNew,
+    };
     this.service.editConfig(payload).subscribe((res) => {
       if (res.data !== null || res.data) {
         this.localStorageService.clear('employeeofmain');
@@ -671,13 +800,16 @@ export class AdminComponent1Component {
         this.localStorageService.clear('loanId');
         this.localStorageService.store('loanId', res.data.id);
         this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'แก้ไขข้อมูลสำเร็จ',
+        });
       }
     });
   }
 
   getEmployeeOfMains(id: any, text: any): void {
-    this.service.getEmployeeOfMain(id).subscribe(data => {
+    this.service.getEmployeeOfMain(id).subscribe((data) => {
       if (data) {
         this.localStorageService.store('employeeofmain', data);
         if (text === 'user') {
@@ -686,7 +818,6 @@ export class AdminComponent1Component {
           setTimeout(() => {
             this.ngOnInit();
           }, 500);
-
         }
       }
     });
@@ -710,62 +841,261 @@ export class AdminComponent1Component {
     }, 500);
   }
 
-  searchEmployee(): void {
-    this.service.searchEmployee().subscribe(data => {
-      const value = data;
-      this.listEmp = value.filter(item => item.employeeCode !== '00000');
+  // function table full code.
+  listEmp!: ListAdminEmployee[];
+  selected!: ListAdminEmployee[];
+  selectAll: boolean = false;
+  select: boolean = false;
+  selectLength!: number;
+  totalRecords!: number;
+
+  page: number = 1;
+  pageSize: number = 10;
+  body!: AdminEmployeeReq;
+
+  criteria: AdminEmployeeCriteria | undefined = {
+    employeeCode: undefined,
+    firstName: undefined,
+    lastName: undefined,
+    idCard: undefined,
+  };
+
+  order: AdminEmployeeOrder | undefined = {
+    id: 'ASC',
+    createDate: undefined,
+  };
+
+  searchEmployeeV2(): void {
+    this.loading = true;
+
+    const { page, pageSize, criteria, order } = this;
+    this.body = {
+      criteria: criteria,
+      order: JSON.stringify(order) === '{}' ? undefined : order,
+      pageReq: {
+        page: page,
+        pageSize: pageSize,
+      },
+    };
+
+    this.service.searchEmployeeV2(this.body).subscribe((res) => {
+      this.listEmp = res.data?.contents!.filter(
+        (content) => content.employeeCode !== '00000'
+      );
+      this.totalRecords = res.data?.totalElements!;
       this.loading = false;
     });
+  }
+
+  searchForm: FormGroup;
+  initSearchForm() {
+    this.searchForm = new FormGroup({
+      firstName: new FormControl(null),
+      lastName: new FormControl(null),
+      idCard: new FormControl(null),
+      employeeCode: new FormControl(null),
+    });
+  }
+
+  onAcceptSearch() {
+    const searchAdmin: AdminEmployeeCriteria = {};
+    const firstName = this.searchForm.get('firstName')?.value;
+    const lastName = this.searchForm.get('lastName')?.value;
+    const idCard = this.searchForm.get('idCard')?.value;
+    const employeeCode = this.searchForm.get('employeeCode')?.value;
+
+    if (firstName) {
+      searchAdmin.firstName = firstName;
+    }
+    if (lastName) {
+      searchAdmin.lastName = lastName;
+    }
+    if (idCard) {
+      searchAdmin.idCard = idCard;
+    }
+    if (employeeCode) {
+      searchAdmin.employeeCode = employeeCode;
+    }
+
+    this.criteria = searchAdmin;
+    this.searchEmployeeV2();
+  }
+
+  onClearSearch(): void {
+    this.searchForm.reset();
+    this.criteria = {
+      employeeCode: undefined,
+      firstName: undefined,
+      lastName: undefined,
+      idCard: undefined,
+    };
+    this.searchEmployeeV2();
+  }
+
+  onPage(event: any) {
+    this.pageSize = event.rows;
+    this.clearSelectedAll();
+  }
+
+  loadingAdminEmployee(e: any) {
+    this.pageSize = e.rows!;
+    this.page = e.first == 0 ? 1 : e.first! / e.rows! + 1;
+    this.searchEmployeeV2();
+  }
+
+  onSort(column: keyof AdminEmployeeOrder) {
+    if (this.order) {
+      (Object.keys(this.order) as (keyof AdminEmployeeOrder)[]).forEach(
+        (key) => {
+          if (this.order && key !== column) {
+            this.order[key] = undefined;
+          }
+        }
+      );
+
+      this.order[column] = this.order[column] === 'ASC' ? 'DESC' : 'ASC';
+      this.searchEmployeeV2();
+    }
+  }
+
+  onSelectionChange(value = []) {
+    this.selectAll = value.length === this.totalRecords;
+    this.selected = value;
+    this.selectLength = value.length;
+
+    if (this.selectLength === 0) {
+      this.select = false;
+    } else {
+      this.select = true;
+    }
+  }
+
+  onSelectAllChange(event: any) {
+    const checked = event.checked;
+
+    if (checked) {
+      this.selected = this.listEmp.filter(
+        (content) => content.employeeCode !== '00000'
+      );
+      this.selectAll = true;
+      this.selectLength = this.selected.length;
+      this.select = true;
+    } else {
+      this.selected = [];
+      this.selectAll = false;
+      this.select = false;
+    }
+  }
+
+  clearSelectedAll() {
+    this.selected = [];
+    this.selectAll = false;
+    this.select = false;
+  }
+
+  // ============================================= //
+
+  checkStatusEmp(data: any): any {
+    switch (data) {
+      case 1:
+        return 'สมาชิกแรกเข้า';
+      case 2:
+        return 'ใช้งานปกติ';
+      case 3:
+        return 'ลาออก';
+      case 5:
+        return 'รออนุมัติลาออก';
+      case 6:
+        return 'เสียชีวิต';
+      case 7:
+        return 'หนีหนี้';
+      case 8:
+        return 'เกษียณ';
+      default:
+        break;
+    }
+  }
+
+  checkStatusEmpColor(status: any): { [key: string]: string } {
+    let color: string;
+
+    switch (status) {
+      case 1:
+        color = '#DE3163';
+        break;
+      case 2:
+        color = '#6FAF00';
+        break;
+      case 3:
+        color = '#D92C2C';
+        break;
+      case 5:
+        color = '#DD9D0A';
+        break;
+      case 6:
+        color = '#A17EEB';
+        break;
+      case 7:
+        color = '#FF6B00';
+        break;
+      case 8:
+        color = '#0094FF';
+        break;
+      default:
+        break;
+    }
+
+    return { color: color };
   }
 
   checkPrefix(data: any): any {
     switch (data) {
       case 'นาย':
-        return '1'
+        return '1';
       case 'นางสาว':
-        return '2'
+        return '2';
       case 'นาง':
-        return '3'
+        return '3';
       case 'ด.ช':
-        return '4'
+        return '4';
       case 'ด.ญ':
-        return '5'
+        return '5';
       case 'ว่าที่ร้อยตรี':
-        return '6'
+        return '6';
       case 'ว่าที่ร้อยตรีหญิง':
-        return '7'
+        return '7';
       case 'ว่าที่ร้อยโท':
-        return '8'
+        return '8';
       case 'ว่าที่ร้อยโทหญิง':
-        return '9'
+        return '9';
       case 'ว่าที่ร้อยเอก':
-        return '10'
+        return '10';
       case 'ว่าที่ร้อยเอกหญิง':
-        return '11'
+        return '11';
       case 'สิบตรี':
-        return '12'
+        return '12';
       case 'สิบตรีหญิง':
-        return '13'
+        return '13';
       case 'สิบโท':
-        return '14'
+        return '14';
       case 'สิบโทหญิง':
-        return '15'
+        return '15';
       case 'สิบเอก':
-        return '16'
+        return '16';
       case 'สิบเอกหญิง':
-        return '17'
+        return '17';
       case 'จ่าสิบตรี':
-        return '18'
+        return '18';
       case 'จ่าสิบตรีหญิง':
-        return '19'
+        return '19';
       case 'จ่าสิบโท':
-        return '20'
+        return '20';
       case 'จ่าสิบโทหญิง':
-        return '21'
+        return '21';
       case 'จ่าสิบเอก':
-        return '22'
+        return '22';
       case 'จ่าสิบเอกหญิง':
-        return '23'
+        return '23';
       default:
         break;
     }
@@ -786,7 +1116,10 @@ export class AdminComponent1Component {
     const birthDate = new Date(dateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
@@ -795,15 +1128,15 @@ export class AdminComponent1Component {
   checkMaritalV2(data: any): any {
     switch (data) {
       case 'โสด':
-        return '1'
+        return '1';
       case 'อยู่ร่วมกัน':
-        return '2'
+        return '2';
       case 'เป็นหม้าย':
-        return '3'
+        return '3';
       case 'หย่าร้าง':
-        return '4'
+        return '4';
       case 'แยกกันอยู่':
-        return '5'
+        return '5';
       default:
         break;
     }
@@ -826,7 +1159,7 @@ export class AdminComponent1Component {
   infoId: any;
   clickInfo(id: any) {
     this.infoId = id;
-    this.service.getEmployee(id).subscribe(data => {
+    this.service.getEmployee(id).subscribe((data) => {
       const decimalPipe = new DecimalPipe('en-US');
       this.gender = data.gender;
       this.detail = true;
@@ -842,7 +1175,9 @@ export class AdminComponent1Component {
       this.getGuarantee(id);
 
       if (data.affiliation != null) {
-        this.service.searchByBureau(data.affiliation.bureau.id).subscribe(data => this.affiliation = data);
+        this.service
+          .searchByBureau(data.affiliation.bureau.id)
+          .subscribe((data) => (this.affiliation = data));
       }
 
       this.detailModel.patchValue({
@@ -856,7 +1191,9 @@ export class AdminComponent1Component {
         // bureauName: data.bureauName ? data.bureauName : '-',
         employeeTypeName: data.employeeTypeName ? data.employeeTypeName : '-',
         levelName: data.levelName ? data.levelName : '-',
-        birthdayCalendar: data?.birthday ? this.pipeDateTHD(data?.birthday) : '-',
+        birthdayCalendar: data?.birthday
+          ? this.pipeDateTHD(data?.birthday)
+          : '-',
         birthday: data?.birthday ? new Date(data.birthday) : null,
         age: data.birthday ? this.transformAge(data.birthday) : '-',
         marital: data?.marital ? data?.marital : '-',
@@ -877,7 +1214,9 @@ export class AdminComponent1Component {
 
         bureau: data.affiliation?.bureau ? data.affiliation?.bureau : null,
         bureauId: data.affiliation?.bureau ? data.affiliation?.bureau.id : 0,
-        bureauName: data.affiliation?.bureau ? data.affiliation?.bureau.name : null,
+        bureauName: data.affiliation?.bureau
+          ? data.affiliation?.bureau.name
+          : null,
 
         department: data.department ? data.department : null,
         departmentId: data.department ? data.department.id : 0,
@@ -887,45 +1226,84 @@ export class AdminComponent1Component {
         // stock: data.stock,
 
         // contact
-        tel: (data.contact?.tel != "NULL" && data.contact?.tel) ? data.contact?.tel : '-',
-        officePhone: data.contact?.officePhone ? data.contact?.officePhone : '-',
-        email: (data.contact?.email != "NULL" && data.contact?.email) ? data.contact?.email : '-',
-        fax: (data.contact?.fax != "NULL" && data.contact?.fax) ? data.contact?.fax : '-',
-        lineId: (data.contact?.lineId != "NULL" && data.contact?.lineId) ? data.contact?.lineId : '-',
-        facebook: (data.contact?.facebook != "NULL" && data.contact?.facebook) ? data.contact?.facebook : '-',
+        tel:
+          data.contact?.tel != 'NULL' && data.contact?.tel
+            ? data.contact?.tel
+            : '-',
+        officePhone: data.contact?.officePhone
+          ? data.contact?.officePhone
+          : '-',
+        email:
+          data.contact?.email != 'NULL' && data.contact?.email
+            ? data.contact?.email
+            : '-',
+        fax:
+          data.contact?.fax != 'NULL' && data.contact?.fax
+            ? data.contact?.fax
+            : '-',
+        lineId:
+          data.contact?.lineId != 'NULL' && data.contact?.lineId
+            ? data.contact?.lineId
+            : '-',
+        facebook:
+          data.contact?.facebook != 'NULL' && data.contact?.facebook
+            ? data.contact?.facebook
+            : '-',
         address: data.contact?.address ? data.contact?.address : '-',
 
-        retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
+        retirementDate: data?.birthday
+          ? this.checkRetirementDate(data?.birthday)
+          : '-',
 
-        compensation: data.compensation ? this.checkDecimalPipeOfNull(data.compensation) : null,
-        contractStart: data?.contractStartDate ? this.pipeDateTHD(data?.contractStartDate) : '-',
-        contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
-        civilService: data?.civilServiceDate ? this.pipeDateTHD(data?.civilServiceDate) : '-',
-        civilServiceDate: data?.civilServiceDate ? new Date(data?.civilServiceDate) : '',
+        compensation: data.compensation
+          ? this.checkDecimalPipeOfNull(data.compensation)
+          : null,
+        contractStart: data?.contractStartDate
+          ? this.pipeDateTHD(data?.contractStartDate)
+          : '-',
+        contractStartDate: data?.contractStartDate
+          ? new Date(data?.contractStartDate)
+          : null,
+        civilService: data?.civilServiceDate
+          ? this.pipeDateTHD(data?.civilServiceDate)
+          : '-',
+        civilServiceDate: data?.civilServiceDate
+          ? new Date(data?.civilServiceDate)
+          : '',
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
-        billingStart: data?.billingStartDate ? this.pipeDateTHD(data?.billingStartDate) : '-',
-        billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
-        monthlyStockMoney: data.monthlyStockMoney ? this.checkDecimalPipeOfNull(data.monthlyStockMoney) : null,
-        salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber : '-',
+        billingStart: data?.billingStartDate
+          ? this.pipeDateTHD(data?.billingStartDate)
+          : '-',
+        billingStartDate: data?.billingStartDate
+          ? new Date(data?.billingStartDate)
+          : null,
+        monthlyStockMoney: data.monthlyStockMoney
+          ? this.checkDecimalPipeOfNull(data.monthlyStockMoney)
+          : null,
+        salaryBankAccountNumber: data.salaryBankAccountNumber
+          ? data.salaryBankAccountNumber
+          : '-',
         salary: data.salary ? this.checkDecimalPipeOfNull(data.salary) : null,
-        bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber : '-',
+        bankAccountReceivingNumber: data.bankAccountReceivingNumber
+          ? data.bankAccountReceivingNumber
+          : '-',
         profileFlag: data.profileFlag,
         textHidden: '-',
 
         beneficiarySize: data.beneficiaries.length > 0 ? true : false,
         departmentName: data.departmentName ? data.departmentName : '-',
         stockAccumulate: data.stockAccumulate,
-        loanBalance: data.loanBalance
-      })
+        loanBalance: data.loanBalance,
+      });
     });
   }
 
   checkDecimalPipeOfNull(compensation: any) {
     const decimalPipe = new DecimalPipe('en-US');
     if (compensation === ' ' || compensation === '-') {
-      return decimalPipe.transform(0)
+      return decimalPipe.transform(0);
     } else {
-      return decimalPipe.transform(compensation)
+      return decimalPipe.transform(compensation);
     }
   }
 }

@@ -106,10 +106,15 @@ export class ShareComponentComponent implements OnInit {
     this.userId = this.localStorageService.retrieve('empId');
     this.stockId = this.localStorageService.retrieve('stockId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
-    this.getStock(this.stockId);
+
+    if (this.stockId != null) {
+      this.getStock(this.stockId);
+      this.searchStockDetail(this.stockId);
+    } else {
+      this.loading = false;
+    }
 
     // this.searchStock();
-    this.searchStockDetail(this.stockId);
     this.initMainFormBill();
     this.setperiodMonthDescOption();
     // this.getDapartment();
@@ -420,6 +425,7 @@ export class ShareComponentComponent implements OnInit {
   onCancle() {
     this.formModelStock.reset();
     this.displayModal = false;
+    this.displayModalBill = false;
   }
 
   checkNull: boolean = true;
@@ -1022,7 +1028,10 @@ export class ShareComponentComponent implements OnInit {
             deductionDate: element.startLoanDate,
             amountDay: '01',
             interest: element.interest,
-            principal: element.installment == element.loanTime ? Number(element.loanOrdinary) : Number(element.loanOrdinary - element.interest),
+            principal:
+              element.installment == element.loanTime
+                ? Number(element.loanOrdinary)
+                : Number(element.loanOrdinary - element.interest),
             principalBalance: element.loanBalance,
             totalDeduction: element.loanOrdinary,
           };
@@ -1127,8 +1136,8 @@ export class ShareComponentComponent implements OnInit {
     sumElementLoan: any,
     resStock: any
   ) {
-    console.log('<---- elementLoan',elementLoan);
-    
+    console.log('<---- elementLoan', elementLoan);
+
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -1261,13 +1270,19 @@ export class ShareComponentComponent implements OnInit {
                 },
                 {
                   text: elementLoan
-                    ? resStock.installment == resStock.loanTime ? this.formattedNumber2(elementLoan.totalDeduction) : this.formattedNumber2(elementLoan.principal)
+                    ? resStock.installment == resStock.loanTime
+                      ? this.formattedNumber2(elementLoan.totalDeduction)
+                      : this.formattedNumber2(elementLoan.principal)
                     : '',
                   alignment: 'right',
                 },
                 {
                   text: elementLoan
-                    ? this.formattedNumber2(Math.round(elementLoan.principalBalance - elementLoan.principal))
+                    ? this.formattedNumber2(
+                        Math.round(
+                          elementLoan.principalBalance - elementLoan.principal
+                        )
+                      )
                     : '',
                   alignment: 'right',
                 },

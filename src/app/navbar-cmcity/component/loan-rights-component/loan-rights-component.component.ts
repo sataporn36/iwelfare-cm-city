@@ -7,12 +7,12 @@ import { Chart } from 'chart.js';
 @Component({
   selector: 'app-loan-rights-component',
   templateUrl: './loan-rights-component.component.html',
-  styleUrls: ['./loan-rights-component.component.scss']
+  styleUrls: ['./loan-rights-component.component.scss'],
 })
 export class LoanRightsComponentComponent implements OnInit {
-
   userInfo: any;
   sumLoan: any;
+  sumLoanBalance: any;
   totalLoan: any;
   loanValueNull: any;
   data: any;
@@ -23,14 +23,17 @@ export class LoanRightsComponentComponent implements OnInit {
   widthBar: any;
   heightBar: any;
   sumMaxLoan: number = 0;
+  mockPercent: number = 82000;
+  loanSumPercent: number = 0;
+  periodMonthDescOption: any = [];
 
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {}
 
-  onCalculateYearsOfWorking(data: any){
+  onCalculateYearsOfWorking(data: any) {
     const startDate = new Date(data.billingStartDate); // Replace with your start date
     const currentDate = new Date(); // Current date
 
@@ -40,17 +43,48 @@ export class LoanRightsComponentComponent implements OnInit {
     // Convert milliseconds to years
     const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25; // Approximation of milliseconds in a year
     const yearsOfWork = differenceMs / millisecondsPerYear;
-   
-    if( Number(yearsOfWork.toFixed(0)) >= 3 ){
+
+    if (Number(yearsOfWork.toFixed(0)) >= 3) {
       this.sumLoan = data.salary * 30;
-    }else if( Number(yearsOfWork.toFixed(0)) >= 2 ){
+    } else if (Number(yearsOfWork.toFixed(0)) >= 2) {
       this.sumLoan = data.salary * 20;
-    }else if( Number(yearsOfWork.toFixed(0)) >= 1 ){
+    } else if (Number(yearsOfWork.toFixed(0)) >= 1) {
       this.sumLoan = data.salary * 10;
-    }else{
+    } else {
       this.sumLoan = data.salary * 10;
     }
-    //console.log('Years of working time:', yearsOfWork.toFixed(0));
+  }
+
+  pipeDateTH(date: any) {
+    if (date == null) {
+      return ' ';
+    }
+
+    const format = new Date(date);
+    const day = format.getDate();
+    const month = format.getMonth();
+    const year = format.getFullYear() + 543;
+
+    const monthSelect = this.periodMonthDescOption[month];
+
+    return day + ' ' + monthSelect.label + ' ' + year;
+  }
+
+  setperiodMonthDescOption() {
+    this.periodMonthDescOption = [
+      { value: '01', label: 'มกราคม' },
+      { value: '02', label: 'กุมภาพันธ์' },
+      { value: '03', label: 'มีนาคม' },
+      { value: '04', label: 'เมษายน' },
+      { value: '05', label: 'พฤษภาคม' },
+      { value: '06', label: 'มิถุนายน' },
+      { value: '07', label: 'กรกฎาคม' },
+      { value: '08', label: 'สิงหาคม' },
+      { value: '09', label: 'กันยายน' },
+      { value: '10', label: 'ตุลาคม' },
+      { value: '11', label: 'พฤศจิกายน' },
+      { value: '12', label: 'ธันวาคม' },
+    ];
   }
 
   ngOnInit(): void {
@@ -59,495 +93,150 @@ export class LoanRightsComponentComponent implements OnInit {
     this.sumMaxLoan = 900000;
     this.totalLoan = this.sumLoan - this.userInfo?.loanBalance;
 
+    this.sumLoanBalance = this.userInfo.loanValue - this.userInfo.loanBalance;
+
+    this.loanSumPercent = Math.round(
+      (this.sumLoanBalance / (this.sumLoanBalance + this.userInfo.loanValue)) *
+        100
+    );
+
     if (this.userInfo?.loanValue == 0.0) {
       this.loanValueNull = true;
     }
 
-    const documentStyle = getComputedStyle(document.documentElement);
+    this.setperiodMonthDescOption();
+    this.chartOne();
+    this.chartTwo();
+    this.chartThree();
+  }
 
+  chartOne() {
+    const documentStyle = getComputedStyle(document.documentElement);
     const chartPie = {
-      series: [this.sumLoan, this.userInfo.loanBalance],
+      series: [
+        this.sumMaxLoan,
+        this.mockPercent,
+        this.sumLoan,
+        this.userInfo.loanBalance,
+        this.userInfo.loanValue,
+      ],
       chart: {
-        width: "200%",
-        height: 320,
-        type: "pie",
-        fontFamily: 'Kanit, sans-serif'
+        width: '200%',
+        type: 'donut',
+        fontFamily: 'Kanit, sans-serif',
       },
-      labels: ['เงินกู้สามัญสูงสุด', 'หนี้เงินกู้คงเหลือ'],
-      responsive: [
-        {
-          breakpoint: 1367,
-          options: {
-            chart: {
-              width: "150%"
-            }
-          }
-        },
-        {
-          breakpoint: 1101,
-          options: {
-            chart: {
-              width: "280%"
-            }
-          }
-        },
-        {
-          breakpoint: 1001,
-          options: {
-            chart: {
-              width: "260%"
-            }
-          }
-        },
-        {
-          breakpoint: 991,
-          options: {
-            chart: {
-              width: "255%"
-            }
-          }
-        },
-        {
-          breakpoint: 971,
-          options: {
-            chart: {
-              width: "250%"
-            }
-          }
-        },
-        {
-          breakpoint: 951,
-          options: {
-            chart: {
-              width: "245%"
-            }
-          }
-        },
-        {
-          breakpoint: 931,
-          options: {
-            chart: {
-              width: "240%"
-            }
-          }
-        },
-        {
-          breakpoint: 911,
-          options: {
-            chart: {
-              width: "235%"
-            }
-          }
-        },
-        {
-          breakpoint: 891,
-          options: {
-            chart: {
-              width: "230%"
-            }
-          }
-        },
-        {
-          breakpoint: 871,
-          options: {
-            chart: {
-              width: "225%"
-            }
-          }
-        },
-        {
-          breakpoint: 861,
-          options: {
-            chart: {
-              width: "220%"
-            }
-          }
-        },
-        {
-          breakpoint: 851,
-          options: {
-            chart: {
-              width: "215%"
-            }
-          }
-        },
-        {
-          breakpoint: 841,
-          options: {
-            chart: {
-              width: "210%"
-            }
-          }
-        },
-        {
-          breakpoint: 831,
-          options: {
-            chart: {
-              width: "208%"
-            }
-          }
-        },
-        {
-          breakpoint: 821,
-          options: {
-            chart: {
-              width: "206%"
-            }
-          }
-        },
-        {
-          breakpoint: 811,
-          options: {
-            chart: {
-              width: "204%"
-            }
-          }
-        },
-        {
-          breakpoint: 801,
-          options: {
-            chart: {
-              width: "202%"
-            }
-          }
-        },
-        {
-          breakpoint: 791,
-          options: {
-            chart: {
-              width: "200%"
-            }
-          }
-        },
-        {
-          breakpoint: 781,
-          options: {
-            chart: {
-              width: "195%"
-            }
-          }
-        },
-        {
-          breakpoint: 771,
-          options: {
-            chart: {
-              width: "190%"
-            }
-          }
-        },
-        {
-          breakpoint: 761,
-          options: {
-            chart: {
-              width: "188%"
-            }
-          }
-        },
-        {
-          breakpoint: 751,
-          options: {
-            chart: {
-              width: "186%"
-            }
-          }
-        },
-        {
-          breakpoint: 741,
-          options: {
-            chart: {
-              width: "184%"
-            }
-          }
-        },
-        {
-          breakpoint: 731,
-          options: {
-            chart: {
-              width: "182%"
-            }
-          }
-        },
-        {
-          breakpoint: 721,
-          options: {
-            chart: {
-              width: "180%"
-            }
-          }
-        },
-        {
-          breakpoint: 711,
-          options: {
-            chart: {
-              width: "178%"
-            }
-          }
-        },
-        {
-          breakpoint: 701,
-          options: {
-            chart: {
-              width: "176%"
-            }
-          }
-        },
-        {
-          breakpoint: 691,
-          options: {
-            chart: {
-              width: "174%"
-            }
-          }
-        },
-        {
-          breakpoint: 681,
-          options: {
-            chart: {
-              width: "172%"
-            }
-          }
-        },
-        {
-          breakpoint: 671,
-          options: {
-            chart: {
-              width: "170%"
-            }
-          }
-        },
-        {
-          breakpoint: 661,
-          options: {
-            chart: {
-              width: "168%"
-            }
-          }
-        },
-        {
-          breakpoint: 651,
-          options: {
-            chart: {
-              width: "166%"
-            }
-          }
-        },
-        {
-          breakpoint: 641,
-          options: {
-            chart: {
-              width: "164%"
-            }
-          }
-        },
-        {
-          breakpoint: 631,
-          options: {
-            chart: {
-              width: "160%"
-            }
-          }
-        },
-        {
-          breakpoint: 621,
-          options: {
-            chart: {
-              width: "156%"
-            }
-          }
-        },
-        {
-          breakpoint: 611,
-          options: {
-            chart: {
-              width: "152%"
-            }
-          }
-        },
-        {
-          breakpoint: 601,
-          options: {
-            chart: {
-              width: "148%"
-            }
-          }
-        },
-        {
-          breakpoint: 591,
-          options: {
-            chart: {
-              width: "144%"
-            }
-          }
-        },
-        {
-          breakpoint: 581,
-          options: {
-            chart: {
-              width: "140%"
-            }
-          }
-        },
-        {
-          breakpoint: 571,
-          options: {
-            chart: {
-              width: "136%"
-            }
-          }
-        },
-        {
-          breakpoint: 561,
-          options: {
-            chart: {
-              width: "132%"
-            }
-          }
-        },
-        {
-          breakpoint: 551,
-          options: {
-            chart: {
-              width: "128%"
-            }
-          }
-        },
-        {
-          breakpoint: 531,
-          options: {
-            chart: {
-              width: "124%"
-            }
-          }
-        },
-        {
-          breakpoint: 511,
-          options: {
-            chart: {
-              width: "120%"
-            }
-          }
-        },
-        {
-          breakpoint: 491,
-          options: {
-            chart: {
-              width: "116%"
-            }
-          }
-        },
-        {
-          breakpoint: 471,
-          options: {
-            chart: {
-              width: "112%"
-            }
-          }
-        },
-        {
-          breakpoint: 451,
-          options: {
-            chart: {
-              width: "108%"
-            }
-          }
-        },
-        {
-          breakpoint: 431,
-          options: {
-            chart: {
-              width: "100%"
-            }
-          }
-        },
+      labels: [
+        'กู้ได้ไม่เกิน',
+        'ดอกเบี้ย (%)',
+        'เงินกู้สามัญสูงสุด',
+        'วงเงินกู้ปัจจุบัน',
+        'หนี้เงินกู้คงเหลือ',
       ],
-      colors: [
-        documentStyle.getPropertyValue('--pink-800'),
-        documentStyle.getPropertyValue('--pink-600'),
-      ],
+      colors: ['#8174A0', '#A2D2DF', '#FFD2A0', '#EFB6C8', '#36B990'],
       legend: {
-        position: 'bottom',
+        position: 'right',
         fontSize: '14px',
       },
-    };
-
-    const chart1 = new ApexCharts(document.querySelector('#chartPie'), chartPie);
-    chart1.render();
-
-    const chartBar = {
-      series: [{
-        name: "จำนวนเงิน",
-        data: [900000, this.sumLoan, this.userInfo.loanBalance]
-      }],
-      chart: {
-        type: "bar",
-        width: "100%",
-        height: 320,
-        stacked: true,
-        fontFamily: 'Kanit, sans-serif',
-        redrawOnWindowResize: true,
-      },
       plotOptions: {
-        bar: {
-          columnWidth: "30%",
-          distributed: true,
-          horizontal: true,
+        pie: {
+          donut: {
+            size: '40%',
+          },
         },
       },
       dataLabels: {
-        formatter: (val) => Number(val) / 1000 + "K",
+        enabled: false,
       },
-      stroke: {
-        width: 1,
-        colors: ["#fff"],
-      },
-      xaxis: {
-        categories: [
-          "กู้ได้ไม่เกิน",
-          "เงินกู้สามัญสูงสุด",
-          "หนี้เงินกู้คงเหลือ",
-        ],
-        labels: {
-          style: {
-            colors: [
-              documentStyle.getPropertyValue('--pink-800'),
-              documentStyle.getPropertyValue('--pink-600'),
-            ],
-            fontSize: "14px",
+      tooltip: {
+        y: {
+          formatter: function (value, { seriesIndex }) {
+            if (seriesIndex === 1) {
+              return '5%';
+            }
+            return value;
           },
         },
       },
-      legend: {
-        position: "right",
-        verticalAlign: "top",
-        containerMargin: {
-          left: 35,
-          right: 60
-        }
-      },
-      fill: {
-        opacity: 1,
-      },
-      responsive: [{
-        breakpoint: 1501,
-        options: {
-          plotOptions: {
-            bar: {
-              horizontal: false,
-            },
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      }],
-      colors: [
-        documentStyle.getPropertyValue('--pink-800'),
-        documentStyle.getPropertyValue('--pink-600'),
-        documentStyle.getPropertyValue('--purple-800'),
-      ]
     };
 
-    const chart = new ApexCharts(document.querySelector('#chartBar'), chartBar);
-    chart.render();
+    const chart1 = new ApexCharts(
+      document.querySelector('#chartPie'),
+      chartPie
+    );
+    chart1.render();
+  }
+
+  chartTwo() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const loanPie = {
+      series: [this.sumLoanBalance, this.userInfo.loanValue],
+      chart: {
+        width: '100%',
+        type: 'donut',
+        fontFamily: 'Kanit, sans-serif',
+      },
+      colors: [
+        documentStyle.getPropertyValue('--pink-400'),
+        documentStyle.getPropertyValue('--pink-100'),
+      ],
+      legend: {
+        show: false,
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            background: '#ffffff',
+            size: '50%',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+      labels: [],
+    };
+
+    const chart2 = new ApexCharts(document.querySelector('#loanPie'), loanPie);
+    chart2.render();
+  }
+
+  chartThree() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const loanPieNew = {
+      series: [this.sumLoan, this.sumMaxLoan],
+      chart: {
+        width: '100%',
+        type: 'donut',
+        fontFamily: 'Kanit, sans-serif',
+      },
+      colors: [
+        documentStyle.getPropertyValue('--orange-400'),
+        documentStyle.getPropertyValue('--orange-100'),
+      ],
+      legend: {
+        show: false,
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            background: '#ffffff',
+            size: '50%',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      labels: ['เงินกู้สามัญสูงสุด', 'กู้ได้ไม่เกิน'],
+    };
+
+    const chart3 = new ApexCharts(
+      document.querySelector('#loanPieNew'),
+      loanPieNew
+    );
+    chart3.render();
   }
 }

@@ -19,7 +19,7 @@ import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-profile-component',
   templateUrl: './profile-component.component.html',
-  styleUrls: ['./profile-component.component.scss']
+  styleUrls: ['./profile-component.component.scss'],
 })
 export class ProfileComponentComponent implements OnInit {
   formModel!: FormGroup;
@@ -29,7 +29,7 @@ export class ProfileComponentComponent implements OnInit {
   formModelMom!: FormGroup;
   formModelChild!: FormGroup;
   responsiveOptions: any;
-  defaultDateline: Date = new Date("12/31/2003");
+  defaultDateline: Date = new Date('12/31/2003');
   menuItems!: MenuItem[];
   menuItemsNotify!: MenuItem[];
   periodMonthDescOption: any = [];
@@ -63,7 +63,7 @@ export class ProfileComponentComponent implements OnInit {
   textStringDad: string = 'form-control-plaintext';
   textStringChild: string = 'form-control-plaintext';
 
-  beneficiarys: Observable<Beneficiary[]> | any
+  beneficiarys: Observable<Beneficiary[]> | any;
   controls: any;
   wife!: Boolean;
   child!: Boolean;
@@ -118,8 +118,7 @@ export class ProfileComponentComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private sanitizer: DomSanitizer
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     // if (!localStorage.getItem('foo')) {
@@ -161,20 +160,20 @@ export class ProfileComponentComponent implements OnInit {
         label: 'ขอลาออก',
         command: () => {
           this.displayResign();
-        }
+        },
       },
       {
         label: 'ขอเปลี่ยนเงินส่งหุ้นรายเดือน',
         command: () => {
           this.displayChangeStockToMonth();
-        }
+        },
       },
       {
         label: 'แก้ไข',
         command: () => {
           this.onClickEdit();
-        }
-      }
+        },
+      },
     ];
 
     this.menuItemsNotify = [
@@ -182,26 +181,26 @@ export class ProfileComponentComponent implements OnInit {
         label: 'รอการอนุมัติ',
         command: () => {
           this.onClickShowReqInfo();
-        }
+        },
       },
       {
         label: 'ขอลาออก',
         command: () => {
           this.displayResign();
-        }
+        },
       },
       {
         label: 'ขอเปลี่ยนเงินส่งหุ้นรายเดือน',
         command: () => {
           this.displayChangeStockToMonth();
-        }
+        },
       },
       {
         label: 'แก้ไข',
         command: () => {
           this.onClickEdit();
-        }
-      }
+        },
+      },
     ];
   }
 
@@ -210,35 +209,38 @@ export class ProfileComponentComponent implements OnInit {
       this.imageSrcAddress = 'assets/images/image-default2.png';
     }
 
-
     if (this.imageSrcIdCard == null) {
       this.imageSrcIdCard = 'assets/images/image-default2.png';
     }
   }
 
   getPositions(): void {
-    this.service.searchPosition().subscribe(data => this.position = data);
+    this.service.searchPosition().subscribe((data) => (this.position = data));
   }
 
   getBureau(): void {
-    this.service.searchBureau().subscribe(data => this.bureau = data);
+    this.service.searchBureau().subscribe((data) => (this.bureau = data));
   }
 
   getDapartment(): void {
-    this.service.searchDepartment().subscribe(data => this.dapartment = data);
+    this.service
+      .searchDepartment()
+      .subscribe((data) => (this.dapartment = data));
   }
 
   searchLevel(): void {
-    this.service.searchLevel().subscribe(data => this.level = data);
+    this.service.searchLevel().subscribe((data) => (this.level = data));
   }
 
   searchEmployeeType(): void {
-    this.service.searchEmployeeType().subscribe(data => this.employeeType = data);
+    this.service
+      .searchEmployeeType()
+      .subscribe((data) => (this.employeeType = data));
   }
 
   checkPhoneNumber() {
     this.pnumberCheck = this.formModel.get('tel')?.value;
-    if (this.pnumberCheck?.match("^[0-9]{10}$")) {
+    if (this.pnumberCheck?.match('^[0-9]{10}$')) {
       this.pnumberValidation = false;
     } else {
       this.pnumberValidation = true;
@@ -247,7 +249,7 @@ export class ProfileComponentComponent implements OnInit {
 
   checkEmail() {
     this.emailCheck = this.formModel.get('email')?.value;
-    if (this.emailCheck?.match("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) {
+    if (this.emailCheck?.match('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')) {
       this.emailValidation = false;
     } else {
       this.emailValidation = true;
@@ -263,13 +265,17 @@ export class ProfileComponentComponent implements OnInit {
       playload.lastName = playload.beneficiaryLastName;
       playload.id = 0;
       playload.gender = this.checkPrefix_Gender(playload.prefix);
-      playload.relationship = this.checkRelationship_text(playload.beneficiaryRelationship);
+      playload.relationship = this.checkRelationship_text(
+        playload.beneficiaryRelationship
+      );
       playload.marital = this.checkMaritalV2_text(playload.beneficiaryMarital);
-      playload.lifeStatus = this.checkMaritalV1_text(playload.beneficiaryLifeStatus);
+      playload.lifeStatus = this.checkMaritalV1_text(
+        playload.beneficiaryLifeStatus
+      );
       playload.birthday = playload.beneficiaryBirthday;
       playload.employee = {
         id: this.userId,
-      }
+      };
 
       this.service.updateBeneficiary(playload).subscribe((res) => {
         this.getEmployee(this.userId);
@@ -289,13 +295,17 @@ export class ProfileComponentComponent implements OnInit {
       playload.firstName = playload.beneficiaryFirstName;
       playload.lastName = playload.beneficiaryLastName;
       playload.gender = this.checkPrefix_Gender(playload.prefix);
-      playload.relationship = this.checkRelationship_text(playload.beneficiaryRelationship);
+      playload.relationship = this.checkRelationship_text(
+        playload.beneficiaryRelationship
+      );
       playload.marital = this.checkMaritalV2_text(playload.beneficiaryMarital);
-      playload.lifeStatus = this.checkMaritalV1_text(playload.beneficiaryLifeStatus);
+      playload.lifeStatus = this.checkMaritalV1_text(
+        playload.beneficiaryLifeStatus
+      );
       playload.birthday = playload.beneficiaryBirthday;
       playload.employee = {
         id: this.userId,
-      }
+      };
 
       this.service.updateBeneficiary(playload).subscribe((res) => {
         this.getEmployee(this.userId);
@@ -414,7 +424,7 @@ export class ProfileComponentComponent implements OnInit {
       beneficiaryBirthday: new FormControl(null),
       beneficiaryRelationship: new FormControl('บิดา'),
       beneficiaryMarital: new FormControl(null),
-      beneficiaryLifeStatus: new FormControl(null),
+      beneficiaryLifeStatus: new FormControl(0),
       birthday: new FormControl(null),
       countChild: new FormControl(null),
       beneficiarySize: new FormControl(null),
@@ -503,11 +513,10 @@ export class ProfileComponentComponent implements OnInit {
     this.formModelStock = new FormGroup({
       monthlyStockMoneyNew: new FormControl(null, Validators.required),
     });
-
   }
 
   getEmployee(id: any): void {
-    this.service.getEmployee(id).subscribe(data => {
+    this.service.getEmployee(id).subscribe((data) => {
       const decimalPipe = new DecimalPipe('en-US');
       this.gender = data.gender;
       this.checkStockValueFlag = data.checkStockValueFlag;
@@ -527,7 +536,9 @@ export class ProfileComponentComponent implements OnInit {
         bureauName: data.bureauName ? data.bureauName : '-',
         employeeTypeName: data.employeeTypeName ? data.employeeTypeName : '-',
         levelName: data.levelName ? data.levelName : '-',
-        birthdayCalendar: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
+        birthdayCalendar: data?.birthday
+          ? this.pipeDateTH(data?.birthday)
+          : '-',
         birthday: data?.birthday ? new Date(data.birthday) : null,
         age: data.birthday ? this.transformAge(data.birthday) : '-',
         marital: data?.marital ? data?.marital : '-',
@@ -544,47 +555,97 @@ export class ProfileComponentComponent implements OnInit {
         stock: data.stock,
 
         // contact
-        tel: (data.contact?.tel != "NULL" && data.contact?.tel) ? data.contact?.tel : '-',
-        officePhone: data.contact?.officePhone ? data.contact?.officePhone : '-',
-        email: (data.contact?.email != "NULL" && data.contact?.email) ? data.contact?.email : '-',
-        fax: (data.contact?.fax != "NULL" && data.contact?.fax) ? data.contact?.fax : '-',
-        lineId: (data.contact?.lineId != "NULL" && data.contact?.lineId) ? data.contact?.lineId : '-',
-        facebook: (data.contact?.facebook != "NULL" && data.contact?.facebook) ? data.contact?.facebook : '-',
+        tel:
+          data.contact?.tel != 'NULL' && data.contact?.tel
+            ? data.contact?.tel
+            : '-',
+        officePhone: data.contact?.officePhone
+          ? data.contact?.officePhone
+          : '-',
+        email:
+          data.contact?.email != 'NULL' && data.contact?.email
+            ? data.contact?.email
+            : '-',
+        fax:
+          data.contact?.fax != 'NULL' && data.contact?.fax
+            ? data.contact?.fax
+            : '-',
+        lineId:
+          data.contact?.lineId != 'NULL' && data.contact?.lineId
+            ? data.contact?.lineId
+            : '-',
+        facebook:
+          data.contact?.facebook != 'NULL' && data.contact?.facebook
+            ? data.contact?.facebook
+            : '-',
         address: data.contact?.address ? data.contact?.address : '-',
 
-        retirementDate: data?.birthday ? this.checkRetirementDate(data?.birthday) : '-',
+        retirementDate: data?.birthday
+          ? this.checkRetirementDate(data?.birthday)
+          : '-',
 
-        compensation: data.compensation ? decimalPipe.transform(data.compensation) : null,
-        contractStart: data?.contractStartDate ? this.pipeDateTH(data?.contractStartDate) : '-',
-        contractStartDate: data?.contractStartDate ? new Date(data?.contractStartDate) : null,
-        civilService: data?.civilServiceDate ? this.pipeDateTH(data?.civilServiceDate) : '-',
-        civilServiceDate: data?.civilServiceDate ? new Date(data?.civilServiceDate) : '',
+        compensation: data.compensation
+          ? decimalPipe.transform(data.compensation)
+          : '-',
+        contractStart: data?.contractStartDate
+          ? this.pipeDateTH(data?.contractStartDate)
+          : '-',
+        contractStartDate: data?.contractStartDate
+          ? new Date(data?.contractStartDate)
+          : null,
+        civilService: data?.civilServiceDate
+          ? this.pipeDateTH(data?.civilServiceDate)
+          : '-',
+        civilServiceDate: data?.civilServiceDate
+          ? new Date(data?.civilServiceDate)
+          : '',
         employeeStatus: data.employeeStatus ? data.employeeStatus : '-',
-        billingStart: data?.billingStartDate ? this.pipeDateTH(data?.billingStartDate) : '-',
-        billingStartDate: data?.billingStartDate ? new Date(data?.billingStartDate) : null,
-        monthlyStockMoney: data.monthlyStockMoney ? decimalPipe.transform(data.monthlyStockMoney) : null,
-        salaryBankAccountNumber: data.salaryBankAccountNumber ? data.salaryBankAccountNumber : '-',
+        billingStart: data?.billingStartDate
+          ? this.pipeDateTH(data?.billingStartDate)
+          : '-',
+        billingStartDate: data?.billingStartDate
+          ? new Date(data?.billingStartDate)
+          : null,
+        monthlyStockMoney: data.monthlyStockMoney
+          ? decimalPipe.transform(data.monthlyStockMoney)
+          : null,
+        salaryBankAccountNumber: data.salaryBankAccountNumber
+          ? data.salaryBankAccountNumber
+          : '-',
         salary: data.salary ? decimalPipe.transform(data.salary) : null,
-        bankAccountReceivingNumber: data.bankAccountReceivingNumber ? data.bankAccountReceivingNumber : '-',
+        bankAccountReceivingNumber: data.bankAccountReceivingNumber
+          ? data.bankAccountReceivingNumber
+          : '-',
         profileFlag: data.profileFlag,
         textHidden: '-',
 
         beneficiarySize: data.beneficiaries.length > 0 ? true : false,
-        departmentName: data.departmentName ? data.departmentName : '-'
-
-      })
+        departmentName: data.departmentName ? data.departmentName : '-',
+      });
 
       this.formModelChild.patchValue({
         ...data,
         textHidden: '-',
 
-        beneficiaryPrefix: data.beneficiaries?.prefix ? data.beneficiaries?.prefix : '0',
-        beneficiaryFirstName: data.beneficiaries?.firstName ? data.beneficiaries?.firstName : '',
-        beneficiaryLastName: data.beneficiaries?.lastName ? data.beneficiaries?.lastName : '',
-        beneficiaryBirthday: data.beneficiaries?.birthday ? new Date(data.beneficiaries?.birthday) : '',
-        beneficiaryRelationship: data.beneficiaries?.relationship ? data.beneficiaries?.relationship : '0',
-        beneficiaryMarital: data.beneficiaries?.marital ? data.beneficiaries?.marital : '0',
-      })
+        beneficiaryPrefix: data.beneficiaries?.prefix
+          ? data.beneficiaries?.prefix
+          : '0',
+        beneficiaryFirstName: data.beneficiaries?.firstName
+          ? data.beneficiaries?.firstName
+          : '',
+        beneficiaryLastName: data.beneficiaries?.lastName
+          ? data.beneficiaries?.lastName
+          : '',
+        beneficiaryBirthday: data.beneficiaries?.birthday
+          ? new Date(data.beneficiaries?.birthday)
+          : '',
+        beneficiaryRelationship: data.beneficiaries?.relationship
+          ? data.beneficiaries?.relationship
+          : '0',
+        beneficiaryMarital: data.beneficiaries?.marital
+          ? data.beneficiaries?.marital
+          : '0',
+      });
 
       this.beneficiarysCheck = data.beneficiaries.length;
       this.beneficiarys = data.beneficiaries;
@@ -594,70 +655,97 @@ export class ProfileComponentComponent implements OnInit {
 
   check(data: any) {
     data.forEach((data: Beneficiary) => {
-
       if (data.relationship == 'บิดา') {
         this.formModelGf.patchValue({
           ...data,
           textHidden: '-',
-          beneficiaryPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : '-',
+          beneficiaryPrefix: data?.prefix
+            ? this.checkPrefix(data?.prefix)
+            : '-',
           prefix: data?.prefix ? data?.prefix : '-',
           beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
           beneficiaryLastName: data?.lastName ? data?.lastName : '-',
           birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
           beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
-          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          beneficiaryRelationship: data?.relationship
+            ? data?.relationship
+            : '-',
           lifeStatus: data?.lifeStatus ? data?.lifeStatus : '-',
-          beneficiaryLifeStatus: data?.lifeStatus ? this.checkMaritalV1(data?.lifeStatus) : '-',
-        })
+          beneficiaryLifeStatus: data?.lifeStatus
+            ? this.checkMaritalV1(data?.lifeStatus)
+            : '-',
+        });
       }
       if (data.relationship == 'มารดา') {
         this.formModelGm.patchValue({
           ...data,
           textHidden: '-',
-          beneficiaryPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : '-',
+          beneficiaryPrefix: data?.prefix
+            ? this.checkPrefix(data?.prefix)
+            : '-',
           prefix: data?.prefix ? data?.prefix : '-',
           beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
           beneficiaryLastName: data?.lastName ? data?.lastName : '-',
           birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
           beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
-          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          beneficiaryRelationship: data?.relationship
+            ? data?.relationship
+            : '-',
           lifeStatus: data?.lifeStatus ? data?.lifeStatus : '-',
-          beneficiaryLifeStatus: data?.lifeStatus ? this.checkMaritalV1(data?.lifeStatus) : '-',
-        })
+          beneficiaryLifeStatus: data?.lifeStatus
+            ? this.checkMaritalV1(data?.lifeStatus)
+            : '-',
+        });
       }
       if (data.relationship == 'สามี') {
         this.formModelDad.patchValue({
           ...data,
           textHidden: '-',
-          beneficiaryPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : '-',
+          beneficiaryPrefix: data?.prefix
+            ? this.checkPrefix(data?.prefix)
+            : '-',
           prefix: data?.prefix ? data?.prefix : '-',
           beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
           beneficiaryLastName: data?.lastName ? data?.lastName : '-',
           birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
           beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
-          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          beneficiaryRelationship: data?.relationship
+            ? data?.relationship
+            : '-',
           marital: data?.marital ? data?.marital : '-',
-          beneficiaryMarital: data?.marital ? this.checkMaritalV2(data?.marital) : '-',
+          beneficiaryMarital: data?.marital
+            ? this.checkMaritalV2(data?.marital)
+            : '-',
           lifeStatus: data?.lifeStatus ? data?.lifeStatus : '-',
-          beneficiaryLifeStatus: data?.lifeStatus ? this.checkMaritalV1(data?.lifeStatus) : '-',
-        })
+          beneficiaryLifeStatus: data?.lifeStatus
+            ? this.checkMaritalV1(data?.lifeStatus)
+            : '-',
+        });
       }
       if (data.relationship == 'ภรรยา') {
         this.formModelMom.patchValue({
           ...data,
           textHidden: '-',
-          beneficiaryPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : '-',
+          beneficiaryPrefix: data?.prefix
+            ? this.checkPrefix(data?.prefix)
+            : '-',
           prefix: data?.prefix ? data?.prefix : '-',
           beneficiaryFirstName: data?.firstName ? data?.firstName : '-',
           beneficiaryLastName: data?.lastName ? data?.lastName : '-',
           birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
           beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
-          beneficiaryRelationship: data?.relationship ? data?.relationship : '-',
+          beneficiaryRelationship: data?.relationship
+            ? data?.relationship
+            : '-',
           marital: data?.marital ? data?.marital : '-',
-          beneficiaryMarital: data?.marital ? this.checkMaritalV2(data?.marital) : '-',
+          beneficiaryMarital: data?.marital
+            ? this.checkMaritalV2(data?.marital)
+            : '-',
           lifeStatus: data?.lifeStatus ? data?.lifeStatus : '-',
-          beneficiaryLifeStatus: data?.lifeStatus ? this.checkMaritalV1(data?.lifeStatus) : '-',
-        })
+          beneficiaryLifeStatus: data?.lifeStatus
+            ? this.checkMaritalV1(data?.lifeStatus)
+            : '-',
+        });
       }
       if (data.relationship == 'บุตร' || data.relationship == 'บุตรบุญธรรม') {
         this.arrayChild.push(data);
@@ -699,7 +787,10 @@ export class ProfileComponentComponent implements OnInit {
     const birthDate = new Date(dateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
@@ -707,7 +798,9 @@ export class ProfileComponentComponent implements OnInit {
 
   onCheckAge(event: any) {
     const data = event;
-    this.formModel.get('age')?.setValue(this.transformAge(data) > 0 ? this.transformAge(data) : 0);
+    this.formModel
+      .get('age')
+      ?.setValue(this.transformAge(data) > 0 ? this.transformAge(data) : 0);
   }
 
   onClearAge() {
@@ -730,41 +823,59 @@ export class ProfileComponentComponent implements OnInit {
 
   onClickEdit() {
     this.textString = 'form-control';
-    this.mode = false;;
+    this.mode = false;
     this.formModel.enable();
 
     // check disable
-    if (this.formModel.get('positionName')?.value != null || this.formModel.get('positionName')?.value != '-') {
+    if (
+      this.formModel.get('positionName')?.value != null ||
+      this.formModel.get('positionName')?.value != '-'
+    ) {
       this.formModel.get('positionName')?.disable();
     } else {
       this.formModel.get('positionName')?.enable();
     }
 
-    if (this.formModel.get('affiliationName')?.value != null || this.formModel.get('affiliationName')?.value != '-') {
+    if (
+      this.formModel.get('affiliationName')?.value != null ||
+      this.formModel.get('affiliationName')?.value != '-'
+    ) {
       this.formModel.get('affiliationName')?.disable();
     } else {
       this.formModel.get('affiliationName')?.enable();
     }
 
-    if (this.formModel.get('bureauName')?.value != null || this.formModel.get('bureauName')?.value != '-') {
+    if (
+      this.formModel.get('bureauName')?.value != null ||
+      this.formModel.get('bureauName')?.value != '-'
+    ) {
       this.formModel.get('bureauName')?.disable();
     } else {
       this.formModel.get('bureauName')?.enable();
     }
 
-    if (this.formModel.get('employeeTypeName')?.value != null || this.formModel.get('employeeTypeName')?.value != '-') {
+    if (
+      this.formModel.get('employeeTypeName')?.value != null ||
+      this.formModel.get('employeeTypeName')?.value != '-'
+    ) {
       this.formModel.get('employeeTypeName')?.disable();
     } else {
       this.formModel.get('employeeTypeName')?.enable();
     }
 
-    if (this.formModel.get('levelName')?.value != null || this.formModel.get('levelName')?.value != '-') {
+    if (
+      this.formModel.get('levelName')?.value != null ||
+      this.formModel.get('levelName')?.value != '-'
+    ) {
       this.formModel.get('levelName')?.disable();
     } else {
       this.formModel.get('levelName')?.enable();
     }
 
-    if (this.formModel.get('departmentName')?.value != null || this.formModel.get('departmentName')?.value != '-') {
+    if (
+      this.formModel.get('departmentName')?.value != null ||
+      this.formModel.get('departmentName')?.value != '-'
+    ) {
       this.formModel.get('departmentName')?.disable();
     } else {
       this.formModel.get('departmentName')?.enable();
@@ -815,7 +926,7 @@ export class ProfileComponentComponent implements OnInit {
     // this.ngOnInit()
   }
 
-  // มารดา  
+  // มารดา
   onClickGm() {
     this.textStringGm = 'form-control';
     this.formModelGm.enable();
@@ -830,7 +941,7 @@ export class ProfileComponentComponent implements OnInit {
     // this.ngOnInit()
   }
 
-  // สามี    
+  // สามี
   onClickDad() {
     this.textStringDad = 'form-control';
     this.formModelDad.enable();
@@ -860,12 +971,14 @@ export class ProfileComponentComponent implements OnInit {
     // this.ngOnInit()
   }
 
-  // ลูก  
+  // ลูก
   onClickChild() {
     this.textStringChild = 'form-control';
     this.modeChild = false;
     const data = this.formModelChild.getRawValue();
-    this.formModelChild.get('beneficiaryBirthday')?.setValue(new Date(data.birthday));
+    this.formModelChild
+      .get('beneficiaryBirthday')
+      ?.setValue(new Date(data.birthday));
   }
 
   wifeChange(e: any) {
@@ -879,7 +992,10 @@ export class ProfileComponentComponent implements OnInit {
   childChange(e: any) {
     if (e.checked) {
       this.child = true;
-      this.countChildDisplay = Array.from(new Array(this.formModel.get('countChild')?.value), (x, i) => i + 1);
+      this.countChildDisplay = Array.from(
+        new Array(this.formModel.get('countChild')?.value),
+        (x, i) => i + 1
+      );
     } else {
       this.child = false;
     }
@@ -892,51 +1008,51 @@ export class ProfileComponentComponent implements OnInit {
   checkPrefix(data: any): any {
     switch (data) {
       case 'นาย':
-        return '1'
+        return '1';
       case 'นางสาว':
-        return '2'
+        return '2';
       case 'นาง':
-        return '3'
+        return '3';
       case 'ด.ช':
-        return '4'
+        return '4';
       case 'ด.ญ':
-        return '5'
+        return '5';
       case 'ว่าที่ร้อยตรี':
-        return '6'
+        return '6';
       case 'ว่าที่ร้อยตรีหญิง':
-        return '7'
+        return '7';
       case 'ว่าที่ร้อยโท':
-        return '8'
+        return '8';
       case 'ว่าที่ร้อยโทหญิง':
-        return '9'
+        return '9';
       case 'ว่าที่ร้อยเอก':
-        return '10'
+        return '10';
       case 'ว่าที่ร้อยเอกหญิง':
-        return '11'
+        return '11';
       case 'สิบตรี':
-        return '12'
+        return '12';
       case 'สิบตรีหญิง':
-        return '13'
+        return '13';
       case 'สิบโท':
-        return '14'
+        return '14';
       case 'สิบโทหญิง':
-        return '15'
+        return '15';
       case 'สิบเอก':
-        return '16'
+        return '16';
       case 'สิบเอกหญิง':
-        return '17'
+        return '17';
       case 'จ่าสิบตรี':
-        return '18'
+        return '18';
       case 'จ่าสิบตรีหญิง':
-        return '19'
+        return '19';
       case 'จ่าสิบโท':
-        return '20'
+        return '20';
       case 'จ่าสิบโทหญิง':
-        return '21'
+        return '21';
       case 'จ่าสิบเอก':
-        return '22'
+        return '22';
       case 'จ่าสิบเอกหญิง':
-        return '23'
+        return '23';
       default:
         break;
     }
@@ -945,51 +1061,51 @@ export class ProfileComponentComponent implements OnInit {
   checkPrefix_Gender(data: any): any {
     switch (data) {
       case 'นาย':
-        return 'ชาย'
+        return 'ชาย';
       case 'นางสาว':
-        return 'หญิง'
+        return 'หญิง';
       case 'นาง':
-        return 'หญิง'
+        return 'หญิง';
       case 'ด.ช':
-        return 'ชาย'
+        return 'ชาย';
       case 'ด.ญ':
-        return 'หญิง'
+        return 'หญิง';
       case 'ว่าที่ร้อยตรี':
-        return 'ชาย'
+        return 'ชาย';
       case 'ว่าที่ร้อยตรีหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'ว่าที่ร้อยโท':
-        return 'ชาย'
+        return 'ชาย';
       case 'ว่าที่ร้อยโทหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'ว่าที่ร้อยเอก':
-        return 'ชาย'
+        return 'ชาย';
       case 'ว่าที่ร้อยเอกหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'สิบตรี':
-        return 'ชาย'
+        return 'ชาย';
       case 'สิบตรีหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'สิบโท':
-        return 'ชาย'
+        return 'ชาย';
       case 'สิบโทหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'สิบเอก':
-        return 'ชาย'
+        return 'ชาย';
       case 'สิบเอกหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'จ่าสิบตรี':
-        return 'ชาย'
+        return 'ชาย';
       case 'จ่าสิบตรีหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'จ่าสิบโท':
-        return 'ชาย'
+        return 'ชาย';
       case 'จ่าสิบโทหญิง':
-        return 'หญิง'
+        return 'หญิง';
       case 'จ่าสิบเอก':
-        return 'ชาย'
+        return 'ชาย';
       case 'จ่าสิบเอกหญิง':
-        return 'หญิง'
+        return 'หญิง';
       default:
         break;
     }
@@ -998,51 +1114,51 @@ export class ProfileComponentComponent implements OnInit {
   checkPrefix_text(data: any): any {
     switch (data) {
       case '1':
-        return 'นาย'
+        return 'นาย';
       case '2':
-        return 'นางสาว'
+        return 'นางสาว';
       case '3':
-        return 'นาง'
+        return 'นาง';
       case '4':
-        return 'ด.ช'
+        return 'ด.ช';
       case '5':
-        return 'ด.ญ'
+        return 'ด.ญ';
       case '6':
-        return 'ว่าที่ร้อยตรี'
+        return 'ว่าที่ร้อยตรี';
       case '7':
-        return 'ว่าที่ร้อยตรีหญิง'
+        return 'ว่าที่ร้อยตรีหญิง';
       case '8':
-        return 'ว่าที่ร้อยโท'
+        return 'ว่าที่ร้อยโท';
       case '9':
-        return 'ว่าที่ร้อยโทหญิง'
+        return 'ว่าที่ร้อยโทหญิง';
       case '10':
-        return 'ว่าที่ร้อยเอก'
+        return 'ว่าที่ร้อยเอก';
       case '11':
-        return 'ว่าที่ร้อยเอกหญิง'
+        return 'ว่าที่ร้อยเอกหญิง';
       case '12':
-        return 'สิบตรี'
+        return 'สิบตรี';
       case '13':
-        return 'สิบตรีหญิง'
+        return 'สิบตรีหญิง';
       case '14':
-        return 'สิบโท'
+        return 'สิบโท';
       case '15':
-        return 'สิบโทหญิง'
+        return 'สิบโทหญิง';
       case '16':
-        return 'สิบเอก'
+        return 'สิบเอก';
       case '17':
-        return 'สิบเอกหญิง'
+        return 'สิบเอกหญิง';
       case '18':
-        return 'จ่าสิบตรี'
+        return 'จ่าสิบตรี';
       case '19':
-        return 'จ่าสิบตรีหญิง'
+        return 'จ่าสิบตรีหญิง';
       case '20':
-        return 'จ่าสิบโท'
+        return 'จ่าสิบโท';
       case '21':
-        return 'จ่าสิบโทหญิง'
+        return 'จ่าสิบโทหญิง';
       case '22':
-        return 'จ่าสิบเอก'
+        return 'จ่าสิบเอก';
       case '23':
-        return 'จ่าสิบเอกหญิง'
+        return 'จ่าสิบเอกหญิง';
       default:
         break;
     }
@@ -1051,17 +1167,17 @@ export class ProfileComponentComponent implements OnInit {
   checkRelationship(data: any): any {
     switch (data) {
       case 'บิดา':
-        return '1'
+        return '1';
       case 'มารดา':
-        return '2'
+        return '2';
       case 'สามี':
-        return '3'
+        return '3';
       case 'ภรรยา':
-        return '4'
+        return '4';
       case 'บุตร':
-        return '5'
+        return '5';
       case 'บุตรบุญธรรม':
-        return '6'
+        return '6';
       default:
         break;
     }
@@ -1070,17 +1186,17 @@ export class ProfileComponentComponent implements OnInit {
   checkRelationship_text(data: any): any {
     switch (data) {
       case '1':
-        return 'บิดา'
+        return 'บิดา';
       case '2':
-        return 'มารดา'
+        return 'มารดา';
       case '3':
-        return 'สามี'
+        return 'สามี';
       case '4':
-        return 'ภรรยา'
+        return 'ภรรยา';
       case '5':
-        return 'บุตร'
+        return 'บุตร';
       case '6':
-        return 'บุตรบุญธรรม'
+        return 'บุตรบุญธรรม';
       default:
         break;
     }
@@ -1089,9 +1205,9 @@ export class ProfileComponentComponent implements OnInit {
   checkMaritalV1(data: any): any {
     switch (data) {
       case 'มีชีวิต':
-        return '1'
+        return '1';
       case 'เสียชีวิต':
-        return '2'
+        return '2';
       default:
         break;
     }
@@ -1100,9 +1216,9 @@ export class ProfileComponentComponent implements OnInit {
   checkMaritalV1_text(data: any): any {
     switch (data) {
       case '1':
-        return 'มีชีวิต'
+        return 'มีชีวิต';
       case '2':
-        return 'เสียชีวิต'
+        return 'เสียชีวิต';
       default:
         break;
     }
@@ -1111,15 +1227,15 @@ export class ProfileComponentComponent implements OnInit {
   checkMaritalV2(data: any): any {
     switch (data) {
       case 'โสด':
-        return '1'
+        return '1';
       case 'แต่งงานแล้ว':
-        return '2'
+        return '2';
       case 'เป็นหม้าย':
-        return '3'
+        return '3';
       case 'หย่าร้าง':
-        return '4'
+        return '4';
       case 'แยกกันอยู่':
-        return '5'
+        return '5';
       default:
         break;
     }
@@ -1128,15 +1244,15 @@ export class ProfileComponentComponent implements OnInit {
   checkMaritalV2_text(data: any): any {
     switch (data) {
       case '1':
-        return 'โสด'
+        return 'โสด';
       case '2':
-        return 'แต่งงานแล้ว'
+        return 'แต่งงานแล้ว';
       case '3':
-        return 'เป็นหม้าย'
+        return 'เป็นหม้าย';
       case '4':
-        return 'หย่าร้าง'
+        return 'หย่าร้าง';
       case '5':
-        return 'แยกกันอยู่'
+        return 'แยกกันอยู่';
       default:
         break;
     }
@@ -1147,34 +1263,33 @@ export class ProfileComponentComponent implements OnInit {
   checkEditProfileInNotifyDisplay() {
     this.daiaInfoUser = [];
     const userInfo = this.localStorageService.retrieve('employeeofmain');
-    this.service.getNotifyByEmpId({ 'employeeId': userInfo.id }).subscribe((res) => {
-      if (res != null && res.length > 0) {
-        this.daiaInfoUser = res;
-        this.checkReqInfo = true;
-      } else {
-        this.checkReqInfo = false;
-      }
-    });
+    this.service
+      .getNotifyByEmpId({ employeeId: userInfo.id })
+      .subscribe((res) => {
+        if (res != null && res.length > 0) {
+          this.daiaInfoUser = res;
+          this.checkReqInfo = true;
+        } else {
+          this.checkReqInfo = false;
+        }
+      });
   }
 
   checkDataInfoOfNull(value: any) {
-    const dataInfo = this.daiaInfoUser.filter((item: any) =>
-      item.status === value
+    const dataInfo = this.daiaInfoUser.filter(
+      (item: any) => item.status === value
     );
     if (dataInfo.length > 0) {
       return true;
     } else {
       return false;
     }
-
   }
 
   checkEditProfileInNotify() {
     const data = this.daiaInfoUser;
     if (data.length > 0) {
-      const dataInfo = data.filter((item: any) =>
-        item.status === 5
-      );
+      const dataInfo = data.filter((item: any) => item.status === 5);
       this.checkUserInfoList(dataInfo);
     } else {
       this.acceptUserInfo();
@@ -1183,7 +1298,13 @@ export class ProfileComponentComponent implements OnInit {
 
   checkUserInfoList(dataInfo: any[]) {
     if (dataInfo.length > 0) {
-      this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'คุณได้ร้องขอการเเก้ไขข้อมูลส่วนตัวเเล้ว โปรดรอการอนุมัติจากเจ้าหน้าที่', life: 10000 });
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'แจ้งเตือน',
+        detail:
+          'คุณได้ร้องขอการเเก้ไขข้อมูลส่วนตัวเเล้ว โปรดรอการอนุมัติจากเจ้าหน้าที่',
+        life: 10000,
+      });
     } else {
       this.acceptUserInfo();
     }
@@ -1211,8 +1332,8 @@ export class ProfileComponentComponent implements OnInit {
       civilServiceDate: emp.civilServiceDate,
       billingStartDate: emp.billingStartDate,
       salaryBankAccountNumber: emp.salaryBankAccountNumber,
-      bankAccountReceivingNumber: emp.bankAccountReceivingNumber
-    }
+      bankAccountReceivingNumber: emp.bankAccountReceivingNumber,
+    };
 
     this.service.updateByUser(playload).subscribe((res) => {
       this.getEmployee(this.userId);
@@ -1221,10 +1342,16 @@ export class ProfileComponentComponent implements OnInit {
       this.textString = 'form-control-plaintext';
       this.mode = true;
 
-      if (res.data === "UPDATE") {
-        this.messageService.add({ severity: 'success', detail: 'บันทึกสำเร็จ' });
+      if (res.data === 'UPDATE') {
+        this.messageService.add({
+          severity: 'success',
+          detail: 'บันทึกสำเร็จ',
+        });
       } else {
-        this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'รอการอนุมัติ',
+        });
       }
 
       setTimeout(() => {
@@ -1246,11 +1373,13 @@ export class ProfileComponentComponent implements OnInit {
     playload.gender = 'ชาย';
     playload.relationship = playload.beneficiaryRelationship;
     playload.marital = playload.beneficiaryMarital;
-    playload.lifeStatus = this.checkMaritalV1_text(playload.beneficiaryLifeStatus);
+    playload.lifeStatus = this.checkMaritalV1_text(
+      playload.beneficiaryLifeStatus
+    );
     playload.birthday = playload.beneficiaryBirthday;
     playload.employee = {
       id: this.userId,
-    }
+    };
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
       this.ngOnInit();
@@ -1272,11 +1401,13 @@ export class ProfileComponentComponent implements OnInit {
     playload.gender = 'หญิง';
     playload.relationship = playload.beneficiaryRelationship;
     playload.marital = playload.beneficiaryMarital;
-    playload.lifeStatus = this.checkMaritalV1_text(playload.beneficiaryLifeStatus);
+    playload.lifeStatus = this.checkMaritalV1_text(
+      playload.beneficiaryLifeStatus
+    );
     playload.birthday = playload.beneficiaryBirthday;
     playload.employee = {
       id: this.userId,
-    }
+    };
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
       // this.formModelGm.disable();
@@ -1300,11 +1431,13 @@ export class ProfileComponentComponent implements OnInit {
     playload.gender = 'ชาย';
     playload.relationship = playload.beneficiaryRelationship;
     playload.marital = this.checkMaritalV2_text(playload.beneficiaryMarital);
-    playload.lifeStatus = this.checkMaritalV1_text(playload.beneficiaryLifeStatus);
+    playload.lifeStatus = this.checkMaritalV1_text(
+      playload.beneficiaryLifeStatus
+    );
     playload.birthday = playload.beneficiaryBirthday;
     playload.employee = {
       id: this.userId,
-    }
+    };
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
       // this.formModelDad.disable();
@@ -1328,11 +1461,13 @@ export class ProfileComponentComponent implements OnInit {
     playload.gender = 'หญิง';
     playload.relationship = playload.beneficiaryRelationship;
     playload.marital = this.checkMaritalV2_text(playload.beneficiaryMarital);
-    playload.lifeStatus = this.checkMaritalV1_text(playload.beneficiaryLifeStatus);
+    playload.lifeStatus = this.checkMaritalV1_text(
+      playload.beneficiaryLifeStatus
+    );
     playload.birthday = playload.beneficiaryBirthday;
     playload.employee = {
       id: this.userId,
-    }
+    };
 
     this.service.updateBeneficiary(playload).subscribe((res) => {
       // this.formModelMom.disable();
@@ -1343,7 +1478,7 @@ export class ProfileComponentComponent implements OnInit {
     });
   }
 
-  reject() { }
+  reject() {}
 
   acceptChild(id: any) {
     this.displayModal2 = true;
@@ -1359,28 +1494,35 @@ export class ProfileComponentComponent implements OnInit {
         beneficiaryLastName: data?.lastName ? data?.lastName : '-',
         birthday: data?.birthday ? this.pipeDateTH(data?.birthday) : '-',
         beneficiaryBirthday: data?.birthday ? new Date(data?.birthday) : null,
-        beneficiaryRelationship: data?.relationship ? this.checkRelationship(data?.relationship) : '-',
+        beneficiaryRelationship: data?.relationship
+          ? this.checkRelationship(data?.relationship)
+          : '-',
         marital: data?.marital ? data?.marital : '-',
-        beneficiaryMarital: data?.marital ? this.checkMaritalV2(data?.marital) : '-',
+        beneficiaryMarital: data?.marital
+          ? this.checkMaritalV2(data?.marital)
+          : '-',
         lifeStatus: data?.lifeStatus ? data?.lifeStatus : '-',
-        beneficiaryLifeStatus: data?.lifeStatus ? this.checkMaritalV1(data?.lifeStatus) : '-',
-      })
+        beneficiaryLifeStatus: data?.lifeStatus
+          ? this.checkMaritalV1(data?.lifeStatus)
+          : '-',
+      });
     });
 
     const payloadChild = this.formModelChild.getRawValue();
   }
 
-  onDeleteChild(child: any,) {
+  onDeleteChild(child: any) {
     this.confirmationService.confirm({
-      message: 'ท่านต้องการลบข้อมูลบุตร ' + child.firstName + ' ' + child.lastName,
+      message:
+        'ท่านต้องการลบข้อมูลบุตร ' + child.firstName + ' ' + child.lastName,
       header: 'ลบข้อมูล',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.service.deleteBeneficiary(child.id).subscribe((data) => {
           this.ngOnInit();
-        })
+        });
       },
-      reject: () => { }
+      reject: () => {},
     });
   }
 
@@ -1388,10 +1530,12 @@ export class ProfileComponentComponent implements OnInit {
     if (a.slug < b.slug) return -1;
     if (a.slug === b.slug) return 0;
     if (a.slug > b.slug) return 1;
-  }
+  };
 
   checkBureau(id: any) {
-    this.service.searchByBureau(id.target.value).subscribe(data => this.affiliation = data);
+    this.service
+      .searchByBureau(id.target.value)
+      .subscribe((data) => (this.affiliation = data));
   }
 
   displayResign() {
@@ -1405,8 +1549,8 @@ export class ProfileComponentComponent implements OnInit {
   onSubmitResign() {
     const playloadResign = {
       id: this.userId,
-      reason: this.formModelResign.get('reason')?.value
-    }
+      reason: this.formModelResign.get('reason')?.value,
+    };
 
     this.service.updateResign(playloadResign).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
@@ -1424,31 +1568,48 @@ export class ProfileComponentComponent implements OnInit {
   onUpdateStockToMonth() {
     const dataStock = this.formModelStock.getRawValue();
     const data = this.formModel.getRawValue();
-   
-    if(this.formModelStock.valid){
-      const monthlyStockMoneyReplaceOld = data.monthlyStockMoney ? data.monthlyStockMoney.replace(',', '') : 0;
-      const monthlyStockMoneyReplaceNew = dataStock.monthlyStockMoneyNew ? dataStock.monthlyStockMoneyNew : 0;
-      if (Number(monthlyStockMoneyReplaceOld) === Number(monthlyStockMoneyReplaceNew)) {
-        this.messageService.add({ severity: 'warn', summary: '', detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง' });
+
+    if (this.formModelStock.valid) {
+      const monthlyStockMoneyReplaceOld = data.monthlyStockMoney
+        ? data.monthlyStockMoney.replace(',', '')
+        : 0;
+      const monthlyStockMoneyReplaceNew = dataStock.monthlyStockMoneyNew
+        ? dataStock.monthlyStockMoneyNew
+        : 0;
+      if (
+        Number(monthlyStockMoneyReplaceOld) ===
+        Number(monthlyStockMoneyReplaceNew)
+      ) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: '',
+          detail: 'เงินหุ้นรายเดือนใหม่ยังไม่มีการเปลี่ยนเเปลง',
+        });
       } else {
         // api
         const playload = {
           id: this.userId,
           stockValue: Number(monthlyStockMoneyReplaceNew),
-          stockOldValue: Number(monthlyStockMoneyReplaceOld)
-        }
-  
+          stockOldValue: Number(monthlyStockMoneyReplaceOld),
+        };
+
         this.service.updateStockValue(playload).subscribe((data) => {
-          this.messageService.add({ severity: 'success', detail: 'รอการอนุมัติ' });
+          this.messageService.add({
+            severity: 'success',
+            detail: 'รอการอนุมัติ',
+          });
           this.displayModalStock = false;
           window.location.reload();
           this.ngOnInit();
         });
       }
-    }else{
-      this.messageService.add({ severity: 'warn', summary: '', detail: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: '',
+        detail: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+      });
     }
-    
   }
 
   onCancleStock() {
@@ -1493,7 +1654,9 @@ export class ProfileComponentComponent implements OnInit {
     if (id != 0) {
       this.service.getImage(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(
+            URL.createObjectURL(imageBlob)
+          );
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -1502,10 +1665,16 @@ export class ProfileComponentComponent implements OnInit {
 
       this.service.getImageAddress(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrcAddress = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imageSrcAddress =
+            imageBlob.size != 0
+              ? this.sanitizer.bypassSecurityTrustUrl(
+                  URL.createObjectURL(imageBlob)
+                )
+              : null;
+          this.checkDefaultImage();
           this.imagesAddress.push({
-            itemImageSrc: this.imageSrcAddress
-          })
+            itemImageSrc: this.imageSrcAddress,
+          });
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -1514,10 +1683,16 @@ export class ProfileComponentComponent implements OnInit {
 
       this.service.getImageIdCard(id).subscribe(
         (imageBlob: Blob) => {
-          this.imageSrcIdCard = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(imageBlob));
+          this.imageSrcIdCard =
+            imageBlob.size != 0
+              ? this.sanitizer.bypassSecurityTrustUrl(
+                  URL.createObjectURL(imageBlob)
+                )
+              : null;
+          this.checkDefaultImage();
           this.imagesIdCard.push({
-            itemImageSrc: this.imageSrcIdCard
-          })
+            itemImageSrc: this.imageSrcIdCard,
+          });
         },
         (error: any) => {
           console.error('Failed to fetch image:', error);
@@ -1536,10 +1711,16 @@ export class ProfileComponentComponent implements OnInit {
     this.service.uploadImage(formData).subscribe(
       () => {
         this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปสำเร็จ',
+        });
       },
       (error) => {
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        this.messageService.add({
+          severity: 'error',
+          detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+        });
       }
     );
   }
@@ -1554,11 +1735,17 @@ export class ProfileComponentComponent implements OnInit {
     this.service.uploadImageAddress(formData).subscribe(
       () => {
         this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปทะเบียนบ้านสำเร็จ',
+        });
         window.location.reload();
       },
       (error) => {
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        this.messageService.add({
+          severity: 'error',
+          detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+        });
       }
     );
   }
@@ -1573,11 +1760,17 @@ export class ProfileComponentComponent implements OnInit {
     this.service.uploadImageIdCard(formData).subscribe(
       () => {
         this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'อัพโหลดรูปบัตรประชาชนสำเร็จ',
+        });
         window.location.reload();
       },
       (error) => {
-        this.messageService.add({ severity: 'error', detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb' });
+        this.messageService.add({
+          severity: 'error',
+          detail: 'กรุณาเลือกขนาดไฟล์รูปไม่เกิน 1 mb',
+        });
       }
     );
   }

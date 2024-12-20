@@ -21,15 +21,15 @@ import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
-import {InputSwitchModule} from 'primeng/inputswitch';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { ChipModule } from 'primeng/chip';
-import {CarouselModule} from 'primeng/carousel';
-import {BlockUIModule} from 'primeng/blockui';
-import {CardModule} from 'primeng/card';
-import {PanelModule } from 'primeng/panel';
-import {NgPipesModule} from 'ngx-pipes';
+import { CarouselModule } from 'primeng/carousel';
+import { BlockUIModule } from 'primeng/blockui';
+import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
+import { NgPipesModule } from 'ngx-pipes';
 import { InputNumberModule } from 'primeng/inputnumber';
-import {TooltipModule} from 'primeng/tooltip';
+import { TooltipModule } from 'primeng/tooltip';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
@@ -51,6 +51,8 @@ import { AdminNewsComponentComponent } from './component/admin-news-component/ad
 import { CheckboxModule } from 'primeng/checkbox';
 import { AdminSettingComponentComponent } from './component/admin-setting-component/admin-setting-component.component';
 import { AdminSettingPageComponent } from './page/admin-setting-page/admin-setting-page.component';
+import { AdminDocComponentComponent } from './component/admin-doc-component/admin-doc-component.component';
+import { AdminDocPageComponent } from './page/admin-doc-page/admin-doc-page.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { AdminSettingPageComponent } from './page/admin-setting-page/admin-setti
     AdminNewsComponentComponent,
     AdminSettingComponentComponent,
     AdminSettingPageComponent,
+    AdminDocComponentComponent,
+    AdminDocPageComponent,
   ],
   bootstrap: [AppComponent],
   providers: [DecimalPipe],
@@ -111,7 +115,7 @@ import { AdminSettingPageComponent } from './page/admin-setting-page/admin-setti
     GalleriaModule,
     PickListModule,
     SlideMenuModule,
-    CheckboxModule
-  ]
+    CheckboxModule,
+  ],
 })
-export class AdminCompponentModule { }
+export class AdminCompponentModule {}

@@ -3,42 +3,113 @@
         <p-progressSpinner></p-progressSpinner>
     </div>
 </p-blockUI>
-
-<div class="card">
-    <p-table responsiveLayout="stack" #dt2 [value]="listEmp" dataKey="id" editMode="row" [rows]="10"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
-        selectionMode="single" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
-        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate', 'idCard' ]"
-        [tableStyle]="{'max-width': '100%'}">
-        <ng-template pTemplate="caption">
-            <div class="flex" style="display: flex; justify-content: space-between;">
-                <div>
-                    <p-chip label="การจัดการสมาชิก" styleClass="mr-2"></p-chip>
+<div class="card-search-table">
+    <p-chip label="การจัดการสมาชิก" styleClass="mr-2"></p-chip>
+    <form [formGroup]="searchForm">
+        <div class="card-search-body">
+            <div class="card-input">
+                <div class="cs">
+                    <label for="idCard" class="block">รหัสพนักงาน</label>
+                    <input class="form-control" id="employeeCode" type="text" formControlName="employeeCode"
+                        placeholder="กรอกรหัสพนักงาน" />
                 </div>
-                <span class="p-input-icon-left ml-auto">
-                    <i class="bi bi-search" style="color: #979797; display: flex;"></i>
-                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
-                        placeholder="ค้นหา" style="width: 10rem; border-radius: 10px; height: 45px; font-size: 15px;" />
-                </span>
+                <div class="cs">
+                    <label for="firstName" class="block">ชื่อพนักงาน</label>
+                    <input class="form-control" id="firstName" type="text" formControlName="firstName"
+                        placeholder="กรอกชื่อ" />
+                </div>
+                <div class="cs">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input class="form-control" id="lastName" type="text" formControlName="lastName"
+                        placeholder="กรอกนามสกุล" />
+                </div>
+                <div class="cs">
+                    <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
+                    <input class="form-control" id="idCard" type="text" formControlName="idCard"
+                        placeholder="กรอกเลขประจำตัวประชาชน" />
+                </div>
             </div>
-        </ng-template>
-
+            <div class="search-btn">
+                <div class="csb">
+                    <p></p>
+                    <button type="button" (click)="onAcceptSearch()" class="btn btn-login"> ค้นหาข้อมูล </button>
+                </div>
+                <div class="csb">
+                    <p></p>
+                    <button type="button" (click)="onClearSearch()" class="btn btn-regis"> ลบการค้นหา </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card">
+    <p-table (onLazyLoad)="loadingAdminEmployee($event)" (onPage)="onPage($event)"
+        (selectAllChange)="onSelectAllChange($event)" (selectionChange)="onSelectionChange($event)"
+        [globalFilterFields]="['employeeCode']" [lazy]="true" [loading]="loading" [paginator]="true" [rows]="pageSize"
+        [rowsPerPageOptions]="[10, 20, 50, 100]" [selectAll]="selectAll" [selection]="selected"
+        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '100%' }" [totalRecords]="totalRecords!"
+        [value]="listEmp" [lazyLoadOnInit]="false" selectionMode="single" responsiveLayout="stack"
+        currentPageReportTemplate="แสดง {first} - {last} จาก {totalRecords} รายการ" dataKey="id" #dt2>
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th style="width:20%">รหัสพนักงาน</th>
-                <th style="width:20%">คำนำหน้า</th>
-                <th style="width:20%">ชื่อ</th>
-                <th style="width:20%">นามสกุล</th>
-                <th style="width:20%">เลขประจำตัวประชาชน</th>
+                <th>รหัสพนักงาน</th>
+                <th>ชื่อ - นามสกุล</th>
+                <th>เลขประจำตัวประชาชน</th>
+                <th>ระดับ / ประเภท</th>
+                <th>ตำแหน่ง / หน่วยงาน</th>
+                <th>สังกัด / สำนัก</th>
+                <th>สถานะพนักงาน</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-listEmp let-i="rowIndex" let-columns="columns">
             <tr [pEditableRow]="listEmp" (click)="clickInfo(listEmp.id)">
-                <td><span class="p-column-title">รหัสพนักงาน</span>{{ listEmp.employeeCode }}</td>
-                <td><span class="p-column-title">คำนำหน้า</span>{{ listEmp.prefix }}</td>
-                <td><span class="p-column-title">ชื่อ</span>{{ listEmp.firstName }}</td>
-                <td><span class="p-column-title">นามสกุล</span>{{ listEmp.lastName }}</td>
-                <td><span class="p-column-title">เลขประจำตัวประชาชน</span>{{ listEmp.idCard }}</td>
+                <td><span class="p-column-title">รหัสพนักงาน</span>
+                    <div class="div-full" style="color: #652d47; font-weight: 500;">{{ listEmp.employeeCode }}</div>
+                </td>
+                <td> <span class="p-column-title">ชื่อ - นามสกุล</span>
+                    <div class="div-full" style="display: flex; gap: 0.5rem;">
+                        <!-- <div style="border-radius: 25px; border: 1px solid #652d47;"> -->
+                        <img [src]="profileImgById(listEmp)" class="list-image">
+                        <!-- </div> -->
+                        <div class="div-full-text">
+                            <div>{{ listEmp.prefix }} {{ listEmp.firstName }} {{ listEmp.lastName }}</div>
+                            <div style="font-size: 12px; color: #6b7280; font-weight: 300;">เพศ {{ listEmp.gender }},
+                                อายุ {{ listEmp.age
+                                }}
+                                ปี
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="p-column-title">เลขประจำตัวประชาชน</span>
+                    <div class="div-full">{{ listEmp.idCard }}</div>
+                </td>
+                <td> <span class="p-column-title">ระดับ / ประเภท</span>
+                    <div class="div-full-text">
+                        <div>{{ listEmp.levelName }}</div>
+                        <div style="font-size: 12px; color: #6b7280; font-weight: 300;">{{ listEmp.employeeTypeName }}
+                        </div>
+                    </div>
+                </td>
+                <td> <span class="p-column-title">ตำแหน่ง / หน่วยงาน</span>
+                    <div class="div-full-text">
+                        <div class="div-department">{{ listEmp.positionName }}</div>
+                        <div style="font-size: 12px; color: #6b7280; font-weight: 300;">{{ listEmp.departmentName }}
+                        </div>
+                    </div>
+                </td>
+                <td> <span class="p-column-title">สังกัด / สำนัก</span>
+                    <div class="div-full-text">
+                        <div class="div-affiliation">{{ listEmp.affiliationName }}</div>
+                        <div style="font-size: 12px; color: #6b7280; font-weight: 300;">{{
+                            listEmp.bureauName }}</div>
+                    </div>
+                </td>
+                <td><span class="p-column-title">สถานะพนักงาน</span>
+                    <div class="div-full" style="font-weight: 500;"
+                        [ngStyle]="checkStatusEmpColor(listEmp.employeeStatus)">{{
+                        checkStatusEmp(listEmp.employeeStatus) }}</div>
+                </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -48,386 +119,395 @@
         </ng-template>
     </p-table>
 </div>
-
 <p-toast></p-toast>
-
 <p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '90vw' }" [draggable]="false"
     [breakpoints]="{ '1800px': '95vw', '1700px': '90vw' }" [resizable]="false" (onHide)="clearDialog()">
     <div class="div-profile">
         <div class="div-img-doc">
             <div class="div-img">
                 <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
-                <div class="img-css">
-                    <div class="profile-pic-wrapper">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="profile">
                         <div class="pic-holder">
                             <img id="profilePic" class="pic" [src]="profileDetailImg()">
                             <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
                                 id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
                             <label for="newProfilePhoto" class="upload-file-block">
                                 <div class="text-center">
-                                    <div class="mb-2">
-                                        <i class="uil uil-cloud-upload fa-2x"></i>
-                                    </div>
-                                    <div class="text-uppercase">
-                                        อัพโหลด
-                                    </div>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                            stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M12 2V14.88" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#DFDFEC" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </div>
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="div-doc">
                 <p-chip label="เอกสาร" styleClass="mr-2"></p-chip>
                 <div class="doc-group">
-                    <div>
-                        <p style="color: #747d8c;">ทะเบียนบ้าน</p>
-                        <div class="profile-pic-wrapper-doc">
-                            <div class="pic-holder-doc">
-                                <img id="profilePicDoc" class="pic-doc" [src]="imageSrcAddress">
-
-                                <input class="uploadProfileInput" type="file"
-                                    (change)="onProfilePicChangeDocAddress($event)" id="newProfilePhotoAddress"
-                                    accept="image/*" style="opacity: 0;" />
-                                <div class="upload-file-block">
+                    <div class="div-group-doc">
+                        <span style="margin-top: 1rem; font-weight: 300;">ทะเบียนบ้าน</span>
+                        <div class="pic-holder-doc">
+                            <img id="profilePicDoc" class="pic-doc" [src]="imageSrcAddress"
+                                *ngIf="imageSrcAddress != 'assets/images/image-default2.png'">
+                            <img id="profilePicDoc" class="pic-doc" [src]="imageSrcAddress"
+                                *ngIf="imageSrcAddress == 'assets/images/image-default2.png'"
+                                style="width: 120px; height: 120px;">
+                            <input class="uploadProfileInput" type="file"
+                                (change)="onProfilePicChangeDocAddress($event)" id="newProfilePhotoAddress"
+                                accept="image/*" style="opacity: 0; display: none;" />
+                            <div class="upload-file-block">
+                                <div class="text-center"
+                                    [ngStyle]="{'display': imageSrcAddress === 'assets/images/image-default2.png' ? 'none' : 'block'}">
+                                    <div (click)="displayBasicAddress = true">
+                                        <i class="uil uil-eye" style="font-size: 1rem"></i>
+                                    </div>
+                                </div>
+                                <label for="newProfilePhotoAddress">
                                     <div class="text-center">
-                                        <div (click)="displayBasicAddress = true">
-                                            <i class="pi pi-eye" style="font-size: 1rem"></i>
-                                        </div>
-                                        <div class="text-uppercase">
-                                            ดูรูป
+                                        <div>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12 2V14.88" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
                                         </div>
                                     </div>
-                                    <label for="newProfilePhotoAddress">
-                                        <div class="text-center">
-                                            <div>
-                                                <i class="uil uil-upload" style="font-size: 1rem"></i>
-                                            </div>
-                                            <div class="text-uppercase">
-                                                อัพโหลด
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <p-galleria [value]="imagesAddress" [(visible)]="displayBasicAddress"
-                                    [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                                    [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
-                                    [showThumbnails]="false">
-                                    <ng-template pTemplate="item" let-item>
-                                        <img [src]="item.itemImageSrc" class="galleria-img" />
-                                    </ng-template>
-                                </p-galleria>
+                                </label>
                             </div>
+
+                            <p-galleria [value]="imagesAddress" [(visible)]="displayBasicAddress"
+                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
+                                [showThumbnails]="false">
+                                <ng-template pTemplate="item" let-item>
+                                    <img [src]="item.itemImageSrc" class="galleria-img" style="width: 100%;" />
+                                </ng-template>
+                            </p-galleria>
                         </div>
                     </div>
-                    <div>
-                        <p style="color: #747d8c;">บัตรประชาชน</p>
-                        <div class="profile-pic-wrapper-doc">
-                            <div class="pic-holder-doc">
-                                <img id="profilePicDoc" class="pic-doc" [src]="imageSrcIdCard">
-
-                                <input class="uploadProfileInput" type="file"
-                                    (change)="onProfilePicChangeDocIdCard($event)" id="newProfilePhotoIdCard"
-                                    accept="image/*" style="opacity: 0;" />
-                                <div class="upload-file-block">
+                    <div class="div-group-doc">
+                        <span style="margin-top: 1rem; font-weight: 300;">บัตรประชาชน</span>
+                        <div class="pic-holder-doc">
+                            <img id="profilePicDoc" class="pic-doc" [src]="imageSrcIdCard"
+                                *ngIf="imageSrcIdCard != 'assets/images/image-default2.png'">
+                            <img id="profilePicDoc" class="pic-doc" [src]="imageSrcIdCard"
+                                *ngIf="imageSrcIdCard == 'assets/images/image-default2.png'"
+                                style="width: 120px; height: 120px; margin-top: -20px;">
+                            <input class="uploadProfileInput" type="file" (change)="onProfilePicChangeDocIdCard($event)"
+                                id="newProfilePhotoIdCard" accept="image/*" style="opacity: 0;" />
+                            <div class="upload-file-block">
+                                <div class="text-center"
+                                    [ngStyle]="{'display': imageSrcIdCard === 'assets/images/image-default2.png' ? 'none' : 'block'}">
+                                    <div (click)="displayBasicIdCard = true">
+                                        <i class="uil uil-eye" style="font-size: 1rem"></i>
+                                    </div>
+                                </div>
+                                <label for="newProfilePhotoIdCard">
                                     <div class="text-center">
-                                        <div (click)="displayBasicIdCard = true">
-                                            <i class="pi pi-eye" style="font-size: 1rem"></i>
-                                        </div>
-                                        <div class="text-uppercase">
-                                            ดูรูป
+                                        <div>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12 2V14.88" stroke="#DFDFEC" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#DFDFEC"
+                                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
                                         </div>
                                     </div>
-                                    <label for="newProfilePhotoIdCard">
-                                        <div class="text-center">
-                                            <div>
-                                                <i class="uil uil-upload" style="font-size: 1rem"></i>
-                                            </div>
-                                            <div class="text-uppercase">
-                                                อัพโหลด
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-                                <p-galleria [value]="imagesIdCard" [(visible)]="displayBasicIdCard"
-                                    [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
-                                    [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
-                                    [showThumbnails]="false">
-                                    <ng-template pTemplate="item" let-item>
-                                        <img [src]="item.itemImageSrc" class="galleria-img" />
-                                    </ng-template>
-                                </p-galleria>
+                                </label>
                             </div>
+                            <p-galleria [value]="imagesIdCard" [(visible)]="displayBasicIdCard"
+                                [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                                [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
+                                [showThumbnails]="false">
+                                <ng-template pTemplate="item" let-item>
+                                    <img [src]="item.itemImageSrc" class="galleria-img" />
+                                </ng-template>
+                            </p-galleria>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div [formGroup]="detailModel">
-            <div class="div-text">
-                <div class="div-info-bt">
-                    <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>
-                    <div style="display: flex;">
-                        <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
-                        <button type="button" (click)="onAccept()" class="btn btn-login" *ngIf="!mode">บันทึก</button>
-                        <button type="button" (click)="onClear()" class="btn btn-regis" *ngIf="!mode">ยกเลิก</button>
+        <div class="div-text" [formGroup]="detailModel">
+            <!-- <div class="div-text"> -->
+            <div class="div-info-bt">
+                <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>
+                <div>
+                    <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
+                    <div class="div-btn" *ngIf="!mode">
+                        <button type="button" (click)="onAccept()" class="btn btn-login">บันทึก</button>
+                        <button type="button" (click)="onClear()" class="btn btn-regis">ยกเลิก</button>
                     </div>
                 </div>
-                <div class="div-info">
-                    <!-- <div class="row"> -->
-                    <div>
-                        <label for="prefix" class="block">คำนำหน้า</label>
-                        <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
-                    </div>
-                    <div>
-                        <label for="firstName" class="block">ชื่อ</label>
-                        <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">นามสกุล</label>
-                        <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
-                    </div>
-                    <div>
-                        <label for="gender" class="block">เพศ</label>
-                        <input [class]="textString" id="gender" type="text" formControlName="gender" />
-                    </div>
-                    <div>
-                        <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
-                        <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
-                    </div>
-                    <div class="div-calendar">
-                        <label for="birthday" class="block">วันเกิด</label>
-                        <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar"
-                            *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode"
-                            (onSelect)="onCheckAge($event)" (onClearClick)="onClearAge()" [showButtonBar]="true"
-                            dateFormat="dd/mm/yy" [maxDate]="defaultDateline"></p-calendar>
-                    </div>
-                    <div>
-                        <label for="age" class="block">อายุ</label>
-                        <input [class]="textString" id="age" type="text" formControlName="age" />
-                    </div>
-                    <div>
-                        <label for="tel" class="block">หมายเลขโทรศัพท์</label>
-                        <input [class]="textString" id="" type="text" formControlName="tel" maxlength="10"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-                            (keyup)="checkPhoneNumber()" />
-                        <!-- <em *ngIf="pnumberValidation === true && detailModel.get('tel')?.value">
+            </div>
+            <div class="div-info">
+                <!-- <div class="row"> -->
+                <div>
+                    <label for="prefix" class="block">คำนำหน้า</label>
+                    <input [class]="textString" id="prefix" type="text" formControlName="prefix" />
+                </div>
+                <div>
+                    <label for="firstName" class="block">ชื่อ</label>
+                    <input [class]="textString" id="firstName" type="text" formControlName="firstName" />
+                </div>
+                <div>
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input [class]="textString" id="lastName" type="text" formControlName="lastName" />
+                </div>
+                <div>
+                    <label for="gender" class="block">เพศ</label>
+                    <input [class]="textString" id="gender" type="text" formControlName="gender" />
+                </div>
+                <div>
+                    <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
+                    <input [class]="textString" id="idCard" type="text" formControlName="idCard" />
+                </div>
+                <div class="div-calendar">
+                    <label for="birthday" class="block">วันเกิด</label>
+                    <input [class]="textString" id="birthday" type="text" formControlName="birthdayCalendar"
+                        *ngIf="mode" />
+                    <p-calendar inputId="basic" formControlName="birthday" *ngIf="!mode" (onSelect)="onCheckAge($event)"
+                        (onClearClick)="onClearAge()" [showButtonBar]="true" dateFormat="dd/mm/yy"
+                        [maxDate]="defaultDateline"></p-calendar>
+                </div>
+                <div>
+                    <label for="age" class="block">อายุ</label>
+                    <input [class]="textString" id="age" type="text" formControlName="age" />
+                </div>
+                <div>
+                    <label for="tel" class="block">หมายเลขโทรศัพท์</label>
+                    <input [class]="textString" id="" type="text" formControlName="tel" maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                        (keyup)="checkPhoneNumber()" />
+                    <!-- <em *ngIf="pnumberValidation === true && detailModel.get('tel')?.value">
                                 <span style="color: red;">กรุณากรอก <br> หมายเลขโทรศัพท์ให้ถูกต้อง</span>
                             </em> -->
-                    </div>
-                    <div>
-                        <label for="lineId" class="block">ไลน์ไอดี</label>
-                        <input [class]="textString" id="lineId" type="text" formControlName="lineId" />
-                    </div>
-                    <div>
-                        <label for="facebook" class="block">เฟสบุ๊ค</label>
-                        <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
-                    </div>
-                    <div>
-                        <label for="email" class="block">อีเมล</label>
-                        <input [class]="textString" id="email" type="text" formControlName="email"
-                            (keyup)="checkEmail()" />
-                    </div>
-                    <div>
-                        <label for="address" class="block">ที่อยู่</label>
-                        <input [class]="textString" id="address" type="text" formControlName="address" />
-                    </div>
-                    <div>
-                        <label for="employeeTypeName" class="block">ระดับ</label>
-                        <input [class]="textString" id="levelName" type="text" formControlName="levelName"
-                            *ngIf="mode" />
-                        <div *ngIf="!mode">
-                            <select class="form-select" aria-label="Default select example" formControlName="levelId"
-                                required="true">
-                                <option value="0" selected>เลือกระดับ</option>
-                                <option *ngFor="let level of level" value="{{ level.id }}">{{ level.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
-                        <input [class]="textString" id="employeeTypeName" type="text" formControlName="employeeTypeName"
-                            *ngIf="mode" />
-                        <div *ngIf="!mode">
-                            <select class="form-select" aria-label="Default select example"
-                                formControlName="employeeTypeId" required="true">
-                                <option value="0" selected>เลือกประเภทพนักงาน</option>
-                                <option *ngFor="let employeeType of employeeType" value="{{ employeeType.id }}">{{
-                                    employeeType.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="positionName" class="block">ตำแหน่ง</label>
-                        <input [class]="textString" id="positionName" type="text" formControlName="positionName"
-                            *ngIf="mode" />
-                        <div *ngIf="!mode">
-                            <select class="form-select" aria-label="Default select example" formControlName="positionId"
-                                required="true">
-                                <option value="0" selected>เลือกตำแหน่ง</option>
-                                <option *ngFor="let position of position" value="{{ position.id }}">{{
-                                    position.name
-                                    }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="departmentName" class="block">หน่วยงาน</label>
-                        <input [class]="textString" id="departmentName" type="text" formControlName="departmentName"
-                            *ngIf="mode" />
-                        <div *ngIf="!mode">
-                            <select class="form-select" aria-label="Default select example"
-                                formControlName="departmentId" required="true">
-                                <option value="0" selected>เลือกหน่วยงาน</option>
-                                <option *ngFor="let department of department" value="{{ department.id }}">{{
-                                    department.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="bureauName" class="block">สำนัก</label>
-                        <input [class]="textString" id="bureauName" type="text" formControlName="bureauName"
-                            *ngIf="mode" />
-                        <div *ngIf="!mode">
-                            <select class="form-select" aria-label="Default select example" formControlName="bureauId"
-                                required="true" (click)="checkBureau($event)">
-                                <option value="0" selected>เลือกสำนัก</option>
-                                <option *ngFor="let bureau of bureau" value="{{ bureau.id }}">{{ bureau.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="affiliationName" class="block">สังกัด</label>
-                        <input [class]="textString" id="affiliationName" type="text" formControlName="affiliationName"
-                            *ngIf="mode" />
-                        <div *ngIf="!mode">
-                            <select class="form-select" aria-label="Default select example"
-                                formControlName="affiliationId" required="true">
-                                <option value="0" selected>เลือกสังกัด</option>
-                                <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{
-                                    affiliation.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="marital" class="block">สถานภาพสมรส</label>
-                        <input [class]="textString" id="marital" type="text" formControlName="marital" *ngIf="mode" />
-                        <select class="form-select" aria-label="Default select example" *ngIf="!mode"
-                            formControlName="selectMarital" required="true">
-                            <option value="0" selected>เลือกความสัมพันธ์</option>
-                            <option value="1">โสด</option>
-                            <option value="2">อยู่ร่วมกัน</option>
-                            <option value="3">หม้าย</option>
-                            <option value="4">หย่า</option>
-                            <option value="5">แยกกันอยู่</option>
+                </div>
+                <div>
+                    <label for="lineId" class="block">ไลน์ไอดี</label>
+                    <input [class]="textString" id="lineId" type="text" formControlName="lineId" />
+                </div>
+                <div>
+                    <label for="facebook" class="block">เฟสบุ๊ค</label>
+                    <input [class]="textString" id="facebook" type="text" formControlName="facebook" />
+                </div>
+                <div>
+                    <label for="email" class="block">อีเมล</label>
+                    <input [class]="textString" id="email" type="text" formControlName="email" (keyup)="checkEmail()" />
+                </div>
+                <div>
+                    <label for="address" class="block">ที่อยู่</label>
+                    <input [class]="textString" id="address" type="text" formControlName="address" />
+                </div>
+                <div>
+                    <label for="employeeTypeName" class="block">ระดับ</label>
+                    <input [class]="textString" id="levelName" type="text" formControlName="levelName" *ngIf="mode" />
+                    <div *ngIf="!mode">
+                        <select class="form-select" aria-label="Default select example" formControlName="levelId"
+                            required="true">
+                            <option value="0" selected>เลือกระดับ</option>
+                            <option *ngFor="let level of level" value="{{ level.id }}">{{ level.name }}</option>
                         </select>
                     </div>
-                    <div>
-                        <label for="salary" class="block">เงินเดือน</label>
-                        <input [class]="textString" id="salary" type="text" formControlName="salary" />
-                    </div>
-                    <div>
-                        <label for="compensation" class="block">ค่าตอบแทน</label>
-                        <input [class]="textString" id="compensation" type="text" formControlName="compensation" />
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">เงินหุ้นรายเดือน</label>
-                        <input [class]="textString" id="monthlyStockMoney" type="text"
-                            formControlName="monthlyStockMoney" />
-                    </div>
-                    <div class="div-calendar">
-                        <label for="contractStartDate" class="block">วันที่เริ่มทำงาน</label>
-                        <input [class]="textString" id="contractStart" type="text" formControlName="contractStart"
-                            *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="contractStartDate" *ngIf="!mode"
-                            dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
-                    </div>
-                    <div class="div-calendar">
-                        <label for="civilServiceDate" class="block">วันที่เข้ารับราชการ</label>
-                        <input [class]="textString" id="civilServiceDate" type="text" formControlName="civilService"
-                            *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="civilServiceDate" *ngIf="!mode"
-                            dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
-                    </div>
-                    <div class="div-calendar">
-                        <label for="lastName" class="block">วันที่เป็นสมาชิก</label>
-                        <input [class]="textString" id="billingStartDate" type="text" formControlName="billingStart"
-                            *ngIf="mode" />
-                        <p-calendar inputId="basic" formControlName="billingStartDate" *ngIf="!mode"
-                            dateFormat="dd/mm/yy" [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">ชื่อบัญชีธนาคาร</label>
-                        <input [class]="textString" id="salaryBankAccountNumber" type="text"
-                            formControlName="salaryBankAccountNumber" />
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">เลขที่บัญชีธนาคาร</label>
-                        <input [class]="textString" id="bankAccountReceivingNumber" type="text"
-                            formControlName="bankAccountReceivingNumber" />
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">วันที่เกษียณอายุราชการ</label>
-                        <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">หุ้นสะสม</label>
-                        <input [class]="textString" id="retirementDate" type="text" formControlName="stockAccumulate" />
-                    </div>
-                    <div>
-                        <label for="lastName" class="block">เงินกู้คงเหลือ</label>
-                        <input [class]="textString" id="retirementDate" type="text" formControlName="loanBalance" />
-                    </div>
-                    <!-- </div> -->
                 </div>
-                <div class="div-guarante" style="margin-top: 0.5rem;">
-                    <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
-                    <div class="div-guarante-info">
-                        <div>
-                            <label for="lastName" class="block">ค้ำคนที่ 1</label>
-                            <div style="display: flex; grid-gap: 5px;">
-                                <span>{{guarantee?.codeGuaranteeOne || ''}}</span>
-                                <span>{{guarantee?.fullNameGuaranteeOne || ''}}</span>
-                            </div>
-                        </div>
-                        <div>
-                            <label for="lastName" class="block">ค้ำคนที่ 2</label>
-                            <div style="display: flex; grid-gap: 5px;">
-                                <span>{{guarantee?.codeGuaranteeTwo || ''}}</span>
-                                <span>{{guarantee?.fullNameGuaranteeTwo || ''}}</span>
-                            </div>
-                        </div>
+                <div>
+                    <label for="employeeTypeName" class="block">ประเภทพนักงาน</label>
+                    <input [class]="textString" id="employeeTypeName" type="text" formControlName="employeeTypeName"
+                        *ngIf="mode" />
+                    <div *ngIf="!mode">
+                        <select class="form-select" aria-label="Default select example" formControlName="employeeTypeId"
+                            required="true">
+                            <option value="0" selected>เลือกประเภทพนักงาน</option>
+                            <option *ngFor="let employeeType of employeeType" value="{{ employeeType.id }}">{{
+                                employeeType.name }}</option>
+                        </select>
                     </div>
                 </div>
-                <div class="div-guarante" style="margin-top: 0.5rem;">
-                    <p-chip label="ผู้ค้ำประกันเงินกู้ของท่าน" styleClass="mr-2"></p-chip>
-                    <div class="div-guarante-info">
-                        <div>
-                            <label for="lastName" class="block">ค้ำคนที่ 1</label>
-                            <div style="display: flex; grid-gap: 5px;">
-                                <span>{{guarantor?.codeGuarantorOne || ''}}</span>
-                                <span>{{guarantor?.fullNameGuarantorOne || ''}}</span>
-                            </div>
+                <div>
+                    <label for="positionName" class="block">ตำแหน่ง</label>
+                    <input [class]="textString" id="positionName" type="text" formControlName="positionName"
+                        *ngIf="mode" />
+                    <div *ngIf="!mode">
+                        <select class="form-select" aria-label="Default select example" formControlName="positionId"
+                            required="true">
+                            <option value="0" selected>เลือกตำแหน่ง</option>
+                            <option *ngFor="let position of position" value="{{ position.id }}">{{
+                                position.name
+                                }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="departmentName" class="block">หน่วยงาน</label>
+                    <input [class]="textString" id="departmentName" type="text" formControlName="departmentName"
+                        *ngIf="mode" />
+                    <div *ngIf="!mode">
+                        <select class="form-select" aria-label="Default select example" formControlName="departmentId"
+                            required="true">
+                            <option value="0" selected>เลือกหน่วยงาน</option>
+                            <option *ngFor="let department of department" value="{{ department.id }}">{{
+                                department.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="bureauName" class="block">สำนัก</label>
+                    <input [class]="textString" id="bureauName" type="text" formControlName="bureauName" *ngIf="mode" />
+                    <div *ngIf="!mode">
+                        <select class="form-select" aria-label="Default select example" formControlName="bureauId"
+                            required="true" (click)="checkBureau($event)">
+                            <option value="0" selected>เลือกสำนัก</option>
+                            <option *ngFor="let bureau of bureau" value="{{ bureau.id }}">{{ bureau.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="affiliationName" class="block">สังกัด</label>
+                    <input [class]="textString" id="affiliationName" type="text" formControlName="affiliationName"
+                        *ngIf="mode" />
+                    <div *ngIf="!mode">
+                        <select class="form-select" aria-label="Default select example" formControlName="affiliationId"
+                            required="true">
+                            <option value="0" selected>เลือกสังกัด</option>
+                            <option *ngFor="let affiliation of affiliation" value="{{ affiliation.id }}">{{
+                                affiliation.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="marital" class="block">สถานภาพสมรส</label>
+                    <input [class]="textString" id="marital" type="text" formControlName="marital" *ngIf="mode" />
+                    <select class="form-select" aria-label="Default select example" *ngIf="!mode"
+                        formControlName="selectMarital" required="true">
+                        <option value="0" selected>เลือกความสัมพันธ์</option>
+                        <option value="1">โสด</option>
+                        <option value="2">อยู่ร่วมกัน</option>
+                        <option value="3">หม้าย</option>
+                        <option value="4">หย่า</option>
+                        <option value="5">แยกกันอยู่</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="salary" class="block">เงินเดือน</label>
+                    <input [class]="textString" id="salary" type="text" formControlName="salary" />
+                </div>
+                <div>
+                    <label for="compensation" class="block">ค่าตอบแทน</label>
+                    <input [class]="textString" id="compensation" type="text" formControlName="compensation" />
+                </div>
+                <div>
+                    <label for="lastName" class="block">เงินหุ้นรายเดือน</label>
+                    <input [class]="textString" id="monthlyStockMoney" type="text"
+                        formControlName="monthlyStockMoney" />
+                </div>
+                <div class="div-calendar">
+                    <label for="contractStartDate" class="block">วันที่เริ่มทำงาน</label>
+                    <input [class]="textString" id="contractStart" type="text" formControlName="contractStart"
+                        *ngIf="mode" />
+                    <p-calendar inputId="basic" formControlName="contractStartDate" *ngIf="!mode" dateFormat="dd/mm/yy"
+                        [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
+                </div>
+                <div class="div-calendar">
+                    <label for="civilServiceDate" class="block">วันที่เข้ารับราชการ</label>
+                    <input [class]="textString" id="civilServiceDate" type="text" formControlName="civilService"
+                        *ngIf="mode" />
+                    <p-calendar inputId="basic" formControlName="civilServiceDate" *ngIf="!mode" dateFormat="dd/mm/yy"
+                        [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
+                </div>
+                <div class="div-calendar">
+                    <label for="lastName" class="block">วันที่เป็นสมาชิก</label>
+                    <input [class]="textString" id="billingStartDate" type="text" formControlName="billingStart"
+                        *ngIf="mode" />
+                    <p-calendar inputId="basic" formControlName="billingStartDate" *ngIf="!mode" dateFormat="dd/mm/yy"
+                        [showButtonBar]="true" [maxDate]="myDefaultDate"></p-calendar>
+                </div>
+                <div>
+                    <label for="lastName" class="block">ชื่อบัญชีธนาคาร</label>
+                    <input [class]="textString" id="salaryBankAccountNumber" type="text"
+                        formControlName="salaryBankAccountNumber" />
+                </div>
+                <div>
+                    <label for="lastName" class="block">เลขที่บัญชีธนาคาร</label>
+                    <input [class]="textString" id="bankAccountReceivingNumber" type="text"
+                        formControlName="bankAccountReceivingNumber" />
+                </div>
+                <div>
+                    <label for="lastName" class="block">วันที่เกษียณอายุราชการ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="retirementDate" />
+                </div>
+                <div>
+                    <label for="lastName" class="block">หุ้นสะสม</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="stockAccumulate" />
+                </div>
+                <div>
+                    <label for="lastName" class="block">เงินกู้คงเหลือ</label>
+                    <input [class]="textString" id="retirementDate" type="text" formControlName="loanBalance" />
+                </div>
+                <!-- </div> -->
+            </div>
+            <div class="div-guarante" style="margin-top: 0.5rem;">
+                <p-chip label="ภาระค้ำประกัน" styleClass="mr-2"></p-chip>
+                <div class="div-guarante-info" *ngIf="guarantee">
+                    <div *ngIf="guarantee.codeGuaranteeOne || guarantee.fullNameGuaranteeOne">
+                        <label for="lastName" class="block">ค้ำคนที่ 1</label>
+                        <div style="display: flex; grid-gap: 5px;">
+                            <span>{{ guarantee.codeGuaranteeOne || '' }}</span>
+                            <span>{{ guarantee.fullNameGuaranteeOne || '' }}</span>
                         </div>
-                        <div>
-                            <label for="lastName" class="block">ค้ำคนที่ 2</label>
-                            <div style="display: flex; grid-gap: 5px;">
-                                <span>{{guarantor?.codeGuarantorTwo || ''}}</span>
-                                <span>{{guarantor?.fullNameGuarantorTwo || ''}}</span>
-                            </div>
+                    </div>
+                    <div *ngIf="guarantee.codeGuaranteeTwo || guarantee.fullNameGuaranteeTwo">
+                        <label for="lastName" class="block">ค้ำคนที่ 2</label>
+                        <div style="display: flex; grid-gap: 5px;">
+                            <span>{{ guarantee.codeGuaranteeTwo || '' }}</span>
+                            <span>{{ guarantee.fullNameGuaranteeTwo || '' }}</span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="div-guarante" style="margin-top: 0.5rem;">
+                <p-chip label="ผู้ค้ำประกันเงินกู้ของท่าน" styleClass="mr-2"></p-chip>
+                <div class="div-guarante-info">
+                    <div>
+                        <label for="lastName" class="block">ค้ำคนที่ 1</label>
+                        <div style="display: flex; grid-gap: 5px;">
+                            <span>{{guarantor?.codeGuarantorOne || ''}}</span>
+                            <span>{{guarantor?.fullNameGuarantorOne || ''}}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="lastName" class="block">ค้ำคนที่ 2</label>
+                        <div style="display: flex; grid-gap: 5px;">
+                            <span>{{guarantor?.codeGuarantorTwo || ''}}</span>
+                            <span>{{guarantor?.fullNameGuarantorTwo || ''}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
 
         </div>
-
-
     </div>
 </p-dialog>

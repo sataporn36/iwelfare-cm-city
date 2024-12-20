@@ -1,9 +1,15 @@
-<div class="container">
+<!-- <div class="container">
     <div class="line-one">
         <div class="menu-header">
             <div class="div-header-card">
                 <div class="div-header-icon" style="background: #FFE1F1;">
-                    <i class="uil uil-chart" style="color: var(--icon1-color);"></i>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                            stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M7.33008 14.49L9.71008 11.4C10.0501 10.96 10.6801 10.88 11.1201 11.22L12.9501 12.66C13.3901 13 14.0201 12.92 14.3601 12.49L16.6701 9.51001"
+                            stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                 </div>
                 <div class="div-header-text">
                     <span>หุ้น</span>
@@ -12,7 +18,16 @@
             </div>
             <div class="div-header-card">
                 <div class="div-header-icon" style="background: #D8D7F8;">
-                    <i class="uil uil-bill" style="color: var(--icon2-color);"></i>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M8.67188 14.3298C8.67188 15.6198 9.66188 16.6598 10.8919 16.6598H13.4019C14.4719 16.6598 15.3419 15.7498 15.3419 14.6298C15.3419 13.4098 14.8119 12.9798 14.0219 12.6998L9.99187 11.2998C9.20187 11.0198 8.67188 10.5898 8.67188 9.36984C8.67188 8.24984 9.54187 7.33984 10.6119 7.33984H13.1219C14.3519 7.33984 15.3419 8.37984 15.3419 9.66984"
+                            stroke="#3a36db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 6V18" stroke="#3a36db" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                            stroke="#3a36db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                 </div>
                 <div class="div-header-text">
                     <span>เงินกู้</span>
@@ -33,7 +48,22 @@
             </div>
             <div class="div-header-card">
                 <div class="div-header-icon" style="background: #D1F7EA;">
-                    <i class="uil uil-notes" style="color: var(--icon4-color);"></i>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 2V5" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 2V5" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 11H15" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 15H12" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M15 22H9C4 22 3 19.94 3 15.82V9.65C3 4.95 4.67 3.69 8 3.5H16C19.33 3.68 21 4.95 21 9.65V16"
+                            stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M21 16L15 22V19C15 17 16 16 18 16H21Z" stroke="#1ad598" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                 </div>
                 <div class="div-header-text">
                     <span>ภาระค้ำประกัน</span>
@@ -66,8 +96,8 @@
         </div>
         <div class="div-table-stocks">
             <p-chip label="รายการหุ้น" styleClass="mr-2"></p-chip>
-            <p-table dataKey="id" responsiveLayout="stack" [value]="dataStockDetail" [loading]="loading" [tableStyle]="{'max-width': '100%'}"
-                styleClass="p-datatable-md">
+            <p-table dataKey="id" responsiveLayout="stack" [value]="dataStockDetail" [loading]="loading"
+                [tableStyle]="{'max-width': '100%'}" styleClass="p-datatable-md">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th class="th-s1">ลำดับที่</th>
@@ -86,8 +116,10 @@
                         <td><span class="p-column-title">ปีที่ทำรายการ</span>{{ stockDetail.stockYear }}</td>
                         <td><span class="p-column-title">ชื่อรายการ</span>ชำระหุ้นรายเดือน</td>
                         <td><span class="p-column-title">งวดที่</span>{{ stockDetail.installment }}</td>
-                        <td style="color: #EA3A3D;"><span class="p-column-title">ยอดทำรายการ</span>{{ stockDetail.stockValue | number }}</td>
-                        <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ stockDetail.stockAccumulate | number }}</td>
+                        <td style="color: #EA3A3D;"><span class="p-column-title">ยอดทำรายการ</span>{{
+                            stockDetail.stockValue | number }}</td>
+                        <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{
+                            stockDetail.stockAccumulate | number }}</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -120,6 +152,198 @@
                     </div>
                 </div>
                 <div class="detail-profile-text">
+                    <span>ตำเเหน่ง</span>
+                    <div class="div-text">
+                        <span class="d-inline-block text-truncate" tooltipPosition="bottom"
+                            pTooltip="{{ userInfo.positionName }}">{{ userInfo.positionName }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div-beneficiary">
+            <p-chip label="ผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
+            <ul>
+                <li *ngFor="let beneficiary of arrayBeneficiary">
+                    <div class="beneficiary-info">
+                        <img [src]="beneficiaryImg(beneficiary.gender)" />
+                        <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> -->
+<div class="div-main">
+    <div class="line-one">
+        <div class="menu-header">
+            <div class="div-header-card">
+                <div class="div-header-icon" style="background: #FFE1F1;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                            stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M7.33008 14.49L9.71008 11.4C10.0501 10.96 10.6801 10.88 11.1201 11.22L12.9501 12.66C13.3901 13 14.0201 12.92 14.3601 12.49L16.6701 9.51001"
+                            stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="div-header-text">
+                    <span>หุ้น</span>
+                    <h4>{{ userInfo.stockAccumulate | number }}</h4>
+                </div>
+            </div>
+            <div class="div-header-card">
+                <div class="div-header-icon" style="background: #D8D7F8;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M8.67188 14.3298C8.67188 15.6198 9.66188 16.6598 10.8919 16.6598H13.4019C14.4719 16.6598 15.3419 15.7498 15.3419 14.6298C15.3419 13.4098 14.8119 12.9798 14.0219 12.6998L9.99187 11.2998C9.20187 11.0198 8.67188 10.5898 8.67188 9.36984C8.67188 8.24984 9.54187 7.33984 10.6119 7.33984H13.1219C14.3519 7.33984 15.3419 8.37984 15.3419 9.66984"
+                            stroke="#3a36db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 6V18" stroke="#3a36db" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                            stroke="#3a36db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="div-header-text">
+                    <span>เงินกู้</span>
+                    <h4>{{ userInfo.loanValue | number }}</h4>
+                </div>
+            </div>
+            <div class="div-header-card">
+                <div class="div-header-icon" style="background: #CCE9FF;">
+                    <!-- <i class="uil uil-users-alt" style="color: var(--icon3-color);"></i> -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9.16006 10.87C9.06006 10.86 8.94006 10.86 8.83006 10.87C6.45006 10.79 4.56006 8.84 4.56006 6.44C4.56006 3.99 6.54006 2 9.00006 2C11.4501 2 13.4401 3.99 13.4401 6.44C13.4301 8.84 11.5401 10.79 9.16006 10.87Z"
+                            stroke="#0090ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M16.41 4C18.35 4 19.91 5.57 19.91 7.5C19.91 9.39 18.41 10.93 16.54 11C16.46 10.99 16.37 10.99 16.28 11"
+                            stroke="#0090ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M4.15997 14.56C1.73997 16.18 1.73997 18.82 4.15997 20.43C6.90997 22.27 11.42 22.27 14.17 20.43C16.59 18.81 16.59 16.17 14.17 14.56C11.43 12.73 6.91997 12.73 4.15997 14.56Z"
+                            stroke="#0090ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M18.3401 20C19.0601 19.85 19.7401 19.56 20.3001 19.13C21.8601 17.96 21.8601 16.03 20.3001 14.86C19.7501 14.44 19.0801 14.16 18.3701 14"
+                            stroke="#0090ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="div-header-text">
+                    <span>ผู้รับผลประโยชน์</span>
+                    <div style="display: flex; gap: 10px; align-items: flex-end; justify-content: flex-start;">
+                        <h4>{{ countBeneficiary | number }}</h4>
+                        <span>คน</span>
+                    </div>
+                </div>
+            </div>
+            <div class="div-header-card">
+                <div class="div-header-icon" style="background: #D1F7EA;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 2V5" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 2V5" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 11H15" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 15H12" stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M15 22H9C4 22 3 19.94 3 15.82V9.65C3 4.95 4.67 3.69 8 3.5H16C19.33 3.68 21 4.95 21 9.65V16"
+                            stroke="#1ad598" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M21 16L15 22V19C15 17 16 16 18 16H21Z" stroke="#1ad598" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="div-header-text">
+                    <span>ภาระค้ำประกัน</span>
+                    <div style="display: flex; gap: 10px; align-items: flex-end; justify-content: flex-start;">
+                        <h4>{{ userInfo.guarantee | number }}</h4>
+                        <span>คน</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div-new">
+            <p-chip label="ข่าวประชาสัมพันธ์" styleClass="mr-2"></p-chip>
+            <div class="news-line">
+                <div class="list-news" *ngFor="let news of listNews.slice(0, listNewsIndex); let i = index;">
+                    <div class="news-header">
+                        <label class="news">{{ pipeDateTHD(news.createDate) }}</label>
+                        <img [src]="imgNewsList[i]" alt="logo" />
+                    </div>
+                    <div class="news-text">
+                        <span class="d-inline-block text-truncate topic">
+                            {{ news.name }}
+                        </span>
+                        <span class="d-inline-block text-truncate description" tooltipPosition="bottom"
+                            pTooltip="{{ news.description }}">
+                            {{ news.description }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div-table-stocks">
+            <p-chip label="รายการหุ้น" styleClass="mr-2"></p-chip>
+            <p-table dataKey="id" responsiveLayout="stack" [value]="dataStockDetail" [loading]="loading"
+                [tableStyle]="{'max-width': '100%'}" styleClass="p-datatable-md">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <!-- <th>ลำดับที่</th> -->
+                        <th>งวดที่</th>
+                        <th>เดือนที่ทำรายการ</th>
+                        <th>ปีที่ทำรายการ</th>
+                        <th>ชื่อรายการ</th>
+                        <th>ยอดทำรายการ</th>
+                        <th>หุ้นสะสม</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stockDetail let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="stockDetail" style="height: 5px;">
+                        <!-- <td><span class="p-column-title">ลำดับที่</span>{{ i+1 }}</td> -->
+                        <td><span class="p-column-title">งวดที่</span>{{ stockDetail.installment }}</td>
+                        <td><span class="p-column-title">เดือนที่ทำรายการ</span>{{ stockDetail.stockMonth }}</td>
+                        <td><span class="p-column-title">ปีที่ทำรายการ</span>{{ stockDetail.stockYear }}</td>
+                        <td>
+                            <span class="p-column-title">ชื่อรายการ</span>
+                            <p>ชำระหุ้นรายเดือน</p>
+                        </td>
+                        <td style="color: #EA3A3D; font-weight: 500;"><span class="p-column-title">ยอดทำรายการ</span>{{
+                            stockDetail.stockValue | number }}</td>
+                        <td style="color: #6FAF00; font-weight: 500;"><span class="p-column-title">หุ้นสะสม</span>{{
+                            stockDetail.stockAccumulate | number }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">ไม่พบข้อมูลหุ้นในฐานข้อมูล</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="line-two">
+        <div class="card-profile">
+            <div class="triangle" *ngIf="!userInfo.passwordFlag">
+                <div class="group-tx">
+                    <span class="tx1">กรุณา</span>
+                    <span class="tx2">เปลี่ยนรหัสผ่าน</span>
+                </div>
+            </div>
+            <div class="div-profile-img">
+                <img class="profile-img" [src]="profileImg()" />
+            </div>
+            <div class="profile-name">
+                <h4>{{ userInfo.firstName }} {{ userInfo.lastName }}</h4>
+            </div>
+            <div class="div-detail">
+                <div class="detail-profile-text-one">
+                    <span>เลขสมาชิก</span>
+                    <div class="div-text">
+                        <span class="d-inline-block text-truncate">{{ userInfo.employeeCode }}</span>
+                    </div>
+                </div>
+                <div class="detail-profile-text-two">
                     <span>ตำเเหน่ง</span>
                     <div class="div-text">
                         <span class="d-inline-block text-truncate" tooltipPosition="bottom"

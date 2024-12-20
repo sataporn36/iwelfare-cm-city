@@ -1,217 +1,109 @@
 * {
-  box-sizing: border-box;
-  font-family: "Kanit", sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .card {
-  border: 5px solid white;
-  border-radius: 15px;
+  border: 0;
+  border-radius: 10px;
   width: 100%;
   background-color: white;
-  padding: 2rem;
+  padding: 1.5rem;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .card p {
-  color: #60646b;
-  margin-top: 20px;
-  margin-left: 10px;
+  text-indent: 20px;
+}
+
+.div-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.div-guarantee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .div-header {
-  margin: 15px;
-  color: #4e4e4e;
-  line-height: 30px;
+  padding: 0.5rem;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-indent: 20px;
 }
 
 .div-text-header {
   display: flex;
-  grid-gap: 20px;
+  // gap: 0.5rem;
   span {
     color: black;
+    font-weight: 500;
   }
 }
 
-.div-body {
-  display: flex;
-  grid-gap: 10px;
-}
-
-.guarantee-header {
-  color: #8690a1;
-  font-size: 15px;
+.div-guarantee .guarantee-header {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 300;
+  text-indent: 5px;
 }
 
 .guarantee {
   border: 2px solid #f0f2f2;
   border-radius: 15px;
-  width: 450px;
-  height: 110px;
-  margin-top: -10px;
   display: flex;
+  align-items: center;
+  width: 100%;
   img {
-    width: 108px;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    background: #fff7fb;
+    width: 96px;
+    border-radius: 12px;
+    background: #f1f1f1;
+    margin: 1rem;
   }
 }
 
 .info-text {
-  padding: 20px;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  grid-gap: 10px;
+  gap: 0.5rem;
   width: 100%;
 }
 
 .text {
   display: flex;
-  grid-gap: 10px;
+  flex-direction: column;
 
   .name {
-    color: #4e4e4e;
+    font-size: 14px;
+    color: #6b7280;
   }
 }
 
-@media only screen and (max-width: 1200px) {
-  .card {
-    font-size: 15px;
-  }
-  .guarantee {
-    width: 400px;
-  }
-}
-
-@media only screen and (max-width: 1080px) {
-  .guarantee {
-    width: 380px;
-    height: 90px;
-    img {
-      width: 86px;
-    }
-  }
-}
-
-@media only screen and (max-width: 1040px) {
+@media only screen and (max-width: 900px) {
   .div-body {
-    display: flex;
-    flex-direction: column;
-  }
-  .guarantee {
-    width: 400px;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .guarantee {
-    width: 380px;
-    height: 80px;
-    img {
-      width: 76px;
-    }
-  }
-
-  .info-text {
-    grid-gap: 0px;
-  }
-}
-
-@media only screen and (max-width: 560px) {
-  .card {
-    font-size: 14px;
-  }
-  .guarantee {
-    width: 350px;
-    height: 80px;
-    img {
-      width: 76px;
-    }
-  }
-}
-
-@media only screen and (max-width: 530px) {
-  .card {
-    font-size: 14px;
-  }
-  .guarantee {
-    width: 330px;
-    height: 70px;
-    img {
-      width: 66px;
-    }
-  }
-  .info-text {
-    padding: 20px 10px;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .card {
-    font-size: 14px;
-    padding: 1rem;
-  }
-  .guarantee {
-    width: 310px;
-    height: 60px;
-    img {
-      width: 56px;
-    }
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
 @media only screen and (max-width: 450px) {
   .guarantee {
-    width: 300px;
-    height: 60px;
-    font-size: 13px;
+    display: flex;
+    flex-direction: column;
     img {
-      width: 56px;
+      width: 100px;
+      margin: 0;
+      margin-top: 1rem;
     }
-  }
-  .guarantee-header {
-    font-size: 13px;
-  }
-}
-
-@media only screen and (max-width: 430px) {
-  .guarantee {
-    width: 290px;
-    height: 50px;
-    font-size: 13px;
-    img {
-      width: 46px;
-    }
-  }
-}
-
-@media only screen and (max-width: 425px) {
-  .guarantee {
-    width: 270px;
-    height: 65px;
-    font-size: 13px;
-    padding: 10px 10px;
-    img {
-      display: none;
-    }
-  }
-}
-
-@media only screen and (max-width: 400px) {
-  .guarantee {
-    width: 250px;
-    height: 65px;
-    font-size: 13px;
-    padding: 10px 10px;
-  }
-}
-
-@media only screen and (max-width: 360px) {
-  .guarantee {
-    width: 235px;
-    height: 65px;
-    font-size: 13px;
-    padding: 0px;
   }
 }

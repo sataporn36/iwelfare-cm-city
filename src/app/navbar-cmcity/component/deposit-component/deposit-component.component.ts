@@ -1,42 +1,64 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
+import { MessageService } from 'primeng/api';
+import { MainService } from 'src/app/service/main.service';
 
 @Component({
   selector: 'app-deposit-component',
   templateUrl: './deposit-component.component.html',
-  styleUrls: ['./deposit-component.component.scss']
+  styleUrls: ['./deposit-component.component.scss'],
 })
 export class DepositComponentComponent implements OnInit {
   @ViewChild('downloadLink') downloadLinkRef!: ElementRef;
+  documents: any;
 
-  documents = [
-    { label: 'คู่มือปฏิบัติงานกองทุนฯ', path: '/assets/pdf/คู่มือปฏิบัติงานกองทุนฯ.pdf' },
-    { label: 'ใบสมัครเข้าเป็นสมาชิก', path: '/assets/pdf/ใบสมัครเข้าเป็นสมาชิก.pdf' },
-    { label: 'หนังสือขอลาออก', path: '/assets/pdf/หนังสือขอลาออก.pdf' },
-    { label: 'หนังสือสัญญากู้กองทุนสวัสดิการ', path: '/assets/pdf/หนังสือสัญญากู้กองทุนสวัสดิการ.pdf' },
-    { label: 'หนังสือค้ำประกันเงินกู้กองทุนสวัสดิการ', path: '/assets/pdf/หนังสือค้ำประกันเงินกู้กองทุนสวัสดิการ.pdf' },
-    { label: 'หนังสือขอเปลี่ยนแปลงการใช้หุ้นค้ำประกัน', path: '/assets/pdf/หนังสือขอเปลี่ยนแปลงการใช้หุ้นค้ำประกัน.pdf' },
-    { label: 'หนังสือขอเปลี่ยนผู้ค้ำประกัน', path: '/assets/pdf/หนังสือขอเปลี่ยนผู้ค้ำประกัน.pdf' },
-    { label: 'หนังสือขอรับเงินช่วยสมาชิกที่เกษียณ', path: '/assets/pdf/หนังสือขอรับเงินช่วยสมาชิกที่เกษียณ.pdf' },
-    { label: 'ใบสำคัญรับเงิน', path: '/assets/pdf/ใบสำคัญรับเงิน.pdf' },
-  ];
+  constructor(
+    private service: MainService,
+    private messageService: MessageService
+  ) {}
 
-  constructor() { }
-
-  ngOnInit(): void { }
-
-  initiateDownload(index: number): void {
-    const documentPath = this.documents[index].path;
-    this.downloadLinkRef.nativeElement.href = documentPath;
-    this.downloadLinkRef.nativeElement.click();
+  ngOnInit() {
+    this.searchDoc();
   }
 
-  downloadPdf(index: number) {
-    const documentPath = this.documents[index];
-    const pdfPath = documentPath.path;
-    const pdfName = documentPath.label;
-    saveAs(pdfPath, pdfName);
+  searchDoc(): void {
+    this.service.searchDoc().subscribe((data) => {
+      this.documents = data;
+    });
   }
 
+  downloadPdf(document: any) {
+    this.service.getDoc(document.id).subscribe(
+      (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        saveAs(url, document.name);
+      },
+      (error) => {
+        if (error.error instanceof Blob) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const errorMessage = reader.result as string;
+            this.messageService.add({
+              severity: 'error',
+              detail: 'เกิดข้อผิดพลาดในการเปิดไฟล์ PDF: ' + errorMessage,
+            });
+          };
+          reader.readAsText(error.error);
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            detail: 'เกิดข้อผิดพลาดในการเปิดไฟล์ PDF',
+          });
+        }
+      }
+    );
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
 }
-

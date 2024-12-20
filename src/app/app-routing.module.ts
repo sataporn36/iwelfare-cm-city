@@ -25,11 +25,12 @@ import { ResetPasswordPageComponent } from './navbar-cmcity/page/reset-password-
 import { AdminNewsPageComponent } from './navbar-cmcity/component/admin-component/page/admin-news-page/admin-news-page.component';
 import { AdminSettingPageComponent } from './navbar-cmcity/component/admin-component/page/admin-setting-page/admin-setting-page.component';
 import { PageCloseComponentComponent } from './PageClosedForMaintenance/page-close-component.component';
+import { AdminDocPageComponent } from './navbar-cmcity/component/admin-component/page/admin-doc-page/admin-doc-page.component';
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'index',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'index',
@@ -59,7 +60,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'main-page',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'main-page',
@@ -126,10 +127,14 @@ const routes: Routes = [
         component: AdminNewsPageComponent,
       },
       {
+        path: 'admin-doc-page',
+        component: AdminDocPageComponent,
+      },
+      {
         path: 'admin-setting-page',
         component: AdminSettingPageComponent,
       },
-    ]
+    ],
   },
   {
     path: 'close-maintenance',
@@ -143,6 +148,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

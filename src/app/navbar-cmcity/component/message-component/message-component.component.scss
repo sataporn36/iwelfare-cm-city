@@ -1,7 +1,7 @@
-th {
-  color: #8690a1;
-  font-weight: normal;
-}
+// th {
+//   color: #8690a1;
+//   font-weight: normal;
+// }
 
 table {
   width: 100%;
@@ -9,10 +9,13 @@ table {
 
 .div-table-stocks {
   background: #fff;
-  padding: 2rem;
-  border-radius: 15px;
+  padding: 2rem 2rem 0 2rem;
+  border-radius: 10px;
   width: 100%;
   margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
 }
 
 textarea {
@@ -29,42 +32,88 @@ textarea {
 }
 
 .notify-badge-1 {
-  width: fit-content;
-  padding: 6px;
-  border-radius: 10px;
-  background: #ff8cb4;
+  // width: fit-content;
+  // padding: 0.5rem;
+  color: #de3163;
+  font-weight: 500;
+  // border-radius: 6px;
+  // background: #de3163;
+  // text-align: center;
 }
 
 .notify-badge-2 {
-  width: fit-content;
-  padding: 6px;
-  border-radius: 10px;
-  background: #a29bfe;
+  // width: fit-content;
+  // padding: 0.5rem;
+  color: #a17eeb;
+  font-weight: 500;
+  // border-radius: 6px;
+  // background: #a17eeb;
+  // text-align: center;
 }
 
 .notify-badge-3 {
-  width: fit-content;
-  padding: 6px;
-  border-radius: 10px;
-  background: #74b9ff;
+  // width: fit-content;
+  // padding: 0.5rem;
+  color: #0094ff;
+  font-weight: 500;
+  // border-radius: 6px;
+  // background: #0094ff;
+  // text-align: center;
 }
 
 .notify-badge-4 {
-  width: fit-content;
-  padding: 6px;
-  border-radius: 10px;
-  background: #00bcd4;
+  // width: fit-content;
+  // padding: 0.5rem;
+  color: #ff6b00;
+  font-weight: 500;
+  // border-radius: 6px;
+  // background: #ff6b00;
+  // text-align: center;
 }
 
 .notify-badge-5 {
-  width: fit-content;
-  padding: 6px;
-  border-radius: 10px;
-  background: #17cc63;
+  // width: fit-content;
+  // padding: 0.5rem;
+  color: #6faf00;
+  font-weight: 500;
+  // border-radius: 6px;
+  // background: #6faf00;
+  // text-align: center;
 }
 
+.table-icon-menu {
+  text-align: -webkit-center;
+}
+
+// :host ::ng-deep p-paginator div {
+//   display: flex;
+//   justify-content: flex-end;
+
+//   p-dropdown div .p-dropdown-trigger {
+//     display: flex;
+//     justify-content: center;
+//   }
+// }
+
+// :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+//   background: none;
+//   text-align: center;
+//   font-weight: normal;
+//   color: #8690a1;
+//   font-size: 16px;
+// }
+
+// :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+//   text-align: center;
+// }
+
+// :host ::ng-deep .p-datatable .p-datatable-header {
+//   background: none;
+//   border-top: none;
+// }
+
 :host ::ng-deep p-paginator div {
-  display: flex;
+  font-size: 14px;
   justify-content: flex-end;
 
   p-dropdown div .p-dropdown-trigger {
@@ -75,14 +124,15 @@ textarea {
 
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   background: none;
-  text-align: center;
   font-weight: normal;
-  color: #8690a1;
-  font-size: 16px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 300;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-  text-align: center;
+  font-size: 14px;
+  padding: 0.8rem 1rem;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-header {
@@ -90,75 +140,101 @@ textarea {
   border-top: none;
 }
 
-.btn {
-  width: 60px;
-  font-weight: 500;
-  font-size: 16px;
-  border-radius: 15px;
+:host ::ng-deep .p-datatable .p-paginator-bottom,
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  font-size: 14px;
+  color: #495057;
+  border-width: 0;
+  font-weight: 300;
 }
 
-.btn-login {
-  color: #fff;
-  background-color: #fe6bba;
+:host ::ng-deep .p-paginator .p-dropdown {
+  height: 2.8rem;
+  width: 5rem;
 }
 
-.btn-regis {
-  color: #fe6bba;
-  border-color: #fe6bba;
-  margin-left: 10px;
+:host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label {
+  font-size: 14px;
+  font-family:
+    Kanit,
+    Noto Sans,
+    Noto Sans Thai,
+    sans-serif;
 }
 
-.div-menu {
-  border-radius: 25px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:host ::ng-deep .p-dropdown .p-dropdown-trigger {
+  width: 2.5rem;
+  span {
+    margin-top: 3px;
+  }
 }
-.div-menu:hover {
-  background: #f5f9ff;
-}
+
+// .btn {
+//   width: 60px;
+//   font-weight: 500;
+//   font-size: 14px;
+//   border-radius: 15px;
+// }
+
+// .btn-login {
+//   color: #fff;
+//   background-color: #fe6bba;
+// }
+
+// .btn-regis {
+//   color: #fe6bba;
+//   border-color: #fe6bba;
+//   margin-left: 10px;
+// }
+
+// .div-menu {
+//   border-radius: 25px;
+//   width: 50px;
+//   height: 50px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+// .div-menu:hover {
+//   background: #f5f9ff;
+// }
 
 :host ::ng-deep .p-menu {
-  left: 87% !important;
+  left: 78% !important;
+  width: 16rem;
   z-index: 1001;
   transform-origin: center top;
 }
 
 :host ::ng-deep .p-menu.p-menu-overlay {
-  transform: translate(-2.5rem, -10.5rem);
-}
-
-@media screen and (max-width: 1366px) {
-  ::ng-deep .p-menu {
-    margin-top: 25px;
-    font-size: 15px;
-    border-radius: 10px;
-    width: 10rem;
-  }
+  transform: translate(0em, -11rem);
 }
 
 .div-profile {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  grid-gap: 2rem;
+  gap: 2rem;
 
   label {
-    color: #747d8c;
-    font-size: 15px;
+    color: #6b7280;
+    font-size: 14px;
   }
 
   input {
-    font-size: 16px;
+    font-size: 14px;
   }
+}
+
+:host ::ng-deep .p-chip .p-chip-text {
+  font-size: 14px;
 }
 
 .div-profile .text {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
+  width: 100%;
 }
 
 .profile_img {
@@ -189,68 +265,131 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
   }
   .text {
     margin-top: 15px;
     margin-left: 15px;
     label {
-      color: #747d8c;
+      color: #6b7280;
+      font-size: 14px;
     }
+    input {
+      font-weight: 500;
+    }
+  }
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  padding: 10px 0 0 0;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  button {
+    margin: 0;
+  }
+}
+
+.footer-button {
+  display: flex;
+  .btn {
+    height: 40px;
+    font-size: 14px;
+    border-radius: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .btn-login {
+    font-weight: 500;
+    font-size: 14px;
+    height: 45px;
+    color: #fff;
+    background-color: #fe6bba;
+    border-bottom-left-radius: 6px;
+  }
+
+  .btn-regis {
+    font-weight: 500;
+    font-size: 14px;
+    height: 45px;
+    color: #fe6bba;
+    background-color: #f3f2ed;
+    border-bottom-right-radius: 6px;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  :host ::ng-deep .p-menu {
+    left: 74% !important;
   }
 }
 
 @media only screen and (max-width: 1366px) {
-  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    font-size: 15px;
-  }
-
-  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    font-size: 14px;
-  }
-
-  :host ::ng-deep p-paginator div {
-    font-size: 14px;
-  }
-
-  :host ::ng-deep p-paginator div span button {
-    font-size: 14px;
+  :host ::ng-deep .p-menu {
+    left: 70% !important;
   }
 }
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1000px) {
+  .div-profile {
+    display: flex;
+    flex-direction: column;
+  }
+
   .div-profile .text {
     grid-template-columns: repeat(2, 1fr);
+    padding: 2rem;
   }
 }
 
-@media only screen and (max-width: 900px) {
-  .div-profile {
-    flex-direction: column;
-    grid-gap: 1rem;
-    margin-top: 1rem;
+@media only screen and (max-width: 950px) {
+  .table-icon-menu {
+    text-align: -webkit-center;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .text {
-      margin: 0rem 1rem;
-    }
+  :host ::ng-deep .p-menu {
+    left: 65% !important;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  :host ::ng-deep .p-menu {
+    left: 57% !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  :host ::ng-deep .p-menu {
+    left: 41% !important;
+  }
+
+  .profile_img {
+    width: 300px;
+    height: 300px;
+  }
+
+  .edit-pro {
+    display: flex;
+    flex-direction: column;
   }
 }
 
 @media only screen and (max-width: 500px) {
-  .profile_img {
-    width: 250px;
-    height: 250px;
-    border-radius: 5%;
-    background: #f8f2f2;
+  :host ::ng-deep .p-menu {
+    left: 24% !important;
   }
 
-  .edit-pro {
-    flex-direction: column;
-    grid-gap: 1rem;
+  .div-profile .text {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
 @media only screen and (max-width: 430px) {
-  .div-profile .text {
-    grid-template-columns: repeat(1, 1fr);
+  :host ::ng-deep .p-menu {
+    left: 0% !important;
   }
 }

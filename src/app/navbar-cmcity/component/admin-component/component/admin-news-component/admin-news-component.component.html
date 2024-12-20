@@ -1,72 +1,49 @@
 <div class="div-news">
-    <div class="add-news" [formGroup]="newsModel">
-        <p-chip label="เพิ่มข่าวสาร" styleClass="mr-2"></p-chip>
-        <div class="div-news-img">
-            <div class="div-img">
-                <p-chip label="รูปหลัก" styleClass="mr-2"></p-chip>
-                <div class="profile-pic-wrapper">
-                    <div class="pic-holder">
-                        <img id="profilePic" class="pic" [src]="imageCover">
-                        <input class="uploadProfileInput" type="file" (change)="onNewsPicChange($event)" id="newsPhoto"
-                            accept="image/*" style="opacity: 0;" />
-                        <label for="newsPhoto" class="upload-file-block">
-                            <div class="text-center">
-                                <div class="mb-2">
-                                    <i class="uil uil-cloud-upload fa-2x"></i>
-                                </div>
-                                <div class="text-uppercase">
-                                    อัพโหลด
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="div-text">
-                <div class="text-header">
-                    <p-chip label="รายละเอียด" styleClass="mr-2"></p-chip>
-                    <button type="button" (click)="onAccept()" class="btn btn-login">บันทึก</button>
-                </div>
-                <div class="text-body">
-                    <div>
-                        <label class="block">เรื่อง</label>
-                        <input class="form-control" type="text" formControlName="name" />
-                    </div>
-                    <div>
-                        <label class="block">รายละเอียด</label>
-                        <textarea class="form-control" type="text" formControlName="description" rows="6"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="card">
         <p-table responsiveLayout="stack" #dt2 [value]="listEmp" dataKey="id" editMode="row" [rows]="5"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[5, 10, 25, 50]" [loading]="loading" [paginator]="true"
             selectionMode="single" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
             [globalFilterFields]="['name']" [tableStyle]="{'max-width': '100%'}">
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <div class="div-flex-header">
                     <p-chip label="การจัดการข่าวสาร" styleClass="mr-2"></p-chip>
-                    <span class="p-input-icon-left ml-auto">
-                        <i class="bi bi-search" style="color: #979797; display: flex;"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
-                            placeholder="ค้นหา"
-                            style="width: 12rem; border-radius: 10px; height: 45px; font-size: 15px; border: 1px solid var(--bd3-color);" />
-                    </span>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-login" (click)="onAdd()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M17.5 17.08H15.65" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M12.97 17.08H6.5" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M17.5 13.3199H11.97" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M9.27 13.3199H6.5" stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            เพิ่มข่าวสาร</button>
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="bi bi-search" style="color: #979797; display: flex;"></i>
+                            <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                                placeholder="ค้นหา"
+                                style="width: 10rem; border-radius: 10px; height: 40px; font-size: 14px;" />
+                        </span>
+                    </div>
                 </div>
             </ng-template>
-
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th style="width:20%">เรื่อง</th>
-                    <th style="width:20%">รายละเอียด</th>
-                    <th style="width:20%">วันที่ข่าวสาร</th>
-                    <th style="width:20%">แก้ไข</th>
+                    <th>วันที่</th>
+                    <th>เรื่อง</th>
+                    <th>รายละเอียด</th>
+                    <th>แก้ไข</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-listEmp let-i="rowIndex" let-columns="columns">
                 <tr [pEditableRow]="listEmp">
+                    <td><span class="p-column-title">วันที่ข่าวสาร</span>{{ pipeDateTHD(listEmp.createDate) }}</td>
                     <td>
                         <span class="p-column-title">เรื่อง</span>
                         <span class="d-inline-block text-truncate topic">
@@ -79,15 +56,53 @@
                             {{ listEmp.description }}
                         </span>
                     </td>
-                    <td><span class="p-column-title">วันที่ข่าวสาร</span>{{ pipeDateTHD(listEmp.createDate) }}</td>
                     <td><span class="p-column-title">แก้ไข</span>
-                        <div class="flex align-items-center justify-content-center gap-2"
-                            style="height: 25px; display: flex;">
-                            <button pButton pRipple type="button" icon="pi pi-file-edit" tooltipPosition="top"
-                                pTooltip="แก้ไข" (click)="onEdit(listEmp.id)"
-                                class="p-button-rounded p-button-text"></button>
-                            <button pButton pRipple type="button" icon="pi pi-trash" tooltipPosition="top" pTooltip="ลบ"
-                                (click)="onDelete(listEmp.id)" class="p-button-rounded p-button-text"></button>
+                        <div class="div-button-edit">
+                            <div style="cursor: pointer;" (click)="onEdit(listEmp.id)" tooltipPosition="top"
+                                pTooltip="เเก้ไข">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8.38184 13.6898L3.7106 18.2671C3.52586 18.4481 3.35128 18.7873 3.30794 19.0366L3.02995 20.809C2.92771 21.4523 3.36039 21.9077 3.99709 21.8269L5.75118 21.6081C5.99813 21.573 6.35115 21.4081 6.52293 21.2269L11.1941 16.6497C11.999 15.861 12.3916 14.9332 11.2463 13.7278C10.1137 12.5359 9.18676 12.9011 8.38184 13.6898Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M7.70874 14.3492C8.07217 15.7776 9.14106 16.9026 10.5337 17.3224"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14 6H10C8 6 8 5 8 4C8 2 9 2 10 2H14C15 2 16 2 16 4C16 6 15 6 14 6Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M10 22H15C20 22 21 20 21 16V10C21 5.44002 19.33 4.20002 16 4.02002"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M8 4.02002C4.67 4.20002 3 5.43002 3 10V15" stroke="#DFDFEC"
+                                        stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div style="cursor: pointer;" (click)="onDelete(listEmp.id, false)" tooltipPosition="top"
+                                pTooltip="ลบ">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.81 2L5.19 5.63" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M15.19 2L18.81 5.63" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M2 7.85C2 6 2.99 5.85 4.22 5.85H19.78C21.01 5.85 22 6 22 7.85C22 10 21.01 9.85 19.78 9.85H4.22C2.99 9.85 2 10 2 7.85Z"
+                                        stroke="#DFDFEC" stroke-width="1.5" />
+                                    <path d="M9.75999 14V17.55" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path d="M14.36 14V17.55" stroke="#DFDFEC" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M3.5 10L4.91 18.64C5.23 20.58 6 22 8.86 22H14.89C18 22 18.46 20.64 18.82 18.76L20.5 10"
+                                        stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round" />
+                                </svg>
+
+                            </div>
+                            <!-- <button pButton pRipple type="button" icon="pi pi-trash" tooltipPosition="top" pTooltip="ลบ"
+                                (click)="onDelete(listEmp.id)" class="p-button-rounded p-button-text"></button> -->
                         </div>
                     </td>
                 </tr>
@@ -100,38 +115,186 @@
         </p-table>
     </div>
 </div>
-
-<p-dialog header="แก้ไขข่าวสาร" [(visible)]="detail" [modal]="true" [style]="{ width: '80vw' }"
-    [breakpoints]="{ '1600px': '85vw','1366px': '90vw' }" [draggable]="false"
-    [resizable]="false" (onHide)="clearDialog()">
-    <div [formGroup]="detailModel">
-        <div class="div-detail-news">
-            <div class="div-img">
-                <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
-                <div class="profile-pic-wrapper">
-                    <div class="pic-holder">
-                        <img id="profilePic" class="pic" [src]="imageCoverDetail">
-                        <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
-                            id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
-                        <label for="newProfilePhoto" class="upload-file-block">
-                            <div class="text-center">
-                                <div class="mb-2">
-                                    <i class="bi bi-camera-fill fa-2x"></i>
+<p-dialog class="dialog-add-news" [(visible)]="addNews" [modal]="true" [style]="{ width: '90vw' }" [draggable]="false"
+    [resizable]="false">
+    <ng-template pTemplate="header">
+        <span style="font-size: 18px; font-weight: 500; color: #343a40;">เพิ่มข่าวสาร</span>
+        <div class="ng-tns-c55-3" (click)="clearDialog()">
+            <button type="button" pripple=""
+                class="p-ripple p-element ng-tns-c55-3 p-dialog-header-icon p-dialog-header-close p-link ng-star-inserted"
+                ng-reflect-ng-class="[object Object]" tabindex="-1"><span
+                    class="p-dialog-header-close-icon ng-tns-c55-3 pi pi-times"
+                    ng-reflect-ng-class="pi pi-times"></span></button>
+        </div>
+    </ng-template>
+    <div class="add-news" [formGroup]="newsModel">
+        <div class="div-news-img">
+            <div style="display: flex; gap: 1rem;">
+                <div class="div-img">
+                    <p-chip label="รูปหลัก" styleClass="mr-2"></p-chip>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div class="pic-holder">
+                            <img id="profilePic" class="pic" [src]="imageCover" *ngIf="!imageDefault"
+                                style="width: 40%; height: 50%;">
+                            <img id="profilePic" class="pic" [src]="imageCover" *ngIf="imageDefault">
+                            <input class="uploadProfileInput" type="file" (change)="onNewsPicChange($event)"
+                                id="newsPhoto" accept="image/*" style="opacity: 0; display: none;" />
+                            <label for="newsPhoto" class="upload-file-block">
+                                <div class="text-center">
+                                    <div class="mb-2">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                                stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M12 2V14.88" stroke="#DFDFEC" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#DFDFEC"
+                                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        อัปโหลด
+                                    </div>
                                 </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-img-detail">
+                    <p-chip label="รูปรายละเอียด" styleClass="mr-2"></p-chip>
+                    <div class="add-pic-detail">
+                        <div class="pic-detail">
+                            <input class="uploadProfileInput" type="file" (change)="onNewsPicChangeDetail($event)"
+                                id="newsFileDetail" accept="image/*" style="opacity: 0; display: none;" />
+                            <label for="newsFileDetail" class="upload-file-block"
+                                style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                        stroke="#495057" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 2V14.88" stroke="#495057" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#495057" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                                 <div class="text-uppercase">
-                                    อัพโหลด
+                                    อัปโหลด
                                 </div>
+                            </label>
+                        </div>
+                        <div class="image-detail" *ngFor="let image of arrayImages">
+                            <img [src]="imageBase(image)" class="image-detail-base">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="div-text">
+                <div class="text-header">
+                    <p-chip label="รายละเอียด" styleClass="mr-2"></p-chip>
+                    <button type="button" (click)="onAccept()" class="btn btn-login">บันทึก</button>
+                </div>
+                <div class="text-body">
+                    <div>
+                        <label class="block">เรื่อง</label>
+                        <input class="form-control" type="text" formControlName="name" required />
+                    </div>
+                    <div>
+                        <label class="block">รายละเอียด</label>
+                        <textarea class="form-control" type="text" formControlName="description" rows="8"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+<p-dialog [(visible)]="detail" [modal]="true" [style]="{ width: '80vw' }"
+    [breakpoints]="{ '1600px': '85vw','1366px': '90vw' }" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+        <span style="font-size: 18px; font-weight: 500; color: #343a40;">แก้ไขข่าวสาร</span>
+    </ng-template>
+    <div [formGroup]="detailModel">
+        <div class="div-news-img">
+            <div style="display: flex; gap: 1rem;">
+                <div class="div-img">
+                    <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div class="pic-holder">
+                            <img id="profilePic" class="pic" [src]="imageCoverDetail">
+                            <input class="uploadProfileInput" type="file" (change)="onProfilePicChange($event)"
+                                id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                            <label for="newProfilePhoto" class="upload-file-block">
+                                <div class="text-center">
+                                    <div class="mb-2">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                                stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M12 2V14.88" stroke="#DFDFEC" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#DFDFEC"
+                                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <div class="text-uppercase">
+                                        อัปโหลด
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-img-detail">
+                    <p-chip label="รูปรายละเอียด" styleClass="mr-2"></p-chip>
+                    <div class="add-pic-detail">
+                        <div class="pic-detail">
+                            <input class="uploadProfileInput" type="file" (change)="onNewsPicChangeDetail($event)"
+                                id="newsFileDetail" accept="image/*" style="opacity: 0; display: none;" />
+                            <label for="newsFileDetail" class="upload-file-block"
+                                style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M16.44 8.9C20.04 9.21 21.51 11.06 21.51 15.11V15.24C21.51 19.71 19.72 21.5 15.25 21.5H8.73998C4.26998 21.5 2.47998 19.71 2.47998 15.24V15.11C2.47998 11.09 3.92998 9.24 7.46998 8.91"
+                                        stroke="#495057" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 2V14.88" stroke="#495057" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M15.35 12.65L12 16L8.65002 12.65" stroke="#495057" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="text-uppercase">
+                                    อัปโหลด
+                                </div>
+                            </label>
+                        </div>
+                        <div class="image-detail" *ngFor="let image of arrayImages">
+                            <div style="display: flex; justify-content: flex-end;">
+                                <div class="image-detail-deleted" (click)="onDeleteImageDetail(image.id)">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1.56592 13.3541L13.6272 1.29286" stroke="#DFDFEC"
+                                            stroke-width="2.30422" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M13.6272 13.3541L1.56592 1.29286" stroke="#DFDFEC"
+                                            stroke-width="2.30422" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                                <img [src]="imageBase(image)" class="image-detail-base">
                             </div>
-                        </label>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="div-text">
                 <div class="text-header">
                     <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>
-                    <div style="display: flex; grid-gap: 5px;">
+                    <div style="display: flex; gap: 5px;">
                         <button type="button" (click)="onAcceptDetail()" class="btn btn-login">บันทึก</button>
-                        <button type="button" (click)="onClearDetail()" class="btn btn-regis">ยกเลิก</button>
                     </div>
                 </div>
                 <div class="text-body">
@@ -141,7 +304,7 @@
                     </div>
                     <div>
                         <label class="block">รายละเอียด</label>
-                        <textarea class="form-control" type="text" formControlName="description" rows="6"></textarea>
+                        <textarea class="form-control" type="text" formControlName="description" rows="7"></textarea>
                     </div>
                 </div>
             </div>

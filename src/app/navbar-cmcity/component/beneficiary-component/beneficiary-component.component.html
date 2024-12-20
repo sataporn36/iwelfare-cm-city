@@ -4,21 +4,19 @@
         <button type="button" (click)="displayDialog()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
     </div>
 
-    <p>ท่านสามารถแก้ไข หรือเลือกผู้รับผลประโยชน์ใหม่ได้</p>
+    <p>สมาชิกสามารถส่งคำขอแก้ไข หรือเลือกผู้รับผลประโยชน์ใหม่ได้</p>
 
     <div class="div-group">
         <div *ngFor="let beneficiary of beneficiaryInfo">
             <div class="guarantee">
-                <div>
-                    <img src="{{ checkImgProfile(beneficiary?.gender)}}" />
-                </div>
+                <img src="{{ checkImgProfile(beneficiary?.gender)}}" />
                 <div class="info-text">
                     <div class="text">
-                        <label class="name">ชื่อ-สกุล:</label>
-                        <span>{{ beneficiary.prefix }}{{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
+                        <label class="name">ชื่อ-สกุล</label>
+                        <span>{{ beneficiary.prefix }} {{ beneficiary.firstName }} {{ beneficiary.lastName }}</span>
                     </div>
                     <div class="text">
-                        <label class="name">ความสัมพันธ์:</label>
+                        <label class="name">ความสัมพันธ์</label>
                         <span>{{ beneficiary?.relationship || ''}}</span>
                     </div>
                 </div>
@@ -28,8 +26,8 @@
 </div>
 
 <p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '60vw' }"
-    [breakpoints]="{ '1200px': '70vw', '1000px': '80vw', '430px': '90vw', '390px': '95vw', '360px': '99vw' }" [draggable]="false" [resizable]="false"
-    styleClass="customDialog">
+    [breakpoints]="{ '1200px': '70vw', '1000px': '80vw', '430px': '90vw', '390px': '95vw', '360px': '99vw' }"
+    [draggable]="false" [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
         <p-chip label="แก้ไขผู้รับผลประโยชน์" styleClass="mr-2"></p-chip>
     </ng-template>
@@ -55,7 +53,7 @@
                 </td>
                 <td>
                     <span class="p-column-title">ชื่อ-สกุล</span>
-                    {{beneficiaryInfo.prefix}}{{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}
+                    {{beneficiaryInfo.prefix}} {{beneficiaryInfo.firstName}}&nbsp;&nbsp;{{beneficiaryInfo.lastName}}
                 </td>
                 <td>
                     <span class="p-column-title">เพศ</span>
@@ -79,9 +77,16 @@
         </ng-template>
     </p-table>
 
-    <ng-template pTemplate="footer">
+    <!-- <ng-template pTemplate="footer">
         <button type="button" class="btn btn-login2" (click)="checkUpdate()">ยืนยัน</button>
         <button type="button" class="btn btn-regis2" (click)="cancelUpdate()">ยกเลิก</button>
+    </ng-template> -->
+
+    <ng-template pTemplate="footer">
+        <div class="footer-button">
+            <button type="button" class="btn btn-login2" (click)="checkUpdate()">ยืนยัน</button>
+            <button type="button" class="btn btn-regis2" (click)="cancelUpdate()">ยกเลิก</button>
+        </div>
     </ng-template>
 </p-dialog>
 <p-toast></p-toast>

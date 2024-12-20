@@ -1,91 +1,98 @@
 <div class="card-header">
-    <div class="card-2">
-        <p-chip label="อัตราดอกเบี้ย (%)" styleClass="mr-2"></p-chip>
-        <div class="div-rate" [formGroup]="formModelInterest">
-            <div>
+    <div class="card-body">
+        <div class="card-2">
+            <p-chip label="อัตราดอกเบี้ย (%)" styleClass="mr-2"></p-chip>
+            <div class="div-rate" [formGroup]="formModelInterest">
                 <label class="block" style="color: red;">* เมื่อมีการเปลี่ยนเเปลงอัตราดอกเบี้ย
                     จะมีการคำนวณเงินกู้และข้อมูลในส่วนอื่นๆ ที่มีการเรียกใช้อัตราดอกเบี้ยใหม่ทั้งหมด</label>
-            </div>
-            <div class="div-rate-body">
-                <label class="block">อัตราดอกเบี้ย</label>
-                <div style="display: flex;">
-                    <p-inputNumber formControlName="interest" inputId="minmaxfraction" mode="decimal" [required]="true"
-                        [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" [min]="0"
-                        styleClass="input-styling"></p-inputNumber>
-                    <label class="block" style="padding-left: 1rem; padding-top: 1rem;"> % </label>
+                <div>
+                    <label class="block">อัตราดอกเบี้ย</label>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <p-inputNumber formControlName="interest" inputId="minmaxfraction" mode="decimal"
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
+                            [maxFractionDigits]="5" [min]="0" styleClass="input-styling"></p-inputNumber>
+                        <span style="color: #363738;">%</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="div-rate-button">
-            <button (click)="updateIntereat()" type="button" class="btn btn-login2">บันทึก</button>
-            <button (click)="resetInterst()" type="button" class="btn btn-login2">ยกเลิก</button>
-        </div>
-    </div>
-    <div class="card-3">
-        <p-chip label="รูปภาพลายเซ็น" styleClass="mr-2"></p-chip>
-        <div class="div-interest">
-            <div class="div-signature">
-                <img id="profilePic1" class="pic1" [src]="imageSrc1">
-                <label class="block">รูปภาพลายเซ็น (ประธานกองทุน)</label>
-                <div class="btn-img">
-                    <button (click)="file1.click()" type="button"
-                        class="btn btn-signature1">เปลี่ยนลายเซ็นประธานกองทุน</button>
-                    <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
-                        (click)="displayBasic1 = true" style="margin-top: 0.5rem;">ดูรูปภาพ</button>
-                    <p-galleria [value]="images1" [(visible)]="displayBasic1" [responsiveOptions]="responsiveOptions"
-                        [containerStyle]="{ 'max-width': '850px' }" [numVisible]="1" [circular]="false"
-                        [fullScreen]="true" [showItemNavigators]="false" [showThumbnails]="false">
-                        <ng-template pTemplate="item" let-item>
-                            <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-                        </ng-template>
-                    </p-galleria>
-                    <input #file1 class="uploadProfileInput" type="file"
-                        (change)="onConfigPicChange($event,'signature1')" id="newConfigImg1" accept="image/*"
-                        style="opacity: 0; width: 50px;" />
-                </div>
+            <div class="div-rate-button">
+                <button (click)="updateIntereat()" type="button" class="btn btn-login">บันทึก</button>
+                <button (click)="resetInterst()" type="button" class="btn btn-regis">ยกเลิก</button>
             </div>
-            <div class="div-signature">
+        </div>
+        <div class="card-3">
+            <p-chip label="รูปภาพลายเซ็น" styleClass="mr-2"></p-chip>
+            <div class="div-interest">
+                <div class="div-signature">
+                    <img id="profilePic1" class="pic1" [src]="imageSrc1">
+                    <label class="block">รูปภาพลายเซ็น (ประธานกองทุน)</label>
+                    <div class="btn-img">
+                        <button (click)="file1.click()" type="button"
+                            class="btn btn-signature1">เปลี่ยนลายเซ็นประธานกองทุน</button>
+                        <button type="button" class="btn btn-regis" icon="pi pi-external-link"
+                            (click)="displayBasic1 = true" style="margin-top: 0.5rem;">ดูรูปภาพ</button>
+                        <p-galleria [value]="images1" [(visible)]="displayBasic1"
+                            [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                            [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
+                            [showThumbnails]="false">
+                            <ng-template pTemplate="item" let-item>
+                                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+                            </ng-template>
+                        </p-galleria>
+                        <input #file1 class="uploadProfileInput" type="file"
+                            (change)="onConfigPicChange($event,'signature1')" id="newConfigImg1" accept="image/*"
+                            style="opacity: 0; width: 50px;" />
+                    </div>
+                </div>
+                <div class="div-signature">
                     <img id="profilePic2" class="pic2" [src]="imageSrc2">
                     <label class="block">รูปภาพลายเซ็น (เหรัญญิก)</label>
-                <div class="btn-img">
-                    <button (click)="file2.click()" type="button"
-                        class="btn btn-signature2">เปลี่ยนลายเซ็นเหรัญญิก</button>
-                    <button type="button" class="btn btn-signature1" icon="pi pi-external-link"
-                        (click)="displayBasic2 = true" style="margin-top: 0.5rem;">ดูรูปภาพ</button>
-                    <p-galleria [value]="images2" [(visible)]="displayBasic2" [responsiveOptions]="responsiveOptions"
-                        [containerStyle]="{ 'max-width': '850px' }" [numVisible]="1" [circular]="false"
-                        [fullScreen]="true" [showItemNavigators]="false" [showThumbnails]="false">
-                        <ng-template pTemplate="item" let-item>
-                            <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-                        </ng-template>
-                    </p-galleria>
-                    <input #file2 class="uploadProfileInput" type="file"
-                        (change)="onConfigPicChange($event,'signature2')" id="newConfigImg2" accept="image/*"
-                        style="opacity: 0; width: 50px;" />
+                    <div class="btn-img">
+                        <button (click)="file2.click()" type="button"
+                            class="btn btn-signature2">เปลี่ยนลายเซ็นเหรัญญิก</button>
+                        <button type="button" class="btn btn-regis" icon="pi pi-external-link"
+                            (click)="displayBasic2 = true" style="margin-top: 0.5rem;">ดูรูปภาพ</button>
+                        <p-galleria [value]="images2" [(visible)]="displayBasic2"
+                            [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '850px' }"
+                            [numVisible]="1" [circular]="false" [fullScreen]="true" [showItemNavigators]="false"
+                            [showThumbnails]="false">
+                            <ng-template pTemplate="item" let-item>
+                                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+                            </ng-template>
+                        </p-galleria>
+                        <input #file2 class="uploadProfileInput" type="file"
+                            (change)="onConfigPicChange($event,'signature2')" id="newConfigImg2" accept="image/*"
+                            style="opacity: 0; width: 50px;" />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="card">
+        <div style="padding-bottom: 2rem;">
+            <p-chip label="การจัดการบทบาทสมาชิก" styleClass="mr-2"></p-chip>
+        </div>
 
-<div class="card">
-    <div style="padding-bottom: 2rem;">
-        <p-chip label="การจัดการบทบาทสมาชิก" styleClass="mr-2"></p-chip>
+        <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป"
+            targetHeader="เจ้าหน้าที่" [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '20rem' }"
+            (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
+            [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก"
+            targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
+            <ng-template let-employee pTemplate="item">
+                <div style="display: flex; flex-direction: column; margin: 0px 1rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <span>{{ employee.fullName }}</span>
+                        <span style="color: #fe6bba;">( {{ employee.employeeTypeName ?
+                            employee.employeeTypeName : '-' }} )</span>
+                    </div>
+                    <div style="font-size: 12px; color: #6b7280; font-weight: 300;">รหัสพนักงาน : {{
+                        employee.employeeCode
+                        }}
+                    </div>
+                </div>
+            </ng-template>
+        </p-pickList>
     </div>
-
-    <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป"
-        targetHeader="เจ้าหน้าที่" [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '20rem' }"
-        (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
-        [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก"
-        targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
-        <ng-template let-employee pTemplate="item">
-            <div class="flex flex-wrap p-2 align-items-center gap-3">
-                <span style="font-size: 16px;">{{ employee.fullName }}</span>
-                <span style="padding-left: 1rem;font-size: 16px; color: #fe6bba;">( {{ employee.employeeTypeName ?
-                    employee.employeeTypeName : '-' }} )</span>
-            </div>
-        </ng-template>
-    </p-pickList>
 </div>
 
 <p-toast></p-toast>
@@ -93,7 +100,9 @@
 <p-confirmDialog #cd [appendTo]="'body'" key="positionDialog" [position]="position" [draggable]="false"
     [dismissableMask]="true" [style]="{width: '25vw'}">
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-regis" (click)="cd.accept()">ยืนยัน</button>
-        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+        <div style="display: flex; justify-content: flex-end;">
+            <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
+            <!-- <button type="button" class="btn btn-regis2" (click)="cd.reject()">ยกเลิก</button> -->
+        </div>
     </ng-template>
 </p-confirmDialog>

@@ -20,7 +20,7 @@ import { GuaranteeObligationComponentComponent } from './component/guarantee-obl
 import { GuaranteeObligationPageComponent } from './page/guarantee-obligation-page/guarantee-obligation-page.component';
 import { DividendComponentComponent } from './component/dividend-component/dividend-component.component';
 import { DividendPageComponent } from './page/dividend-page/dividend-page.component';
-import {ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppComponent } from '../app.component';
 import { MenubarModule } from 'primeng/menubar';
@@ -38,15 +38,15 @@ import { MessageComponentComponent } from './component/message-component/message
 import { MessagePageComponent } from './page/message-page/message-page.component';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
-import {InputSwitchModule} from 'primeng/inputswitch';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { ChipModule } from 'primeng/chip';
-import {CarouselModule} from 'primeng/carousel';
-import {BlockUIModule} from 'primeng/blockui';
-import {CardModule} from 'primeng/card';
-import {PanelModule } from 'primeng/panel';
-import {NgPipesModule} from 'ngx-pipes';
+import { CarouselModule } from 'primeng/carousel';
+import { BlockUIModule } from 'primeng/blockui';
+import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
+import { NgPipesModule } from 'ngx-pipes';
 import { InputNumberModule } from 'primeng/inputnumber';
-import {TooltipModule} from 'primeng/tooltip';
+import { TooltipModule } from 'primeng/tooltip';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
@@ -90,9 +90,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MessagePageComponent,
     AdminComponentComponent,
     ResetPasswordPageComponent,
-    ResetPasswordComponentComponent
+    ResetPasswordComponentComponent,
   ],
-  providers: [ConfirmationService,MessageService],
+  providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent],
   imports: [
     CommonModule,
@@ -134,7 +134,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     PickListModule,
     SlideMenuModule,
     RippleModule,
-    NgApexchartsModule
-  ]
+    NgApexchartsModule,
+  ],
 })
-export class NavbarCmcityModule { }
+export class NavbarCmcityModule {}

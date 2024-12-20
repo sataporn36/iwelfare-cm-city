@@ -1,17 +1,151 @@
-<div class="card-table">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
     <p-chip label="การจัดการหุ้น" styleClass="mr-2"></p-chip>
-    <p-toast></p-toast>
     <div class="div-button-btn">
         <div class="btn-group">
-            <button type="button" class="btn btn-login" (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
-            <button type="button" class="btn btn-login" (click)="getGrandTotal('สรุปยอดรวม')">สรุปยอดรวม</button>
-            <button type="button" class="btn btn-login" (click)="documentInfoAll('ข้อมูลสมาชิก')">ข้อมูลสมาชิก</button>
+            <button type="button" class="btn btn-login2" (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
+            <button type="button" class="btn btn-login" (click)="getGrandTotal('สรุปยอดรวม')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+    V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+    c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+     M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;"
+                            d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+    c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+    h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+    c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                สรุปยอดรวม
+            </button>
+            <button type="button" class="btn btn-login" (click)="documentInfoAll('ข้อมูลสมาชิก')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+    V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+    c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+    M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;"
+                            d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+    c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+    h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+    c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                ข้อมูลสมาชิก
+            </button>
         </div>
-        <div class="btn-group">
+        <div class="btn-group-doc">
             <button type="button" class="btn btn-login"
-                (click)="ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด')">ประวัติการส่งหุ้นของสมาชิกทั้งหมด</button>
-            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadPdf')">ดาวน์โหลด PDF</button>
-            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadExcel')">ดาวน์โหลด EXCEL</button>
+                (click)="ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+    V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+        c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+         M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;"
+                            d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+        c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+        h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+        c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                ประวัติการส่งหุ้นของสมาชิกทั้งหมด</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('ดาวน์โหลด PDF')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+    V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+        c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+         M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;"
+                            d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+        c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+        h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+        c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                รายงานประจำเดือนหุ้น PDF</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('ดาวน์โหลด EXCEL')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="none" viewBox="0 0 48 48"
+                    id="microsoft-excel">
+                    <path fill="#185C37"
+                        d="M30.1395 23.2093L11.1628 19.8605V44.605C11.1628 45.7351 12.0789 46.6512 13.2089 46.6512H45.9539C47.0839 46.6512 48 45.7351 48 44.605V35.4884L30.1395 23.2093Z">
+                    </path>
+                    <path fill="#21A366"
+                        d="M30.1395 2H13.2089C12.0789 2 11.1628 2.91608 11.1628 4.04613V13.1628L30.1395 24.3256L40.186 27.6744L48 24.3256V13.1628L30.1395 2Z">
+                    </path>
+                    <path fill="#107C41" d="M11.1628 13.1628H30.1395V24.3256H11.1628V13.1628Z"></path>
+                    <path fill="#000"
+                        d="M24.7446 10.9302H11.1628V38.8372H24.7446C25.8731 38.8335 26.787 37.9195 26.7907 36.791V12.9763C26.787 11.8478 25.8731 10.9338 24.7446 10.9302Z"
+                        opacity=".1"></path>
+                    <path fill="#000"
+                        d="M23.6283 12.0465H11.1628V39.9535H23.6283C24.7568 39.9498 25.6707 39.0359 25.6744 37.9074V14.0926C25.6707 12.9641 24.7568 12.0502 23.6283 12.0465Z"
+                        opacity=".2"></path>
+                    <path fill="#000"
+                        d="M23.6283 12.0465H11.1628V37.7209H23.6283C24.7568 37.7173 25.6707 36.8033 25.6744 35.6748V14.0926C25.6707 12.9641 24.7568 12.0502 23.6283 12.0465Z"
+                        opacity=".2"></path>
+                    <path fill="#000"
+                        d="M22.512 12.0465H11.1628V37.7209H22.512C23.6405 37.7173 24.5545 36.8033 24.5581 35.6748V14.0926C24.5545 12.9641 23.6405 12.0502 22.512 12.0465Z"
+                        opacity=".2"></path>
+                    <path fill="url(#paint0_linear_147648_1454)"
+                        d="M2.04613 12.0465H22.512C23.642 12.0465 24.5581 12.9626 24.5581 14.0926V34.5585C24.5581 35.6885 23.642 36.6046 22.512 36.6046H2.04613C0.916083 36.6046 0 35.6886 0 34.5585V14.0926C0 12.9626 0.916083 12.0465 2.04613 12.0465Z">
+                    </path>
+                    <path fill="#fff"
+                        d="M6.3371 30.9764L10.6415 24.3066L6.69766 17.6737H9.87012L12.0223 21.9156C12.221 22.3185 12.3572 22.6177 12.4309 22.8153H12.4588C12.6002 22.4938 12.749 22.1816 12.9053 21.8787L15.2059 17.6759H18.1183L14.074 24.2698L18.221 30.9764H15.1222L12.6363 26.3204C12.5192 26.1223 12.4198 25.9142 12.3393 25.6987H12.3025C12.2297 25.9099 12.1331 26.1121 12.0145 26.3014L9.45488 30.9764H6.3371Z">
+                    </path>
+                    <path fill="#33C481" d="M45.9539 2H30.1395V13.1628H48V4.04613C48 2.91608 47.0839 2 45.9539 2Z">
+                    </path>
+                    <path fill="#107C41" d="M30.1395 24.3256H48V35.4884H30.1395V24.3256Z"></path>
+                    <defs>
+                        <linearGradient id="paint0_linear_147648_1454" x1="4.266" x2="20.292" y1="10.448" y2="38.203"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#18884F"></stop>
+                            <stop offset=".5" stop-color="#117E43"></stop>
+                            <stop offset="1" stop-color="#0B6631"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                รายงานประจำเดือนหุ้น EXCEL
+            </button>
         </div>
         <div class="card-menu-doc">
             <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
@@ -19,70 +153,330 @@
                 <i class="uil uil-ellipsis-v"></i>
             </a>
         </div>
+        <div class="card-menu-doc-all">
+            <p-menu #menuAll [popup]="true" [model]="menuItemsAll"></p-menu>
+            <a class="dropdown-toggle" (click)="menuAll.toggle($event)">
+                <i class="uil uil-ellipsis-v"></i>
+            </a>
+        </div>
     </div>
+</div>
+<div class="card-search-table">
+    <form [formGroup]="searchForm">
+        <div class="card-search-body">
+            <div class="card-input">
+                <div class="cs">
+                    <label for="idCard" class="block">รหัสพนักงาน</label>
+                    <input class="form-control" id="employeeCode" type="text" formControlName="employeeCode"
+                        placeholder="กรอกรหัสพนักงาน" />
+                </div>
+                <div class="cs">
+                    <label for="firstName" class="block">ชื่อพนักงาน</label>
+                    <input class="form-control" id="firstName" type="text" formControlName="firstName"
+                        placeholder="กรอกชื่อ" />
+                </div>
+                <div class="cs">
+                    <label for="lastName" class="block">นามสกุล</label>
+                    <input class="form-control" id="lastName" type="text" formControlName="lastName"
+                        placeholder="กรอกนามสกุล" />
+                </div>
+                <div class="cs">
+                    <label for="idCard" class="block">เลขประจำตัวประชาชน</label>
+                    <input class="form-control" id="idCard" type="text" formControlName="idCard"
+                        placeholder="กรอกเลขประจำตัวประชาชน" />
+                </div>
+            </div>
+            <div class="search-btn">
+                <div class="csb">
+                    <p></p>
+                    <button type="button" (click)="onAcceptSearch()" class="btn btn-login"> ค้นหาข้อมูล </button>
+                </div>
+                <div class="csb">
+                    <p></p>
+                    <button type="button" (click)="onClearSearch()" class="btn btn-regis"> ลบการค้นหา </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card-table">
+    <!-- <p-chip label="การจัดการหุ้น" styleClass="mr-2"></p-chip> -->
+    <!-- <p-toast></p-toast> -->
+    <!-- <div class="div-button-btn">
+        <div class="btn-group">
+            <button type="button" class="btn btn-login2" (click)="updateStocktoMonth()">เรียกเก็บหุ้นรายเดือน</button>
+            <button type="button" class="btn btn-login" (click)="getGrandTotal('สรุปยอดรวม')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+    c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+     M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;"
+                            d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+    c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+    h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+    c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                สรุปยอดรวม
+            </button>
+            <button type="button" class="btn btn-login" (click)="documentInfoAll('ข้อมูลสมาชิก')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+ M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;" d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                ข้อมูลสมาชิก
+            </button>
+        </div>
+        <div class="btn-group-doc">
+            <button type="button" class="btn btn-login"
+                (click)="ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+	V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+		c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+		 M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;" d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+		c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+		h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+		c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                ประวัติการส่งหุ้นของสมาชิกทั้งหมด</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadPdf')">
+                <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <path style="fill:#E2E5E7;"
+                        d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                    <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                    <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                    <path style="fill:#F15642;" d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
+	V416z" />
+                    <g>
+                        <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
+		c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
+		 M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                        <path style="fill:#FFFFFF;" d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
+		c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                        <path style="fill:#FFFFFF;" d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
+		h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
+		c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                    </g>
+                    <path style="fill:#CAD1D8;"
+                        d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                </svg>
+                ดาวน์โหลด PDF</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadExcel')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="none" viewBox="0 0 48 48"
+                    id="microsoft-excel">
+                    <path fill="#185C37"
+                        d="M30.1395 23.2093L11.1628 19.8605V44.605C11.1628 45.7351 12.0789 46.6512 13.2089 46.6512H45.9539C47.0839 46.6512 48 45.7351 48 44.605V35.4884L30.1395 23.2093Z">
+                    </path>
+                    <path fill="#21A366"
+                        d="M30.1395 2H13.2089C12.0789 2 11.1628 2.91608 11.1628 4.04613V13.1628L30.1395 24.3256L40.186 27.6744L48 24.3256V13.1628L30.1395 2Z">
+                    </path>
+                    <path fill="#107C41" d="M11.1628 13.1628H30.1395V24.3256H11.1628V13.1628Z"></path>
+                    <path fill="#000"
+                        d="M24.7446 10.9302H11.1628V38.8372H24.7446C25.8731 38.8335 26.787 37.9195 26.7907 36.791V12.9763C26.787 11.8478 25.8731 10.9338 24.7446 10.9302Z"
+                        opacity=".1"></path>
+                    <path fill="#000"
+                        d="M23.6283 12.0465H11.1628V39.9535H23.6283C24.7568 39.9498 25.6707 39.0359 25.6744 37.9074V14.0926C25.6707 12.9641 24.7568 12.0502 23.6283 12.0465Z"
+                        opacity=".2"></path>
+                    <path fill="#000"
+                        d="M23.6283 12.0465H11.1628V37.7209H23.6283C24.7568 37.7173 25.6707 36.8033 25.6744 35.6748V14.0926C25.6707 12.9641 24.7568 12.0502 23.6283 12.0465Z"
+                        opacity=".2"></path>
+                    <path fill="#000"
+                        d="M22.512 12.0465H11.1628V37.7209H22.512C23.6405 37.7173 24.5545 36.8033 24.5581 35.6748V14.0926C24.5545 12.9641 23.6405 12.0502 22.512 12.0465Z"
+                        opacity=".2"></path>
+                    <path fill="url(#paint0_linear_147648_1454)"
+                        d="M2.04613 12.0465H22.512C23.642 12.0465 24.5581 12.9626 24.5581 14.0926V34.5585C24.5581 35.6885 23.642 36.6046 22.512 36.6046H2.04613C0.916083 36.6046 0 35.6886 0 34.5585V14.0926C0 12.9626 0.916083 12.0465 2.04613 12.0465Z">
+                    </path>
+                    <path fill="#fff"
+                        d="M6.3371 30.9764L10.6415 24.3066L6.69766 17.6737H9.87012L12.0223 21.9156C12.221 22.3185 12.3572 22.6177 12.4309 22.8153H12.4588C12.6002 22.4938 12.749 22.1816 12.9053 21.8787L15.2059 17.6759H18.1183L14.074 24.2698L18.221 30.9764H15.1222L12.6363 26.3204C12.5192 26.1223 12.4198 25.9142 12.3393 25.6987H12.3025C12.2297 25.9099 12.1331 26.1121 12.0145 26.3014L9.45488 30.9764H6.3371Z">
+                    </path>
+                    <path fill="#33C481" d="M45.9539 2H30.1395V13.1628H48V4.04613C48 2.91608 47.0839 2 45.9539 2Z">
+                    </path>
+                    <path fill="#107C41" d="M30.1395 24.3256H48V35.4884H30.1395V24.3256Z"></path>
+                    <defs>
+                        <linearGradient id="paint0_linear_147648_1454" x1="4.266" x2="20.292" y1="10.448" y2="38.203"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#18884F"></stop>
+                            <stop offset=".5" stop-color="#117E43"></stop>
+                            <stop offset="1" stop-color="#0B6631"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                ดาวน์โหลด EXCEL
+            </button>
+        </div>
+        <div class="card-menu-doc">
+            <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+            <a class="dropdown-toggle" (click)="menu.toggle($event)">
+                <i class="uil uil-ellipsis-v"></i>
+            </a>
+        </div>
+        <div class="card-menu-doc-all">
+            <p-menu #menuAll [popup]="true" [model]="menuItemsAll"></p-menu>
+            <a class="dropdown-toggle" (click)="menuAll.toggle($event)">
+                <i class="uil uil-ellipsis-v"></i>
+            </a>
+        </div>
+    </div> -->
 
-    <p-table responsiveLayout="stack" #dt2 [value]="dataStock" dataKey="id" editMode="row" [rows]="10"
+    <!-- <p-table responsiveLayout="stack" #dt2 [value]="dataStock" dataKey="id" editMode="row" [rows]="10"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [loading]="loading" [paginator]="true"
         selectionMode="single" currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
         [tableStyle]="{'max-width': '100%'}" [selectionPageOnly]="true"
-        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate', 'status' ]">
+        [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate', 'status', 'idCard' ]"> -->
+
+    <p-table (onLazyLoad)="loadingAdminStock($event)" (onPage)="onPage($event)" editMode="row"
+        (selectAllChange)="onSelectAllChange($event)" (selectionChange)="onSelectionChange($event)"
+        [globalFilterFields]="['employeeCode']" [lazy]="true" [loading]="loading" [paginator]="true" [rows]="pageSize"
+        [rowsPerPageOptions]="[10, 20, 50, 100]" [selectAll]="selectAll" [selection]="selected"
+        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '100%' }" [totalRecords]="totalRecords!"
+        [value]="dataStock" [lazyLoadOnInit]="false" selectionMode="single" responsiveLayout="stack"
+        currentPageReportTemplate="แสดง {first} - {last} จาก {totalRecords} รายการ" dataKey="id" #dt2>
         <ng-template pTemplate="caption">
-            <div class="flex">
+            <div class="div-flex-header">
                 <span class="flex-name"> ตารางการส่งหุ้นของสมาชิก </span>
-                <span class="p-input-icon-left ml-auto">
+                <!-- <span class="p-input-icon-left ml-auto">
                     <i class="bi bi-search" style="color: #979797; display: flex;"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
-                        placeholder="ค้นหา" style="width: 10rem; border-radius: 10px; height: 45px; font-size: 15px;" />
-                </span>
+                        placeholder="ค้นหา" style="width: 10rem; border-radius: 10px; height: 40px; font-size: 14px;" />
+                </span> -->
             </div>
         </ng-template>
-
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th style="width:10%">ลำดับที่</th>
-                <th style="width:10%">รหัสพนักงาน</th>
-                <th style="width:10%">ชื่อ</th>
-                <th style="width:10%">นามสกุล</th>
-                <th style="width:12%">เงินหุ้นส่งรายเดือน</th>
-                <th style="width:10%">หุ้นสะสม</th>
-                <th style="width:10%">สถานะ</th>
-                <th style="width:10%">แก้ไข</th>
+                <th>รหัสพนักงาน</th>
+                <th>ชื่อ - นามสกุล</th>
+                <th>สถานะพนักงาน</th>
+                <th>เงินหุ้นส่งรายเดือน</th>
+                <th>หุ้นสะสม</th>
+                <th>แก้ไข</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-editing="editing" let-dataStock let-ri="rowIndex" let-columns="columns">
             <tr [pEditableRow]="dataStock">
-                <td><span class="p-column-title">ลำดับที่</span>{{ dataStock.id }}</td>
-                <td><span class="p-column-title">รหัสพนักงาน</span>{{ dataStock.employeeCode }}</td>
-                <td><span class="p-column-title">ชื่อ</span>{{ dataStock.firstName }}</td>
-                <td><span class="p-column-title">นามสกุล</span>{{ dataStock.lastName }}</td>
-                <td style="color: #EA3A3D;"><span class="p-column-title">เงินหุ้นส่งรายเดือน</span>
-                    <p-cellEditor style="display: flex; justify-content: center;">
+                <td style="color: #652d47; font-weight: 500;"><span class="p-column-title">รหัสพนักงาน</span>{{
+                    dataStock.employeeCode }}
+                </td>
+                <td><span class="p-column-title">ชื่อ - นามสกุล</span>
+                    <div class="div-full" style="display: flex; gap: 0.5rem;">
+                        <div class="div-full-text">
+                            <div>{{ dataStock.prefix }} {{ dataStock.firstName }} {{ dataStock.lastName }}</div>
+                            <div style="font-size: 12px; color: #6b7280; font-weight: 300;">ปชช. : {{ dataStock.idCard
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="p-column-title">สถานะพนักงาน</span>
+                    <div style="font-weight: 500;" [ngStyle]="checkStatusEmpColor(dataStock.status)">{{
+                        dataStock.status }}</div>
+                </td>
+                <td style="color: #3A36DB; font-weight: 500;"><span class="p-column-title">เงินหุ้นส่งรายเดือน</span>
+                    <p-cellEditor style="display: flex;">
                         <ng-template pTemplate="input" style="height: 0;">
                             <p-inputNumber [(ngModel)]="dataStock.stockValue" inputId="minmaxfraction" mode="decimal"
-                                [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2"
-                                style="height: 35px; text-align: center;"></p-inputNumber>
+                                [required]="true" [minFractionDigits]="0" [maxFractionDigits]="2"></p-inputNumber>
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{ dataStock.stockValue | number }}
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ dataStock.stockAccumulate |
+                <td style="color: #6FAF00; font-weight: 500;"><span class="p-column-title">หุ้นสะสม</span>{{
+                    dataStock.stockAccumulate |
                     number }}</td>
-                <td><span class="p-column-title">สถานะ</span>{{ dataStock.status }}</td>
-                <td class="div-button-edit"><span class="p-column-title">แก้ไข</span>
-                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                        (click)="onRowEditInit(dataStock)" class="p-button-rounded p-button-text" tooltipPosition="top"
-                        pTooltip="เเก้ไข"></button>
-                    <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-file-edit"
-                        (click)="onRowEditStatusEmp(dataStock)" class="p-button-rounded p-button-text"
-                        tooltipPosition="top" pTooltip="เปลี่ยนสถานะสมาชิก"></button>
-                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                        (click)="onRowEditSave(dataStock)"
-                        class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                        (click)="onRowEditCancel(dataStock, ri)"
-                        class="p-button-rounded p-button-text p-button-danger"></button>
+                <td><span class="p-column-title">แก้ไข</span>
+                    <div *ngIf="!editing" class="div-button-edit">
+                        <button type="button" pInitEditableRow class="btn btn-edit"
+                            (click)="onRowEditInit(dataStock)">เงินส่งหุ้น</button>
+                        <div style="cursor: pointer; width: 50px; display: flex; justify-content: center; align-items: center;"
+                            (click)="onRowEditStatusEmp(dataStock)" tooltipPosition="top" pTooltip="เปลี่ยนสถานะสมาชิก">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M8.38184 13.6898L3.7106 18.2671C3.52586 18.4481 3.35128 18.7873 3.30794 19.0366L3.02995 20.809C2.92771 21.4523 3.36039 21.9077 3.99709 21.8269L5.75118 21.6081C5.99813 21.573 6.35115 21.4081 6.52293 21.2269L11.1941 16.6497C11.999 15.861 12.3916 14.9332 11.2463 13.7278C10.1137 12.5359 9.18676 12.9011 8.38184 13.6898Z"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M7.70874 14.3492C8.07217 15.7776 9.14106 16.9026 10.5337 17.3224"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M14 6H10C8 6 8 5 8 4C8 2 9 2 10 2H14C15 2 16 2 16 4C16 6 15 6 14 6Z"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M10 22H15C20 22 21 20 21 16V10C21 5.44002 19.33 4.20002 16 4.02002"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M8 4.02002C4.67 4.20002 3 5.43002 3 10V15" stroke="#DFDFEC" stroke-width="1.5"
+                                    stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div *ngIf="editing" class="div-button-edit" style="gap: 10px;">
+                        <div class="div-button-edit-true">
+                            <svg style="cursor: pointer;" (click)="onRowEditSave(dataStock)" pSaveEditableRow width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M7.75 12L10.58 14.83L16.25 9.17" stroke="#DFDFEC" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="div-button-edit-false">
+                            <svg style="cursor: pointer;" (click)="onRowEditCancel(dataStock, ri)" pCancelEditableRow
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.16998 14.83L14.83 9.17" stroke="#DFDFEC" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M14.83 14.83L9.16998 9.17" stroke="#DFDFEC" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                    stroke="#DFDFEC" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </ng-template>
@@ -98,31 +492,42 @@
     [breakpoints]="{ '1366px': '40vw','1000px': '50vw','800px': '60vw','600px': '70vw','430px': '80vw' }"
     [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
-        <div style="display: flex; align-items: center;">
-            <span style="font-size: 18px; font-weight: bold;">เรียกเก็บหุ้นรายเดือน</span>
-            <i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
-                pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"></i>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 18px; font-weight: 500; color: #343a40;">เรียกเก็บหุ้นรายเดือน</span>
+            <!-- <i class="bi bi-exclamation-circle" style="font-size: 14px;" tooltipPosition="bottom"
+                pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"></i> -->
+
+            <div style="font-size: 14px;" tooltipPosition="bottom"
+                pTooltip="เปลี่ยนแปลงการส่งหุ้นรายเดือนของสมาชิกทั้งหมด"><svg width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                        stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 8V13" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M11.9945 16H12.0035" stroke="#6b7280" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
+
         </div>
     </ng-template>
-    <div [formGroup]="formModelStock">
-        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
-            <div class="col-12 " style="display: flex; justify-content: center;">
-                <div class="col-6">
-                    <label class="block">เดือนที่ส่งหุ้น</label>
-                    <input class="form-control" type="text" formControlName="stockMonth" [disabled]="true" />
-                </div>
-                <div style="padding-right: 0.5rem;"></div>
-                <div class="col-6">
-                    <label class="block">ปีที่ส่งหุ้น</label>
-                    <input class="form-control" type="text" formControlName="stockYear" [disabled]="true" />
-                </div>
-            </div>
+    <div [formGroup]="formModelStock" style="display: flex; justify-content: center; gap: 1rem; padding: 1rem;">
+        <!-- <div style="display: flex; justify-content: center; gap: 1rem; padding: 1rem;"> -->
+        <div style="width: 100%;">
+            <label class="block">เดือนที่ส่งหุ้น</label>
+            <input class="form-control" type="text" formControlName="stockMonth" [disabled]="true" />
         </div>
+        <div style="width: 100%;">
+            <label class="block">ปีที่ส่งหุ้น</label>
+            <input class="form-control" type="text" formControlName="stockYear" [disabled]="true" />
+        </div>
+        <!-- </div> -->
     </div>
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="onupdateStockToMonth()"
-            [disabled]="checkNull">ยืนยัน</button>
-        <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
+        <div class="footer-button">
+            <button type="button" class="btn btn-login2" (click)="onupdateStockToMonth()"
+                [disabled]="checkNull">ยืนยัน</button>
+            <button type="button" class="btn btn-regis2" (click)="onCancle()">ยกเลิก</button>
+        </div>
     </ng-template>
 </p-dialog>
 
@@ -130,54 +535,60 @@
     [breakpoints]="{ '1366px': '40vw','1000px': '50vw','800px': '60vw','600px': '70vw','430px': '80vw' }"
     [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
-        <div style="display: flex; align-items: center;">
-            <span style="font-size: 18px; font-weight: bold;">{{ headerName }}</span>
-            <i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-left: 0.5rem;" tooltipPosition="bottom"
-                pTooltip="กรุณาเลือกเดือนที่จะดู {{headerName}}"></i>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 18px; font-weight: 500; color: #343a40;">{{ headerName }}</span>
+            <!-- <i class="bi bi-exclamation-circle" style="font-size: 14px; padding-left: 0.5rem;" tooltipPosition="bottom"
+                pTooltip="กรุณาเลือกเดือนที่จะดู {{headerName}}"></i> -->
+            <div style="font-size: 14px;" tooltipPosition="bottom" pTooltip="กรุณาเลือกเดือนที่จะดู {{headerName}}"><svg
+                    width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                        stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 8V13" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M11.9945 16H12.0035" stroke="#6b7280" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
         </div>
     </ng-template>
-    <div [formGroup]="formModelBill">
-        <div class="test-child" style="display: grid; justify-content: center; padding: 10px;">
-            <div class="col-12 " style="display: flex; justify-content: center;">
-                <div class="col-6">
-                    <label class="block">เดือน</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="month"
-                        required="true">
-                        <option value="01">มกราคม</option>
-                        <option value="02">กุมภาพันธ์</option>
-                        <option value="03">มีนาคม</option>
-                        <option value="04">เมษายน</option>
-                        <option value="05">พฤษภาคม</option>
-                        <option value="06">มิถุนายน</option>
-                        <option value="07">กรกฎาคม</option>
-                        <option value="08">สิงหาคม</option>
-                        <option value="09">กันยายน</option>
-                        <option value="10">ตุลาคม</option>
-                        <option value="11">พฤศจิกายน</option>
-                        <option value="12">ธันวาคม</option>
-                    </select>
-                </div>
-                <div style="padding-right: 0.5rem;"></div>
-                <div class="col-6">
-                    <label class="block">ปี</label>
-                    <input class="form-control" type="text" formControlName="year" (keyup)="checkSetValueBill($event)"
-                        maxlength="4"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-                        [disabled]="true" />
-                </div>
-            </div>
+    <div [formGroup]="formModelBill" style="display: flex; justify-content: center; gap: 1rem; padding: 1rem;">
+        <!-- <div style="display: flex; justify-content: center; width: 100%; gap: 0.5rem;"> -->
+        <div style="width: 100%;">
+            <label class="block">เดือน</label>
+            <select class="form-select" aria-label="Default select example" formControlName="month" required="true">
+                <option value="01">มกราคม</option>
+                <option value="02">กุมภาพันธ์</option>
+                <option value="03">มีนาคม</option>
+                <option value="04">เมษายน</option>
+                <option value="05">พฤษภาคม</option>
+                <option value="06">มิถุนายน</option>
+                <option value="07">กรกฎาคม</option>
+                <option value="08">สิงหาคม</option>
+                <option value="09">กันยายน</option>
+                <option value="10">ตุลาคม</option>
+                <option value="11">พฤศจิกายน</option>
+                <option value="12">ธันวาคม</option>
+            </select>
         </div>
+        <div style="width: 100%;">
+            <label class="block">ปี</label>
+            <input class="form-control" type="text" formControlName="year" (keyup)="checkSetValueBill($event)"
+                maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                [disabled]="true" />
+        </div>
+        <!-- </div> -->
     </div>
     <ng-template pTemplate="footer">
-        <button type="button" class="btn btn-login2" (click)="onDisplay()">ยืนยัน</button>
-        <button type="button" class="btn btn-regis2" (click)="onCancleModalBill()">ยกเลิก</button>
+        <div class="footer-button">
+            <button type="button" class="btn btn-login2" (click)="onDisplay()">ยืนยัน</button>
+            <button type="button" class="btn btn-regis2" (click)="onCancleModalBill()">ยกเลิก</button>
+        </div>
     </ng-template>
 </p-dialog>
 
 <p-dialog [(visible)]="displayLoadingPdf" [modal]="true" [style]="{ width: '30vw'}" [breakpoints]="{ '960px': '90vw' }"
     [draggable]="false" [resizable]="false">
     <ng-template pTemplate="header">
-        <span style="font-size: 18px; font-weight: bold;">รายงาน</span>
+        <span style="font-size: 18px; font-weight: 500; color: #343a40;">รายงาน</span>
     </ng-template>
     <div style="display: flex;">
         <span>
@@ -193,13 +604,18 @@
     [breakpoints]="{ '1700px': '30vw','1400px': '35vw','1200px': '40vw','1000px': '50vw','800px': '60vw','650px': '75vw','550px': '85vw','480px': '95vw' }"
     [draggable]="false" [resizable]="true">
     <ng-template pTemplate="header">
-        <span style="font-size: 18px; font-weight: bold;">เปลี่ยนสถานะสมาชิก</span>
+        <span style="font-size: 18px; font-weight: 500; color: #343a40;">เปลี่ยนสถานะสมาชิก</span>
     </ng-template>
-    <div style="position: absolute;">
-        <p-dropdown [options]="employeeStatusList" [(ngModel)]="employeeStatus" optionLabel="name"></p-dropdown>
+    <div style="display: flex; align-items: center; justify-content: center; padding: 1rem;">
+        <select class="form-select" aria-label="Default select example" formControlName="statusId" required>
+            <option value="0" selected>กรุณาเลือกสถานะ</option>
+            <option *ngFor="let status of employeeStatusList" [value]="status.id">
+                {{ status.name }}
+            </option>
+        </select>
     </div>
     <ng-template pTemplate="footer">
-        <div style="margin-top: 1.5rem;">
+        <div class="footer-button">
             <button type="button" class="btn btn-login2" (click)="onChangeStatusEmp()">ยืนยัน</button>
             <button type="button" class="btn btn-regis2" (click)="onCancleStatusEmp()">ยกเลิก</button>
         </div>

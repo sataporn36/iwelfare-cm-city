@@ -1,59 +1,193 @@
-<div class="container">
-    <div class="div-one">
-        <div class="div-chart-pie">
-            <p-chip label="แผนภูมิวงกลม" styleClass="mr-2"></p-chip>
-            <div id="chartPie"></div>
-        </div>
-        <div id="chart" class="div-chart-bar">
-            <p-chip label="แผนภูมิคอลัมน์" styleClass="mr-2"></p-chip>
-            <div id="chartBar"></div>
-        </div>
-    </div>
-    <div class="div-two">
-        <p-chip label="สิทธิ์การกู้เงินสามัญ" styleClass="mr-2"></p-chip>
-        <div class="div-two-harder">
-            <div class="div-two-text">
-                <label>สิทธิ์กู้เงินสามัญสูงสุด:</label>
-                <span>{{ sumLoan | number }}</span>
-                <span>บาท</span>
+<div style="margin-top: 1rem;">
+    <div class="div-overview">
+        <div class="overview-card">
+            <div class="div-one">
+                <p-chip label="ภาพรวม" styleClass="mr-2"></p-chip>
+                <div style="display: flex; justify-content: center;">
+                    <div id="chartPie"></div>
+                </div>
+                <div class="div-icon-overview">
+                    <div class="icon-view">
+                        <img src="assets/icon/loan.png" />
+                        <div class="icon-view-text">
+                            <span style="font-weight: 500; color: #652d47; font-size: 16px;">{{ sumMaxLoan | number
+                                }}</span>
+                            <span style="color: #282E37; text-align: center;">กู้ได้ครั้งละไม่เกิน</span>
+                        </div>
+                    </div>
+                    <div class="icon-view">
+                        <img src="assets/icon/discount.png" />
+                        <div class="icon-view-text">
+                            <span style="font-weight: 500; color: #652d47; font-size: 16px;">5%</span>
+                            <span style="color: #282E37; text-align: center;">ดอกเบี้ย (%)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 2rem; align-items: center;">
+                        <div class="icon-view">
+                            <img src="assets/icon/profit.png" />
+                            <div class="icon-view-text">
+                                <span style="font-weight: 500; color: #652d47; font-size: 16px;">{{ sumLoan | number
+                                    }}</span>
+                                <span style="color: #282E37; text-align: center;">เงินกู้สามัญสูงสุด</span>
+                            </div>
+                        </div>
+                        <div
+                            style="background-color: #f0f2f2; padding: 1rem 3rem; border-radius: 10px; display: flex; gap: 5rem;">
+                            <div class="icon-view">
+                                <img src="assets/icon/money.png" />
+                                <div class="icon-view-text">
+                                    <span style="font-weight: 500; color: #652d47; font-size: 16px;">{{
+                                        userInfo.loanValue
+                                        |
+                                        number
+                                        }}</span>
+                                    <span style="color: #282E37; text-align: center;">วงเงินกู้ปัจจุบัน</span>
+                                </div>
+                            </div>
+                            <div class="icon-view">
+                                <img src="assets/icon/money-bag.png" />
+                                <div class="icon-view-text">
+                                    <span style="font-weight: 500; color: #652d47; font-size: 16px;">{{
+                                        userInfo.loanBalance
+                                        |
+                                        number
+                                        }}</span>
+                                    <span style="color: #282E37; text-align: center;">หนี้เงินกู้คงเหลือ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 1.2rem; background-color: #f0f2f2; border-radius: 20px; margin-top: 1rem;">
+                    <span style="color: #d92c2c;">* หมายเหตุ
+                        สิทธิ์การกู้เงินสามัญเป็นเพียงวงเงินประมาณการเท่านั้น
+                        โดยระบบจะคำนวณจากเงินเดือน และจำนวนปีที่เข้าเป็นสมาชิกของสหกรณ์กองทุนสวัสดิการฯ
+                        หากมีข้อสงสัยกรุณาติดต่อเจ้าหน้าที่กองทุนสวัสดิการฯ
+                    </span>
+                </div>
             </div>
-            <div class="div-two-text">
-                <label>กู้ได้ไม่เกิน:</label>
-                <span>{{ sumMaxLoan | number }}</span>
-                <span>บาท</span>
-            </div>
+            <!-- <div class="div-two">
+                <p-chip label="เอกสารสิทธิ์การกู้" styleClass="mr-2"></p-chip>
+                <div class="doc-pdf">
+                    <div class="doc-info">
+                        <img class="img-web" src="/assets/images/pdf.png" alt="Image" width="33">
+                        <img class="img-phone" src="/assets/images/pdf.png" alt="Image" width="20">
+                        <span class="pdf-text">เอกสารเงื่อนไขสิทธิ์การกู้เงินกองทุนสวัสดิการฯ</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <button type="button" class="btn btn-login" (click)="''">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15"
+                                    stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#fe6bba" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            ดาวน์โหลด</button>
+                    </div>
+                </div>
+            </div> -->
         </div>
+        <div class="div-loan">
+            <div class="card-loan">
+                <h5 style="color: #652d47;">เงินกู้ปัจจุบัน</h5>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div id="loanPie"></div>
+                    <span style="position: absolute; font-size: 18px; font-weight: 500;">{{loanSumPercent}}%</span>
+                </div>
+                <div class="div-icon-overview-loan">
+                    <div class="icon-view-loan" style="border-right: inset; padding-right: 2rem;">
+                        <img src="assets/icon/bill.png" />
+                        <div class="icon-view-text-loan">
+                            <span style="font-weight: 500; color: #652d47; font-size: 18px;">{{ userInfo.loanNo
+                                }}</span>
+                            <span style="color: #fe6bba; font-size: 14px;">เลขที่สัญญา</span>
+                            <span style="color: #fe6bba; font-weight: 400; font-size: 12px;"
+                                *ngIf="userInfo.loanCreateDate!=null">
+                                วันที่ : {{ pipeDateTH(userInfo.loanCreateDate) }}</span>
+                        </div>
+                    </div>
+                    <div class="icon-view-loan" style="padding-left: 2rem;">
+                        <div class="icon-view-text-loan">
+                            <span style="font-weight: 500; color: #652d47; font-size: 18px;">{{ userInfo.loanValue
+                                | number
+                                }}</span>
+                            <span style="color: #fe6bba; font-size: 14px;">วงเงินกู้</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-loan-new">
+                <h5 style="color: #652d47;">เงินกู้สามัญสูงสุด</h5>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div id="loanPieNew"></div>
+                    <span style="position: absolute; font-size: 18px; font-weight: 500;">{{sumLoan | number}}</span>
+                </div>
+                <div class="div-icon-overview-new" style="margin: 0.5rem 2rem">
+                    <div class="icon-view-loan">
+                        <img src="assets/icon/profit.png" />
+                        <div class="icon-view-text-loan">
+                            <span style="font-weight: 500; color: #652d47; font-size: 18px;">วงเงิน : {{
+                                sumLoan | number
+                                }}</span>
+                            <span
+                                style="color: #fe6bba; font-size: 14px;">เงินกู้สามัญสูงสุดครั้งถัดไปที่สามารถกู้ได้</span>
 
-        <div class="div-two-body">
-            <div class="div-two-body-text" *ngIf="!loanValueNull">
-                <p>การหักลบเงินกู้เดิม</p>
-                <div class="div-two-text">
-                    <label>เลขที่สัญญา:</label>
-                    <div>
-                        <span>-</span>
-                        <span>บาท</span>
+                        </div>
                     </div>
                 </div>
-                <div class="div-two-text">
-                    <label>หนี้เงินกู้คงเหลือ:</label>
-                    <div>
-                        <span>{{ userInfo.loanBalance | number }}</span>
-                        <span>บาท</span>
-                    </div>
-                </div>
-                <!-- <div class="div-two-text">
-                    <label>ประมาณการรับเงินสุทธิ:</label>
-                    <div>
-                        <span style="color: #FE6BBA;">{{totalLoan | number}}</span>
-                        <span>บาท</span>
-                    </div>
+                <!-- <div style="padding: 0.5rem 1rem; background-color: #f0f2f2; border-radius: 10px; gap: 1rem;">
+                    <span style="color: #d92c2c; font-weight: 300; font-size: 14px;">
+                        *สิทธิ์การกู้เงินสามัญสูงสุดครั้งถัดไปเป็นเพียงวงเงินประมาณการเท่านั้น
+                        โดยระบบจะคำนวณจากเงินเดือน และจำนวนปีที่เข้าเป็นสมาชิกของสหกรณ์
+                    </span>
                 </div> -->
             </div>
-
-            <p style="color: #c0392b; margin-top: 20px;">* หมายเหตุ
-                สิทธิ์การกู้เงินสามัญเป็นเพียงการวงเงินประมาณการเท่านั้น
-                แต่สิทธิ์กู้เงินที่ได้จริงจะต้องคิดจากเงินเดือนคงเหลือ หากมีข้อสงสัยกรุณาติดต่อกองทุนสวัสดิการฯ
-            </p>
         </div>
     </div>
+
+    <!-- <div class="div-two">
+            <p-chip label="สิทธิ์การกู้เงินสามัญ" styleClass="mr-2"></p-chip>
+            <div class="div-two-harder">
+                <span>สมาชิกที่มีความสมาชิกที่มีความประสงค์จะขอกู้ยืมประเภทการกู้สามัญจะต้องอยู่ภายใต้หลักเกณฑ์และเงื่อนไขดังต่อไปนี้</span>
+                <li>เป็นสมาชิก 1 ปีขึ้นไป กู้ได้ 10 เท่าของเงินเดือน หรือค่าจ้าง แต่ไม่เกิน 900,000 บาท</li>
+                <li>เป็นสมาชิก 2 ปีขึ้นไป กู้ได้ 20 เท่าของเงินเดือน หรือค่าจ้าง แต่ไม่เกิน 900,000 บาท</li>
+                <li>เป็นสมาชิก 3 ปีขึ้นไป กู้ได้ 30 เท่าของเงินเดือน หรือค่าจ้าง แต่ไม่เกิน 900,000 บาท</li>
+                <li>ผู้กู้จะต้องชําระคืนเงินกู้ไม่เกิน 120 เดือน นับตั้งแต่เดือนที่ได้รับเงินกู้ หรือไม่เกินอายุครบ 60
+                    ปี</li>
+            </div>
+            <span style="color: #c0392b; margin-top: 0px;">* หมายเหตุ
+                สิทธิ์การกู้เงินสามัญเป็นเพียงวงเงินประมาณการเท่านั้น
+                แต่สิทธิ์กู้เงินที่ได้จริงจะต้องคิดจากเงินเดือนคงเหลือ หากมีข้อสงสัยกรุณาติดต่อกองทุนสวัสดิการฯ
+            </span>
+
+            <p-chip label="เอกสารสิทธิ์การกู้" styleClass="mr-2"></p-chip>
+            <div class="div-doc-pdf">
+                <div class="doc-pdf">
+                    <div class="doc-info">
+                        <img class="img-web" src="/assets/images/pdf.png" alt="Image" width="33">
+                        <img class="img-phone" src="/assets/images/pdf.png" alt="Image" width="20">
+                        <span class="pdf-text">เอกสารสิทธิ์การกู้เงินกองทุนฯ</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <button type="button" class="btn btn-login" (click)="''">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15"
+                                    stroke="#fe6bba" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#fe6bba" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            ดาวน์โหลด</button>
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
 </div>
+
+<!-- </div> -->
