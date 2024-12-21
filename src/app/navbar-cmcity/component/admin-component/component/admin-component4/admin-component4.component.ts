@@ -82,9 +82,10 @@ export class AdminComponent4Component implements OnInit {
     const dividendDetail = res;
     const dataSplitAnnouncement = this.checkListDataPDFSplitAnnouncement(dividendDetail);
     const totalInterestDividends = this.totalInterestDividend;
+    const totalDividendSplit = this.totalDividendSplit;
     this.formModelDividend.get('allotmentAmount').disable();
     this.formModelDividend.get('balance').disable();
-    this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalInterestDividends));
+    this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalDividendSplit));
   }
 
   initMainFormDividend() {
@@ -389,20 +390,23 @@ export class AdminComponent4Component implements OnInit {
   checkListDataPDFMergeAnnouncement(list: any[]) {
     const decimalPipe = new DecimalPipe('en-US');
     let sumdivident = 0;
+    let sumTotalDividend = 0;
     if (list.length > 0) {
       // let datalListGroup;
       let datalListGroup = list.map(function (item,index) {
         sumdivident += item.stockDividend ? Number(item.stockDividend) : 0;
+        sumTotalDividend += item.totalDividend ? Number(item.totalDividend) : 0;
         return [
           { text: index + 1, alignment: 'center' },
           { text: item.departmentName, alignment: 'left' },
           { text: item.employeeCode, alignment: 'center' },
           { text: item.fullName, alignment: 'left' },
           { text: item.bankAccountReceivingNumber, alignment: 'center' },
-          { text: decimalPipe.transform(item.stockDividend ? Number(item.stockDividend) : 0), alignment: 'right' },
+          // { text: decimalPipe.transform(item.stockDividend ? Number(item.stockDividend) : 0), alignment: 'right' },
+          { text: item.totalDividend ? decimalPipe.transform(Number(item.totalDividend)) : '-', alignment: 'right' },
         ]
       });
-      this.totalDividendMerge = sumdivident;
+      this.totalDividendMerge = sumTotalDividend;
       return datalListGroup;
     } else {
       return '';
@@ -529,11 +533,11 @@ export class AdminComponent4Component implements OnInit {
           { text: item.employeeCode, alignment: 'center' },
           { text: item.fullName, alignment: 'left' },
           { text: item.bankAccountReceivingNumber, alignment: 'center' },
-          { text: decimalPipe.transform(item.stockAccumulate ? Number(item.stockAccumulate) : 0), alignment: 'right' },
-          { text: decimalPipe.transform(item.stockDividend ? Number(item.stockDividend) : 0), alignment: 'right' },
-          { text: decimalPipe.transform(item.cumulativeInterest ? Number(item.cumulativeInterest) : 0), alignment: 'right' },
-          { text: decimalPipe.transform(item.interestDividend ? Number(item.interestDividend) : 0), alignment: 'right' },
-          { text: decimalPipe.transform(item.totalDividend ? Number(item.totalDividend) : 0), alignment: 'right' },
+          { text: item.stockAccumulate ? decimalPipe.transform(Number(item.stockAccumulate)) : '-', alignment: 'right' },
+          { text: item.stockDividend ? decimalPipe.transform(Number(item.stockDividend)) : '-', alignment: 'right' },
+          { text: item.cumulativeInterest ? decimalPipe.transform(Number(item.cumulativeInterest)) : '-', alignment: 'right' },
+          { text: item.interestDividend ? decimalPipe.transform(Number(item.interestDividend)) : '-', alignment: 'right' },
+          { text: item.totalDividend ? decimalPipe.transform(Number(item.totalDividend)) : '-', alignment: 'right' },
           { text: ' ', alignment: 'right' },
         ]
       });
@@ -612,7 +616,7 @@ export class AdminComponent4Component implements OnInit {
             body: [
                [{ text: 'ลําดับ', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] }, { text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
               { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] }, { text: 'ชื่อพนักงาน', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
-              { text: 'เลขบัญชีธนาคาร', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] }, { text: 'ค่าหุ้นสะสม', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
+              { text: 'เลขบัญชีธนาคาร', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] }, { text: 'หุ้นสะสม ณ 30 พ.ย.', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
               { text: 'ปันผลหุ้น \n ' + this.stockDevidendPercent + '%', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ยสะสม', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
               { text: 'ปันผลดอกเบี้ย \n ' + this.interestDevidendPercent + '%', style: 'tableHeader', alignment: 'center' }, { text: 'รวมปันผล', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
               { text: 'ผู้รับเงิน', style: 'tableHeader', alignment: 'center',margin: [0, 3, 0, 0] },
@@ -689,9 +693,10 @@ export class AdminComponent4Component implements OnInit {
     const dividendDetail = this.dataDividendDetailAll;
     const dataSplitAnnouncement = this.checkListDataPDFSplitAnnouncement(dividendDetail);
     const totalInterestDividends = this.totalInterestDividend;
+    const totalDividendSplit = this.totalDividendSplit;
     this.formModelDividend.get('allotmentAmount').disable();
     this.formModelDividend.get('balance').disable();
-    this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalInterestDividends));
+    this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalDividendSplit));
     this.formModelDividend.get('stockDevidend').setValue(this.stockDevidendPercent);
     this.formModelDividend.get('interestDevidend').setValue(this. interestDevidendPercent);
     this.displayModalDividend = true;
@@ -702,9 +707,10 @@ export class AdminComponent4Component implements OnInit {
     const dividendDetail = this.dataDividendDetailAll;
     const dataSplitAnnouncement = this.checkListDataPDFSplitAnnouncement(dividendDetail);
     const totalInterestDividends = this.totalInterestDividend;
+    const totalDividendSplit = this.totalDividendSplit;
     this.formModelDividend.get('allotmentAmount').disable();
     this.formModelDividend.get('balance').disable();
-    this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalInterestDividends));
+    this.formModelDividend.get('allotmentAmount').setValue(this.formattedNumber2(totalDividendSplit));
     this.formModelDividend.get('stockDevidend').setValue(this.stockDevidendPercent);
     this.formModelDividend.get('interestDevidend').setValue(this. interestDevidendPercent);
     const dataConfigRes =  this.configAdmin;
