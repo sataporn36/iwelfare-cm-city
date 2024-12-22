@@ -183,54 +183,90 @@
                 <!-- <div style="padding-left: 0.5rem;
                             justify-content: center;
                             align-items: center;
-                            display: flex;"> -->
-                <span style="color: #363738;">%</span>
-                <!-- </div> -->
+                            display: flex;">
+                            <span style="color: #363738;">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block">ปันผลเงินกู้</label>
+                    <div style="display: flex;">
+                        <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal"
+                            [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
+                            [maxFractionDigits]="5"></p-inputNumber>
+                        <div style="padding-left: 0.5rem; 
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;">
+                            <span style="color: #363738;">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block">ยอดจัดสรร</label> <br>
+                  <input class="form-control" pInputText type="text" formControlName="amountRequired" maxlength="5"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" /> -->
+                <p-inputNumber formControlName="amountRequired" inputId="minmaxfraction" mode="decimal"
+                    [required]="true" [maxlength]="12"></p-inputNumber>
+            </div>
+            <div>
+                <label class="block">วงเงินที่ต้องใช้</label>
+                <input class="form-control" pInputText type="text" formControlName="allotmentAmount" maxlength="5"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+            </div>
+            <div>
+                <label class="block">เงินคงเหลือ</label>
+                <input class="form-control" pInputText type="text" formControlName="balance" maxlength="5"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-login2" style="width: max-content !important;"
+                    (click)="displayModalPublish = true">กำหนดการเผยเเพร่</button>
             </div>
         </div>
-        <div>
-            <label class="block">ปันผลเงินกู้</label>
-            <div class="dialog-body-t">
-                <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal"
-                    [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
-                    [maxFractionDigits]="5"></p-inputNumber>
-                <!-- <div style="padding-left: 0.5rem; 
+    </div>
+    <div>
+        <label class="block">ปันผลเงินกู้</label>
+        <div class="dialog-body-t">
+            <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal" [required]="true"
+                [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"></p-inputNumber>
+            <!-- <div style="padding-left: 0.5rem; 
                             justify-content: center;
                             align-items: center;
                             display: flex;"> -->
-                <span style="color: #363738;">%</span>
-                <!-- </div> -->
-            </div>
+            <span style="color: #363738;">%</span>
+            <!-- </div> -->
         </div>
-        <div>
-            <label class="block">วงเงินที่ต้องใช้</label>
-            <!-- <input class="form-control" pInputText type="text" formControlName="amountRequired" maxlength="5"
+    </div>
+    <div>
+        <label class="block">วงเงินที่ต้องใช้</label>
+        <!-- <input class="form-control" pInputText type="text" formControlName="amountRequired" maxlength="5"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" /> -->
-            <p-inputNumber formControlName="amountRequired" inputId="minmaxfraction" mode="decimal" [required]="true"
-                [maxlength]="12"></p-inputNumber>
-        </div>
-        <div>
-            <label class="block">ยอดจัดสรร</label>
-            <input class="form-control" pInputText type="text" formControlName="allotmentAmount" maxlength="5"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
-        </div>
-        <div>
-            <label class="block">เงินคงเหลือ</label>
-            <input class="form-control" pInputText type="text" formControlName="balance" maxlength="5"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 0.2rem;">
-            <label class="block">กำหนด</label>
-            <button type="button" class="btn btn-login2" (click)="displayModalPublish = true">กำหนดการเผยเเพร่</button>
-        </div>
-        <div>
-            <!-- <label class="block">กำหนด</label> -->
-            <button type="button" class="btn btn-login" (click)="calculateDividend()"
-                [disabled]="!formModelDividend.valid">คำนวน</button>
-        </div>
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- </div> -->
+        <p-inputNumber formControlName="amountRequired" inputId="minmaxfraction" mode="decimal" [required]="true"
+            [maxlength]="12"></p-inputNumber>
+    </div>
+    <div>
+        <label class="block">ยอดจัดสรร</label>
+        <input class="form-control" pInputText type="text" formControlName="allotmentAmount" maxlength="5"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+    </div>
+    <div>
+        <label class="block">เงินคงเหลือ</label>
+        <input class="form-control" pInputText type="text" formControlName="balance" maxlength="5"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.2rem;">
+        <label class="block">กำหนด</label>
+        <button type="button" class="btn btn-login2" (click)="displayModalPublish = true">กำหนดการเผยเเพร่</button>
+    </div>
+    <div>
+        <!-- <label class="block">กำหนด</label> -->
+        <button type="button" class="btn btn-login" (click)="calculateDividend()"
+            [disabled]="!formModelDividend.valid">คำนวน</button>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
     </div>
     <ng-template pTemplate="footer">
         <div class="footer-button">
