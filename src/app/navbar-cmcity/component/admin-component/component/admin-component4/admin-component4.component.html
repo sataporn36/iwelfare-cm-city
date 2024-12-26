@@ -8,6 +8,10 @@
                     (click)="chackReportMergeAnnouncement('export')">รายงาน(ประกาศรวม)</button>
                 <button type="button" class="btn btn-login"
                     (click)="chackReportSplitAnnouncement('export')">รายงาน(ประกาศแยก)</button>
+                <button type="button" class="btn btn-login" (click)="exportDividendExcel()">รายงานปันผล EXCEl</button>
+                <!-- <button type="button" class="btn btn-login" [disabled]="loading" (click)="exportDividendExcel()">
+                    {{ loading ? 'กำลังดาวน์โหลด...' : 'รายงานปันผล EXCEL' }}
+                </button> -->
             </div>
             <div class="card-menu-doc">
                 <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
@@ -78,7 +82,8 @@
 </div>
 
 <p-dialog [(visible)]="displayModalDividend" [modal]="true" [style]="{width: '30vw'}"
-    [breakpoints]="{ '1200px': '40vw','900px': '50vw','650px': '60vw','550px': '70vw','450px': '85vw' }" [draggable]="false" [resizable]="false" styleClass="customDialog">
+    [breakpoints]="{ '1200px': '40vw','900px': '50vw','650px': '60vw','550px': '70vw','450px': '85vw' }"
+    [draggable]="false" [resizable]="false" styleClass="customDialog">
     <ng-template pTemplate="header">
         <div style="display: flex; align-items: center;">
             <span style="font-size: 18px; font-weight: bold;">กำหนดอัตราปันผลหุ้น</span>
