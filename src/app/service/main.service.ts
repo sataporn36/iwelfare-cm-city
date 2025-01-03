@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { AppPath } from '../constans/config';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
@@ -794,4 +794,31 @@ export class MainService {
   }
 
   // loan-history api //
+
+  // // API Export Excel //
+  // exportDividendsExcel(playload: any): Observable<any> {
+  //   return this.http.post<any>(
+  //     AppPath.APP_API_SERVICE + '/logic/v1/document/export-data/dividends',
+  //     playload,
+  //     {
+  //       responseType: 'blob' as 'json',
+  //     }
+  //   );
+  // }
+  exportDividendsExcel(payload: any): Observable<Blob> {
+    return this.http
+      .post<Blob>(
+        AppPath.APP_API_SERVICE + '/logic/v1/document/export-data/dividends',
+        payload,
+        {
+          responseType: 'blob' as 'json', // Ensure this is 'blob'
+        }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Export failed:', error);
+          return throwError('Export failed. Please try again later.');
+        })
+      );
+  }
 }

@@ -95,19 +95,21 @@ export class AdminComponent2Component implements OnInit {
     this.loading = true;
     this.initMainForm();
     this.initMainFormStock();
+    console.log('----1----');
 
     this.userId = this.localStorageService.retrieve('empId');
     this.stockId = this.localStorageService.retrieve('stockId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
+    console.log('----2----');
     // this.getStock(this.stockId);
 
     // this.searchStock();
     // this.searchStockDetail(this.stockId);
+    this.searchStockV2();
     this.initMainFormBill();
     this.setperiodMonthDescOption();
     this.pipeDateTH();
     this.getStockDetail();
-    this.searchStockV2();
     this.initSearchForm();
 
     this.employeeStatusList = [
@@ -603,7 +605,7 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-  addFilePdfInfoAll(){
+  addFilePdfInfoAll() {
     this.formModelBill.patchValue({
       year: this.year,
       month: this.monthValueBefore,
@@ -925,7 +927,11 @@ export class AdminComponent2Component implements OnInit {
   ) {
     if (listSum.length > 0) {
       const dataSum = this.checkTotalListGroup(infogroup);
-      let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
+      let sumDepartment: (
+        | string
+        | { text: string; alignment: string; bold: boolean }
+        | { text: any; alignment: string; bold?: undefined }
+      )[];
       let stockValueTotal = 0;
       let loanDetailOrdinaryTotal = 0;
       let loanDetailInterestTotal = 0;
@@ -1045,7 +1051,11 @@ export class AdminComponent2Component implements OnInit {
     let sum4 = 0;
     let sum5 = 0;
 
-    let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
+    let sumDepartment: (
+      | string
+      | { text: string; alignment: string; bold: boolean }
+      | { text: any; alignment: string; bold?: undefined }
+    )[];
 
     listSum?.forEach((element, _index, _array) => {
       sum1 =
@@ -1257,7 +1267,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -1308,18 +1322,20 @@ export class AdminComponent2Component implements OnInit {
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
 
-    if(this.year == bill.year && this.monthValue == Number(bill.month).toString()){
+    if (
+      this.year == bill.year &&
+      this.monthValue == Number(bill.month).toString()
+    ) {
       this.service.searchDocumentV1(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAll(playload, mode, data);
       });
-    }else{
+    } else {
       this.service.searchDocumentV1DetailHistory(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAllDetailHistory(playload, mode, data);
       });
     }
-    
   }
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
@@ -1330,12 +1346,18 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-  getSearchDocumentV2SumAllDetailHistory(playload: any, mode: any, listdata: any[]) {
-    this.service.searchDocumentV2SumDetailHistory(playload).subscribe((data) => {
-      this.sumStock = data;
-      this.checkDepartment(listdata);
-      this.exportMakePDFALL(mode, data);
-    });
+  getSearchDocumentV2SumAllDetailHistory(
+    playload: any,
+    mode: any,
+    listdata: any[]
+  ) {
+    this.service
+      .searchDocumentV2SumDetailHistory(playload)
+      .subscribe((data) => {
+        this.sumStock = data;
+        this.checkDepartment(listdata);
+        this.exportMakePDFALL(mode, data);
+      });
   }
 
   exportMakePDFALL(mode: any, listSum: any[]) {
@@ -1788,7 +1810,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -1903,14 +1929,20 @@ export class AdminComponent2Component implements OnInit {
     };
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
       const data = resL;
-      data.forEach((element: { installment: any; totalDeduction: number; interest: any; }, index: any, array: any) => {
-        if (element.installment === res.installment) {
-          this.sumElementLoan =
-            Number(stockValue) + element.totalDeduction + element.interest;
-          this.elementLoan = element;
-          this.onPrintReceiptMakePdf(element, this.sumElementLoan);
+      data.forEach(
+        (
+          element: { installment: any; totalDeduction: number; interest: any },
+          index: any,
+          array: any
+        ) => {
+          if (element.installment === res.installment) {
+            this.sumElementLoan =
+              Number(stockValue) + element.totalDeduction + element.interest;
+            this.elementLoan = element;
+            this.onPrintReceiptMakePdf(element, this.sumElementLoan);
+          }
         }
-      });
+      );
     });
   }
 
@@ -1956,7 +1988,7 @@ export class AdminComponent2Component implements OnInit {
   }
 
   docInfoAll() {
-    if(!this.filePdfFlag){
+    if (!this.filePdfFlag) {
       this.showWarn();
     }
     const dataMY = this.formModelBill.getRawValue();
@@ -1977,36 +2009,38 @@ export class AdminComponent2Component implements OnInit {
       const recheckList = dataList.filter(
         (item) => item.employeeCode !== '00000'
       );
-      if(this.filePdfFlag){
+      if (this.filePdfFlag) {
         this.onPrintInfoMember(recheckList);
-      }else{
+      } else {
         this.checkMonthOfYearCurrentToOpenPdf(payload, recheckList);
       }
-     
     });
   }
 
-  checkMonthOfYearCurrentToOpenPdf(payload: any, recheckList: any){
-     if(payload.monthCurrent == this.month && payload.yearCurrent == this.year){
-        this.onPrintInfoMember(recheckList);
-     }else{
+  checkMonthOfYearCurrentToOpenPdf(payload: any, recheckList: any) {
+    if (
+      payload.monthCurrent == this.month &&
+      payload.yearCurrent == this.year
+    ) {
+      this.onPrintInfoMember(recheckList);
+    } else {
       const payloadFile = {
         month: payload.monthCurrent,
-        year: payload.yearCurrent
-      }
+        year: payload.yearCurrent,
+      };
       this.service.getFile(payloadFile).subscribe((response: Blob) => {
         // 'ข้อมูลสมาชิก-' + payload.monthCurrent + '-' + payload.monthCurrent
-        
+
         const blob = new Blob([response], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
-  
+
         // Open the PDF in a new tab
         window.open(url);
-  
+
         // Clean up URL after use (optional, for memory management)
         window.URL.revokeObjectURL(url);
       });
-     }
+    }
   }
 
   totalMemLoan() {
@@ -2247,7 +2281,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -2557,7 +2595,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -2587,7 +2629,6 @@ export class AdminComponent2Component implements OnInit {
 
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
-   
   }
 
   // list!: any[];
@@ -2850,7 +2891,15 @@ export class AdminComponent2Component implements OnInit {
               text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ',
               bold: false,
             },
-            { text: '\t\t' + (element.installment <= 1 ? element.installment : Number(element.installment - 1)), bold: false, style: 'texts' },
+            {
+              text:
+                '\t\t' +
+                (element.installment <= 1
+                  ? element.installment
+                  : Number(element.installment - 1)),
+              bold: false,
+              style: 'texts',
+            },
           ],
           margin: [0, 6, 0, 0],
           bold: false,
@@ -2859,7 +2908,10 @@ export class AdminComponent2Component implements OnInit {
           text: [
             'หุ้นสะสม\t\t\t\t ',
             {
-              text: this.formattedNumber2(element.stockAccumulate - element.stockValue) + '\tบาท',
+              text:
+                this.formattedNumber2(
+                  element.stockAccumulate - element.stockValue
+                ) + '\tบาท',
               bold: false,
               style: 'texts',
             },
@@ -3095,10 +3147,11 @@ export class AdminComponent2Component implements OnInit {
     };
 
     const pdf = pdfMake.createPdf(docDefinition);
-    if(this.filePdfFlag){
+    if (this.filePdfFlag) {
       pdf.getBlob((blob: Blob) => {
         const formData = new FormData();
-        const pdfName = ' ข้อมูลสมาชิก (' + this.monthBefore + ' ' + this.year + ')';
+        const pdfName =
+          ' ข้อมูลสมาชิก (' + this.monthBefore + ' ' + this.year + ')';
         formData.append('file', blob, pdfName + '.pdf');
         formData.append('month', this.monthBefore);
         formData.append('year', this.year);
@@ -3106,14 +3159,13 @@ export class AdminComponent2Component implements OnInit {
         this.service.addFile(formData).subscribe((data) => {
           this.filePdfFlag = false;
           console.log(data);
-          
+
           console.log(' massge-add-file : ', data);
         });
       });
-    }else{
+    } else {
       pdf.open();
     }
-
   }
 
   showWarn() {

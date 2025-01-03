@@ -7,6 +7,7 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { DecimalPipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, debounceTime } from 'rxjs';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-admin-component4',
@@ -113,7 +114,7 @@ export class AdminComponent4Component implements OnInit {
         this.interestDevidendPercent = Number(res[2].value);
         this.configAdmin = res;
       }
-      this.getDataDividendDetail();
+      // this.getDataDividendDetail();
       this.getDataDividendDetailAll();
     });
   }
@@ -122,10 +123,93 @@ export class AdminComponent4Component implements OnInit {
     this.inputSubject.next(event.target.value);
   }
 
-  getDataDividendDetail() {
+  // exportDividendExcel() {
+  //   const data = this.formModelDividend.getRawValue();
+  //   const payload = {
+  //     empCode: this.empDetail.employeeCode,
+  //     yearCurrent: this.year,
+  //     yearOld: this.year - 1,
+  //     stockDividendPercent: data.stockDevidend
+  //       ? data.stockDevidend
+  //       : this.stockDevidendPercent,
+  //     interestDividendPercent: data.interestDevidend
+  //       ? data.interestDevidend
+  //       : this.interestDevidendPercent,
+  //   };
+
+  //   this.service.exportDividendsExcel(payload).subscribe({
+  //     next: (response: Blob) => {
+  //       const blob = new Blob([response], { type: 'application/pdf' });
+  //       saveAs(blob, `รายงานเงินปันผม.xlsx`);
+  //     },
+  //   });
+  // }
+
+  // exportDividendExcel() {
+  //   const data = this.formModelDividend.getRawValue();
+  //   const payload = {
+  //     empCode: this.empDetail.employeeCode,
+  //     yearCurrent: this.year,
+  //     yearOld: this.year - 1,
+  //     stockDividendPercent: data.stockDevidend || this.stockDevidendPercent,
+  //     interestDividendPercent:
+  //       data.interestDevidend || this.interestDevidendPercent,
+  //   };
+
+  //   this.loading = true; // Start loading
+  //   this.service.exportDividendsExcel(payload).subscribe({
+  //     next: (response: Blob) => {
+  //       this.loading = false; // Stop loading
+  //       const blob = new Blob([response], {
+  //         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //       });
+  //       saveAs(blob, `รายงานเงินปันผล.xlsx`);
+  //     },
+  //     error: (err) => {
+  //       this.loading = false; // Stop loading
+  //       console.error('Export failed', err);
+  //       alert('Export failed. Please try again.');
+  //     },
+  //   });
+  // }
+
+  // exportDividendExcel() {
+  //   const data = this.formModelDividend.getRawValue();
+  //   const payload = {
+  //     empCode: this.empDetail.employeeCode,
+  //     yearCurrent: this.year,
+  //     yearOld: this.year - 1,
+  //     stockDividendPercent: data.stockDevidend || this.stockDevidendPercent,
+  //     interestDividendPercent:
+  //       data.interestDevidend || this.interestDevidendPercent,
+  //   };
+
+  //   this.loading = true;
+  //   this.service.exportDividendsExcel(payload).subscribe({
+  //     next: (response: Blob) => {
+  //       this.loading = false;
+  //       if (response.size > 0) {
+  //         // Only save the file if there is content (response.size > 0)
+  //         const blob = new Blob([response], {
+  //           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //         });
+  //         saveAs(blob, `รายงานเงินปันผล.xlsx`);
+  //       } else {
+  //         alert('No content available to download.');
+  //       }
+  //     },
+  //     error: (err) => {
+  //       this.loading = false;
+  //       console.error('Export failed', err);
+  //       alert('Export failed. Please try again.');
+  //     },
+  //   });
+  // }
+
+  exportDividendExcel() {
     const data = this.formModelDividend.getRawValue();
     const payload = {
-      empCode: this.empDetail.employeeCode,
+      empCode: null,
       yearCurrent: this.year,
       yearOld: this.year - 1,
       stockDividendPercent: data.stockDevidend
@@ -135,11 +219,31 @@ export class AdminComponent4Component implements OnInit {
         ? data.interestDevidend
         : this.interestDevidendPercent,
     };
-    this.service.calculateStockDividend(payload).subscribe((res) => {
-      if (res) {
-        this.dataDividendDetail = res;
+
+    this.loading = true;
+    // this.noContent = false;
+    this.showWarnExcel();
+
+    this.service.exportDividendsExcel(payload).subscribe({
+      next: (response: Blob) => {
         this.loading = false;
-      }
+        console.log('API response:', response); // Debug the response here
+
+        if (response.size > 0) {
+          const blob = new Blob([response], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          saveAs(blob, `รายงานเงินปันผล.xlsx`);
+        } else {
+          // this.noContent = true;
+          alert('No content available to download.');
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Export failed', err);
+        alert('Export failed. Please try again.');
+      },
     });
   }
 
@@ -1030,6 +1134,14 @@ export class AdminComponent4Component implements OnInit {
       severity: 'warn',
       summary: 'แจ้งเตือน',
       detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+    });
+  }
+
+  showWarnExcel() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ EXCEL อาจใช้เวลาในการประมวลผล ประมาณ 1-5 นาที',
     });
   }
 
