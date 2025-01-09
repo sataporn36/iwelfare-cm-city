@@ -686,6 +686,7 @@ export class AdminComponent3Component implements OnInit {
   infogroup32: any[] = [];
   infogroup33: any[] = [];
   infogroup34: any[] = [];
+  infogroup35: any[] = [];
 
   checkDepartment(listData: any[]) {
 
@@ -723,6 +724,7 @@ export class AdminComponent3Component implements OnInit {
     this.infogroup32 = [];
     this.infogroup33 = [];
     this.infogroup34 = [];
+    this.infogroup35 = [];
 
     listData.forEach((element, index, array) => {
 
@@ -794,6 +796,8 @@ export class AdminComponent3Component implements OnInit {
         this.infogroup33.push(element);
       } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่') {
         this.infogroup34.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
+        this.infogroup35.push(element);
       } else {
         console.log("else error !!!");
       }
@@ -1097,6 +1101,8 @@ export class AdminComponent3Component implements OnInit {
     let dataSum33 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม', this.infogroup33) || [];
     let data34 = this.checkListDataPDF(this.infogroup34) || [];
     let dataSum34 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่', this.infogroup34) || [];
+    let data35 = this.checkListDataPDF(this.infogroup35) || [];
+    let dataSum35 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและปฐมศึกษา', this.infogroup35) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1135,6 +1141,7 @@ export class AdminComponent3Component implements OnInit {
     pushDataSection(data32, dataSum32);
     pushDataSection(data33, dataSum33);
     pushDataSection(data34, dataSum34);
+    pushDataSection(data35, dataSum35);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
     pdfMake.fonts = {
