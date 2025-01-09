@@ -1073,7 +1073,7 @@ export class ShareComponentComponent implements OnInit {
       month: this.newMonth.value,
     });
 
-    this.formModelBill.get('year')?.disable();
+    // this.formModelBill.get('year')?.disable();
   }
 
   onDisplay() {
