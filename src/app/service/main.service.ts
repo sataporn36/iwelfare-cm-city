@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError, timeout } from 'rxjs';
 import { AppPath } from '../constans/config';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
@@ -738,6 +738,7 @@ export class MainService {
         }
       )
       .pipe(
+        timeout(600000),
         catchError((error) => {
           console.error('Export failed:', error);
           return throwError(
