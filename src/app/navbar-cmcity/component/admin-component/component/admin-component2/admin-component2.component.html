@@ -1,3 +1,7 @@
+<div *ngIf="loadingBill" class="loading-overlay">
+    <div class="spinner"></div>
+</div>
+
 <div class="card-table">
     <p-chip label="การจัดการหุ้น" styleClass="mr-2"></p-chip>
     <p-toast></p-toast>
@@ -10,8 +14,12 @@
         <div class="btn-group">
             <button type="button" class="btn btn-login"
                 (click)="ondisplayModalMonth('ประวัติการส่งหุ้นของสมาชิกทั้งหมด')">ประวัติการส่งหุ้นของสมาชิกทั้งหมด</button>
-            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadPdf')">ดาวน์โหลด PDF</button>
-            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadExcel')">ดาวน์โหลด EXCEL</button>
+            <button type="button" class="btn btn-login"
+                (click)="ondisplayModalMonth('ใบเสร็จรับเงิน')">ใบเสร็จรับเงินของสมาชิกทั้งหมด</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadPdf')">ดาวน์โหลด
+                PDF</button>
+            <button type="button" class="btn btn-login" (click)="ondisplayModalMonth('downloadExcel')">ดาวน์โหลด
+                EXCEL</button>
         </div>
         <div class="card-menu-doc">
             <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
@@ -47,6 +55,7 @@
                 <th style="width:10%">หุ้นสะสม</th>
                 <th style="width:10%">สถานะ</th>
                 <th style="width:10%">แก้ไข</th>
+                <th style="width:10%">ใบเสร็จรับเงิน</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-editing="editing" let-dataStock let-ri="rowIndex" let-columns="columns">
@@ -83,6 +92,12 @@
                     <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
                         (click)="onRowEditCancel(dataStock, ri)"
                         class="p-button-rounded p-button-text p-button-danger"></button>
+                </td>
+                <td>
+                    <!-- <i class="uil uil-print" style="font-size: 20px;"></i> -->
+                    <button pButton pRipple type="button" icon="pi pi-file-pdf"
+                        (click)="ondisplayModalMonthPDF('ใบเสร็จรับเงินของ', dataStock)"
+                        class="p-button-rounded p-button-text" tooltipPosition="top" pTooltip="ใบเสร็จรับเงิน"></button>
                 </td>
             </tr>
         </ng-template>

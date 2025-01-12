@@ -727,4 +727,42 @@ export class MainService {
         })
       );
   }
+
+  receiptReport(payload: any): Observable<Blob> {
+    return this.http
+      .post(
+        AppPath.APP_API_SERVICE + '/logic/v1/document/receipt-report',
+        payload,
+        {
+          responseType: 'blob', // Ensure this is 'blob'
+        }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Export failed:', error);
+          return throwError(
+            () => new Error('Export failed. Please try again later.')
+          );
+        })
+      );
+  }
+
+  receiptReportCode(payload: any): Observable<Blob> {
+    return this.http
+      .post(
+        AppPath.APP_API_SERVICE + '/logic/v1/document/receipt-report-code',
+        payload,
+        {
+          responseType: 'blob', // Ensure this is 'blob'
+        }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Export failed:', error);
+          return throwError(
+            () => new Error('Export failed. Please try again later.')
+          );
+        })
+      );
+  }
 }

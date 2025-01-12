@@ -26,7 +26,7 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { Department } from 'src/app/model/department';
 import { Observable, Subject, debounceTime } from 'rxjs';
 import * as XLSX from 'xlsx';
-import { log } from 'console';
+import { saveAs } from 'file-saver';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -76,6 +76,7 @@ export class AdminComponent2Component implements OnInit {
   monthSelectNew: any;
   yearSelectNew: any;
   filePdfFlag: boolean = false;
+  stockIdPdf: any;
 
   constructor(
     private service: MainService,
@@ -386,7 +387,7 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-  addFilePdfInfoAll(){
+  addFilePdfInfoAll() {
     this.formModelBill.patchValue({
       year: this.year,
       month: this.monthValueBefore,
@@ -654,10 +655,7 @@ export class AdminComponent2Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
       ) {
         this.infogroup34.push(element);
-      } else if (
-        element.departmentName ===
-        'งานระดับก่อนวัยเรียนและปฐมศึกษา'
-      ) {
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
         this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
@@ -715,7 +713,11 @@ export class AdminComponent2Component implements OnInit {
   ) {
     if (listSum.length > 0) {
       const dataSum = this.checkTotalListGroup(infogroup);
-      let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
+      let sumDepartment: (
+        | string
+        | { text: string; alignment: string; bold: boolean }
+        | { text: any; alignment: string; bold?: undefined }
+      )[];
       let stockValueTotal = 0;
       let loanDetailOrdinaryTotal = 0;
       let loanDetailInterestTotal = 0;
@@ -835,7 +837,11 @@ export class AdminComponent2Component implements OnInit {
     let sum4 = 0;
     let sum5 = 0;
 
-    let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
+    let sumDepartment: (
+      | string
+      | { text: string; alignment: string; bold: boolean }
+      | { text: any; alignment: string; bold?: undefined }
+    )[];
 
     listSum?.forEach((element, _index, _array) => {
       sum1 =
@@ -1047,7 +1053,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -1098,18 +1108,20 @@ export class AdminComponent2Component implements OnInit {
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
 
-    if(this.year == bill.year && this.monthValue == Number(bill.month).toString()){
+    if (
+      this.year == bill.year &&
+      this.monthValue == Number(bill.month).toString()
+    ) {
       this.service.searchDocumentV1(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAll(playload, mode, data);
       });
-    }else{
+    } else {
       this.service.searchDocumentV1DetailHistory(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAllDetailHistory(playload, mode, data);
       });
     }
-    
   }
 
   getSearchDocumentV2SumAll(playload: any, mode: any, listdata: any[]) {
@@ -1120,12 +1132,18 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-  getSearchDocumentV2SumAllDetailHistory(playload: any, mode: any, listdata: any[]) {
-    this.service.searchDocumentV2SumDetailHistory(playload).subscribe((data) => {
-      this.sumStock = data;
-      this.checkDepartment(listdata);
-      this.exportMakePDFALL(mode, data);
-    });
+  getSearchDocumentV2SumAllDetailHistory(
+    playload: any,
+    mode: any,
+    listdata: any[]
+  ) {
+    this.service
+      .searchDocumentV2SumDetailHistory(playload)
+      .subscribe((data) => {
+        this.sumStock = data;
+        this.checkDepartment(listdata);
+        this.exportMakePDFALL(mode, data);
+      });
   }
 
   exportMakePDFALL(mode: any, listSum: any[]) {
@@ -1586,7 +1604,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -1701,14 +1723,20 @@ export class AdminComponent2Component implements OnInit {
     };
     this.service.onCalculateLoanOld(payloadOld).subscribe((resL) => {
       const data = resL;
-      data.forEach((element: { installment: any; totalDeduction: number; interest: any; }, index: any, array: any) => {
-        if (element.installment === res.installment) {
-          this.sumElementLoan =
-            Number(stockValue) + element.totalDeduction + element.interest;
-          this.elementLoan = element;
-          this.onPrintReceiptMakePdf(element, this.sumElementLoan);
+      data.forEach(
+        (
+          element: { installment: any; totalDeduction: number; interest: any },
+          index: any,
+          array: any
+        ) => {
+          if (element.installment === res.installment) {
+            this.sumElementLoan =
+              Number(stockValue) + element.totalDeduction + element.interest;
+            this.elementLoan = element;
+            this.onPrintReceiptMakePdf(element, this.sumElementLoan);
+          }
         }
-      });
+      );
     });
   }
 
@@ -1731,6 +1759,22 @@ export class AdminComponent2Component implements OnInit {
     //this.formModelBill.get('year')?.disable();
   }
 
+  ondisplayModalMonthPDF(headerName: string, stock: any) {
+    this.displayModalBill = true;
+    this.headerName = headerName + ' ' + stock.firstName + ' ' + stock.lastName;
+    this.stockIdPdf = stock;
+
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
+    this.newMonth = this.periodMonthDescOption[month];
+
+    this.formModelBill.patchValue({
+      year: this.newYear,
+      month: this.newMonth.value,
+    });
+  }
+
   onDisplay() {
     if (this.headerName === 'ใบเสร็จรับเงิน') {
       this.onupdateBill();
@@ -1750,11 +1794,14 @@ export class AdminComponent2Component implements OnInit {
     } else if (this.headerName === 'downloadExcel') {
       this.searchDocumentV1All('excel');
       this.displayModalBill = false;
+    } else {
+      this.onupdateBillById();
+      this.displayModalBill = false;
     }
   }
 
   docInfoAll() {
-    if(!this.filePdfFlag){
+    if (!this.filePdfFlag) {
       this.showWarn();
     }
     const dataMY = this.formModelBill.getRawValue();
@@ -1775,36 +1822,38 @@ export class AdminComponent2Component implements OnInit {
       const recheckList = dataList.filter(
         (item) => item.employeeCode !== '00000'
       );
-      if(this.filePdfFlag){
+      if (this.filePdfFlag) {
         this.onPrintInfoMember(recheckList);
-      }else{
+      } else {
         this.checkMonthOfYearCurrentToOpenPdf(payload, recheckList);
       }
-     
     });
   }
 
-  checkMonthOfYearCurrentToOpenPdf(payload: any, recheckList: any){
-     if(payload.monthCurrent == this.month && payload.yearCurrent == this.year){
-        this.onPrintInfoMember(recheckList);
-     }else{
+  checkMonthOfYearCurrentToOpenPdf(payload: any, recheckList: any) {
+    if (
+      payload.monthCurrent == this.month &&
+      payload.yearCurrent == this.year
+    ) {
+      this.onPrintInfoMember(recheckList);
+    } else {
       const payloadFile = {
         month: payload.monthCurrent,
-        year: payload.yearCurrent
-      }
+        year: payload.yearCurrent,
+      };
       this.service.getFile(payloadFile).subscribe((response: Blob) => {
         // 'ข้อมูลสมาชิก-' + payload.monthCurrent + '-' + payload.monthCurrent
-        
+
         const blob = new Blob([response], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
-  
+
         // Open the PDF in a new tab
         window.open(url);
-  
+
         // Clean up URL after use (optional, for memory management)
         window.URL.revokeObjectURL(url);
       });
-     }
+    }
   }
 
   totalMemLoan() {
@@ -1844,29 +1893,92 @@ export class AdminComponent2Component implements OnInit {
   }
 
   billMonth: any;
-  // stockAccumulateBill: any;
-  onupdateBill() {
-    const stock = this.stockInfo;
-    const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
-
+  onupdateBillById() {
     const bill = this.formModelBill.getRawValue();
     this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
 
     const payload = {
-      empCode: this.empDetail.employeeCode,
+      empCode: this.stockIdPdf.employeeCode,
       monthCurrent: this.billMonth,
       yearCurrent: bill.year,
     };
-    this.monthSelectNew = this.billMonth;
-    this.yearSelectNew = bill.year;
-    this.service.searchEmployeeLoanNew(payload).subscribe({
-      next: (res) => {
-        const dataRes = res;
-        this.dataResLoan = res;
-        this.onSearchCalculateLoanOld(res, stockValue);
-        // this.stockAccumulateBill = res.stockAccumulate;
+
+    if (
+      this.stockIdPdf.status == 'ลาออก' ||
+      this.stockIdPdf.status == 'เกษียณ'
+    ) {
+      this.showWarnStatus();
+    } else {
+      this.service.receiptReportCode(payload).subscribe({
+        next: (res: Blob) => {
+          const blob = new Blob([res], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url);
+        },
+        error: (error) => {
+          console.error('Error downloading the file:', error);
+        },
+      });
+    }
+  }
+
+  // private loadingSubject = new BehaviorSubject<boolean>(false);
+  // public loading$ = this.loadingSubject.asObservable();
+
+  // show() {
+  //   this.loadingSubject.next(true);
+  // }
+
+  // hide() {
+  //   this.loadingSubject.next(false);
+  // }
+
+  loadingBill: boolean = false; // Local loading state
+  loading$ = this.loadingBill; // Bind the local loading state to the template
+
+  onupdateBill() {
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
+
+    const payload = {
+      monthCurrent: this.billMonth,
+      yearCurrent: bill.year,
+    };
+
+    this.showWarnPdfZip();
+
+    this.loading = true;
+    // this.ngOnInit();
+
+    this.service.receiptReport(payload).subscribe({
+      next: (res: Blob) => {
+        const blob = new Blob([res], { type: 'application/zip' });
+        saveAs(blob, 'receipt_report.zip'); // Save the file using FileSaver.js
       },
-      error: (error) => {},
+      error: (error) => {
+        console.error('Error downloading the file:', error);
+      },
+      complete: () => {
+        this.loading = false; // Set loading to false once the API call completes
+      },
+    });
+  }
+
+  showWarnPdfZip() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+      life: 20000,
+    });
+  }
+
+  showWarnStatus() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'สถานะไม่ตรงเงื่อนไขไม่สามารถดูใบเสร็จรับเงินได้',
+      life: 10000,
     });
   }
 
@@ -2045,7 +2157,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -2355,7 +2471,11 @@ export class AdminComponent2Component implements OnInit {
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
               return rowIndex === 0 ? '#CCCCCC' : null;
             },
           },
@@ -2385,7 +2505,6 @@ export class AdminComponent2Component implements OnInit {
 
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
-   
   }
 
   // list!: any[];
@@ -2648,7 +2767,15 @@ export class AdminComponent2Component implements OnInit {
               text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ',
               bold: false,
             },
-            { text: '\t\t' + (element.installment <= 1 ? element.installment : Number(element.installment - 1)), bold: false, style: 'texts' },
+            {
+              text:
+                '\t\t' +
+                (element.installment <= 1
+                  ? element.installment
+                  : Number(element.installment - 1)),
+              bold: false,
+              style: 'texts',
+            },
           ],
           margin: [0, 6, 0, 0],
           bold: false,
@@ -2657,7 +2784,10 @@ export class AdminComponent2Component implements OnInit {
           text: [
             'หุ้นสะสม\t\t\t\t ',
             {
-              text: this.formattedNumber2(element.stockAccumulate - element.stockValue) + '\tบาท',
+              text:
+                this.formattedNumber2(
+                  element.stockAccumulate - element.stockValue
+                ) + '\tบาท',
               bold: false,
               style: 'texts',
             },
@@ -2893,10 +3023,11 @@ export class AdminComponent2Component implements OnInit {
     };
 
     const pdf = pdfMake.createPdf(docDefinition);
-    if(this.filePdfFlag){
+    if (this.filePdfFlag) {
       pdf.getBlob((blob: Blob) => {
         const formData = new FormData();
-        const pdfName = ' ข้อมูลสมาชิก (' + this.monthBefore + ' ' + this.year + ')';
+        const pdfName =
+          ' ข้อมูลสมาชิก (' + this.monthBefore + ' ' + this.year + ')';
         formData.append('file', blob, pdfName + '.pdf');
         formData.append('month', this.monthBefore);
         formData.append('year', this.year);
@@ -2904,14 +3035,13 @@ export class AdminComponent2Component implements OnInit {
         this.service.addFile(formData).subscribe((data) => {
           this.filePdfFlag = false;
           console.log(data);
-          
+
           console.log(' massge-add-file : ', data);
         });
       });
-    }else{
+    } else {
       pdf.open();
     }
-
   }
 
   showWarn() {
