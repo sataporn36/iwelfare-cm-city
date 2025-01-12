@@ -87,6 +87,7 @@ export class AdminComponent2Component implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.getconfigList();
     this.initMainForm();
     this.initMainFormStock();
 
@@ -1777,7 +1778,8 @@ export class AdminComponent2Component implements OnInit {
 
   onDisplay() {
     if (this.headerName === 'ใบเสร็จรับเงิน') {
-      this.onupdateBill();
+      //this.onupdateBill();
+      this.onBeforReceiptReportAll();
       this.displayModalBill = false;
     } else if (this.headerName === 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
       this.searchDocumentV1All('export');
@@ -3065,4 +3067,354 @@ export class AdminComponent2Component implements OnInit {
   checkSetValueBill(event: any) {
     this.inputSubject.next(event.target.value);
   }
+
+  ////////////////////////// receipt report  ////////////////////////////////
+
+  configAdmin: any;
+  imageSrc1Blob: any;
+  imageSrc2Blob: any;
+  fileImg1: any;
+  fileImg2: any;
+
+  showWarnNull() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'ไม่พบข้อมูลสมาชิก',
+    });
+  }
+
+  getconfigList() {
+    this.service.getConfigByList().subscribe((res) => {
+      if (res) {
+        this.configAdmin = res;
+        this.fileImg1 = res[3].configId;
+        this.fileImg2 = res[4].configId;
+
+        this.getImgSig1('signature1', this.fileImg1);
+        this.getImgSig2('signature2', this.fileImg2);
+      }
+    });
+  }
+
+
+  getImage(id: any, imageSrc: any, dataImg: any) {
+    if (id != 0 || id != null) {
+      this.service.getImageConfig(id).subscribe(
+        (imageBlob: Blob) => {
+          if (imageSrc === 1) {
+            this.imageSrc1Blob = URL.createObjectURL(imageBlob);
+          } else {
+            this.imageSrc2Blob = URL.createObjectURL(imageBlob);
+          }
+        },
+        (error: any) => {
+          if (imageSrc === 1) {
+            this.imageSrc1Blob = this.profileImg(dataImg);
+          } else {
+            this.imageSrc2Blob = this.profileImg(dataImg);
+          }
+          console.error('Failed to fetch image:', error);
+        }
+      );
+    }
+  }
+
+  profileImg(dataImg: any) {
+    let textImg = '';
+    switch (dataImg) {
+      case 'signature1':
+        textImg = '../../assets/images/text1.png';
+        break;
+      case 'signature2':
+        textImg = '../../assets/images/text2.png';
+        break;
+      default:
+        break;
+    }
+    return textImg;
+  }
+
+  getImgSig1(dataImg: any, id: any) {
+    if (id !== null || id) {
+      this.getImage(id, 1, dataImg);
+    } else {
+      this.imageSrc1Blob = this.profileImg(dataImg);
+    }
+  }
+
+  getImgSig2(dataImg: any, id: any) {
+    if (id !== null || id) {
+      this.getImage(id, 2, dataImg);
+    } else {
+      this.imageSrc2Blob = this.profileImg(dataImg);
+    }
+  }
+
+  onBeforReceiptReportAll() {
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
+
+    const payload = {
+      monthCurrent: this.billMonth,
+      yearCurrent: bill.year,
+    };
+
+    this.showWarnPdfZip();
+    this.loading = true;
+
+    this.service.empForReceiptList(payload).subscribe({
+        next: async (res) => {
+          if (res == null) {
+            this.showWarnNull();
+          } else {
+            this.getImgSig1('signature1', this.fileImg1);
+            this.getImgSig2('signature2', this.fileImg2);
+            await this.onPrintReceiptMakePdfAll(res);
+            this.loading = false;
+          }
+        },
+        error: (error) => {},
+        complete() {
+          this.loading = false;
+        },
+      });
+  }
+
+  async onPrintReceiptMakePdfAll(
+    empForReceiptList: any[]
+  ) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.fonts = {
+      // download default Roboto font from cdnjs.com
+      Roboto: {
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
+      },
+      // Kanit Font
+      Sarabun: {
+        // 3. set Kanit font
+        normal: 'Sarabun-Regular.ttf',
+        bold: 'Sarabun-Medium.ttf',
+        italics: 'Sarabun-Italic.ttf ',
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
+    this.pipeDateTH();
+
+    const docDefinition = {
+      info: {
+        title: 'ใบเสร็จรับเงิน',
+      },
+      content: await Promise.all( empForReceiptList.map(async (element, index, array) => [
+        {
+          image: await this.getBase64ImageFromURL(
+            '../../assets/images/logo.png'
+          ),
+          width: 100,
+          height: 100,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        { text: 'กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'ใบเสร็จรับเงิน', style: 'header' },
+        '\n',
+        '\n',
+        {
+          text: [
+            'ประจําเดือน ',
+            {
+              text: ' ' + element.month +
+              '               ',
+              bold: true,
+            },
+            { text: 'เลขที่สมาชิก ' },
+            { text: ' ' + element.employeeCode, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['ได้รับเงินจาก ', { text: ' ' + element.fullName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['สังกัด ', { text: ' ' + element.departmentName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'หุ้นสะสม ',
+            {
+              text: ' ' + element.stockAccumulate ? this.formattedNumber2(element.stockAccumulate) : '' + ' ',
+              bold: true,
+            },
+            { text: '  บาท' },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        '\n',
+        {
+          color: '#000',
+          table: {
+            widths: ['*', '*', '*', '*'],
+            headerRows: 4,
+            body: [
+              [
+                { text: 'รายการ', style: 'tableHeader' },
+                { text: 'งวด', style: 'tableHeader' },
+                { text: 'เป็นเงิน', style: 'tableHeader' },
+                { text: 'เงินต้นเหลือ', style: 'tableHeader' },
+              ],
+              [
+                'ค่าหุ้น',
+                {
+                  text: element.stockDetailInstallment
+                    ? this.formattedNumber2(element.stockDetailInstallment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.stockValue
+                    ? this.formattedNumber2(element.stockValue)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                'เงินต้น',
+                {
+                  text: element.installment
+                    ? this.formattedNumber2(element.installment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.totalDeduction
+                    ? this.formattedNumber2(element.totalDeduction)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.principalBalance
+                    ? this.formattedNumber2(element.principalBalance)
+                    : '',
+                  alignment: 'right',
+                },
+              ],
+              [
+                'ดอกเบี้ย',
+                ' ',
+                {
+                  text: element.interest
+                    ? this.formattedNumber2(element.interest)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                {
+                  text: 'รวมเงิน',
+                  style: 'tableHeader',
+                  colSpan: 2,
+                  alignment: 'center',
+                },
+                {},
+                {
+                  text: element.totalPrice
+                    ? this.formattedNumber2(element.totalPrice)
+                    : '',
+                  style: 'tableHeader',
+                  alignment: 'right',
+                },
+                {},
+              ],
+            ],
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
+        },
+        '\n',
+        {
+          text: element.totalPrice ? '(' + this.transformPipeThai(element.totalPrice) + ')' : '',//element.totalText, 
+          style: 'header2',
+          margin: [20, 0, 0, 0],
+        },
+        '\n',
+        {
+          style: 'tableExample',
+          table: {
+            widths: ['*', '*'],
+            headerRows: 2,
+            body: [
+              [
+                {
+                  image: await this.getBase64ImageFromURL(this.imageSrc1Blob),
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+                {
+                  image: await this.getBase64ImageFromURL(this.imageSrc2Blob),
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+              ],
+              [
+                {
+                  text: 'ประธานกองทุน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' },
+              ],
+            ],
+          },
+          layout: 'noBorders',
+        },
+        { text: '', pageBreak: 'after' }, // Add a page break after each sohk
+      ])),
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+        },
+        header2: {
+          fontSize: 18,
+          bold: true,
+        },
+        texts: {
+          fontSize: 16,
+          bold: false,
+        },
+      },
+      defaultStyle: {
+        fontSize: 16,
+        font: 'Sarabun',
+      },
+    };
+    const pdf = pdfMake.createPdf(docDefinition);
+    pdf.open();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+
 }

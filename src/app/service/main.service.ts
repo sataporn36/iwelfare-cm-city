@@ -766,4 +766,12 @@ export class MainService {
         })
       );
   }
+
+  empForReceiptList(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/empForReceiptList',
+      playload
+    );
+  }
+  
 }
