@@ -656,7 +656,9 @@ export class AdminComponent2Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
       ) {
         this.infogroup34.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
+      } else if (
+        element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา'
+      ) {
         this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
@@ -1397,7 +1399,7 @@ export class AdminComponent2Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',
         this.infogroup34
       ) || [];
-    let data35 = this.checkListDataPDF(this.infogroup34) || [];
+    let data35 = this.checkListDataPDF(this.infogroup35) || [];
     let dataSum35 =
       this.checkListSumAllByDepartment(
         listSum,
