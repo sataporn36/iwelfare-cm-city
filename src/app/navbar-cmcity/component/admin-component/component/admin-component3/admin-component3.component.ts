@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/model/ccustomerTest';
 import { MainService } from 'src/app/service/main.service';
 import 'jspdf-autotable';
-import 'src/assets/fonts/Sarabun-Regular-normal.js'
-import 'src/assets/fonts/Sarabun-Bold-bold.js'
+import 'src/assets/fonts/Sarabun-Regular-normal.js';
+import 'src/assets/fonts/Sarabun-Bold-bold.js';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from 'src/assets/custom-fonts.js'
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'src/assets/custom-fonts.js';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
@@ -17,7 +17,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-admin-component3',
   templateUrl: './admin-component3.component.html',
-  styleUrls: ['./admin-component3.component.scss']
+  styleUrls: ['./admin-component3.component.scss'],
 })
 export class AdminComponent3Component implements OnInit {
   menuItems!: MenuItem[];
@@ -71,9 +71,12 @@ export class AdminComponent3Component implements OnInit {
   sumGrandTotal7: number = 0;
   sumGrandTotal8: number = 0;
 
-  constructor(private service: MainService, private messageService: MessageService,
+  constructor(
+    private service: MainService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private localStorageService: LocalStorageService,) { }
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -90,13 +93,13 @@ export class AdminComponent3Component implements OnInit {
     this.searchLoan();
     this.getLoanDetailListOfLastValue();
 
-    this.inputSubject.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputSubject.pipe(debounceTime(1000)).subscribe((value) => {
       // Perform your action here based on the latest value
       if (value.length >= 5) {
         this.formModelLoanNew.get('guarantorOne').enable();
         this.formModelLoanNew.get('guarantorTwo').enable();
 
-        const format = new Date()
+        const format = new Date();
         const month = format.getMonth();
         const monthSelect = this.periodMonthDescOption[month];
         const year = format.getFullYear() + 543;
@@ -104,8 +107,8 @@ export class AdminComponent3Component implements OnInit {
         const payload = {
           empCode: value,
           monthCurrent: monthSelect.label,
-          yearCurrent: year
-        }
+          yearCurrent: year,
+        };
         this.service.searchEmployeeLoanNew(payload).subscribe({
           next: (res) => {
             if (res !== null || res) {
@@ -113,7 +116,9 @@ export class AdminComponent3Component implements OnInit {
               this.setInterestPercentOnLoan();
               this.formModelLoanNew.patchValue({
                 //interestPercent: res.interestPercent ? res.interestPercent + '%' : '5%',
-                stockValue: res.stockAccumulate ? this.formattedNumber2(Number(res.stockAccumulate)) : 0,
+                stockValue: res.stockAccumulate
+                  ? this.formattedNumber2(Number(res.stockAccumulate))
+                  : 0,
                 fullName: res.fullName,
                 empId: res.empId,
                 loanId: res.loanId ? res.loanId : 0,
@@ -123,7 +128,7 @@ export class AdminComponent3Component implements OnInit {
               this.onCancleLoan();
             }
           },
-          error: error => {
+          error: (error) => {
             this.formModelLoanNew.reset();
             // this.formModelLoanNew.get('employeeCode').setValue(null);
           },
@@ -131,17 +136,15 @@ export class AdminComponent3Component implements OnInit {
       } else {
         this.formModelLoanNew.reset();
       }
-
     });
 
-
-    this.inputGuaranteeStock.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputGuaranteeStock.pipe(debounceTime(1000)).subscribe((value) => {
       if (value.length > 0) {
         const data = this.dataNewLoan ? this.dataNewLoan.stockAccumulate : null;
         const valueParse = value.replace(/,/g, '');
-        if (data !== null && (Number(valueParse) <= data)) {
+        if (data !== null && Number(valueParse) <= data) {
           this.formModelLoanNew.patchValue({
-            guaranteeStock: 'ได้'
+            guaranteeStock: 'ได้',
           });
           this.dataNewLoanFlag = true;
           this.formModelLoanNew.get('loanTime').enable();
@@ -149,7 +152,7 @@ export class AdminComponent3Component implements OnInit {
           // this.formModelLoanNew.get('guarantorTwo').disable();
         } else {
           this.formModelLoanNew.patchValue({
-            guaranteeStock: 'ไม่ได้'
+            guaranteeStock: 'ไม่ได้',
           });
           this.dataNewLoanFlag = false;
           this.formModelLoanNew.get('loanTime').enable();
@@ -165,7 +168,7 @@ export class AdminComponent3Component implements OnInit {
       }
     });
 
-    this.inputLoanTime.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputLoanTime.pipe(debounceTime(1000)).subscribe((value) => {
       if (value.length > 0) {
         this.dataLanTimeFlag = true;
       } else {
@@ -174,17 +177,17 @@ export class AdminComponent3Component implements OnInit {
       }
     });
 
-    this.inputGuarantorUnique1.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputGuarantorUnique1.pipe(debounceTime(1000)).subscribe((value) => {
       if (value.length > 0) {
         const playload = {
-          empCode: value
-        }
+          empCode: value,
+        };
         this.service.searchGuarantorUnique(playload).subscribe({
           next: (res) => {
             if (res !== null) {
               if (res.length >= 2) {
                 this.guarantorUniqueFlag1 = 'N';
-                setTimeout(() => { }, 800);
+                setTimeout(() => {}, 800);
                 this.formModelLoanNew.get('guarantorOne').setValue(null);
               } else {
                 const data = this.formModelLoanNew.getRawValue();
@@ -194,28 +197,32 @@ export class AdminComponent3Component implements OnInit {
                 } else if (value !== data.guarantorTwo) {
                   this.guarantorUniqueFlag1 = 'Y';
                   const playload1 = {
-                    empCode: data.guarantorOne
-                  }
-                  this.service.searchEmpCodeOfId(playload1).subscribe((resG1) => {
-                    this.guarantorUniqueName1 = resG1 ? resG1.fullName : 'ใช้ได้';
-                  });
+                    empCode: data.guarantorOne,
+                  };
+                  this.service
+                    .searchEmpCodeOfId(playload1)
+                    .subscribe((resG1) => {
+                      this.guarantorUniqueName1 = resG1
+                        ? resG1.fullName
+                        : 'ใช้ได้';
+                    });
                 } else {
                   this.guarantorUniqueFlag1 = 'Q';
-                  setTimeout(() => { }, 800);
+                  setTimeout(() => {}, 800);
                   this.formModelLoanNew.get('guarantorOne').setValue(null);
                 }
               }
             } else {
               this.guarantorUniqueFlag1 = 'N';
-              setTimeout(() => { }, 800);
+              setTimeout(() => {}, 800);
               this.formModelLoanNew.get('guarantorOne').setValue(null);
             }
           },
-          error: error => {
+          error: (error) => {
             this.guarantorUniqueFlag1 = 'N';
-            setTimeout(() => { }, 800);
+            setTimeout(() => {}, 800);
             this.formModelLoanNew.get('guarantorOne').setValue(null);
-          }
+          },
         });
       } else {
         this.guarantorUniqueFlag1 = 'A';
@@ -223,17 +230,17 @@ export class AdminComponent3Component implements OnInit {
       }
     });
 
-    this.inputGuarantorUnique2.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputGuarantorUnique2.pipe(debounceTime(1000)).subscribe((value) => {
       if (value.length > 0) {
         const playload = {
-          empCode: value
-        }
+          empCode: value,
+        };
         this.service.searchGuarantorUnique(playload).subscribe({
           next: (res) => {
             if (res !== null) {
               if (res.length >= 2) {
                 this.guarantorUniqueFlag2 = 'N';
-                setTimeout(() => { }, 800);
+                setTimeout(() => {}, 800);
                 this.formModelLoanNew.get('guarantorTwo').setValue(null);
               } else {
                 const data = this.formModelLoanNew.getRawValue();
@@ -243,28 +250,32 @@ export class AdminComponent3Component implements OnInit {
                 } else if (value !== data.guarantorOne) {
                   this.guarantorUniqueFlag2 = 'Y';
                   const playload2 = {
-                    empCode: data.guarantorTwo
-                  }
-                  this.service.searchEmpCodeOfId(playload2).subscribe((resG2) => {
-                    this.guarantorUniqueName2 = resG2 ? resG2.fullName : 'ใช้ได้';
-                  });
+                    empCode: data.guarantorTwo,
+                  };
+                  this.service
+                    .searchEmpCodeOfId(playload2)
+                    .subscribe((resG2) => {
+                      this.guarantorUniqueName2 = resG2
+                        ? resG2.fullName
+                        : 'ใช้ได้';
+                    });
                 } else {
                   this.guarantorUniqueFlag2 = 'Q';
-                  setTimeout(() => { }, 800);
+                  setTimeout(() => {}, 800);
                   this.formModelLoanNew.get('guarantorTwo').setValue(null);
                 }
               }
             } else {
               this.guarantorUniqueFlag2 = 'N';
-              setTimeout(() => { }, 800);
+              setTimeout(() => {}, 800);
               this.formModelLoanNew.get('guarantorTwo').setValue(null);
             }
           },
-          error: error => {
+          error: (error) => {
             this.guarantorUniqueFlag2 = 'N';
-            setTimeout(() => { }, 800);
+            setTimeout(() => {}, 800);
             this.formModelLoanNew.get('guarantorTwo').setValue(null);
-          }
+          },
         });
       } else {
         this.guarantorUniqueFlag2 = 'A';
@@ -272,7 +283,7 @@ export class AdminComponent3Component implements OnInit {
       }
     });
 
-    this.inputSubjectBill.pipe(debounceTime(1000)).subscribe(value => {
+    this.inputSubjectBill.pipe(debounceTime(1000)).subscribe((value) => {
       // Perform your action here based on the latest value
       if (Number(value) <= this.year) {
         this.formModelBill.patchValue({
@@ -280,9 +291,13 @@ export class AdminComponent3Component implements OnInit {
         });
       } else {
         this.formModelBill.get('year').setValue(null);
-        this.messageService.add({ severity: 'warn', summary: 'เเจ้งเตือน', detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน', life: 10000 });
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'เเจ้งเตือน',
+          detail: 'ระบุปีต้องไม่เกินปีปัจจุบัน',
+          life: 10000,
+        });
       }
-
     });
 
     this.menuItems = [
@@ -290,26 +305,26 @@ export class AdminComponent3Component implements OnInit {
         label: 'เรียกเก็บชำระเงินกู้รายเดือน',
         command: () => {
           this.updateLoantoMonth();
-        }
+        },
       },
       {
         label: 'สร้างสัญญาเงินกู้ใหม่',
         command: () => {
           this.onShowLoanAddNew();
-        }
+        },
       },
       {
         label: 'ประวัติเงินกู้ของสมาชิกทั้งหมด',
         command: () => {
           this.searchDocumentV1All('export');
-        }
+        },
       },
       {
         label: 'ดาวน์โหลด',
         command: () => {
           this.searchDocumentV1All('download');
-        }
-      }
+        },
+      },
     ];
   }
 
@@ -321,7 +336,6 @@ export class AdminComponent3Component implements OnInit {
         });
       }
     });
-
   }
 
   month: any;
@@ -329,7 +343,7 @@ export class AdminComponent3Component implements OnInit {
   time: any;
   monthValue: any;
   pipeDateTH() {
-    const format = new Date()
+    const format = new Date();
     const day = format.getDate();
     const month = format.getMonth();
     const year = format.getFullYear() + 543;
@@ -339,7 +353,7 @@ export class AdminComponent3Component implements OnInit {
     this.monthValue = monthSelect.value;
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
-    return day + ' ' + monthSelect.label + ' ' + year
+    return day + ' ' + monthSelect.label + ' ' + year;
   }
 
   setperiodMonthDescOption() {
@@ -438,9 +452,9 @@ export class AdminComponent3Component implements OnInit {
 
   searchLoanDetail(id: any): void {
     const payload = {
-      loanId: id
-    }
-    this.service.searchLoanDetail(payload).subscribe(data => {
+      loanId: id,
+    };
+    this.service.searchLoanDetail(payload).subscribe((data) => {
       this.dataLoanDetail = data;
       this.loading = false;
     });
@@ -449,8 +463,8 @@ export class AdminComponent3Component implements OnInit {
   searchLoan() {
     const payload = {
       newMonth: this.month,
-      newYear: this.year
-    }
+      newYear: this.year,
+    };
     this.service.searchLoan(payload).subscribe((data) => {
       if (data) {
         this.dataLoan = data;
@@ -474,7 +488,7 @@ export class AdminComponent3Component implements OnInit {
   //   pdf.setFontSize(14);
   //   pdf.text("ประวัติการส่งเงินกู้รายเดือน ( Loan History)",60,10);
   //   //autoTable(pdf, { html: '#contentTable' });
-  //   pdf.autoTable({ 
+  //   pdf.autoTable({
   //     //styles : { halign : 'center'},
   //     headStyles:{fillColor : [160, 160, 160]},
   //     theme: 'grid',
@@ -496,7 +510,7 @@ export class AdminComponent3Component implements OnInit {
   //   pdf.setFontSize(14);
   //   pdf.text(" ประวัติการส่งเงินกู้รายเดือน ( Stock History) ",70,10);
   //   //autoTable(pdf, { html: '#contentTable' });
-  //   pdf.autoTable({ 
+  //   pdf.autoTable({
   //     //styles : { halign : 'center'},
   //     headStyles:{fillColor : [160, 160, 160]},
   //     theme: 'grid',
@@ -515,24 +529,31 @@ export class AdminComponent3Component implements OnInit {
     // let loanInfo: any[] = [];
     const playload = {
       loanId: this.loanId,
-      monthCurrent: this.month
-    }
+      monthCurrent: this.month,
+    };
     this.service.searchDocumentV1Loan(playload).subscribe((data) => {
       this.list = data;
       const key = 'installment';
-      const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
+      const arrayUniqueByKey = [
+        ...new Map(data.map((item) => [item[key], item])).values(),
+      ];
       let sumLoan = 0;
       arrayUniqueByKey.forEach((element, index, array) => {
         sumLoan = sumLoan + Number(element.loanValue);
-      })
+      });
       this.getSearchDocumentV2Sum(playload, arrayUniqueByKey, mode, sumLoan);
     });
   }
 
-  getSearchDocumentV2Sum(playload: any, loanInfo: any[], mode: any, sumLoanObj: any) {
+  getSearchDocumentV2Sum(
+    playload: any,
+    loanInfo: any[],
+    mode: any,
+    sumLoanObj: any
+  ) {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
       this.sumLoan = data[0];
-      this.exportMakePDF(mode, loanInfo, this.sumLoan, sumLoanObj)
+      this.exportMakePDF(mode, loanInfo, this.sumLoan, sumLoanObj);
     });
   }
 
@@ -546,40 +567,74 @@ export class AdminComponent3Component implements OnInit {
         { text: item.fullName, alignment: 'left' },
         { text: decimalPipe.transform(item.loanValue), alignment: 'right' },
         { text: decimalPipe.transform(item.loanTime), alignment: 'center' },
-        { text: decimalPipe.transform(item.interestPercent), alignment: 'right' },
-        { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
-        { text: item.guarantorCode2 ? item.guarantorCode2 : ' ', alignment: 'center' },
+        {
+          text: decimalPipe.transform(item.interestPercent),
+          alignment: 'right',
+        },
+        {
+          text: item.guarantorCode1 ? item.guarantorCode1 : ' ',
+          alignment: 'center',
+        },
+        {
+          text: item.guarantorCode2 ? item.guarantorCode2 : ' ',
+          alignment: 'center',
+        },
         { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
-        { text: decimalPipe.transform(item.monthPrinciple), alignment: 'right' },
-        { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
-        { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
+        {
+          text: decimalPipe.transform(item.monthPrinciple),
+          alignment: 'right',
+        },
+        {
+          text: decimalPipe.transform(item.lastMonthInterest),
+          alignment: 'right',
+        },
+        {
+          text: decimalPipe.transform(item.lastMonthPrinciple),
+          alignment: 'right',
+        },
         { text: decimalPipe.transform(item.installment), alignment: 'center' },
-        { text: decimalPipe.transform(item.totalValueInterest), alignment: 'right' },
-        { text: decimalPipe.transform(item.outStandInterest), alignment: 'right' },
-        { text: decimalPipe.transform(item.totalValuePrinciple), alignment: 'right' },
-        { text: decimalPipe.transform(item.outStandPrinciple), alignment: 'right' },
-      ]
+        {
+          text: decimalPipe.transform(item.totalValueInterest),
+          alignment: 'right',
+        },
+        {
+          text: decimalPipe.transform(item.outStandInterest),
+          alignment: 'right',
+        },
+        {
+          text: decimalPipe.transform(item.totalValuePrinciple),
+          alignment: 'right',
+        },
+        {
+          text: decimalPipe.transform(item.outStandPrinciple),
+          alignment: 'right',
+        },
+      ];
     });
 
     const dataSum = this.checkTotalListGroup(loanInfo);
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     const docDefinition = {
       pageSize: 'A3',
       pageOrientation: 'landscape',
@@ -592,58 +647,167 @@ export class AdminComponent3Component implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.month + ' พ.ศ.' + this.year, style: 'header' },
+        {
+          text:
+            'รายงานเงินกู้และค่าหุ้น เดือน' + this.month + ' พ.ศ.' + this.year,
+          style: 'header',
+        },
         //{ text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
         '\n',
         {
           style: 'tableExample',
           table: {
-            alignment: "center",
+            alignment: 'center',
             headerRows: 1,
-            widths: [150, 48, 95, 65, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60, 60],
+            widths: [
+              150, 48, 95, 65, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60,
+              60,
+            ],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัสพนักงาน', style: 'tableHeader', alignment: 'center' },
-              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
-              { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              { text: 'ผู้คํ้า 1', style: 'tableHeader', alignment: 'center' }, { text: 'ผู้คํ้า 2', style: 'tableHeader', alignment: 'center' },
-              { text: 'เดือนนี้ \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'เดือนนี้ \n(ต้น)', style: 'tableHeader', alignment: 'center' },
-              { text: 'สุดท้าย \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'สุดท้าย \n(ต้น)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ส่งงวดที่', style: 'tableHeader', alignment: 'center' }, { text: 'รวมส่ง \n(ดอก)', style: 'tableHeader', alignment: 'center' },
-              { text: 'คงค้าง \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'รวมส่ง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
-              { text: 'คงค้าง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
+              [
+                { text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รหัสพนักงาน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ชื่อ-สกุล',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
+                { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' },
+                { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'ผู้คํ้า 1',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ผู้คํ้า 2',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เดือนนี้ \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เดือนนี้ \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'สุดท้าย \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'สุดท้าย \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ส่งงวดที่',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'รวมส่ง \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'คงค้าง \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'รวมส่ง \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'คงค้าง \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
               ],
               ...detailLoan,
-              [{ text: sum.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ',
-              { text: decimalPipe.transform(sumLoanObj), alignment: 'right' }, ' ', ' ', ' ', ' ',
-              { text: decimalPipe.transform(dataSum.monthInterestSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.monthPrincipleSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.lastMonthInterestSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
-              { text: decimalPipe.transform(dataSum.totalValueInterestSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.outStandInterestSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.totalValuePrincipleSum), alignment: 'right' },
-              { text: decimalPipe.transform(dataSum.outStandPrincipleSum), alignment: 'right' },
+              [
+                {
+                  text: sum.departmentName + ' Total',
+                  alignment: 'left',
+                  bold: true,
+                },
+                ' ',
+                ' ',
+                { text: decimalPipe.transform(sumLoanObj), alignment: 'right' },
+                ' ',
+                ' ',
+                ' ',
+                ' ',
+                {
+                  text: decimalPipe.transform(dataSum.monthInterestSum),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(dataSum.monthPrincipleSum),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(dataSum.lastMonthInterestSum),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(dataSum.lastMonthPrincipleSum),
+                  alignment: 'right',
+                },
+                ' ',
+                {
+                  text: decimalPipe.transform(dataSum.totalValueInterestSum),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(dataSum.outStandInterestSum),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(dataSum.totalValuePrincipleSum),
+                  alignment: 'right',
+                },
+                {
+                  text: decimalPipe.transform(dataSum.outStandPrincipleSum),
+                  alignment: 'right',
+                },
               ],
             ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 13,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
       },
-      defaultStyle: { // 4. default style 'KANIT' font to test
+      defaultStyle: {
+        // 4. default style 'KANIT' font to test
         font: 'Sarabun',
-      }
-    }
+      },
+    };
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
       pdf.open();
@@ -689,7 +853,6 @@ export class AdminComponent3Component implements OnInit {
   infogroup35: any[] = [];
 
   checkDepartment(listData: any[]) {
-
     this.infogroup1 = [];
     this.infogroup2 = [];
     this.infogroup3 = [];
@@ -727,7 +890,6 @@ export class AdminComponent3Component implements OnInit {
     this.infogroup35 = [];
 
     listData.forEach((element, index, array) => {
-
       if (element.departmentName === 'แขวงเม็งราย') {
         this.infogroup1.push(element);
       } else if (element.departmentName === 'แขวงกาวิละ') {
@@ -750,58 +912,112 @@ export class AdminComponent3Component implements OnInit {
         this.infogroup10.push(element);
       } else if (element.departmentName === 'งานบริหารทั่วไป ฝ่ายประจำ') {
         this.infogroup11.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน'
+      ) {
         this.infogroup12.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับการศึกษา'
+      ) {
         this.infogroup13.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์'
+      ) {
         this.infogroup14.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข') {
+      } else if (
+        element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข'
+      ) {
         this.infogroup15.push(element);
-      } else if (element.departmentName === 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา') {
+      } else if (
+        element.departmentName ===
+        'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา'
+      ) {
         this.infogroup16.push(element);
       } else if (element.departmentName === 'งานป้องกันและบรรเทาสาธารณภัย') {
         this.infogroup17.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน'
+      ) {
         this.infogroup18.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน'
+      ) {
         this.infogroup19.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ'
+      ) {
         this.infogroup20.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย'
+      ) {
         this.infogroup21.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง'
+      ) {
         this.infogroup22.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง'
+      ) {
         this.infogroup23.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ'
+      ) {
         this.infogroup24.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง'
+      ) {
         this.infogroup25.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย'
+      ) {
         this.infogroup26.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ'
+      ) {
         this.infogroup27.push(element);
       } else if (element.departmentName === 'งานวางแผนสถิติและวิชาการ') {
         this.infogroup28.push(element);
-      } else if (element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว') {
+      } else if (
+        element.departmentName === 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว'
+      ) {
         this.infogroup29.push(element);
       } else if (element.departmentName === 'งานสุขาภิบาล') {
         this.infogroup30.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา') {
+      } else if (
+        element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา'
+      ) {
         this.infogroup31.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง'
+      ) {
         this.infogroup32.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม'
+      ) {
         this.infogroup33.push(element);
-      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่') {
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
+      ) {
         this.infogroup34.push(element);
       } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
         this.infogroup35.push(element);
       } else {
-        console.log("else error !!!");
+        console.log('else error !!!');
       }
-    })
+    });
   }
 
   checkListDataPDF(list: any[]) {
@@ -814,22 +1030,77 @@ export class AdminComponent3Component implements OnInit {
           { text: item.fullName, alignment: 'left' },
           { text: decimalPipe.transform(item.loanValue), alignment: 'right' },
           { text: decimalPipe.transform(item.loanTime), alignment: 'center' },
-          { text: decimalPipe.transform(item.interestPercent), alignment: 'center' },
-          { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
-          { text: item.guarantorCode2 ? item.guarantorCode2 : ' ', alignment: 'center' },
-          { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
-          { text: decimalPipe.transform((Number(item.outStandPrinciple) <= Number(item.monthPrinciple)) ? Number(item.monthPrinciple) : Number(item.monthPrinciple) - Number(item.monthInterest)), alignment: 'right' },
-          { text: decimalPipe.transform(item.lastMonthInterest), alignment: 'right' },
-          { text: decimalPipe.transform(item.lastMonthPrinciple), alignment: 'right' },
-          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(Number(item.installment - 1)), alignment: 'center' }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
-          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(item.totalValueInterest), alignment: 'right' }, //decimalPipe.transform(item.totalValueInterest)
-          { text: decimalPipe.transform(Number(item.outStandInterest)), alignment: 'right' },
+          {
+            text: decimalPipe.transform(item.interestPercent),
+            alignment: 'center',
+          },
+          {
+            text: item.guarantorCode1 ? item.guarantorCode1 : ' ',
+            alignment: 'center',
+          },
+          {
+            text: item.guarantorCode2 ? item.guarantorCode2 : ' ',
+            alignment: 'center',
+          },
+          {
+            text: decimalPipe.transform(item.monthInterest),
+            alignment: 'right',
+          },
+          {
+            text: decimalPipe.transform(
+              Number(item.outStandPrinciple) <= Number(item.monthPrinciple)
+                ? Number(item.monthPrinciple)
+                : Number(item.monthPrinciple) - Number(item.monthInterest)
+            ),
+            alignment: 'right',
+          },
+          {
+            text: decimalPipe.transform(item.lastMonthInterest),
+            alignment: 'right',
+          },
+          {
+            text: decimalPipe.transform(item.lastMonthPrinciple),
+            alignment: 'right',
+          },
+          {
+            text:
+              Number(item.installment) <= 0
+                ? '-'
+                : item.installment - 1 <= 0
+                ? '-'
+                : decimalPipe.transform(Number(item.installment - 1)),
+            alignment: 'center',
+          }, //decimalPipe.transform(Number(item.installment) === 0 ? (Number(item.installment) + 1) : item.installment)
+          {
+            text:
+              Number(item.installment) <= 0
+                ? '-'
+                : item.installment - 1 <= 0
+                ? '-'
+                : decimalPipe.transform(item.totalValueInterest),
+            alignment: 'right',
+          }, //decimalPipe.transform(item.totalValueInterest)
+          {
+            text: decimalPipe.transform(Number(item.outStandInterest)),
+            alignment: 'right',
+          },
           //{ text: decimalPipe.transform(Number(item.outStandInterest) + Number(item.monthInterest)), alignment: 'right' },
-          { text: Number(item.installment) <= 0 ? '-' : (item.installment - 1) <= 0 ? '-' : decimalPipe.transform(item.totalValuePrinciple), alignment: 'right' },  // decimalPipe.transform(item.totalValuePrinciple)
-          { text: decimalPipe.transform(Number(item.outStandPrinciple)), alignment: 'right' },
+          {
+            text:
+              Number(item.installment) <= 0
+                ? '-'
+                : item.installment - 1 <= 0
+                ? '-'
+                : decimalPipe.transform(item.totalValuePrinciple),
+            alignment: 'right',
+          }, // decimalPipe.transform(item.totalValuePrinciple)
+          {
+            text: decimalPipe.transform(Number(item.outStandPrinciple)),
+            alignment: 'right',
+          },
           // { text: decimalPipe.transform( Number(item.outStandPrinciple) > 0 ? Number(item.outStandPrinciple) + (Number(item.monthPrinciple) - Number(item.monthInterest))
           //   : Number(item.lastMonthPrinciple)), alignment: 'right' },
-        ]
+        ];
       });
       return datalListGroup;
     } else {
@@ -837,22 +1108,69 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  checkListSumAllByDepartment(listSum: any[], nameDepartment: string, listGroup: any[]) {
+  checkListSumAllByDepartment(
+    listSum: any[],
+    nameDepartment: string,
+    listGroup: any[]
+  ) {
     if (listSum.length > 0) {
       const dataSum = this.checkTotalListGroup(listGroup);
-      let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
+      let sumDepartment: (
+        | string
+        | { text: string; alignment: string; bold: boolean }
+        | { text: any; alignment: string; bold?: undefined }
+      )[];
       listSum?.forEach((element, _index, _array) => {
         if (element.departmentName === nameDepartment) {
-          sumDepartment = [{ text: element.departmentName + ' Total', alignment: 'left', bold: true }, ' ', ' ',
-          { text: this.formattedNumber2(element.loanValueTotal), alignment: 'right' }, ' ', ' ', ' ', ' ',
-          { text: this.formattedNumber2(dataSum.monthInterestSum), alignment: 'right' },
-          { text: this.formattedNumber2(dataSum.monthPrincipleSum), alignment: 'right' },
-          { text: this.formattedNumber2(dataSum.lastMonthInterestSum), alignment: 'right' },
-          { text: this.formattedNumber2(dataSum.lastMonthPrincipleSum), alignment: 'right' }, ' ',
-          { text: this.formattedNumber2(dataSum.totalValueInterestSum), alignment: 'right' }, //{text:'-' , alignment: 'right'}, 
-          { text: this.formattedNumber2(dataSum.outStandInterestSum), alignment: 'right' },
-          { text: this.formattedNumber2(dataSum.totalValuePrincipleSum), alignment: 'right' }, //{text:'-' , alignment: 'right'}, 
-          { text: this.formattedNumber2(dataSum.outStandPrincipleSum), alignment: 'right' },
+          sumDepartment = [
+            {
+              text: element.departmentName + ' Total',
+              alignment: 'left',
+              bold: true,
+            },
+            ' ',
+            ' ',
+            {
+              text: this.formattedNumber2(element.loanValueTotal),
+              alignment: 'right',
+            },
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            {
+              text: this.formattedNumber2(dataSum.monthInterestSum),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(dataSum.monthPrincipleSum),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(dataSum.lastMonthInterestSum),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(dataSum.lastMonthPrincipleSum),
+              alignment: 'right',
+            },
+            ' ',
+            {
+              text: this.formattedNumber2(dataSum.totalValueInterestSum),
+              alignment: 'right',
+            }, //{text:'-' , alignment: 'right'},
+            {
+              text: this.formattedNumber2(dataSum.outStandInterestSum),
+              alignment: 'right',
+            },
+            {
+              text: this.formattedNumber2(dataSum.totalValuePrincipleSum),
+              alignment: 'right',
+            }, //{text:'-' , alignment: 'right'},
+            {
+              text: this.formattedNumber2(dataSum.outStandPrincipleSum),
+              alignment: 'right',
+            },
           ];
         }
         // else{
@@ -879,7 +1197,7 @@ export class AdminComponent3Component implements OnInit {
         //   // { text: '', alignment: 'right' },
         //   // ];
         // }
-      })
+      });
       return sumDepartment;
     } else {
       return [];
@@ -897,23 +1215,50 @@ export class AdminComponent3Component implements OnInit {
     let outStandPrincipleSum = 0;
 
     listGroup?.forEach((element, _index, _array) => {
-      monthInterestSum = monthInterestSum + Number(element.monthInterest ? element.monthInterest : 0);
-      // monthPrincipleSum = monthPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
+      monthInterestSum =
+        monthInterestSum +
+        Number(element.monthInterest ? element.monthInterest : 0);
+      // monthPrincipleSum = monthPrincipleSum + (Number(element.outStandPrinciple) > 0 ?
       // Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest) : Number(element.monthPrinciple ? element.monthPrinciple : 0));
-      monthPrincipleSum = monthPrincipleSum + ((Number(element.outStandPrinciple) <= Number(element.monthPrinciple)) ?
-        Number(element.monthPrinciple ? element.monthPrinciple : 0) : Number(element.monthPrinciple ? element.monthPrinciple : 0) - Number(element.monthInterest));
-      lastMonthInterestSum = lastMonthInterestSum + Number(element.lastMonthInterest ? element.lastMonthInterest : 0);
-      lastMonthPrincipleSum = lastMonthPrincipleSum + Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0);
-      totalValueInterestSum = totalValueInterestSum +
-        (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValueInterest ? element.totalValueInterest : 0));
+      monthPrincipleSum =
+        monthPrincipleSum +
+        (Number(element.outStandPrinciple) <= Number(element.monthPrinciple)
+          ? Number(element.monthPrinciple ? element.monthPrinciple : 0)
+          : Number(element.monthPrinciple ? element.monthPrinciple : 0) -
+            Number(element.monthInterest));
+      lastMonthInterestSum =
+        lastMonthInterestSum +
+        Number(element.lastMonthInterest ? element.lastMonthInterest : 0);
+      lastMonthPrincipleSum =
+        lastMonthPrincipleSum +
+        Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0);
+      totalValueInterestSum =
+        totalValueInterestSum +
+        (Number(element.installment) <= 0
+          ? 0
+          : element.installment - 1 <= 0
+          ? 0
+          : Number(
+              element.totalValueInterest ? element.totalValueInterest : 0
+            ));
       // outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0) + Number(element.monthInterest);
-      outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0);
-      totalValuePrincipleSum = totalValuePrincipleSum +
-        (Number(element.installment) <= 0 ? 0 : (element.installment - 1) <= 0 ? 0 : Number(element.totalValuePrinciple ? element.totalValuePrinciple : 0));
-      // outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ? 
-      // Number(element.outStandPrinciple ? element.outStandPrinciple : 0) + Number(element.monthPrinciple - element.monthInterest) 
+      outStandInterestSum =
+        outStandInterestSum +
+        Number(element.outStandInterest ? element.outStandInterest : 0);
+      totalValuePrincipleSum =
+        totalValuePrincipleSum +
+        (Number(element.installment) <= 0
+          ? 0
+          : element.installment - 1 <= 0
+          ? 0
+          : Number(
+              element.totalValuePrinciple ? element.totalValuePrinciple : 0
+            ));
+      // outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ?
+      // Number(element.outStandPrinciple ? element.outStandPrinciple : 0) + Number(element.monthPrinciple - element.monthInterest)
       // : Number(element.lastMonthPrinciple ? element.lastMonthPrinciple : 0));
-      outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple));
+      outStandPrincipleSum =
+        outStandPrincipleSum + Number(element.outStandPrinciple);
     });
     this.sumGrandTotal1 = this.sumGrandTotal1 + monthInterestSum;
     this.sumGrandTotal2 = this.sumGrandTotal2 + monthPrincipleSum;
@@ -932,12 +1277,11 @@ export class AdminComponent3Component implements OnInit {
       outStandInterestSum: outStandInterestSum,
       totalValuePrincipleSum: totalValuePrincipleSum,
       outStandPrincipleSum: outStandPrincipleSum,
-    }
+    };
     return playload;
   }
 
   checkListSumGrandTotal(listSum: any[]) {
-
     let sum1 = 0;
     let sum2 = 0;
     let sum3 = 0;
@@ -948,42 +1292,83 @@ export class AdminComponent3Component implements OnInit {
     let sum8 = 0;
     let sum9 = 0;
 
-    let sumDepartment: (string | { text: string; alignment: string; bold: boolean; } | { text: any; alignment: string; bold?: undefined; })[];
+    let sumDepartment: (
+      | string
+      | { text: string; alignment: string; bold: boolean }
+      | { text: any; alignment: string; bold?: undefined }
+    )[];
 
     listSum?.forEach((element, _index, _array) => {
       sum1 = sum1 + Number(element.loanValueTotal ? element.loanValueTotal : 0);
-      sum2 = sum2 + Number(element.monthInterestTotal ? element.monthInterestTotal : 0);
-      sum3 = sum3 + Number(element.monthPrincipleTotal ? element.monthPrincipleTotal : 0);
-      sum4 = sum4 + Number(element.lastMonthInterestTotal ? element.lastMonthInterestTotal : 0);
-      sum5 = sum5 + Number(element.lastMonthPrincipleTotal ? element.lastMonthPrincipleTotal : 0);
-      sum6 = sum6 + Number(element.totalValueInterestTotal ? element.totalValueInterestTotal : 0);
-      sum7 = sum7 + Number(element.outStandInterestTotal ? element.outStandInterestTotal : 0);
-      sum8 = sum8 + Number(element.totalValuePrincipleTotal ? element.totalValuePrincipleTotal : 0);
-      sum9 = sum9 + Number(element.outStandPrincipleTotal ? element.outStandPrincipleTotal : 0);
-    })
+      sum2 =
+        sum2 +
+        Number(element.monthInterestTotal ? element.monthInterestTotal : 0);
+      sum3 =
+        sum3 +
+        Number(element.monthPrincipleTotal ? element.monthPrincipleTotal : 0);
+      sum4 =
+        sum4 +
+        Number(
+          element.lastMonthInterestTotal ? element.lastMonthInterestTotal : 0
+        );
+      sum5 =
+        sum5 +
+        Number(
+          element.lastMonthPrincipleTotal ? element.lastMonthPrincipleTotal : 0
+        );
+      sum6 =
+        sum6 +
+        Number(
+          element.totalValueInterestTotal ? element.totalValueInterestTotal : 0
+        );
+      sum7 =
+        sum7 +
+        Number(
+          element.outStandInterestTotal ? element.outStandInterestTotal : 0
+        );
+      sum8 =
+        sum8 +
+        Number(
+          element.totalValuePrincipleTotal
+            ? element.totalValuePrincipleTotal
+            : 0
+        );
+      sum9 =
+        sum9 +
+        Number(
+          element.outStandPrincipleTotal ? element.outStandPrincipleTotal : 0
+        );
+    });
 
-    sumDepartment = [{ text: 'Grand Total', alignment: 'left', bold: true }, ' ', ' ',
-    { text: this.formattedNumber2(sum1), alignment: 'right' }, ' ', ' ', ' ', ' ',
-    { text: this.formattedNumber2(this.sumGrandTotal1), alignment: 'right' },
-    { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' },
-    { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' },
-    { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' }, ' ',
-    { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' },  //{ text:'-' , alignment: 'right'}, //
-    { text: this.formattedNumber2(this.sumGrandTotal6), alignment: 'right' },
-    { text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' }, // { text:'-' , alignment: 'right'}, 
-    { text: this.formattedNumber2(this.sumGrandTotal8), alignment: 'right' },
+    sumDepartment = [
+      { text: 'Grand Total', alignment: 'left', bold: true },
+      ' ',
+      ' ',
+      { text: this.formattedNumber2(sum1), alignment: 'right' },
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      { text: this.formattedNumber2(this.sumGrandTotal1), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' },
+      ' ',
+      { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' }, //{ text:'-' , alignment: 'right'}, //
+      { text: this.formattedNumber2(this.sumGrandTotal6), alignment: 'right' },
+      { text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' }, // { text:'-' , alignment: 'right'},
+      { text: this.formattedNumber2(this.sumGrandTotal8), alignment: 'right' },
     ];
 
     return sumDepartment;
   }
-
 
   formattedNumber2(number: any): any {
     const decimalPipe = new DecimalPipe('en-US');
     return number !== null ? decimalPipe.transform(number) : '';
   }
 
-  mode: any
+  mode: any;
   searchDocumentV1All(mode: any) {
     this.sumGrandTotal1 = 0;
     this.sumGrandTotal2 = 0;
@@ -1008,17 +1393,18 @@ export class AdminComponent3Component implements OnInit {
     this.service.searchDocumentV2SumLoan(playload).subscribe((data) => {
       this.sumLoan = data;
       this.checkDepartment(listdata);
-      this.exportMakePDFAll(mode, data)
+      this.exportMakePDFAll(mode, data);
     });
   }
 
   exportMakePDFAll(mode: any, listSum: any[]) {
-
     const sections = [];
 
     // Helper function to check if an array contains values
     const hasValues = (arr: any[]): boolean => {
-      return arr.some(item => item !== null && item !== undefined && item !== '');
+      return arr.some(
+        (item) => item !== null && item !== undefined && item !== ''
+      );
     };
 
     // Push data sections with corresponding summary data if available
@@ -1029,80 +1415,252 @@ export class AdminComponent3Component implements OnInit {
     };
 
     let data1 = this.checkListDataPDF(this.infogroup1) || [];
-    let dataSum1 = this.checkListSumAllByDepartment(listSum, 'แขวงเม็งราย', this.infogroup1) || [];
+    let dataSum1 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'แขวงเม็งราย',
+        this.infogroup1
+      ) || [];
     let data2 = this.checkListDataPDF(this.infogroup2) || [];
-    let dataSum2 = this.checkListSumAllByDepartment(listSum, 'แขวงกาวิละ', this.infogroup2) || [];
+    let dataSum2 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'แขวงกาวิละ',
+        this.infogroup2
+      ) || [];
     let data3 = this.checkListDataPDF(this.infogroup3) || [];
-    let dataSum3 = this.checkListSumAllByDepartment(listSum, 'แผนงานบริหารทั่วไป', this.infogroup3) || [];
+    let dataSum3 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'แผนงานบริหารทั่วไป',
+        this.infogroup3
+      ) || [];
     let data4 = this.checkListDataPDF(this.infogroup4) || [];
-    let dataSum4 = this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4) || [];
+    let dataSum4 =
+      this.checkListSumAllByDepartment(listSum, 'งานเทศกิจ', this.infogroup4) ||
+      [];
     let data5 = this.checkListDataPDF(this.infogroup5) || [];
-    let dataSum5 = this.checkListSumAllByDepartment(listSum, 'งานโรงพยาบาล', this.infogroup5) || [];
+    let dataSum5 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานโรงพยาบาล',
+        this.infogroup5
+      ) || [];
 
     let data6 = this.checkListDataPDF(this.infogroup6) || [];
-    let dataSum6 = this.checkListSumAllByDepartment(listSum, 'งานก่อสร้าง', this.infogroup6) || [];
+    let dataSum6 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานก่อสร้าง',
+        this.infogroup6
+      ) || [];
     let data7 = this.checkListDataPDF(this.infogroup7) || [];
-    let dataSum7 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง', this.infogroup7) || [];
+    let dataSum7 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารงานคลัง',
+        this.infogroup7
+      ) || [];
     let data8 = this.checkListDataPDF(this.infogroup8) || [];
-    let dataSum8 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานคลัง ฝ่ายประจำ', this.infogroup8) || [];
+    let dataSum8 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารงานคลัง ฝ่ายประจำ',
+        this.infogroup8
+      ) || [];
     let data9 = this.checkListDataPDF(this.infogroup9) || [];
-    let dataSum9 = this.checkListSumAllByDepartment(listSum, 'งานบริหารงานทั่วไป', this.infogroup9) || [];
+    let dataSum9 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารงานทั่วไป',
+        this.infogroup9
+      ) || [];
     let data10 = this.checkListDataPDF(this.infogroup10) || [];
-    let dataSum10 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป', this.infogroup10) || [];
+    let dataSum10 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไป',
+        this.infogroup10
+      ) || [];
 
     let data11 = this.checkListDataPDF(this.infogroup11) || [];
-    let dataSum11 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไป ฝ่ายประจำ', this.infogroup11) || [];
+    let dataSum11 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไป ฝ่ายประจำ',
+        this.infogroup11
+      ) || [];
     let data12 = this.checkListDataPDF(this.infogroup12) || [];
-    let dataSum12 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน', this.infogroup12) || [];
+    let dataSum12 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับเคหะและชุมชน',
+        this.infogroup12
+      ) || [];
     let data13 = this.checkListDataPDF(this.infogroup13) || [];
-    let dataSum13 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับการศึกษา', this.infogroup13) || [];
+    let dataSum13 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับการศึกษา',
+        this.infogroup13
+      ) || [];
     let data14 = this.checkListDataPDF(this.infogroup14) || [];
-    let dataSum14 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์', this.infogroup14) || [];
+    let dataSum14 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับสังคมสงเคราะห์',
+        this.infogroup14
+      ) || [];
     let data15 = this.checkListDataPDF(this.infogroup15) || [];
-    let dataSum15 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข', this.infogroup15) || [];
+    let dataSum15 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับสาธารณสุข',
+        this.infogroup15
+      ) || [];
 
     let data16 = this.checkListDataPDF(this.infogroup16) || [];
-    let dataSum16 = this.checkListSumAllByDepartment(listSum, 'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา', this.infogroup16) || [];
+    let dataSum16 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานบริหารทั่วไปเกี่ยวกับอุตสาหกรรมและการโยธา',
+        this.infogroup16
+      ) || [];
     let data17 = this.checkListDataPDF(this.infogroup17) || [];
-    let dataSum17 = this.checkListSumAllByDepartment(listSum, 'งานป้องกันและบรรเทาสาธารณภัย', this.infogroup17) || [];
+    let dataSum17 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานป้องกันและบรรเทาสาธารณภัย',
+        this.infogroup17
+      ) || [];
     let data18 = this.checkListDataPDF(this.infogroup18) || [];
-    let dataSum18 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน', this.infogroup18) || [];
+    let dataSum18 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลดอกเงิน',
+        this.infogroup18
+      ) || [];
     let data19 = this.checkListDataPDF(this.infogroup19) || [];
-    let dataSum19 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน', this.infogroup19) || [];
+    let dataSum19 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเชียงยืน',
+        this.infogroup19
+      ) || [];
     let data20 = this.checkListDataPDF(this.infogroup20) || [];
-    let dataSum20 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ', this.infogroup20) || [];
+    let dataSum20 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดกู่คำ',
+        this.infogroup20
+      ) || [];
 
     let data21 = this.checkListDataPDF(this.infogroup21) || [];
-    let dataSum21 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย', this.infogroup21) || [];
+    let dataSum21 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดท่าสะต๋อย',
+        this.infogroup21
+      ) || [];
     let data22 = this.checkListDataPDF(this.infogroup22) || [];
-    let dataSum22 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง', this.infogroup22) || [];
+    let dataSum22 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดพวกช้าง',
+        this.infogroup22
+      ) || [];
     let data23 = this.checkListDataPDF(this.infogroup23) || [];
-    let dataSum23 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง', this.infogroup23) || [];
+    let dataSum23 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีปิงเมือง',
+        this.infogroup23
+      ) || [];
     let data24 = this.checkListDataPDF(this.infogroup24) || [];
-    let dataSum24 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ', this.infogroup24) || [];
+    let dataSum24 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดศรีสุพรรณ',
+        this.infogroup24
+      ) || [];
     let data25 = this.checkListDataPDF(this.infogroup25) || [];
-    let dataSum25 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง', this.infogroup25) || [];
+    let dataSum25 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดหมื่นเงินกอง',
+        this.infogroup25
+      ) || [];
 
     let data26 = this.checkListDataPDF(this.infogroup26) || [];
-    let dataSum26 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย', this.infogroup26) || [];
+    let dataSum26 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนชุมชนเทศบาลวัดศรีดอนไชย',
+        this.infogroup26
+      ) || [];
     let data27 = this.checkListDataPDF(this.infogroup27) || [];
-    let dataSum27 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ', this.infogroup27) || [];
+    let dataSum27 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา งานการศึกษานอกระบบฯ',
+        this.infogroup27
+      ) || [];
     let data28 = this.checkListDataPDF(this.infogroup28) || [];
-    let dataSum28 = this.checkListSumAllByDepartment(listSum, 'งานวางแผนสถิติและวิชาการ', this.infogroup28) || [];
+    let dataSum28 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานวางแผนสถิติและวิชาการ',
+        this.infogroup28
+      ) || [];
     let data29 = this.checkListDataPDF(this.infogroup29) || [];
-    let dataSum29 = this.checkListSumAllByDepartment(listSum, 'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว', this.infogroup29) || [];
+    let dataSum29 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานวิชาการวางแผนและส่งเสริมการท่องเที่ยว',
+        this.infogroup29
+      ) || [];
     let data30 = this.checkListDataPDF(this.infogroup30) || [];
-    let dataSum30 = this.checkListSumAllByDepartment(listSum, 'งานสุขาภิบาล', this.infogroup30) || [];
+    let dataSum30 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานสุขาภิบาล',
+        this.infogroup30
+      ) || [];
     let data31 = this.checkListDataPDF(this.infogroup31) || [];
-    let dataSum31 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา', this.infogroup31) || [];
+    let dataSum31 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา',
+        this.infogroup31
+      ) || [];
     let data32 = this.checkListDataPDF(this.infogroup32) || [];
-    let dataSum32 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง', this.infogroup32) || [];
+    let dataSum32 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง',
+        this.infogroup32
+      ) || [];
     let data33 = this.checkListDataPDF(this.infogroup33) || [];
-    let dataSum33 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม', this.infogroup33) || [];
+    let dataSum33 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม',
+        this.infogroup33
+      ) || [];
     let data34 = this.checkListDataPDF(this.infogroup34) || [];
-    let dataSum34 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่', this.infogroup34) || [];
+    let dataSum34 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',
+        this.infogroup34
+      ) || [];
     let data35 = this.checkListDataPDF(this.infogroup35) || [];
-    let dataSum35 = this.checkListSumAllByDepartment(listSum, 'งานระดับก่อนวัยเรียนและปฐมศึกษา', this.infogroup35) || [];
+    let dataSum35 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและปฐมศึกษา',
+        this.infogroup35
+      ) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1143,23 +1701,27 @@ export class AdminComponent3Component implements OnInit {
     pushDataSection(data34, dataSum34);
     pushDataSection(data35, dataSum35);
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs // 2. set vfs pdf font
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
-        normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
         bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
       // Kanit Font
-      Sarabun: { // 3. set Kanit font
+      Sarabun: {
+        // 3. set Kanit font
         normal: 'Sarabun-Regular.ttf',
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf '
-      }
-    }
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
     const docDefinition = {
       pageSize: 'A3',
       pageOrientation: 'landscape',
@@ -1172,25 +1734,96 @@ export class AdminComponent3Component implements OnInit {
       },
       content: [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
-        { text: 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew, style: 'header' },
+        {
+          text:
+            'รายงานเงินกู้และค่าหุ้น เดือน' +
+            this.monthSelectNew +
+            ' พ.ศ.' +
+            this.yearSelectNew,
+          style: 'header',
+        },
         // text: 'รายงานเงินกู้และค่า หุ้น เดือนมีนาคม พ.ศ.2566', style: 'header'},
         '\n',
         {
           style: 'tableExample',
           table: {
-            alignment: "center",
+            alignment: 'center',
             headerRows: 1,
-            widths: [150, 48, 95, 75, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60, 60],
+            widths: [
+              150, 48, 95, 75, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60,
+              60,
+            ],
             body: [
-              [{ text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' }, { text: 'รหัส\nพนักงาน', style: 'tableHeader', alignment: 'center' },
-              { text: 'ชื่อ-สกุล', style: 'tableHeader', alignment: 'center' }, { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
-              { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' }, { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
-              { text: 'ผู้คํ้า 1', style: 'tableHeader', alignment: 'center' }, { text: 'ผู้คํ้า 2', style: 'tableHeader', alignment: 'center' },
-              { text: 'เดือนนี้ \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'เดือนนี้ \n(ต้น)', style: 'tableHeader', alignment: 'center' },
-              { text: 'สุดท้าย \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'สุดท้าย \n(ต้น)', style: 'tableHeader', alignment: 'center' },
-              { text: 'ส่ง\nงวดที่', style: 'tableHeader', alignment: 'center' }, { text: 'รวมส่ง \n(ดอก)', style: 'tableHeader', alignment: 'center' },
-              { text: 'คงค้าง \n(ดอก)', style: 'tableHeader', alignment: 'center' }, { text: 'รวมส่ง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
-              { text: 'คงค้าง \n(ต้น)', style: 'tableHeader', alignment: 'center' },
+              [
+                { text: 'หน่วยงาน', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'รหัส\nพนักงาน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ชื่อ-สกุล',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
+                { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' },
+                { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'ผู้คํ้า 1',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ผู้คํ้า 2',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เดือนนี้ \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'เดือนนี้ \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'สุดท้าย \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'สุดท้าย \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'ส่ง\nงวดที่',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'รวมส่ง \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'คงค้าง \n(ดอก)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'รวมส่ง \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                {
+                  text: 'คงค้าง \n(ต้น)',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
               ],
               // group 1
               ...sections,
@@ -1261,26 +1894,31 @@ export class AdminComponent3Component implements OnInit {
               // ...data31,
               // dataSum31,
               sunGrandTotal,
-            ]
+            ],
           },
           layout: {
-            fillColor: function (rowIndex: number, node: any, columnIndex: any) {
-              return (rowIndex === 0) ? '#CCCCCC' : null;
-            }
-          }
+            fillColor: function (
+              rowIndex: number,
+              node: any,
+              columnIndex: any
+            ) {
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 13,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
       },
-      defaultStyle: { // 4. default style 'KANIT' font to test
+      defaultStyle: {
+        // 4. default style 'KANIT' font to test
         font: 'Sarabun',
-      }
-    }
+      },
+    };
 
     const pdf = pdfMake.createPdf(docDefinition);
     if (mode === 'export') {
@@ -1299,14 +1937,33 @@ export class AdminComponent3Component implements OnInit {
 
   exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]) {
     const textTitle = 'เทศบาลนครเชียงใหม่';
-    const textHeader = 'รายงานเงินกู้และค่าหุ้น เดือน' + this.monthSelectNew + ' พ.ศ.' + this.yearSelectNew;
+    const textHeader =
+      'รายงานเงินกู้และค่าหุ้น เดือน' +
+      this.monthSelectNew +
+      ' พ.ศ.' +
+      this.yearSelectNew;
     let columnHeaders = [
       [textTitle, '', ''],
       [textHeader, '', ''],
       ['', '', ''],
       [
-        'หน่วยงาน', 'รหัสพนักงาน', 'ชื่อ-สกุล', 'เงินกู้', 'เวลากู้', 'ดอกเบี้ย', 'ผู้ค้ำ 1', 'ผู้ค้ำ 2', 'เดือนนี้ (ดอก)', 'เดือนนี้ (ต้น)', 'สุดท้าย (ดอก)', 'สุดท้าย (ต้น)',
-        'ส่งงวดที่', 'รวมส่ง (ดอก)', 'คงค้าง (ดอก)', 'รวมส่ง (ต้น)', 'คงค้าง (ต้น)'
+        'หน่วยงาน',
+        'รหัสพนักงาน',
+        'ชื่อ-สกุล',
+        'เงินกู้',
+        'เวลากู้',
+        'ดอกเบี้ย',
+        'ผู้ค้ำ 1',
+        'ผู้ค้ำ 2',
+        'เดือนนี้ (ดอก)',
+        'เดือนนี้ (ต้น)',
+        'สุดท้าย (ดอก)',
+        'สุดท้าย (ต้น)',
+        'ส่งงวดที่',
+        'รวมส่ง (ดอก)',
+        'คงค้าง (ดอก)',
+        'รวมส่ง (ต้น)',
+        'คงค้าง (ต้น)',
       ],
     ];
 
@@ -1355,7 +2012,7 @@ export class AdminComponent3Component implements OnInit {
 
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(columnHeaders);
     ws['!cols'] = [
-      { width: 50, },
+      { width: 50 },
       { width: 15 },
       { width: 30 },
       { width: 20 },
@@ -1388,7 +2045,7 @@ export class AdminComponent3Component implements OnInit {
   // }
 
   // onupdateLoanToMonth() {
-  //   // api update stock to everyone 
+  //   // api update stock to everyone
   // }
 
   onCancle() {
@@ -1432,7 +2089,7 @@ export class AdminComponent3Component implements OnInit {
             return true;
           }
         } else {
-          this.messageError = 'กรุณาระบุพนักงานค้ำ'
+          this.messageError = 'กรุณาระบุพนักงานค้ำ';
           this.statusQuagmire = false;
           this.displayMessageError = true;
           return false;
@@ -1448,7 +2105,10 @@ export class AdminComponent3Component implements OnInit {
         }
       }
     } else {
-      if (this.guarantorUniqueFlag1 !== 'Y' || this.guarantorUniqueFlag2 !== 'Y') {
+      if (
+        this.guarantorUniqueFlag1 !== 'Y' ||
+        this.guarantorUniqueFlag2 !== 'Y'
+      ) {
         this.messageError = 'ตรวจสอบรหัสพนักงานค้ำให้ถูกต้อง';
         this.statusQuagmire = false;
         this.displayMessageError = true;
@@ -1464,20 +2124,29 @@ export class AdminComponent3Component implements OnInit {
     }
   }
 
-  closeLoanOld(data: { loanId: number; }) {
+  closeLoanOld(data: { loanId: number }) {
     this.service.closeLoan(data.loanId).subscribe((res) => {
       // this.messageService.add({ severity: 'success', detail: 'ปิดหนี้สำเร็จ' });
       // this.ngOnInit();
-    })
+    });
   }
 
   statusQuagmire: boolean = false;
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
     data.installment = this.checkNull ? 1 : 0;
+
+    const format = new Date();
+    const yearTest = this.checkYearOfLoanDate(format.getFullYear());
+    data.loanYear = yearTest + 543;
+
     if (this.dataNewLoan) {
-      const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
-      const loanActive = this.dataNewLoan.loanActive ? this.dataNewLoan.loanBalance : true;
+      const loanBalance = this.dataNewLoan.loanBalance
+        ? this.dataNewLoan.loanBalance
+        : 0;
+      const loanActive = this.dataNewLoan.loanActive
+        ? this.dataNewLoan.loanBalance
+        : true;
       this.checkStatusQuagmire(loanBalance);
       if (loanActive && loanBalance <= 0) {
         if (this.checkValidFormLoan()) {
@@ -1486,9 +2155,13 @@ export class AdminComponent3Component implements OnInit {
           data.guaranteeStock = flagStock;
           const interestRE = data.interestPercent.replace('%', '');
           data.interestPercent = interestRE;
-          const loanOrdinaryRE = data.loanOrdinary ? data.loanOrdinary.replace(/,/g, '') : 0;
+          const loanOrdinaryRE = data.loanOrdinary
+            ? data.loanOrdinary.replace(/,/g, '')
+            : 0;
           data.loanOrdinary = loanOrdinaryRE;
-          const stockValueRE = data.stockValue ? data.stockValue.replace(/,/g, '') : 0;
+          const stockValueRE = data.stockValue
+            ? data.stockValue.replace(/,/g, '')
+            : 0;
           data.stockValue = stockValueRE;
           this.service.insertLoanNew(data).subscribe(async (res) => {
             if (res) {
@@ -1499,9 +2172,15 @@ export class AdminComponent3Component implements OnInit {
               this.localStorageService.store('loanId', res.data.id);
               await new Promise((resolve) => setTimeout(resolve, 500)),
                 this.ngOnInit();
-              this.messageService.add({ severity: 'success', detail: 'ทำสัญญาเงินกู้สำเร็จ' });
+              this.messageService.add({
+                severity: 'success',
+                detail: 'ทำสัญญาเงินกู้สำเร็จ',
+              });
             } else {
-              this.messageService.add({ severity: 'error', detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ' });
+              this.messageService.add({
+                severity: 'error',
+                detail: 'ทำสัญญาเงินกู้ไม่สำเร็จ',
+              });
             }
             this.displayModalLoanNew = false;
             this.displayMessageError = false;
@@ -1509,12 +2188,22 @@ export class AdminComponent3Component implements OnInit {
         }
       } else {
         if (this.checkValidFormLoan()) {
-          const loanOrdinaryNotinterest = this.dataNewLoan.loanBalance ? Number(this.dataNewLoan.loanOrdinary - this.dataNewLoan.interestLoanLastMonth) : 0; 
-          const loanBalance = this.dataNewLoan.loanBalance ? Number(this.dataNewLoan.loanBalance) + loanOrdinaryNotinterest : 0;
+          const loanOrdinaryNotinterest = this.dataNewLoan.loanBalance
+            ? Number(
+                this.dataNewLoan.loanOrdinary -
+                  this.dataNewLoan.interestLoanLastMonth
+              )
+            : 0;
+          const loanBalance = this.dataNewLoan.loanBalance
+            ? Number(this.dataNewLoan.loanBalance) + loanOrdinaryNotinterest
+            : 0;
           if (loanBalance !== 0) {
             this.statusQuagmire = true;
-            this.messageError = this.dataNewLoan.fullName + ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ '
-              + this.formattedNumber2(loanBalance) + '  บาท';
+            this.messageError =
+              this.dataNewLoan.fullName +
+              ' ไม่สามารถทำการกู้ได้ ยังมีหนี้คงค้างอยู่ ' +
+              this.formattedNumber2(loanBalance) +
+              '  บาท';
             //this.messageError = 'ไม่สามารถสร้างสัญญาเงินกู้ใหม่ได้';
             this.displayMessageError = true;
           } else {
@@ -1525,7 +2214,6 @@ export class AdminComponent3Component implements OnInit {
         }
       }
     }
-
   }
 
   checkStatusQuagmire(loanBalance: any) {
@@ -1534,11 +2222,10 @@ export class AdminComponent3Component implements OnInit {
     } else {
       this.statusQuagmire = false;
     }
-
   }
 
   getEmployeeOfMain(id: any): void {
-    this.service.getEmployeeOfMain(id).subscribe(data => {
+    this.service.getEmployeeOfMain(id).subscribe((data) => {
       if (data) {
         this.localStorageService.store('employeeofmain', data);
         //this.localStorageService.store('profileImgId', data.profileImgId);
@@ -1564,7 +2251,7 @@ export class AdminComponent3Component implements OnInit {
 
   guarantorOneValue: any;
   guarantorTwoValue: any;
-  isInputDisabled: boolean = true
+  isInputDisabled: boolean = true;
   async editLoanEmp(data: any) {
     this.modeLoan = 'EDIT';
     this.initMainFormLoanNew();
@@ -1582,15 +2269,20 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoanNew.get('loanValue').disable();
     this.formModelLoanNew.get('loanTime').disable();
     this.formModelLoanNew.get('loanBalance').disable();
-    const dataStockAccumulate = this.empDetail ? this.empDetail.stockAccumulate : null;
-    if (data !== null && (Number(data.loanBalance) <= Number(data.stockAccumulate))) {
+    const dataStockAccumulate = this.empDetail
+      ? this.empDetail.stockAccumulate
+      : null;
+    if (
+      data !== null &&
+      Number(data.loanBalance) <= Number(data.stockAccumulate)
+    ) {
       this.formModelLoanNew.patchValue({
-        guaranteeStock: 'ได้'
+        guaranteeStock: 'ได้',
       });
       this.dataNewLoanFlag = true;
     } else {
       this.formModelLoanNew.patchValue({
-        guaranteeStock: 'ไม่ได้'
+        guaranteeStock: 'ไม่ได้',
       });
       this.dataNewLoanFlag = false;
     }
@@ -1599,11 +2291,17 @@ export class AdminComponent3Component implements OnInit {
       ...data,
       startDateLoan: data.startLoanDate ? data.startLoanDate : '-',
       fullName: data.prefix + data.firstName + ' ' + data.lastName,
-      stockValue: data.stockAccumulate ? this.formattedNumber2(Number(data.stockAccumulate)) : 0,
-      loanValue: data.loanValue ? this.formattedNumber2(Number(data.loanValue)) : 0,
+      stockValue: data.stockAccumulate
+        ? this.formattedNumber2(Number(data.stockAccumulate))
+        : 0,
+      loanValue: data.loanValue
+        ? this.formattedNumber2(Number(data.loanValue))
+        : 0,
       loanId: data.id,
       guaranteeStockFlag: data.stockFlag ? data.stockFlag : false,
-      loanBalance: data.loanBalance ? this.formattedNumber2(Number(data.loanBalance)) : 0,
+      loanBalance: data.loanBalance
+        ? this.formattedNumber2(Number(data.loanBalance))
+        : 0,
       //  guarantorOne: data.guarantorOne ? data.guarantorOne : null,
       //  guarantorTwo: data.guarantorOne ? data.guarantorOne : null
     });
@@ -1627,7 +2325,6 @@ export class AdminComponent3Component implements OnInit {
     //   this.guarantorUniqueFlag2 = 'A';
     // }
     this.displayModalLoanNew = true;
-
   }
 
   checkGuarantorValue1(guarantorOneValue: any) {
@@ -1636,7 +2333,7 @@ export class AdminComponent3Component implements OnInit {
     } else {
       this.guarantorUniqueFlag1 = 'A';
       this.formModelLoanNew.patchValue({
-        guarantorOne: '-'
+        guarantorOne: '-',
       });
       //this.formModelLoanNew.get('guarantorOne').setValue('-');
     }
@@ -1648,7 +2345,7 @@ export class AdminComponent3Component implements OnInit {
     } else {
       this.guarantorUniqueFlag2 = 'A';
       this.formModelLoanNew.patchValue({
-        guarantorTwo: '-'
+        guarantorTwo: '-',
       });
       //this.formModelLoanNew.get('guarantorTwo').setValue('-');
     }
@@ -1656,32 +2353,31 @@ export class AdminComponent3Component implements OnInit {
 
   searchIdOfEmpCodeValue1(id: any) {
     const payload = {
-      empId: id
-    }
+      empId: id,
+    };
     this.service.searchIdOfEmpCode(payload).subscribe((res) => {
       this.guarantorOneValue = res;
       this.guarantorUniqueFlag1 = 'Y';
       this.guarantorUniqueName1 = res.fullName;
       this.formModelLoanNew.patchValue({
-        guarantorOne: res ? res.empCode : '-'
+        guarantorOne: res ? res.empCode : '-',
       });
     });
   }
 
   searchIdOfEmpCodeValue2(id: any) {
     const payload = {
-      empId: id
-    }
+      empId: id,
+    };
     this.service.searchIdOfEmpCode(payload).subscribe((res) => {
       this.guarantorTwoValue = res;
       this.guarantorUniqueFlag2 = 'Y';
       this.guarantorUniqueName2 = res.fullName;
       this.formModelLoanNew.patchValue({
-        guarantorTwo: res ? res.empCode : '-'
+        guarantorTwo: res ? res.empCode : '-',
       });
     });
   }
-
 
   updateLoanEmp() {
     const data = this.formModelLoanNew.getRawValue();
@@ -1689,17 +2385,18 @@ export class AdminComponent3Component implements OnInit {
     this.service.updateLoanEmpOfGuarantor(data).subscribe((res) => {
       if (res) {
         this.displayModalLoanNew = false;
-        this.messageService.add({ severity: 'success', detail: 'เเก้ไขสัญญาเงินกู้สำเร็จ' });
+        this.messageService.add({
+          severity: 'success',
+          detail: 'เเก้ไขสัญญาเงินกู้สำเร็จ',
+        });
         this.ngOnInit();
       }
-    })
-
+    });
   }
 
   onCancleLoanEmp() {
     this.displayModalLoanNew = false;
   }
-
 
   checkNull: boolean = true;
   checkNullAddLoan: boolean = true;
@@ -1748,13 +2445,21 @@ export class AdminComponent3Component implements OnInit {
     const time = format.getHours() + ':' + format.getMinutes() + ' น.';
     this.time = time;
 
-    this.formModelLoanNew.get('loanYear').setValue(Number(format.getFullYear() + 543));
-    this.formModelLoanNew.get('loanMonth').setValue(monthSelectCurrent.label);  //monthSelect
+    this.formModelLoanNew
+      .get('loanYear')
+      .setValue(Number(format.getFullYear() + 543));
+    this.formModelLoanNew.get('loanMonth').setValue(monthSelectCurrent.label); //monthSelect
 
     const firstDayOfNextMonth = new Date(year, month + 1, 1);
     //const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
     //const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
-    return year + '-' + monthSelect.value + '-' + this.checkLenghtDate(firstDayOfNextMonth.getDate()) //this.checkLenghtDate(firstDayOfNextMonth.getDate());
+    return (
+      year +
+      '-' +
+      monthSelect.value +
+      '-' +
+      this.checkLenghtDate(firstDayOfNextMonth.getDate())
+    ); //this.checkLenghtDate(firstDayOfNextMonth.getDate());
   }
 
   checkLenghtDate(day: any) {
@@ -1797,8 +2502,8 @@ export class AdminComponent3Component implements OnInit {
       principal: data.loanValue,
       interestRate: this.dataNewLoan.interestPercent,
       numOfPayments: data.loanTime,
-      paymentStartDate: datePayLoanNew
-    }
+      paymentStartDate: datePayLoanNew,
+    };
     this.service.onCalculateLoanOld(payload).subscribe((res) => {
       const data = res[0];
       this.formModelLoanNew.patchValue({
@@ -1806,7 +2511,7 @@ export class AdminComponent3Component implements OnInit {
         startDateLoan: datePayLoanNew,
         interestLoan: data.interest, //interest
         loanBalance: data.principalBalance, //principalBalance
-        interestLoanLastMonth: 0 // interestLastMonth
+        interestLoanLastMonth: 0, // interestLastMonth
       });
     });
   }
@@ -1819,8 +2524,8 @@ export class AdminComponent3Component implements OnInit {
       principal: data.loanValue,
       interestRate: data.interestPercent ? interestRE : null, //this.dataNewLoan.interestPercent
       numOfPayments: data.loanTime,
-      paymentStartDate: datePayLoanNew
-    }
+      paymentStartDate: datePayLoanNew,
+    };
     this.service.onCalculateLoanNew(payload).subscribe((res) => {
       const data = res[0];
       this.formModelLoanNew.patchValue({
@@ -1828,24 +2533,28 @@ export class AdminComponent3Component implements OnInit {
         startDateLoan: datePayLoanNew,
         interestLoan: data.interest, //interest
         loanBalance: data.principalBalance, //principalBalance
-        interestLoanLastMonth: 0 // interestLastMonth
+        interestLoanLastMonth: 0, // interestLastMonth
       });
     });
   }
 
   onCloseLoan(data: any) {
     this.confirmationService.confirm({
-      message: 'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
+      message:
+        'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
       header: 'ปิดหนี้สมาชิก',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //api
         this.service.closeLoan(data.id).subscribe((res) => {
-          this.messageService.add({ severity: 'success', detail: 'ปิดหนี้สำเร็จ' });
+          this.messageService.add({
+            severity: 'success',
+            detail: 'ปิดหนี้สำเร็จ',
+          });
           this.ngOnInit();
-        })
+        });
       },
-      reject: () => { }
+      reject: () => {},
     });
   }
 
@@ -1854,7 +2563,11 @@ export class AdminComponent3Component implements OnInit {
   }
 
   showWarn() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที' });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ PDF อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+    });
   }
 
   oldMonth: any;
@@ -1880,7 +2593,7 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoan.patchValue({
       loanYear: this.newYear,
       loanMonth: this.newMonth.label,
-    })
+    });
 
     this.formModelLoan.get('loanMonth')?.disable();
     this.formModelLoan.get('loanYear')?.disable();
@@ -1892,9 +2605,9 @@ export class AdminComponent3Component implements OnInit {
   getLoanDetailListOfLastValue() {
     const payload = {
       monthCurrent: this.month,
-      yearCurrent: this.year
-    }
-    this.service.getLoanDetail(payload).subscribe(data => {
+      yearCurrent: this.year,
+    };
+    this.service.getLoanDetail(payload).subscribe((data) => {
       this.loanDetail = data;
       this.loading = false;
       this.checkInsertLoanDetailAll();
@@ -1902,7 +2615,6 @@ export class AdminComponent3Component implements OnInit {
   }
 
   checkInsertLoanDetailAll() {
-
     const loanDetail = this.loanDetail;
     const formatDate = new Date();
     const month = formatDate.getMonth();
@@ -1919,23 +2631,27 @@ export class AdminComponent3Component implements OnInit {
     } else {
       this.checkNull = false;
     }
-
   }
 
   showWarnAddLoan() {
-    this.messageService.add({ severity: 'warn', summary: 'แจ้งเตือน', detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที', life: 10000 });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ อาจใช้เวลาในการประมวลผลข้อมูล ประมาณ 1-5 นาที',
+      life: 10000,
+    });
   }
 
   onupdateLoanToMonth() {
-    // api update stock to everyone 
+    // api update stock to everyone
     this.showWarn();
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.oldYear,
       newMonth: this.newMonth.label,
-      newYear: this.newYear
-    }
-    this.service.insertLoanDetail(payload).subscribe(data => {
+      newYear: this.newYear,
+    };
+    this.service.insertLoanDetail(payload).subscribe((data) => {
       this.messageService.add({ severity: 'success', detail: 'เพิ่มสำเร็จ' });
       this.displayModal = false;
       this.ngOnInit();
@@ -1971,44 +2687,66 @@ export class AdminComponent3Component implements OnInit {
   onSearchDocumentV1All() {
     this.showWarn();
     const dataMY = this.formModelBill.getRawValue();
-    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label
+    const monthNew = this.periodMonthDescOption[Number(dataMY.month) - 1].label;
     const payload = {
       // monthCurrent: this.month,
       // yearCurrent: this.year.toString()
       admin: true,
       loanId: null,
       monthCurrent: monthNew,
-      yearCurrent: dataMY.year
-    }
+      yearCurrent: dataMY.year,
+    };
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
 
-    if(this.year == dataMY.year && this.monthValue == Number(dataMY.month).toString()){
+    if (
+      this.year == dataMY.year &&
+      this.monthValue == Number(dataMY.month).toString()
+    ) {
       this.service.searchDocumentV1Loan(payload).subscribe((data) => {
         this.list = data;
         const key = 'employeeCode';
-        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-        const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
+        const arrayUniqueByKey = [
+          ...new Map(data.map((item) => [item[key], item])).values(),
+        ];
+        const reCheckData = arrayUniqueByKey.filter(
+          (item) => Number(item.installment) >= 0
+        ); // > 0
         this.getSearchDocumentV2SumAll(payload, this.mode, reCheckData);
       });
-    }else{
-      this.service.searchDocumentV1LoanDetailHistory(payload).subscribe((data) => {
-        this.list = data;
-        const key = 'employeeCode';
-        const arrayUniqueByKey = [...new Map(data.map(item => [item[key], item])).values()];
-        const reCheckData = arrayUniqueByKey.filter(item => Number(item.installment) >= 0);  // > 0
-        this.getSearchDocumentV2SumAllDetailHistory(payload, this.mode, reCheckData);
-      });
+    } else {
+      this.service
+        .searchDocumentV1LoanDetailHistory(payload)
+        .subscribe((data) => {
+          this.list = data;
+          const key = 'employeeCode';
+          const arrayUniqueByKey = [
+            ...new Map(data.map((item) => [item[key], item])).values(),
+          ];
+          const reCheckData = arrayUniqueByKey.filter(
+            (item) => Number(item.installment) >= 0
+          ); // > 0
+          this.getSearchDocumentV2SumAllDetailHistory(
+            payload,
+            this.mode,
+            reCheckData
+          );
+        });
     }
-    
   }
 
-  getSearchDocumentV2SumAllDetailHistory(playload: any, mode: any, listdata: any[]) {
-    this.service.searchDocumentV2SumLoanDetailHistory(playload).subscribe((data) => {
-      this.sumLoan = data;
-      this.checkDepartment(listdata);
-      this.exportMakePDFAll(mode, data)
-    });
+  getSearchDocumentV2SumAllDetailHistory(
+    playload: any,
+    mode: any,
+    listdata: any[]
+  ) {
+    this.service
+      .searchDocumentV2SumLoanDetailHistory(playload)
+      .subscribe((data) => {
+        this.sumLoan = data;
+        this.checkDepartment(listdata);
+        this.exportMakePDFAll(mode, data);
+      });
   }
 
   displayInsetLoanNew() {
@@ -2016,11 +2754,14 @@ export class AdminComponent3Component implements OnInit {
     this.formModelLoanNew.get('loanValueQuagmire').disable();
     const data = this.formModelLoanNew.getRawValue();
     if (this.dataNewLoan) {
-      const loanBalance = this.dataNewLoan.loanBalance ? this.dataNewLoan.loanBalance : 0;
+      const loanBalance = this.dataNewLoan.loanBalance
+        ? this.dataNewLoan.loanBalance
+        : 0;
       const sum = data.loanValue - loanBalance;
       this.formModelLoanNew.get('loanValueQuagmire').setValue(sum);
     }
-    this.messageQuagmire = 'กู้หล่มจะทำการปิดหนี้คงค้างทั้งหมดและสร้างสัญญาใหม่';
+    this.messageQuagmire =
+      'กู้หล่มจะทำการปิดหนี้คงค้างทั้งหมดและสร้างสัญญาใหม่';
   }
 
   checkInsetLoanNewQuagmire() {
@@ -2042,22 +2783,31 @@ export class AdminComponent3Component implements OnInit {
         if (Number(loanBalanceNum) <= 0) {
           this.service.deleteLoanNew(data).subscribe({
             next: (res) => {
-              this.messageService.add({ severity: 'success', detail: 'ลบข้อมูลสำเร็จ', life: 5000 });
+              this.messageService.add({
+                severity: 'success',
+                detail: 'ลบข้อมูลสำเร็จ',
+                life: 5000,
+              });
               this.displayModalLoanNew = false;
               this.ngOnInit();
             },
-            error: error => {
-              this.messageService.add({ severity: 'error', detail: 'ลบข้อมูลไม่สำเร็จ', life: 5000 });
+            error: (error) => {
+              this.messageService.add({
+                severity: 'error',
+                detail: 'ลบข้อมูลไม่สำเร็จ',
+                life: 5000,
+              });
             },
-
           });
         } else {
-          this.messageError = 'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' + data.loanBalance + ' บาท ';
+          this.messageError =
+            'ไม่สามารถยกเลิกสัญญาได้  ยังมีหนี้คงค้างเหลืออยู่   ' +
+            data.loanBalance +
+            ' บาท ';
           this.displayMessageError = true;
         }
       },
-      reject: () => { }
+      reject: () => {},
     });
   }
-
 }
