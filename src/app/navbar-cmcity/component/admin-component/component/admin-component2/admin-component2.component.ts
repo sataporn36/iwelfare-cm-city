@@ -105,6 +105,7 @@ export class AdminComponent2Component implements OnInit {
 
     this.employeeStatusList = [
       { name: 'กรุณาเลือกสถานะ', value: 0 },
+      { name: 'ใช้งานปกติ', value: 2 },
       { name: 'ลาออก', value: 3 },
       { name: 'เสียชีวิต', value: 6 },
       { name: 'หนีหนี้', value: 7 },
@@ -164,7 +165,26 @@ export class AdminComponent2Component implements OnInit {
 
   onRowEditStatusEmp(data: any) {
     this.empId = data.employeeId;
+    const value = this.getValueOfEmployeeStatusList(data.status);
+    this.employeeStatus = this.employeeStatus = this.employeeStatusList.find(option => option.value === value);;
     this.displayStatusMember = true;
+  }
+
+  getValueOfEmployeeStatusList(value: string) {
+    switch (value) {
+      case 'ใช้งานปกติ':
+        return 2;
+      case 'ลาออก':
+        return 3;
+      case 'เสียชีวิต':
+        return 6;
+      case 'หนีหนี้':
+        return 7;
+      case 'เกษียณ':
+        return 8;
+      default:
+        return 0;
+    }
   }
 
   onChangeStatusEmp() {
@@ -172,11 +192,17 @@ export class AdminComponent2Component implements OnInit {
       id: this.empId,
       type: this.employeeStatus.value,
     };
-    this.service.updateEmployeeStatus(payload).subscribe((data) => {
-      this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-      this.displayStatusMember = false;
-      this.ngOnInit();
-    });
+    console.log(payload, '<------------- this.employeeStatus.value');
+
+    // รอเขียนเพิ่มถ้า เปลี่ยนสถานะกลับเป็น ใช้งานปกติ
+    if(this.employeeStatus.value != 2){
+      this.service.updateEmployeeStatus(payload).subscribe((data) => {
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+        this.displayStatusMember = false;
+        this.ngOnInit();
+      });
+    }
+   
   }
 
   onCancleStatusEmp() {
@@ -1108,18 +1134,14 @@ export class AdminComponent2Component implements OnInit {
     };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
-
-    if (this.year == bill.year && this.monthValue == bill.month) {
-      console.log(
-        'this.year : ',
-        this.year,
-        ' dataMY.year : ',
-        bill.year +
-          ' this.monthValue : ' +
-          this.monthValue +
-          ' Number(dataMY.month).toString() : ',
-        bill.month
-      );
+    
+    const ty = Number(this.year);
+    const by = Number(bill.year);
+    
+    if (
+      ty == by &&
+      this.monthValue == bill.month
+    ) {
       this.service.searchDocumentV1(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAll(playload, mode, data);
