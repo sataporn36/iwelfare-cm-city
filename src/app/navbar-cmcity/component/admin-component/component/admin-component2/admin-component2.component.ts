@@ -656,9 +656,7 @@ export class AdminComponent2Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
       ) {
         this.infogroup34.push(element);
-      } else if (
-        element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา'
-      ) {
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
         this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
@@ -1111,10 +1109,17 @@ export class AdminComponent2Component implements OnInit {
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
 
-    if (
-      this.year == bill.year &&
-      this.monthValue == Number(bill.month).toString()
-    ) {
+    if (this.year == bill.year && this.monthValue == bill.month) {
+      console.log(
+        'this.year : ',
+        this.year,
+        ' dataMY.year : ',
+        bill.year +
+          ' this.monthValue : ' +
+          this.monthValue +
+          ' Number(dataMY.month).toString() : ',
+        bill.month
+      );
       this.service.searchDocumentV1(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAll(playload, mode, data);
@@ -3099,7 +3104,6 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
-
   getImage(id: any, imageSrc: any, dataImg: any) {
     if (id != 0 || id != null) {
       this.service.getImageConfig(id).subscribe(
@@ -3166,26 +3170,24 @@ export class AdminComponent2Component implements OnInit {
     this.loading = true;
 
     this.service.empForReceiptList(payload).subscribe({
-        next: async (res) => {
-          if (res == null) {
-            this.showWarnNull();
-          } else {
-            this.getImgSig1('signature1', this.fileImg1);
-            this.getImgSig2('signature2', this.fileImg2);
-            await this.onPrintReceiptMakePdfAll(res);
-            this.loading = false;
-          }
-        },
-        error: (error) => {},
-        complete() {
+      next: async (res) => {
+        if (res == null) {
+          this.showWarnNull();
+        } else {
+          this.getImgSig1('signature1', this.fileImg1);
+          this.getImgSig2('signature2', this.fileImg2);
+          await this.onPrintReceiptMakePdfAll(res);
           this.loading = false;
-        },
-      });
+        }
+      },
+      error: (error) => {},
+      complete() {
+        this.loading = false;
+      },
+    });
   }
 
-  async onPrintReceiptMakePdfAll(
-    empForReceiptList: any[]
-  ) {
+  async onPrintReceiptMakePdfAll(empForReceiptList: any[]) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
@@ -3209,7 +3211,9 @@ export class AdminComponent2Component implements OnInit {
     };
     this.pipeDateTH();
 
-    const logoImage = await this.getBase64ImageFromURL('../../assets/images/logo.png');
+    const logoImage = await this.getBase64ImageFromURL(
+      '../../assets/images/logo.png'
+    );
     const signature1 = await this.getBase64ImageFromURL(this.imageSrc1Blob);
     const signature2 = await this.getBase64ImageFromURL(this.imageSrc2Blob);
 
@@ -3218,182 +3222,189 @@ export class AdminComponent2Component implements OnInit {
         title: 'ใบเสร็จรับเงิน',
       },
       content: empForReceiptList.map((element, index, array) => [
-          {
-            image: logoImage,
-            width: 100,
-            height: 100,
-            margin: [0, 0, 0, 0],
-            alignment: 'center',
-          },
-          { text: 'กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่', style: 'header' },
-          { text: 'ใบเสร็จรับเงิน', style: 'header' },
-          '\n',
-          '\n',
-          {
-            text: [
-              'ประจําเดือน ',
-              {
-                text: ' ' + element.month +
-                '               ',
-                bold: true,
-              },
-              { text: 'เลขที่สมาชิก ' },
-              { text: ' ' + element.employeeCode, bold: true },
-            ],
-            margin: [0, 6, 0, 0],
-            style: 'texts',
-          },
-          {
-            text: ['ได้รับเงินจาก ', { text: ' ' + element.fullName, bold: true }],
-            margin: [0, 6, 0, 0],
-            style: 'texts',
-          },
-          {
-            text: ['สังกัด ', { text: ' ' + element.departmentName, bold: true }],
-            margin: [0, 6, 0, 0],
-            style: 'texts',
-          },
-          // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
-          {
-            text: [
-              'หุ้นสะสม ',
-              {
-                text: ' ' + element.stockAccumulate ? this.formattedNumber2(element.stockAccumulate) : '' + ' ',
-                bold: true,
-              },
-              { text: '  บาท' },
-            ],
-            margin: [0, 6, 0, 0],
-            style: 'texts',
-          },
-          '\n',
-          {
-            color: '#000',
-            table: {
-              widths: ['*', '*', '*', '*'],
-              headerRows: 4,
-              body: [
-                [
-                  { text: 'รายการ', style: 'tableHeader' },
-                  { text: 'งวด', style: 'tableHeader' },
-                  { text: 'เป็นเงิน', style: 'tableHeader' },
-                  { text: 'เงินต้นเหลือ', style: 'tableHeader' },
-                ],
-                [
-                  'ค่าหุ้น',
-                  {
-                    text: element.stockDetailInstallment
-                      ? this.formattedNumber2(element.stockDetailInstallment)
-                      : '',
-                    alignment: 'right',
-                  },
-                  {
-                    text: element.stockValue
-                      ? this.formattedNumber2(element.stockValue)
-                      : '',
-                    alignment: 'right',
-                  },
-                  ' ',
-                ],
-                [
-                  'เงินต้น',
-                  {
-                    text: element.installment
-                      ? this.formattedNumber2(element.installment)
-                      : '',
-                    alignment: 'right',
-                  },
-                  {
-                    text: element.totalDeduction
-                      ? this.formattedNumber2(element.totalDeduction)
-                      : '',
-                    alignment: 'right',
-                  },
-                  {
-                    text: element.principalBalance
-                      ? this.formattedNumber2(element.principalBalance)
-                      : '',
-                    alignment: 'right',
-                  },
-                ],
-                [
-                  'ดอกเบี้ย',
-                  ' ',
-                  {
-                    text: element.interest
-                      ? this.formattedNumber2(element.interest)
-                      : '',
-                    alignment: 'right',
-                  },
-                  ' ',
-                ],
-                [
-                  {
-                    text: 'รวมเงิน',
-                    style: 'tableHeader',
-                    colSpan: 2,
-                    alignment: 'center',
-                  },
-                  {},
-                  {
-                    text: element.totalPrice
-                      ? this.formattedNumber2(element.totalPrice)
-                      : '',
-                    style: 'tableHeader',
-                    alignment: 'right',
-                  },
-                  {},
-                ],
+        {
+          image: logoImage,
+          width: 100,
+          height: 100,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        { text: 'กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'ใบเสร็จรับเงิน', style: 'header' },
+        '\n',
+        '\n',
+        {
+          text: [
+            'ประจําเดือน ',
+            {
+              text: ' ' + element.month + '               ',
+              bold: true,
+            },
+            { text: 'เลขที่สมาชิก ' },
+            { text: ' ' + element.employeeCode, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: [
+            'ได้รับเงินจาก ',
+            { text: ' ' + element.fullName, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['สังกัด ', { text: ' ' + element.departmentName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'หุ้นสะสม ',
+            {
+              text:
+                ' ' + element.stockAccumulate
+                  ? this.formattedNumber2(element.stockAccumulate)
+                  : '' + ' ',
+              bold: true,
+            },
+            { text: '  บาท' },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        '\n',
+        {
+          color: '#000',
+          table: {
+            widths: ['*', '*', '*', '*'],
+            headerRows: 4,
+            body: [
+              [
+                { text: 'รายการ', style: 'tableHeader' },
+                { text: 'งวด', style: 'tableHeader' },
+                { text: 'เป็นเงิน', style: 'tableHeader' },
+                { text: 'เงินต้นเหลือ', style: 'tableHeader' },
               ],
-            },
-            layout: {
-              fillColor: function (rowIndex, node, columnIndex) {
-                return rowIndex === 0 ? '#CCCCCC' : null;
-              },
-            },
-          },
-          '\n',
-          {
-            text: element.totalPrice ? '(' + this.transformPipeThai(element.totalPrice) + ')' : '',//element.totalText, 
-            style: 'header2',
-            margin: [20, 0, 0, 0],
-          },
-          '\n',
-          {
-            style: 'tableExample',
-            table: {
-              widths: ['*', '*'],
-              headerRows: 2,
-              body: [
-                [
-                  {
-                    image: signature1,
-                    style: 'tableHeader',
-                    width: 150,
-                    height: 80,
-                    alignment: 'center',
-                  },
-                  {
-                    image: signature2,
-                    style: 'tableHeader',
-                    width: 150,
-                    height: 80,
-                    alignment: 'center',
-                  },
-                ],
-                [
-                  {
-                    text: 'ประธานกองทุน',
-                    style: 'tableHeader',
-                    alignment: 'center',
-                  },
-                  { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' },
-                ],
+              [
+                'ค่าหุ้น',
+                {
+                  text: element.stockDetailInstallment
+                    ? this.formattedNumber2(element.stockDetailInstallment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.stockValue
+                    ? this.formattedNumber2(element.stockValue)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
               ],
-            },
-            layout: 'noBorders',
+              [
+                'เงินต้น',
+                {
+                  text: element.installment
+                    ? this.formattedNumber2(element.installment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.totalDeduction
+                    ? this.formattedNumber2(element.totalDeduction)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.principalBalance
+                    ? this.formattedNumber2(element.principalBalance)
+                    : '',
+                  alignment: 'right',
+                },
+              ],
+              [
+                'ดอกเบี้ย',
+                ' ',
+                {
+                  text: element.interest
+                    ? this.formattedNumber2(element.interest)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                {
+                  text: 'รวมเงิน',
+                  style: 'tableHeader',
+                  colSpan: 2,
+                  alignment: 'center',
+                },
+                {},
+                {
+                  text: element.totalPrice
+                    ? this.formattedNumber2(element.totalPrice)
+                    : '',
+                  style: 'tableHeader',
+                  alignment: 'right',
+                },
+                {},
+              ],
+            ],
           },
-          { text: '', pageBreak: 'after' }, // Add a page break after each sohk
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
+        },
+        '\n',
+        {
+          text: element.totalPrice
+            ? '(' + this.transformPipeThai(element.totalPrice) + ')'
+            : '', //element.totalText,
+          style: 'header2',
+          margin: [20, 0, 0, 0],
+        },
+        '\n',
+        {
+          style: 'tableExample',
+          table: {
+            widths: ['*', '*'],
+            headerRows: 2,
+            body: [
+              [
+                {
+                  image: signature1,
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+                {
+                  image: signature2,
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+              ],
+              [
+                {
+                  text: 'ประธานกองทุน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' },
+              ],
+            ],
+          },
+          layout: 'noBorders',
+        },
+        { text: '', pageBreak: 'after' }, // Add a page break after each sohk
       ]),
 
       styles: {
@@ -3421,5 +3432,4 @@ export class AdminComponent2Component implements OnInit {
   }
 
   ///////////////////////////////////////////////////////////////////////////
-
 }

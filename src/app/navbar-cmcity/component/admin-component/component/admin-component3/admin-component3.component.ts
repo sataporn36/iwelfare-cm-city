@@ -2699,10 +2699,7 @@ export class AdminComponent3Component implements OnInit {
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
 
-    if (
-      this.year == dataMY.year &&
-      this.monthValue == Number(dataMY.month).toString()
-    ) {
+    if (this.year == dataMY.year && this.monthValue == dataMY.month) {
       this.service.searchDocumentV1Loan(payload).subscribe((data) => {
         this.list = data;
         const key = 'employeeCode';
