@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, throwError, timeout } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  throwError,
+  timeout,
+} from 'rxjs';
 import { AppPath } from '../constans/config';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
@@ -309,6 +315,13 @@ export class MainService {
   updateEmployeeStatus(playload: any): Observable<any> {
     return this.http.patch<any>(
       AppPath.APP_API_SERVICE + '/v1/employee/update-emp-status',
+      playload
+    );
+  }
+
+  updateEmployeeStatusIsActive(playload: any): Observable<any> {
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-emp-status/is-active',
       playload
     );
   }
@@ -773,5 +786,4 @@ export class MainService {
       playload
     );
   }
-  
 }

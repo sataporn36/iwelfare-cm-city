@@ -15,7 +15,12 @@ import 'src/assets/fonts/Sarabun-Regular-normal.js';
 import 'src/assets/fonts/Sarabun-Bold-bold.js';
 import 'src/assets/fonts/Kanit-Thin-normal.js';
 import 'src/assets/fonts/Kanit-Regular-normal.js';
-import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  LazyLoadEvent,
+  MenuItem,
+  MessageService,
+} from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -49,6 +54,7 @@ export class AdminComponent2Component implements OnInit {
   clonedProducts: { [s: number]: any } = {};
   formModel!: FormGroup;
   formModelStock!: FormGroup;
+  formStatusIsActiveCase!: FormGroup;
   displayModal: boolean = false;
   displayLoadingPdf: boolean = false;
   dataStock!: any[];
@@ -67,6 +73,7 @@ export class AdminComponent2Component implements OnInit {
   displayStatusMember: boolean = false;
   employeeStatus: any;
   employeeStatusList: any[];
+  employeeStatusListV2: any[];
   empId: any;
   elementLoan: any;
   sumElementLoan: any;
@@ -77,12 +84,14 @@ export class AdminComponent2Component implements OnInit {
   yearSelectNew: any;
   filePdfFlag: boolean = false;
   stockIdPdf: any;
+  empObjectByStatus: any;
 
   constructor(
     private service: MainService,
     private messageService: MessageService,
     private localStorageService: LocalStorageService,
-    @Inject(LOCALE_ID) public locale: string
+    @Inject(LOCALE_ID) public locale: string,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
@@ -90,6 +99,7 @@ export class AdminComponent2Component implements OnInit {
     this.getconfigList();
     this.initMainForm();
     this.initMainFormStock();
+    this.initMainFormStatusIsActiveCase();
 
     this.userId = this.localStorageService.retrieve('empId');
     this.stockId = this.localStorageService.retrieve('stockId');
@@ -105,11 +115,15 @@ export class AdminComponent2Component implements OnInit {
 
     this.employeeStatusList = [
       { name: 'กรุณาเลือกสถานะ', value: 0 },
-      { name: 'ใช้งานปกติ', value: 2 },
       { name: 'ลาออก', value: 3 },
       { name: 'เสียชีวิต', value: 6 },
       { name: 'หนีหนี้', value: 7 },
       { name: 'เกษียณ', value: 8 },
+    ];
+
+    this.employeeStatusListV2 = [
+      { name: 'กรุณาเลือกสถานะ', value: 0 },
+      { name: 'ใช้งานปกติ', value: 2 },
     ];
 
     this.inputSubject.pipe(debounceTime(1000)).subscribe((value) => {
@@ -163,10 +177,17 @@ export class AdminComponent2Component implements OnInit {
     ];
   }
 
+  valueEmpStatus: any;
   onRowEditStatusEmp(data: any) {
+    this.empObjectByStatus = data;
     this.empId = data.employeeId;
     const value = this.getValueOfEmployeeStatusList(data.status);
-    this.employeeStatus = this.employeeStatus = this.employeeStatusList.find(option => option.value === value);;
+    this.employeeStatus = this.employeeStatus = this.employeeStatusList.find(
+      (option) => option.value === value
+    );
+
+    this.valueEmpStatus = value;
+
     this.displayStatusMember = true;
   }
 
@@ -187,6 +208,25 @@ export class AdminComponent2Component implements OnInit {
     }
   }
 
+  getValueOfEmployeeStatusListText(value: any) {
+    switch (value) {
+      case 2:
+        return 'ใช้งานปกติ';
+      case 3:
+        return 'ลาออก';
+      case 6:
+        return 'เสียชีวิต';
+      case 7:
+        return 'หนีหนี้';
+      case 8:
+        return 'เกษียณ';
+      default:
+        return 0;
+    }
+  }
+
+  displayStatusIsActiveCase: any;
+
   onChangeStatusEmp() {
     const payload = {
       id: this.empId,
@@ -195,18 +235,85 @@ export class AdminComponent2Component implements OnInit {
     console.log(payload, '<------------- this.employeeStatus.value');
 
     // รอเขียนเพิ่มถ้า เปลี่ยนสถานะกลับเป็น ใช้งานปกติ
-    if(this.employeeStatus.value != 2){
-      this.service.updateEmployeeStatus(payload).subscribe((data) => {
-        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-        this.displayStatusMember = false;
-        this.ngOnInit();
+    if (this.employeeStatus.value != 2) {
+      this.confirmationService.confirm({
+        message:
+          'ต้องการเปลี่ยนสถานะของ <br/> ' +
+          this.empObjectByStatus.prefix +
+          this.empObjectByStatus.firstName +
+          ' ' +
+          this.empObjectByStatus.lastName +
+          ' เป็น' +
+          this.getValueOfEmployeeStatusListText(this.employeeStatus.value) +
+          ' ใช่หรือไม่',
+        header: 'เปลี่ยนสถานะ',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.service.updateEmployeeStatus(payload).subscribe((data) => {
+            this.messageService.add({
+              severity: 'success',
+              detail: 'แก้ไขสำเร็จ',
+            });
+            this.displayStatusMember = false;
+            this.ngOnInit();
+          });
+        },
+        reject: () => {},
       });
     }
-   
+
+    if (this.employeeStatus.value == 2) {
+      this.formStatusIsActiveCase.reset();
+      this.displayStatusIsActiveCase = true;
+
+      // this.confirmationService.confirm({
+      //   message: 'ต้องการเปลี่ยนสถานะของ <br/> ' + this.empObjectByStatus.prefix + this.empObjectByStatus.firstName + " " + this.empObjectByStatus.lastName,
+      //   header: 'เปลี่ยนสถานะ',
+      //   icon: 'pi pi-exclamation-triangle',
+      //   accept: () => {
+      //     this.service.updateEmployeeStatus(payload).subscribe((data) => {
+      //       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      //       this.displayStatusMember = false;
+      //       this.ngOnInit();
+      //     });
+      //   },
+      //   reject: () => {},
+      // });
+    }
+  }
+
+  onChangeStatusEmpIsActiveCase() {
+    const dataCase = this.formStatusIsActiveCase.getRawValue();
+
+    const payloadIsActiveCase = {
+      id: this.empId,
+      guarantorOne: dataCase.guarantorOne,
+      guarantorTwo: dataCase.guarantorTwo,
+      guaranteeStockFlag: dataCase.guaranteeStockFlag,
+    };
+
+    this.service.updateEmployeeStatusIsActive(payloadIsActiveCase).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+        this.displayStatusMember = false;
+        this.displayStatusIsActiveCase = false;
+        this.ngOnInit();
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          detail: 'ไม่สามารถเปลี่ยนสถานะของสมาชิกที่ลาออกไปเกิน 1 เดือนได้',
+        });
+        this.displayStatusMember = false;
+        this.displayStatusIsActiveCase = false;
+        this.ngOnInit();
+      },
+    });
   }
 
   onCancleStatusEmp() {
     this.displayStatusMember = false;
+    this.displayStatusIsActiveCase = false;
   }
 
   getDapartment(): void {
@@ -233,6 +340,35 @@ export class AdminComponent2Component implements OnInit {
       stockMonth: new FormControl(0),
       stockYear: new FormControl(null),
     });
+  }
+
+  initMainFormStatusIsActiveCase() {
+    this.formStatusIsActiveCase = new FormGroup({
+      guaranteeStockFlag: new FormControl(false),
+      guarantorOne: new FormControl(null),
+      guarantorTwo: new FormControl(null),
+    });
+  }
+
+  isStatusCheck: boolean = true;
+  checkBoxStock(event: any) {
+    if (event.checked) {
+      this.formStatusIsActiveCase.get('guarantorOne').setValue(null);
+      this.formStatusIsActiveCase.get('guarantorTwo').setValue(null);
+      this.formStatusIsActiveCase.get('guarantorOne').disable();
+      this.formStatusIsActiveCase.get('guarantorTwo').disable();
+      this.isStatusCheck = false;
+    } else {
+      this.formStatusIsActiveCase.get('guarantorOne').enable();
+      this.formStatusIsActiveCase.get('guarantorTwo').enable();
+      this.isStatusCheck = true;
+      // if (
+      //   !this.formStatusIsActiveCase.get('guarantorOne').value &&
+      //   !this.formStatusIsActiveCase.get('guarantorTwo').value
+      // ) {
+      //   this.isStatusCheck = true;
+      // }
+    }
   }
 
   loadCustomers(event: LazyLoadEvent) {
@@ -1134,14 +1270,11 @@ export class AdminComponent2Component implements OnInit {
     };
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
-    
+
     const ty = Number(this.year);
     const by = Number(bill.year);
-    
-    if (
-      ty == by &&
-      this.monthValue == bill.month
-    ) {
+
+    if (ty == by && this.monthValue == bill.month) {
       this.service.searchDocumentV1(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAll(playload, mode, data);
