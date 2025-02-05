@@ -36,7 +36,7 @@
         [globalFilterFields]="['employeeCode', 'firstName', 'lastName', 'stockValue', 'stockAccumulate', 'status' ]">
         <ng-template pTemplate="caption">
             <div class="flex">
-                <span class="flex-name"> ตารางการส่งหุ้นของสมาชิก </span>
+                <span class="flex-name">ตารางการส่งหุ้นของสมาชิก &nbsp; <p-chip label="{{ dataStock[0].stockMonth }} / {{ dataStock[0].stockYear}}" styleClass="mr-2"></p-chip></span>
                 <span class="p-input-icon-left ml-auto">
                     <i class="bi bi-search" style="color: #979797; display: flex;"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
@@ -52,8 +52,6 @@
                 <th style="width:10%">ชื่อ</th>
                 <th style="width:10%">นามสกุล</th>
                 <th style="width:12%">เงินหุ้นส่งรายเดือน</th>
-                <th style="width:6%">เดือน</th>
-                <th style="width:6%">ปี</th>
                 <th style="width:10%">หุ้นสะสม</th>
                 <th style="width:10%">สถานะ</th>
                 <th style="width:10%">แก้ไข</th>
@@ -78,8 +76,6 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td><span class="p-column-title">เดือน</span>{{ dataStock.stockMonth }}</td>
-                <td><span class="p-column-title">ปี</span>{{ dataStock.stockYear }}</td>
                 <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ dataStock.stockAccumulate |
                     number }}</td>
                 <td><span class="p-column-title">สถานะ</span>{{ dataStock.status }}</td>

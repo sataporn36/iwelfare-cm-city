@@ -30,7 +30,9 @@
         [tableStyle]="{'max-width': '100%'}">
         <ng-template pTemplate="caption">
             <div class="flex">
-                <span class="flex-name"> ตารางการส่งเงินกู้ของสมาชิก</span>
+                <span *ngIf="dataLoan.length > 0" class="flex-name"> ตารางการส่งเงินกู้ของสมาชิก  &nbsp; <p-chip label="{{ dataLoan[0].loanMonth }} / {{ dataLoan[0].loanYear}}" styleClass="mr-2"></p-chip></span>         
+                <span *ngIf="dataLoan.length <= 0" class="flex-name"> ตารางการส่งเงินกู้ของสมาชิก</span>
+                       
                 <span class="p-input-icon-left ml-auto">
                     <i class="bi bi-search" style="color: #979797; display: flex;"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
@@ -51,8 +53,6 @@
                 <th style="width:10%">เงินกู้สามัญ</th>
                 <th style="width:10%">เงินกู้คงเหลือ</th>
                 <th style="width:10%">ยอดที่ต้องชำระต่อเดือน</th>
-                <th style="width:6%">เดือน</th>
-                <th style="width:6%">ปี</th>
                 <th style="width:5%">แก้ไข</th>
             </tr>
         </ng-template>
@@ -71,8 +71,6 @@
                     number }}</td>
                 <td style="color: #1AD598;"><span class="p-column-title">ยอดที่ต้องชำระต่อเดือน</span>{{
                     dataLoan.loanOrdinary | number }}</td>
-                <td><span class="p-column-title">เดือน</span>{{ dataLoan.loanMonth }}</td>
-                <td><span class="p-column-title">ปี</span>{{ dataLoan.loanYear }}</td>
                 <td><span class="p-column-title">แก้ไข</span>
                     <div class="flex align-items-center justify-content-center gap-2"
                         style="height: 25px; display: flex;">
