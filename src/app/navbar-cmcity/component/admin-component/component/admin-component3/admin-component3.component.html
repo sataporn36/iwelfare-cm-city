@@ -42,15 +42,17 @@
 
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th style="width:10%">ลำดับที่</th>
-                <th style="width:10%">เลขที่สัญญา</th>
-                <th style="width:10%">รหัสพนักงาน</th>
+                <th style="width:6%">ลำดับที่</th>
+                <th style="width:12%">เลขที่สัญญา</th>
+                <th style="width:9%">รหัสพนักงาน</th>
                 <th style="width:10%">ชื่อ</th>
                 <th style="width:10%">นามสกุล</th>
-                <th style="width:10%">เวลากู้</th>
+                <th style="width:6%">เวลากู้</th>
                 <th style="width:10%">เงินกู้สามัญ</th>
                 <th style="width:10%">เงินกู้คงเหลือ</th>
                 <th style="width:10%">ยอดที่ต้องชำระต่อเดือน</th>
+                <th style="width:6%">เดือน</th>
+                <th style="width:6%">ปี</th>
                 <th style="width:5%">แก้ไข</th>
             </tr>
         </ng-template>
@@ -69,6 +71,8 @@
                     number }}</td>
                 <td style="color: #1AD598;"><span class="p-column-title">ยอดที่ต้องชำระต่อเดือน</span>{{
                     dataLoan.loanOrdinary | number }}</td>
+                <td><span class="p-column-title">เดือน</span>{{ dataLoan.loanMonth }}</td>
+                <td><span class="p-column-title">ปี</span>{{ dataLoan.loanYear }}</td>
                 <td><span class="p-column-title">แก้ไข</span>
                     <div class="flex align-items-center justify-content-center gap-2"
                         style="height: 25px; display: flex;">

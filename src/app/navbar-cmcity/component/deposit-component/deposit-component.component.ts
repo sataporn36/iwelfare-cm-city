@@ -11,7 +11,7 @@ export class DepositComponentComponent implements OnInit {
 
   documents = [
     { label: 'คู่มือปฏิบัติงานกองทุนฯ', path: '/assets/pdf/คู่มือปฏิบัติงานกองทุนฯ.pdf' },
-    { label: 'ใบสมัครเข้าเป็นสมาชิก', path: '/assets/pdf/ใบสมัครเข้าเป็นสมาชิก_68.pdf' },
+    { label: 'ใบสมัครเข้าเป็นสมาชิก', path: '/assets/pdf/ใบสมัครเข้าเป็นสมาชิก.pdf' },
     { label: 'หนังสือขอลาออก', path: '/assets/pdf/หนังสือขอลาออก_68.pdf' },
     { label: 'หนังสือสัญญากู้กองทุนสวัสดิการ', path: '/assets/pdf/หนังสือสัญญากู้กองทุนสวัสดิการ.pdf' },
     { label: 'หนังสือค้ำประกันเงินกู้กองทุนสวัสดิการ', path: '/assets/pdf/หนังสือค้ำประกันเงินกู้กองทุนสวัสดิการ.pdf' },
