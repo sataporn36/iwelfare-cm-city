@@ -47,11 +47,13 @@
 
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th style="width:10%">ลำดับที่</th>
+                <th style="width:6%">ลำดับที่</th>
                 <th style="width:10%">รหัสพนักงาน</th>
                 <th style="width:10%">ชื่อ</th>
                 <th style="width:10%">นามสกุล</th>
                 <th style="width:12%">เงินหุ้นส่งรายเดือน</th>
+                <th style="width:6%">เดือน</th>
+                <th style="width:6%">ปี</th>
                 <th style="width:10%">หุ้นสะสม</th>
                 <th style="width:10%">สถานะ</th>
                 <th style="width:10%">แก้ไข</th>
@@ -76,6 +78,8 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
+                <td><span class="p-column-title">เดือน</span>{{ dataStock.stockMonth }}</td>
+                <td><span class="p-column-title">ปี</span>{{ dataStock.stockYear }}</td>
                 <td style="color: #1AD598;"><span class="p-column-title">หุ้นสะสม</span>{{ dataStock.stockAccumulate |
                     number }}</td>
                 <td><span class="p-column-title">สถานะ</span>{{ dataStock.status }}</td>

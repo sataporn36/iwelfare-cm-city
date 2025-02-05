@@ -2644,7 +2644,7 @@ export class AdminComponent3Component implements OnInit {
 
   onupdateLoanToMonth() {
     // api update stock to everyone
-    this.showWarn();
+    this.showWarnAddLoan();
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.oldYear,
