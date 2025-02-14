@@ -50,6 +50,7 @@ export class MessageComponentComponent implements OnInit {
   maritalOld: any;
   profileImgId: any;
   monthlyStockMoneyOld: any;
+  acceptModal!: boolean;
 
   constructor(
     private service: MainService,
@@ -329,26 +330,30 @@ export class MessageComponentComponent implements OnInit {
     });
   }
 
+  approve: any;
+  emp: any;
   onClickApproveEmp(data: any) {
     if (data.status == 3) {
-      const approve = {
+       this.approve = {
         id: data.employee.id,
         approveFlag: true,
         noId: data.id
       }
-      this.confirmationService.confirm({
-        message: 'ต้องการยืนยันการสมัครของ ' + data.employee.prefix + data.employee.firstName + ' ' + data.employee.lastName + ' ใช่หรือไม่',
-        header: 'ยืนยันการสมัครเข้าใช้งานระบบ',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.service.approveRegister(approve).subscribe(data => {
-            this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-            this.data = data
-            this.ngOnInit();
-          });
-        },
-        reject: () => { }
-      });
+      this.acceptModal = true;
+      this.emp = data
+      // this.confirmationService.confirm({
+      //   message: 'ต้องการยืนยันการสมัครของ ' + data.employee.prefix + data.employee.firstName + ' ' + data.employee.lastName + ' ใช่หรือไม่',
+      //   header: 'ยืนยันการสมัครเข้าใช้งานระบบ',
+      //   icon: 'pi pi-exclamation-triangle',
+      //   accept: () => {
+      //     this.service.approveRegister(approve).subscribe(data => {
+      //       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      //       this.data = data
+      //       this.ngOnInit();
+      //     });
+      //   },
+      //   reject: () => { }
+      // });
     } else {
       const approve = {
         id: data.employee.id,
@@ -378,6 +383,32 @@ export class MessageComponentComponent implements OnInit {
       });
     }
   }
+
+  onClickApproveEmpV2() {
+    const employeeCodeInput = (document.getElementById('employeeCodeInput') as HTMLInputElement)?.value;
+    
+    if (!employeeCodeInput) {
+      this.messageService.add({ severity: 'warn', detail: 'กรุณาระบุรหัสพนักงาน' });
+      return;
+    }
+  
+    this.approve = { ...this.approve, employeeCode: employeeCodeInput };
+
+    console.log('this.approve : ', this.approve);
+  
+    this.service.approveRegister(this.approve).subscribe({
+      next: (data) => {
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+        this.data = data;
+        this.acceptModal = false; 
+        this.ngOnInit();
+      },
+      error: (err) => {
+        this.messageService.add({ severity: 'error', detail: 'เกิดข้อผิดพลาด: ' + err.message });
+      }
+    });
+  }
+  
 
   onClickCancleApproveEmp(data: any) {
     this.id = data.id;
