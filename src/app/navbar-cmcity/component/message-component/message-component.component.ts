@@ -404,7 +404,7 @@ export class MessageComponentComponent implements OnInit {
         this.ngOnInit();
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', detail: 'เกิดข้อผิดพลาด: ' + err.message });
+        this.messageService.add({ severity: 'error', detail: 'รหัสพนักงาน: ' + employeeCodeInput + ' ถูกใช้งานไปแล้ว' });
       }
     });
   }
