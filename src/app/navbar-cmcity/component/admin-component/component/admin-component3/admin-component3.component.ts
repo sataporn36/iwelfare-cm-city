@@ -2481,7 +2481,7 @@ export class AdminComponent3Component implements OnInit {
 
   checkMonthOfLoanDate(month: any) {
     if (month === 11) {
-      return 0;
+      return month; // 0
     } else {
       return month;
     }
@@ -2493,6 +2493,49 @@ export class AdminComponent3Component implements OnInit {
       date.setDate(date.getDate() + 1); // Incrementing the date until it's not Saturday or Sunday
     }
     return date; // Returning the first weekday of the month
+  }
+
+  pipeDateTHNewLanMore1() {
+    const format = new Date();
+    const year = this.checkYearOfLoanDateMore1Year(format.getFullYear());
+    this.year = year;
+    const monthSelectCurrent = this.periodMonthDescOption[format.getMonth()];
+    format.setMonth(format.getMonth());
+    const month = this.checkMonthOfLoanDateMore1Month(format.getMonth());
+    format.setDate(0);
+    const day = format.getDate();
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+
+    const firstDayOfNextMonth = new Date(year, month + 1, 1);
+    //const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
+    //const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
+    return (
+      year +
+      '-' +
+      monthSelect.value +
+      '-' +
+      this.checkLenghtDate(firstDayOfNextMonth.getDate())
+    ); //this.checkLenghtDate(firstDayOfNextMonth.getDate());
+  }
+
+  checkYearOfLoanDateMore1Year(year: any) {
+    const format = new Date();
+    if (format.getMonth() === 11) {
+      return year + 1;
+    } else {
+      return year;
+    }
+  }
+
+  checkMonthOfLoanDateMore1Month(month: any) {
+    if (month === 11) {
+      return 0;
+    } else {
+      return month + 1;
+    }
   }
 
   onCalculateLoanOld() {
@@ -2518,6 +2561,7 @@ export class AdminComponent3Component implements OnInit {
 
   onCalculateLoanNew() {
     const datePayLoanNew = this.pipeDateTHNewLan();
+    const datePayLoanNewMore1 = this.pipeDateTHNewLanMore1();
     const data = this.formModelLoanNew.getRawValue();
     const interestRE = data.interestPercent.replace('%', '');
     const payload = {
@@ -2530,7 +2574,7 @@ export class AdminComponent3Component implements OnInit {
       const data = res[0];
       this.formModelLoanNew.patchValue({
         loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
-        startDateLoan: datePayLoanNew,
+        startDateLoan: datePayLoanNewMore1,
         interestLoan: data.interest, //interest
         loanBalance: data.principalBalance, //principalBalance
         interestLoanLastMonth: 0, // interestLastMonth
