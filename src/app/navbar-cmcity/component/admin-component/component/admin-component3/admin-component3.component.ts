@@ -2473,7 +2473,7 @@ export class AdminComponent3Component implements OnInit {
   checkYearOfLoanDate(year: any) {
     const format = new Date();
     if (format.getMonth() === 11) {
-      return year + 1;
+      return year; // year + 1
     } else {
       return year;
     }
