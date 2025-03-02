@@ -2,18 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SearchNewResgter } from 'src/app/model/search-new-register';
 import { MainService } from 'src/app/service/main.service';
-import { DecimalPipe, formatDate } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
 import { Representative } from 'src/app/model/ccustomerTest';
-import { LocalStorageService } from 'ngx-webstorage';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
@@ -25,7 +18,6 @@ export class MessageComponentComponent implements OnInit {
   public data: Observable<SearchNewResgter[]> | any;
   loading!: boolean;
   dataNotify!: any[];
-  // birthday = new Date(1988, 3, 15);
   periodMonthDescOption: any = [];
   clonedProducts: { [s: number]: any } = {};
   representatives!: Representative[];
@@ -54,6 +46,7 @@ export class MessageComponentComponent implements OnInit {
   maritalOld: any;
   profileImgId: any;
   monthlyStockMoneyOld: any;
+  acceptModal!: boolean;
 
   constructor(
     private service: MainService,
@@ -324,7 +317,6 @@ export class MessageComponentComponent implements OnInit {
 
   checkStatus() {
     this.statuses = [
-      // { label: 'เลือกสถานะ', value: 0 },
       { label: 'ลาออก', value: '1' },
       { label: 'หุ้นรายเดือน', value: '2' },
       { label: 'สมัครสมาชิก', value: '3' },
@@ -343,35 +335,30 @@ export class MessageComponentComponent implements OnInit {
     });
   }
 
+  approve: any;
+  emp: any;
   onClickApproveEmp(data: any) {
     if (data.status == 3) {
-      const approve = {
+      this.approve = {
         id: data.employee.id,
         approveFlag: true,
         noId: data.id,
       };
-      this.confirmationService.confirm({
-        message:
-          'ต้องการยืนยันการสมัครของ ' +
-          data.employee.prefix +
-          data.employee.firstName +
-          ' ' +
-          data.employee.lastName +
-          ' ใช่หรือไม่',
-        header: 'ยืนยันการสมัครเข้าใช้งานระบบ',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.service.approveRegister(approve).subscribe((data) => {
-            this.messageService.add({
-              severity: 'success',
-              detail: 'แก้ไขสำเร็จ',
-            });
-            this.data = data;
-            this.ngOnInit();
-          });
-        },
-        reject: () => {},
-      });
+      this.acceptModal = true;
+      this.emp = data;
+      // this.confirmationService.confirm({
+      //   message: 'ต้องการยืนยันการสมัครของ ' + data.employee.prefix + data.employee.firstName + ' ' + data.employee.lastName + ' ใช่หรือไม่',
+      //   header: 'ยืนยันการสมัครเข้าใช้งานระบบ',
+      //   icon: 'pi pi-exclamation-triangle',
+      //   accept: () => {
+      //     this.service.approveRegister(approve).subscribe(data => {
+      //       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      //       this.data = data
+      //       this.ngOnInit();
+      //     });
+      //   },
+      //   reject: () => { }
+      // });
     } else {
       const approve = {
         id: data.employee.id,
@@ -415,6 +402,39 @@ export class MessageComponentComponent implements OnInit {
         reject: () => {},
       });
     }
+  }
+
+  onClickApproveEmpV2() {
+    const employeeCodeInput = (
+      document.getElementById('employeeCodeInput') as HTMLInputElement
+    )?.value;
+
+    if (!employeeCodeInput) {
+      this.messageService.add({
+        severity: 'warn',
+        detail: 'กรุณาระบุรหัสพนักงาน',
+      });
+      return;
+    }
+
+    this.approve = { ...this.approve, employeeCode: employeeCodeInput };
+
+    console.log('this.approve : ', this.approve);
+
+    this.service.approveRegister(this.approve).subscribe({
+      next: (data) => {
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+        this.data = data;
+        this.acceptModal = false;
+        this.ngOnInit();
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          detail: 'รหัสพนักงาน: ' + employeeCodeInput + ' ถูกใช้งานไปแล้ว',
+        });
+      },
+    });
   }
 
   onClickCancleApproveEmp(data: any) {

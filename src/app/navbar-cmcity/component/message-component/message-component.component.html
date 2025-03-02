@@ -128,12 +128,31 @@
   </ng-template>
 </p-confirmDialog>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}" [breakpoints]="{ '960px': '90vw' }"
-  [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="header">
-    <span style="font-size: 18px; font-weight: 500;">แจ้งเตือน</span>
+<p-dialog header="ยืนยันการสมัครเข้าใช้งานระบบ" [(visible)]="acceptModal" [modal]="true" [style]="{width: '25vw'}"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="body">
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div style="padding: 0rem 0.5rem;">
+        ต้องการยืนยันการสมัครของ <span style="font-weight: bold; color: #fe6bba;">{{emp.employee.prefix}}
+          {{emp.employee.firstName}} {{emp.employee.lastName}}</span> ใช่หรือไม่?
+      </div>
+      <div style="padding: 0rem 0.5rem;">
+        <span>กรุณาระบุรหัสพนักงาน</span>
+        <input type="text" id="employeeCodeInput" class="p-inputtext p-component"
+          style="width: 100%; margin-top: 10px; height: 40px;" maxlength="5" pattern="[0-9]{5}"
+          oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5);">
+      </div>
+    </div>
   </ng-template>
-  <ng-template pTemplate="content"><span>ยืนยันการปฏิเสธคำขอหรือไม่</span></ng-template>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-login" (click)="onClickApproveEmpV2()">อนุมัติ</button>
+    <button type="button" class="btn btn-regis" (click)="displayModal=false">ไม่อนุมัติ</button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="แจ้งเตือน" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"
+  [breakpoints]="{ '960px': '90vw' }" [draggable]="false" [resizable]="false">
+  <span>ยืนยันการปฏิเสธคำขอหรือไม่</span>
   <ng-template pTemplate="footer">
     <div class="footer-button">
       <button type="button" class="btn btn-login" (click)="onclikRemark()">ยืนยัน</button>

@@ -26,7 +26,6 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { Department } from 'src/app/model/department';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { log } from 'console';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -498,6 +497,10 @@ export class ShareComponentComponent implements OnInit {
   infogroup29: any[] = [];
   infogroup30: any[] = [];
   infogroup31: any[] = [];
+  infogroup32: any[] = [];
+  infogroup33: any[] = [];
+  infogroup34: any[] = [];
+  infogroup35: any[] = [];
 
   checkDepartment(listData: any[]) {
     this.infogroup1 = [];
@@ -531,6 +534,11 @@ export class ShareComponentComponent implements OnInit {
     this.infogroup29 = [];
     this.infogroup30 = [];
     this.infogroup31 = [];
+    this.infogroup32 = [];
+    this.infogroup33 = [];
+    this.infogroup34 = [];
+    this.infogroup35 = [];
+
     listData.forEach((element, index, array) => {
       if (element.departmentName === 'แขวงเม็งราย') {
         this.infogroup1.push(element);
@@ -639,6 +647,23 @@ export class ShareComponentComponent implements OnInit {
         element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา'
       ) {
         this.infogroup31.push(element);
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง'
+      ) {
+        this.infogroup32.push(element);
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม'
+      ) {
+        this.infogroup33.push(element);
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
+      ) {
+        this.infogroup34.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
+        this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
       }
@@ -1062,7 +1087,7 @@ export class ShareComponentComponent implements OnInit {
       month: this.newMonth.value,
     });
 
-    this.formModelBill.get('year')?.disable();
+    // this.formModelBill.get('year')?.disable();
   }
 
   onDisplay() {

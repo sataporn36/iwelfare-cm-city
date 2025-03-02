@@ -15,18 +15,22 @@ import 'src/assets/fonts/Sarabun-Regular-normal.js';
 import 'src/assets/fonts/Sarabun-Bold-bold.js';
 import 'src/assets/fonts/Kanit-Thin-normal.js';
 import 'src/assets/fonts/Kanit-Regular-normal.js';
-import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  LazyLoadEvent,
+  MenuItem,
+  MessageService,
+} from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Table } from 'primeng/table';
-
+import { saveAs } from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'src/assets/custom-fonts.js';
 import { Department } from 'src/app/model/department';
 import { Observable, Subject, debounceTime } from 'rxjs';
 import * as XLSX from 'xlsx';
-import { log } from 'console';
 import { ListAdminStock } from './models/admin-stock-res';
 import {
   AdminStockCriteria,
@@ -56,6 +60,7 @@ export class AdminComponent2Component implements OnInit {
   clonedProducts: { [s: number]: any } = {};
   formModel!: FormGroup;
   formModelStock!: FormGroup;
+  formStatusIsActiveCase!: FormGroup;
   displayModal: boolean = false;
   displayLoadingPdf: boolean = false;
   dataStock!: any[];
@@ -74,6 +79,7 @@ export class AdminComponent2Component implements OnInit {
   displayStatusMember: boolean = false;
   employeeStatus: any;
   employeeStatusList: any[];
+  employeeStatusListV2: any[];
   empId: any;
   elementLoan: any;
   sumElementLoan: any;
@@ -83,24 +89,27 @@ export class AdminComponent2Component implements OnInit {
   monthSelectNew: any;
   yearSelectNew: any;
   filePdfFlag: boolean = false;
+  stockIdPdf: any;
+  empObjectByStatus: any;
 
   constructor(
     private service: MainService,
     private messageService: MessageService,
     private localStorageService: LocalStorageService,
-    @Inject(LOCALE_ID) public locale: string
+    @Inject(LOCALE_ID) public locale: string,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
     this.loading = true;
+    this.getconfigList();
     this.initMainForm();
     this.initMainFormStock();
-    console.log('----1----');
+    this.initMainFormStatusIsActiveCase();
 
     this.userId = this.localStorageService.retrieve('empId');
     this.stockId = this.localStorageService.retrieve('stockId');
     this.empDetail = this.localStorageService.retrieve('employeeofmain');
-    console.log('----2----');
     // this.getStock(this.stockId);
 
     // this.searchStock();
@@ -117,6 +126,11 @@ export class AdminComponent2Component implements OnInit {
       { name: 'เสียชีวิต', value: 6 },
       { name: 'หนีหนี้', value: 7 },
       { name: 'เกษียณ', value: 8 },
+    ];
+
+    this.employeeStatusListV2 = [
+      { name: 'กรุณาเลือกสถานะ', value: 0 },
+      { name: 'ใช้งานปกติ', value: 2 },
     ];
 
     this.inputSubject.pipe(debounceTime(1000)).subscribe((value) => {
@@ -197,25 +211,143 @@ export class AdminComponent2Component implements OnInit {
     ];
   }
 
+  valueEmpStatus: any;
   onRowEditStatusEmp(data: any) {
+    this.empObjectByStatus = data;
     this.empId = data.employeeId;
+    const value = this.getValueOfEmployeeStatusList(data.status);
+    this.employeeStatus = this.employeeStatus = this.employeeStatusList.find(
+      (option) => option.value === value
+    );
+
+    this.valueEmpStatus = value;
+
     this.displayStatusMember = true;
   }
+
+  getValueOfEmployeeStatusList(value: string) {
+    switch (value) {
+      case 'ใช้งานปกติ':
+        return 2;
+      case 'ลาออก':
+        return 3;
+      case 'เสียชีวิต':
+        return 6;
+      case 'หนีหนี้':
+        return 7;
+      case 'เกษียณ':
+        return 8;
+      default:
+        return 0;
+    }
+  }
+
+  getValueOfEmployeeStatusListText(value: any) {
+    switch (value) {
+      case 2:
+        return 'ใช้งานปกติ';
+      case 3:
+        return 'ลาออก';
+      case 6:
+        return 'เสียชีวิต';
+      case 7:
+        return 'หนีหนี้';
+      case 8:
+        return 'เกษียณ';
+      default:
+        return 0;
+    }
+  }
+
+  displayStatusIsActiveCase: any;
 
   onChangeStatusEmp() {
     const payload = {
       id: this.empId,
       type: this.employeeStatus.value,
     };
-    this.service.updateEmployeeStatus(payload).subscribe((data) => {
-      this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
-      this.displayStatusMember = false;
-      this.ngOnInit();
+    console.log(payload, '<------------- this.employeeStatus.value');
+
+    // รอเขียนเพิ่มถ้า เปลี่ยนสถานะกลับเป็น ใช้งานปกติ
+    if (this.employeeStatus.value != 2) {
+      this.confirmationService.confirm({
+        message:
+          'ต้องการเปลี่ยนสถานะของ <br/> ' +
+          this.empObjectByStatus.prefix +
+          this.empObjectByStatus.firstName +
+          ' ' +
+          this.empObjectByStatus.lastName +
+          ' เป็น' +
+          this.getValueOfEmployeeStatusListText(this.employeeStatus.value) +
+          ' ใช่หรือไม่',
+        header: 'เปลี่ยนสถานะ',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.service.updateEmployeeStatus(payload).subscribe((data) => {
+            this.messageService.add({
+              severity: 'success',
+              detail: 'แก้ไขสำเร็จ',
+            });
+            this.displayStatusMember = false;
+            this.ngOnInit();
+          });
+        },
+        reject: () => {},
+      });
+    }
+
+    if (this.employeeStatus.value == 2) {
+      this.formStatusIsActiveCase.reset();
+      this.displayStatusIsActiveCase = true;
+
+      // this.confirmationService.confirm({
+      //   message: 'ต้องการเปลี่ยนสถานะของ <br/> ' + this.empObjectByStatus.prefix + this.empObjectByStatus.firstName + " " + this.empObjectByStatus.lastName,
+      //   header: 'เปลี่ยนสถานะ',
+      //   icon: 'pi pi-exclamation-triangle',
+      //   accept: () => {
+      //     this.service.updateEmployeeStatus(payload).subscribe((data) => {
+      //       this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+      //       this.displayStatusMember = false;
+      //       this.ngOnInit();
+      //     });
+      //   },
+      //   reject: () => {},
+      // });
+    }
+  }
+
+  onChangeStatusEmpIsActiveCase() {
+    const dataCase = this.formStatusIsActiveCase.getRawValue();
+
+    const payloadIsActiveCase = {
+      id: this.empId,
+      guarantorOne: dataCase.guarantorOne,
+      guarantorTwo: dataCase.guarantorTwo,
+      guaranteeStockFlag: dataCase.guaranteeStockFlag,
+    };
+
+    this.service.updateEmployeeStatusIsActive(payloadIsActiveCase).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', detail: 'แก้ไขสำเร็จ' });
+        this.displayStatusMember = false;
+        this.displayStatusIsActiveCase = false;
+        this.ngOnInit();
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          detail: 'ไม่สามารถเปลี่ยนสถานะของสมาชิกที่ลาออกไปเกิน 1 เดือนได้',
+        });
+        this.displayStatusMember = false;
+        this.displayStatusIsActiveCase = false;
+        this.ngOnInit();
+      },
     });
   }
 
   onCancleStatusEmp() {
     this.displayStatusMember = false;
+    this.displayStatusIsActiveCase = false;
   }
 
   getDapartment(): void {
@@ -242,6 +374,35 @@ export class AdminComponent2Component implements OnInit {
       stockMonth: new FormControl(0),
       stockYear: new FormControl(null),
     });
+  }
+
+  initMainFormStatusIsActiveCase() {
+    this.formStatusIsActiveCase = new FormGroup({
+      guaranteeStockFlag: new FormControl(false),
+      guarantorOne: new FormControl(null),
+      guarantorTwo: new FormControl(null),
+    });
+  }
+
+  isStatusCheck: boolean = true;
+  checkBoxStock(event: any) {
+    if (event.checked) {
+      this.formStatusIsActiveCase.get('guarantorOne').setValue(null);
+      this.formStatusIsActiveCase.get('guarantorTwo').setValue(null);
+      this.formStatusIsActiveCase.get('guarantorOne').disable();
+      this.formStatusIsActiveCase.get('guarantorTwo').disable();
+      this.isStatusCheck = false;
+    } else {
+      this.formStatusIsActiveCase.get('guarantorOne').enable();
+      this.formStatusIsActiveCase.get('guarantorTwo').enable();
+      this.isStatusCheck = true;
+      // if (
+      //   !this.formStatusIsActiveCase.get('guarantorOne').value &&
+      //   !this.formStatusIsActiveCase.get('guarantorTwo').value
+      // ) {
+      //   this.isStatusCheck = true;
+      // }
+    }
   }
 
   loadCustomers(event: LazyLoadEvent) {
@@ -493,7 +654,8 @@ export class AdminComponent2Component implements OnInit {
     this.month = monthSelect.label;
     this.monthValue = monthSelect.value;
 
-    const monthSelectBefore = this.periodMonthDescOption[month - 1];
+    const mt = month - 1;
+    const monthSelectBefore = this.periodMonthDescOption[mt < 0 ? 11 : mt];
     this.monthBefore = monthSelectBefore.label;
     this.monthValueBefore = monthSelectBefore.value;
     const time =
@@ -711,6 +873,7 @@ export class AdminComponent2Component implements OnInit {
   infogroup32: any[] = [];
   infogroup33: any[] = [];
   infogroup34: any[] = [];
+  infogroup35: any[] = [];
 
   checkDepartment(listData: any[]) {
     this.infogroup1 = [];
@@ -747,6 +910,7 @@ export class AdminComponent2Component implements OnInit {
     this.infogroup32 = [];
     this.infogroup33 = [];
     this.infogroup34 = [];
+    this.infogroup35 = [];
 
     listData.forEach((element, index, array) => {
       if (element.departmentName === 'แขวงเม็งราย') {
@@ -871,6 +1035,8 @@ export class AdminComponent2Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
       ) {
         this.infogroup34.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
+        this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
       }
@@ -1322,10 +1488,10 @@ export class AdminComponent2Component implements OnInit {
     this.monthSelectNew = this.billMonth;
     this.yearSelectNew = bill.year;
 
-    if (
-      this.year == bill.year &&
-      this.monthValue == Number(bill.month).toString()
-    ) {
+    const ty = Number(this.year);
+    const by = Number(bill.year);
+
+    if (ty == by && this.monthValue == bill.month) {
       this.service.searchDocumentV1(playload).subscribe((data) => {
         this.list = data;
         this.getSearchDocumentV2SumAll(playload, mode, data);
@@ -1610,6 +1776,13 @@ export class AdminComponent2Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',
         this.infogroup34
       ) || [];
+    let data35 = this.checkListDataPDF(this.infogroup35) || [];
+    let dataSum35 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและปฐมศึกษา',
+        this.infogroup35
+      ) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1648,6 +1821,7 @@ export class AdminComponent2Component implements OnInit {
     pushDataSection(data32, dataSum32);
     pushDataSection(data33, dataSum33);
     pushDataSection(data34, dataSum34);
+    pushDataSection(data35, dataSum35);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -1965,9 +2139,26 @@ export class AdminComponent2Component implements OnInit {
     //this.formModelBill.get('year')?.disable();
   }
 
+  ondisplayModalMonthPDF(headerName: string, stock: any) {
+    this.displayModalBill = true;
+    this.headerName = headerName + ' ' + stock.firstName + ' ' + stock.lastName;
+    this.stockIdPdf = stock;
+
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
+    this.newMonth = this.periodMonthDescOption[month];
+
+    this.formModelBill.patchValue({
+      year: this.newYear,
+      month: this.newMonth.value,
+    });
+  }
+
   onDisplay() {
     if (this.headerName === 'ใบเสร็จรับเงิน') {
-      this.onupdateBill();
+      //this.onupdateBill();
+      this.onBeforReceiptReportAll();
       this.displayModalBill = false;
     } else if (this.headerName === 'ประวัติการส่งหุ้นของสมาชิกทั้งหมด') {
       this.searchDocumentV1All('export');
@@ -1983,6 +2174,9 @@ export class AdminComponent2Component implements OnInit {
       this.displayModalBill = false;
     } else if (this.headerName === 'ดาวน์โหลด EXCEL') {
       this.searchDocumentV1All('excel');
+      this.displayModalBill = false;
+    } else {
+      this.onupdateBillById();
       this.displayModalBill = false;
     }
   }
@@ -2080,29 +2274,92 @@ export class AdminComponent2Component implements OnInit {
   }
 
   billMonth: any;
-  // stockAccumulateBill: any;
-  onupdateBill() {
-    const stock = this.stockInfo;
-    const stockValue = stock?.stockDetails.slice(-1)[0].stockValue;
-
+  onupdateBillById() {
     const bill = this.formModelBill.getRawValue();
     this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
 
     const payload = {
-      empCode: this.empDetail.employeeCode,
+      empCode: this.stockIdPdf.employeeCode,
       monthCurrent: this.billMonth,
       yearCurrent: bill.year,
     };
-    this.monthSelectNew = this.billMonth;
-    this.yearSelectNew = bill.year;
-    this.service.searchEmployeeLoanNew(payload).subscribe({
-      next: (res) => {
-        const dataRes = res;
-        this.dataResLoan = res;
-        this.onSearchCalculateLoanOld(res, stockValue);
-        // this.stockAccumulateBill = res.stockAccumulate;
+
+    if (
+      this.stockIdPdf.status == 'ลาออก' ||
+      this.stockIdPdf.status == 'เกษียณ'
+    ) {
+      this.showWarnStatus();
+    } else {
+      this.service.receiptReportCode(payload).subscribe({
+        next: (res: Blob) => {
+          const blob = new Blob([res], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url);
+        },
+        error: (error) => {
+          console.error('Error downloading the file:', error);
+        },
+      });
+    }
+  }
+
+  // private loadingSubject = new BehaviorSubject<boolean>(false);
+  // public loading$ = this.loadingSubject.asObservable();
+
+  // show() {
+  //   this.loadingSubject.next(true);
+  // }
+
+  // hide() {
+  //   this.loadingSubject.next(false);
+  // }
+
+  loadingBill: boolean = false; // Local loading state
+  loading$ = this.loadingBill; // Bind the local loading state to the template
+
+  onupdateBill() {
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
+
+    const payload = {
+      monthCurrent: this.billMonth,
+      yearCurrent: bill.year,
+    };
+
+    this.showWarnPdfZip();
+
+    this.loading = true;
+    // this.ngOnInit();
+
+    this.service.receiptReport(payload).subscribe({
+      next: (res: Blob) => {
+        const blob = new Blob([res], { type: 'application/zip' });
+        saveAs(blob, 'receipt_report.zip'); // Save the file using FileSaver.js
       },
-      error: (error) => {},
+      error: (error) => {
+        console.error('Error downloading the file:', error);
+      },
+      complete: () => {
+        this.loading = false; // Set loading to false once the API call completes
+      },
+    });
+  }
+
+  showWarnPdfZip() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'โปรดรอสักครู่ อาจใช้เวลาในการเเสดงข้อมูล ประมาณ 1-5 นาที',
+      life: 20000,
+    });
+  }
+
+  showWarnStatus() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'สถานะไม่ตรงเงื่อนไขไม่สามารถดูใบเสร็จรับเงินได้',
+      life: 10000,
     });
   }
 
@@ -3189,4 +3446,362 @@ export class AdminComponent2Component implements OnInit {
   checkSetValueBill(event: any) {
     this.inputSubject.next(event.target.value);
   }
+
+  ////////////////////////// receipt report  ////////////////////////////////
+
+  configAdmin: any;
+  imageSrc1Blob: any;
+  imageSrc2Blob: any;
+  fileImg1: any;
+  fileImg2: any;
+
+  showWarnNull() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'ไม่พบข้อมูลสมาชิก',
+    });
+  }
+
+  getconfigList() {
+    this.service.getConfigByList().subscribe((res) => {
+      if (res) {
+        this.configAdmin = res;
+        this.fileImg1 = res[3].configId;
+        this.fileImg2 = res[4].configId;
+
+        this.getImgSig1('signature1', this.fileImg1);
+        this.getImgSig2('signature2', this.fileImg2);
+      }
+    });
+  }
+
+  getImage(id: any, imageSrc: any, dataImg: any) {
+    if (id != 0 || id != null) {
+      this.service.getImageConfig(id).subscribe(
+        (imageBlob: Blob) => {
+          if (imageSrc === 1) {
+            this.imageSrc1Blob = URL.createObjectURL(imageBlob);
+          } else {
+            this.imageSrc2Blob = URL.createObjectURL(imageBlob);
+          }
+        },
+        (error: any) => {
+          if (imageSrc === 1) {
+            this.imageSrc1Blob = this.profileImg(dataImg);
+          } else {
+            this.imageSrc2Blob = this.profileImg(dataImg);
+          }
+          console.error('Failed to fetch image:', error);
+        }
+      );
+    }
+  }
+
+  profileImg(dataImg: any) {
+    let textImg = '';
+    switch (dataImg) {
+      case 'signature1':
+        textImg = '../../assets/images/text1.png';
+        break;
+      case 'signature2':
+        textImg = '../../assets/images/text2.png';
+        break;
+      default:
+        break;
+    }
+    return textImg;
+  }
+
+  getImgSig1(dataImg: any, id: any) {
+    if (id !== null || id) {
+      this.getImage(id, 1, dataImg);
+    } else {
+      this.imageSrc1Blob = this.profileImg(dataImg);
+    }
+  }
+
+  getImgSig2(dataImg: any, id: any) {
+    if (id !== null || id) {
+      this.getImage(id, 2, dataImg);
+    } else {
+      this.imageSrc2Blob = this.profileImg(dataImg);
+    }
+  }
+
+  onBeforReceiptReportAll() {
+    const bill = this.formModelBill.getRawValue();
+    this.billMonth = this.periodMonthDescOption[Number(bill.month) - 1].label;
+
+    const payload = {
+      monthCurrent: this.billMonth,
+      yearCurrent: bill.year,
+    };
+
+    this.showWarnPdfZip();
+    this.loading = true;
+
+    this.service.empForReceiptList(payload).subscribe({
+      next: async (res) => {
+        if (res == null) {
+          this.showWarnNull();
+        } else {
+          this.getImgSig1('signature1', this.fileImg1);
+          this.getImgSig2('signature2', this.fileImg2);
+          await this.onPrintReceiptMakePdfAll(res);
+          this.loading = false;
+        }
+      },
+      error: (error) => {},
+      complete() {
+        this.loading = false;
+      },
+    });
+  }
+
+  async onPrintReceiptMakePdfAll(empForReceiptList: any[]) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.fonts = {
+      // download default Roboto font from cdnjs.com
+      Roboto: {
+        normal:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+        bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+        italics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+        bolditalics:
+          'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
+      },
+      // Kanit Font
+      Sarabun: {
+        // 3. set Kanit font
+        normal: 'Sarabun-Regular.ttf',
+        bold: 'Sarabun-Medium.ttf',
+        italics: 'Sarabun-Italic.ttf ',
+        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+    };
+    this.pipeDateTH();
+
+    const logoImage = await this.getBase64ImageFromURL(
+      '../../assets/images/logo.png'
+    );
+    const signature1 = await this.getBase64ImageFromURL(this.imageSrc1Blob);
+    const signature2 = await this.getBase64ImageFromURL(this.imageSrc2Blob);
+
+    const docDefinition = {
+      info: {
+        title: 'ใบเสร็จรับเงิน',
+      },
+      content: empForReceiptList.map((element, index, array) => [
+        {
+          image: logoImage,
+          width: 100,
+          height: 100,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        { text: 'กองทุนสวัสดิการพนักงานเทศบาลนครเชียงใหม่', style: 'header' },
+        { text: 'ใบเสร็จรับเงิน', style: 'header' },
+        '\n',
+        '\n',
+        {
+          text: [
+            'ประจําเดือน ',
+            {
+              text: ' ' + element.month + '               ',
+              bold: true,
+            },
+            { text: 'เลขที่สมาชิก ' },
+            { text: ' ' + element.employeeCode, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: [
+            'ได้รับเงินจาก ',
+            { text: ' ' + element.fullName, bold: true },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        {
+          text: ['สังกัด ', { text: ' ' + element.departmentName, bold: true }],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        {
+          text: [
+            'หุ้นสะสม ',
+            {
+              text:
+                ' ' + element.stockAccumulate
+                  ? this.formattedNumber2(element.stockAccumulate)
+                  : '' + ' ',
+              bold: true,
+            },
+            { text: '  บาท' },
+          ],
+          margin: [0, 6, 0, 0],
+          style: 'texts',
+        },
+        '\n',
+        {
+          color: '#000',
+          table: {
+            widths: ['*', '*', '*', '*'],
+            headerRows: 4,
+            body: [
+              [
+                { text: 'รายการ', style: 'tableHeader' },
+                { text: 'งวด', style: 'tableHeader' },
+                { text: 'เป็นเงิน', style: 'tableHeader' },
+                { text: 'เงินต้นเหลือ', style: 'tableHeader' },
+              ],
+              [
+                'ค่าหุ้น',
+                {
+                  text: element.stockDetailInstallment
+                    ? this.formattedNumber2(element.stockDetailInstallment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.stockValue
+                    ? this.formattedNumber2(element.stockValue)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                'เงินต้น',
+                {
+                  text: element.installment
+                    ? this.formattedNumber2(element.installment)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.totalDeduction
+                    ? this.formattedNumber2(element.totalDeduction)
+                    : '',
+                  alignment: 'right',
+                },
+                {
+                  text: element.principalBalance
+                    ? this.formattedNumber2(element.principalBalance)
+                    : '',
+                  alignment: 'right',
+                },
+              ],
+              [
+                'ดอกเบี้ย',
+                ' ',
+                {
+                  text: element.interest
+                    ? this.formattedNumber2(element.interest)
+                    : '',
+                  alignment: 'right',
+                },
+                ' ',
+              ],
+              [
+                {
+                  text: 'รวมเงิน',
+                  style: 'tableHeader',
+                  colSpan: 2,
+                  alignment: 'center',
+                },
+                {},
+                {
+                  text: element.totalPrice
+                    ? this.formattedNumber2(element.totalPrice)
+                    : '',
+                  style: 'tableHeader',
+                  alignment: 'right',
+                },
+                {},
+              ],
+            ],
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return rowIndex === 0 ? '#CCCCCC' : null;
+            },
+          },
+        },
+        '\n',
+        {
+          text: element.totalPrice
+            ? '(' + this.transformPipeThai(element.totalPrice) + ')'
+            : '', //element.totalText,
+          style: 'header2',
+          margin: [20, 0, 0, 0],
+        },
+        '\n',
+        {
+          style: 'tableExample',
+          table: {
+            widths: ['*', '*'],
+            headerRows: 2,
+            body: [
+              [
+                {
+                  image: signature1,
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+                {
+                  image: signature2,
+                  style: 'tableHeader',
+                  width: 150,
+                  height: 80,
+                  alignment: 'center',
+                },
+              ],
+              [
+                {
+                  text: 'ประธานกองทุน',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
+                { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' },
+              ],
+            ],
+          },
+          layout: 'noBorders',
+        },
+        { text: '', pageBreak: 'after' }, // Add a page break after each sohk
+      ]),
+
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+        },
+        header2: {
+          fontSize: 18,
+          bold: true,
+        },
+        texts: {
+          fontSize: 16,
+          bold: false,
+        },
+      },
+      defaultStyle: {
+        fontSize: 16,
+        font: 'Sarabun',
+      },
+    };
+    const pdf = pdfMake.createPdf(docDefinition);
+    pdf.open();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
 }

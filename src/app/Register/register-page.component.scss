@@ -697,9 +697,10 @@
   .text .text-header {
     span {
       width: 71%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: clip;
+      text-align: center;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: clip;
     }
   }
 

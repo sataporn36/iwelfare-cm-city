@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  throwError,
+  timeout,
+} from 'rxjs';
 import { AppPath } from '../constans/config';
 import { Affiliation } from '../model/affiliation';
 import { ApproveRegisterReq } from '../model/approve-register-req';
@@ -330,6 +336,13 @@ export class MainService {
   updateEmployeeStatus(playload: any): Observable<any> {
     return this.http.patch<any>(
       AppPath.APP_API_SERVICE + '/v1/employee/update-emp-status',
+      playload
+    );
+  }
+
+  updateEmployeeStatusIsActive(playload: any): Observable<any> {
+    return this.http.patch<any>(
+      AppPath.APP_API_SERVICE + '/v1/employee/update-emp-status/is-active',
       playload
     );
   }
@@ -820,5 +833,51 @@ export class MainService {
           return throwError('Export failed. Please try again later.');
         })
       );
+  }
+
+  receiptReport(payload: any): Observable<Blob> {
+    return this.http
+      .post(
+        AppPath.APP_API_SERVICE + '/logic/v1/document/receipt-report',
+        payload,
+        {
+          responseType: 'blob', // Ensure this is 'blob'
+        }
+      )
+      .pipe(
+        timeout(600000),
+        catchError((error) => {
+          console.error('Export failed:', error);
+          return throwError(
+            () => new Error('Export failed. Please try again later.')
+          );
+        })
+      );
+  }
+
+  receiptReportCode(payload: any): Observable<Blob> {
+    return this.http
+      .post(
+        AppPath.APP_API_SERVICE + '/logic/v1/document/receipt-report-code',
+        payload,
+        {
+          responseType: 'blob', // Ensure this is 'blob'
+        }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Export failed:', error);
+          return throwError(
+            () => new Error('Export failed. Please try again later.')
+          );
+        })
+      );
+  }
+
+  empForReceiptList(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/empForReceiptList',
+      playload
+    );
   }
 }

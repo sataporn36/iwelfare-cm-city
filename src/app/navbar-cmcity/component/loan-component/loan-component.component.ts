@@ -11,7 +11,6 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
-import { log } from 'console';
 
 @Component({
   selector: 'app-loan-component',
@@ -789,22 +788,33 @@ export class LoanComponentComponent implements OnInit {
         {
           text: decimalPipe.transform(
             item.loanYear >= 2567
-              ? ( item.installment == item.loanTime ? item.loanOrdinary : item.loanOrdinary - item.interest )
+              ? item.installment == item.loanTime
+                ? item.loanOrdinary
+                : item.loanOrdinary - item.interest
               : item.loanOrdinary
           ),
           alignment: 'right',
         },
         {
-          text: item.sumOrdinary <= 0 ? '-' : decimalPipe.transform(
-            item.sumOrdinary == item.loanValue
-              ? item.loanOrdinary
-              : item.sumOrdinary <= 0
-              ? 0
-              : item.sumOrdinary
-          ),
+          text:
+            item.sumOrdinary <= 0
+              ? '-'
+              : decimalPipe.transform(
+                  item.sumOrdinary == item.loanValue
+                    ? item.loanOrdinary
+                    : item.sumOrdinary <= 0
+                    ? 0
+                    : item.sumOrdinary
+                ),
           alignment: 'right',
         },
-        { text: item.installment == item.loanTime ? decimalPipe.transform(item.loanOrdinary) : decimalPipe.transform(item.loanBalance), alignment: 'right' },
+        {
+          text:
+            item.installment == item.loanTime
+              ? decimalPipe.transform(item.loanOrdinary)
+              : decimalPipe.transform(item.loanBalance),
+          alignment: 'right',
+        },
         // { text: item.guarantorCode1 ? item.guarantorCode1 : ' ', alignment: 'center' },
         // { text: item.guarantorCode2 ? item.guarantorCode2 : ' ' , alignment: 'center' },
       ];
@@ -973,6 +983,10 @@ export class LoanComponentComponent implements OnInit {
   infogroup29: any[] = [];
   infogroup30: any[] = [];
   infogroup31: any[] = [];
+  infogroup32: any[] = [];
+  infogroup33: any[] = [];
+  infogroup34: any[] = [];
+  infogroup35: any[] = [];
 
   checkDepartment(listData: any[]) {
     this.infogroup1 = [];
@@ -1006,6 +1020,11 @@ export class LoanComponentComponent implements OnInit {
     this.infogroup29 = [];
     this.infogroup30 = [];
     this.infogroup31 = [];
+    this.infogroup32 = [];
+    this.infogroup33 = [];
+    this.infogroup34 = [];
+    this.infogroup35 = [];
+
     listData.forEach((element, index, array) => {
       if (element.departmentName === 'แขวงเม็งราย') {
         this.infogroup1.push(element);
@@ -1114,6 +1133,23 @@ export class LoanComponentComponent implements OnInit {
         element.departmentName === 'งานระดับก่อนวัยเรียนและประถมศึกษา'
       ) {
         this.infogroup31.push(element);
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง'
+      ) {
+        this.infogroup32.push(element);
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม'
+      ) {
+        this.infogroup33.push(element);
+      } else if (
+        element.departmentName ===
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
+      ) {
+        this.infogroup34.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
+        this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
       }
@@ -1615,6 +1651,34 @@ export class LoanComponentComponent implements OnInit {
       'งานระดับก่อนวัยเรียนและประถมศึกษา',
       this.infogroup31
     );
+    let data32 = this.checkListDataPDF(this.infogroup32) || [];
+    let dataSum32 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดป่าแพ่ง',
+        this.infogroup32
+      ) || [];
+    let data33 = this.checkListDataPDF(this.infogroup33) || [];
+    let dataSum33 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา โรงเรียนเทศบาลวัดเกตการาม',
+        this.infogroup33
+      ) || [];
+    let data34 = this.checkListDataPDF(this.infogroup34) || [];
+    let dataSum34 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',
+        this.infogroup34
+      ) || [];
+    let data35 = this.checkListDataPDF(this.infogroup35) || [];
+    let dataSum35 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและปฐมศึกษา',
+        this.infogroup35
+      ) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1806,6 +1870,14 @@ export class LoanComponentComponent implements OnInit {
               dataSum30,
               ...data31,
               dataSum31,
+              ...data32,
+              dataSum32,
+              ...data33,
+              dataSum33,
+              ...data34,
+              dataSum34,
+              ...data35,
+              dataSum35,
               sunGrandTotal,
             ],
           },

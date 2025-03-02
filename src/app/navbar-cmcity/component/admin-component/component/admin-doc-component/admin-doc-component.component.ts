@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MainService } from 'src/app/service/main.service';
 
 @Component({
@@ -19,7 +19,8 @@ export class AdminDocComponentComponent {
     protected router: Router,
     protected route: ActivatedRoute,
     private service: MainService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
@@ -83,19 +84,30 @@ export class AdminDocComponentComponent {
     this.selectedFileName = null;
   }
 
-  onDelete(id: any) {
-    this.service.deletedDoc(id).subscribe(
-      (res) => {
-        this.ngOnInit();
-        this.messageService.add({ severity: 'success', detail: 'ลบสำเร็จ' });
+  onDelete(id: any, name: string) {
+    this.confirmationService.confirm({
+      message: 'ต้องการลบเอกสาร "' + name + '" ใช่หรือไม่',
+      header: 'ลบเอกสาร',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.service.deletedDoc(id).subscribe(
+          (res) => {
+            this.ngOnInit();
+            this.messageService.add({
+              severity: 'success',
+              detail: 'ลบสำเร็จ',
+            });
+          },
+          () => {
+            this.messageService.add({
+              severity: 'error',
+              detail: 'ลบไม่สำเร็จ เกิดข้อผิดพลาด',
+            });
+          }
+        );
       },
-      () => {
-        this.messageService.add({
-          severity: 'error',
-          detail: 'ลบไม่สำเร็จ เกิดข้อผิดพลาด',
-        });
-      }
-    );
+      reject: () => {},
+    });
   }
 
   getDoc(id: any) {

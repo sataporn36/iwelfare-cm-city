@@ -494,7 +494,11 @@ V416z" />
         currentPageReportTemplate="แสดง {first} - {last} จาก {totalRecords} รายการ" dataKey="id" #dt2>
         <ng-template pTemplate="caption">
             <div class="div-flex-header">
-                <span class="flex-name"> ตารางการส่งเงินกู้ของสมาชิก</span>
+                <span *ngIf="dataLoan.length > 0" class="flex-name"> ตารางการส่งเงินกู้ของสมาชิก &nbsp; <p-chip
+                        label="{{ dataLoan[0].loanMonth }} / {{ dataLoan[0].loanYear}}"
+                        styleClass="mr-2"></p-chip></span>
+                <span *ngIf="dataLoan.length <= 0" class="flex-name"> ตารางการส่งเงินกู้ของสมาชิก</span>
+
                 <!-- <span class="p-input-icon-left ml-auto">
                     <i class="bi bi-search" style="color: #979797; display: flex;"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"

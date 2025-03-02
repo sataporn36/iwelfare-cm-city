@@ -212,10 +212,10 @@
                 <!-- <div style="padding-right: 0.5rem;"></div> -->
                 <div style="width: 100%;">
                     <label class="block">ปี</label>
-                    <input class="form-control" style="font-size: 14px;" type="text" formControlName="year"
+                    <input class="form-control" type="text" style="font-size: 14px;" formControlName="year"
                         maxlength="4"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-                        [disabled]="true" />
+                        [disabled]="false" />
                 </div>
             </div>
             <!-- </div> -->

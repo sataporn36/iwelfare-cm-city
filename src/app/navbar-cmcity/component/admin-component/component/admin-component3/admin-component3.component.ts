@@ -11,7 +11,6 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
-import { log } from 'console';
 import * as XLSX from 'xlsx';
 import { ListAdminLoan } from './models/admin-loan-res';
 import {
@@ -516,7 +515,7 @@ export class AdminComponent3Component implements OnInit {
 
   searchLoan() {
     const payload = {
-      newMonth: 'สิงหาคม',
+      newMonth: this.month,
       newYear: this.year,
     };
     this.service.searchLoan(payload).subscribe((data) => {
@@ -1072,6 +1071,7 @@ export class AdminComponent3Component implements OnInit {
   infogroup32: any[] = [];
   infogroup33: any[] = [];
   infogroup34: any[] = [];
+  infogroup35: any[] = [];
 
   checkDepartment(listData: any[]) {
     this.infogroup1 = [];
@@ -1108,6 +1108,7 @@ export class AdminComponent3Component implements OnInit {
     this.infogroup32 = [];
     this.infogroup33 = [];
     this.infogroup34 = [];
+    this.infogroup35 = [];
 
     listData.forEach((element, index, array) => {
       if (element.departmentName === 'แขวงเม็งราย') {
@@ -1232,6 +1233,8 @@ export class AdminComponent3Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่'
       ) {
         this.infogroup34.push(element);
+      } else if (element.departmentName === 'งานระดับก่อนวัยเรียนและปฐมศึกษา') {
+        this.infogroup35.push(element);
       } else {
         console.log('else error !!!');
       }
@@ -1872,6 +1875,13 @@ export class AdminComponent3Component implements OnInit {
         'งานระดับก่อนวัยเรียนและประถมศึกษา ศูนย์พัฒนาเด็กเล็กเทศบาลนครเชียงใหม่',
         this.infogroup34
       ) || [];
+    let data35 = this.checkListDataPDF(this.infogroup35) || [];
+    let dataSum35 =
+      this.checkListSumAllByDepartment(
+        listSum,
+        'งานระดับก่อนวัยเรียนและปฐมศึกษา',
+        this.infogroup35
+      ) || [];
 
     let sunGrandTotal = this.checkListSumGrandTotal(listSum);
 
@@ -1910,6 +1920,7 @@ export class AdminComponent3Component implements OnInit {
     pushDataSection(data32, dataSum32);
     pushDataSection(data33, dataSum33);
     pushDataSection(data34, dataSum34);
+    pushDataSection(data35, dataSum35);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
     pdfMake.fonts = {
@@ -2345,6 +2356,11 @@ export class AdminComponent3Component implements OnInit {
   insertLoanDetail() {
     const data = this.formModelLoanNew.getRawValue();
     data.installment = this.checkNull ? 1 : 0;
+
+    const format = new Date();
+    const yearTest = this.checkYearOfLoanDate(format.getFullYear());
+    data.loanYear = yearTest + 543;
+
     if (this.dataNewLoan) {
       const loanBalance = this.dataNewLoan.loanBalance
         ? this.dataNewLoan.loanBalance
@@ -2678,7 +2694,7 @@ export class AdminComponent3Component implements OnInit {
   checkYearOfLoanDate(year: any) {
     const format = new Date();
     if (format.getMonth() === 11) {
-      return year + 1;
+      return year; // year + 1
     } else {
       return year;
     }
@@ -2686,7 +2702,7 @@ export class AdminComponent3Component implements OnInit {
 
   checkMonthOfLoanDate(month: any) {
     if (month === 11) {
-      return 0;
+      return month; // 0
     } else {
       return month;
     }
@@ -2698,6 +2714,49 @@ export class AdminComponent3Component implements OnInit {
       date.setDate(date.getDate() + 1); // Incrementing the date until it's not Saturday or Sunday
     }
     return date; // Returning the first weekday of the month
+  }
+
+  pipeDateTHNewLanMore1() {
+    const format = new Date();
+    const year = this.checkYearOfLoanDateMore1Year(format.getFullYear());
+    this.year = year;
+    const monthSelectCurrent = this.periodMonthDescOption[format.getMonth()];
+    format.setMonth(format.getMonth());
+    const month = this.checkMonthOfLoanDateMore1Month(format.getMonth());
+    format.setDate(0);
+    const day = format.getDate();
+    const monthSelect = this.periodMonthDescOption[month];
+    this.month = monthSelect.label;
+    const time = format.getHours() + ':' + format.getMinutes() + ' น.';
+    this.time = time;
+
+    const firstDayOfNextMonth = new Date(year, month + 1, 1);
+    //const firstDayOfNextMonth = this.findFirstWeekdayOfMonth(year, month);
+    //const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 1).getDate();
+    return (
+      year +
+      '-' +
+      monthSelect.value +
+      '-' +
+      this.checkLenghtDate(firstDayOfNextMonth.getDate())
+    ); //this.checkLenghtDate(firstDayOfNextMonth.getDate());
+  }
+
+  checkYearOfLoanDateMore1Year(year: any) {
+    const format = new Date();
+    if (format.getMonth() === 11) {
+      return year + 1;
+    } else {
+      return year;
+    }
+  }
+
+  checkMonthOfLoanDateMore1Month(month: any) {
+    if (month === 11) {
+      return 0;
+    } else {
+      return month + 1;
+    }
   }
 
   onCalculateLoanOld() {
@@ -2723,6 +2782,7 @@ export class AdminComponent3Component implements OnInit {
 
   onCalculateLoanNew() {
     const datePayLoanNew = this.pipeDateTHNewLan();
+    const datePayLoanNewMore1 = this.pipeDateTHNewLanMore1();
     const data = this.formModelLoanNew.getRawValue();
     const interestRE = data.interestPercent.replace('%', '');
     const payload = {
@@ -2735,7 +2795,7 @@ export class AdminComponent3Component implements OnInit {
       const data = res[0];
       this.formModelLoanNew.patchValue({
         loanOrdinary: this.formattedNumber2(Number(data.totalDeduction)),
-        startDateLoan: datePayLoanNew,
+        startDateLoan: datePayLoanNewMore1,
         interestLoan: data.interest, //interest
         loanBalance: data.principalBalance, //principalBalance
         interestLoanLastMonth: 0, // interestLastMonth
@@ -2849,7 +2909,7 @@ export class AdminComponent3Component implements OnInit {
 
   onupdateLoanToMonth() {
     // api update stock to everyone
-    this.showWarn();
+    this.showWarnAddLoan();
     const payload = {
       oldMonth: this.oldMonth.label,
       oldYear: this.oldYear,
@@ -2904,10 +2964,7 @@ export class AdminComponent3Component implements OnInit {
     this.monthSelectNew = monthNew;
     this.yearSelectNew = dataMY.year;
 
-    if (
-      this.year == dataMY.year &&
-      this.monthValue == Number(dataMY.month).toString()
-    ) {
+    if (this.year == dataMY.year && this.monthValue == dataMY.month) {
       this.service.searchDocumentV1Loan(payload).subscribe((data) => {
         this.list = data;
         const key = 'employeeCode';

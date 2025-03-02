@@ -404,7 +404,7 @@ select {
   font-weight: normal;
   color: #6b7280;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
@@ -726,8 +726,8 @@ select {
 
 @media only screen and (max-width: 1100px) {
   .card-search-table .card-input {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
   .card-search-body {
     display: flex;
@@ -756,6 +756,10 @@ select {
 @media only screen and (max-width: 700px) {
   .loan-contract {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .card-search-table .card-input {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
