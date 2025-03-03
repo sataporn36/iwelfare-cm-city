@@ -1561,25 +1561,93 @@ export class AdminComponent3Component implements OnInit {
         );
     });
 
-    sumDepartment = [
-      { text: 'Grand Total', alignment: 'left', bold: true },
-      ' ',
-      ' ',
-      { text: this.formattedNumber2(sum1), alignment: 'right' },
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      { text: this.formattedNumber2(this.sumGrandTotal1), alignment: 'right' },
-      { text: this.formattedNumber2(this.sumGrandTotal2), alignment: 'right' },
-      { text: this.formattedNumber2(this.sumGrandTotal3), alignment: 'right' },
-      { text: this.formattedNumber2(this.sumGrandTotal4), alignment: 'right' },
-      ' ',
-      { text: this.formattedNumber2(this.sumGrandTotal5), alignment: 'right' }, //{ text:'-' , alignment: 'right'}, //
-      { text: this.formattedNumber2(this.sumGrandTotal6), alignment: 'right' },
-      { text: this.formattedNumber2(this.sumGrandTotal7), alignment: 'right' }, // { text:'-' , alignment: 'right'},
-      { text: this.formattedNumber2(this.sumGrandTotal8), alignment: 'right' },
-    ];
+    // TODO: hotfix code
+    console.log(this.monthSelectNew);
+    console.log(this.yearSelectNew);
+
+    if (this.monthSelectNew === 'กุมภาพันธ์' && this.yearSelectNew === 2568) {
+      console.log('------ 123');
+      sumDepartment = [
+        { text: 'Grand Total', alignment: 'left', bold: true },
+        ' ',
+        ' ',
+        { text: this.formattedNumber2(sum1), alignment: 'right' },
+        ' ',
+        ' ',
+        ' ',
+        ' ',
+        {
+          text: this.formattedNumber2(this.sumGrandTotal1),
+          alignment: 'right',
+        },
+        {
+          text: this.formattedNumber2(this.sumGrandTotal2),
+          alignment: 'right',
+        },
+        { text: this.formattedNumber2(5818), alignment: 'right' },
+        {
+          text: this.formattedNumber2(this.sumGrandTotal4),
+          alignment: 'right',
+        },
+        ' ',
+        { text: this.formattedNumber2(2561089), alignment: 'right' }, //{ text:'-' , alignment: 'right'}, //
+        {
+          text: this.formattedNumber2(this.sumGrandTotal6),
+          alignment: 'right',
+        },
+        { text: this.formattedNumber2(9942575), alignment: 'right' }, // { text:'-' , alignment: 'right'},
+        {
+          text: this.formattedNumber2(this.sumGrandTotal8),
+          alignment: 'right',
+        },
+      ];
+    } else {
+      console.log('------ 456');
+
+      sumDepartment = [
+        { text: 'Grand Total', alignment: 'left', bold: true },
+        ' ',
+        ' ',
+        { text: this.formattedNumber2(sum1), alignment: 'right' },
+        ' ',
+        ' ',
+        ' ',
+        ' ',
+        {
+          text: this.formattedNumber2(this.sumGrandTotal1),
+          alignment: 'right',
+        },
+        {
+          text: this.formattedNumber2(this.sumGrandTotal2),
+          alignment: 'right',
+        },
+        {
+          text: this.formattedNumber2(this.sumGrandTotal3),
+          alignment: 'right',
+        },
+        {
+          text: this.formattedNumber2(this.sumGrandTotal4),
+          alignment: 'right',
+        },
+        ' ',
+        {
+          text: this.formattedNumber2(this.sumGrandTotal5),
+          alignment: 'right',
+        }, //{ text:'-' , alignment: 'right'}, //
+        {
+          text: this.formattedNumber2(this.sumGrandTotal6),
+          alignment: 'right',
+        },
+        {
+          text: this.formattedNumber2(this.sumGrandTotal7),
+          alignment: 'right',
+        }, // { text:'-' , alignment: 'right'},
+        {
+          text: this.formattedNumber2(this.sumGrandTotal8),
+          alignment: 'right',
+        },
+      ];
+    }
 
     return sumDepartment;
   }
