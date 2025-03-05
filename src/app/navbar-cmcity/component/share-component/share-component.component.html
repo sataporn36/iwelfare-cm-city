@@ -91,7 +91,7 @@
         <p-table responsiveLayout="stack" dataKey="id" [value]="dataStockDetail" [loading]="loading" [paginator]="true"
             [rows]="10" [showCurrentPageReport]="true"
             currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} รายการ" selectionMode="single"
-            [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 50, 100]">
+            [tableStyle]="{'max-width': '100%'}" [rowsPerPageOptions]="[10, 20, 50, 100]">
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <!-- <th style="width:10%">ลำดับที่</th> -->

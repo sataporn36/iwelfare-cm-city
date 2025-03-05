@@ -26,6 +26,7 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { Department } from 'src/app/model/department';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import fontsBase64 from 'src/assets/fontsBase64.json';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -870,6 +871,11 @@ export class ShareComponentComponent implements OnInit {
     });
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -888,6 +894,12 @@ export class ShareComponentComponent implements OnInit {
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
         bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
     const docDefinition = {
@@ -970,14 +982,20 @@ export class ShareComponentComponent implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 13,
-          bold: 200,
+          fontSize: 16,
+          bold: true,
+          alignment: 'center',
+        },
+        tableHeader: {
+          fontSize: 14,
+          bold: true,
           alignment: 'center',
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        font: 'Sarabun',
+        fontSize: 14,
+        font: 'THSarabun',
       },
     };
     const pdf = pdfMake.createPdf(docDefinition);

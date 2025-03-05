@@ -11,6 +11,7 @@ import pdfFonts from 'src/assets/custom-fonts.js';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DecimalPipe } from '@angular/common';
 import { Subject, debounceTime } from 'rxjs';
+import fontsBase64 from 'src/assets/fontsBase64.json';
 
 @Component({
   selector: 'app-loan-component',
@@ -823,6 +824,11 @@ export class LoanComponentComponent implements OnInit {
     const dataSum = this.checkTotalListGroup(loanInfo);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -841,6 +847,12 @@ export class LoanComponentComponent implements OnInit {
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
         bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
     const docDefinition = {
@@ -934,14 +946,21 @@ export class LoanComponentComponent implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 13,
+          fontSize: 16,
           bold: true,
           alignment: 'center',
+        },
+        tableHeader: {
+          font: 'THSarabun',
+          fontSize: 14,
+          alignment: 'center',
+          bold: true,
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        font: 'Sarabun',
+        font: 'THSarabun',
+        fontSize: 14,
       },
     };
     const pdf = pdfMake.createPdf(docDefinition);
