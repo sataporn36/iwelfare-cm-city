@@ -18,6 +18,7 @@ import {
   AdminLoanOrder,
   AdminLoanReq,
 } from './models/admin-loan-req';
+import fontsBase64 from 'src/assets/fontsBase64.json';
 
 @Component({
   selector: 'app-admin-component3',
@@ -786,56 +787,119 @@ export class AdminComponent3Component implements OnInit {
         { text: item.departmentName, alignment: 'left' },
         { text: item.employeeCode, alignment: 'center' },
         { text: item.fullName, alignment: 'left' },
-        { text: decimalPipe.transform(item.loanValue), alignment: 'right' },
-        { text: decimalPipe.transform(item.loanTime), alignment: 'center' },
+        {
+          text: decimalPipe.transform(item.loanValue),
+          alignment: 'right',
+          style: 'tableHeader',
+        },
+        {
+          text: decimalPipe.transform(item.loanTime),
+          alignment: 'center',
+          style: 'tableHeader',
+        },
         {
           text: decimalPipe.transform(item.interestPercent),
           alignment: 'right',
+          style: 'tableHeader',
         },
         {
           text: item.guarantorCode1 ? item.guarantorCode1 : ' ',
           alignment: 'center',
+          style: 'tableHeader',
         },
         {
           text: item.guarantorCode2 ? item.guarantorCode2 : ' ',
           alignment: 'center',
+          style: 'tableHeader',
         },
-        { text: decimalPipe.transform(item.monthInterest), alignment: 'right' },
+        {
+          text: decimalPipe.transform(item.monthInterest),
+          alignment: 'right',
+          style: 'tableHeader',
+        },
         {
           text: decimalPipe.transform(item.monthPrinciple),
           alignment: 'right',
+          style: 'tableHeader',
         },
         {
           text: decimalPipe.transform(item.lastMonthInterest),
           alignment: 'right',
+          style: 'tableHeader',
         },
         {
           text: decimalPipe.transform(item.lastMonthPrinciple),
           alignment: 'right',
+          style: 'tableHeader',
         },
-        { text: decimalPipe.transform(item.installment), alignment: 'center' },
+        {
+          text: decimalPipe.transform(item.installment),
+          alignment: 'center',
+          style: 'tableHeader',
+        },
         {
           text: decimalPipe.transform(item.totalValueInterest),
           alignment: 'right',
+          style: 'tableHeader',
         },
         {
           text: decimalPipe.transform(item.outStandInterest),
           alignment: 'right',
+          style: 'tableHeader',
         },
         {
           text: decimalPipe.transform(item.totalValuePrinciple),
           alignment: 'right',
+          style: 'tableHeader',
         },
         {
           text: decimalPipe.transform(item.outStandPrinciple),
           alignment: 'right',
+          style: 'tableHeader',
         },
       ];
     });
 
     const dataSum = this.checkTotalListGroup(loanInfo);
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    // pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    // pdfMake.vfs['THSarabun-Regular.ttf'] = fontBase64['THSarabun-Regular.ttf'];
+    // pdfMake.vfs['THSarabun-Bold.ttf'] = fontBase64['THSarabun-Bold.ttf'];
+    // pdfMake.vfs['THSarabun-Italic.ttf'] = fontBase64['THSarabun-Italic.ttf'];
+    // pdfMake.vfs['THSarabun-BoldItalic.ttf'] = fontBase64['THSarabun-BoldItalic.ttf'];
+    // pdfMake.vfs = {
+    //   ...pdfFonts.pdfMake.vfs, // Ensure built-in fonts are included
+    //   "THSarabun-Regular.ttf": fontBase64["THSarabun-Regular.ttf"],
+    //   "THSarabun-Bold.ttf": fontBase64["THSarabun-Bold.ttf"],
+    //   "THSarabun-Italic.ttf": fontBase64["THSarabun-Italic.ttf"],
+    //   "THSarabun-BoldItalic.ttf": fontBase64["THSarabun-BoldItalic.ttf"]
+    // };
+
+    pdfMake.vfs = pdfFonts.pdfMake.vfs; // Ensure default fonts are set
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
+
+    // this.http.get('/assets/fontsBase64.json').subscribe((fontBase64: any) => {
+    //   pdfMake.vfs['THSarabun-Regular.ttf'] =
+    //     fontBase64['THSarabun-Regular.ttf'];
+    //   pdfMake.vfs['THSarabun-Bold.ttf'] = fontBase64['THSarabun-Bold.ttf'];
+    //   pdfMake.vfs['THSarabun-Italic.ttf'] = fontBase64['THSarabun-Italic.ttf'];
+    //   pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+    //     fontBase64['THSarabun-BoldItalic.ttf'];
+
+    //   pdfMake.fonts = {
+    //     THSarabun: {
+    //       normal: 'THSarabun-Regular.ttf',
+    //       bold: 'THSarabun-Bold.ttf',
+    //       italics: 'THSarabun-Italic.ttf',
+    //       bolditalics: 'THSarabun-BoldItalic.ttf',
+    //     },
+    //   };
+    // });
+
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -847,13 +911,11 @@ export class AdminComponent3Component implements OnInit {
         bolditalics:
           'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
-      // Kanit Font
-      Sarabun: {
-        // 3. set Kanit font
-        normal: 'Sarabun-Regular.ttf',
-        bold: 'Sarabun-Medium.ttf',
-        italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
     const docDefinition = {
@@ -881,7 +943,7 @@ export class AdminComponent3Component implements OnInit {
             alignment: 'center',
             headerRows: 1,
             widths: [
-              150, 48, 95, 65, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60,
+              200, 48, 120, 60, 30, 20, 44, 44, 50, 50, 50, 50, 30, 50, 50, 60,
               60,
             ],
             body: [
@@ -899,7 +961,11 @@ export class AdminComponent3Component implements OnInit {
                 },
                 { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
                 { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' },
-                { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'ดอก\nเบี้ย',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
                 {
                   text: 'ผู้คํ้า 1',
                   style: 'tableHeader',
@@ -1019,14 +1085,22 @@ export class AdminComponent3Component implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 13,
+          font: 'THSarabun',
+          fontSize: 16,
           bold: true,
           alignment: 'center',
+        },
+        tableHeader: {
+          font: 'THSarabun',
+          fontSize: 14,
+          alignment: 'center',
+          bold: true,
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        font: 'Sarabun',
+        font: 'THSarabun',
+        fontSize: 14,
       },
     };
     const pdf = pdfMake.createPdf(docDefinition);
@@ -1991,6 +2065,30 @@ export class AdminComponent3Component implements OnInit {
     pushDataSection(data35, dataSum35);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
+
+    // this.http.get('/assets/fontsBase64.json').subscribe((fontBase64: any) => {
+    //   pdfMake.vfs['THSarabun-Regular.ttf'] =
+    //     fontBase64['THSarabun-Regular.ttf'];
+    //   pdfMake.vfs['THSarabun-Bold.ttf'] = fontBase64['THSarabun-Bold.ttf'];
+    //   pdfMake.vfs['THSarabun-Italic.ttf'] = fontBase64['THSarabun-Italic.ttf'];
+    //   pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+    //     fontBase64['THSarabun-BoldItalic.ttf'];
+
+    //   pdfMake.fonts = {
+    //     THSarabun: {
+    //       normal: 'THSarabun-Regular.ttf',
+    //       bold: 'THSarabun-Bold.ttf',
+    //       italics: 'THSarabun-Italic.ttf',
+    //       bolditalics: 'THSarabun-BoldItalic.ttf',
+    //     },
+    //   };
+    // });
+
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -2002,13 +2100,11 @@ export class AdminComponent3Component implements OnInit {
         bolditalics:
           'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
       },
-      // Kanit Font
-      Sarabun: {
-        // 3. set Kanit font
-        normal: 'Sarabun-Regular.ttf',
-        bold: 'Sarabun-Medium.ttf',
-        italics: 'Sarabun-Italic.ttf ',
-        bolditalics: 'Sarabun-MediumItalic.ttf ',
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
     const docDefinition = {
@@ -2039,7 +2135,7 @@ export class AdminComponent3Component implements OnInit {
             alignment: 'center',
             headerRows: 1,
             widths: [
-              150, 48, 95, 75, 30, 19, 44, 44, 60, 60, 60, 60, 30, 60, 60, 60,
+              200, 48, 120, 60, 30, 20, 44, 44, 50, 50, 50, 50, 30, 50, 50, 60,
               60,
             ],
             body: [
@@ -2057,7 +2153,11 @@ export class AdminComponent3Component implements OnInit {
                 },
                 { text: 'เงินกู้', style: 'tableHeader', alignment: 'center' },
                 { text: 'เวลากู้', style: 'tableHeader', alignment: 'center' },
-                { text: 'ดอกเบี้ย', style: 'tableHeader', alignment: 'center' },
+                {
+                  text: 'ดอก\nเบี้ย',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                },
                 {
                   text: 'ผู้คํ้า 1',
                   style: 'tableHeader',
@@ -2198,14 +2298,22 @@ export class AdminComponent3Component implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 13,
+          font: 'THSarabun',
+          fontSize: 16,
           bold: true,
           alignment: 'center',
+        },
+        tableHeader: {
+          font: 'THSarabun',
+          fontSize: 14,
+          alignment: 'center',
+          bold: true,
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        font: 'Sarabun',
+        font: 'THSarabun',
+        fontSize: 14,
       },
     };
 

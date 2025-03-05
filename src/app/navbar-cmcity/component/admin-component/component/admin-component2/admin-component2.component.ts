@@ -37,6 +37,7 @@ import {
   AdminStockOrder,
   AdminStockReq,
 } from './models/admin-stock-req';
+import fontsBase64 from 'src/assets/fontsBase64.json';
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
@@ -1445,14 +1446,21 @@ export class AdminComponent2Component implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 13,
-          bold: 200,
+          fontSize: 16,
+          bold: true,
           alignment: 'center',
+        },
+        tableHeader: {
+          font: 'THSarabun',
+          fontSize: 14,
+          alignment: 'center',
+          bold: true,
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        font: 'Sarabun',
+        font: 'THSarabun',
+        fontSize: 14,
       },
     };
     const pdf = pdfMake.createPdf(docDefinition);
@@ -1824,6 +1832,11 @@ export class AdminComponent2Component implements OnInit {
     pushDataSection(data35, dataSum35);
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -1842,6 +1855,12 @@ export class AdminComponent2Component implements OnInit {
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
         bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
     const docDefinition = {
@@ -1996,14 +2015,21 @@ export class AdminComponent2Component implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 13,
-          bold: 200,
+          fontSize: 16,
+          bold: true,
           alignment: 'center',
+        },
+        tableHeader: {
+          font: 'THSarabun',
+          fontSize: 14,
+          alignment: 'center',
+          bold: true,
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        font: 'Sarabun',
+        font: 'THSarabun',
+        fontSize: 14,
       },
     };
     const pdf = pdfMake.createPdf(docDefinition);
@@ -2437,21 +2463,21 @@ export class AdminComponent2Component implements OnInit {
           style: 'texts',
         },
         {
-          text: ['ได้รับเงินจาก ', { text: ' ' + fullName, bold: true }],
+          text: ['ได้รับเงินจาก ', { text: '' + fullName, bold: true }],
           margin: [0, 6, 0, 0],
           style: 'texts',
         },
         {
-          text: ['สังกัด ', { text: ' ' + departMentName, bold: true }],
+          text: ['สังกัด ', { text: '' + departMentName, bold: true }],
           margin: [0, 6, 0, 0],
           style: 'texts',
         },
-        // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        // { text: ['เลขที่สมาชิก ', { text: '' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         {
           text: [
             'หุ้นสะสม ',
             {
-              text: ' ' + this.formattedNumber2(stockAccumulate) + ' ',
+              text: '' + this.formattedNumber2(stockAccumulate) + ' ',
               bold: true,
             },
             { text: '  บาท' },
@@ -2710,6 +2736,11 @@ export class AdminComponent2Component implements OnInit {
 
   onPrintTotal(grandTotal: any, hasSummary: boolean) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -2728,6 +2759,12 @@ export class AdminComponent2Component implements OnInit {
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
         bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
 
@@ -2754,40 +2791,43 @@ export class AdminComponent2Component implements OnInit {
         { text: 'สรุปยอดรวมต่างๆ', style: 'header' },
         '\n',
         {
-          text: [
-            'วันที่ปริ้นเอกสารฉบับนี้: ',
+          columns: [
             {
-              text:
-                '                ' +
-                this.pipeDateTH() +
-                '                                                     ',
-              bold: false,
+              text: [
+                { text: 'วันที่ปริ้นเอกสารฉบับนี้:\t', bold: true },
+                { text: '' + this.pipeDateTH() + ' ', bold: false },
+              ],
+              alignment: 'left',
             },
-            { text: 'เดือน: ', bold: true },
-            { text: ' ' + this.monthSelectNew + ' ', bold: false },
+            {
+              text: [
+                { text: 'เดือน:\t', bold: true },
+                { text: '' + this.monthSelectNew + ' ', bold: false },
+              ],
+              alignment: 'right',
+            },
           ],
-          bold: true,
-          margin: [0, 6, 0, 0],
-          style: 'texts',
+          margin: [0, 5, 0, 0],
         },
         {
-          text: [
-            'เวลาที่ปริ้นเอกสารฉบับนี้: ',
+          columns: [
             {
-              text:
-                '             ' +
-                this.time +
-                '                                                                       ',
-              bold: false,
+              text: [
+                { text: 'เวลาที่ปริ้นเอกสารฉบับนี้:\t', bold: true },
+                { text: '' + this.time + ' ', bold: false },
+              ],
+              alignment: 'left',
             },
-            { text: 'ปี: ', bold: true },
-            { text: ' ' + this.yearSelectNew + '', bold: false },
+            {
+              text: [
+                { text: 'ปี:\t', bold: true },
+                { text: '' + this.yearSelectNew + ' ', bold: false },
+              ],
+              alignment: 'right',
+            },
           ],
-          bold: true,
-          margin: [0, 6, 0, 0],
-          style: 'texts',
+          margin: [0, 5, 0, 0],
         },
-        '\n',
         '\n',
         '\n',
         {
@@ -2806,6 +2846,7 @@ export class AdminComponent2Component implements OnInit {
                   style: 'tableHeader',
                   colSpan: 2,
                   alignment: 'center',
+                  bold: true,
                 },
                 {},
               ],
@@ -2813,39 +2854,118 @@ export class AdminComponent2Component implements OnInit {
               [
                 {
                   rowSpan: 1,
-                  text: ' จํานวนสมาชิกทั้งหมด \n\nจํานวนสมาชิกกู้เงินสามัญ \n\nยอดเงินกู้สามัญคงค้าง \n\nค่าหุ้นสะสมรวม\n\n',
+                  // text: [
+                  //   { text: ' จํานวนสมาชิกทั้งหมด \n', margin: [0, 5, 0, 0] },
+                  //   {
+                  //     text: ' จํานวนสมาชิกกู้เงินสามัญ \n',
+                  //     margin: [0, 5, 0, 0],
+                  //   },
+                  //   { text: ' ยอดเงินกู้สามัญคงค้าง \n', margin: [0, 5, 0, 0] },
+                  //   { text: ' ค่าหุ้นสะสมรวม \n', margin: [0, 5, 0, 0] },
+                  // ],
+                  stack: [
+                    { text: 'จํานวนสมาชิกทั้งหมด', margin: [0, 10, 0, 0] },
+                    { text: 'จํานวนสมาชิกกู้เงินสามัญ', margin: [0, 10, 0, 0] },
+                    { text: 'ยอดเงินกู้สามัญคงค้าง', margin: [0, 10, 0, 0] },
+                    { text: 'ค่าหุ้นสะสมรวม', margin: [0, 10, 0, 10] },
+                  ],
+                  // text: ' จํานวนสมาชิกทั้งหมด \n\nจํานวนสมาชิกกู้เงินสามัญ \n\nยอดเงินกู้สามัญคงค้าง \n\nค่าหุ้นสะสมรวม\n\n',
                 },
                 {
                   rowSpan: 1,
-                  text:
-                    grandTotal.sumEmp +
-                    '     ราย \n\n' +
-                    grandTotal.sumLoan +
-                    '     ราย \n\n' +
-                    this.formattedNumber(grandTotal.sumLoanBalance) +
-                    '    บาท \n\n' +
-                    sumStockAccumulate +
-                    '    บาท\n\n',
-                  alignment: 'right',
+                  // text:
+                  //   grandTotal.sumEmp + '\t ราย \t' +
+                  //   grandTotal.sumLoan +
+                  //   '     ราย \n\n' +
+                  //   this.formattedNumber(grandTotal.sumLoanBalance) +
+                  //   '    บาท \n\n' +
+                  //   sumStockAccumulate +
+                  //   '    บาท \n\n',
+                  // alignment: 'right',
+                  stack: [
+                    {
+                      text: grandTotal.sumEmp + '\tราย\t',
+                      margin: [0, 10, 0, 0],
+                      alignment: 'right',
+                    },
+                    {
+                      text: grandTotal.sumLoan + '\tราย\t',
+                      margin: [0, 10, 0, 0],
+                      alignment: 'right',
+                    },
+                    {
+                      text:
+                        this.formattedNumber(grandTotal.sumLoanBalance) +
+                        '\tบาท\t',
+                      margin: [0, 10, 0, 0],
+                      alignment: 'right',
+                    },
+                    {
+                      text: sumStockAccumulate + '\tบาท\t',
+                      margin: [0, 10, 0, 10],
+                      alignment: 'right',
+                    },
+                  ],
                 },
               ],
               [
                 {
                   rowSpan: 1,
-                  text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมยอดเงินที่ได้รับทั้งหมด\n\n',
+                  // text: ' มูลค่าหุ้นที่ส่งเดือนนี้ \n\nดอกเบี้ยจากเงินกู้สามัญ \n\nรวมส่งเงินต้นจากเงินกู้สามัญ \n\nรวมยอดเงินที่ได้รับทั้งหมด\n\n',
+                  stack: [
+                    { text: 'มูลค่าหุ้นที่ส่งเดือนนี้', margin: [0, 10, 0, 0] },
+                    { text: 'ดอกเบี้ยจากเงินกู้สามัญ', margin: [0, 10, 0, 0] },
+                    {
+                      text: 'รวมส่งเงินต้นจากเงินกู้สามัญ',
+                      margin: [0, 10, 0, 0],
+                    },
+                    {
+                      text: 'รวมยอดเงินที่ได้รับทั้งหมด',
+                      margin: [0, 10, 0, 10],
+                    },
+                  ],
                 },
                 {
                   rowSpan: 1,
-                  text:
-                    this.formattedNumber(grandTotal.sumStockValue) +
-                    '    บาท \n\n' +
-                    this.formattedNumber(grandTotal.sumLoanInterest) +
-                    '    บาท \n\n' +
-                    this.formattedNumber(grandTotal.sumLoanOrdinary) +
-                    '    บาท \n\n' +
-                    this.formattedNumber(grandTotal.sumTotal) +
-                    '    บาท \n\n',
-                  alignment: 'right',
+                  // text:
+                  //   this.formattedNumber(grandTotal.sumStockValue) +
+                  //   '    บาท \n\n' +
+                  //   this.formattedNumber(grandTotal.sumLoanInterest) +
+                  //   '    บาท \n\n' +
+                  //   this.formattedNumber(grandTotal.sumLoanOrdinary) +
+                  //   '    บาท \n\n' +
+                  //   this.formattedNumber(grandTotal.sumTotal) +
+                  //   '    บาท \n\n',
+                  // alignment: 'right',
+                  stack: [
+                    {
+                      text:
+                        this.formattedNumber(grandTotal.sumStockValue) +
+                        '\tบาท\t',
+                      margin: [0, 10, 0, 0],
+                      alignment: 'right',
+                    },
+                    {
+                      text:
+                        this.formattedNumber(grandTotal.sumLoanInterest) +
+                        '\tบาท\t',
+                      margin: [0, 10, 0, 0],
+                      alignment: 'right',
+                    },
+                    {
+                      text:
+                        this.formattedNumber(grandTotal.sumLoanOrdinary) +
+                        '\tบาท\t',
+                      margin: [0, 10, 0, 0],
+                      alignment: 'right',
+                    },
+                    {
+                      text:
+                        this.formattedNumber(grandTotal.sumTotal) + '\tบาท\t',
+                      margin: [0, 10, 0, 10],
+                      alignment: 'right',
+                    },
+                  ],
                 },
               ],
               //[{ text: 'ประธานกองทุน', style: 'tableHeader', alignment: 'center' }, { text: 'เหรัญญิก', style: 'tableHeader', alignment: 'center' }],
@@ -2857,30 +2977,30 @@ export class AdminComponent2Component implements OnInit {
               node: any,
               columnIndex: any
             ) {
-              return rowIndex === 0 ? '#CCCCCC' : null;
+              return rowIndex === 0 ? '#fff' : null;
             },
           },
         },
       ],
       styles: {
         header: {
-          fontSize: 12,
+          fontSize: 16,
           bold: true,
           alignment: 'center',
         },
         header2: {
-          fontSize: 12,
+          fontSize: 16,
           bold: true,
         },
         texts: {
-          fontSize: 12,
+          fontSize: 16,
           bold: false,
         },
       },
       defaultStyle: {
         // 4. default style 'KANIT' font to test
-        fontSize: 12,
-        font: 'Sarabun',
+        fontSize: 16,
+        font: 'THSarabun',
       },
     };
 
@@ -2981,6 +3101,11 @@ export class AdminComponent2Component implements OnInit {
   onPrintInfoMember(dataList: any[]) {
     // this.service.documentInfoAll().subscribe((dataList) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs; // 2. set vfs pdf font
+    pdfMake.vfs['THSarabun-Regular.ttf'] = fontsBase64['THSarabun-Regular.ttf'];
+    pdfMake.vfs['THSarabun-Bold.ttf'] = fontsBase64['THSarabun-Bold.ttf'];
+    pdfMake.vfs['THSarabun-Italic.ttf'] = fontsBase64['THSarabun-Italic.ttf'];
+    pdfMake.vfs['THSarabun-BoldItalic.ttf'] =
+      fontsBase64['THSarabun-BoldItalic.ttf'];
     pdfMake.fonts = {
       // download default Roboto font from cdnjs.com
       Roboto: {
@@ -2999,6 +3124,12 @@ export class AdminComponent2Component implements OnInit {
         bold: 'Sarabun-Medium.ttf',
         italics: 'Sarabun-Italic.ttf ',
         bolditalics: 'Sarabun-MediumItalic.ttf ',
+      },
+      THSarabun: {
+        normal: 'THSarabun-Regular.ttf',
+        bold: 'THSarabun-Bold.ttf',
+        italics: 'THSarabun-Italic.ttf',
+        bolditalics: 'THSarabun-BoldItalic.ttf',
       },
     };
 
@@ -3031,349 +3162,404 @@ export class AdminComponent2Component implements OnInit {
       content: dataList.map((element, index, array) => [
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
         { text: 'ข้อมูลสมาชิก', style: 'header' },
-        '\n',
         {
-          text: [
-            'หน้า 1                                                                                                    ',
-            { text: '      เดือน ', bold: true },
-            { text: this.monthSelectNew + '     ', style: 'texts' },
-            { text: ' ปี ', bold: true },
-            { text: this.yearSelectNew, style: 'texts' },
+          columns: [
+            {
+              text: 'หน้า 1',
+              style: 'header2',
+              alignment: 'left',
+            },
+            {
+              text: [
+                { text: 'เดือน\t', style: 'header2' },
+                { text: this.monthSelectNew, style: 'texts' },
+                { text: '\tปี\t', style: 'header2' },
+                { text: this.yearSelectNew, style: 'texts' },
+              ],
+              alignment: 'right',
+            },
           ],
-          margin: [0, 6, 0, 0],
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'รหัสพนักงาน           ',
-            { text: element.employeeCode, bold: false, style: 'texts' },
+            { text: 'รหัสพนักงาน  \t\t', style: 'header2' },
+            { text: element.employeeCode, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'ชื่อ-สกุล                   ',
-            { text: element.fullName, bold: false, style: 'texts' },
+            { text: 'ชื่อ-สกุล\t\t\t\t', style: 'header2' },
+            { text: element.fullName, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'วันที่เป็นสมาชิก       ',
+            { text: 'วันที่เป็นสมาชิก\t', style: 'header2' },
             {
               text: element.regisDate
                 ? this.convertPipeDateTH(element.regisDate)
                 : element.regisDate,
-              bold: false,
               style: 'texts',
             },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'หน่วยงาน                ',
-            { text: element.departmentName, bold: false, style: 'texts' },
+            { text: 'หน่วยงาน  \t\t\t', style: 'header2' },
+            { text: element.departmentName, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'ประเภท                   ',
-            { text: element.employeeTypeName, bold: false, style: 'texts' },
+            { text: 'ประเภท\t\t\t\t', style: 'header2' },
+            { text: element.employeeTypeName, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'ตําแหน่ง                   ',
-            { text: element.positionsName, bold: false, style: 'texts' },
+            { text: 'ตําแหน่ง\t\t\t\t', style: 'header2' },
+            { text: element.positionsName, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'อัตราเงินเดือน         ',
+            { text: 'อัตราเงินเดือน  \t\t', style: 'header2' },
             {
               text: this.formattedNumber2(element.salary),
-              bold: false,
               style: 'texts',
             },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'คํ้าประกันให้            ',
+            { text: 'คํ้าประกันให้\t\t\t', style: 'header2' },
             {
               text: element.codeGuaranteeOne
                 ? this.checkNullOfGuarantee(element, 1)
                 : '1. ไม่มี',
-              bold: false,
               style: 'texts',
             },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            ' ',
+            { text: '\t\t\t\t', style: 'header2' },
             {
               text: element.codeGuaranteeTwo
                 ? this.checkNullOfGuarantee(element, 2)
-                : '2. ไม่มี',
-              bold: false,
+                : ' 2. ไม่มี',
               style: 'texts',
             },
           ],
-          margin: [95, 6, 0, 0],
-          bold: false,
+          margin: [95, 5, 0, 0],
         },
         {
-          text: [
-            'ส่งค่าหุ้น\t\t\t\t  ',
+          columns: [
             {
-              text: this.formattedNumber2(element.stockValue) + '\tบาท',
-              bold: false,
-              style: 'texts',
+              text: [
+                { text: 'ส่งค่าหุ้น\t\t\t\t ', style: 'header2' },
+                {
+                  text: this.formattedNumber2(element.stockValue) + '\t\tบาท',
+                  style: 'texts',
+                },
+              ],
+              alignment: 'left',
             },
             {
-              text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ',
-              bold: false,
-            },
-            {
-              text:
-                '\t\t' +
-                (element.installment <= 1
-                  ? element.installment
-                  : Number(element.installment - 1)),
-              bold: false,
-              style: 'texts',
+              text: [
+                { text: 'งวดที่\t\t', style: 'header2' },
+                {
+                  text:
+                    element.installment <= 1
+                      ? element.installment
+                      : Number(element.installment - 1),
+                  style: 'texts',
+                },
+              ],
+              alignment: 'right',
             },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 45, 0],
         },
         {
-          text: [
-            'หุ้นสะสม\t\t\t\t ',
+          columns: [
             {
-              text:
-                this.formattedNumber2(
-                  element.stockAccumulate - element.stockValue
-                ) + '\tบาท',
-              bold: false,
-              style: 'texts',
+              text: [
+                { text: 'หุ้นสะสม\t\t\t\t', style: 'header2' },
+                {
+                  text:
+                    this.formattedNumber2(
+                      element.stockAccumulate - element.stockValue
+                    ) + '\t\tบาท',
+                  style: 'texts',
+                },
+              ],
+              alignment: 'left',
             },
             {
-              text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ',
-              bold: false,
+              text: [
+                { text: 'ได้ปันผล\t\t', style: 'header2' },
+                { text: ' - ' + '\t\tบาท', bold: false, style: 'texts' },
+              ],
+              alignment: 'right',
             },
-            { text: '\t - ' + '    บาท', bold: false, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 5, 0],
         },
+        // {
+        //   text: [
+        //     { text: 'ส่งค่าหุ้น\t\t\t\t  ', style: 'header2' },
+        //     {
+        //       text: this.formattedNumber2(element.stockValue) + '\tบาท',
+        //       style: 'texts',
+        //     },
+        //     {
+        //       text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tงวดที่ ',
+        //       bold: false,
+        //     },
+        //     {
+        //       text:
+        //         '\t\t' +
+        //         (element.installment <= 1
+        //           ? element.installment
+        //           : Number(element.installment - 1)),
+        //       bold: false,
+        //       style: 'texts',
+        //     },
+        //   ],
+        //   margin: [0, 6, 0, 0],
+        //   bold: false,
+        // },
+        // {
+        //   text: [
+        //     'หุ้นสะสม\t\t\t\t ',
+        //     {
+        //       text:
+        //         this.formattedNumber2(
+        //           element.stockAccumulate - element.stockValue
+        //         ) + '\tบาท',
+        //       bold: false,
+        //       style: 'texts',
+        //     },
+        //     {
+        //       text: '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tได้ปันผล ',
+        //       bold: false,
+        //     },
+        //     { text: '\t - ' + '    บาท', bold: false, style: 'texts' },
+        //   ],
+        //   margin: [0, 6, 0, 0],
+        //   bold: false,
+        // },
         //<--------------------------------- center --------------------------------->
-        '\n',
         '\n',
         { text: 'เทศบาลนครเชียงใหม่', style: 'header' },
         { text: 'ข้อมูลสมาชิก', style: 'header' },
-        '\n',
+        // {
+        //   text: [
+        //     'หน้า 2                                                                                                    ',
+        //     { text: '      เดือน ', bold: true },
+        //     { text: this.monthSelectNew + '     ', style: 'texts' },
+        //     { text: ' ปี ', bold: true },
+        //     { text: this.yearSelectNew, style: 'texts' },
+        //   ],
+        //   margin: [0, 6, 0, 0],
+        // },
         {
-          text: [
-            'หน้า 2                                                                                                    ',
-            { text: '      เดือน ', bold: true },
-            { text: this.monthSelectNew + '     ', style: 'texts' },
-            { text: ' ปี ', bold: true },
-            { text: this.yearSelectNew, style: 'texts' },
+          columns: [
+            {
+              text: 'หน้า 2',
+              style: 'header2',
+              alignment: 'left',
+            },
+            {
+              text: [
+                { text: 'เดือน\t', style: 'header2' },
+                { text: this.monthSelectNew, style: 'texts' },
+                { text: '\tปี\t', style: 'header2' },
+                { text: this.yearSelectNew, style: 'texts' },
+              ],
+              alignment: 'right',
+            },
           ],
-          margin: [0, 6, 0, 0],
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'รหัสพนักงาน           ',
-            { text: element.employeeCode, bold: false, style: 'texts' },
+            { text: 'รหัสพนักงาน  \t\t', style: 'header2' },
+            { text: element.employeeCode, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'ชื่อ-สกุล                   ',
-            { text: element.fullName, bold: false, style: 'texts' },
+            { text: 'ชื่อ-สกุล\t\t\t\t', style: 'header2' },
+            { text: element.fullName, style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         { text: 'ข้อมูลการกู้เงินสามัญ', style: 'header' },
         {
           text: [
-            'กู้เงินจํานวน             ',
-            {
-              text: this.formattedNumber2(element.loanValue),
-              bold: false,
-              style: 'texts',
-            },
-            { text: '                     บาท ', bold: false, style: 'texts' },
+            { text: 'กู้เงินจํานวน\t\t\t\t', style: 'header2' },
+            { text: this.formattedNumber2(element.loanValue), style: 'texts' },
+            { text: '\t\t\t\t\t\t  บาท', style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'ระยะเวลากู้              ',
-            { text: element.loanTime, bold: false, style: 'texts' },
-            {
-              text: '                     เดือน ',
-              bold: false,
-              style: 'texts',
-            },
+            { text: 'ระยะเวลากู้\t\t\t\t', style: 'header2' },
+            { text: element.loanTime, style: 'texts' },
+            { text: '\t\t\t\t\t\t   เดือน', style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
         {
           text: [
-            'อัตราดอกเบี้ย          ',
-            { text: element.interestPercent, bold: false, style: 'texts' },
-            {
-              text: '                     เปอร์เซ็นต์ต่อปี ',
-              bold: false,
-              style: 'texts',
-            },
+            { text: 'อัตราดอกเบี้ย\t\t\t\t', style: 'header2' },
+            { text: element.interestPercent, style: 'texts' },
+            { text: '\t\t\t\t\t\tเปอร์เซ็นต์ต่อปี', style: 'texts' },
           ],
-          margin: [0, 6, 0, 0],
-          bold: false,
+          margin: [0, 5, 0, 0],
         },
-        '\n',
         {
           style: 'tableExample',
           table: {
-            widths: [90, 150, 80, 150],
+            widths: [90, 95, 80, 100, 80, 50],
             body: [
               [
-                { text: ' วันที่เริ่มกู้ ', color: 'black' },
-                { text: ' - ', color: 'gray', fillColor: '#fff' },
-                { text: ' วันที่ทําสัญญา ', color: 'black' },
+                {
+                  text: ' วันที่เริ่มกู้',
+                  style: 'header2',
+                  margin: [0, 5, 0, 0],
+                },
+                { text: ' - ', style: 'texts', margin: [0, 5, 0, 0] },
+                {
+                  text: ' วันที่ทําสัญญา ',
+                  style: 'header2',
+                  margin: [0, 5, 0, 0],
+                },
                 {
                   text: element.startLoanDate
                     ? this.textToDateFullThai(element.startLoanDate)
                     : ' - ',
-                  color: 'gray',
+                  style: 'texts',
+                  margin: [0, 5, 0, 0],
                 },
+                { text: '', style: 'texts', margin: [0, 5, 0, 0] },
+                { text: '', style: 'texts', margin: [0, 5, 0, 0] },
               ],
               [
-                { text: ' เหตุผลการกู้ ', color: 'black' },
-                { text: ' - ', color: 'gray', fillColor: '#fff' },
-                { text: ' ', color: 'black' },
-                { text: ' ', color: 'gray' },
+                { text: ' เหตุผลการกู้ ', style: 'header2' },
+                { text: ' - ', style: 'texts' },
+                { text: '', style: 'header2' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
               ],
               [
-                { text: ' ผู้คํ้าประกัน 1 ', color: 'black' },
+                { text: ' ผู้คํ้าประกัน 1 ', style: 'header2' },
                 {
                   text: element.codeGuarantorOne
                     ? this.checkNullOfGuarantor(element, 1)
                     : ' ไม่มี',
-                  color: 'gray',
-                  fillColor: '#fff',
+                  style: 'texts',
                 },
-                { text: ' ', color: 'black' },
-                { text: ' ', color: 'gray' },
+                { text: '', style: 'header2' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
               ],
               [
-                { text: ' ผู้คํ้าประกัน 2 ', color: 'black' },
+                { text: ' ผู้คํ้าประกัน 2 ', style: 'header2' },
                 {
                   text: element.codeGuarantorTwo
                     ? this.checkNullOfGuarantor(element, 2)
                     : ' ไม่มี',
-                  color: 'gray',
-                  fillColor: '#fff',
+                  style: 'texts',
                 },
-                { text: ' ', color: 'black' },
-                { text: ' ', color: 'gray' },
+                { text: '', style: 'header2' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
               ],
               [
-                { text: ' ดอกเดือนนี้ ', color: 'black' },
+                { text: ' ดอกเดือนนี้ ', style: 'header2' },
                 {
-                  text:
-                    this.formattedNumber2(element.interestMonth) +
-                    '          บาท',
-                  color: 'gray',
-                  fillColor: '#fff',
+                  text: this.formattedNumber2(element.interestMonth),
+                  style: 'texts',
                 },
-                { text: ' ต้นเดือนนี้ ', color: 'black', width: 150 },
+                { text: 'บาท', style: 'texts' },
+                { text: 'ต้นเดือนนี้ ', style: 'header2' },
                 {
-                  text:
-                    this.formattedNumber2(
-                      element.earlyMonth - element.interestMonth
-                    ) + '          บาท',
-                  color: 'gray',
+                  text: this.formattedNumber2(
+                    element.earlyMonth - element.interestMonth
+                  ),
+                  style: 'texts',
                 },
+                { text: 'บาท', style: 'texts' },
               ],
               [
-                { text: ' เดือนสุดท้าย ', color: 'black' },
+                { text: ' เดือนสุดท้าย ', style: 'header2' },
                 {
-                  text:
-                    this.formattedNumber2(element.interestMonthLast) +
-                    '          บาท',
-                  color: 'gray',
-                  fillColor: '#fff',
+                  text: this.formattedNumber2(element.interestMonthLast),
+                  style: 'texts',
                 },
-                { text: ' เดือนสุดท้าย ', color: 'black', width: 150 },
+                { text: 'บาท', style: 'texts' },
+                { text: 'เดือนสุดท้าย ', style: 'header2' },
                 {
-                  text:
-                    this.formattedNumber2(element.earlyMonthLast) +
-                    '          บาท',
-                  color: 'gray',
+                  text: this.formattedNumber2(element.earlyMonthLast),
+                  style: 'texts',
                 },
+                { text: 'บาท', style: 'texts' },
               ],
               [
-                { text: ' ส่งงวดที่ ', color: 'black' },
+                { text: ' ส่งงวดที่ ', style: 'header2' },
                 {
                   text: this.formattedNumber2(element.installmentLoan),
-                  color: 'gray',
-                  fillColor: '#fff',
+                  style: 'texts',
                 },
-                { text: '  ', color: 'black' },
-                { text: '  ', color: 'gray' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
+                { text: '', style: 'texts' },
               ],
               [
-                { text: ' ดอกรวมส่ง ', color: 'black' },
+                { text: ' ดอกรวมส่ง ', style: 'header2' },
                 {
-                  text: this.formattedNumber2(0) + '          บาท',
-                  color: 'gray',
-                  fillColor: '#fff',
-                }, //element.totalValueInterest
-                { text: ' ดอกคงค้าง ', color: 'black', width: 150 },
-                {
-                  text:
-                    this.formattedNumber2(element.outStandInterest) +
-                    '          บาท',
-                  color: 'gray',
+                  text: this.formattedNumber2(0),
+                  style: 'texts',
                 },
+                { text: 'บาท', style: 'texts' },
+                { text: ' ดอกคงค้าง ', style: 'header2', width: 150 },
+                {
+                  text: this.formattedNumber2(element.outStandInterest),
+                  style: 'texts',
+                },
+                { text: 'บาท', style: 'texts' },
               ],
               [
-                { text: ' ต้นรวมส่ง ', color: 'black' },
+                { text: ' ต้นรวมส่ง ', style: 'header2' },
                 {
-                  text: this.formattedNumber2(0) + '          บาท',
-                  color: 'gray',
-                  fillColor: '#fff',
-                }, //element.totalValuePrinciple
-                { text: ' ต้นคงค้าง ', color: 'black', width: 150 },
-                {
-                  text:
-                    this.formattedNumber2(element.outStandPrinciple) +
-                    '          บาท',
-                  color: 'gray',
+                  text: this.formattedNumber2(0),
+                  style: 'texts',
                 },
+                { text: 'บาท', style: 'texts' },
+                { text: ' ต้นคงค้าง ', style: 'header2' },
+                {
+                  text: this.formattedNumber2(element.outStandPrinciple),
+                  style: 'texts',
+                },
+                { text: 'บาท', style: 'texts' },
               ],
             ],
           },
@@ -3383,22 +3569,26 @@ export class AdminComponent2Component implements OnInit {
       ]),
 
       defaultStyle: {
-        font: 'Sarabun',
+        font: 'THSarabun',
+        fontSize: 16,
       },
       styles: {
         header: {
-          fontSize: 12,
+          font: 'THSarabun',
+          fontSize: 16,
           bold: true,
           alignment: 'center',
         },
         header2: {
-          fontSize: 12,
+          font: 'THSarabun',
+          fontSize: 16,
           bold: true,
         },
         texts: {
-          fontSize: 12,
+          font: 'THSarabun',
+          fontSize: 16,
           bold: false,
-          color: '#555',
+          color: '#333',
         },
       },
     };
@@ -3609,29 +3799,26 @@ export class AdminComponent2Component implements OnInit {
           text: [
             'ประจําเดือน ',
             {
-              text: ' ' + element.month + '               ',
+              text: '' + element.month + '               ',
               bold: true,
             },
             { text: 'เลขที่สมาชิก ' },
-            { text: ' ' + element.employeeCode, bold: true },
+            { text: '' + element.employeeCode, bold: true },
           ],
           margin: [0, 6, 0, 0],
           style: 'texts',
         },
         {
-          text: [
-            'ได้รับเงินจาก ',
-            { text: ' ' + element.fullName, bold: true },
-          ],
+          text: ['ได้รับเงินจาก ', { text: '' + element.fullName, bold: true }],
           margin: [0, 6, 0, 0],
           style: 'texts',
         },
         {
-          text: ['สังกัด ', { text: ' ' + element.departmentName, bold: true }],
+          text: ['สังกัด ', { text: '' + element.departmentName, bold: true }],
           margin: [0, 6, 0, 0],
           style: 'texts',
         },
-        // { text: ['เลขที่สมาชิก ', { text: ' ' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
+        // { text: ['เลขที่สมาชิก ', { text: '' + empCode, bold: true }], margin: [0, 6, 0, 0], style: 'texts' },
         {
           text: [
             'หุ้นสะสม ',

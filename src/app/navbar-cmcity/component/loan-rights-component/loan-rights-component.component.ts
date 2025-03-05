@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import * as ApexCharts from 'apexcharts';
+import ApexCharts from 'apexcharts';
 import { Chart } from 'chart.js';
 
 @Component({
