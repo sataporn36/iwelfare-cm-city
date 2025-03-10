@@ -2379,10 +2379,10 @@ export class AdminComponent3Component implements OnInit {
         this.replaceTextInExcel(listDataStock[i][9].text),
         this.replaceTextInExcel(listDataStock[i][10].text),
         this.replaceTextInExcel(listDataStock[i][11].text),
-        this.replaceTextInExcel(''), //listDataStock[i][12].text
-        this.replaceTextInExcel(''), //listDataStock[i][13].text
+        this.replaceTextInExcel(listDataStock[i][12].text), //listDataStock[i][12].text
+        this.replaceTextInExcel(listDataStock[i][13].text), //listDataStock[i][13].text
         this.replaceTextInExcel(listDataStock[i][14].text),
-        this.replaceTextInExcel(''), //listDataStock[i][15].text
+        this.replaceTextInExcel(listDataStock[i][15].text), //listDataStock[i][15].text
         this.replaceTextInExcel(listDataStock[i][16].text),
       ]);
     }
