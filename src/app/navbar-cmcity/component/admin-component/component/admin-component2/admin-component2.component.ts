@@ -21,7 +21,7 @@ import {
   MenuItem,
   MessageService,
 } from 'primeng/api';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Table } from 'primeng/table';
@@ -78,7 +78,7 @@ export class AdminComponent2Component implements OnInit {
   grandTotal!: any;
   stockAccumulate: any;
   displayStatusMember: boolean = false;
-  employeeStatus: any;
+  employeeStatus: any = null;
   employeeStatusList: any[];
   employeeStatusListV2: any[];
   empId: any;
@@ -92,7 +92,7 @@ export class AdminComponent2Component implements OnInit {
   filePdfFlag: boolean = false;
   stockIdPdf: any;
   empObjectByStatus: any;
-
+  statusForm: FormGroup = null;
   constructor(
     private service: MainService,
     private messageService: MessageService,
@@ -123,6 +123,7 @@ export class AdminComponent2Component implements OnInit {
     this.initSearchForm();
 
     this.employeeStatusList = [
+      { name: 'กรุณาเลือกสถานะ', value: 0 },
       { name: 'ลาออก', value: 3 },
       { name: 'เสียชีวิต', value: 6 },
       { name: 'หนีหนี้', value: 7 },
@@ -133,6 +134,10 @@ export class AdminComponent2Component implements OnInit {
       { name: 'กรุณาเลือกสถานะ', value: 0 },
       { name: 'ใช้งานปกติ', value: 2 },
     ];
+
+    this.statusForm = new FormGroup({
+      employeeStatus: new FormControl(0, [Validators.required]), // Correct initialization
+    });
 
     this.inputSubject.pipe(debounceTime(1000)).subscribe((value) => {
       // Perform your action here based on the latest value
@@ -245,32 +250,33 @@ export class AdminComponent2Component implements OnInit {
 
   getValueOfEmployeeStatusListText(value: any) {
     switch (value) {
-      case 2:
+      case '2':
         return 'ใช้งานปกติ';
-      case 3:
+      case '3':
         return 'ลาออก';
-      case 6:
+      case '6':
         return 'เสียชีวิต';
-      case 7:
+      case '7':
         return 'หนีหนี้';
-      case 8:
+      case '8':
         return 'เกษียณ';
       default:
         return 0;
     }
   }
 
-  displayStatusIsActiveCase: any;
+  displayStatusIsActiveCase: boolean = false;
 
   onChangeStatusEmp() {
+    this.employeeStatus = this.statusForm.get('employeeStatus')?.value;
+
     const payload = {
       id: this.empId,
-      type: this.employeeStatus.value,
+      type: this.employeeStatus,
     };
-    console.log(payload, '<------------- this.employeeStatus.value');
 
     // รอเขียนเพิ่มถ้า เปลี่ยนสถานะกลับเป็น ใช้งานปกติ
-    if (this.employeeStatus.value != 2) {
+    if (this.employeeStatus != 2) {
       this.confirmationService.confirm({
         message:
           'ต้องการเปลี่ยนสถานะของ <br/> ' +
@@ -278,8 +284,8 @@ export class AdminComponent2Component implements OnInit {
           this.empObjectByStatus.firstName +
           ' ' +
           this.empObjectByStatus.lastName +
-          ' เป็น' +
-          this.getValueOfEmployeeStatusListText(this.employeeStatus.value) +
+          ' เป็น ' +
+          this.getValueOfEmployeeStatusListText(this.employeeStatus) +
           ' ใช่หรือไม่',
         header: 'เปลี่ยนสถานะ',
         icon: 'pi pi-exclamation-triangle',
@@ -293,11 +299,14 @@ export class AdminComponent2Component implements OnInit {
             this.ngOnInit();
           });
         },
-        reject: () => {},
+        reject: () => {
+          this.displayStatusMember = false;
+          this.ngOnInit();
+        },
       });
     }
 
-    if (this.employeeStatus.value == 2) {
+    if (this.employeeStatus == 2) {
       this.formStatusIsActiveCase.reset();
       this.displayStatusIsActiveCase = true;
 
