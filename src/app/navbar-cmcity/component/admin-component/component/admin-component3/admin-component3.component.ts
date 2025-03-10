@@ -1342,11 +1342,12 @@ export class AdminComponent3Component implements OnInit {
             alignment: 'right',
           },
           {
-            text: decimalPipe.transform(
-              Number(item.outStandPrinciple) <= Number(item.monthPrinciple)
-                ? Number(item.monthPrinciple)
-                : Number(item.monthPrinciple) - Number(item.monthInterest)
-            ),
+            // text: decimalPipe.transform(
+            //   Number(item.outStandPrinciple) <= Number(item.monthPrinciple)
+            //     ? Number(item.monthPrinciple)
+            //     : Number(item.monthPrinciple) - Number(item.monthInterest)
+            // ),
+            text: decimalPipe.transform(item.monthPrinciple),
             alignment: 'right',
           },
           {
