@@ -1371,9 +1371,9 @@ export class AdminComponent3Component implements OnInit {
             text:
               Number(item.installment) <= 0
                 ? 0
-                : item.installment - 1 <= 0
-                ? 0
-                : decimalPipe.transform(item.totalValueInterest),
+                : // : item.installment - 1 <= 0
+                  // ? 0
+                  decimalPipe.transform(item.totalValueInterest),
             alignment: 'right',
           }, //decimalPipe.transform(item.totalValueInterest)
           {
@@ -1385,9 +1385,9 @@ export class AdminComponent3Component implements OnInit {
             text:
               Number(item.installment) <= 0
                 ? 0
-                : item.installment - 1 <= 0
-                ? 0
-                : decimalPipe.transform(item.totalValuePrinciple),
+                : // : item.installment - 1 <= 0
+                  // ? 0
+                  decimalPipe.transform(item.totalValuePrinciple),
             alignment: 'right',
           }, // decimalPipe.transform(item.totalValuePrinciple)
           {
