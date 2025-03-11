@@ -1532,9 +1532,9 @@ export class AdminComponent3Component implements OnInit {
         totalValueInterestSum +
         (Number(element.installment) <= 0
           ? 0
-          : element.installment - 1 <= 0
-          ? 0
-          : Number(
+          : // : element.installment - 1 <= 0
+            // ? 0
+            Number(
               element.totalValueInterest ? element.totalValueInterest : 0
             ));
       // outStandInterestSum = outStandInterestSum + Number(element.outStandInterest ? element.outStandInterest : 0) + Number(element.monthInterest);
@@ -1545,9 +1545,9 @@ export class AdminComponent3Component implements OnInit {
         totalValuePrincipleSum +
         (Number(element.installment) <= 0
           ? 0
-          : element.installment - 1 <= 0
-          ? 0
-          : Number(
+          : // : element.installment - 1 <= 0
+            // ? 0
+            Number(
               element.totalValuePrinciple ? element.totalValuePrinciple : 0
             ));
       // outStandPrincipleSum = outStandPrincipleSum + (Number(element.outStandPrinciple) > 0 ?
