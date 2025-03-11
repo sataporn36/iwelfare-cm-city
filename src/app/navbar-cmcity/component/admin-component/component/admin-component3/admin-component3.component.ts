@@ -1665,12 +1665,18 @@ export class AdminComponent3Component implements OnInit {
           alignment: 'right',
         },
         ' ',
-        { text: this.formattedNumber2(2561089), alignment: 'right' }, //{ text:'-' , alignment: 'right'}, //
+        {
+          text: this.formattedNumber2(this.sumGrandTotal5),
+          alignment: 'right',
+        }, //{ text:'-' , alignment: 'right'}, //
         {
           text: this.formattedNumber2(this.sumGrandTotal6),
           alignment: 'right',
         },
-        { text: this.formattedNumber2(9942575), alignment: 'right' }, // { text:'-' , alignment: 'right'},
+        {
+          text: this.formattedNumber2(this.sumGrandTotal7),
+          alignment: 'right',
+        }, // { text:'-' , alignment: 'right'},
         {
           text: this.formattedNumber2(this.sumGrandTotal8),
           alignment: 'right',
