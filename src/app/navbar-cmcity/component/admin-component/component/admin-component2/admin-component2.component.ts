@@ -1070,11 +1070,7 @@ export class AdminComponent2Component implements OnInit {
             alignment: 'center',
           },
           {
-            text:
-              Number(item.loanInstallment) === Number(item.loanTime)
-                ? decimalPipe.transform(item.loanOrdinary)
-                : decimalPipe.transform(item.loanOrdinary - item.interest),
-            alignment: 'right',
+            text: decimalPipe.transform(item.loanOrdinary), alignment: 'right',
           },
           { text: decimalPipe.transform(item.interest), alignment: 'right' },
           { text: decimalPipe.transform(item.sumMonth), alignment: 'right' }, //
@@ -1188,11 +1184,7 @@ export class AdminComponent2Component implements OnInit {
       stockValueTotal =
         stockValueTotal + Number(element.stockValue ? element.stockValue : 0);
       loanDetailOrdinaryTotal =
-        loanDetailOrdinaryTotal +
-        (Number(element.loanInstallment) === Number(element.loanTime)
-          ? Number(element.loanOrdinary ? element.loanOrdinary : 0)
-          : Number(element.loanOrdinary ? element.loanOrdinary : 0) -
-            Number(element.interest ? element.interest : 0));
+        loanDetailOrdinaryTotal + Number(element.loanOrdinary ? element.loanOrdinary : 0);
       loanDetailInterestTotal =
         loanDetailInterestTotal +
         Number(element.interest ? element.interest : 0);
