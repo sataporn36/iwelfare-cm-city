@@ -143,10 +143,17 @@
           oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5);">
       </div>
     </div>
+
+
   </ng-template>
   <ng-template pTemplate="footer">
-    <button type="button" class="btn btn-login" (click)="onClickApproveEmpV2()">อนุมัติ</button>
-    <button type="button" class="btn btn-regis" (click)="displayModal=false">ไม่อนุมัติ</button>
+    <div style="margin: 0 1rem 1rem 1rem;">
+      <span *ngIf="!checkNull" style="color: red;">ไม่สามารถกดอนุมัติได้ ต้องกดเรียกเก็บหุ้นเดือนปัจจุบันก่อน !</span>
+    </div>
+    <div class="footer-button">
+      <button type="button" class="btn btn-login" (click)="onClickApproveEmpV2()" [disabled]="!checkNull">อนุมัติ</button>
+      <button type="button" class="btn btn-regis" (click)="displayModal=false" [disabled]="!checkNull">ไม่อนุมัติ</button>
+    </div>
   </ng-template>
 </p-dialog>
 

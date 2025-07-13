@@ -215,6 +215,8 @@ export class AdminComponent2Component implements OnInit {
         },
       },
     ];
+
+    this.checkValueOfNull();
   }
 
   valueEmpStatus: any;
@@ -801,12 +803,14 @@ export class AdminComponent2Component implements OnInit {
   }
 
   checkNull: boolean = true;
-  checkValueOfNull(event: any) {
-    if (!event.value) {
-      this.checkNull = true;
-    } else {
-      this.checkNull = false;
-    }
+  checkValueOfNull() {
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    const yearTh = formatDate.getFullYear() + 543;
+    const monthTh = this.periodMonthDescOption[month].label;
+    this.service.checkStockDetail({month: monthTh, year : yearTh}).subscribe((data) => {  
+      this.checkNull = data;
+    });
   }
 
   stockDetail: any;
