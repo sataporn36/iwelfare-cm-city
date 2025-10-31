@@ -6,12 +6,12 @@
 
 .pageFull {
   background: #fff;
-  position: absolute;
-  max-width: 1920px;
-  // width: 100%;
-  // height: 100%;
-  width: -webkit-fill-available;
-  height: -webkit-fill-available;
+  position: fixed;
+  //max-width: 1920px;
+  width: 100%;
+  height: 100%;
+  //width: -webkit-fill-available;
+  //height: -webkit-fill-available;
 }
 
 .business-v6 {

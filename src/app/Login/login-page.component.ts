@@ -1,5 +1,5 @@
 import { LocationStrategy } from '@angular/common';
-import { OnInit } from '@angular/core';
+import { EventEmitter, OnInit, Output } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class LoginPageComponent implements OnInit {
   userId: any;
   displayModal: boolean = false;
   dataEmp: any;
+  showPopup: boolean = false;
 
   constructor(
     protected router: Router,
@@ -35,6 +36,11 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const hasSeenPopup = sessionStorage.getItem('seenPopup');
+    if (!hasSeenPopup) {
+      this.showPopup = true;
+      sessionStorage.setItem('seenPopup', 'true');
+    }
     this.initMainForm();
     // this.preventBackButton();
   }
@@ -138,6 +144,10 @@ export class LoginPageComponent implements OnInit {
         this.dataEmp = data;
       }
     });
+  }
+
+  closePopup() {
+    this.showPopup = false;
   }
 
 }

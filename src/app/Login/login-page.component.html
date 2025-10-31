@@ -88,3 +88,12 @@
         </div>
     </ng-template>
 </p-toast>
+
+<div class="popup-overlay" *ngIf="showPopup">
+  <div class="popup-box" (click)="$event.stopPropagation()">
+     <button class="popup-close" (click)="closePopup()">✖</button>
+     <img src="https://www.cmcity.go.th/data/imagespic/294/original/img_show_aghiknosv368.jpg?v=1001" 
+          alt="แจ้งเตือน" 
+          class="popup-image" />
+  </div>
+</div>
