@@ -122,7 +122,7 @@
 <p-toast></p-toast>
 <p-dialog header="ข้อมูลสมาชิก" [(visible)]="detail" [modal]="true" [style]="{ width: '90vw' }" [draggable]="false"
     [breakpoints]="{ '1800px': '95vw', '1700px': '90vw' }" [resizable]="false" (onHide)="clearDialog()">
-    <div class="div-profile">
+    <div class="div-profile" [formGroup]="detailModel">
         <div class="div-img-doc">
             <div class="div-img">
                 <p-chip label="รูปประจำตัว" styleClass="mr-2"></p-chip>
@@ -149,6 +149,10 @@
                             </label>
                         </div>
                     </div>
+                </div>
+                <div style="display: flex;" class="align-items-center justify-content-center gap-1">
+                    <span>เลขสมาชิก : </span>
+                    <span style="color: #000000;">{{ detailModel.get('employeeCode')?.value }}</span>
                 </div>
             </div>
             <div class="div-doc">
@@ -249,7 +253,7 @@
                 </div>
             </div>
         </div>
-        <div class="div-text" [formGroup]="detailModel">
+        <div class="div-text">
             <!-- <div class="div-text"> -->
             <div class="div-info-bt">
                 <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>

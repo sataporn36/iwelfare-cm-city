@@ -1182,6 +1182,7 @@ export class AdminComponent1Component {
 
       this.detailModel.patchValue({
         ...data,
+        employeeCode: data?.employeeCode ? data?.employeeCode : '-',
         prefix: data?.prefix ? data?.prefix : '-',
         selectPrefix: data?.prefix ? this.checkPrefix(data?.prefix) : 0,
         fullName: data.firstName + ' ' + data.lastName,
