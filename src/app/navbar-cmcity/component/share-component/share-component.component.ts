@@ -84,6 +84,7 @@ export class ShareComponentComponent implements OnInit {
   imageSrc1Blob: any;
   imageSrc2Blob: any;
   yearCurrent: any;
+  stockIdPdf: any;
 
   constructor(
     private service: MainService,
@@ -1108,12 +1109,76 @@ export class ShareComponentComponent implements OnInit {
     // this.formModelBill.get('year')?.disable();
   }
 
+  ondisplayModalMonthPDF(headerName: string, stock: any) {
+    this.displayModalBill = true;
+    const fullName =
+      this.empDetail.prefix +
+      this.empDetail.firstName +
+      ' ' +
+      this.empDetail.lastName;
+    this.headerName = headerName + ' ' + fullName;
+    this.stockIdPdf = this.stockId;
+
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
+    this.newMonth = this.periodMonthDescOption[month];
+
+    this.formModelBill.patchValue({
+      year: this.newYear,
+      month: this.newMonth.value,
+    });
+  }
+
   onDisplay() {
     if (this.headerName == 'ใบเสร็จรับเงิน') {
       this.onupdateBill();
       this.displayModalBill = false;
+    }else{
+      this.onupdateBillById();
+      this.displayModalBill = false;
     }
   }
+
+   billMonthStock: any;
+  onupdateBillById() {
+    const bill = this.formModelBill.getRawValue();
+    this.billMonthStock = this.periodMonthDescOption[Number(bill.month) - 1].label;
+
+    const payload = {
+      empCode: this.empDetail.employeeCode,
+      monthCurrent: this.billMonthStock,
+      yearCurrent: bill.year,
+    };
+
+    if (
+      this.stockIdPdf.status == 'ลาออก' ||
+      this.stockIdPdf.status == 'เกษียณ'
+    ) {
+      this.showWarnStatus();
+    } else {
+      this.service.receiptReportCode(payload).subscribe({
+        next: (res: Blob) => {
+          const blob = new Blob([res], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url);
+        },
+        error: (error) => {
+          console.error('Error downloading the file:', error);
+        },
+      });
+    }
+  }
+
+  showWarnStatus() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'แจ้งเตือน',
+      detail: 'สถานะไม่ตรงเงื่อนไขไม่สามารถดูใบเสร็จรับเงินได้',
+      life: 10000,
+    });
+  }
+
 
   monthSelectNew: any;
   yearSelectNew: any;
