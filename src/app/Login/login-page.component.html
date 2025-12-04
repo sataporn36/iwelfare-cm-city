@@ -26,9 +26,12 @@
                 </div>
             </div>
 
-            <div class="text-footer">
+            <div class="text-footer" *ngIf="hasLockRegister">
                 <button type="button" class="btn btn-login" (click)="clickLogin()">เข้าสู่ระบบ</button>
                 <button type="button" class="btn btn-regis" (click)="clickRegister()">สมัครสมาชิก</button>
+            </div>
+            <div class="text-footer" *ngIf="!hasLockRegister">
+                <button type="button" class="btn btn-login" style="width: 100%;" (click)="clickLogin()">เข้าสู่ระบบ</button>
             </div>
         </div>
         <div class="card">

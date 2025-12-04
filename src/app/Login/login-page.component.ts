@@ -22,6 +22,7 @@ export class LoginPageComponent implements OnInit {
   displayModal: boolean = false;
   dataEmp: any;
   showPopup: boolean = false;
+  hasLockRegister: boolean = false;
 
   constructor(
     protected router: Router,
@@ -42,6 +43,7 @@ export class LoginPageComponent implements OnInit {
       sessionStorage.setItem('seenPopup', 'true');
     }
     this.initMainForm();
+    this.getconfigList();
     // this.preventBackButton();
   }
 
@@ -150,4 +152,15 @@ export class LoginPageComponent implements OnInit {
     this.showPopup = false;
   }
 
+   getconfigList() {
+    this.service.getConfigByList().subscribe((res) => {
+      if (res) {
+        if (res[6].value === 'Y') {
+           this.hasLockRegister = true;
+        } else {
+           this.hasLockRegister = false;
+        }
+      }
+    });
+  }
 }
