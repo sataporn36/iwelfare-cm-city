@@ -886,4 +886,12 @@ export class MainService {
       AppPath.APP_API_SERVICE + '/logic/v1/stock/check-stock-detail', playload
     );
   }
+
+  resetBackPassword(playload: any): Observable<any> {
+    return this.http.post<any>(
+      AppPath.APP_API_SERVICE + '/logic/v1/login/change/reset-back-password',
+      playload
+    );
+  }
+
 }

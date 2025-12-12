@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/constans/Product';
 import { Affiliation } from 'src/app/model/affiliation';
@@ -104,7 +104,8 @@ export class AdminComponent1Component {
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     protected router: Router,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+     private confirmationService: ConfirmationService,
   ) {}
 
   ngOnInit() {
@@ -1157,9 +1158,13 @@ export class AdminComponent1Component {
   }
 
   infoId: any;
+  fullNameFixUser: string = '';
   clickInfo(id: any) {
     this.infoId = id;
     this.service.getEmployee(id).subscribe((data) => {
+      console.log(" data user :", data);
+      console.log("emp id of user :", id);
+      this.fullNameFixUser = data?.prefix + data?.firstName + ' ' + data?.lastName
       const decimalPipe = new DecimalPipe('en-US');
       this.gender = data.gender;
       this.detail = true;
@@ -1306,5 +1311,43 @@ export class AdminComponent1Component {
     } else {
       return decimalPipe.transform(compensation);
     }
+  }
+
+  resetBackPassword() {
+    console.log("resetBackPassword 555");
+    const data = {
+      id: this.infoId
+    }
+    this.confirmationService.confirm({
+      message: `ท่านต้องการรีเซ็ตรหัสผ่านให้กับ <span class="confirm-username">${this.fullNameFixUser}</span><br/>หรือไม่`,
+      header: 'Reset Password',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.service.resetBackPassword(data).subscribe((res) => {
+          if (res != null) {
+            if (res.statusEmployee === 'success') {
+              this.messageService.add({
+                severity: 'success',
+                detail: 'รีเซ็ตรหัสผ่านสำเร็จ',
+              });
+              this.detail = false;
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                detail: 'รีเซ็ตรหัสผ่านไม่สำเร็จ',
+              });
+              this.detail = false;
+            }
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              detail: 'รีเซ็ตรหัสผ่านไม่สำเร็จ',
+            });
+             this.detail = false;
+          }
+        });
+      },
+      reject: () => {},
+    });
   }
 }

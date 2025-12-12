@@ -258,7 +258,10 @@
             <div class="div-info-bt">
                 <p-chip label="ข้อมูลประจำตัว" styleClass="mr-2"></p-chip>
                 <div>
-                    <button type="button" (click)="onClickEdit()" class="btn btn-edit" *ngIf="mode">แก้ไข</button>
+                    <div class="div-btn" *ngIf="mode">
+                       <button type="button" (click)="resetBackPassword()" class="btn btn-edit">Reset Password</button>
+                       <button type="button" (click)="onClickEdit()" class="btn btn-edit">แก้ไข</button>
+                    </div>
                     <div class="div-btn" *ngIf="!mode">
                         <button type="button" (click)="onAccept()" class="btn btn-login">บันทึก</button>
                         <button type="button" (click)="onClear()" class="btn btn-regis">ยกเลิก</button>
@@ -515,3 +518,12 @@
         </div>
     </div>
 </p-dialog>
+
+<p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '30vw'}">
+    <ng-template pTemplate="footer">
+        <div class="search-btn" style="justify-content: flex-end !important;">
+             <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>
+             <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+        </div>
+    </ng-template>
+</p-confirmDialog>

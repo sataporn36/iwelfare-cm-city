@@ -53,6 +53,7 @@ import { AdminSettingComponentComponent } from './component/admin-setting-compon
 import { AdminSettingPageComponent } from './page/admin-setting-page/admin-setting-page.component';
 import { AdminDocComponentComponent } from './component/admin-doc-component/admin-doc-component.component';
 import { AdminDocPageComponent } from './page/admin-doc-page/admin-doc-page.component';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,7 @@ import { AdminDocPageComponent } from './page/admin-doc-page/admin-doc-page.comp
     AdminDocPageComponent,
   ],
   bootstrap: [AppComponent],
-  providers: [DecimalPipe],
+  providers: [ConfirmationService, DecimalPipe],
   imports: [
     CommonModule,
     AdminCompponentRoutingModule,

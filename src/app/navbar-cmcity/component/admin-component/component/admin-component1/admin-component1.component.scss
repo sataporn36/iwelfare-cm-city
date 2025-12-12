@@ -811,3 +811,8 @@ select {
     width: 210px;
   }
 }
+
+::ng-deep .confirm-username {
+  color: #d81b60 !important;
+  font-weight: 500 !important;
+}
