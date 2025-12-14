@@ -93,6 +93,8 @@ export class AdminComponent2Component implements OnInit {
   stockIdPdf: any;
   empObjectByStatus: any;
   statusForm: FormGroup = null;
+  displayModalAnnual: boolean = false;
+
   constructor(
     private service: MainService,
     private messageService: MessageService,
@@ -203,15 +205,21 @@ export class AdminComponent2Component implements OnInit {
         },
       },
       {
-        label: 'ดาวน์โหลด PDF',
+        label: 'รายงานประจำเดือนหุ้น PDF',
         command: () => {
           this.ondisplayModalMonth('downloadPdf');
         },
       },
       {
-        label: 'ดาวน์โหลด EXCEL',
+        label: 'รายงานประจำเดือนหุ้น EXCEL',
         command: () => {
           this.ondisplayModalMonth('downloadExcel');
+        },
+      },
+      {
+        label: 'รายงานประจำปี EXCEL',
+        command: () => {
+          this.ondisplayModalMonth('annualExcel');
         },
       },
     ];
@@ -2186,6 +2194,23 @@ export class AdminComponent2Component implements OnInit {
     });
   }
 
+  ondisplayModalAnnual(headerName: string) {
+    this.displayModalAnnual = true;
+    this.headerName = headerName;
+
+    const formatDate = new Date();
+    const month = formatDate.getMonth();
+    this.newYear = formatDate.getFullYear() + 543;
+
+    this.newMonth = this.periodMonthDescOption[month];
+
+    this.formModelBill.patchValue({
+      year: this.newYear,
+      month: this.newMonth.value,
+    });
+    this.formModelBill.get('year').enable();
+  }
+
   onDisplay() {
     if (this.headerName === 'ใบเสร็จรับเงิน') {
       //this.onupdateBill();
@@ -2200,16 +2225,51 @@ export class AdminComponent2Component implements OnInit {
     } else if (this.headerName === 'ข้อมูลสมาชิก') {
       this.docInfoAll();
       this.displayModalBill = false;
-    } else if (this.headerName === 'ดาวน์โหลด PDF') {
+    } else if (this.headerName === 'รายงานประจำเดือนหุ้น PDF') {
       this.searchDocumentV1All('pdf');
       this.displayModalBill = false;
-    } else if (this.headerName === 'ดาวน์โหลด EXCEL') {
+    } else if (this.headerName === 'รายงานประจำเดือนหุ้น EXCEL') {
       this.searchDocumentV1All('excel');
       this.displayModalBill = false;
+    } else if (this.headerName === 'รายงานประจำปี EXCEL') {
+      this.exportAnnualExcel();
+      this.displayModalAnnual = false;
     } else {
       this.onupdateBillById();
       this.displayModalBill = false;
     }
+  }
+
+  exportAnnualExcel() {
+    this.loading = true;
+    this.showWarnExcel();
+    const bill = this.formModelBill.getRawValue();
+    const payload = {
+      yearCurrent: bill.year
+    };
+
+    console.log('payload', payload);
+
+    this.service.exportAnnualExcel(payload).subscribe({
+      next: (response: Blob) => {
+        this.loading = false;
+        console.log('API response:', response); // Debug the response here
+
+        if (response.size > 0) {
+          const blob = new Blob([response], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          saveAs(blob, `รายงานประจำปี.xlsx`);
+        } else {
+          alert('No content available to download.');
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Export failed', err);
+        alert('Export failed. Please try again.');
+      },
+    });
   }
 
   docInfoAll() {
