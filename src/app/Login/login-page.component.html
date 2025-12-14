@@ -26,9 +26,12 @@
                 </div>
             </div>
 
-            <div class="text-footer">
+            <div class="text-footer" *ngIf="hasLockRegister">
                 <button type="button" class="btn btn-login" (click)="clickLogin()">เข้าสู่ระบบ</button>
                 <button type="button" class="btn btn-regis" (click)="clickRegister()">สมัครสมาชิก</button>
+            </div>
+            <div class="text-footer" *ngIf="!hasLockRegister">
+                <button type="button" class="btn btn-login" style="width: 100%;" (click)="clickLogin()">เข้าสู่ระบบ</button>
             </div>
         </div>
         <div class="card">
@@ -92,7 +95,7 @@
 <div class="popup-overlay" *ngIf="showPopup">
   <div class="popup-box" (click)="$event.stopPropagation()">
      <button class="popup-close" (click)="closePopup()">✖</button>
-     <img src="https://www.cmcity.go.th/data/imagespic/294/original/img_show_aghiknosv368.jpg?v=1001" 
+     <img src="assets/images/img_show_queen.jpg" 
           alt="แจ้งเตือน" 
           class="popup-image" />
   </div>

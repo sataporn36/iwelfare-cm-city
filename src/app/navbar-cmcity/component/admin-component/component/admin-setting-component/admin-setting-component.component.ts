@@ -57,6 +57,8 @@ export class AdminSettingComponentComponent {
   targetProducts: Product[];
   sourceEmployeeRole: any[] = [];
   targetEmployeeRole: any[] = [];
+  hasLockRegister: boolean = false;
+  lockId: boolean = false;
 
   constructor(private service: MainService,
     private messageService: MessageService,
@@ -186,8 +188,36 @@ export class AdminSettingComponentComponent {
 
         this.getImgSig1('signature1', this.fileImg1);
         this.getImgSig2('signature2', this.fileImg2);
+
+        this.lockId = res[6].configId;
+        if (res[6].value === 'Y') {
+           this.hasLockRegister = true;
+        } else {
+           this.hasLockRegister = false;
+        }
       }
     });
+  }
+
+  onSwitchChange(event: any) {
+    console.log('value changed:', event.checked);
+    // ทำสิ่งที่ต้องการ เช่น call API หรือ enable/disable ปุ่ม
+
+    let hasLock = '';
+    if (event.checked) {
+      hasLock = 'Y';
+    } else {
+      hasLock = 'N';
+    }
+
+    const payload = {
+          configId: this.lockId,
+          value: hasLock
+        }
+        this.service.editConfig(payload).subscribe((res) => {
+          this.messageService.add({ severity: 'success', detail: 'แก้ไขข้อมูลสำเร็จ' });
+          this.ngOnInit();
+        });
   }
 
   initMainFormInterest() {

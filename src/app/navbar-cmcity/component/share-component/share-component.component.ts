@@ -1140,7 +1140,7 @@ export class ShareComponentComponent implements OnInit {
     }
   }
 
-   billMonthStock: any;
+     billMonthStock: any;
   onupdateBillById() {
     const bill = this.formModelBill.getRawValue();
     this.billMonthStock = this.periodMonthDescOption[Number(bill.month) - 1].label;
@@ -1178,7 +1178,6 @@ export class ShareComponentComponent implements OnInit {
       life: 10000,
     });
   }
-
 
   monthSelectNew: any;
   yearSelectNew: any;

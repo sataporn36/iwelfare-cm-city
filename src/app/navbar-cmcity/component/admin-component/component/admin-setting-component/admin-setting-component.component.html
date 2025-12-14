@@ -93,6 +93,32 @@
             </ng-template>
         </p-pickList>
     </div>
+    <div class="card">
+        <div style="padding-bottom: 2rem;">
+            <p-chip label="เปิด/ปิด ปุ่มสมัครสมาชิก" styleClass="mr-2"></p-chip>
+        </div>
+        <p-inputSwitch [(ngModel)]="hasLockRegister" (onChange)="onSwitchChange($event)"></p-inputSwitch>
+
+        <!-- <p-pickList [source]="sourceEmployeeRole" [target]="targetEmployeeRole" sourceHeader="สมาชิกทั่วไป"
+            targetHeader="เจ้าหน้าที่" [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '20rem' }"
+            (onMoveToSource)="checkRoleToSource($event)" (onMoveToTarget)="checkRoleToTarget($event)"
+            [targetStyle]="{ height: '20rem' }" filterBy="fullName" sourceFilterPlaceholder="ค้นหาชื่อสมาชิก"
+            targetFilterPlaceholder="ค้นหาชื่อสมาชิก" breakpoint="1400px">
+            <ng-template let-employee pTemplate="item">
+                <div style="display: flex; flex-direction: column; margin: 0px 1rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <span>{{ employee.fullName }}</span>
+                        <span style="color: #fe6bba;">( {{ employee.employeeTypeName ?
+                            employee.employeeTypeName : '-' }} )</span>
+                    </div>
+                    <div style="font-size: 12px; color: #6b7280; font-weight: 300;">รหัสพนักงาน : {{
+                        employee.employeeCode
+                        }}
+                    </div>
+                </div>
+            </ng-template>
+        </p-pickList> -->
+    </div>
 </div>
 
 <p-toast></p-toast>

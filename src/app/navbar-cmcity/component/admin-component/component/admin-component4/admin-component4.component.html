@@ -217,8 +217,10 @@
         <div>
             <label class="block">ปันผลหุ้น</label>
             <div class="dialog-body-t">
-                <p-inputNumber formControlName="stockDevidend" inputId="minmaxfraction" mode="decimal" [required]="true"
-                    [maxlength]="6" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"></p-inputNumber>
+                <input class="form-control" pInputText type="text" formControlName="stockDevidend" maxlength="5" readonly 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" style="background-color: #e9ecef !important;" />
+                <!-- <p-inputNumber formControlName="stockDevidend" inputId="minmaxfraction" mode="decimal" [required]="true"
+                    [maxlength]="6" [minFractionDigits]="2" [maxFractionDigits]="5" ></p-inputNumber> -->
                 <!-- <div style="padding-left: 0.5rem;
                             justify-content: center;
                             align-items: center;
@@ -230,9 +232,11 @@
         <div>
             <label class="block">ปันผลเงินกู้</label>
             <div class="dialog-body-t">
-                <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal"
-                    [required]="true" [maxlength]="6" mode="decimal" [minFractionDigits]="2"
-                    [maxFractionDigits]="5"></p-inputNumber>
+                <input class="form-control" pInputText type="text" formControlName="interestDevidend" maxlength="5" readonly 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" style="background-color: #e9ecef !important;"/>
+                <!-- <p-inputNumber formControlName="interestDevidend" inputId="minmaxfraction" mode="decimal"
+                    [required]="true" [maxlength]="6" [minFractionDigits]="2"
+                    [maxFractionDigits]="5"></p-inputNumber> -->
                 <!-- <div style="padding-left: 0.5rem; 
                             justify-content: center;
                             align-items: center;
