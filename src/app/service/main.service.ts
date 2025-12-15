@@ -895,29 +895,17 @@ export class MainService {
   }
 
   exportAnnualExcel(payload: any): Observable<Blob> {
-    return this.http
-      .post<Blob>(
-        AppPath.APP_API_SERVICE + '/logic/v1/document/export-data/annual',
-        payload,
-        {
-          responseType: 'blob' as 'json', // Ensure this is 'blob'
-        }
-      )
-      .pipe(
-        catchError((error) => {
-          console.error('Export failed:', error);
-          return throwError('Export failed. Please try again later.');
-        })
-      );
+    return this.http.post(
+      AppPath.APP_API_SERVICE + '/logic/v1/document/export-data/annual',
+      payload,
+      {
+        responseType: 'blob',
+      }
+    ).pipe(
+      catchError((error) => {
+        console.error('Export failed:', error);
+        return throwError(() => new Error('Export failed. Please try again later.'));
+      })
+    );
   }
-
-  // exportAnnualExcel(): Observable<Blob> {
-  //   return this.http.post(
-  //     AppPath.APP_API_SERVICE + '/logic/v1/document/export-data/annual',
-  //     {}, // body (ว่าง)
-  //     {
-  //       responseType: 'blob'   // ⭐ ต้องอยู่ตรงนี้
-  //     }
-  //   );
-  // }
 }
