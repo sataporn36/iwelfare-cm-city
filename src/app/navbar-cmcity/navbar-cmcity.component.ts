@@ -691,8 +691,8 @@ export class NavbarCmcityComponent implements OnInit {
 
   // reset password
   initMainFormReset() {
-    this.formModel = new FormGroup({
-      id: new FormControl(null, Validators.required),
+    this.formModelReset = new FormGroup({
+      id: new FormControl(null),
       oldPassword: new FormControl(null, Validators.required),
       newPassword: new FormControl(null, Validators.required),
       confirmPassword: new FormControl(null, Validators.required),
@@ -700,9 +700,9 @@ export class NavbarCmcityComponent implements OnInit {
   }
 
   checkNewPass() {
-    this.newPass = this.formModel.get('newPassword')?.value;
-    this.newPass2 = this.formModel.get('confirmPassword')?.value;
-    if (this.newPass?.match('^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$')) {
+    this.newPass = this.formModelReset.get('newPassword')?.value;
+    this.newPass2 = this.formModelReset.get('confirmPassword')?.value;
+    if (this.newPass?.match('^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,90}$')) {
       this.newPassValidation = false;
       this.checkNewPass2();
     } else {
@@ -711,10 +711,10 @@ export class NavbarCmcityComponent implements OnInit {
   }
 
   checkNewPass2() {
-    this.newPass2 = this.formModel.get('confirmPassword')?.value;
-    this.newPass = this.formModel.get('newPassword')?.value;
+    this.newPass2 = this.formModelReset.get('confirmPassword')?.value;
+    this.newPass = this.formModelReset.get('newPassword')?.value;
     if (
-      this.newPass?.match('^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$') &&
+      this.newPass?.match('^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,90}$') &&
       this.newPass === this.newPass2
     ) {
       this.newPass2Validation = false;
@@ -725,14 +725,22 @@ export class NavbarCmcityComponent implements OnInit {
   }
 
   clickChangePassword() {
-    this.formModel.markAllAsTouched();
-    this.formModel.get('id').setValue(this.userId);
+    console.log(" reset password ");
+    console.log(" newPassValidation ", this.newPassValidation);
+    console.log(" newPass2Validation ", this.newPass2Validation);
+    console.log(" userId ", this.userId);
+    
+    this.formModelReset.markAllAsTouched();
+    this.formModelReset.get('id').setValue(this.userId);
+    this.formModelReset.updateValueAndValidity();
+    
     if (
-      this.formModel.valid &&
+      this.formModelReset.valid &&
       !this.newPassValidation &&
       !this.newPass2Validation
     ) {
-      const data = this.formModel.getRawValue();
+      const data = this.formModelReset.getRawValue();
+      console.log(" getRawValue ", data);
       //data.id = this.userId;
       if (data.newPassword === data.confirmPassword) {
         if (data.newPassword === data.oldPassword) {
@@ -754,7 +762,7 @@ export class NavbarCmcityComponent implements OnInit {
                       detail: 'เปลี่ยนรหัสผ่านใหม่สำเร็จ',
                     });
                     this.iconStatus = true;
-                    this.formModel.reset();
+                    this.formModelReset.reset();
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                     this.onLogout();
                   } else {
