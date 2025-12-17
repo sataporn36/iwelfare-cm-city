@@ -247,6 +247,49 @@ export class AdminComponent4Component implements OnInit {
     });
   }
 
+  exportMergeAnnouncementExcel(){
+
+    const data = this.formModelDividend.getRawValue();
+    const payload = {
+      empCode: null,
+      yearCurrent: this.year,
+      yearOld: this.year - 1,
+      stockDividendPercent: data.stockDevidend
+        ? data.stockDevidend
+        : this.stockDevidendPercent,
+      interestDividendPercent: data.interestDevidend
+        ? data.interestDevidend
+        : this.interestDevidendPercent,
+    };
+
+    this.loading = true;
+    // this.noContent = false;
+    this.showWarnExcel();
+
+    this.service.exportMergeAnnouncementExcel(payload).subscribe({
+      next: (response: Blob) => {
+        this.loading = false;
+        console.log('API response:', response); // Debug the response here
+
+        if (response.size > 0) {
+          const blob = new Blob([response], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          saveAs(blob, `รายงานประกาศรวม.xlsx`);
+        } else {
+          // this.noContent = true;
+          alert('No content available to download.');
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Export failed', err);
+        alert('Export failed. Please try again.');
+      },
+    });
+
+  }
+
   getDataDividendDetailAll() {
     const data = this.formModelDividend.getRawValue();
     const payload = {
