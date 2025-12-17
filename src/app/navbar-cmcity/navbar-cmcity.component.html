@@ -1425,3 +1425,13 @@
         </div>
     </ng-template>
 </p-dialog>
+
+<p-confirmDialog #cd [appendTo]="'body'" position="top" [draggable]="false" [dismissableMask]="true"
+    [style]="{width: '25vw'}">
+    <ng-template pTemplate="footer">
+        <button type="button" class="btn btn-regis" (click)="cd.accept()">ยืนยัน</button>
+        <button type="button" class="btn btn-regis" (click)="cd.reject()">ยกเลิก</button>
+    </ng-template>
+</p-confirmDialog>
+
+<p-toast></p-toast>
