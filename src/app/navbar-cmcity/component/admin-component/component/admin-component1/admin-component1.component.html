@@ -519,7 +519,7 @@
     </div>
 </p-dialog>
 
-<p-confirmDialog #cd [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '30vw'}">
+<p-confirmDialog #cd key="pageConfirmResetPW" [appendTo]="'body'" [draggable]="false" [dismissableMask]="true" [style]="{width: '30vw'}">
     <ng-template pTemplate="footer">
         <div class="search-btn" style="justify-content: flex-end !important; padding: 10px;">
              <button type="button" class="btn btn-login" (click)="cd.accept()">ยืนยัน</button>

@@ -1314,13 +1314,13 @@ export class AdminComponent1Component {
   }
 
   resetBackPassword() {
-    console.log("resetBackPassword 555");
     const data = {
       id: this.infoId
     }
     this.confirmationService.confirm({
+      key: 'pageConfirmResetPW',
       message: `ท่านต้องการรีเซ็ตรหัสผ่านให้กับ <span class="confirm-username">${this.fullNameFixUser}</span><br/>หรือไม่`,
-      header: 'Reset Password',
+      header: 'Reset Password 555',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.service.resetBackPassword(data).subscribe((res) => {
