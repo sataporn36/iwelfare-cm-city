@@ -276,6 +276,8 @@ export class DividendComponentComponent implements OnInit {
     if (data == null) {
       this.showWarnNull();
     }
+    
+    const dataConfig = this.formModelDividend.getRawValue();
 
     const fullName = data.fullName;
     const empCode = data.employeeCode;
@@ -337,9 +339,9 @@ export class DividendComponentComponent implements OnInit {
             headerRows: 3,
             // keepWithHeaderRows: 1, , alignment: 'right'
             body: [
-              [ { text:'อัตราเงินปันผล ร้อยละ 4.40', alignment: 'left' , margin: [4, 6, 6, 6]}, { text: 'ทุนเรือนหุ้น  ' + this.formattedNumber2(stockAccumulate) + '  บาท', alignment: 'left' , margin: [4, 6, 6, 6]}, 
+              [ { text:'อัตราเงินปันผล ร้อยละ ' + dataConfig.stockDevidend, alignment: 'left' , margin: [4, 6, 6, 6]}, { text: 'ทุนเรือนหุ้น  ' + this.formattedNumber2(stockAccumulate) + '  บาท', alignment: 'left' , margin: [4, 6, 6, 6]}, 
               { text: 'เงินปันผล  ' + this.formattedNumber2(stockDividend) + '  บาท', alignment: 'left' , margin: [4, 6, 6, 6]}],
-              [ { text:'อัตราเงินเฉลี่ยคืน ร้อยละ 14.24', alignment: 'left' , margin: [4, 6, 6, 6]}, { text: 'ดอกเบี้ยสะสม  ' + this.formattedNumber2(cumulativeInterest) + '  บาท' , alignment: 'left' , margin: [4, 6, 6, 6]}, 
+              [ { text:'อัตราเงินเฉลี่ยคืน ร้อยละ ' + dataConfig.interestDevidend, alignment: 'left' , margin: [4, 6, 6, 6]}, { text: 'ดอกเบี้ยสะสม  ' + this.formattedNumber2(cumulativeInterest) + '  บาท' , alignment: 'left' , margin: [4, 6, 6, 6]}, 
               { text: 'เงินเฉลี่ยคืน  ' + this.formattedNumber2(interestDividend) + '  บาท', alignment: 'left' , margin: [4, 6, 6, 6]}],
               [{ text: 'รวมเงิน', bold: true , style: 'tableHeader', colSpan: 2, alignment: 'center' , margin: [4, 6, 6, 6]},{},
               { text: this.formattedNumber2(totalDividend) + '  บาท', style: 'tableHeader', alignment: 'left' , margin: [4, 6, 6, 6]}],
