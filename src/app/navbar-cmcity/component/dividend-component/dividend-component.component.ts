@@ -272,6 +272,7 @@ export class DividendComponentComponent implements OnInit {
 
   // ปันผลสมาชิก
   async onMemberDividend(){
+    this.getconfigList();
     const data = this.dataDividendDetail[0];
     if (data == null) {
       this.showWarnNull();
@@ -455,9 +456,11 @@ export class DividendComponentComponent implements OnInit {
 
       // Append the digit and position to the Thai Baht text
       //bahtText += digitText + position;.
-      if (position === 'สิบ' && digit === 2) {
+      if (position === 'สิบ' && digit === 1) {
+        bahtText += '' + position;
+      } else if (position === 'สิบ' && digit === 2) {
         bahtText += 'ยี่' + position;
-      } else if(position === '' && digit === 1){
+      } else if (position === '' && digit === 1) {
         bahtText += 'เอ็ด' + position;
       } else {
         bahtText += digitText + position;
