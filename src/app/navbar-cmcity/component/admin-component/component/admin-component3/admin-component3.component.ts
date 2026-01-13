@@ -2988,6 +2988,7 @@ export class AdminComponent3Component implements OnInit {
 
   onCloseLoan(data: any) {
     this.confirmationService.confirm({
+      key: 'pageConfirmCloseLoan',
       message:
         'ต้องการปิดหนี้ให้ <br/> คุณ ' + data.firstName + ' ' + data.lastName,
       header: 'ปิดหนี้สมาชิก',
@@ -3220,6 +3221,7 @@ export class AdminComponent3Component implements OnInit {
   onDeleteLoanEmp() {
     const data = this.formModelLoanNew.getRawValue();
     this.confirmationService.confirm({
+      key: 'pageConfirmCloseLoan',
       message: 'ต้องการยกเลิกสัญญา <br/> คุณ ' + data.fullName,
       header: 'ยกเลิกสัญญา',
       icon: 'pi pi-exclamation-triangle',
