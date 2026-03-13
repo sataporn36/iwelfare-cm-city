@@ -24,6 +24,7 @@ export class AdminDocComponentComponent {
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.setperiodMonthDescOption();
     this.searchDoc();
     this.initMainFormDoc();
@@ -47,6 +48,7 @@ export class AdminDocComponentComponent {
   }
 
   onAdd() {
+    this.loading = true;
     const name = this.docModel.get('name')?.value;
     console.log(name);
 
@@ -66,8 +68,10 @@ export class AdminDocComponentComponent {
             severity: 'success',
             detail: 'อัพโหลดไฟล์สำเร็จ',
           });
+          this.loading = false;
         },
         (error) => {
+          this.loading = false;
           this.messageService.add({
             severity: 'error',
             detail: 'กรุณาเลือกไฟล์ PDF ขนาดไม่เกิน 1 mb',
@@ -86,6 +90,7 @@ export class AdminDocComponentComponent {
 
   onDelete(id: any, name: string) {
     this.confirmationService.confirm({
+      key: 'docLoad',
       message: 'ต้องการลบเอกสาร "' + name + '" ใช่หรือไม่',
       header: 'ลบเอกสาร',
       icon: 'pi pi-exclamation-triangle',
@@ -97,8 +102,10 @@ export class AdminDocComponentComponent {
               severity: 'success',
               detail: 'ลบสำเร็จ',
             });
+            this.loading = false;
           },
           () => {
+            this.loading = false;
             this.messageService.add({
               severity: 'error',
               detail: 'ลบไม่สำเร็จ เกิดข้อผิดพลาด',
@@ -106,7 +113,7 @@ export class AdminDocComponentComponent {
           }
         );
       },
-      reject: () => {},
+      reject: () => { this.loading = false;},
     });
   }
 
@@ -134,6 +141,7 @@ export class AdminDocComponentComponent {
             detail: 'เกิดข้อผิดพลาดในการเปิดไฟล์ PDF',
           });
         }
+        this.loading = false;
       }
     );
   }
@@ -177,6 +185,7 @@ export class AdminDocComponentComponent {
   searchDoc(): void {
     this.service.searchDoc().subscribe((data) => {
       this.listDocs = data;
+      this.loading = false;
     });
   }
 
