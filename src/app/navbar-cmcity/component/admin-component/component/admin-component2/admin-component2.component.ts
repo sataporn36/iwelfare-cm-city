@@ -1549,6 +1549,9 @@ export class AdminComponent2Component implements OnInit {
 
   exportMakePDFALL(mode: any, listSum: any[]) {
     const sections = [];
+    
+    console.log('mode -----> ', mode);
+    console.log('listSum -----> ', listSum);
 
     // Push data sections with corresponding summary data if available
     const pushDataSection = (data: any[], sumData: any[]) => {
@@ -2055,9 +2058,15 @@ export class AdminComponent2Component implements OnInit {
     }
   }
 
+  // replaceTextInExcel(text: any) {
+  //   const textRe = text ? text.replace(/,/g, '') : 0;
+  //   return textRe ? Number(textRe) : 0;
+  // }
+
   replaceTextInExcel(text: any) {
-    const textRe = text ? text.replace(/,/g, '') : 0;
-    return textRe ? Number(textRe) : 0;
+    if (text === null || text === undefined) return 0;
+    const textRe = String(text).replace(/,/g, '');
+    return Number(textRe) || 0;
   }
 
   exportDataToExcel(listDataStock: any[], sunGrandTotal: any[]) {
